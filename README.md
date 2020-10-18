@@ -19,17 +19,17 @@ This simulator is essentially a wrapper of the high fidelity, physics based simu
 
 Brief explanation of the aforementioned modules:
 
-  [**Chrono::Engine**](http://api.projectchrono.org/manual_root.html): This is the baseline module for Chrono. It provides multi-purpose classes and functions used by all subsequent modules. The underlying physics engine is included in this module.
+  - [**Chrono::Engine**](http://api.projectchrono.org/manual_root.html): This is the baseline module for Chrono. It provides multi-purpose classes and functions used by all subsequent modules. The underlying physics engine is included in this module.
 
-  [**Chrono::Vehicle**](http://api.projectchrono.org/manual_vehicle.html): The vehicle module is built on top of Chrono::Engine and provides a framework for modeling high fidelity wheeled _and_ tracked vehicles. This module is required specifically because it provides the functionality to create custom vehicle models.
+  - [**Chrono::Vehicle**](http://api.projectchrono.org/manual_vehicle.html): The vehicle module is built on top of Chrono::Engine and provides a framework for modeling high fidelity wheeled _and_ tracked vehicles. This module is required specifically because it provides the functionality to create custom vehicle models.
 
-  **Chrono::Irrlicht**: [Irrlicht](http://irrlicht.sourceforge.net/) is a realtime 3D rendering engine written in C++. It is a very old framework and is likely to be updated by the Chrono developers in the near future. It provides the realtime visualization most common to day-to-day development.
+  - **Chrono::Irrlicht**: [Irrlicht](http://irrlicht.sourceforge.net/) is a realtime 3D rendering engine written in C++. It is a very old framework and is likely to be updated by the Chrono developers in the near future. It provides the realtime visualization most common to day-to-day development.
 
-  [**PyChrono**](http://api.projectchrono.org/pychrono_introduction.html): PyChrono is the python wrapped bindings of the C++ Chrono project. This allows users to access _most_ Chrono functionality through a python API. This aids in rapid development and deployment of autonomous algorithms and is easy to use.
+  - [**PyChrono**](http://api.projectchrono.org/pychrono_introduction.html): PyChrono is the python wrapped bindings of the C++ Chrono project. This allows users to access _most_ Chrono functionality through a python API. This aids in rapid development and deployment of autonomous algorithms and is easy to use.
 
-  [**Chrono::Sensor**](http://api.projectchrono.org/manual_sensor.html): The sensor module enables the ability to model and simulate sensors in a Chrono environment. Two types of sensors are available: dynamic and static. Dynamic sensors use the NVIDIA based ray tracing library [OptiX](https://developer.nvidia.com/optix) and allow for simulation of sensors such as cameras or LiDARs. Static sensors do not require ray tracing, e.g. GPS, IMU, etc.
+  - [**Chrono::Sensor**](http://api.projectchrono.org/manual_sensor.html): The sensor module enables the ability to model and simulate sensors in a Chrono environment. Two types of sensors are available: dynamic and static. Dynamic sensors use the NVIDIA based ray tracing library [OptiX](https://developer.nvidia.com/optix) and allow for simulation of sensors such as cameras or LiDARs. Static sensors do not require ray tracing, e.g. GPS, IMU, etc.
 
-  **SynChrono**: SynChrono is a new module aimed to provide multi-agent, distributed simulation for Chrono. Primarily as an addition to the vehicle module, SynChrono is built with either MPI or DDS as the message passing protocol.
+  - **SynChrono**: SynChrono is a new module aimed to provide multi-agent, distributed simulation for Chrono. Primarily as an addition to the vehicle module, SynChrono is built with either MPI or DDS as the message passing protocol.
 
 As the previous modules describe, there is abundant possibilities to create and test autonomous algorithms. This repository will provide scripts, documentation and wrapped classes aiding in quickly working with Chrono.
 
@@ -50,8 +50,6 @@ Detailed installation guides for this repository have been written for Windows a
 Contact [Aaron Young](aryoung5@wisc.edu) for any questions or concerns regarding the contents of this repository.
 
 ## See Also
-
-<img src="https://github.com/WisconsinAutonomous/control_sandbox/blob/master/mpc-nus/pics/sample-accel.png" alt="mpc_accel.py sample output" width="40%"> <img src="https://github.com/WisconsinAutonomous/controls-algorithms/blob/master/mpc-nus/pics/sample-floorplan.png" alt="mpc_floorplan.py sample output" width="40%">
 
 Stay up to date with our technical info by following our [blog](https://www.wisconsinautonomous.org/blog).
 

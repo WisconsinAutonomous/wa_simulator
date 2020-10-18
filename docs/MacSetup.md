@@ -1,30 +1,139 @@
+# Mac Setup Guide
+
+This installation guide was tested on MacOS Catalina 10.15.6, but should be applicable for _most_ MacOS versions.
+
+In this setup guide we will be using command line. Although exact commands will be provided, a basic understanding of the terminal is recommended. _**This setup guide is intended for new programmers/students**_.
+
+_Last Update_: Sunday, October 18th, 2020
+
+## Table of Contents
+- [Clone WA Chrono Sim](#clone-repo)
+- [Chrono Installation](#installation-of-chrono)
+    - [Building Chrono from Source](#building-from-source)
+    - [Installing PyChrono with Anaconda](#pychrono-installation-with-anaconda)
+- [Support](#support)
+- [See Also](#see-also)
+
 ## Clone repo
 
-First, clone the repository on your local machine. Please ensure you pull the submodules, as well. In this setup guide we will be using command line commands. Please launch a terminal application and run this command:
-```
-git clone --recursive https://github.com/WisconsinAutonomous/control_sandbox.git && cd control_sandbox
-```
-
-Note: If the repo was cloned without submodules pulled, run this command:
-```
-git submodule update --init --recursive
+First, clone the repository on your local machine.
+```bash
+git clone https://github.com/WisconsinAutonomous/wa_chrono_sim.git && cd wa_chrono_sim
 ```
 
-## Installation of PyChrono
+## Installation of Chrono
 
-This simulator requires the [ProjectChrono](http://www.projectchrono.org/) physics simulation engine. Primarily, it uses the python wrapper version, known as [PyChrono](http://www.projectchrono.org/pychrono/). There are a few installation methods available to you. For Mac users, [you must install from source](#install-from-source). For Linux users, you can either install using [anaconda](#install-using-anaconda) or [install from source](#install-from-source).
+This simulator requires the [ProjectChrono](http://www.projectchrono.org/) physics simulation engine. There are two recommended installation choices for Linux operating systems: [building from source](#building-from-source) and/or [PyChrono only through anaconda](#pychrono-installation-with-anaconda).
 
-### Install using Anaconda
+**For new users, the [anaconda installation](#pychrono-installation-with-anaconda) is recommended.**
 
-To install Anaconda, please refer to this [link](https://docs.anaconda.com/anaconda/install/windows/).
+### Building from Source
+
+Below are detailed instructions and commands needed to correctly install Chrono from source.
+
+To begin, open up a terminal window if you have not already.
+
+First, make sure you are located in the correct place. Run the following command which will print out your current working directory.
+```bash
+pwd
+```
+If the end portion of the output says `.../wa_chrono_sim`, then you're good to go. If it doesn't, please use `cd <directory>` to move around your file system until you're inside the `.../wa_chrono_sim` directory. It will be assumed that you are currently in the `.../wa_chrono_sim` directory for subsequent instructions.
+
+#### **Prerequisites:** 
+
+Below are detailed instructions and commands needed to correctly install Chrono from source. For the following instructions, the [Homebrew](https://brew.sh/) package manager is used. A package manager aids in downloading and installing packages from the internet. Please see the [Homebrew website](https://brew.sh/) to see installation details.
+
+1. **Install the required packages**
+
+```bash
+brew install cmake python irrlicht eigen swig
+```
+
+2. **Clone the WA Chrono Simulator and Clone all Submodules**
+
+This repository holds both the utility functions and the WA Chrono fork. Please clone this repo recursively to clone the WA Chrono fork at the same time.
+
+_Note_: You may want to `cd` into the place where you want to clone the respository.
+
+```bash
+git clone --recursive https://github.com/WisconsinAutonomous/wa_chrono_sim.git && cd wa_chrono_sim
+cd chrono && mkdir build && cd build # cd into the chrono directory in preperation to build it
+```
+
+3. **Use Cmake and Make to Build Chrono**
+To build the optional modules, add the following to the cmake command:
+    * **Irrlicht**: -DENABLE_MODULE_IRRLICHT:BOOL=ON
+    * **PyChrono**: -DENABLE_MODULE_PYTHON:BOOL=ON
+    * **Sensor**: -DENABLE_MODULE_SENSOR:BOOL=ON
+    * **SynChrono**: -DENABLE_MODULE_SYNCHRONO:BOOL=ON
+
+_NOTE: Replace <cores> with however many CPU cores you would like to build the project with. In general, more cores results in a faster build. To check the number of cores you have, run `lscpu | grep -m 1 'CPU(s):'`. It's recommended to not exceed 2 times that number._
+
+```bash
+cmake \
+  -DCMAKE_C_COMPILER=$(which clang) \
+  -DCMAKE_CXX_COMPILER=$(which clang++) \
+  -DCMAKE_BUILD_TYPE:STRING=Release \
+  -DENABLE_MODULE_VEHICLE:BOOL=ON \
+  .. \
+  && make -j
+```
+
+If you also would like to install PyChrono from source, add the following flags
+```bash
+-DPYTHON_EXECUTABLE:FILEPATH=/usr/local/bin/python3
+-DPYTHON_INCLUDE_DIR:FILEPATH=/usr/local/Frameworks/Python.framework/Versions/3.8/include/python3.8m
+-DPYTHON_LIBRARY:FILEPATH=/usr/local/Frameworks/Python.framework/Versions/3.8/lib/libpython3.8.dylib
+```
+
+This will take a little time. _Just be patient._
+
+4. **_Optional_: Create a Python Environment Folder**
+
+*NOTE: This is specifically for PyChrono, which is optional.* Everything can be done outside of a python environment, it just makes things cleaner. For those of you interested, a python environment allows you to install python packages in self contained place. When you exit the env, all of your packages remain, but the rest of your system is unchanged by the installs you made within the env.
+
+a. Create a separate folder to hold the python environment files
+```
+mkdir PyEnvs && cd PyEnvs
+```
+b. Create a python environment and activate it
+```
+python3.8 -m venv pychrono && source pychrono/bin/activate && cd ..
+```
+
+5. **_Optional_: Set PYTHONPATH to Point to the PyChrono Executables**
+
+Within the same build directory, you must add the pychrono files to the PYTHONPATH. Your PYTHONPATH is basically used when you run a python command to search for files you import. Run the following command to set it. _You must be inside your build directory for this specific command to work_.
+
+_Recommended approach._ This will create the correct PYTHONPATH each time you log onto your terminal. Otherwise, you will have to run a command _everytime_.
+```
+echo "export PYTHONPATH=$PYTHONPATH:$(pwd)/bin" >> ~/.zshrc && source ~/.bashrc
+```
+_Note: this assumes you are using zsh. Run `echo $0`. If it says `-bash`, replace `~/.zshrc` with `~/.bashrc`._
+
+If you do not want to add it to your `.bashrc` (_not recommended_), just run the following command.
+```
+export PYTHONPATH=$PYTHONPATH:$(pwd)/bin
+```
+Note: If you are not in your build directory anymore, please replace `$(pwd)/bin` with the path to chrono/build/bin.
+
+PyChrono should now be setup. To verify, please see [here](#verify-installation-of-pychrono).
+
+### PyChrono Installation with Anaconda
+
+a. **Install Anaconda and Create a Conda Environment**
+
+Anaconda is a way to distrubte packages in a simple and easy to manage way. It is used primarily for Python and we will be using it to install PyChrono. _This will not install the C++ interface; see [Building From Source](#building-from-source)._
+
+To install Anaconda, please refer to this [link](https://docs.anaconda.com/anaconda/install/mac-os/) or just run `brew cask install anaconda`.
 
 Once installed, activate an environment you would like to install PyChrono to. It is recommended to make a new environment and install everything here. [A good resource for help with that.](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html).
 
-### IMPORTANT, RESTART SHELL PRIOR TO CREATING CONDA ENVIRONMENT
+_NOTE: Restart your terminal windows wants the aforementioned installations are completed_
 
-Create a conda environment with python3.7
+Create a conda environment with python3.8
 ```
-conda create -n pychronoenv python=3.7 && conda activate pychronoenv
+conda create -n pychrono_env python=3.8 && conda activate pychrono_env
 ```
 
 Now, in your conda environment, run the following command:
@@ -32,111 +141,12 @@ Now, in your conda environment, run the following command:
 conda install -c projectchrono/label/develop pychrono
 ```
 
-Note: For some, an error occurred saying the package could not be found. If this happens to you, you may need to add the channel `conda-forge` to the install path for conda. To do this, run the following command:
+_NOTE: For some, an error occurred saying the package could not be found. If this happens to you, you may need to add the channel `conda-forge` to the install path for conda._ To do this, run the following command:
 ```
 conda config --add channels conda-forge
 ```
 
-To test your installation, jump down to [here](#verify-installation-of-pychrono).
-
-### Install from Source
-
-**If you are on a Linux distribution, the [anaconda installation](#install-using-anaconda) is recommended.**
-
-_For Mac, the anaconda installation of PyChrono does not work. You get a segmentation fault error when importing the module. As a result, ProjectChrono must be installed from source._
-
-Below are detailed instructions and commands needed to correctly install PyChrono from source. Because Mac users must use this technique (and most users do not have a Linux distribution), the [Homebrew](https://brew.sh/) package manager is used. If you instead have a package manager such as Pacman or apt, replace `brew` with your respective package manager.
-
-First, lets make sure you are in the right place. Run the following command which will print out your current working directory.
-```
-pwd
-```
-If the end portion of the output says `/control_sandbox`, then you're good to go. If it doesn't, please use `cd <directory>` to move around your file system. It is assumed that you are currently in the `control_sandbox` directory for the subsequent commands.
-
-Mac prerequisites: [Homebrew](https://brew.sh/) and xcode command line tools (to install, run `xcode-select --install`)
-
-1. **Install the required packages using homebrew**
-```
-homebrew install cmake python swig irrlicht eigen
-```
-Note 1: Last reminder that if you instead are on Ubuntu or some other Linux distribution, use your respective package manager.
-Note 2: On other Linux distributions, these packages have different names. If a package is not found, please search for the correct package name. _You're using Linux... you can figure it out_.
-2. **Create an Environment folder**
-*NOTE: Steps 3 and 4 are optional.* Everything can be done outside of a python environment, it just makes it a bit cleaner. For those of you interested, a python environment allows you to install python packages specifically in a self contained place. When you exit the env, all of your packages remain, but the rest of your system is unchanged by the installs you made in the env.
-```
-mkdir PyEnvs && cd PyEnvs
-```
-3. **Create a python environment and activate it**
-```
-python3.7 -m venv pychrono && source pychrono/bin/activate && cd ..
-```
-4. **Go to the chrono directory that was created when you recursively clone this repo**
-```
-cd chrono
-```
-5. **Create a build directory**
-```
-mkdir build && cd build
-```
-6. **Use cmake and make to build the project**
-```
-cmake \
-  -DCMAKE_BUILD_TYPE:STRING=Release \
-  -DCMAKE_C_COMPILER=$(which clang) \
-  -DCMAKE_CXX_COMPILER=$(which clang++) \
-  -DENABLE_MODULE_POSTPROCESS:BOOL=ON \
-  -DENABLE_MODULE_VEHICLE:BOOL=ON \
-  -DENABLE_MODULE_IRRLICHT:BOOL=ON \
-  -DENABLE_MODULE_PYTHON:BOOL=ON \
-  .. \
-  && make -j12
-```
-This will take a little time. Just be patient.
-
-Note 1: substitute 12 at the end of the command with however many cores you would like to use to build chrono. I typically use all my available cores, i.e. 12.
-
-**_Mac Users:_**
-Note 2: For almost all Mac users, you will already have a Python2.7 installed on your system by Apple. As a result, you will need specify the use of Python3 in the last 3 flags of the last command. If you get an error regarding the location of python, please try adding the flags that have to do point to the correct version of python. The command will now look like the following:
-```
-cmake \
-  -DCMAKE_BUILD_TYPE:STRING=Release \
-  -DCMAKE_C_COMPILER=$(which clang) \
-  -DCMAKE_CXX_COMPILER=$(which clang++) \
-  -DENABLE_MODULE_POSTPROCESS:BOOL=ON \
-  -DENABLE_MODULE_VEHICLE:BOOL=ON \
-  -DENABLE_MODULE_IRRLICHT:BOOL=ON \
-  -DENABLE_MODULE_PYTHON:BOOL=ON \
-  -DPYTHON_EXECUTABLE:FILEPATH=/usr/local/bin/python3 \
-  -DPYTHON_INCLUDE_DIR:FILEPATH=/usr/local/Frameworks/Python.framework/Versions/3.7/include/python3.7m \
-  -DPYTHON_LIBRARY:FILEPATH=/usr/local/Frameworks/Python.framework/Versions/3.7/lib/libpython3.7.dylib \
-  .. \
-  && make -j12
-```
-These were the flags that were successfully used on a typical mac setup and were found to be successful.
-
-7. **Set PYTHONPATH to point to the pychrono files**
-
-Within the same build directory, you must add the pychrono files to the PYTHONPATH. Your PYTHONPATH is basically used when you run a python command to search for files you import. Run the following command to set it. _You must be inside your build directory for this specific command to work_.
-
-_Recommended approach._ This will create the correct PYTHONPATH each time you log onto your terminal. Otherwise, you will have to run a command _everytime_.
-```
-echo "export PYTHONPATH=$PYTHONPATH:$(pwd)/bin" >> ~/.zshrc && source ~/.zshrc
-```
-Note: this assumes you are using zsh. Run `echo $0`. If it says `-bash`, replace `~/.zshrc` with `~/.bashrc`.
-
-If you do not want to add it to your `.zshrc` (_not recommended_), just run the following command.
-```
-export PYTHONPATH=$PYTHONPATH:$(pwd)/bin
-```
-Note: If you are not in your build directory anymore, please replace `$(pwd)/bin` with the path to chrono/build/bin.
-
-8. **Return to the control_sandbox folder**
-Now run the following command to return to the control_sandbox directory.
-```
-cd ../..
-```
-
-### Verify installation of PyChrono
+b. **Verify Installation of PyChrono**
 
 Verify successful installation with this command:
 ```
@@ -144,58 +154,10 @@ python -c 'import pychrono'
 ```
 If this command runs without error, you're good to go!
 
-Note: If you chose to not use a python evironment, you will most likely have to use `python3 -c 'import pychrono'` instead.
+If you get an error, that's no fun. Please fill out an [issue](https://github.com/WisconsinAutonomous/wa_chrono_sim/issues/new).
 
-If you get an error, that's no fun. Please fill out an [issue](https://github.com/WisconsinAutonomous/control_sandbox/issues/new).
+## Installation of the WA Chrono Simulator
 
-## Installation of the controls simulator
+Let's ensure we are in the correct location by printing out our current working directory with `pwd`. You should be located in the `.../wa_chrono_sim` folder. For subsequent instructions, it is assumed that you are located in that directory.
 
-First, lets make sure you are in the right place. Run the following command which will print out your current working directory.
-```
-pwd
-```
-If the end portion of the output says `/control_sandbox`, then you're good to go. If it doesn't, please use `cd <directory>` to move around your file system. It is assumed that you are currently in the `control_sandbox` directory for the subsequent commands.
-
-As seen in the control_utilities folder, there are a few utility files created that help describe the path and generate a simulation. This removes the direct need for all users to interact with the simulation engine directly.
-
-In order to link to these files, there are two solutions. The first is recommended, but both work.
-
-#### _Recommanded_: Add the files to your PYTHONPATH
-*This is the recommended approach for installing the simulator.* The environment variable PYTHONPATH is used when you run a python command to find files not in the default folder. As a result, if you add the path of the simulator to that environmental variable, it will work without installing!!
-
-To have it added to your PYTHONPATH, run the following command.
-_Recommended_ (will run everytime you open your terminal without you explicitly running the command.)
-```
-echo "export PYTHONPATH=$PYTHONPATH:$(pwd)/control_utilities" >> ~/.zshrc && source ~/.zshrc
-```
-Note: this assumes you are using zsh. Run `echo $0`. If it says `-bash`, replace `~/.zshrc` with `~/.bashrc`.
-
-If you do not want to add it to your `.zshrc` (_not recommended_), just run the following command.
-```
-export PYTHONPATH=$PYTHONPATH:$(pwd)/control_utilities
-```
-
-#### Install it to your system _Not recommended_
-To use the simulator, it is recommended to install it as a local python module. You must enter the control_utilities directory and run a simple command:
-```
-cd control_utilities && easy_install .
-```
-Note: If you get an error, run instead `cd control_utilities && python setup.py install --user --prefix=`.
-
-### Link the chrono data directory to the project.
-_Only relevant for users who are **not** using anaconda_.
-In order to see the simulation in 3D using irrlicht (a 3D visualizer written in C++), control_sandbox must have access to chrono's data directory. Similar to previously run steps, you must use an environmental variable. Run one of the following commands to successfully link to the data directory. _The first is the recommended solution._
-
-To have it added to your CHRONO_DATA_DIR, run the following command.
-_Recommended_ (will run everytime you open your terminal without you explicitly running the command.)
-```
-echo "export CHRONO_DATA_DIR=$(pwd)/chrono/data/" >> ~/.zshrc && source ~/.zshrc
-```
-Note: this assumes you are using zsh. Run `echo $0`. If it says `-bash`, replace `~/.zshrc` with `~/.bashrc`.
-
-If you do not want to add it to your `.zshrc` (_not recommended_), just run the following command.
-```
-export CHRONO_DATA_DIR=$(pwd)/chrono/data/
-```
-
-**[You should now be ready to use the demos.](https://github.com/WisconsinAutonomous/control_sandbox/blob/master/README.md)**
+The WA Chrono simulator provides helpful utilities in both C++ and Python.
