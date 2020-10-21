@@ -132,10 +132,15 @@ fi
 
 # Homebrew OSX libraries
 pretty_print "Updating brew formulas"
-# brew update
+brew update
 
 pretty_print "Default packages..."
-# brew install git
+brew install git
+
+TEMP_LS=$(ls)
+if [[ "$TEMP_LS" == *"$REPO_NAME"* ]]; then
+  cd $REPO_NAME
+fi
 
 if [[ $CLONE_WA_CHRONO_SIM ]]; then
   if [[ $FORCE_CLONE_WA_CHRONO_SIM ]]; then
@@ -157,14 +162,16 @@ if [[ $CLONE_WA_CHRONO_SIM ]]; then
   pretty_print "Cloning the $REPO_NAME repo..."
 
   if [[ $CLONE_CHRONO ]]; then
-    clone --recursive https://github.com/WisconsinAutonomous/wa_chrono_sim.git
+    git clone --recursive --depth 1 https://github.com/WisconsinAutonomous/wa_chrono_sim.git
   else
-    clone https://github.com/WisconsinAutonomous/wa_chrono_sim.git
+    git clone https://github.com/WisconsinAutonomous/wa_chrono_sim.git
   fi
+
+  cd $REPO_NAME
 fi
 
 pretty_print "Installing base packages for Chrono build"
-# brew install cmake eigen omp
+brew install cmake eigen libomp
 
 if [[ $BUILD_CHRONO ]]; then
   CHRONO_BASE_DIR=$(git submodule foreach --quiet pwd)
@@ -182,7 +189,7 @@ if [[ $BUILD_CHRONO ]]; then
     CMAKE_FLAGS+=" -DENABLE_MODULE_IRRLICHT:BOOL=ON"
 
     pretty_print "Installing Irrlicht"
-    # brew install irrlicht
+    brew install irrlicht
   fi
 
   if [[ $ENABLE_PYCHRONO ]]; then
@@ -223,5 +230,5 @@ if [[ $BUILD_CHRONO ]]; then
 fi
 
 if [[ $INSTALL_CHRONO_WITH_ANACONDA ]]; then
-
+  true
 fi

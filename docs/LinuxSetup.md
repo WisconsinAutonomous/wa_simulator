@@ -16,10 +16,17 @@ _Last Update_: Sunday, October 18th, 2020
 
 ## Clone repo
 
-First, clone the repository on your local machine.
-```bash
-git clone https://github.com/WisconsinAutonomous/wa_chrono_sim.git && cd wa_chrono_sim
+First, clone the repository on your local machine. Please ensure you pull the submodules, as well. In this setup guide we will be using command line commands. Please launch a terminal application and run this command:
 ```
+git clone --recursive https://github.com/WisconsinAutonomous/wa_chrono_sim.git && cd wa_chrono_sim
+```
+
+Note: If the repo was cloned without submodules pulled, run this command:
+```
+git submodule update --init --recursive
+```
+
+_Note_: You may want to `cd` into the place where you want to clone the respository.
 
 ## Installation of Chrono
 
@@ -87,10 +94,12 @@ f. Verify SWIG installation
 swig -version
 ```
 
-2. **Clone the Wisconsin Autonomous fork of ProjectChrono and create a build directory**
+2. **Create a Build Directory for Chrono**
+
+This repository holds both the utility functions and the WA Chrono fork. Please `cd` into the `wa_chrono_sim` directory. It is assumed that the last directory in `pwd` is `.../wa_chrono_sim`.
 
 ```bash
-git clone https://github.com/WisconsinAutonomous/chrono.git && cd chrono && mkdir build && cd build
+cd chrono && mkdir build && cd build # cd into the chrono directory in preperation to build it
 ```
 
 3. **Use Cmake and Make to Build the Project**
