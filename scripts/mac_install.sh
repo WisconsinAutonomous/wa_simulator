@@ -130,6 +130,9 @@ else
   pretty_print "Homebrew is already installed."
 fi
 
+pretty_print "Installing xcode command line tools"
+xcode-select --install >/dev/null
+
 # Homebrew OSX libraries
 pretty_print "Updating brew formulas"
 brew update
