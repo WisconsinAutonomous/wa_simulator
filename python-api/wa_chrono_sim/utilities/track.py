@@ -8,3 +8,7 @@
 class WATrack:
     def __init__(self):
         pass
+
+    @staticmethod
+    def CreateFromCenterline(centerline):
+        pass

@@ -34,14 +34,14 @@ setup(
         "License :: OSI Approved :: BSD License",
         'Programming Language :: Python :: 3',
     ],
-    keywords='simulation, autonomous vehicles, robotics'
+    keywords='simulation, autonomous vehicles, robotics',
 
     python_requires='>=3.0, <4',
     install_requires=[
-        'matplotlib',
-        'numpy',
-        'scipy',
-    ]
+        'matplotlib>=3.3.2',
+        'numpy>=1.19.3',
+        'scipy>=1.5.3',
+    ],
 
     project_urls={  # Optional
         'Source': 'https://github.com/WisconsinAutonomous/wa_chrono_sim/',

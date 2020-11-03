@@ -7,7 +7,7 @@
 # -----------------------------------------------------------------
 
 # imports
-# ...
+import wa_chrono_sim as sim
 
 # Simulation step size
 step_size = 1e-3 # [s]
@@ -16,33 +16,33 @@ def main():
     # --------------
     # Create a track
     # --------------
-    centerline = WABezierPath()
-    track = WATrack(centerline)
+    centerline = sim.WABezierPath()
+    track = sim.WATrack.CreateFromCenterline(centerline)
 
     # ---------------------
     # Create an environment
     # ---------------------
-    environment = WAEnvironment()
+    environment = sim.WAEnvironment()
 
     # ----------------
     # Create a terrain
     # ----------------
-    terrain = WATerrain()
+    terrain = sim.WATerrain()
 
     # ----------------
     # Create a vehicle
     # ----------------
-    vehicle = WAVehicle()
+    vehicle = sim.WAVehicle()
 
     # -------------------
     # Create a controller
     # -------------------
-    controller = WAController()
+    controller = sim.WAController()
 
     # -----------------------------
     # Create the simulation wrapper
     # -----------------------------
-    simulator = WAChronoWrapper()
+    simulator = sim.WAChronoWrapper()
 
     # -------------------
     # Simulation loop

@@ -13,6 +13,9 @@
 # 
 # ----------------------------------------------------------------------------------------
 
+from __future__ import annotations
+import numpy as np
+
 class WAPath:
     def __init__(self):
         """
@@ -31,14 +34,24 @@ class WABezierPath(WAPath):
 
     """
     @staticmethod
-    def Create(points):
+    def create(points: np.ndarray, in_cv = np.ndarray, out_cv = np.ndarray) -> WABezierPath:
         """
         Create a path object from an array of points
         """
-        pass
+
+        # check shape of points
+        if points is not None and points.shape[1] != 1:
+            raise ValueError("points must consist of the one column of ChVectorD's!")
+
+        # check if in_cv or out_cv was passed
+        use_cv = False
+        if in_cv is not None and out_cv is not None:
+            use_cv = True
+        
+        
 
     @staticmethod
-    def CreateFromJSON():
+    def create_from_file():
         """
         Create a path object from a json specification file
         """
@@ -51,14 +64,14 @@ class WACubicSplnePath(WAPath):
 
     """
     @staticmethod
-    def Create(points):
+    def create(points) -> WACubicSplnePath:
         """
         Create a path object from an array of points
         """
         pass
 
     @staticmethod
-    def CreateFromJSON():
+    def create_from_json():
         """
         Create a path object from a json specification file
         """
