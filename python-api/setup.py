@@ -17,7 +17,7 @@ def read(fname):
     return (here / fname).read_text(encoding='utf-8')
 
 setup(
-    name = "wa_chrono_sim",
+    name = "wa_simulator",
     version = "0.0.1",
     author = "Aaron Young",
 
@@ -44,8 +44,8 @@ setup(
     ],
 
     project_urls={  # Optional
-        'Source': 'https://github.com/WisconsinAutonomous/wa_chrono_sim/',
-        'Bug Reports': 'https://github.com/WisconsinAutonomous/wa_chrono_sim/issues',
+        'Source': 'https://github.com/WisconsinAutonomous/wa_simulator/',
+        'Bug Reports': 'https://github.com/WisconsinAutonomous/wa_simulator/issues',
         'Our Team!': 'https://wisconsinautonomous.org',
     },
 )

@@ -1,4 +1,4 @@
-# Wisconsin Autonomous Autonomous Vehicle Simulator
+# WA Vehicle Simulator
 
 The main goal of this repo is to provide a robust and lightweight simulation environment to test algorithms intended for autonomous robotic/vehicle applications.
 
