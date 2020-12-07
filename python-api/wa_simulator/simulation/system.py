@@ -4,3 +4,9 @@ class WASystem(ABC):
 	@abstractmethod
 	def Advance(self, step):
 		pass
+
+	@abstractmethod
+	def GetSimTime(self):
+		pass
+
+	

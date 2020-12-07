@@ -6,7 +6,7 @@
 	},
 
 	"Powertrain": {
-		"Input File": "GoKart/powertrain/GoKart_SimpleMapPowertrain.json"
+		"Input File": "Generic/powertrain/SimplePowertrain.json"
 	},
 
 	"Tire": {

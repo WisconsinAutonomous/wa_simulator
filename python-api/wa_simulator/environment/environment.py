@@ -1,5 +1,10 @@
-import pychrono as chrono
-import pychrono.vehicle as veh
+from abc import ABC, abstractmethod # Abstract Base Class
 
-def CreateEnvironment_EvGrandPrix(system, track):
-    
+class WAEnvironment(ABC):
+    @abstractmethod
+    def Advance(self, step):
+        pass
+
+    @abstractmethod
+    def Synchronize(self, time):
+        pass

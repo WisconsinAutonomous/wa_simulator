@@ -2,7 +2,7 @@
 	"Name": "evGrand Prix Track",
   
 	"Terrain": {
-	  "Input File": "models/environments/evGrandPrix/RigidPlane.json"
+	  "Input File": "models/terrain/evGrandPrix/RigidPlane.json"
 	}
   }
   

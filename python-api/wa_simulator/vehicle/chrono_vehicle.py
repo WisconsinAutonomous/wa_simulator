@@ -71,7 +71,7 @@ def CreateTireFromJSON(tire_filename):
 # -----------------
 
 class WAChronoVehicle(WAVehicle):
-    def __init__(self, filename, system, initLoc=chrono.ChVectorD(0, 0, 0.5), initRot=chrono.ChQuaternionD(1, 0, 0, 0), terrain=None):
+    def __init__(self, filename, system, env, initLoc=chrono.ChVectorD(0, 0, 0.5), initRot=chrono.ChQuaternionD(1, 0, 0, 0)):
         # Get the filenames
         vehicle_file, powertrain_file, tire_file = ReadVehicleModelFile(filename)
 
@@ -100,7 +100,10 @@ class WAChronoVehicle(WAVehicle):
             vehicle.InitializeTire(tireR, axle.m_wheels[1], veh.VisualizationType_MESH)
 
         self.vehicle = vehicle
-        self.terrain = terrain
+        self.terrain = env.GetTerrain().GetTerrain()
+
+    def GetVehicle(self):
+        return self.vehicle
 
     def SetTerrain(self, terrain):
         self.terrain = terrain
@@ -109,7 +112,7 @@ class WAChronoVehicle(WAVehicle):
         self.vehicle.Advance(step)
 
     def Synchronize(self, time, driver_inputs):
-        if isinstance(self.terrain, veh.ChTerrain):
+        if not isinstance(self.terrain, veh.ChTerrain):
             print('Synchronize: Terrain has not been set.')
             exit()
 
@@ -123,4 +126,4 @@ class WAChronoVehicle(WAVehicle):
             print('Synchronize: Driver inputs not recognized.')
             exit()
 
-        self.vehicle.Synchronize(time, driver_inputs, terrain)
+        self.vehicle.Synchronize(time, driver_inputs, self.terrain)
