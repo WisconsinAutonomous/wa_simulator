@@ -7,7 +7,7 @@
 # -----------------------------------------------------------------
 
 # imports
-import wa_chrono_sim as sim
+import wa_chrono_sim as wa
 
 # Simulation step size
 step_size = 1e-3 # [s]
@@ -19,25 +19,26 @@ def main():
     centerline = sim.WABezierPath()
     track = sim.WATrack.CreateFromCenterline(centerline)
 
-    # ---------------------
-    # Create an environment
-    # ---------------------
-    environment = sim.WAEnvironment()
+    # -------------------
+    # Create a controller
+    # -------------------
+    controller = sim.WAController()
+
+    # ----------------
+    # Create a vehicle
+    # ----------------
+    vehicle_filename = wa.GetWADataFile(wa.GO_KART_MODEL_FILE)
+    vehicle = wa.CreateVehicleFromJSON()
 
     # ----------------
     # Create a terrain
     # ----------------
     terrain = sim.WATerrain()
 
-    # ----------------
-    # Create a vehicle
-    # ----------------
-    vehicle = sim.WAVehicle()
-
-    # -------------------
-    # Create a controller
-    # -------------------
-    controller = sim.WAController()
+    # ---------------------
+    # Create an environment
+    # ---------------------
+    environment = sim.WAEnvironment()
 
     # -----------------------------
     # Create the simulation wrapper
@@ -47,11 +48,11 @@ def main():
     # -------------------
     # Simulation loop
     # -------------------
-    while simulator.Ok():
+    while simulator.IsOk():
         time = simulator.GetSimTime()
 
         # Update controller and vehicle throttle/steering/braking
-        controller.Advance(step_size)
+        controller.Update(step_size)
 
         driver_inputs = controller.GetDriverInputs()
         vehicle.SetDriverInputs(driver_inputs)

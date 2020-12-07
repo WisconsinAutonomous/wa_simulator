@@ -1,0 +1,16 @@
+{
+	"Name": "Go Kart Model",
+  
+	"Vehicle": {
+	  "Input File": "GoKart/vehicle/GoKart_Vehicle.json"
+	},
+
+	"Powertrain": {
+		"Input File": "GoKart/powertrain/GoKart_SimpleMapPowertrain.json"
+	},
+
+	"Tire": {
+		"Input File": "GoKart/tire/GoKart_TMeasyTire.json"
+	}
+  }
+  
