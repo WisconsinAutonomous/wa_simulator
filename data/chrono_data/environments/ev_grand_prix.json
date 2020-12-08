@@ -1,0 +1,8 @@
+{
+	"Name": "evGrand Prix Track",
+  
+	"Terrain": {
+	  "Input File": "terrain/evGrandPrix/RigidPlane.json"
+	}
+  }
+  

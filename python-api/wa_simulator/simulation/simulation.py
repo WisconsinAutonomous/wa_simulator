@@ -13,9 +13,7 @@ class WASimulation:
 		self.visualization.Advance(step)
 		self.controller.Advance(step)
 
-	def Synchronize(self):
-		time = self.system.GetSimTime()
-
+	def Synchronize(self, time):
 		driver_inputs = self.controller.GetInputs()
 
 		self.controller.Synchronize(time)
@@ -26,5 +24,7 @@ class WASimulation:
 	def Run(self):
 		step_size = self.system.GetStepSize()
 		while True:
-			self.Synchronize()
+			time = self.system.GetSimTime()
+
+			self.Synchronize(time)
 			self.Advance(step_size)
