@@ -13,9 +13,4 @@ from wa_simulator.controller.simple_controller import *
 from wa_simulator.controller.keyboard_controller import *
 from wa_simulator.controller.multiple_controllers import *
 from wa_simulator.utilities.vector import *
-
-import pathlib
-
-DATA_DIRECTORY = pathlib.Path(__file__).absolute().parent.parent.parent / 'data'
-
-del pathlib
+from wa_simulator.utilities.data_loader import *

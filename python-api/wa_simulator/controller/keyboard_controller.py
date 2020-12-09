@@ -6,6 +6,7 @@ import sys,tty,termios,atexit
 from select import select
 import threading
 from math import ceil
+from numpy import clip
 
 class KeyGetter:
     def __init__(self):
@@ -41,9 +42,6 @@ class KeyGetter:
         '''
         termios.tcsetattr(self.fd, termios.TCSAFLUSH, self.old_term)
 
-def ChClamp(num, min_value, max_value):
-   return max(min(num, max_value), min_value)
-
 class WAKeyboardController():
     def __init__(self, sys):
         self.key_getter = KeyGetter()
@@ -52,9 +50,9 @@ class WAKeyboardController():
         self.braking_target = 0
         self.throttle_target = 0
 
-        self.steering_delta = ceil(sys.GetRenderStepSize() / 1.0)
-        self.throttle_delta = ceil(sys.GetRenderStepSize() / 1.0)
-        self.braking_delta = ceil(sys.GetRenderStepSize() / 0.3)
+        self.steering_delta = sys.GetRenderStepSize() / 0.25
+        self.throttle_delta = sys.GetRenderStepSize() / 1.0
+        self.braking_delta = sys.GetRenderStepSize() / 0.3
 
         self.throttle_gain = 4.0
         self.steering_gain = 4.0
@@ -84,17 +82,17 @@ class WAKeyboardController():
             if key == -1:
                 return
             elif key == 0:
-                self.throttle_target = ChClamp(self.throttle_target + self.throttle_delta, 0.0, +1.0);
+                self.throttle_target = clip(self.throttle_target + self.throttle_delta, 0.0, +1.0);
                 if self.throttle_target > 0:
-                    self.braking_target = ChClamp(self.braking_target - self.braking_delta * 3, 0.0, +1.0);
+                    self.braking_target = clip(self.braking_target - self.braking_delta * 3, 0.0, +1.0);
             elif key == 2:
-                self.throttle_target = ChClamp(self.throttle_target - self.throttle_delta * 3, 0.0, +1.0);
+                self.throttle_target = clip(self.throttle_target - self.throttle_delta * 3, 0.0, +1.0);
                 if self.throttle_target <= 0:
-                    self.braking_target = ChClamp(self.braking_target + self.braking_delta, 0.0, +1.0);
+                    self.braking_target = clip(self.braking_target + self.braking_delta, 0.0, +1.0);
             elif key == 1:
-                self.steering_target = ChClamp(self.steering_target + self.steering_delta, -1.0, +1.0)
+                self.steering_target = clip(self.steering_target + self.steering_delta, -1.0, +1.0)
             elif key == 3:
-                self.steering_target = ChClamp(self.steering_target - self.steering_delta, -1.0, +1.0)
+                self.steering_target = clip(self.steering_target - self.steering_delta, -1.0, +1.0)
             else:
                 print("Key not recognized")
                 return 0
@@ -102,10 +100,10 @@ class WAKeyboardController():
             print(e)
             return -1
         
-
-    def Advance(self, step):
+    def Synchronize(self, time):
         self.KeyCheck()
 
+    def Advance(self, step):
         # Integrate dynamics, taking as many steps as required to reach the value 'step'
         t = 0;
         while t < step:
@@ -120,9 +118,6 @@ class WAKeyboardController():
             self.braking += h * braking_deriv
 
             t += h
-
-    def Synchronize(self, time):
-        pass
     
     def GetInputs(self):
         return {"steering": self.steering, "throttle": self.throttle, "braking": self.braking}

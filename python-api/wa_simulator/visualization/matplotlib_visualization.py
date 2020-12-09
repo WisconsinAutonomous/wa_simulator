@@ -6,9 +6,9 @@ from math import cos, sin, ceil
 import numpy as np
 import matplotlib.pyplot as plt
 
-# ------------------
-# WA Chrono Irrlicht
-# ------------------
+# ---------------------------
+# WA Matplotlib Visualization
+# ---------------------------
 
 class WAMatplotlibVisualization():
     def __init__(self, vehicle, system):
@@ -20,13 +20,19 @@ class WAMatplotlibVisualization():
         self.Initialize()
 
     def Initialize(self):
-        self.WB = 2.176 # Wheel base
-        self.BW = 0.75  # Back to rear axle
-        self.W = 1.5958 # Car width
-        self.L = 3.776  # Car length
-        self.WL = 0.41  # Wheel length
-        self.WW = 0.205 # Wheel width
-        self.T = 0.6 # Separation between the wheels
+        vp = self.vehicle.vis_properties
+    
+        body_Lf = vp['Body Distance to Front']
+        body_Lr = vp['Body Distance to Rear']
+        body_width = vp['Body Width']
+        body_length = vp['Body Length']
+        tire_width = vp['Tire Width']
+        tire_diameter = vp['Tire Diameter']
+
+        self.Lf = vp['Tire Distance to Front']
+        self.Lr = vp['Tire Distance to Rear']
+        self.track_width = vp['Track Width']
+        self.wheelbase = self.Lf + self.Lr
 
         self.steering = 0.0
         self.throttle = 0.0
@@ -36,13 +42,13 @@ class WAMatplotlibVisualization():
         cabcolor = '-k'
         wheelcolor = '-k'
 
-        self.outline = np.array([[-self.BW,   (self.L - self.BW), (self.L - self.BW), -self.BW,    -self.BW],
-                                 [self.W / 2, self.W / 2,         -self.W / 2,        -self.W / 2, self.W / 2],
-                                 [1,          1,                  1,                  1,           1]])
+        self.outline = np.array([[-body_Lr,       body_Lf,        body_Lf,         -body_Lr,        -body_Lr],
+                                 [body_width / 2, body_width / 2, -body_width / 2, -body_width / 2, body_width / 2],
+                                 [1,              1,                  1,           1,               1]])
 
-        wheel = np.array([[self.WL,  -self.WL, -self.WL, self.WL,  self.WL],
-                          [-self.WW, -self.WW, self.WW,  self.WW,  -self.WW],
-                          [1,        1,        1,        1,        1]])
+        wheel = np.array([[tire_diameter, -tire_diameter, -tire_diameter, tire_diameter, tire_diameter],
+                          [-tire_width,   -tire_width,    tire_width,     tire_width,    -tire_width],
+                          [1,             1,              1,              1,             1]])
 
         self.rr_wheel = np.copy(wheel)
         self.rl_wheel = np.copy(wheel)
@@ -85,6 +91,8 @@ class WAMatplotlibVisualization():
             raise TypeError('Synchronize: Type for driver inputs not recognized.')
 
         self.steering = s
+        self.throttle = t
+        self.braking = b
     
     def Transform(self, entity, x, y, yaw, alpha=0, x_offset=0, y_offset=0):
         T = np.array([[cos(yaw),  sin(yaw), x], 
@@ -102,10 +110,10 @@ class WAMatplotlibVisualization():
         x, y, yaw, v = self.vehicle.GetSimpleState()
         y *= -1
         
-        fr_wheel = self.Transform(self.fr_wheel, x, y, yaw, alpha=self.steering, x_offset=self.WB, y_offset=-self.T)
-        fl_wheel = self.Transform(self.fl_wheel, x, y, yaw, alpha=self.steering, x_offset=self.WB, y_offset=self.T)
-        rr_wheel = self.Transform(self.rr_wheel, x, y, yaw, y_offset=-self.T)
-        rl_wheel = self.Transform(self.rl_wheel, x, y, yaw, y_offset=self.T)
+        fr_wheel = self.Transform(self.fr_wheel, x, y, yaw, alpha=self.steering, x_offset=self.Lf, y_offset=-self.track_width)
+        fl_wheel = self.Transform(self.fl_wheel, x, y, yaw, alpha=self.steering, x_offset=self.Lf, y_offset=self.track_width)
+        rr_wheel = self.Transform(self.rr_wheel, x, y, yaw, x_offset=-self.Lr, y_offset=-self.track_width)
+        rl_wheel = self.Transform(self.rl_wheel, x, y, yaw, x_offset=-self.Lr, y_offset=self.track_width)
         outline = self.Transform(self.outline, x, y, yaw)
 
         (cab, fr, rr, fl, rl) = self.mat_vehicle
