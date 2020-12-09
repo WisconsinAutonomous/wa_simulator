@@ -7,7 +7,8 @@ class WASimulation:
 		self.controller = controller
 
 	def Advance(self, step):
-		self.system.Advance(step)
+		self.system.Advance()
+
 		self.environment.Advance(step)
 		self.vehicle.Advance(step)
 		self.visualization.Advance(step)
@@ -22,9 +23,9 @@ class WASimulation:
 		self.visualization.Synchronize(time, driver_inputs)
 	
 	def Run(self):
-		step_size = self.system.GetStepSize()
+		self.step_size = self.system.GetStepSize()
 		while True:
 			time = self.system.GetSimTime()
 
 			self.Synchronize(time)
-			self.Advance(step_size)
+			self.Advance(self.step_size)

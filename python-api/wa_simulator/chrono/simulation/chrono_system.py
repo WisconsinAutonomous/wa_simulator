@@ -6,6 +6,8 @@ import pychrono as chrono
 
 class WAChronoSystem(WASystem):
 	def __init__(self, step_size, render_step_size=2e-2, contact_method='NSC'):
+		super().__init__(step_size, render_step_size)
+
 		if not isinstance(contact_method, str):
 			raise TypeError("Contact method must be of type str")
 
@@ -19,25 +21,13 @@ class WAChronoSystem(WASystem):
 		system.SetMaxPenetrationRecoverySpeed(4.0)
 		self.system = system
 
-		self.step_number = 0
-		self.step_size = step_size
-		self.render_step_size = render_step_size
-
-	def Advance(self, step):
+	def Advance(self):
 		self.step_number += 1
-		self.system.DoStepDynamics(step)
+		self.system.DoStepDynamics(self.step_size)
 
 	def GetSimTime(self):
-		return self.system.GetChTime()
+		self.time = self.system.GetChTime()
+		return self.time
 
 	def GetSystem(self):
 		return self.system
-	
-	def GetStepSize(self):
-		return self.step_size
-
-	def GetRenderStepSize(self):
-		return self.render_step_size
-
-	def GetStepNumber(self):
-		return self.step_number

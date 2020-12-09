@@ -13,7 +13,7 @@ from math import ceil
 # WA Chrono Irrlicht
 # ------------------
 
-class WAChronoIrrlicht():
+class WAChronoIrrlicht(WAVisualization):
 	def __init__(self, vehicle, system):
 		self.app = veh.ChVehicleIrrApp(vehicle.GetVehicle())
 		self.app.SetHUDLocation(500, 20)

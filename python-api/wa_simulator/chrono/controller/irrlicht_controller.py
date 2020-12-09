@@ -30,5 +30,6 @@ class WAIrrlichtController(WAController):
 		self.driver.Advance(step)
 	
 	def GetInputs(self):
-		return self.driver.GetInputs()
+		inputs = self.driver.GetInputs()
+		return {"steering": inputs.m_steering, "throttle": inputs.m_throttle, "braking": inputs.m_braking}
 	

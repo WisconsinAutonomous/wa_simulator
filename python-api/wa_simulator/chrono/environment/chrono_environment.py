@@ -5,15 +5,15 @@ from wa_simulator.chrono.environment.chrono_terrain import WAChronoTerrain
 # Chrono specific imports
 import pychrono as chrono
 
-# Global filenames for vehicle models
-EGP_ENV_MODEL_FILE = 'environments/ev_grand_prix.json'
-IAC_ENV_MODEL_FILE = 'environments/iac.json'
-
 # ---------------------
 # WA Chrono Environment
 # ---------------------
 
 class WAChronoEnvironment(WAEnvironment):
+	# Global filenames for environment models
+	EGP_ENV_MODEL_FILE = 'environments/ev_grand_prix.json'
+	IAC_ENV_MODEL_FILE = 'environments/iac.json'
+
 	def __init__(self, filename, system, terrain=None):
 		if terrain is None:
 			terrain = WAChronoTerrain(filename, system)

@@ -4,7 +4,7 @@
 # -----------------------------------------------------------------
 
 # Import the simulator
-import wa_simulator.chrono as wa
+import wa_simulator as wa
 
 # Simulation step size
 step_size = 3e-3 # [s]
@@ -14,46 +14,41 @@ def main():
     # Create a system
     # Systems describe simulation settings and can be used to 
     # update dynamics
-    sys = wa.WAChronoSystem(step_size)
+    sys = wa.WASystem(step_size)
 
     # ---------------------
     # Create an environment
     # An environment handles external assets (trees, barriers, etc.) and terrain characteristics
-    env_filename = wa.WAChronoEnvironment.EGP_ENV_MODEL_FILE # Pre-made evGrand Prix (EGP) env file
-    env = wa.WAChronoEnvironment(env_filename, sys)
+    env_filename = wa.WASimpleEnvironment.EGP_ENV_MODEL_FILE # Pre-made evGrand Prix (EGP) env file
+    env = wa.WASimpleEnvironment(env_filename, sys)
 
     # ----------------
     # Create a vehicle
-    veh_filename = wa.WAChronoVehicle.GO_KART_MODEL_FILE # Pre-made go kart veh file
-    veh = wa.WAChronoVehicle(veh_filename, sys, env)
+    veh_filename = wa.WALinearKinematicBicycle.GO_KART_MODEL_FILE # Pre-made go kart veh file
+    veh = wa.WALinearKinematicBicycle(veh_filename)
 
     # ----------------------
     # Create a visualization
     # Will use irrlicht for visualization
-    irr = wa.WAChronoIrrlicht(veh, sys)
-    mat = wa.WAMatplotlibVisualization(veh, sys)
-    vis = wa.WAMultipleVisualizations([irr, mat])
+    # vis = wa.WAChronoIrrlicht(veh, sys)
 
     # -------------------
     # Create a controller
     # Will be an interactive controller where WASD can be used to control the car
-    ctr = wa.WAIrrlichtController(irr, sys)
+    # ctr = wa.WAIrrlichtController(vis, sys)
 
     # --------------------------
     # Create a simuation wrapper
     # Will be responsible for actually running the simulation
-    sim = wa.WASimulation(sys, env, veh, vis, ctr)
+    # sim = wa.WASimulation(sys, env, veh, vis, ctr)
 
     # ---------------
     # Simulation loop
-    while True:
-        time = sys.GetSimTime()
+    # while True:
+    #     time = sys.GetSimTime()
 
-        if time > 10:
-            break
-
-        sim.Synchronize(time)
-        sim.Advance(step_size)
+    #     sim.Synchronize(time)
+    #     sim.Advance(step_size)
 
 if __name__ == "__main__":
     main()

@@ -5,10 +5,6 @@ from wa_simulator.vehicle.vehicle import WAVehicle
 import pychrono as chrono
 import pychrono.vehicle as veh
 
-# Global filenames for vehicle models
-GO_KART_MODEL_FILE = 'GoKart/GoKart.json'
-IAC_VEH_MODEL_FILE = 'IAC/IAC.json'
-
 # ---------------
 # Utility methods
 # ---------------
@@ -71,6 +67,10 @@ def CreateTireFromJSON(tire_filename):
 # -----------------
 
 class WAChronoVehicle(WAVehicle):
+    # Global filenames for vehicle models
+    GO_KART_MODEL_FILE = 'GoKart/GoKart.json'
+    IAC_VEH_MODEL_FILE = 'IAC/IAC.json'
+
     def __init__(self, filename, system, env, initLoc=chrono.ChVectorD(0, 0, 0.5), initRot=chrono.ChQuaternionD(1, 0, 0, 0)):
         # Get the filenames
         vehicle_file, powertrain_file, tire_file = ReadVehicleModelFile(filename)
@@ -123,7 +123,10 @@ class WAChronoVehicle(WAVehicle):
             d.m_braking = driver_inputs["braking"]
             driver_inputs = d
         elif not isinstance(driver_inputs, veh.Inputs):
-            print('Synchronize: Driver inputs not recognized.')
-            exit()
+            raise TypeError('Synchronize: Type for driver inputs not recognized.')
 
         self.vehicle.Synchronize(time, driver_inputs, self.terrain)
+    
+    def GetSimpleState(self):
+        pos = self.vehicle.GetVehiclePos()
+        return pos.x, pos.y, self.vehicle.GetVehicleRot().Q_to_Euler123().z, self.vehicle.GetVehicleSpeed()
