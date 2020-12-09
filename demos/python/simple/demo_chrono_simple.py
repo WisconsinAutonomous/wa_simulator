@@ -29,7 +29,7 @@ def main():
 
     # ----------------------
     # Create a visualization
-    # Will use irrlicht for visualization
+    # Will use matplotlib and irrlicht for visualization
     irr = wa.WAChronoIrrlicht(veh, sys)
     mat = wa.WAMatplotlibVisualization(veh, sys)
     vis = wa.WAMultipleVisualizations([irr, mat])

@@ -29,26 +29,27 @@ def main():
 
     # ----------------------
     # Create a visualization
-    # Will use irrlicht for visualization
-    # vis = wa.WAChronoIrrlicht(veh, sys)
+    # Will use matplotlib for visualization
+    vis = wa.WAMatplotlibVisualization(veh, sys)
 
     # -------------------
     # Create a controller
-    # Will be an interactive controller where WASD can be used to control the car
-    # ctr = wa.WAIrrlichtController(vis, sys)
+    # Will be an interactive controller where the arrow can be used to control the car
+    # Must run it from the terminal
+    ctr = wa.WAKeyboardController(sys)
 
     # --------------------------
     # Create a simuation wrapper
     # Will be responsible for actually running the simulation
-    # sim = wa.WASimulation(sys, env, veh, vis, ctr)
+    sim = wa.WASimulation(sys, env, veh, vis, ctr)
 
     # ---------------
     # Simulation loop
-    # while True:
-    #     time = sys.GetSimTime()
+    while True:
+        time = sys.GetSimTime()
 
-    #     sim.Synchronize(time)
-    #     sim.Advance(step_size)
+        sim.Synchronize(time)
+        sim.Advance(step_size)
 
 if __name__ == "__main__":
     main()

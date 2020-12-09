@@ -10,6 +10,7 @@ from wa_simulator.visualization.matplotlib_visualization import *
 from wa_simulator.visualization.multiple_visualizations import *
 from wa_simulator.controller.controller import *
 from wa_simulator.controller.simple_controller import *
+from wa_simulator.controller.keyboard_controller import *
 from wa_simulator.controller.multiple_controllers import *
 from wa_simulator.utilities.vector import *
 
