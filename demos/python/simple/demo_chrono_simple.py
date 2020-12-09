@@ -49,9 +49,6 @@ def main():
     while True:
         time = sys.GetSimTime()
 
-        if time > 10:
-            break
-
         sim.Synchronize(time)
         sim.Advance(step_size)
 

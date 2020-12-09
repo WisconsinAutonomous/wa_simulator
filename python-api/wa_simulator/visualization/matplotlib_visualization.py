@@ -2,10 +2,9 @@
 from wa_simulator.visualization.visualization import WAVisualization
 
 # Other imports
-from math import cos, sin, tan, exp, atan2, ceil
+from math import cos, sin, ceil
 import numpy as np
 import matplotlib.pyplot as plt
-import matplotlib.animation as animation
 
 # ------------------
 # WA Chrono Irrlicht
@@ -13,7 +12,7 @@ import matplotlib.animation as animation
 
 class WAMatplotlibVisualization():
     def __init__(self, vehicle, system):
-        self.render_steps = int(ceil(system.GetRenderStepSize() / system.GetStepSize()))
+        self.render_steps = int(ceil(1e-1 / system.GetStepSize()))
 
         self.system = system
         self.vehicle = vehicle
@@ -21,14 +20,13 @@ class WAMatplotlibVisualization():
         self.Initialize()
 
     def Initialize(self):
-        self.wheelbase = 2.776
-        self.offset = np.array([-4.0, 0])
-        self.backtowheel = 1.0
-        self.width = 1.5958
-        self.length = 4.776
-        self.wheel_len = 0.41
-        self.wheel_width = 0.205
-        self.tread = 0.7979
+        self.WB = 2.176 # Wheel base
+        self.BW = 0.75  # Back to rear axle
+        self.W = 1.5958 # Car width
+        self.L = 3.776  # Car length
+        self.WL = 0.41  # Wheel length
+        self.WW = 0.205 # Wheel width
+        self.T = 0.6 # Separation between the wheels
 
         self.steering = 0.0
         self.throttle = 0.0
@@ -38,20 +36,24 @@ class WAMatplotlibVisualization():
         cabcolor = '-k'
         wheelcolor = '-k'
 
-        self.outline = np.array([[-self.backtowheel, (self.length - self.backtowheel), (self.length - self.backtowheel), -self.backtowheel, -self.backtowheel],
-                                [self.width / 2, self.width / 2, - self.width / 2, -self.width / 2, self.width / 2]])
+        self.outline = np.array([[-self.BW,   (self.L - self.BW), (self.L - self.BW), -self.BW,    -self.BW],
+                                 [self.W / 2, self.W / 2,         -self.W / 2,        -self.W / 2, self.W / 2],
+                                 [1,          1,                  1,                  1,           1]])
 
-        self.fr_wheel = np.array([[self.wheel_len, -self.wheel_len, -self.wheel_len, self.wheel_len, self.wheel_len],
-                                    [-self.wheel_width - self.tread, -self.wheel_width - self.tread, self.wheel_width - self.tread, self.wheel_width - self.tread, -self.wheel_width - self.tread]])
+        wheel = np.array([[self.WL,  -self.WL, -self.WL, self.WL,  self.WL],
+                          [-self.WW, -self.WW, self.WW,  self.WW,  -self.WW],
+                          [1,        1,        1,        1,        1]])
 
-        self.rr_wheel = np.copy(self.fr_wheel)
-
-        self.fl_wheel = np.copy(self.fr_wheel)
-        self.fl_wheel[1, :] *= -1
-        self.rl_wheel = np.copy(self.rr_wheel)
+        self.rr_wheel = np.copy(wheel)
+        self.rl_wheel = np.copy(wheel)
         self.rl_wheel[1, :] *= -1
 
-        plt.figure(figsize=(8, 5))
+        self.fr_wheel = np.copy(wheel)
+        self.fl_wheel = np.copy(wheel)
+        self.fl_wheel[1, :] *= -1
+
+        # Initial plotting
+        plt.figure(figsize=(8, 8))
 
         cab, = plt.plot(np.array(self.outline[0, :]).flatten(),np.array(self.outline[1, :]).flatten(), cabcolor)
         fr, = plt.plot(np.array(self.fr_wheel[0, :]).flatten(), np.array(self.fr_wheel[1, :]).flatten(), wheelcolor)
@@ -66,6 +68,7 @@ class WAMatplotlibVisualization():
 
         plt.xlim(-25,25)
         plt.ylim(-25,25)
+        plt.gca().set_aspect('equal', adjustable='box')
 
     def Advance(self, step):
         if self.system.GetStepNumber() % self.render_steps == 0:
@@ -82,42 +85,28 @@ class WAMatplotlibVisualization():
             raise TypeError('Synchronize: Type for driver inputs not recognized.')
 
         self.steering = s
+    
+    def Transform(self, entity, x, y, yaw, alpha=0, x_offset=0, y_offset=0):
+        T = np.array([[cos(yaw),  sin(yaw), x], 
+                      [-sin(yaw), cos(yaw), y],
+                      [0,         0,        1]])
+        T = T @ np.array([[cos(alpha),  sin(alpha), x_offset], 
+                          [-sin(alpha), cos(alpha), y_offset],
+                          [0,         0,            1]])
+        return T.dot(entity)
 		
     def Update(self):
         # Update vehicle
 
         # State information
         x, y, yaw, v = self.vehicle.GetSimpleState()
-
-        rot1 = np.array([[cos(yaw), sin(yaw)],
-                            [-sin(yaw), cos(yaw)]])
-        rot2 = np.array([[cos(self.steering), sin(self.steering)],
-                            [-sin(self.steering), cos(self.steering)]])
-
-        fr_wheel = (self.fr_wheel.T.dot(rot2)).T
-        fl_wheel = (self.fl_wheel.T.dot(rot2)).T
-        fr_wheel[0, :] += self.wheelbase
-        fl_wheel[0, :] += self.wheelbase
-
-        fr_wheel = (fr_wheel.T.dot(rot1)).T
-        fl_wheel = (fl_wheel.T.dot(rot1)).T
-
-        outline = (self.outline.T.dot(rot1)).T
-        rr_wheel = (self.rr_wheel.T.dot(rot1)).T
-        rl_wheel = (self.rl_wheel.T.dot(rot1)).T
-
-        offset = (self.offset.T.dot(rot1)).T
-
-        outline[0, :] += offset[0] + x
-        outline[1, :] += offset[1] + y
-        fr_wheel[0, :] += offset[0] + x
-        fr_wheel[1, :] += offset[1] + y
-        rr_wheel[0, :] += offset[0] + x
-        rr_wheel[1, :] += offset[1] + y
-        fl_wheel[0, :] += offset[0] + x
-        fl_wheel[1, :] += offset[1] + y
-        rl_wheel[0, :] += offset[0] + x
-        rl_wheel[1, :] += offset[1] + y
+        y *= -1
+        
+        fr_wheel = self.Transform(self.fr_wheel, x, y, yaw, alpha=self.steering, x_offset=self.WB, y_offset=-self.T)
+        fl_wheel = self.Transform(self.fl_wheel, x, y, yaw, alpha=self.steering, x_offset=self.WB, y_offset=self.T)
+        rr_wheel = self.Transform(self.rr_wheel, x, y, yaw, y_offset=-self.T)
+        rl_wheel = self.Transform(self.rl_wheel, x, y, yaw, y_offset=self.T)
+        outline = self.Transform(self.outline, x, y, yaw)
 
         (cab, fr, rr, fl, rl) = self.mat_vehicle
         cab.set_ydata(np.array(outline[1, :]).flatten())
@@ -132,9 +121,12 @@ class WAMatplotlibVisualization():
         rl.set_xdata(np.array(rl_wheel[0, :]).flatten())
 
         # Update Text
-        text = f'Time :: {self.system.GetSimTime():.2f}\nSteering :: {self.steering:.2f}\nThrottle :: {self.throttle:.2f}\nBraking :: {self.braking:.2f}\nSpeed :: {v:.2f}'
+        text = (f"Time :: {self.system.GetSimTime():.2f}\n"
+                f"Steering :: {self.steering:.2f}\n"
+                f"Throttle :: {self.throttle:.2f}\n"
+                f"Braking :: {self.braking:.2f}\n"
+                f"Speed :: {v:.2f}")
         self.annotation.set_text(text)
-
 
 import signal
 import sys
