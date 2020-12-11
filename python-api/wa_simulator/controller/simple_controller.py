@@ -7,7 +7,9 @@ from wa_simulator.controller.controller import WAController
 
 class WASimpleController(WAController):
 	def __init__(self):
-		pass
+		self.steering = 0
+		self.throttle = 0
+		self.braking = 0
 
 	def Advance(self, step):
 		pass
@@ -16,4 +18,4 @@ class WASimpleController(WAController):
 		pass
 
 	def GetInputs(self):
-		return {"steering": 0, "throttle": 0, "braking": 0}
+		return {"steering": self.steering, "throttle": self.throttle, "braking": self.braking}

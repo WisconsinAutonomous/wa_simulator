@@ -6,6 +6,11 @@ class WASimulation:
 		self.visualization = visualization
 		self.controller = controller
 
+	def Record(self, filename):
+		with open(filename, 'a+') as f:
+			x,y,yaw,v = self.vehicle.GetSimpleState()
+			f.write(f'{x},{y},{yaw},{v}')
+
 	def Advance(self, step):
 		self.system.Advance()
 

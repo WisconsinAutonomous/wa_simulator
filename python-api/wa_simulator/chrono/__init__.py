@@ -5,10 +5,12 @@ try:
 	# Will through exception if failed
 	import pychrono as chrono
 	import pychrono.vehicle as veh
+	import pathlib
 
 	# Set the chrono data directory to in-repo data directory
-	CHRONO_DATA_DIRECTORY = DATA_DIRECTORY / 'chrono' / ' '
-	CHRONO_VEH_DATA_DIRECTORY = DATA_DIRECTORY / 'chrono' / 'vehicle' / ' '
+	TEMP_DIRECTORY = pathlib.Path(DATA_DIRECTORY)
+	CHRONO_DATA_DIRECTORY = TEMP_DIRECTORY / 'chrono' / ' '
+	CHRONO_VEH_DATA_DIRECTORY = TEMP_DIRECTORY / 'chrono' / 'vehicle' / ' '
 
 	CHRONO_DATA_DIRECTORY = str(CHRONO_DATA_DIRECTORY)[:-1]
 	CHRONO_VEH_DATA_DIRECTORY = str(CHRONO_VEH_DATA_DIRECTORY)[:-1]
@@ -16,7 +18,7 @@ try:
 	chrono.SetChronoDataPath(CHRONO_DATA_DIRECTORY)
 	veh.SetDataPath(CHRONO_VEH_DATA_DIRECTORY)
 
-	del chrono, veh
+	del chrono, veh, pathlib
 except Exception as e:
 	print('Couldn\'t import PyChrono.\n')
 	raise e

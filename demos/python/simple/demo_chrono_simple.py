@@ -30,14 +30,15 @@ def main():
     # ----------------------
     # Create a visualization
     # Will use matplotlib and irrlicht for visualization
-    irr = wa.WAChronoIrrlicht(veh, sys)
-    mat = wa.WAMatplotlibVisualization(veh, sys)
-    vis = wa.WAMultipleVisualizations([irr, mat])
+    # irr = wa.WAChronoIrrlicht(veh, sys)
+    vis = wa.WAMatplotlibVisualization(veh, sys)
+    # vis = wa.WAMultipleVisualizations([irr, mat])
 
     # -------------------
     # Create a controller
     # Will be an interactive controller where WASD can be used to control the car
-    ctr = wa.WAIrrlichtController(irr, sys)
+    # ctr = wa.WAIrrlichtController(irr, sys)
+    ctr = wa.WASimpleController()
 
     # --------------------------
     # Create a simuation wrapper
@@ -49,8 +50,25 @@ def main():
     while True:
         time = sys.GetSimTime()
 
+        if time < 5:
+            ctr.steering = 0
+            ctr.throttle = 0.2
+            ctr.braking = 0
+        elif time < 10:
+            ctr.steering = 0.5
+            ctr.throttle = 0.1
+            ctr.braking = 0
+        elif time < 20:
+            ctr.steering = -0.75
+            ctr.throttle = 0.3
+            ctr.braking = 0
+        else:
+            break
+
         sim.Synchronize(time)
         sim.Advance(step_size)
+
+        sim.Record('chrono_simple.csv')
 
 if __name__ == "__main__":
     main()

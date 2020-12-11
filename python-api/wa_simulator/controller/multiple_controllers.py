@@ -5,7 +5,7 @@ from wa_simulator.controller.controller import WAController
 # WA Multiple Controllers
 # -----------------------
 
-class WASimpleController(WAController):
+class WAMultipleControllers(WAController):
 	def __init__(self, controllers):
 		self.controllers = controllers
 

@@ -72,6 +72,8 @@ class WAChronoVehicle(WAVehicle):
     IAC_VEH_MODEL_FILE = 'IAC/IAC.json'
 
     def __init__(self, filename, system, env, initLoc=chrono.ChVectorD(0, 0, 0.5), initRot=chrono.ChQuaternionD(1, 0, 0, 0)):
+        super().__init__("vehicles/GoKart/GoKart_KinematicBicycle.json")
+        
         # Get the filenames
         vehicle_file, powertrain_file, tire_file = ReadVehicleModelFile(filename)
 
