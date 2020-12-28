@@ -6,15 +6,19 @@
 # Import the simulator
 import wa_simulator as wa
 
-# Simulation step size
-step_size = 3e-3 # [s]
+# Command line arguments
+parser = wa.WAArgumentParser(use_defaults=True)
+controller_group = parser.add_mutually_exclusive_group(required=True)
+controller_group.add_argument('-kc', '--keyboard_controller', action='store_true', help='Use Keyboard Controller', default=False)
+controller_group.add_argument('-sc', '--simple_controller', action='store_true', help='Use Simple Controller', default=False)
+args = parser.parse_args()
 
 def main():
     # ---------------
     # Create a system
     # Systems describe simulation settings and can be used to 
     # update dynamics
-    sys = wa.WASystem(step_size)
+    sys = wa.WASystem(args.step_size, args.render_step_size)
 
     # ---------------------
     # Create an environment
@@ -36,38 +40,39 @@ def main():
     # Create a controller
     # Will be an interactive controller where the arrow can be used to control the car
     # Must run it from the terminal
-    # ctr = wa.WAKeyboardController(sys)
-    ctr = wa.WASimpleController()
+    if args.keyboard_controller:
+        ctr = wa.WAKeyboardController(sys)
+    else:
+        ctr = wa.WASimpleController()
 
     # --------------------------
     # Create a simuation wrapper
     # Will be responsible for actually running the simulation
-    sim = wa.WASimulation(sys, env, veh, vis, ctr)
+    sim = wa.WASimulation(sys, env, veh, vis, ctr, 'bicycle_simple.csv' if args.record else None)
 
     # ---------------
     # Simulation loop
     while True:
         time = sys.GetSimTime()
 
-        if time < 5:
-            ctr.steering = 0
-            ctr.throttle = 0.2
-            ctr.braking = 0
-        elif time < 10:
-            ctr.steering = 0.5
-            ctr.throttle = 0.1
-            ctr.braking = 0
-        elif time < 20:
-            ctr.steering = -0.75
-            ctr.throttle = 0.3
-            ctr.braking = 0
-        else:
-            break
+        if args.simple_controller:
+            if time < 5:
+                ctr.steering = 0
+                ctr.throttle = 0.2
+                ctr.braking = 0
+            elif time < 10:
+                ctr.steering = 0.5
+                ctr.throttle = 0.1
+                ctr.braking = 0
+            elif time < 20:
+                ctr.steering = -0.75
+                ctr.throttle = 0.3
+                ctr.braking = 0
+            else:
+                break
 
         sim.Synchronize(time)
-        sim.Advance(step_size)
-
-        sim.Record('bicycle_simple.csv')
+        sim.Advance(args.step_size)
 
 if __name__ == "__main__":
     main()

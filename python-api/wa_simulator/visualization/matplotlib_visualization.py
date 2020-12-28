@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 
 class WAMatplotlibVisualization():
     def __init__(self, vehicle, system):
-        self.render_steps = int(ceil(1e-1 / system.GetStepSize()))
+        self.render_steps = int(ceil(system.render_step_size / system.step_size))
 
         self.system = system
         self.vehicle = vehicle
@@ -59,7 +59,7 @@ class WAMatplotlibVisualization():
         self.fl_wheel[1, :] *= -1
 
         # Initial plotting
-        plt.figure(figsize=(8, 8))
+        self.fig = plt.figure(figsize=(8, 8))
 
         cab, = plt.plot(np.array(self.outline[0, :]).flatten(),np.array(self.outline[1, :]).flatten(), cabcolor)
         fr, = plt.plot(np.array(self.fr_wheel[0, :]).flatten(), np.array(self.fr_wheel[1, :]).flatten(), wheelcolor)
@@ -135,6 +135,9 @@ class WAMatplotlibVisualization():
                 f"Braking :: {self.braking:.2f}\n"
                 f"Speed :: {v:.2f}")
         self.annotation.set_text(text)
+    
+    def IsOk(self):
+        return len(plt.get_fignums()) == 1
 
 import signal
 import sys

@@ -14,3 +14,6 @@ from wa_simulator.controller.keyboard_controller import *
 from wa_simulator.controller.multiple_controllers import *
 from wa_simulator.utilities.vector import *
 from wa_simulator.utilities.data_loader import *
+from wa_simulator.utilities.cli import *
+
+from time import time as get_wall_time

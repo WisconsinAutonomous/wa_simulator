@@ -50,9 +50,9 @@ class WAKeyboardController():
         self.braking_target = 0
         self.throttle_target = 0
 
-        self.steering_delta = sys.GetRenderStepSize() / 0.25
-        self.throttle_delta = sys.GetRenderStepSize() / 1.0
-        self.braking_delta = sys.GetRenderStepSize() / 0.3
+        self.steering_delta = sys.render_step_size / 0.25
+        self.throttle_delta = sys.render_step_size / 1.0
+        self.braking_delta = sys.render_step_size / 0.3
 
         self.throttle_gain = 4.0
         self.steering_gain = 4.0

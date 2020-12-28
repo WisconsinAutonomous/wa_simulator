@@ -22,19 +22,16 @@ class WAChronoIrrlicht(WAVisualization):
 		self.app.AddTypicalLights(irr.vector3df(-150., -150., 200.), irr.vector3df(-150., 150., 200.), 100, 100)
 		self.app.AddTypicalLights(irr.vector3df(150., -150., 200.), irr.vector3df(150., 150., 200.), 100, 100)
 		self.app.SetChaseCamera(chrono.ChVectorD(0.0, 0.0, 1.75), 6.0, 0.5)
-		self.app.SetTimestep(system.GetStepSize())
+		self.app.SetTimestep(system.step_size)
 
 		self.app.AssetBindAll()
 		self.app.AssetUpdateAll()
 
-		self.render_steps = int(ceil(system.GetRenderStepSize() / system.GetStepSize()))
+		self.render_steps = int(ceil(system.render_step_size / system.step_size))
 
 		self.system = system
 
 	def Advance(self, step):
-		if not self.app.GetDevice().run():
-			raise RuntimeError('ChIrrApp closed')
-
 		if self.system.GetStepNumber() % self.render_steps == 0:
 			self.app.BeginScene(True, True, irr.SColor(255, 140, 161, 192))
 			self.app.DrawAll()
@@ -54,6 +51,9 @@ class WAChronoIrrlicht(WAVisualization):
 			exit()
 
 		self.app.Synchronize("", driver_inputs)
+
+	def IsOk(self):
+		return self.app.GetDevice().run()
 	
 	def GetApp(self): 
 		return self.app

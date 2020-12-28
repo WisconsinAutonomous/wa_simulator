@@ -13,12 +13,6 @@ class WASystem(ABC):
 
 	def GetSimTime(self):
 		return self.time
-	
-	def GetStepSize(self):
-		return self.step_size
-
-	def GetRenderStepSize(self):
-		return self.render_step_size
 
 	def GetStepNumber(self):
 		return self.step_number

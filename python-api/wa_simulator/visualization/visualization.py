@@ -12,3 +12,7 @@ class WAVisualization(ABC):
 	@abstractmethod
 	def Synchronize(self, time, driver_inputs):
 		pass
+
+	@abstractmethod
+	def IsOk(self):
+		pass

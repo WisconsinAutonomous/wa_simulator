@@ -9,7 +9,7 @@ class WAIrrlichtController(WAController):
 		# Create the interactive driver
 		driver = veh.ChIrrGuiDriver(visualization.GetApp())
 
-		render_step_size = system.GetRenderStepSize()
+		render_step_size = system.render_step_size
 
 		# Set the time response for steering and throttle keyboard inputs.
 		steering_time = 1.0  # time to go from 0 to +1 (or from 0 to -1)

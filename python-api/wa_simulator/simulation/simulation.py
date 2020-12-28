@@ -1,11 +1,18 @@
 class WASimulation:
-	def __init__(self, system, environment, vehicle, visualization, controller):
+	def __init__(self, system, environment, vehicle, visualization, controller, record_filename=None):
 		self.system = system
 		self.environment = environment
 		self.vehicle = vehicle
 		self.visualization = visualization
 		self.controller = controller
 
+		self.record_filename = record_filename
+		if self.record_filename:
+			with open(self.record_filename, 'w') as f:
+				pass
+
+		self.step_size = self.system.step_size
+			
 	def Record(self, filename):
 		with open(filename, 'a+') as f:
 			x,y,yaw,v = self.vehicle.GetSimpleState()
@@ -16,8 +23,10 @@ class WASimulation:
 
 		self.environment.Advance(step)
 		self.vehicle.Advance(step)
-		self.visualization.Advance(step)
 		self.controller.Advance(step)
+
+		if self.visualization:
+			self.visualization.Advance(step)
 
 	def Synchronize(self, time):
 		driver_inputs = self.controller.GetInputs()
@@ -25,12 +34,19 @@ class WASimulation:
 		self.controller.Synchronize(time)
 		self.vehicle.Synchronize(time, driver_inputs)
 		self.environment.Synchronize(time)
-		self.visualization.Synchronize(time, driver_inputs)
+
+		if self.visualization:
+			self.visualization.Synchronize(time, driver_inputs)
 	
 	def Run(self):
-		self.step_size = self.system.GetStepSize()
 		while True:
 			time = self.system.GetSimTime()
 
 			self.Synchronize(time)
 			self.Advance(self.step_size)
+
+			if self.record_filename:
+				self.Record(self.record_filename)
+	
+	def IsOk(self):
+		return self.visualization.IsOk() if self.visualization else True
