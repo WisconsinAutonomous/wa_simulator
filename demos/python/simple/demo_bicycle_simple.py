@@ -52,7 +52,7 @@ def main():
 
     # ---------------
     # Simulation loop
-    while True:
+    while sim.IsOk():
         time = sys.GetSimTime()
 
         if args.simple_controller:

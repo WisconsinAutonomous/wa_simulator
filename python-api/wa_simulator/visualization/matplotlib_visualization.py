@@ -2,9 +2,76 @@
 from wa_simulator.visualization.visualization import WAVisualization
 
 # Other imports
+from multiprocessing import Process, Queue, set_start_method
 from math import cos, sin, ceil
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.animation import FuncAnimation
+
+# ---------------
+# Process Plotter
+# ---------------
+class VehiclePlotter:
+    def __init__(self):
+        pass
+
+    def Initialize(self, q):
+        self.q = q
+
+        cabcolor = '-k'
+        wheelcolor = '-k'
+
+        (outline, rr_wheel, rl_wheel, fr_wheel, fl_wheel, steering, throttle, braking, time, speed) = self.q.get()
+        
+        # Initial plotting setup
+        self.fig, self.ax = plt.subplots(figsize=(8, 8))
+
+        cab, = self.ax.plot(np.array(outline[0, :]).flatten(),np.array(outline[1, :]).flatten(), cabcolor)
+        fr, = self.ax.plot(np.array(fr_wheel[0, :]).flatten(), np.array(fr_wheel[1, :]).flatten(), wheelcolor)
+        rr, = self.ax.plot(np.array(rr_wheel[0, :]).flatten(), np.array(rr_wheel[1, :]).flatten(), wheelcolor)
+        fl, = self.ax.plot(np.array(fl_wheel[0, :]).flatten(), np.array(fl_wheel[1, :]).flatten(), wheelcolor)
+        rl, = self.ax.plot(np.array(rl_wheel[0, :]).flatten(), np.array(rl_wheel[1, :]).flatten(), wheelcolor)
+        self.mat_vehicle = (cab,fr,rr,fl,rl)
+
+        # Text
+        bbox_props = dict(boxstyle="round", fc="w", ec="0.5", alpha=0.9)
+        self.annotation = self.ax.annotate('', xy=(.97, .7), xytext=(0, 10), xycoords=('axes fraction', 'figure fraction'), textcoords='offset points', size=10, ha='right', va='bottom',bbox=bbox_props)
+
+        # Plot styling
+        self.ax.set_xlim(-25,25)
+        self.ax.set_ylim(-25,25)
+        self.ax.set_aspect('equal', adjustable='box')
+
+    def Update(self, i):
+
+        (cab, fr, rr, fl, rl) = self.mat_vehicle
+        (outline, rr_wheel, rl_wheel, fr_wheel, fl_wheel, steering, throttle, braking, time, speed) = self.q.get()
+        cab.set_ydata(np.array(outline[1, :]).flatten())
+        cab.set_xdata(np.array(outline[0, :]).flatten())
+        fr.set_ydata(np.array(fr_wheel[1, :]).flatten())
+        fr.set_xdata(np.array(fr_wheel[0, :]).flatten())
+        rr.set_ydata(np.array(rr_wheel[1, :]).flatten())
+        rr.set_xdata(np.array(rr_wheel[0, :]).flatten())
+        fl.set_ydata(np.array(fl_wheel[1, :]).flatten())
+        fl.set_xdata(np.array(fl_wheel[0, :]).flatten())
+        rl.set_ydata(np.array(rl_wheel[1, :]).flatten())
+        rl.set_xdata(np.array(rl_wheel[0, :]).flatten())
+
+        # Update Text
+        text = (f"Time :: {time:.2f}\n"
+                f"Steering :: {steering:.2f}\n"
+                f"Throttle :: {throttle:.2f}\n"
+                f"Braking :: {braking:.2f}\n"
+                f"Speed :: {speed:.2f}")
+        self.annotation.set_text(text)
+
+
+    def Plot(self, q, placeholder):
+        self.Initialize(q)
+
+        anim = FuncAnimation(self.fig, self.Update, interval=10)
+
+        plt.show()
 
 # ---------------------------
 # WA Matplotlib Visualization
@@ -17,31 +84,26 @@ class WAMatplotlibVisualization():
         self.system = system
         self.vehicle = vehicle
 
-        self.Initialize()
+        properties = self.vehicle.vis_properties
 
-    def Initialize(self):
-        vp = self.vehicle.vis_properties
-    
-        body_Lf = vp['Body Distance to Front']
-        body_Lr = vp['Body Distance to Rear']
-        body_width = vp['Body Width']
-        body_length = vp['Body Length']
-        tire_width = vp['Tire Width']
-        tire_diameter = vp['Tire Diameter']
+        body_Lf = properties['Body Distance to Front']
+        body_Lr = properties['Body Distance to Rear']
+        body_width = properties['Body Width']
+        body_length = properties['Body Length']
+        tire_width = properties['Tire Width']
+        tire_diameter = properties['Tire Diameter']
 
-        self.Lf = vp['Tire Distance to Front']
-        self.Lr = vp['Tire Distance to Rear']
-        self.track_width = vp['Track Width']
+        self.Lf = properties['Tire Distance to Front']
+        self.Lr = properties['Tire Distance to Rear']
+        self.track_width = properties['Track Width']
         self.wheelbase = self.Lf + self.Lr
 
         self.steering = 0.0
         self.throttle = 0.0
         self.braking = 0.0
+        self.time = 0.0
 
-        # Vehicle visualization
-        cabcolor = '-k'
-        wheelcolor = '-k'
-
+        # Visualization shapes
         self.outline = np.array([[-body_Lr,       body_Lf,        body_Lf,         -body_Lr,        -body_Lr],
                                  [body_width / 2, body_width / 2, -body_width / 2, -body_width / 2, body_width / 2],
                                  [1,              1,                  1,           1,               1]])
@@ -57,30 +119,22 @@ class WAMatplotlibVisualization():
         self.fr_wheel = np.copy(wheel)
         self.fl_wheel = np.copy(wheel)
         self.fl_wheel[1, :] *= -1
+        
+        # Initialize multiprocessed animation
+        if plt.get_backend() == "MacOSX":
+            set_start_method("spawn", force=True)
 
-        # Initial plotting
-        self.fig = plt.figure(figsize=(8, 8))
+        self.q = Queue(maxsize=1)
+        
+        self.plotter = VehiclePlotter()
+        self.p = Process(target=self.plotter.Plot, args=(self.q, 0))
+        self.p.start()
 
-        cab, = plt.plot(np.array(self.outline[0, :]).flatten(),np.array(self.outline[1, :]).flatten(), cabcolor)
-        fr, = plt.plot(np.array(self.fr_wheel[0, :]).flatten(), np.array(self.fr_wheel[1, :]).flatten(), wheelcolor)
-        rr, = plt.plot(np.array(self.rr_wheel[0, :]).flatten(), np.array(self.rr_wheel[1, :]).flatten(), wheelcolor)
-        fl, = plt.plot(np.array(self.fl_wheel[0, :]).flatten(), np.array(self.fl_wheel[1, :]).flatten(), wheelcolor)
-        rl, = plt.plot(np.array(self.rl_wheel[0, :]).flatten(), np.array(self.rl_wheel[1, :]).flatten(), wheelcolor)
-        self.mat_vehicle = (cab,fr,rr,fl,rl)
-
-        # Text
-        bbox_props = dict(boxstyle="round", fc="w", ec="0.5", alpha=0.9)
-        self.annotation = plt.annotate('', xy=(.97, .7), xytext=(0, 10), xycoords=('axes fraction', 'figure fraction'), textcoords='offset points', size=10, ha='right', va='bottom',bbox=bbox_props)
-
-        plt.xlim(-25,25)
-        plt.ylim(-25,25)
-        plt.gca().set_aspect('equal', adjustable='box')
+        self.q.put((self.outline, self.rr_wheel, self.rl_wheel, self.fr_wheel, self.fl_wheel, self.steering, self.throttle, self.braking, self.time, 0))
 
     def Advance(self, step):
         if self.system.GetStepNumber() % self.render_steps == 0:
             self.Update()
-
-            plt.pause(1e-9)
 
     def Synchronize(self, time, driver_inputs):
         if isinstance(driver_inputs, dict):
@@ -93,6 +147,8 @@ class WAMatplotlibVisualization():
         self.steering = s
         self.throttle = t
         self.braking = b
+
+        self.time = time
     
     def Transform(self, entity, x, y, yaw, alpha=0, x_offset=0, y_offset=0):
         T = np.array([[cos(yaw),  sin(yaw), x], 
@@ -115,29 +171,21 @@ class WAMatplotlibVisualization():
         rr_wheel = self.Transform(self.rr_wheel, x, y, yaw, x_offset=-self.Lr, y_offset=-self.track_width)
         rl_wheel = self.Transform(self.rl_wheel, x, y, yaw, x_offset=-self.Lr, y_offset=self.track_width)
         outline = self.Transform(self.outline, x, y, yaw)
+        time = self.system.GetSimTime()
 
-        (cab, fr, rr, fl, rl) = self.mat_vehicle
-        cab.set_ydata(np.array(outline[1, :]).flatten())
-        cab.set_xdata(np.array(outline[0, :]).flatten())
-        fr.set_ydata(np.array(fr_wheel[1, :]).flatten())
-        fr.set_xdata(np.array(fr_wheel[0, :]).flatten())
-        rr.set_ydata(np.array(rr_wheel[1, :]).flatten())
-        rr.set_xdata(np.array(rr_wheel[0, :]).flatten())
-        fl.set_ydata(np.array(fl_wheel[1, :]).flatten())
-        fl.set_xdata(np.array(fl_wheel[0, :]).flatten())
-        rl.set_ydata(np.array(rl_wheel[1, :]).flatten())
-        rl.set_xdata(np.array(rl_wheel[0, :]).flatten())
+        # Update plotter driver inputs
+        steering = self.steering
+        throttle = self.throttle
+        braking = self.braking
 
-        # Update Text
-        text = (f"Time :: {self.system.GetSimTime():.2f}\n"
-                f"Steering :: {self.steering:.2f}\n"
-                f"Throttle :: {self.throttle:.2f}\n"
-                f"Braking :: {self.braking:.2f}\n"
-                f"Speed :: {v:.2f}")
-        self.annotation.set_text(text)
-    
+        self.q.put((outline, rr_wheel, rl_wheel, fr_wheel, fl_wheel, self.steering, self.throttle, self.braking, self.time, v))
+
     def IsOk(self):
-        return len(plt.get_fignums()) == 1
+        return self.p.is_alive()
+    
+    def __del__(self):
+        if self.p.is_alive():
+            self.p.join()
 
 import signal
 import sys

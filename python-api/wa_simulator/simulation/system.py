@@ -10,6 +10,7 @@ class WASystem(ABC):
 
 	def Advance(self):
 		self.time += self.step_size
+		self.step_number += 1
 
 	def GetSimTime(self):
 		return self.time
