@@ -7,18 +7,18 @@ import math
 
 class PIDController:
     def __init__(self, lat_controller=None, long_controller=None):
-		# Lateral controller (steering)
-		if lat_controller is None:
-			lat_controller = PIDLateralController(track.center)
-			lat_controller.SetGains(Kp=0.4, Ki=0, Kd=0.25)
-			lat_controller.SetLookAheadDistance(dist=5)
+        # Lateral controller (steering)
+        if lat_controller is None:
+            lat_controller = PIDLateralController(track.center)
+            lat_controller.SetGains(Kp=0.4, Ki=0, Kd=0.25)
+            lat_controller.SetLookAheadDistance(dist=5)
         self.lat_controller = lat_controller
 
-		if long_controller is None:
-			# Longitudinal controller (throttle and braking)
-			long_controller = PIDLongitudinalController()
-			long_controller.SetGains(Kp=0.4, Ki=0, Kd=0)
-			long_controller.SetTargetSpeed(speed=15.0)
+        if long_controller is None:
+            # Longitudinal controller (throttle and braking)
+            long_controller = PIDLongitudinalController()
+            long_controller.SetGains(Kp=0.4, Ki=0, Kd=0)
+            long_controller.SetTargetSpeed(speed=15.0)
         self.long_controller = long_controller
 
     def GetTargetAndSentinel(self):
