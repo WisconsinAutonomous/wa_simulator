@@ -9,22 +9,23 @@ import pychrono as chrono
 # WA Chrono Environment
 # ---------------------
 
+
 class WAChronoEnvironment(WAEnvironment):
-	# Global filenames for environment models
-	EGP_ENV_MODEL_FILE = 'environments/ev_grand_prix.json'
-	IAC_ENV_MODEL_FILE = 'environments/iac.json'
+    # Global filenames for environment models
+    EGP_ENV_MODEL_FILE = "environments/ev_grand_prix.json"
+    IAC_ENV_MODEL_FILE = "environments/iac.json"
 
-	def __init__(self, filename, system, terrain=None):
-		if terrain is None:
-			terrain = WAChronoTerrain(filename, system)
+    def __init__(self, filename, system, terrain=None):
+        if terrain is None:
+            terrain = WAChronoTerrain(filename, system)
 
-		self.terrain = terrain
-	
-	def GetTerrain(self):
-		return self.terrain
+        self.terrain = terrain
 
-	def Advance(self, step):
-		self.terrain.Advance(step)
+    def GetTerrain(self):
+        return self.terrain
 
-	def Synchronize(self, time):
-		self.terrain.Synchronize(time)
+    def Advance(self, step):
+        self.terrain.Advance(step)
+
+    def Synchronize(self, time):
+        self.terrain.Synchronize(time)

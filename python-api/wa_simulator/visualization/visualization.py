@@ -1,39 +1,46 @@
-# =============================================================================
-# Wisconsin Autonomous - https://www.wisconsinautonomous.org
-#
-# Copyright (c) 2021 wisconsinautonomous.org
-# All right reserved.
-#
-# Use of this source code is governed by a BSD-style license that can be found
-# in the LICENSE file at the top level of the repo
-#
-# =============================================================================
-#
-# Base class for visualization implementations for the simulator
-#
-# All visualization classes should inherit from this class to ensure everything
-# functions correctly
-#
-# =============================================================================
+"""
+Wisconsin Autonomous - https://www.wisconsinautonomous.org
 
-from abc import ABC, abstractmethod # Abstract Base Class
+Copyright (c) 2021 wisconsinautonomous.org
+All rights reserved.
 
-# ----------------
-# WA Visualization
-# ----------------
+Use of this source code is governed by a BSD-style license that can be found
+in the LICENSE file at the top level of the repo
+"""
+
+from abc import ABC, abstractmethod  # Abstract Base Class
+
 
 class WAVisualization(ABC):
-	"""
-	author: 
-	"""
-	@abstractmethod
-	def Advance(self, step):
-		pass
+    """Base class to be used for visualization of the simulation world.
 
-	@abstractmethod
-	def Synchronize(self, time, driver_inputs):
-		pass
+    Derived classes will use various world attributes to visualize the simulation
+    """
 
-	@abstractmethod
-	def IsOk(self):
-		pass
+    @abstractmethod
+    def Synchronize(self, time, vehicle_inputs):
+        """Synchronize the visualization at the specified time with the passed vehicle inputs
+
+        Args:
+            time (double): time to synchronize the visualization to
+            vehicle_inputs (WAVehicleInputs): inputs to the vehicle. Can be helpful for visualization (debug) purposes.
+        """
+        pass
+
+    @abstractmethod
+    def Advance(self, step):
+        """Advance the state of the visualization by the specified step
+
+        Args:
+            step (double): step size to update the visualization by
+        """
+        pass
+
+    @abstractmethod
+    def IsOk(self):
+        """Verifies the visualization is running properly.
+
+        Returns:
+            bool: Whether the visualization is running correctly.
+        """
+        pass

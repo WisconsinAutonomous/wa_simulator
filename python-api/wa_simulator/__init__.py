@@ -1,7 +1,7 @@
 from ._import import _import, _get_dirs
 
 for d in _get_dirs(__file__):
-	_import(d, globals())
+    _import(d, globals())
 
 del _import, _get_dirs
 

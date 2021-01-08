@@ -1,5 +1,14 @@
+"""
+Wisconsin Autonomous - https://www.wisconsinautonomous.org
+
+Copyright (c) 2021 wisconsinautonomous.org
+All rights reserved.
+
+Use of this source code is governed by a BSD-style license that can be found
+in the LICENSE file at the top level of the repo
+"""
 # WA Simulator
-from wa_simulator.visualization.visualization import WAVisualization
+from .visualization import WAVisualization
 
 # Other imports
 from multiprocessing import Process, Queue, set_start_method
@@ -8,44 +17,120 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 
-# ---------------
-# Process Plotter
-# ---------------
+
 class VehiclePlotter:
-    def __init__(self):
-        pass
+    """Class used to handle plotting of the vehicle.
+
+    Runs in separate process and communicates with main thread via multiprocessing.Queue
+    object. Done to improve simulation performance. Plotter will block until vehicle state has updated.
+    On vehicle state update, the visualization representation is also updated.
+
+    Instead of being redrawn, handles to matplotlib assets are stored and their states are updated
+    at each visualization update. This improves performance and doesn't require clearing the plot
+    window.
+
+    Attributes:
+        q (multiprocessing.Queue): Queue used to pass info between processes
+        fig (plt.Figure): Matplotlib figure used for plotting
+        ax (plt.Axes): Matplotlib axes used for plotting
+        mat_vehicle (tuple): Class that holds the matplotlib visualization objects so their state can be updated
+        annotation (plt.Text): Holds text displayed in the plot window for debug purposes.
+    """
 
     def Initialize(self, q):
+        """Initialize the matplotlib visual assets to be updated through the simulation. Initially plotted at (0,0).
+
+        Args:
+            q (multiprocessing.Queue): Queue used to communicate between processes
+        """
         self.q = q
 
-        cabcolor = '-k'
-        wheelcolor = '-k'
+        cabcolor = "-k"
+        wheelcolor = "-k"
 
-        (outline, rr_wheel, rl_wheel, fr_wheel, fl_wheel, steering, throttle, braking, time, speed) = self.q.get()
-        
+        (
+            outline,
+            rr_wheel,
+            rl_wheel,
+            fr_wheel,
+            fl_wheel,
+            steering,
+            throttle,
+            braking,
+            time,
+            speed,
+        ) = self.q.get()
+
         # Initial plotting setup
         self.fig, self.ax = plt.subplots(figsize=(8, 8))
 
-        cab, = self.ax.plot(np.array(outline[0, :]).flatten(),np.array(outline[1, :]).flatten(), cabcolor)
-        fr, = self.ax.plot(np.array(fr_wheel[0, :]).flatten(), np.array(fr_wheel[1, :]).flatten(), wheelcolor)
-        rr, = self.ax.plot(np.array(rr_wheel[0, :]).flatten(), np.array(rr_wheel[1, :]).flatten(), wheelcolor)
-        fl, = self.ax.plot(np.array(fl_wheel[0, :]).flatten(), np.array(fl_wheel[1, :]).flatten(), wheelcolor)
-        rl, = self.ax.plot(np.array(rl_wheel[0, :]).flatten(), np.array(rl_wheel[1, :]).flatten(), wheelcolor)
-        self.mat_vehicle = (cab,fr,rr,fl,rl)
+        (cab,) = self.ax.plot(
+            np.array(outline[0, :]).flatten(),
+            np.array(outline[1, :]).flatten(),
+            cabcolor,
+        )
+        (fr,) = self.ax.plot(
+            np.array(fr_wheel[0, :]).flatten(),
+            np.array(fr_wheel[1, :]).flatten(),
+            wheelcolor,
+        )
+        (rr,) = self.ax.plot(
+            np.array(rr_wheel[0, :]).flatten(),
+            np.array(rr_wheel[1, :]).flatten(),
+            wheelcolor,
+        )
+        (fl,) = self.ax.plot(
+            np.array(fl_wheel[0, :]).flatten(),
+            np.array(fl_wheel[1, :]).flatten(),
+            wheelcolor,
+        )
+        (rl,) = self.ax.plot(
+            np.array(rl_wheel[0, :]).flatten(),
+            np.array(rl_wheel[1, :]).flatten(),
+            wheelcolor,
+        )
+        self.mat_vehicle = (cab, fr, rr, fl, rl)
 
         # Text
         bbox_props = dict(boxstyle="round", fc="w", ec="0.5", alpha=0.9)
-        self.annotation = self.ax.annotate('', xy=(.97, .7), xytext=(0, 10), xycoords=('axes fraction', 'figure fraction'), textcoords='offset points', size=10, ha='right', va='bottom',bbox=bbox_props)
+        self.annotation = self.ax.annotate(
+            "",
+            xy=(0.97, 0.7),
+            xytext=(0, 10),
+            xycoords=("axes fraction", "figure fraction"),
+            textcoords="offset points",
+            size=10,
+            ha="right",
+            va="bottom",
+            bbox=bbox_props,
+        )
 
         # Plot styling
-        self.ax.set_xlim(-25,25)
-        self.ax.set_ylim(-25,25)
-        self.ax.set_aspect('equal', adjustable='box')
+        self.ax.set_xlim(-25, 25)
+        self.ax.set_ylim(-25, 25)
+        self.ax.set_aspect("equal", adjustable="box")
 
     def Update(self, i):
+        """Update the state of the vehicle in the visualization
 
+        Called at specific intervals by the FuncAnimation function in matplotlib
+
+        Args:
+            i (int): frame number
+        """
         (cab, fr, rr, fl, rl) = self.mat_vehicle
-        (outline, rr_wheel, rl_wheel, fr_wheel, fl_wheel, steering, throttle, braking, time, speed) = self.q.get()
+        (
+            outline,
+            rr_wheel,
+            rl_wheel,
+            fr_wheel,
+            fl_wheel,
+            steering,
+            throttle,
+            braking,
+            time,
+            speed,
+        ) = self.q.get()
         cab.set_ydata(np.array(outline[1, :]).flatten())
         cab.set_xdata(np.array(outline[0, :]).flatten())
         fr.set_ydata(np.array(fr_wheel[1, :]).flatten())
@@ -58,26 +143,58 @@ class VehiclePlotter:
         rl.set_xdata(np.array(rl_wheel[0, :]).flatten())
 
         # Update Text
-        text = (f"Time :: {time:.2f}\n"
-                f"Steering :: {steering:.2f}\n"
-                f"Throttle :: {throttle:.2f}\n"
-                f"Braking :: {braking:.2f}\n"
-                f"Speed :: {speed:.2f}")
+        text = (
+            f"Time :: {time:.2f}\n"
+            f"Steering :: {steering:.2f}\n"
+            f"Throttle :: {throttle:.2f}\n"
+            f"Braking :: {braking:.2f}\n"
+            f"Speed :: {speed:.2f}"
+        )
         self.annotation.set_text(text)
 
-
     def Plot(self, q, placeholder):
+        """ "Main" function that sets up the plotter and runs the blocking FuncAnimation update.
+
+        Args:
+            q (multiprocessing.Queue): Queue used to communicate and pass info between processes
+            placeholder (None): For some reason, multiprocessing yells when there is only one parameter
+        """
         self.Initialize(q)
 
         anim = FuncAnimation(self.fig, self.Update, interval=10)
 
         plt.show()
 
-# ---------------------------
-# WA Matplotlib Visualization
-# ---------------------------
 
-class WAMatplotlibVisualization():
+class WAMatplotlibVisualization:
+    """Matplotlib visualizer of the simulator world and the vehicle
+
+    Args:
+        vehicle (WAVehicle): vehicle to render in the matplotlib plot window
+        system (WASystem): system used to grab certain parameters of the simulation
+
+    Attributes:
+        render_steps (int): steps between which the visualization should update
+        vehicle (WAVehicle): vehicle to render in the matplotlib plot window
+        system (WASystem): system used to grab certain parameters of the simulation
+        Lf (double): distance between COM and front axle
+        Lr (double): distance between COM and rear axle
+        track_width (double): distance between wheels connected to the same axle
+        wheelbase (double): distance between front and rear wheels
+        steering (double): steering value
+        throttle (double): throttle value
+        braking (double): braking value
+        time (double): time of the simulation
+        outline (double): chassis outline for the vehicle that's updated based on pose of the vehicle
+        rr_wheel (double): right rear wheel outline that's updated based on the pose of the body in the simulation
+        rl_wheel (double): left rear wheel outline that's updated based on the pose of the body in the simulation
+        fr_wheel (double): right front wheel outline that's updated based on the pose of the body in the simulation
+        fl_wheel (double): left front  wheel outline that's updated based on the pose of the body in the simulation
+        q (multiprocessing.Queue): Queue used to pass info between processes (thread safe)
+        plotter (VehiclePlotter): Used to update the matplotlib window
+        p (multiprocessing.Process): process created by multiprocessing (TODO: Should add join())
+    """
+
     def __init__(self, vehicle, system):
         self.render_steps = int(ceil(system.render_step_size / system.step_size))
 
@@ -86,16 +203,16 @@ class WAMatplotlibVisualization():
 
         properties = self.vehicle.vis_properties
 
-        body_Lf = properties['Body Distance to Front']
-        body_Lr = properties['Body Distance to Rear']
-        body_width = properties['Body Width']
-        body_length = properties['Body Length']
-        tire_width = properties['Tire Width']
-        tire_diameter = properties['Tire Diameter']
+        body_Lf = properties["Body Distance to Front"]
+        body_Lr = properties["Body Distance to Rear"]
+        body_width = properties["Body Width"]
+        body_length = properties["Body Length"]
+        tire_width = properties["Tire Width"]
+        tire_diameter = properties["Tire Diameter"]
 
-        self.Lf = properties['Tire Distance to Front']
-        self.Lr = properties['Tire Distance to Rear']
-        self.track_width = properties['Track Width']
+        self.Lf = properties["Tire Distance to Front"]
+        self.Lr = properties["Tire Distance to Rear"]
+        self.track_width = properties["Track Width"]
         self.wheelbase = self.Lf + self.Lr
 
         self.steering = 0.0
@@ -104,13 +221,33 @@ class WAMatplotlibVisualization():
         self.time = 0.0
 
         # Visualization shapes
-        self.outline = np.array([[-body_Lr,       body_Lf,        body_Lf,         -body_Lr,        -body_Lr],
-                                 [body_width / 2, body_width / 2, -body_width / 2, -body_width / 2, body_width / 2],
-                                 [1,              1,                  1,           1,               1]])
+        self.outline = np.array(
+            [
+                [-body_Lr, body_Lf, body_Lf, -body_Lr, -body_Lr],
+                [
+                    body_width / 2,
+                    body_width / 2,
+                    -body_width / 2,
+                    -body_width / 2,
+                    body_width / 2,
+                ],
+                [1, 1, 1, 1, 1],
+            ]
+        )
 
-        wheel = np.array([[tire_diameter, -tire_diameter, -tire_diameter, tire_diameter, tire_diameter],
-                          [-tire_width,   -tire_width,    tire_width,     tire_width,    -tire_width],
-                          [1,             1,              1,              1,             1]])
+        wheel = np.array(
+            [
+                [
+                    tire_diameter,
+                    -tire_diameter,
+                    -tire_diameter,
+                    tire_diameter,
+                    tire_diameter,
+                ],
+                [-tire_width, -tire_width, tire_width, tire_width, -tire_width],
+                [1, 1, 1, 1, 1],
+            ]
+        )
 
         self.rr_wheel = np.copy(wheel)
         self.rl_wheel = np.copy(wheel)
@@ -119,57 +256,117 @@ class WAMatplotlibVisualization():
         self.fr_wheel = np.copy(wheel)
         self.fl_wheel = np.copy(wheel)
         self.fl_wheel[1, :] *= -1
-        
+
         # Initialize multiprocessed animation
         if plt.get_backend() == "MacOSX":
             set_start_method("spawn", force=True)
 
         self.q = Queue(maxsize=1)
-        
+
         self.plotter = VehiclePlotter()
         self.p = Process(target=self.plotter.Plot, args=(self.q, 0))
         self.p.start()
 
-        self.q.put((self.outline, self.rr_wheel, self.rl_wheel, self.fr_wheel, self.fl_wheel, self.steering, self.throttle, self.braking, self.time, 0))
+        self.q.put(
+            (
+                self.outline,
+                self.rr_wheel,
+                self.rl_wheel,
+                self.fr_wheel,
+                self.fl_wheel,
+                self.steering,
+                self.throttle,
+                self.braking,
+                self.time,
+                0,
+            )
+        )
 
     def Advance(self, step):
+        """Advance the state of the visualization by the specified step
+
+        Will only call update if the scene should be rendered given the render step
+
+        Args:
+            step (double): step size to update the visualization by
+        """
         if self.system.GetStepNumber() % self.render_steps == 0:
             self.Update()
 
-    def Synchronize(self, time, driver_inputs):
-        if isinstance(driver_inputs, dict):
-            s = driver_inputs["steering"]
-            t = driver_inputs["throttle"]
-            b = driver_inputs["braking"]
-        else:
-            raise TypeError('Synchronize: Type for driver inputs not recognized.')
+    def Synchronize(self, time, vehicle_inputs):
+        """Synchronize the vehicle inputs to the values in this visualization
 
-        self.steering = s
-        self.throttle = t
-        self.braking = b
+        Will just set class members
+
+        Args:
+            time (double): time at which to update the vehicle to
+            vehicle_inputs (WAVehicleInputs): vehicle inputs
+        """
+        self.steering = vehicle_inputs.steering
+        self.throttle = vehicle_inputs.throttle
+        self.braking = vehicle_inputs.braking
 
         self.time = time
-    
+
     def Transform(self, entity, x, y, yaw, alpha=0, x_offset=0, y_offset=0):
-        T = np.array([[cos(yaw),  sin(yaw), x], 
-                      [-sin(yaw), cos(yaw), y],
-                      [0,         0,        1]])
-        T = T @ np.array([[cos(alpha),  sin(alpha), x_offset], 
-                          [-sin(alpha), cos(alpha), y_offset],
-                          [0,         0,            1]])
+        """Helper function to transfrom a numpy entity by the specified values
+
+        Args:
+            entity (np.array): Numpy entity that describes some visualization asset to be updated
+            x (double): x translation distance
+            y (double): y translation distance
+            yaw (double): angle to rotate by
+            alpha (double, optional): angle to rotate by to be added after the rotation. Defaults to 0.
+            x_offset (double, optional): x translation distance to be added after the rotation. Defaults to 0.
+            y_offset (double, optional): y translation distance to be added after the rotation. Defaults to 0.
+
+        Returns:
+            np.array: the new entity
+        """
+        T = np.array([[cos(yaw), sin(yaw), x], [-sin(yaw), cos(yaw), y], [0, 0, 1]])
+        T = T @ np.array(
+            [
+                [cos(alpha), sin(alpha), x_offset],
+                [-sin(alpha), cos(alpha), y_offset],
+                [0, 0, 1],
+            ]
+        )
         return T.dot(entity)
-		
+
     def Update(self):
-        # Update vehicle
+        """Update the state of the vehicle representation.
+
+        After updating, will push the state to the queue to be read by the VehiclePlotter
+        """
 
         # State information
         x, y, yaw, v = self.vehicle.GetSimpleState()
         y *= -1
-        
-        fr_wheel = self.Transform(self.fr_wheel, x, y, yaw, alpha=self.steering, x_offset=self.Lf, y_offset=-self.track_width)
-        fl_wheel = self.Transform(self.fl_wheel, x, y, yaw, alpha=self.steering, x_offset=self.Lf, y_offset=self.track_width)
-        rr_wheel = self.Transform(self.rr_wheel, x, y, yaw, x_offset=-self.Lr, y_offset=-self.track_width)
-        rl_wheel = self.Transform(self.rl_wheel, x, y, yaw, x_offset=-self.Lr, y_offset=self.track_width)
+
+        fr_wheel = self.Transform(
+            self.fr_wheel,
+            x,
+            y,
+            yaw,
+            alpha=self.steering,
+            x_offset=self.Lf,
+            y_offset=-self.track_width,
+        )
+        fl_wheel = self.Transform(
+            self.fl_wheel,
+            x,
+            y,
+            yaw,
+            alpha=self.steering,
+            x_offset=self.Lf,
+            y_offset=self.track_width,
+        )
+        rr_wheel = self.Transform(
+            self.rr_wheel, x, y, yaw, x_offset=-self.Lr, y_offset=-self.track_width
+        )
+        rl_wheel = self.Transform(
+            self.rl_wheel, x, y, yaw, x_offset=-self.Lr, y_offset=self.track_width
+        )
         outline = self.Transform(self.outline, x, y, yaw)
         time = self.system.GetSimTime()
 
@@ -178,20 +375,56 @@ class WAMatplotlibVisualization():
         throttle = self.throttle
         braking = self.braking
 
-        self.q.put((outline, rr_wheel, rl_wheel, fr_wheel, fl_wheel, self.steering, self.throttle, self.braking, self.time, v))
+        self.q.put(
+            (
+                outline,
+                rr_wheel,
+                rl_wheel,
+                fr_wheel,
+                fl_wheel,
+                self.steering,
+                self.throttle,
+                self.braking,
+                self.time,
+                v,
+            )
+        )
 
     def IsOk(self):
+        """Get a simple state representation of the vehicle.
+
+        Checks if the process is alive
+
+        Returns:
+            tuple: (x position, y position, yaw about the Z, speed)
+        """
         return self.p.is_alive()
-    
+
     def __del__(self):
-        if self.p.is_alive():
+        """Destructor
+
+        Will try to block and wait for the process to complete.
+        """
+        if hasattr(self, "p") and self.p.is_alive():
             self.p.join()
+
 
 import signal
 import sys
 
+
 def signal_handler(sig, frame):
-    print('Ctrl+C Detected! Exitting...')
+    """Signal handler that will exit if ctrl+c is recorded in the terminal window.
+
+    Allows easier exiting of a matplotlib plot
+
+    Args:
+        sig (int): Signal number
+        frame (int): ?
+    """
+    print("Ctrl+C Detected! Exitting...")
     sys.exit(0)
 
+
+# setup the signal listener to listen for the interrupt signal (ctrl+c)
 signal.signal(signal.SIGINT, signal_handler)

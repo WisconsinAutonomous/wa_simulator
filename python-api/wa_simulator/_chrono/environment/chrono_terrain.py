@@ -9,38 +9,41 @@ import pychrono.vehicle as veh
 # Utility methods
 # ---------------
 
+
 def ReadTerrainModelFile(filename):
-	import json
+    import json
 
-	full_filename = chrono.GetChronoDataFile(filename)
+    full_filename = chrono.GetChronoDataFile(filename)
 
-	with open(full_filename) as f:
-		j = json.load(f)
+    with open(full_filename) as f:
+        j = json.load(f)
 
-	if 'Terrain' not in j:
-		print('\'Terrain\' not present in the passed json file.')
-		exit()
-	terrain_filename = chrono.GetChronoDataFile(j['Terrain']['Input File'])
+    if "Terrain" not in j:
+        print("'Terrain' not present in the passed json file.")
+        exit()
+    terrain_filename = chrono.GetChronoDataFile(j["Terrain"]["Input File"])
 
-	return terrain_filename
+    return terrain_filename
+
 
 # -----------------
 # WA Chrono Terrain
 # -----------------
 
+
 class WAChronoTerrain(WATerrain):
-	def __init__(self, filename, system):
-		# Get the filenames
-		terrain_filename = ReadTerrainModelFile(filename)
+    def __init__(self, filename, system):
+        # Get the filenames
+        terrain_filename = ReadTerrainModelFile(filename)
 
-		# Create the terrain
-		self.terrain = veh.RigidTerrain(system.GetSystem(), terrain_filename)
-	
-	def GetTerrain(self):
-		return self.terrain
+        # Create the terrain
+        self.terrain = veh.RigidTerrain(system.GetSystem(), terrain_filename)
 
-	def Synchronize(self, time):
-		self.terrain.Synchronize(time)
+    def GetTerrain(self):
+        return self.terrain
 
-	def Advance(self, step):
-		self.terrain.Advance(step)
+    def Synchronize(self, time):
+        self.terrain.Synchronize(time)
+
+    def Advance(self, step):
+        self.terrain.Advance(step)
