@@ -8,7 +8,7 @@ Use of this source code is governed by a BSD-style license that can be found
 in the LICENSE file at the top level of the repo
 """
 # WA Simulator
-from .visualization import WAVisualization
+from wa_simulator.visualization.visualization import WAVisualization
 
 # Other imports
 from multiprocessing import Process, Queue, set_start_method
@@ -391,12 +391,10 @@ class WAMatplotlibVisualization:
         )
 
     def IsOk(self):
-        """Get a simple state representation of the vehicle.
-
-        Checks if the process is alive
+        """Checks if the rendering process is still alive
 
         Returns:
-            tuple: (x position, y position, yaw about the Z, speed)
+            bool: whether the simulation is still alive
         """
         return self.p.is_alive()
 

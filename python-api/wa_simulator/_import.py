@@ -15,15 +15,15 @@ def _get_files(file_):
     ]
 
 
-def _get_dirs(file_):
+def _get_dirs(file_, ignore=[]):
     return [
         os.path.splitext(f.name)[0]
         for f in os.scandir(os.path.dirname(file_))
-        if f.is_dir() and _not_hidden(f.name)
+        if f.is_dir() and _not_hidden(f.name) and f.name not in ignore
     ]
 
 
-def _import(module, gbls):
+def _import(module, gbls, ignore=[]):
     # Get caller info
     filename = inspect.stack()[1].filename
     path = os.path.dirname(os.path.realpath(filename)).split("wa_simulator")[-1]

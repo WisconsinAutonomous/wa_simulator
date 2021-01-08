@@ -9,7 +9,7 @@ in the LICENSE file at the top level of the repo
 """
 
 # WA Simulator
-from .visualization import WAVisualization
+from wa_simulator.visualization.visualization import WAVisualization
 
 
 class WAMultipleVisualizations(WAVisualization):
@@ -18,6 +18,7 @@ class WAMultipleVisualizations(WAVisualization):
     Args:
         visualizations (list): List of visualizations.
     """
+
     def __init__(self, visualizations):
         self.visualizations = visualizations
 

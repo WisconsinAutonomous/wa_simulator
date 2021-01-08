@@ -8,7 +8,8 @@ Use of this source code is governed by a BSD-style license that can be found
 in the LICENSE file at the top level of the repo
 """
 
-from .controller import WAController  # WA Simulator
+# WA Simulator
+from wa_simulator.controller.controller import WAController
 
 # Other imports
 import sys, tty, termios, atexit

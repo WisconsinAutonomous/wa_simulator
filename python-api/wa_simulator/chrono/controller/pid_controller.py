@@ -1,9 +1,23 @@
+"""
+Wisconsin Autonomous - https://www.wisconsinautonomous.org
+
+Copyright (c) 2021 wisconsinautonomous.org
+All rights reserved.
+
+Use of this source code is governed by a BSD-style license that can be found
+in the LICENSE file at the top level of the repo
+"""
+
 # WA Simulator
 from wa_simulator.controller.controller import WAController
 
+# Chrono specific imports
 import pychrono as chrono
+
+# Other imports
 import numpy as np
 import math
+
 
 class PIDController:
     def __init__(self, lat_controller=None, long_controller=None):
@@ -29,6 +43,7 @@ class PIDController:
         self.throttle, self.braking = self.long_controller.Advance(step, vehicle)
         return self.steering, self.throttle, self.braking
 
+
 class PIDLateralController:
     def __init__(self, path):
         self.Kp = 0
@@ -36,8 +51,8 @@ class PIDLateralController:
         self.Kd = 0
 
         self.dist = 0
-        self.target = np.array([0,0,0])
-        self.sentinel = np.array([0,0,0])
+        self.target = np.array([0, 0, 0])
+        self.sentinel = np.array([0, 0, 0])
 
         self.steering = 0
 
@@ -57,10 +72,12 @@ class PIDLateralController:
 
     def Advance(self, step, vehicle):
         state = vehicle.GetState()
-        self.sentinel = np.array([
-            self.dist * math.cos(state.yaw) + state.x,
-            self.dist * math.sin(state.yaw) + state.y,
-            0]
+        self.sentinel = np.array(
+            [
+                self.dist * math.cos(state.yaw) + state.x,
+                self.dist * math.sin(state.yaw) + state.y,
+                0,
+            ]
         )
 
         self.target = self.path.calcClosestPoint(self.sentinel)

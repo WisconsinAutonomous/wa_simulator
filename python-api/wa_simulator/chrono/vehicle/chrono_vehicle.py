@@ -1,3 +1,13 @@
+"""
+Wisconsin Autonomous - https://www.wisconsinautonomous.org
+
+Copyright (c) 2021 wisconsinautonomous.org
+All rights reserved.
+
+Use of this source code is governed by a BSD-style license that can be found
+in the LICENSE file at the top level of the repo
+"""
+
 # WA Simulator
 from wa_simulator.vehicle.vehicle import WAVehicle
 
@@ -5,12 +15,16 @@ from wa_simulator.vehicle.vehicle import WAVehicle
 import pychrono as chrono
 import pychrono.vehicle as veh
 
-# ---------------
-# Utility methods
-# ---------------
-
 
 def ReadVehicleModelFile(filename):
+    """Read a json specification file to get additional file names to be loaded into ChVehicle classes
+
+    Args:
+        filename (str): the json specification file with Vehicle, Powertrain and Tire input models
+
+    Returns:
+        tuple: returns each json specification file for the vehicle, powertrain and tire
+    """
     import json
 
     full_filename = veh.GetDataFile(filename)
@@ -37,6 +51,14 @@ def ReadVehicleModelFile(filename):
 
 
 def CreateTireFromJSON(tire_filename):
+    """Creates a tire from a tire file
+
+    Args:
+        tire_filename (str): the tire json specification file
+
+    Returns:
+        ChTire: the created tire
+    """
     import json
 
     with open(tire_filename) as f:
@@ -64,12 +86,23 @@ def CreateTireFromJSON(tire_filename):
         exit()
 
 
-# -----------------
-# WA Chrono Vehicle
-# -----------------
-
-
 class WAChronoVehicle(WAVehicle):
+    """Chrono vehicle wrapper
+
+    Args:
+        filename (str): json file specification file
+        system (WAChronoSystem): the system used to run the simulation
+        env (WAEnvironment): the environment with a terrain
+        initLoc (chrono.ChVectorD, optional): the inital location of the vehicle. Defaults to chrono.ChVectorD(0, 0, 0.5).
+        initRot (chrono.ChQuaternionD, optional): the initial orientation of the vehicle. Defaults to chrono.ChQuaternionD(1, 0, 0, 0).
+
+    Attributes:
+        GO_KART_MODEL_FILE (str): json specification file for the go kart model representation
+        IAC_VEH_MODEL_FILE (str): json specification file for the iac car model representation
+        vehicle (ChVehicle): a chrono vehicle that this class essentially wraps
+        terrain (ChTerrain): a terrain that the vehicle interacts with
+    """
+
     # Global filenames for vehicle models
     GO_KART_MODEL_FILE = "GoKart/GoKart.json"
     IAC_VEH_MODEL_FILE = "IAC/IAC.json"
@@ -88,7 +121,7 @@ class WAChronoVehicle(WAVehicle):
         vehicle_file, powertrain_file, tire_file = ReadVehicleModelFile(filename)
 
         # Create the vehicle
-        vehicle = veh.WheeledVehicle(system.GetSystem(), vehicle_file)
+        vehicle = veh.WheeledVehicle(system.system, vehicle_file)
 
         # Initialize the vehicle
         vehicle.Initialize(chrono.ChCoordsysD(initLoc, initRot))
@@ -112,34 +145,40 @@ class WAChronoVehicle(WAVehicle):
             vehicle.InitializeTire(tireR, axle.m_wheels[1], veh.VisualizationType_MESH)
 
         self.vehicle = vehicle
-        self.terrain = env.GetTerrain().GetTerrain()
-
-    def GetVehicle(self):
-        return self.vehicle
-
-    def SetTerrain(self, terrain):
-        self.terrain = terrain
+        self.terrain = env.terrain.terrain
 
     def Advance(self, step):
+        """Perform a dynamics update
+
+        Args:
+            step (double): time step to update the vehicle by
+        """
         self.vehicle.Advance(step)
 
     def Synchronize(self, time, vehicle_inputs):
-        if not isinstance(self.terrain, veh.ChTerrain):
-            print("Synchronize: Terrain has not been set.")
-            exit()
+        """Synchronize the vehicle with the vehicle inputs at the passed time
 
-        if isinstance(vehicle_inputs, dict):
-            d = veh.Inputs()
-            d.m_steering = vehicle_inputs["steering"]
-            d.m_throttle = vehicle_inputs["throttle"]
-            d.m_braking = vehicle_inputs["braking"]
-            vehicle_inputs = d
-        elif not isinstance(vehicle_inputs, veh.Inputs):
-            raise TypeError("Synchronize: Type for driver inputs not recognized.")
+        Args:
+            time (double): time to synchronize the simulation to
+            vehicle_inputs (WAVehicleInputs): the vehicle inputs
+        """
+        if not isinstance(self.terrain, veh.ChTerrain):
+            raise TypeError("Synchronize: Terrain has not been set.")
+
+        d = veh.Inputs()
+        d.m_steering = vehicle_inputs.steering
+        d.m_throttle = vehicle_inputs.throttle
+        d.m_braking = vehicle_inputs.braking
+        vehicle_inputs = d
 
         self.vehicle.Synchronize(time, vehicle_inputs, self.terrain)
 
     def GetSimpleState(self):
+        """Get a simple state representation of the vehicle.
+
+        Returns:
+            tuple: (x position, y position, yaw about the Z, speed)
+        """
         pos = self.vehicle.GetVehiclePos()
         return (
             pos.x,

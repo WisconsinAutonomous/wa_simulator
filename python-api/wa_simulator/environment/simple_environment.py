@@ -8,7 +8,7 @@ Use of this source code is governed by a BSD-style license that can be found
 in the LICENSE file at the top level of the repo
 """
 
-from .environment import WAEnvironment  # WA Simulator
+from wa_simulator.environment.environment import WAEnvironment  # WA Simulator
 
 
 class WASimpleEnvironment(WAEnvironment):

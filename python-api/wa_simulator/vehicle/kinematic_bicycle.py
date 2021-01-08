@@ -9,9 +9,9 @@ in the LICENSE file at the top level of the repo
 """
 
 # WA Simulator
-from .vehicle import WAVehicle, LoadPropertiesFromJSON
-from ..utilities.data_loader import GetWADataFile
-from ..utilities.constants import *
+from wa_simulator.vehicle.vehicle import WAVehicle, LoadPropertiesFromJSON
+from wa_simulator.utilities.data_loader import GetWADataFile
+from wa_simulator.utilities.constants import *
 
 # Other imports
 import numpy as np

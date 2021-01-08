@@ -10,7 +10,7 @@ in the LICENSE file at the top level of the repo
 
 from abc import ABC, abstractmethod  # Abstract Base Class
 
-from ..utilities.data_loader import GetWADataFile  # WA Simulator
+from wa_simulator.utilities.data_loader import GetWADataFile  # WA Simulator
 
 
 def LoadPropertiesFromJSON(filename, prop):
