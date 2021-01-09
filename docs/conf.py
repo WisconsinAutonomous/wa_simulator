@@ -36,9 +36,25 @@ extensions = [
     "rinoh.frontend.sphinx",
     "sphinx.ext.napoleon",
     "sphinx.ext.autodoc",
+    "autoapi.extension",
     "m2r2",
     "sphinx.ext.githubpages",
 ]
+
+autoapi_type = "python"
+autoapi_dirs = ["../python-api"]
+autoapi_options = [
+    "members",
+    "undoc-members",
+    "show-inheritance",
+    "show-module-summary",
+    "special-members",
+    "imported-members",
+]
+autoapi_ignore = ["*_chrono/*", "*_import.py*"]
+autoapi_generate_api_docs = True
+autoapi_add_toctree_entry = False
+autoapi_template_dir = "_templates"
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]

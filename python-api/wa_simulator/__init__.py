@@ -8,7 +8,7 @@ for f in _get_files(__file__):
     _import(f, globals())
 
 
-def signal_handler(sig, frame):
+def _signal_handler(sig, frame):
     """Signal handler that will exit if ctrl+c is recorded in the terminal window.
 
     Allows easier exiting of a matplotlib plot
@@ -27,7 +27,7 @@ def signal_handler(sig, frame):
 import signal
 
 # setup the signal listener to listen for the interrupt signal (ctrl+c)
-signal.signal(signal.SIGINT, signal_handler)
+signal.signal(signal.SIGINT, _signal_handler)
 
 del _import, _get_dirs, _get_files, signal
 

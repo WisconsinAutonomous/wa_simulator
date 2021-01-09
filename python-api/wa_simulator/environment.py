@@ -45,10 +45,6 @@ class WASimpleEnvironment(WAEnvironment):
     Args:
         filename (str): filename
         sys (WASystem): system
-
-    Attributes:
-        EGP_ENV_MODEL_FILE (str): evGrand Prix json file that describes an environment for that comp.
-        IAC_ENV_MODEL_FILE (str): Indy Autonomous Challange json file that describes an environment for that comp.
     """
 
     # Global filenames for environment models
