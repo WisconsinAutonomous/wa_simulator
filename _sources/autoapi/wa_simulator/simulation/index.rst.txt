@@ -1,0 +1,81 @@
+:mod:`wa_simulator.simulation`
+==============================
+
+.. py:module:: wa_simulator.simulation
+
+.. autoapi-nested-parse::
+
+   Wisconsin Autonomous - https://www.wisconsinautonomous.org
+
+   Copyright (c) 2021 wisconsinautonomous.org
+   All rights reserved.
+
+   Use of this source code is governed by a BSD-style license that can be found
+   in the LICENSE file at the top level of the repo
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   wa_simulator.simulation.WASimulation
+
+
+
+.. py:class:: WASimulation(system, environment, vehicle, visualization, controller, record_filename=None)
+
+   Bases: :class:`abc.ABC`
+
+   Helper class that provides a standard way to create an ABC using
+   inheritance.
+
+   .. method:: Record(self, filename)
+
+      Save simulation state. Only saves the vehicle simple state
+
+      :param filename: file to append info to
+      :type filename: str
+
+
+   .. method:: Synchronize(self, time)
+
+      Synchronize each simulation module.
+
+      Will pass information between simulation modules
+
+      :param time: the time to synchronize the simulation to
+      :type time: double
+
+
+   .. method:: Advance(self, step)
+
+      Advance each simulation module.
+
+      :param step: the step size to update each module by
+      :type step: double
+
+
+   .. method:: Run(self)
+
+      Run the simulation
+
+      Can be used to clear up main functions.
+
+
+   .. method:: IsOk(self)
+
+      Verifies the simulation is running as expected.
+
+      Checks the visualization if it's still active. Should probably check other
+      modules for any errors.
+
+      :returns: Whether the simulation running as expected
+      :rtype: bool
+
+
+

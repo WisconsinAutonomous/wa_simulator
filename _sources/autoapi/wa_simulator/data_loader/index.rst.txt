@@ -1,0 +1,45 @@
+:mod:`wa_simulator.data_loader`
+===============================
+
+.. py:module:: wa_simulator.data_loader
+
+.. autoapi-nested-parse::
+
+   Wisconsin Autonomous - https://www.wisconsinautonomous.org
+
+   Copyright (c) 2021 wisconsinautonomous.org
+   All rights reserved.
+
+   Use of this source code is governed by a BSD-style license that can be found
+   in the LICENSE file at the top level of the repo
+
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   wa_simulator.data_loader.GetWADataFile
+
+
+.. data:: DATA_DIRECTORY
+   
+
+   
+
+.. function:: GetWADataFile(filename)
+
+   Get the absolute path to the file passed
+
+   :param filename: file relative to the data foler to get the absolute path for
+   :type filename: str
+
+   :returns: the absolute path of the file
+   :rtype: str
+
+

@@ -1,0 +1,25 @@
+API Reference
+===================
+
+.. py:module:: wa_simulator
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   cli/index.rst
+   constants/index.rst
+   controller/index.rst
+   data_loader/index.rst
+   environment/index.rst
+   simulation/index.rst
+   system/index.rst
+   terrain/index.rst
+   vector/index.rst
+   vehicle/index.rst
+   visualization/index.rst
+
+

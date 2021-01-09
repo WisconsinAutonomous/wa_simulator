@@ -1,0 +1,29 @@
+:mod:`setup`
+============
+
+.. py:module:: setup
+
+.. autoapi-nested-parse::
+
+   A setuptools based setup module.
+   See:
+   https://packaging.python.org/guides/distributing-packages-using-setuptools/
+   https://github.com/pypa/sampleproject
+
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   setup.read
+
+
+.. function:: read(fname)
+
+

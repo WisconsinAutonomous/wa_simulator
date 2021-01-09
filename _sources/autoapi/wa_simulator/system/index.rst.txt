@@ -1,0 +1,92 @@
+:mod:`wa_simulator.system`
+==========================
+
+.. py:module:: wa_simulator.system
+
+.. autoapi-nested-parse::
+
+   Wisconsin Autonomous - https://www.wisconsinautonomous.org
+
+   Copyright (c) 2021 wisconsinautonomous.org
+   All rights reserved.
+
+   Use of this source code is governed by a BSD-style license that can be found
+   in the LICENSE file at the top level of the repo
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   wa_simulator.system.WASystem
+
+
+
+.. py:class:: WASystem(step_size, render_step_size=0.02)
+
+   Bases: :class:`abc.ABC`
+
+   Used to manage simulation parameters and can be used to update simulation dynamics
+
+   A system is used for organizational purposes almost exclusively. It is passed to other
+   module classes to handle passing various attributes. Could be responsible for updating
+   module dynamics depending on the underlying models.
+
+   :param step_size: the step size for the simulation
+   :type step_size: double
+   :param render_step_size: Render step size. Defaults to 2e-2.
+   :type render_step_size: double, optional
+
+   .. attribute:: step_number
+
+      Counter of the Advance function
+
+      :type: int
+
+   .. attribute:: step_size
+
+      the step size for the simulation
+
+      :type: double
+
+   .. attribute:: render_step_size
+
+      the render step size
+
+      :type: double
+
+   .. attribute:: time
+
+      stores the time from the simulation
+
+      :type: double
+
+   .. method:: Advance(self)
+
+      Advance the system
+
+      Will update the time and increment the step number
+
+
+   .. method:: GetSimTime(self)
+
+      Get the simulation time
+
+      :returns: the simulation time
+      :rtype: double
+
+
+   .. method:: GetStepNumber(self)
+
+      Get the step number
+
+      :returns: the step number
+      :rtype: int
+
+
+

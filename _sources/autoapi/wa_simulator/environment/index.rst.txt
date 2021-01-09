@@ -1,0 +1,102 @@
+:mod:`wa_simulator.environment`
+===============================
+
+.. py:module:: wa_simulator.environment
+
+.. autoapi-nested-parse::
+
+   Wisconsin Autonomous - https://www.wisconsinautonomous.org
+
+   Copyright (c) 2021 wisconsinautonomous.org
+   All rights reserved.
+
+   Use of this source code is governed by a BSD-style license that can be found
+   in the LICENSE file at the top level of the repo
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   wa_simulator.environment.WAEnvironment
+   wa_simulator.environment.WASimpleEnvironment
+
+
+
+.. py:class:: WAEnvironment
+
+   Bases: :class:`abc.ABC`
+
+   Base class for the environment object.
+
+   The environment object is responsible for handling data or assets within the world.
+
+   .. method:: Synchronize(self, time)
+      :abstractmethod:
+
+      Synchronize the environment at the specified time
+
+      Function is primarily as a semantic separation between different functionality.
+      Most of the time, all environment logic can be placed in the Advance method.
+
+      :param time: the time at which the environment should synchronize all depends to
+      :type time: double
+
+
+   .. method:: Advance(self, step)
+      :abstractmethod:
+
+      Advance the environment by the specified step
+
+      :param step: the time step at which the environment should be advanced
+      :type step: double
+
+
+
+.. py:class:: WASimpleEnvironment(filename, sys)
+
+   Bases: :class:`wa_simulator.environment.WAEnvironment`
+
+   Simple environment that doesn't have any assets within the world.
+
+   :param filename: filename
+   :type filename: str
+   :param sys: system
+   :type sys: WASystem
+
+   .. attribute:: EGP_ENV_MODEL_FILE
+      :annotation: = environments/ev_grand_prix.json
+
+      
+
+   .. attribute:: IAC_ENV_MODEL_FILE
+      :annotation: = environments/iac.json
+
+      
+
+   .. method:: Synchronize(self, time)
+
+      Synchronize the environment with the rest of the world at the specified time
+
+      Doesn't actually do anything.
+
+      :param time: the time at which the enviornment should be synchronized to
+      :type time: double
+
+
+   .. method:: Advance(self, step)
+
+      Advance the state of the environment
+
+      Doesn't actually do anything.
+
+      :param step: the time step at which the enviornment should be advanced
+      :type step: double
+
+
+

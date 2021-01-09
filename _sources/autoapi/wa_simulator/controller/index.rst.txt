@@ -1,0 +1,366 @@
+:mod:`wa_simulator.controller`
+==============================
+
+.. py:module:: wa_simulator.controller
+
+.. autoapi-nested-parse::
+
+   Wisconsin Autonomous - https://www.wisconsinautonomous.org
+
+   Copyright (c) 2021 wisconsinautonomous.org
+   All rights reserved.
+
+   Use of this source code is governed by a BSD-style license that can be found
+   in the LICENSE file at the top level of the repo
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   wa_simulator.controller.WAVehicleInputs
+   wa_simulator.controller.WAController
+   wa_simulator.controller.WASimpleController
+   wa_simulator.controller.WAKeyboardController
+   wa_simulator.controller.WAMultipleControllers
+
+
+
+.. py:class:: WAVehicleInputs(steering=0.0, throttle=0.0, braking=0.0)
+
+   Object used to hold the inputs to the vehicle model
+
+   The value ranges for the vehicle inputs may vary depending on the
+   used vehicle model (i.e. radians vs percentages). This class is not reponsible for
+   maintaining such properties, simply should be used for passing values around.
+
+   :param steering: steering input. Defaults to 0.0.
+   :type steering: double, optional
+   :param throttle: throttle input. Defaults to 0.0.
+   :type throttle: double, optional
+   :param braking: braking input. Defaults to 0.0.
+   :type braking: double, optional
+
+
+.. py:class:: WAController(system)
+
+   Bases: :class:`abc.ABC`
+
+   Base class for a controller
+
+   Controllers are responsible for outputing a steering, throttle and braking value.
+   This is done because in real life, those are the inputs our cars will have. The
+   derived controller's (i.e. the new class that inherits from this class)
+   responsibility is to take inputs from the simulation and return these values
+   through the GetInputs method.
+
+   :param system: The system used to manage the simulation
+   :type system: ChSystem
+
+   .. attribute:: inputs
+
+      Inputs to the vehicle model
+
+      :type: WAVehicleInputs
+
+   .. attribute:: steering
+      
+
+      
+
+   .. attribute:: throttle
+      
+
+      
+
+   .. attribute:: braking
+      
+
+      
+
+   .. method:: Synchronize(self, time)
+      :abstractmethod:
+
+      Synchronize the controller at the specified time
+
+      Function is primarily as a semantic separation between different functionality.
+      Most of the time, all controller logic can be placed in the Advance method. ROS would
+      be a good example of an element that would publish in the Synchronize method and have
+      other logic in the Advance method.
+
+      :param time: the time at which the controller should synchronize all depends to
+      :type time: double
+
+
+   .. method:: Advance(self, step)
+      :abstractmethod:
+
+      Advance the controller by the specified step
+
+      :param step: the time step at which the controller should be advanced
+      :type step: double
+
+
+   .. method:: GetInputs(self)
+
+      Get the vehicle inputs
+
+      :returns: The input class
+      :rtype: WAVehicleInputs
+
+
+
+.. py:class:: WASimpleController(system)
+
+   Bases: :class:`wa_simulator.controller.WAController`
+
+   Simple controller designed to never change the inputs
+
+   Can be used for situations where controlling the vehicle isn't actually necessary
+
+   .. method:: Advance(self, step)
+
+      Advance the controller by the specified step
+
+      :param step: the time step at which the controller should be advanced
+      :type step: double
+
+
+   .. method:: Synchronize(self, time)
+
+      Synchronize the controller at the specified time
+
+      Function is primarily as a semantic separation between different functionality.
+      Most of the time, all controller logic can be placed in the Advance method. ROS would
+      be a good example of an element that would publish in the Synchronize method and have
+      other logic in the Advance method.
+
+      :param time: the time at which the controller should synchronize all depends to
+      :type time: double
+
+
+
+.. py:class:: WAKeyboardController(system)
+
+   Bases: :class:`wa_simulator.controller.WAController`
+
+   Controls a vehicle via input from the terminal window.
+
+   Uses the KeyGetter object to grab input from the user in the terminal window.
+   Inherits from the WAController method
+
+   :param system: The system used to manage the simulation
+   :type system: ChSystem
+
+   .. attribute:: key_getter
+
+      The object used to grab input from the terminal
+
+      :type: KeyGetter
+
+   .. attribute:: steering_target
+
+      The target steering value.
+
+      :type: double
+
+   .. attribute:: throttle_target
+
+      The target throttle value.
+
+      :type: double
+
+   .. attribute:: braking_target
+
+      The target braking value.
+
+      :type: double
+
+   .. attribute:: steering_delta
+
+      The delta steering value.
+
+      :type: double
+
+   .. attribute:: throttle_delta
+
+      The delta throttle value.
+
+      :type: double
+
+   .. attribute:: braking_delta
+
+      The delta braking value.
+
+      :type: double
+
+   .. attribute:: steering_gain
+
+      The gain steering value.
+
+      :type: double
+
+   .. attribute:: throttle_gain
+
+      The gain throttle value.
+
+      :type: double
+
+   .. attribute:: braking_gain
+
+      The gain braking value.
+
+      :type: double
+
+   .. py:class:: KeyGetter
+
+      Gets user input from the terminal.
+
+      Will look for different input from the command line. The terminal window
+      must be active for this to work.
+
+      TODO: Fairly confident this only works on UNIX.
+
+      .. attribute:: fd
+
+         Integer file descriptor.
+
+         :type: STDIN_FILENO
+
+      .. attribute:: new_term
+
+         tty attributes for the fd. Setting terminal settings.
+
+         :type: list
+
+      .. attribute:: old_term
+
+         tty attributes for the fd. Restoring terminal settings.
+
+         :type: list
+
+      .. method:: __call__(self)
+
+         Checks the terminal window for a user input.
+
+         This method is called through key_getter_object(). Will check terminal
+         window for arrow keys. Will exit if any other key is pressed.
+
+         :returns: a value between [0,3] describing the arrow key pressed
+         :rtype: int
+
+
+      .. method:: set_normal_term(self)
+
+         Resets to normal terminal.  On Windows this is a no-op.
+
+
+
+   .. method:: SetSteeringDelta(self, steering_delta)
+
+      Sets the steering delta value
+
+      :param steering_delta: the new steering delta value
+      :type steering_delta: double
+
+
+   .. method:: SetThrottleDelta(self, throttle_delta)
+
+      Sets the throttle delta value
+
+      :param throttle_delta: the new throttle delta value
+      :type throttle_delta: double
+
+
+   .. method:: SetBrakingDelta(self, braking_delta)
+
+      Sets the braking delta value
+
+      :param braking_delta: the new braking delta value
+      :type braking_delta: double
+
+
+   .. method:: SetGains(steering_gain, throttle_gain, braking_gain)
+
+      Sets the controllers gains
+
+      :param steering_gain: the new steering gain
+      :type steering_gain: double
+      :param throttle_gain: the new throttle gain
+      :type throttle_gain: double
+      :param braking_gain: the new braking gain
+      :type braking_gain: double
+
+
+   .. method:: KeyCheck(self)
+
+      Get the key from the KeyGetter and update target values based on input.
+
+      The updated target values are based off the delta values for that respective input.
+      In this controller, input values are clipped at [-1,1] or [0,1].
+
+
+   .. method:: Synchronize(self, time)
+
+      Synchronize the controller at the specified time
+
+      Calls KeyCheck
+
+      :param time: the time at which the controller should synchronize all depends to
+      :type time: double
+
+
+   .. method:: Advance(self, step)
+
+      Advance the controller by the specified step
+
+      Integrates dynamics over some step range. If the original step is the same as the passed
+      step value, the method is only run once.
+
+      :param step: the time step at which the controller should be advanced
+      :type step: double
+
+
+
+.. py:class:: WAMultipleControllers(controllers)
+
+   Bases: :class:`wa_simulator.controller.WAController`
+
+   Wrapper class for multiple controllers. Allows multiple controllers to be used.
+
+   The input values for the model are grabbed from the first controller in the list.
+
+   :param controllers: List of controllers.
+   :type controllers: list
+
+   .. method:: Synchronize(self, time)
+
+      Synchronize each controller at the specified time
+
+      :param time: the time at which the controller should synchronize all modules
+      :type time: double
+
+
+   .. method:: Advance(self, step)
+
+      Advance the state of each managed controller
+
+      :param step: the time step at which the controller should be advanced
+      :type step: double
+
+
+   .. method:: GetInputs(self)
+
+      Get the vehicle inputs
+
+      Overrides base class method. Will just grab the first controllers inputs.
+
+      :returns: The input class
+
+
+

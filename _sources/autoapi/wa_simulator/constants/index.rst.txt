@@ -1,0 +1,14 @@
+:mod:`wa_simulator.constants`
+=============================
+
+.. py:module:: wa_simulator.constants
+
+
+Module Contents
+---------------
+
+.. data:: GRAVITY
+   :annotation: = 9.81
+
+   
+

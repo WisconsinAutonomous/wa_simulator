@@ -7,7 +7,7 @@
 
    Home <self>
    install
-   reference/index
+   autoapi/wa_simulator/index
 
    Github <https://github.com/WisconsinAutonomous/wa_simulator>
 

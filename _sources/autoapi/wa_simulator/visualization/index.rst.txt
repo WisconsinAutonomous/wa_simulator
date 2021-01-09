@@ -1,0 +1,359 @@
+:mod:`wa_simulator.visualization`
+=================================
+
+.. py:module:: wa_simulator.visualization
+
+.. autoapi-nested-parse::
+
+   Wisconsin Autonomous - https://www.wisconsinautonomous.org
+
+   Copyright (c) 2021 wisconsinautonomous.org
+   All rights reserved.
+
+   Use of this source code is governed by a BSD-style license that can be found
+   in the LICENSE file at the top level of the repo
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   wa_simulator.visualization.WAVisualization
+   wa_simulator.visualization.WAMatplotlibVisualization
+   wa_simulator.visualization.WAMultipleVisualizations
+
+
+
+.. py:class:: WAVisualization
+
+   Bases: :class:`abc.ABC`
+
+   Base class to be used for visualization of the simulation world.
+
+   Derived classes will use various world attributes to visualize the simulation
+
+   .. method:: Synchronize(self, time, vehicle_inputs)
+      :abstractmethod:
+
+      Synchronize the visualization at the specified time with the passed vehicle inputs
+
+      :param time: time to synchronize the visualization to
+      :type time: double
+      :param vehicle_inputs: inputs to the vehicle. Can be helpful for visualization (debug) purposes.
+      :type vehicle_inputs: WAVehicleInputs
+
+
+   .. method:: Advance(self, step)
+      :abstractmethod:
+
+      Advance the state of the visualization by the specified step
+
+      :param step: step size to update the visualization by
+      :type step: double
+
+
+   .. method:: IsOk(self)
+      :abstractmethod:
+
+      Verifies the visualization is running properly.
+
+      :returns: Whether the visualization is running correctly.
+      :rtype: bool
+
+
+
+.. py:class:: WAMatplotlibVisualization(vehicle, system)
+
+   Matplotlib visualizer of the simulator world and the vehicle
+
+   :param vehicle: vehicle to render in the matplotlib plot window
+   :type vehicle: WAVehicle
+   :param system: system used to grab certain parameters of the simulation
+   :type system: WASystem
+
+   .. attribute:: render_steps
+
+      steps between which the visualization should update
+
+      :type: int
+
+   .. attribute:: vehicle
+
+      vehicle to render in the matplotlib plot window
+
+      :type: WAVehicle
+
+   .. attribute:: system
+
+      system used to grab certain parameters of the simulation
+
+      :type: WASystem
+
+   .. attribute:: Lf
+
+      distance between COM and front axle
+
+      :type: double
+
+   .. attribute:: Lr
+
+      distance between COM and rear axle
+
+      :type: double
+
+   .. attribute:: track_width
+
+      distance between wheels connected to the same axle
+
+      :type: double
+
+   .. attribute:: wheelbase
+
+      distance between front and rear wheels
+
+      :type: double
+
+   .. attribute:: steering
+
+      steering value
+
+      :type: double
+
+   .. attribute:: throttle
+
+      throttle value
+
+      :type: double
+
+   .. attribute:: braking
+
+      braking value
+
+      :type: double
+
+   .. attribute:: time
+
+      time of the simulation
+
+      :type: double
+
+   .. attribute:: outline
+
+      chassis outline for the vehicle that's updated based on pose of the vehicle
+
+      :type: double
+
+   .. attribute:: rr_wheel
+
+      right rear wheel outline that's updated based on the pose of the body in the simulation
+
+      :type: double
+
+   .. attribute:: rl_wheel
+
+      left rear wheel outline that's updated based on the pose of the body in the simulation
+
+      :type: double
+
+   .. attribute:: fr_wheel
+
+      right front wheel outline that's updated based on the pose of the body in the simulation
+
+      :type: double
+
+   .. attribute:: fl_wheel
+
+      left front  wheel outline that's updated based on the pose of the body in the simulation
+
+      :type: double
+
+   .. attribute:: q
+
+      Queue used to pass info between processes (thread safe)
+
+      :type: multiprocessing.Queue
+
+   .. attribute:: plotter
+
+      Used to update the matplotlib window
+
+      :type: VehiclePlotter
+
+   .. attribute:: p
+
+      process created by multiprocessing (TODO: Should add join())
+
+      :type: multiprocessing.Process
+
+   .. py:class:: VehiclePlotter
+
+      Class used to handle plotting of the vehicle.
+
+      Runs in separate process and communicates with main thread via multiprocessing.Queue
+      object. Done to improve simulation performance. Plotter will block until vehicle state has updated.
+      On vehicle state update, the visualization representation is also updated.
+
+      Instead of being redrawn, handles to matplotlib assets are stored and their states are updated
+      at each visualization update. This improves performance and doesn't require clearing the plot
+      window.
+
+      .. attribute:: q
+
+         Queue used to pass info between processes
+
+         :type: multiprocessing.Queue
+
+      .. attribute:: fig
+
+         Matplotlib figure used for plotting
+
+         :type: plt.Figure
+
+      .. attribute:: ax
+
+         Matplotlib axes used for plotting
+
+         :type: plt.Axes
+
+      .. attribute:: mat_vehicle
+
+         Class that holds the matplotlib visualization objects so their state can be updated
+
+         :type: tuple
+
+      .. attribute:: annotation
+
+         Holds text displayed in the plot window for debug purposes.
+
+         :type: plt.Text
+
+      .. method:: Initialize(self, q)
+
+         Initialize the matplotlib visual assets to be updated through the simulation. Initially plotted at (0,0).
+
+         :param q: Queue used to communicate between processes
+         :type q: multiprocessing.Queue
+
+
+      .. method:: Update(self, i)
+
+         Update the state of the vehicle in the visualization
+
+         Called at specific intervals by the FuncAnimation function in matplotlib
+
+         :param i: frame number
+         :type i: int
+
+
+      .. method:: Plot(self, q, placeholder)
+
+         "Main" function that sets up the plotter and runs the blocking FuncAnimation update.
+
+         :param q: Queue used to communicate and pass info between processes
+         :type q: multiprocessing.Queue
+         :param placeholder: For some reason, multiprocessing yells when there is only one parameter
+         :type placeholder: None
+
+
+
+   .. method:: Advance(self, step)
+
+      Advance the state of the visualization by the specified step
+
+      Will only call update if the scene should be rendered given the render step
+
+      :param step: step size to update the visualization by
+      :type step: double
+
+
+   .. method:: Synchronize(self, time, vehicle_inputs)
+
+      Synchronize the vehicle inputs to the values in this visualization
+
+      Will just set class members
+
+      :param time: time at which to update the vehicle to
+      :type time: double
+      :param vehicle_inputs: vehicle inputs
+      :type vehicle_inputs: WAVehicleInputs
+
+
+   .. method:: Transform(self, entity, x, y, yaw, alpha=0, x_offset=0, y_offset=0)
+
+      Helper function to transfrom a numpy entity by the specified values
+
+      :param entity: Numpy entity that describes some visualization asset to be updated
+      :type entity: np.array
+      :param x: x translation distance
+      :type x: double
+      :param y: y translation distance
+      :type y: double
+      :param yaw: angle to rotate by
+      :type yaw: double
+      :param alpha: angle to rotate by to be added after the rotation. Defaults to 0.
+      :type alpha: double, optional
+      :param x_offset: x translation distance to be added after the rotation. Defaults to 0.
+      :type x_offset: double, optional
+      :param y_offset: y translation distance to be added after the rotation. Defaults to 0.
+      :type y_offset: double, optional
+
+      :returns: the new entity
+      :rtype: np.array
+
+
+   .. method:: Update(self)
+
+      Update the state of the vehicle representation.
+
+      After updating, will push the state to the queue to be read by the VehiclePlotter
+
+
+   .. method:: IsOk(self)
+
+      Checks if the rendering process is still alive
+
+      :returns: whether the simulation is still alive
+      :rtype: bool
+
+
+   .. method:: __del__(self)
+
+      Destructor
+
+      Will try to block and wait for the process to complete.
+
+
+
+.. py:class:: WAMultipleVisualizations(visualizations)
+
+   Bases: :class:`wa_simulator.visualization.WAVisualization`
+
+   Wrapper class for multiple visualizations. Allows multiple visualizations to be used.
+
+   :param visualizations: List of visualizations.
+   :type visualizations: list
+
+   .. method:: Synchronize(self, time, vehicle_inputs)
+
+      Synchronize each visualization at the specified time
+
+      :param time: the time at which the visualization should synchronize all modules
+      :type time: double
+      :param vehicle_inputs: vehicle inputs
+      :type vehicle_inputs: WAVehicleInputs
+
+
+   .. method:: Advance(self, step)
+
+      Advance the state of each managed visualization
+
+      :param step: the time step at which the visualization should be advanced
+      :type step: double
+
+
+
