@@ -107,8 +107,6 @@ class WALinearKinematicBicycle(WAVehicle):
         v (double, optional): speed of the vehicle. Defaults to 0.
 
     Attributes:
-        GO_KART_MODEL_FILE (str): evGrand Prix json file that describes an vehicle for that comp.
-        IAC_VEH_MODEL_FILE (str): Indy Autonomous Challange json file that describes an vehicle for that comp.
         x (double): x position of the vehicle
         y (double): y position of the vehicle
         yaw (double): angle about the Z
