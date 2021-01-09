@@ -5,6 +5,7 @@
    :hidden:
    :maxdepth: 2
 
+   Home <self>
    install
    reference/index
 
