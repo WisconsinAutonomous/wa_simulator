@@ -1,3 +1,4 @@
 sphinx==3.4.2
 furo==2020.12.30b24
-rinoh==0.4.2
+rinohtype==0.4.2
+m2r2==0.2.7
