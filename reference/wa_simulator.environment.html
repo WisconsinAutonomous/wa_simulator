@@ -127,6 +127,7 @@
   <input type="hidden" name="area" value="default">
 </form><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
 <li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">API Reference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label for="toctree-checkbox-1"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="wa_simulator.controller.html">Controller</a></li>
@@ -154,8 +155,98 @@
         <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
           <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
         </label>
-        <div class="section" id="environment">
-<h1>Environment<a class="headerlink" href="#environment" title="Permalink to this headline">¶</a></h1>
+        <div class="section" id="module-wa_simulator.environment">
+<span id="environment"></span><h1>Environment<a class="headerlink" href="#module-wa_simulator.environment" title="Permalink to this headline">¶</a></h1>
+<p>Wisconsin Autonomous - <a class="reference external" href="https://www.wisconsinautonomous.org">https://www.wisconsinautonomous.org</a></p>
+<p>Copyright (c) 2021 wisconsinautonomous.org
+All rights reserved.</p>
+<p>Use of this source code is governed by a BSD-style license that can be found
+in the LICENSE file at the top level of the repo</p>
+<dl class="py class">
+<dt id="wa_simulator.environment.WAEnvironment">
+<em class="property">class </em><code class="sig-prename descclassname">wa_simulator.environment.</code><code class="sig-name descname">WAEnvironment</code><a class="headerlink" href="#wa_simulator.environment.WAEnvironment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
+<p>Base class for the environment object.</p>
+<p>The environment object is responsible for handling data or assets within the world.</p>
+<dl class="py method">
+<dt id="wa_simulator.environment.WAEnvironment.Advance">
+<em class="property">abstract </em><code class="sig-name descname">Advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.environment.WAEnvironment.Advance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Advance the environment by the specified step</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>step</strong> (<em>double</em>) – the time step at which the environment should be advanced</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.environment.WAEnvironment.Synchronize">
+<em class="property">abstract </em><code class="sig-name descname">Synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">time</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.environment.WAEnvironment.Synchronize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Synchronize the environment at the specified time</p>
+<p>Function is primarily as a semantic separation between different functionality.
+Most of the time, all environment logic can be placed in the Advance method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>time</strong> (<em>double</em>) – the time at which the environment should synchronize all depends to</p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
+<dl class="py class">
+<dt id="wa_simulator.environment.WASimpleEnvironment">
+<em class="property">class </em><code class="sig-prename descclassname">wa_simulator.environment.</code><code class="sig-name descname">WASimpleEnvironment</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em>, <em class="sig-param"><span class="n">sys</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.environment.WASimpleEnvironment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#wa_simulator.environment.WAEnvironment" title="wa_simulator.environment.WAEnvironment"><code class="xref py py-class docutils literal notranslate"><span class="pre">wa_simulator.environment.WAEnvironment</span></code></a></p>
+<p>Simple environment that doesn’t have any assets within the world.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> (<em>str</em>) – filename</p></li>
+<li><p><strong>sys</strong> (<em>WASystem</em>) – system</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt id="wa_simulator.environment.WASimpleEnvironment.EGP_ENV_MODEL_FILE">
+<code class="sig-name descname">EGP_ENV_MODEL_FILE</code><a class="headerlink" href="#wa_simulator.environment.WASimpleEnvironment.EGP_ENV_MODEL_FILE" title="Permalink to this definition">¶</a></dt>
+<dd><p>evGrand Prix json file that describes an environment for that comp.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.environment.WASimpleEnvironment.IAC_ENV_MODEL_FILE">
+<code class="sig-name descname">IAC_ENV_MODEL_FILE</code><a class="headerlink" href="#wa_simulator.environment.WASimpleEnvironment.IAC_ENV_MODEL_FILE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Indy Autonomous Challange json file that describes an environment for that comp.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.environment.WASimpleEnvironment.Advance">
+<code class="sig-name descname">Advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.environment.WASimpleEnvironment.Advance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Advance the state of the environment</p>
+<p>Doesn’t actually do anything.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>step</strong> (<em>double</em>) – the time step at which the enviornment should be advanced</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.environment.WASimpleEnvironment.Synchronize">
+<code class="sig-name descname">Synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">time</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.environment.WASimpleEnvironment.Synchronize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Synchronize the environment with the rest of the world at the specified time</p>
+<p>Doesn’t actually do anything.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>time</strong> (<em>double</em>) – the time at which the enviornment should be synchronized to</p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
 </div>
 
       </article>
