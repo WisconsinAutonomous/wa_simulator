@@ -155,8 +155,399 @@
         <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
           <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
         </label>
-        <div class="section" id="controller">
-<h1>Controller<a class="headerlink" href="#controller" title="Permalink to this headline">¶</a></h1>
+        <div class="section" id="module-wa_simulator.controller">
+<span id="controller"></span><h1>Controller<a class="headerlink" href="#module-wa_simulator.controller" title="Permalink to this headline">¶</a></h1>
+<p>Wisconsin Autonomous - <a class="reference external" href="https://www.wisconsinautonomous.org">https://www.wisconsinautonomous.org</a></p>
+<p>Copyright (c) 2021 wisconsinautonomous.org
+All rights reserved.</p>
+<p>Use of this source code is governed by a BSD-style license that can be found
+in the LICENSE file at the top level of the repo</p>
+<dl class="py class">
+<dt id="wa_simulator.controller.WAController">
+<em class="property">class </em><code class="sig-prename descclassname">wa_simulator.controller.</code><code class="sig-name descname">WAController</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">system</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAController" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
+<p>Base class for a controller</p>
+<p>Controllers are responsible for outputing a steering, throttle and braking value.
+This is done because in real life, those are the inputs our cars will have. The
+derived controller’s (i.e. the new class that inherits from this class)
+responsibility is to take inputs from the simulation and return these values
+through the GetInputs method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>system</strong> (<em>ChSystem</em>) – The system used to manage the simulation</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt id="wa_simulator.controller.WAController.inputs">
+<code class="sig-name descname">inputs</code><a class="headerlink" href="#wa_simulator.controller.WAController.inputs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inputs to the vehicle model</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#wa_simulator.controller.WAVehicleInputs" title="wa_simulator.controller.WAVehicleInputs">WAVehicleInputs</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.controller.WAController.Advance">
+<em class="property">abstract </em><code class="sig-name descname">Advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAController.Advance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Advance the controller by the specified step</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>step</strong> (<em>double</em>) – the time step at which the controller should be advanced</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.controller.WAController.GetInputs">
+<code class="sig-name descname">GetInputs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAController.GetInputs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the vehicle inputs</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The input class</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#wa_simulator.controller.WAVehicleInputs" title="wa_simulator.controller.WAVehicleInputs">WAVehicleInputs</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.controller.WAController.Synchronize">
+<em class="property">abstract </em><code class="sig-name descname">Synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">time</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAController.Synchronize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Synchronize the controller at the specified time</p>
+<p>Function is primarily as a semantic separation between different functionality.
+Most of the time, all controller logic can be placed in the Advance method. ROS would
+be a good example of an element that would publish in the Synchronize method and have
+other logic in the Advance method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>time</strong> (<em>double</em>) – the time at which the controller should synchronize all depends to</p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
+<dl class="py class">
+<dt id="wa_simulator.controller.WAKeyboardController">
+<em class="property">class </em><code class="sig-prename descclassname">wa_simulator.controller.</code><code class="sig-name descname">WAKeyboardController</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">system</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#wa_simulator.controller.WAController" title="wa_simulator.controller.WAController"><code class="xref py py-class docutils literal notranslate"><span class="pre">wa_simulator.controller.WAController</span></code></a></p>
+<p>Controls a vehicle via input from the terminal window.</p>
+<p>Uses the KeyGetter object to grab input from the user in the terminal window.
+Inherits from the WAController method</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>system</strong> (<em>ChSystem</em>) – The system used to manage the simulation</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt id="wa_simulator.controller.WAKeyboardController.key_getter">
+<code class="sig-name descname">key_getter</code><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.key_getter" title="Permalink to this definition">¶</a></dt>
+<dd><p>The object used to grab input from the terminal</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#wa_simulator.controller.WAKeyboardController.KeyGetter" title="wa_simulator.controller.WAKeyboardController.KeyGetter">KeyGetter</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.controller.WAKeyboardController.steering_target">
+<code class="sig-name descname">steering_target</code><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.steering_target" title="Permalink to this definition">¶</a></dt>
+<dd><p>The target steering value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>double</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.controller.WAKeyboardController.throttle_target">
+<code class="sig-name descname">throttle_target</code><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.throttle_target" title="Permalink to this definition">¶</a></dt>
+<dd><p>The target throttle value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>double</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.controller.WAKeyboardController.braking_target">
+<code class="sig-name descname">braking_target</code><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.braking_target" title="Permalink to this definition">¶</a></dt>
+<dd><p>The target braking value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>double</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.controller.WAKeyboardController.steering_delta">
+<code class="sig-name descname">steering_delta</code><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.steering_delta" title="Permalink to this definition">¶</a></dt>
+<dd><p>The delta steering value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>double</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.controller.WAKeyboardController.throttle_delta">
+<code class="sig-name descname">throttle_delta</code><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.throttle_delta" title="Permalink to this definition">¶</a></dt>
+<dd><p>The delta throttle value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>double</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.controller.WAKeyboardController.braking_delta">
+<code class="sig-name descname">braking_delta</code><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.braking_delta" title="Permalink to this definition">¶</a></dt>
+<dd><p>The delta braking value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>double</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.controller.WAKeyboardController.steering_gain">
+<code class="sig-name descname">steering_gain</code><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.steering_gain" title="Permalink to this definition">¶</a></dt>
+<dd><p>The gain steering value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>double</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.controller.WAKeyboardController.throttle_gain">
+<code class="sig-name descname">throttle_gain</code><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.throttle_gain" title="Permalink to this definition">¶</a></dt>
+<dd><p>The gain throttle value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>double</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.controller.WAKeyboardController.braking_gain">
+<code class="sig-name descname">braking_gain</code><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.braking_gain" title="Permalink to this definition">¶</a></dt>
+<dd><p>The gain braking value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>double</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.controller.WAKeyboardController.Advance">
+<code class="sig-name descname">Advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.Advance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Advance the controller by the specified step</p>
+<p>Integrates dynamics over some step range. If the original step is the same as the passed
+step value, the method is only run once.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>step</strong> (<em>double</em>) – the time step at which the controller should be advanced</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.controller.WAKeyboardController.KeyCheck">
+<code class="sig-name descname">KeyCheck</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.KeyCheck" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the key from the KeyGetter and update target values based on input.</p>
+<p>The updated target values are based off the delta values for that respective input.
+In this controller, input values are clipped at [-1,1] or [0,1].</p>
+</dd></dl>
+<dl class="py class">
+<dt id="wa_simulator.controller.WAKeyboardController.KeyGetter">
+<em class="property">class </em><code class="sig-name descname">KeyGetter</code><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.KeyGetter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Gets user input from the terminal.</p>
+<p>Will look for different input from the command line. The terminal window
+must be active for this to work.</p>
+<p>TODO: Fairly confident this only works on UNIX.</p>
+<dl class="py attribute">
+<dt id="wa_simulator.controller.WAKeyboardController.KeyGetter.fd">
+<code class="sig-name descname">fd</code><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.KeyGetter.fd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Integer file descriptor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>STDIN_FILENO</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.controller.WAKeyboardController.KeyGetter.new_term">
+<code class="sig-name descname">new_term</code><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.KeyGetter.new_term" title="Permalink to this definition">¶</a></dt>
+<dd><p>tty attributes for the fd. Setting terminal settings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.controller.WAKeyboardController.KeyGetter.old_term">
+<code class="sig-name descname">old_term</code><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.KeyGetter.old_term" title="Permalink to this definition">¶</a></dt>
+<dd><p>tty attributes for the fd. Restoring terminal settings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.controller.WAKeyboardController.KeyGetter.set_normal_term">
+<code class="sig-name descname">set_normal_term</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.KeyGetter.set_normal_term" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resets to normal terminal.  On Windows this is a no-op.</p>
+</dd></dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.controller.WAKeyboardController.SetBrakingDelta">
+<code class="sig-name descname">SetBrakingDelta</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">braking_delta</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.SetBrakingDelta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the braking delta value</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>braking_delta</strong> (<em>double</em>) – the new braking delta value</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.controller.WAKeyboardController.SetGains">
+<code class="sig-name descname">SetGains</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">throttle_gain</span></em>, <em class="sig-param"><span class="n">braking_gain</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.SetGains" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the controllers gains</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>steering_gain</strong> (<em>double</em>) – the new steering gain</p></li>
+<li><p><strong>throttle_gain</strong> (<em>double</em>) – the new throttle gain</p></li>
+<li><p><strong>braking_gain</strong> (<em>double</em>) – the new braking gain</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.controller.WAKeyboardController.SetSteeringDelta">
+<code class="sig-name descname">SetSteeringDelta</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">steering_delta</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.SetSteeringDelta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the steering delta value</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>steering_delta</strong> (<em>double</em>) – the new steering delta value</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.controller.WAKeyboardController.SetThrottleDelta">
+<code class="sig-name descname">SetThrottleDelta</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">throttle_delta</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.SetThrottleDelta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the throttle delta value</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>throttle_delta</strong> (<em>double</em>) – the new throttle delta value</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.controller.WAKeyboardController.Synchronize">
+<code class="sig-name descname">Synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">time</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.Synchronize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Synchronize the controller at the specified time</p>
+<p>Calls KeyCheck</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>time</strong> (<em>double</em>) – the time at which the controller should synchronize all depends to</p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
+<dl class="py class">
+<dt id="wa_simulator.controller.WAMultipleControllers">
+<em class="property">class </em><code class="sig-prename descclassname">wa_simulator.controller.</code><code class="sig-name descname">WAMultipleControllers</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">controllers</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAMultipleControllers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#wa_simulator.controller.WAController" title="wa_simulator.controller.WAController"><code class="xref py py-class docutils literal notranslate"><span class="pre">wa_simulator.controller.WAController</span></code></a></p>
+<p>Wrapper class for multiple controllers. Allows multiple controllers to be used.</p>
+<p>The input values for the model are grabbed from the first controller in the list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>controllers</strong> (<em>list</em>) – List of controllers.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="wa_simulator.controller.WAMultipleControllers.Advance">
+<code class="sig-name descname">Advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAMultipleControllers.Advance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Advance the state of each managed controller</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>step</strong> (<em>double</em>) – the time step at which the controller should be advanced</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.controller.WAMultipleControllers.GetInputs">
+<code class="sig-name descname">GetInputs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAMultipleControllers.GetInputs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the vehicle inputs</p>
+<p>Overrides base class method. Will just grab the first controllers inputs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The input class</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.controller.WAMultipleControllers.Synchronize">
+<code class="sig-name descname">Synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">time</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAMultipleControllers.Synchronize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Synchronize each controller at the specified time</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>time</strong> (<em>double</em>) – the time at which the controller should synchronize all modules</p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
+<dl class="py class">
+<dt id="wa_simulator.controller.WASimpleController">
+<em class="property">class </em><code class="sig-prename descclassname">wa_simulator.controller.</code><code class="sig-name descname">WASimpleController</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">system</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WASimpleController" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#wa_simulator.controller.WAController" title="wa_simulator.controller.WAController"><code class="xref py py-class docutils literal notranslate"><span class="pre">wa_simulator.controller.WAController</span></code></a></p>
+<p>Simple controller designed to never change the inputs</p>
+<p>Can be used for situations where controlling the vehicle isn’t actually necessary</p>
+<dl class="py method">
+<dt id="wa_simulator.controller.WASimpleController.Advance">
+<code class="sig-name descname">Advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WASimpleController.Advance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Advance the controller by the specified step</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>step</strong> (<em>double</em>) – the time step at which the controller should be advanced</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.controller.WASimpleController.Synchronize">
+<code class="sig-name descname">Synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">time</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WASimpleController.Synchronize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Synchronize the controller at the specified time</p>
+<p>Function is primarily as a semantic separation between different functionality.
+Most of the time, all controller logic can be placed in the Advance method. ROS would
+be a good example of an element that would publish in the Synchronize method and have
+other logic in the Advance method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>time</strong> (<em>double</em>) – the time at which the controller should synchronize all depends to</p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
+<dl class="py class">
+<dt id="wa_simulator.controller.WAVehicleInputs">
+<em class="property">class </em><code class="sig-prename descclassname">wa_simulator.controller.</code><code class="sig-name descname">WAVehicleInputs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">steering</span><span class="o">=</span><span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">throttle</span><span class="o">=</span><span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">braking</span><span class="o">=</span><span class="default_value">0.0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAVehicleInputs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Object used to hold the inputs to the vehicle model</p>
+<p>The value ranges for the vehicle inputs may vary depending on the
+used vehicle model (i.e. radians vs percentages). This class is not reponsible for
+maintaining such properties, simply should be used for passing values around.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>steering</strong> (<em>double</em><em>, </em><em>optional</em>) – steering input. Defaults to 0.0.</p></li>
+<li><p><strong>throttle</strong> (<em>double</em><em>, </em><em>optional</em>) – throttle input. Defaults to 0.0.</p></li>
+<li><p><strong>braking</strong> (<em>double</em><em>, </em><em>optional</em>) – braking input. Defaults to 0.0.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 </div>
 
       </article>

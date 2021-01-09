@@ -155,8 +155,102 @@
         <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
           <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
         </label>
-        <div class="section" id="system">
-<h1>System<a class="headerlink" href="#system" title="Permalink to this headline">¶</a></h1>
+        <div class="section" id="module-wa_simulator.system">
+<span id="system"></span><h1>System<a class="headerlink" href="#module-wa_simulator.system" title="Permalink to this headline">¶</a></h1>
+<p>Wisconsin Autonomous - <a class="reference external" href="https://www.wisconsinautonomous.org">https://www.wisconsinautonomous.org</a></p>
+<p>Copyright (c) 2021 wisconsinautonomous.org
+All rights reserved.</p>
+<p>Use of this source code is governed by a BSD-style license that can be found
+in the LICENSE file at the top level of the repo</p>
+<dl class="py class">
+<dt id="wa_simulator.system.WASystem">
+<em class="property">class </em><code class="sig-prename descclassname">wa_simulator.system.</code><code class="sig-name descname">WASystem</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">step_size</span></em>, <em class="sig-param"><span class="n">render_step_size</span><span class="o">=</span><span class="default_value">0.02</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.system.WASystem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
+<p>Used to manage simulation parameters and can be used to update simulation dynamics</p>
+<p>A system is used for organizational purposes almost exclusively. It is passed to other
+module classes to handle passing various attributes. Could be responsible for updating
+module dynamics depending on the underlying models.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>step_size</strong> (<em>double</em>) – the step size for the simulation</p></li>
+<li><p><strong>render_step_size</strong> (<em>double</em><em>, </em><em>optional</em>) – Render step size. Defaults to 2e-2.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt id="wa_simulator.system.WASystem.step_number">
+<code class="sig-name descname">step_number</code><a class="headerlink" href="#wa_simulator.system.WASystem.step_number" title="Permalink to this definition">¶</a></dt>
+<dd><p>Counter of the Advance function</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.system.WASystem.step_size">
+<code class="sig-name descname">step_size</code><a class="headerlink" href="#wa_simulator.system.WASystem.step_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>the step size for the simulation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>double</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.system.WASystem.render_step_size">
+<code class="sig-name descname">render_step_size</code><a class="headerlink" href="#wa_simulator.system.WASystem.render_step_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>the render step size</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>double</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.system.WASystem.time">
+<code class="sig-name descname">time</code><a class="headerlink" href="#wa_simulator.system.WASystem.time" title="Permalink to this definition">¶</a></dt>
+<dd><p>stores the time from the simulation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>double</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.system.WASystem.Advance">
+<code class="sig-name descname">Advance</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.system.WASystem.Advance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Advance the system</p>
+<p>Will update the time and increment the step number</p>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.system.WASystem.GetSimTime">
+<code class="sig-name descname">GetSimTime</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.system.WASystem.GetSimTime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the simulation time</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the simulation time</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>double</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.system.WASystem.GetStepNumber">
+<code class="sig-name descname">GetStepNumber</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.system.WASystem.GetStepNumber" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the step number</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the step number</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
 </div>
 
       </article>

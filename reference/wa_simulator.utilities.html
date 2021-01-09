@@ -155,8 +155,64 @@
         <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
           <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
         </label>
-        <div class="section" id="utilities">
-<h1>Utilities<a class="headerlink" href="#utilities" title="Permalink to this headline">¶</a></h1>
+        <div class="section" id="module-wa_simulator.cli">
+<span id="utilities"></span><h1>Utilities<a class="headerlink" href="#module-wa_simulator.cli" title="Permalink to this headline">¶</a></h1>
+<p>Wisconsin Autonomous - <a class="reference external" href="https://www.wisconsinautonomous.org">https://www.wisconsinautonomous.org</a></p>
+<p>Copyright (c) 2021 wisconsinautonomous.org
+All rights reserved.</p>
+<p>Use of this source code is governed by a BSD-style license that can be found
+in the LICENSE file at the top level of the repo</p>
+<dl class="py class">
+<dt id="wa_simulator.cli.WAArgumentParser">
+<em class="property">class </em><code class="sig-prename descclassname">wa_simulator.cli.</code><code class="sig-name descname">WAArgumentParser</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">use_defaults</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">description</span><span class="o">=</span><span class="default_value">'Wisconsin Autonomous Simulator'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.cli.WAArgumentParser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">argparse.ArgumentParser</span></code></p>
+</dd></dl>
+<span class="target" id="module-wa_simulator.data_loader"></span><p>Wisconsin Autonomous - <a class="reference external" href="https://www.wisconsinautonomous.org">https://www.wisconsinautonomous.org</a></p>
+<p>Copyright (c) 2021 wisconsinautonomous.org
+All rights reserved.</p>
+<p>Use of this source code is governed by a BSD-style license that can be found
+in the LICENSE file at the top level of the repo</p>
+<dl class="py function">
+<dt id="wa_simulator.data_loader.GetWADataFile">
+<code class="sig-prename descclassname">wa_simulator.data_loader.</code><code class="sig-name descname">GetWADataFile</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.data_loader.GetWADataFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the absolute path to the file passed</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filename</strong> (<em>str</em>) – file relative to the data foler to get the absolute path for</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the absolute path of the file</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+<span class="target" id="module-wa_simulator.vector"></span><dl class="py class">
+<dt id="wa_simulator.vector.WAVector">
+<em class="property">class </em><code class="sig-prename descclassname">wa_simulator.vector.</code><code class="sig-name descname">WAVector</code><span class="sig-paren">(</span><span class="optional">[</span><em class="sig-param">5</em>, <em class="sig-param">7</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.vector.WAVector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></p>
+<dl class="py method">
+<dt id="wa_simulator.vector.WAVector.Length">
+<code class="sig-name descname">Length</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.vector.WAVector.Length" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get euclidean length of this WAVector</p>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.vector.WAVector.x">
+<em class="property">property </em><code class="sig-name descname">x</code><a class="headerlink" href="#wa_simulator.vector.WAVector.x" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get 1st element. Exit if undefined.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.vector.WAVector.y">
+<em class="property">property </em><code class="sig-name descname">y</code><a class="headerlink" href="#wa_simulator.vector.WAVector.y" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get 2nd element. Exit if undefined.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.vector.WAVector.z">
+<em class="property">property </em><code class="sig-name descname">z</code><a class="headerlink" href="#wa_simulator.vector.WAVector.z" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get 3rd element. Exit if undefined.</p>
+</dd></dl>
+</dd></dl>
 </div>
 
       </article>

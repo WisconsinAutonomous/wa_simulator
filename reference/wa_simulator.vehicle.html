@@ -155,8 +155,365 @@
         <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
           <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
         </label>
-        <div class="section" id="vehicle">
-<h1>Vehicle<a class="headerlink" href="#vehicle" title="Permalink to this headline">¶</a></h1>
+        <div class="section" id="module-wa_simulator.vehicle">
+<span id="vehicle"></span><h1>Vehicle<a class="headerlink" href="#module-wa_simulator.vehicle" title="Permalink to this headline">¶</a></h1>
+<p>Wisconsin Autonomous - <a class="reference external" href="https://www.wisconsinautonomous.org">https://www.wisconsinautonomous.org</a></p>
+<p>Copyright (c) 2021 wisconsinautonomous.org
+All rights reserved.</p>
+<p>Use of this source code is governed by a BSD-style license that can be found
+in the LICENSE file at the top level of the repo</p>
+<dl class="py function">
+<dt id="wa_simulator.vehicle.LoadPropertiesFromJSON">
+<code class="sig-prename descclassname">wa_simulator.vehicle.</code><code class="sig-name descname">LoadPropertiesFromJSON</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em>, <em class="sig-param"><span class="n">prop</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.vehicle.LoadPropertiesFromJSON" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load a specified property from a json specification file</p>
+<p>Will load a json file and extract the passed property field for use
+by the underyling vehicle object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> (<em>str</em>) – the filename location within the set WA data folder for the json file</p></li>
+<li><p><strong>property</strong> (<em>str</em>) – the property to get. Ex: “Vehicle Properties”</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>ValueError</strong> – The property field isn’t found</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the property field extracted from the json file</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py class">
+<dt id="wa_simulator.vehicle.WALinearKinematicBicycle">
+<em class="property">class </em><code class="sig-prename descclassname">wa_simulator.vehicle.</code><code class="sig-name descname">WALinearKinematicBicycle</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em>, <em class="sig-param"><span class="n">x</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">y</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">yaw</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">v</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.vehicle.WALinearKinematicBicycle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#wa_simulator.vehicle.WAVehicle" title="wa_simulator.vehicle.WAVehicle"><code class="xref py py-class docutils literal notranslate"><span class="pre">wa_simulator.vehicle.WAVehicle</span></code></a></p>
+<p>A linear, kinematic bicycle model</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> (<em>str</em>) – json specification file used to describe the parameters for the vehicle</p></li>
+<li><p><strong>x</strong> (<em>double</em><em>, </em><em>optional</em>) – x position of the vehicle. Defaults to 0.</p></li>
+<li><p><strong>y</strong> (<em>double</em><em>, </em><em>optional</em>) – y position of the vehicle. Defaults to 0.</p></li>
+<li><p><strong>yaw</strong> (<em>double</em><em>, </em><em>optional</em>) – angle about the Z. Defaults to 0.</p></li>
+<li><p><strong>v</strong> (<em>double</em><em>, </em><em>optional</em>) – speed of the vehicle. Defaults to 0.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt id="wa_simulator.vehicle.WALinearKinematicBicycle.x">
+<code class="sig-name descname">x</code><a class="headerlink" href="#wa_simulator.vehicle.WALinearKinematicBicycle.x" title="Permalink to this definition">¶</a></dt>
+<dd><p>x position of the vehicle</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>double</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.vehicle.WALinearKinematicBicycle.y">
+<code class="sig-name descname">y</code><a class="headerlink" href="#wa_simulator.vehicle.WALinearKinematicBicycle.y" title="Permalink to this definition">¶</a></dt>
+<dd><p>y position of the vehicle</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>double</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.vehicle.WALinearKinematicBicycle.yaw">
+<code class="sig-name descname">yaw</code><a class="headerlink" href="#wa_simulator.vehicle.WALinearKinematicBicycle.yaw" title="Permalink to this definition">¶</a></dt>
+<dd><p>angle about the Z</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>double</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.vehicle.WALinearKinematicBicycle.v">
+<code class="sig-name descname">v</code><a class="headerlink" href="#wa_simulator.vehicle.WALinearKinematicBicycle.v" title="Permalink to this definition">¶</a></dt>
+<dd><p>speed of the vehicle</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>double</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.vehicle.WALinearKinematicBicycle.omega">
+<code class="sig-name descname">omega</code><a class="headerlink" href="#wa_simulator.vehicle.WALinearKinematicBicycle.omega" title="Permalink to this definition">¶</a></dt>
+<dd><p>wheel angular velocity</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>double</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.vehicle.WALinearKinematicBicycle.omega_dot">
+<code class="sig-name descname">omega_dot</code><a class="headerlink" href="#wa_simulator.vehicle.WALinearKinematicBicycle.omega_dot" title="Permalink to this definition">¶</a></dt>
+<dd><p>wheel angular acceleration</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>double</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.vehicle.WALinearKinematicBicycle.mass">
+<code class="sig-name descname">mass</code><a class="headerlink" href="#wa_simulator.vehicle.WALinearKinematicBicycle.mass" title="Permalink to this definition">¶</a></dt>
+<dd><p>vehicle mass</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>double</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.vehicle.WALinearKinematicBicycle.a">
+<code class="sig-name descname">a</code><a class="headerlink" href="#wa_simulator.vehicle.WALinearKinematicBicycle.a" title="Permalink to this definition">¶</a></dt>
+<dd><p>2nd order torque coefficients</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.vehicle.WALinearKinematicBicycle.GR">
+<code class="sig-name descname">GR</code><a class="headerlink" href="#wa_simulator.vehicle.WALinearKinematicBicycle.GR" title="Permalink to this definition">¶</a></dt>
+<dd><p>gear ratio</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>double</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.vehicle.WALinearKinematicBicycle.r_eff">
+<code class="sig-name descname">r_eff</code><a class="headerlink" href="#wa_simulator.vehicle.WALinearKinematicBicycle.r_eff" title="Permalink to this definition">¶</a></dt>
+<dd><p>Effective radius at which the vehicle can turn</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>double</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.vehicle.WALinearKinematicBicycle.J_e">
+<code class="sig-name descname">J_e</code><a class="headerlink" href="#wa_simulator.vehicle.WALinearKinematicBicycle.J_e" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inertia of the vehicle</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>double</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.vehicle.WALinearKinematicBicycle.c_a">
+<code class="sig-name descname">c_a</code><a class="headerlink" href="#wa_simulator.vehicle.WALinearKinematicBicycle.c_a" title="Permalink to this definition">¶</a></dt>
+<dd><p>Aerodynamic coefficient</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>double</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.vehicle.WALinearKinematicBicycle.c_rl">
+<code class="sig-name descname">c_rl</code><a class="headerlink" href="#wa_simulator.vehicle.WALinearKinematicBicycle.c_rl" title="Permalink to this definition">¶</a></dt>
+<dd><p>Friction coefficient</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>double</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.vehicle.WALinearKinematicBicycle.c">
+<code class="sig-name descname">c</code><a class="headerlink" href="#wa_simulator.vehicle.WALinearKinematicBicycle.c" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tire force</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>double</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.vehicle.WALinearKinematicBicycle.F_max">
+<code class="sig-name descname">F_max</code><a class="headerlink" href="#wa_simulator.vehicle.WALinearKinematicBicycle.F_max" title="Permalink to this definition">¶</a></dt>
+<dd><p>Max force imposed at the wheel</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>double</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.vehicle.WALinearKinematicBicycle.L">
+<code class="sig-name descname">L</code><a class="headerlink" href="#wa_simulator.vehicle.WALinearKinematicBicycle.L" title="Permalink to this definition">¶</a></dt>
+<dd><p>Vehicle wheelbase (distance between front and back axles)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>double</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.vehicle.WALinearKinematicBicycle.min_steering">
+<code class="sig-name descname">min_steering</code><a class="headerlink" href="#wa_simulator.vehicle.WALinearKinematicBicycle.min_steering" title="Permalink to this definition">¶</a></dt>
+<dd><p>Minimum steering value allowed</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>double</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.vehicle.WALinearKinematicBicycle.max_steering">
+<code class="sig-name descname">max_steering</code><a class="headerlink" href="#wa_simulator.vehicle.WALinearKinematicBicycle.max_steering" title="Permalink to this definition">¶</a></dt>
+<dd><p>Maximum steering value allowed</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>double</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.vehicle.WALinearKinematicBicycle.min_throttle">
+<code class="sig-name descname">min_throttle</code><a class="headerlink" href="#wa_simulator.vehicle.WALinearKinematicBicycle.min_throttle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Minimum throttle value allowed</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>double</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.vehicle.WALinearKinematicBicycle.max_throttle">
+<code class="sig-name descname">max_throttle</code><a class="headerlink" href="#wa_simulator.vehicle.WALinearKinematicBicycle.max_throttle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Maximum throttle value allowed</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>double</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.vehicle.WALinearKinematicBicycle.min_braking">
+<code class="sig-name descname">min_braking</code><a class="headerlink" href="#wa_simulator.vehicle.WALinearKinematicBicycle.min_braking" title="Permalink to this definition">¶</a></dt>
+<dd><p>Minimum braking value allowed</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>double</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.vehicle.WALinearKinematicBicycle.max_braking">
+<code class="sig-name descname">max_braking</code><a class="headerlink" href="#wa_simulator.vehicle.WALinearKinematicBicycle.max_braking" title="Permalink to this definition">¶</a></dt>
+<dd><p>Maximum braking value allowed</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>double</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.vehicle.WALinearKinematicBicycle.Advance">
+<code class="sig-name descname">Advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.vehicle.WALinearKinematicBicycle.Advance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform a dynamics update</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>step</strong> (<em>double</em>) – time step to update the vehicle by</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.vehicle.WALinearKinematicBicycle.GetSimpleState">
+<code class="sig-name descname">GetSimpleState</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.vehicle.WALinearKinematicBicycle.GetSimpleState" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a simple state representation of the vehicle.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>(x position, y position, yaw about the Z, speed)</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.vehicle.WALinearKinematicBicycle.Synchronize">
+<code class="sig-name descname">Synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">time</span></em>, <em class="sig-param"><span class="n">vehicle_inputs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.vehicle.WALinearKinematicBicycle.Synchronize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Synchronize the vehicle inputs to the values in this model</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>time</strong> (<em>double</em>) – time at which to update the vehicle to</p></li>
+<li><p><strong>vehicle_inputs</strong> (<a class="reference internal" href="wa_simulator.controller.html#wa_simulator.controller.WAVehicleInputs" title="wa_simulator.controller.WAVehicleInputs"><em>WAVehicleInputs</em></a>) – vehicle inputs</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
+<dl class="py class">
+<dt id="wa_simulator.vehicle.WAVehicle">
+<em class="property">class </em><code class="sig-prename descclassname">wa_simulator.vehicle.</code><code class="sig-name descname">WAVehicle</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.vehicle.WAVehicle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
+<p>Base class for a WAVehicle.</p>
+<p>To implement a new vehicle model, override this class. A WAVehicle should interact
+with the terrain/assets/world and take three inputs: steering, throttle, braking.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filename</strong> (<em>str</em><em>, </em><em>optional</em>) – Filename to be used for visualization properties</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt id="wa_simulator.vehicle.WAVehicle.vis_properties">
+<code class="sig-name descname">vis_properties</code><a class="headerlink" href="#wa_simulator.vehicle.WAVehicle.vis_properties" title="Permalink to this definition">¶</a></dt>
+<dd><p>Visual properties used for visualization of the vehicle.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.vehicle.WAVehicle.Advance">
+<em class="property">abstract </em><code class="sig-name descname">Advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.vehicle.WAVehicle.Advance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Advance the vehicle by the specified step</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>step</strong> (<em>double</em>) – how much to advance the vehicle by</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.vehicle.WAVehicle.GetSimpleState">
+<em class="property">abstract </em><code class="sig-name descname">GetSimpleState</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.vehicle.WAVehicle.GetSimpleState" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a simple state representation of the vehicle.</p>
+<dl class="simple">
+<dt>Must return a tuple with the following values:</dt><dd><p>(x position, y position, yaw about the Z, speed)</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.vehicle.WAVehicle.Synchronize">
+<em class="property">abstract </em><code class="sig-name descname">Synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">time</span></em>, <em class="sig-param"><span class="n">vehicle_inputs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.vehicle.WAVehicle.Synchronize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Synchronize the vehicle at the specified time and driver inputs</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>time</strong> (<em>double</em>) – the time at which the synchronize the vehicle to</p></li>
+<li><p><strong>vehicle_inputs</strong> (<a class="reference internal" href="wa_simulator.controller.html#wa_simulator.controller.WAVehicleInputs" title="wa_simulator.controller.WAVehicleInputs"><em>WAVehicleInputs</em></a>) – Inputs for the underyling dynamics</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
 </div>
 
       </article>

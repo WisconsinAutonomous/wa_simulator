@@ -155,8 +155,42 @@
         <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
           <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
         </label>
-        <div class="section" id="terrain">
-<h1>Terrain<a class="headerlink" href="#terrain" title="Permalink to this headline">¶</a></h1>
+        <div class="section" id="module-wa_simulator.terrain">
+<span id="terrain"></span><h1>Terrain<a class="headerlink" href="#module-wa_simulator.terrain" title="Permalink to this headline">¶</a></h1>
+<p>Wisconsin Autonomous - <a class="reference external" href="https://www.wisconsinautonomous.org">https://www.wisconsinautonomous.org</a></p>
+<p>Copyright (c) 2021 wisconsinautonomous.org
+All rights reserved.</p>
+<p>Use of this source code is governed by a BSD-style license that can be found
+in the LICENSE file at the top level of the repo</p>
+<dl class="py class">
+<dt id="wa_simulator.terrain.WATerrain">
+<em class="property">class </em><code class="sig-prename descclassname">wa_simulator.terrain.</code><code class="sig-name descname">WATerrain</code><a class="headerlink" href="#wa_simulator.terrain.WATerrain" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
+<p>Base class for the terrain object</p>
+<p>Maintains knowledge of the terrain or “ground” that a vehicle interacts with.</p>
+<dl class="py method">
+<dt id="wa_simulator.terrain.WATerrain.Advance">
+<em class="property">abstract </em><code class="sig-name descname">Advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.terrain.WATerrain.Advance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Advance the terrain by the specified step</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>step</strong> (<em>double</em>) – the time step at which the terrain should be advanced</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.terrain.WATerrain.Synchronize">
+<em class="property">abstract </em><code class="sig-name descname">Synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">time</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.terrain.WATerrain.Synchronize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Synchronize the terrain at the specified time</p>
+<p>Function is primarily as a semantic separation between different functionality.
+Most of the time, all terrain logic can be placed in the Advance method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>time</strong> (<em>double</em>) – the time at which the terrain should synchronize all depends to</p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
 </div>
 
       </article>

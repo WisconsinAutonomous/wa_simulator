@@ -155,8 +155,70 @@
         <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
           <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
         </label>
-        <div class="section" id="simulation">
-<h1>Simulation<a class="headerlink" href="#simulation" title="Permalink to this headline">¶</a></h1>
+        <div class="section" id="module-wa_simulator.simulation">
+<span id="simulation"></span><h1>Simulation<a class="headerlink" href="#module-wa_simulator.simulation" title="Permalink to this headline">¶</a></h1>
+<p>Wisconsin Autonomous - <a class="reference external" href="https://www.wisconsinautonomous.org">https://www.wisconsinautonomous.org</a></p>
+<p>Copyright (c) 2021 wisconsinautonomous.org
+All rights reserved.</p>
+<p>Use of this source code is governed by a BSD-style license that can be found
+in the LICENSE file at the top level of the repo</p>
+<dl class="py class">
+<dt id="wa_simulator.simulation.WASimulation">
+<em class="property">class </em><code class="sig-prename descclassname">wa_simulator.simulation.</code><code class="sig-name descname">WASimulation</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">system</span></em>, <em class="sig-param"><span class="n">environment</span></em>, <em class="sig-param"><span class="n">vehicle</span></em>, <em class="sig-param"><span class="n">visualization</span></em>, <em class="sig-param"><span class="n">controller</span></em>, <em class="sig-param"><span class="n">record_filename</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.simulation.WASimulation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
+<dl class="py method">
+<dt id="wa_simulator.simulation.WASimulation.Advance">
+<code class="sig-name descname">Advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.simulation.WASimulation.Advance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Advance each simulation module.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>step</strong> (<em>double</em>) – the step size to update each module by</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.simulation.WASimulation.IsOk">
+<code class="sig-name descname">IsOk</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.simulation.WASimulation.IsOk" title="Permalink to this definition">¶</a></dt>
+<dd><p>Verifies the simulation is running as expected.</p>
+<p>Checks the visualization if it’s still active. Should probably check other
+modules for any errors.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Whether the simulation running as expected</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.simulation.WASimulation.Record">
+<code class="sig-name descname">Record</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.simulation.WASimulation.Record" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save simulation state. Only saves the vehicle simple state</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filename</strong> (<em>str</em>) – file to append info to</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.simulation.WASimulation.Run">
+<code class="sig-name descname">Run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.simulation.WASimulation.Run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run the simulation</p>
+<p>Can be used to clear up main functions.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.simulation.WASimulation.Synchronize">
+<code class="sig-name descname">Synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">time</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.simulation.WASimulation.Synchronize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Synchronize each simulation module.</p>
+<p>Will pass information between simulation modules</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>time</strong> (<em>double</em>) – the time to synchronize the simulation to</p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
 </div>
 
       </article>
