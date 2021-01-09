@@ -64,7 +64,9 @@ html_theme_options = {
     "announcement": """
         <a style=\"text-decoration: none; color: white;\" 
            href=\"https://wisconsinautonomous.org\">
-           <img src=\"/wa_simulator/_static/wa-dark.png\" style=\"vertical-align: middle; display: inline; padding-right: 7.5px; height: 20px;\"/>See our website!
+           <img src=\"https://github.com/WisconsinAutonomous/wa-resources/blob/master/Images/wa-dark.png?raw=true\" 
+                style=\"vertical-align: middle; display: inline; padding-right: 7.5px; height: 20px;\"/>
+           Checkout our website!
         </a>
     """,
     "sidebar_hide_name": True,
