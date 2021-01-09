@@ -11,9 +11,7 @@ in the LICENSE file at the top level of the repo
 import pathlib
 
 # Grab the data folder in the root of this repo
-DATA_DIRECTORY = str(
-    pathlib.Path(__file__).absolute().parent.parent.parent.parent / "data"
-)
+DATA_DIRECTORY = str(pathlib.Path(__file__).absolute().parent.parent.parent / "data")
 
 
 def GetWADataFile(filename):

@@ -7,163 +7,49 @@ All rights reserved.
 Use of this source code is governed by a BSD-style license that can be found
 in the LICENSE file at the top level of the repo
 """
-# WA Simulator
-from wa_simulator.visualization.visualization import WAVisualization
+
+from abc import ABC, abstractmethod  # Abstract Base Class
 
 # Other imports
 from multiprocessing import Process, Queue, set_start_method
-from math import cos, sin, ceil
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 
 
-class VehiclePlotter:
-    """Class used to handle plotting of the vehicle.
+class WAVisualization(ABC):
+    """Base class to be used for visualization of the simulation world.
 
-    Runs in separate process and communicates with main thread via multiprocessing.Queue
-    object. Done to improve simulation performance. Plotter will block until vehicle state has updated.
-    On vehicle state update, the visualization representation is also updated.
-
-    Instead of being redrawn, handles to matplotlib assets are stored and their states are updated
-    at each visualization update. This improves performance and doesn't require clearing the plot
-    window.
-
-    Attributes:
-        q (multiprocessing.Queue): Queue used to pass info between processes
-        fig (plt.Figure): Matplotlib figure used for plotting
-        ax (plt.Axes): Matplotlib axes used for plotting
-        mat_vehicle (tuple): Class that holds the matplotlib visualization objects so their state can be updated
-        annotation (plt.Text): Holds text displayed in the plot window for debug purposes.
+    Derived classes will use various world attributes to visualize the simulation
     """
 
-    def Initialize(self, q):
-        """Initialize the matplotlib visual assets to be updated through the simulation. Initially plotted at (0,0).
+    @abstractmethod
+    def Synchronize(self, time, vehicle_inputs):
+        """Synchronize the visualization at the specified time with the passed vehicle inputs
 
         Args:
-            q (multiprocessing.Queue): Queue used to communicate between processes
+            time (double): time to synchronize the visualization to
+            vehicle_inputs (WAVehicleInputs): inputs to the vehicle. Can be helpful for visualization (debug) purposes.
         """
-        self.q = q
+        pass
 
-        cabcolor = "-k"
-        wheelcolor = "-k"
-
-        (
-            outline,
-            rr_wheel,
-            rl_wheel,
-            fr_wheel,
-            fl_wheel,
-            steering,
-            throttle,
-            braking,
-            time,
-            speed,
-        ) = self.q.get()
-
-        # Initial plotting setup
-        self.fig, self.ax = plt.subplots(figsize=(8, 8))
-
-        (cab,) = self.ax.plot(
-            np.array(outline[0, :]).flatten(),
-            np.array(outline[1, :]).flatten(),
-            cabcolor,
-        )
-        (fr,) = self.ax.plot(
-            np.array(fr_wheel[0, :]).flatten(),
-            np.array(fr_wheel[1, :]).flatten(),
-            wheelcolor,
-        )
-        (rr,) = self.ax.plot(
-            np.array(rr_wheel[0, :]).flatten(),
-            np.array(rr_wheel[1, :]).flatten(),
-            wheelcolor,
-        )
-        (fl,) = self.ax.plot(
-            np.array(fl_wheel[0, :]).flatten(),
-            np.array(fl_wheel[1, :]).flatten(),
-            wheelcolor,
-        )
-        (rl,) = self.ax.plot(
-            np.array(rl_wheel[0, :]).flatten(),
-            np.array(rl_wheel[1, :]).flatten(),
-            wheelcolor,
-        )
-        self.mat_vehicle = (cab, fr, rr, fl, rl)
-
-        # Text
-        bbox_props = dict(boxstyle="round", fc="w", ec="0.5", alpha=0.9)
-        self.annotation = self.ax.annotate(
-            "",
-            xy=(0.97, 0.7),
-            xytext=(0, 10),
-            xycoords=("axes fraction", "figure fraction"),
-            textcoords="offset points",
-            size=10,
-            ha="right",
-            va="bottom",
-            bbox=bbox_props,
-        )
-
-        # Plot styling
-        self.ax.set_xlim(-25, 25)
-        self.ax.set_ylim(-25, 25)
-        self.ax.set_aspect("equal", adjustable="box")
-
-    def Update(self, i):
-        """Update the state of the vehicle in the visualization
-
-        Called at specific intervals by the FuncAnimation function in matplotlib
+    @abstractmethod
+    def Advance(self, step):
+        """Advance the state of the visualization by the specified step
 
         Args:
-            i (int): frame number
+            step (double): step size to update the visualization by
         """
-        (cab, fr, rr, fl, rl) = self.mat_vehicle
-        (
-            outline,
-            rr_wheel,
-            rl_wheel,
-            fr_wheel,
-            fl_wheel,
-            steering,
-            throttle,
-            braking,
-            time,
-            speed,
-        ) = self.q.get()
-        cab.set_ydata(np.array(outline[1, :]).flatten())
-        cab.set_xdata(np.array(outline[0, :]).flatten())
-        fr.set_ydata(np.array(fr_wheel[1, :]).flatten())
-        fr.set_xdata(np.array(fr_wheel[0, :]).flatten())
-        rr.set_ydata(np.array(rr_wheel[1, :]).flatten())
-        rr.set_xdata(np.array(rr_wheel[0, :]).flatten())
-        fl.set_ydata(np.array(fl_wheel[1, :]).flatten())
-        fl.set_xdata(np.array(fl_wheel[0, :]).flatten())
-        rl.set_ydata(np.array(rl_wheel[1, :]).flatten())
-        rl.set_xdata(np.array(rl_wheel[0, :]).flatten())
+        pass
 
-        # Update Text
-        text = (
-            f"Time :: {time:.2f}\n"
-            f"Steering :: {steering:.2f}\n"
-            f"Throttle :: {throttle:.2f}\n"
-            f"Braking :: {braking:.2f}\n"
-            f"Speed :: {speed:.2f}"
-        )
-        self.annotation.set_text(text)
+    @abstractmethod
+    def IsOk(self):
+        """Verifies the visualization is running properly.
 
-    def Plot(self, q, placeholder):
-        """ "Main" function that sets up the plotter and runs the blocking FuncAnimation update.
-
-        Args:
-            q (multiprocessing.Queue): Queue used to communicate and pass info between processes
-            placeholder (None): For some reason, multiprocessing yells when there is only one parameter
+        Returns:
+            bool: Whether the visualization is running correctly.
         """
-        self.Initialize(q)
-
-        anim = FuncAnimation(self.fig, self.Update, interval=10)
-
-        plt.show()
+        pass
 
 
 class WAMatplotlibVisualization:
@@ -195,8 +81,155 @@ class WAMatplotlibVisualization:
         p (multiprocessing.Process): process created by multiprocessing (TODO: Should add join())
     """
 
+    class VehiclePlotter:
+        """Class used to handle plotting of the vehicle.
+
+        Runs in separate process and communicates with main thread via multiprocessing.Queue
+        object. Done to improve simulation performance. Plotter will block until vehicle state has updated.
+        On vehicle state update, the visualization representation is also updated.
+
+        Instead of being redrawn, handles to matplotlib assets are stored and their states are updated
+        at each visualization update. This improves performance and doesn't require clearing the plot
+        window.
+
+        Attributes:
+            q (multiprocessing.Queue): Queue used to pass info between processes
+            fig (plt.Figure): Matplotlib figure used for plotting
+            ax (plt.Axes): Matplotlib axes used for plotting
+            mat_vehicle (tuple): Class that holds the matplotlib visualization objects so their state can be updated
+            annotation (plt.Text): Holds text displayed in the plot window for debug purposes.
+        """
+
+        def Initialize(self, q):
+            """Initialize the matplotlib visual assets to be updated through the simulation. Initially plotted at (0,0).
+
+            Args:
+                q (multiprocessing.Queue): Queue used to communicate between processes
+            """
+            self.q = q
+
+            cabcolor = "-k"
+            wheelcolor = "-k"
+
+            (
+                outline,
+                rr_wheel,
+                rl_wheel,
+                fr_wheel,
+                fl_wheel,
+                steering,
+                throttle,
+                braking,
+                time,
+                speed,
+            ) = self.q.get()
+
+            # Initial plotting setup
+            self.fig, self.ax = plt.subplots(figsize=(8, 8))
+
+            (cab,) = self.ax.plot(
+                np.array(outline[0, :]).flatten(),
+                np.array(outline[1, :]).flatten(),
+                cabcolor,
+            )
+            (fr,) = self.ax.plot(
+                np.array(fr_wheel[0, :]).flatten(),
+                np.array(fr_wheel[1, :]).flatten(),
+                wheelcolor,
+            )
+            (rr,) = self.ax.plot(
+                np.array(rr_wheel[0, :]).flatten(),
+                np.array(rr_wheel[1, :]).flatten(),
+                wheelcolor,
+            )
+            (fl,) = self.ax.plot(
+                np.array(fl_wheel[0, :]).flatten(),
+                np.array(fl_wheel[1, :]).flatten(),
+                wheelcolor,
+            )
+            (rl,) = self.ax.plot(
+                np.array(rl_wheel[0, :]).flatten(),
+                np.array(rl_wheel[1, :]).flatten(),
+                wheelcolor,
+            )
+            self.mat_vehicle = (cab, fr, rr, fl, rl)
+
+            # Text
+            bbox_props = dict(boxstyle="round", fc="w", ec="0.5", alpha=0.9)
+            self.annotation = self.ax.annotate(
+                "",
+                xy=(0.97, 0.7),
+                xytext=(0, 10),
+                xycoords=("axes fraction", "figure fraction"),
+                textcoords="offset points",
+                size=10,
+                ha="right",
+                va="bottom",
+                bbox=bbox_props,
+            )
+
+            # Plot styling
+            self.ax.set_xlim(-25, 25)
+            self.ax.set_ylim(-25, 25)
+            self.ax.set_aspect("equal", adjustable="box")
+
+        def Update(self, i):
+            """Update the state of the vehicle in the visualization
+
+            Called at specific intervals by the FuncAnimation function in matplotlib
+
+            Args:
+                i (int): frame number
+            """
+            (cab, fr, rr, fl, rl) = self.mat_vehicle
+            (
+                outline,
+                rr_wheel,
+                rl_wheel,
+                fr_wheel,
+                fl_wheel,
+                steering,
+                throttle,
+                braking,
+                time,
+                speed,
+            ) = self.q.get()
+            cab.set_ydata(np.array(outline[1, :]).flatten())
+            cab.set_xdata(np.array(outline[0, :]).flatten())
+            fr.set_ydata(np.array(fr_wheel[1, :]).flatten())
+            fr.set_xdata(np.array(fr_wheel[0, :]).flatten())
+            rr.set_ydata(np.array(rr_wheel[1, :]).flatten())
+            rr.set_xdata(np.array(rr_wheel[0, :]).flatten())
+            fl.set_ydata(np.array(fl_wheel[1, :]).flatten())
+            fl.set_xdata(np.array(fl_wheel[0, :]).flatten())
+            rl.set_ydata(np.array(rl_wheel[1, :]).flatten())
+            rl.set_xdata(np.array(rl_wheel[0, :]).flatten())
+
+            # Update Text
+            text = (
+                f"Time :: {time:.2f}\n"
+                f"Steering :: {steering:.2f}\n"
+                f"Throttle :: {throttle:.2f}\n"
+                f"Braking :: {braking:.2f}\n"
+                f"Speed :: {speed:.2f}"
+            )
+            self.annotation.set_text(text)
+
+        def Plot(self, q, placeholder):
+            """ "Main" function that sets up the plotter and runs the blocking FuncAnimation update.
+
+            Args:
+                q (multiprocessing.Queue): Queue used to communicate and pass info between processes
+                placeholder (None): For some reason, multiprocessing yells when there is only one parameter
+            """
+            self.Initialize(q)
+
+            anim = FuncAnimation(self.fig, self.Update, interval=10)
+
+            plt.show()
+
     def __init__(self, vehicle, system):
-        self.render_steps = int(ceil(system.render_step_size / system.step_size))
+        self.render_steps = int(np.ceil(system.render_step_size / system.step_size))
 
         self.system = system
         self.vehicle = vehicle
@@ -263,7 +296,7 @@ class WAMatplotlibVisualization:
 
         self.q = Queue(maxsize=1)
 
-        self.plotter = VehiclePlotter()
+        self.plotter = self.VehiclePlotter()
         self.p = Process(target=self.plotter.Plot, args=(self.q, 0))
         self.p.start()
 
@@ -323,11 +356,13 @@ class WAMatplotlibVisualization:
         Returns:
             np.array: the new entity
         """
-        T = np.array([[cos(yaw), sin(yaw), x], [-sin(yaw), cos(yaw), y], [0, 0, 1]])
+        T = np.array(
+            [[np.cos(yaw), np.sin(yaw), x], [-np.sin(yaw), np.cos(yaw), y], [0, 0, 1]]
+        )
         T = T @ np.array(
             [
-                [cos(alpha), sin(alpha), x_offset],
-                [-sin(alpha), cos(alpha), y_offset],
+                [np.cos(alpha), np.sin(alpha), x_offset],
+                [-np.sin(alpha), np.cos(alpha), y_offset],
                 [0, 0, 1],
             ]
         )
@@ -407,22 +442,31 @@ class WAMatplotlibVisualization:
             self.p.join()
 
 
-import signal
-import sys
-
-
-def signal_handler(sig, frame):
-    """Signal handler that will exit if ctrl+c is recorded in the terminal window.
-
-    Allows easier exiting of a matplotlib plot
+class WAMultipleVisualizations(WAVisualization):
+    """Wrapper class for multiple visualizations. Allows multiple visualizations to be used.
 
     Args:
-        sig (int): Signal number
-        frame (int): ?
+        visualizations (list): List of visualizations.
     """
-    print("Ctrl+C Detected! Exitting...")
-    sys.exit(0)
 
+    def __init__(self, visualizations):
+        self.visualizations = visualizations
 
-# setup the signal listener to listen for the interrupt signal (ctrl+c)
-signal.signal(signal.SIGINT, signal_handler)
+    def Synchronize(self, time, vehicle_inputs):
+        """Synchronize each visualization at the specified time
+
+        Args:
+            time (double): the time at which the visualization should synchronize all modules
+            vehicle_inputs (WAVehicleInputs): vehicle inputs
+        """
+        for vis in self.visualizations:
+            vis.Synchronize(time, vehicle_inputs)
+
+    def Advance(self, step):
+        """Advance the state of each managed visualization
+
+        Args:
+            step (double): the time step at which the visualization should be advanced
+        """
+        for vis in self.visualizations:
+            vis.Advance(step)

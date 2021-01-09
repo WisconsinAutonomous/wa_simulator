@@ -1,9 +1,34 @@
-from ._import import _import, _get_dirs
+from ._import import _import, _get_dirs, _get_files
 
 
 for d in _get_dirs(__file__, ignore=["chrono"]):
     _import(d, globals())
 
-del _import, _get_dirs
+for f in _get_files(__file__):
+    _import(f, globals())
+
+
+def signal_handler(sig, frame):
+    """Signal handler that will exit if ctrl+c is recorded in the terminal window.
+
+    Allows easier exiting of a matplotlib plot
+
+    Args:
+        sig (int): Signal number
+        frame (int): ?
+    """
+
+    import sys
+
+    print("^C")
+    sys.exit(0)
+
+
+import signal
+
+# setup the signal listener to listen for the interrupt signal (ctrl+c)
+signal.signal(signal.SIGINT, signal_handler)
+
+del _import, _get_dirs, _get_files, signal
 
 from time import time as get_wall_time
