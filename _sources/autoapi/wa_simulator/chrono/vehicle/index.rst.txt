@@ -1,0 +1,126 @@
+:mod:`wa_simulator.chrono.vehicle`
+==================================
+
+.. py:module:: wa_simulator.chrono.vehicle
+
+.. autoapi-nested-parse::
+
+   Wisconsin Autonomous - https://www.wisconsinautonomous.org
+
+   Copyright (c) 2021 wisconsinautonomous.org
+   All rights reserved.
+
+   Use of this source code is governed by a BSD-style license that can be found
+   in the LICENSE file at the top level of the repo
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   wa_simulator.chrono.vehicle.WAChronoVehicle
+
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   wa_simulator.chrono.vehicle.ReadVehicleModelFile
+   wa_simulator.chrono.vehicle.CreateTireFromJSON
+
+
+.. function:: ReadVehicleModelFile(filename)
+
+   Read a json specification file to get additional file names to be loaded into ChVehicle classes
+
+   :param filename: the json specification file with Vehicle, Powertrain and Tire input models
+   :type filename: str
+
+   :returns: returns each json specification file for the vehicle, powertrain and tire
+   :rtype: tuple
+
+
+.. function:: CreateTireFromJSON(tire_filename)
+
+   Creates a tire from a tire file
+
+   :param tire_filename: the tire json specification file
+   :type tire_filename: str
+
+   :returns: the created tire
+   :rtype: ChTire
+
+
+.. py:class:: WAChronoVehicle(filename, system, env, initLoc=chrono.ChVectorD(0, 0, 0.5), initRot=chrono.ChQuaternionD(1, 0, 0, 0))
+
+   Bases: :class:`wa_simulator.vehicle.WAVehicle`
+
+   Chrono vehicle wrapper
+
+   :param filename: json file specification file
+   :type filename: str
+   :param system: the system used to run the simulation
+   :type system: WAChronoSystem
+   :param env: the environment with a terrain
+   :type env: WAEnvironment
+   :param initLoc: the inital location of the vehicle. Defaults to chrono.ChVectorD(0, 0, 0.5).
+   :type initLoc: chrono.ChVectorD, optional
+   :param initRot: the initial orientation of the vehicle. Defaults to chrono.ChQuaternionD(1, 0, 0, 0).
+   :type initRot: chrono.ChQuaternionD, optional
+
+   .. attribute:: vehicle
+
+      a chrono vehicle that this class essentially wraps
+
+      :type: ChVehicle
+
+   .. attribute:: terrain
+
+      a terrain that the vehicle interacts with
+
+      :type: ChTerrain
+
+   .. attribute:: GO_KART_MODEL_FILE
+      :annotation: = GoKart/GoKart.json
+
+      
+
+   .. attribute:: IAC_VEH_MODEL_FILE
+      :annotation: = IAC/IAC.json
+
+      
+
+   .. method:: Advance(self, step)
+
+      Perform a dynamics update
+
+      :param step: time step to update the vehicle by
+      :type step: double
+
+
+   .. method:: Synchronize(self, time, vehicle_inputs)
+
+      Synchronize the vehicle with the vehicle inputs at the passed time
+
+      :param time: time to synchronize the simulation to
+      :type time: double
+      :param vehicle_inputs: the vehicle inputs
+      :type vehicle_inputs: WAVehicleInputs
+
+
+   .. method:: GetSimpleState(self)
+
+      Get a simple state representation of the vehicle.
+
+      :returns: (x position, y position, yaw about the Z, speed)
+      :rtype: tuple
+
+
+

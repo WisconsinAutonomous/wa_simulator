@@ -131,6 +131,15 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../index.html">Home</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installation</a></li>
 <li class="toctree-l1 current has-children"><a class="reference internal" href="../index.html">API Reference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label for="toctree-checkbox-1"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="../chrono/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label for="toctree-checkbox-2"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../chrono/controller/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.controller</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../chrono/environment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.environment</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../chrono/system/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.system</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../chrono/terrain/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.terrain</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../chrono/vehicle/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.vehicle</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../chrono/visualization/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.visualization</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../cli/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.cli</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../constants/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.constants</span></code></a></li>
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.controller</span></code></a></li>
@@ -190,6 +199,15 @@ in the LICENSE file at the top level of the repo</p>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#wa_simulator.controller.WAMultipleControllers" title="wa_simulator.controller.WAMultipleControllers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WAMultipleControllers</span></code></a></p></td>
 <td><p>Wrapper class for multiple controllers. Allows multiple controllers to be used.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#wa_simulator.controller.WAPIDController" title="wa_simulator.controller.WAPIDController"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WAPIDController</span></code></a></p></td>
+<td><p>PID Controller that contains a lateral and longitudinal controller</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#wa_simulator.controller.WAPIDLateralController" title="wa_simulator.controller.WAPIDLateralController"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WAPIDLateralController</span></code></a></p></td>
+<td><p>Lateral (steering) controller which minimizes error using a PID</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#wa_simulator.controller.WAPIDLongitudinalController" title="wa_simulator.controller.WAPIDLongitudinalController"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WAPIDLongitudinalController</span></code></a></p></td>
+<td><p>Longitudinal (throttle, braking) controller which minimizes error using a PID</p></td>
 </tr>
 </tbody>
 </table></div>
@@ -604,6 +622,418 @@ step value, the method is only run once.</p>
 </dl>
 </dd></dl>
 </dd></dl>
+<dl class="py class">
+<dt id="wa_simulator.controller.WAPIDController">
+<em class="property">class </em><code class="sig-prename descclassname">wa_simulator.controller.</code><code class="sig-name descname">WAPIDController</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">lat_controller</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">long_controller</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAPIDController" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#wa_simulator.controller.WAController" title="wa_simulator.controller.WAController"><code class="xref py py-class docutils literal notranslate"><span class="pre">wa_simulator.controller.WAController</span></code></a></p>
+<p>PID Controller that contains a lateral and longitudinal controller</p>
+<p>Uses the lateral controller for steering and longitudinal controller throttle/braking</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lat_controller</strong> (<a class="reference internal" href="#wa_simulator.controller.WAPIDLateralController" title="wa_simulator.controller.WAPIDLateralController"><em>WAPIDLateralController</em></a><em>, </em><em>optional</em>) – Lateral controller for steering. Defaults to None.</p></li>
+<li><p><strong>long_controller</strong> (<a class="reference internal" href="#wa_simulator.controller.WAPIDLongitudinalController" title="wa_simulator.controller.WAPIDLongitudinalController"><em>WAPIDLongitudinalController</em></a><em>, </em><em>optional</em>) – Longitudinal controller for throttle/braking. Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt id="wa_simulator.controller.WAPIDController.lat_controller">
+<code class="sig-name descname">lat_controller</code><a class="headerlink" href="#wa_simulator.controller.WAPIDController.lat_controller" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lateral controller for steering</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#wa_simulator.controller.WAPIDLateralController" title="wa_simulator.controller.WAPIDLateralController">WAPIDLateralController</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.controller.WAPIDController.long_controller">
+<code class="sig-name descname">long_controller</code><a class="headerlink" href="#wa_simulator.controller.WAPIDController.long_controller" title="Permalink to this definition">¶</a></dt>
+<dd><p>Longitudinal controller for throttle/braking</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#wa_simulator.controller.WAPIDLongitudinalController" title="wa_simulator.controller.WAPIDLongitudinalController">WAPIDLongitudinalController</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.controller.WAPIDController.Synchronize">
+<code class="sig-name descname">Synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">time</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAPIDController.Synchronize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Synchronize each controller at the specified time</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>time</strong> (<em>double</em>) – the time at which the controller should synchronize all modules</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.controller.WAPIDController.Advance">
+<code class="sig-name descname">Advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAPIDController.Advance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Advance the state of each controller</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>step</strong> (<em>double</em>) – the time step at which the controller should be advanced</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.controller.WAPIDController.GetInputs">
+<code class="sig-name descname">GetInputs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAPIDController.GetInputs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the vehicle inputs</p>
+<p>Overrides base class method. Grabs the steering from the lateral controller and the
+throttle and braking from the longitudinal controller</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The input class</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#wa_simulator.controller.WAVehicleInputs" title="wa_simulator.controller.WAVehicleInputs">WAVehicleInputs</a></p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
+<dl class="py class">
+<dt id="wa_simulator.controller.WAPIDLateralController">
+<em class="property">class </em><code class="sig-prename descclassname">wa_simulator.controller.</code><code class="sig-name descname">WAPIDLateralController</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span></em>, <em class="sig-param"><span class="n">vehicle</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAPIDLateralController" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#wa_simulator.controller.WAController" title="wa_simulator.controller.WAController"><code class="xref py py-class docutils literal notranslate"><span class="pre">wa_simulator.controller.WAController</span></code></a></p>
+<p>Lateral (steering) controller which minimizes error using a PID</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>WAPath</em>) – the path the vehicle is attempting to follow</p></li>
+<li><p><strong>vehicle</strong> (<a class="reference internal" href="../vehicle/index.html#wa_simulator.vehicle.WAVehicle" title="wa_simulator.vehicle.WAVehicle"><em>WAVehicle</em></a>) – the vehicle who has dynamics</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt id="wa_simulator.controller.WAPIDLateralController.path">
+<code class="sig-name descname">path</code><a class="headerlink" href="#wa_simulator.controller.WAPIDLateralController.path" title="Permalink to this definition">¶</a></dt>
+<dd><p>the path the vehicle is attempting to follow</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>WAPath</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.controller.WAPIDLateralController.vehicle">
+<code class="sig-name descname">vehicle</code><a class="headerlink" href="#wa_simulator.controller.WAPIDLateralController.vehicle" title="Permalink to this definition">¶</a></dt>
+<dd><p>the vehicle who has dynamics</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="../vehicle/index.html#wa_simulator.vehicle.WAVehicle" title="wa_simulator.vehicle.WAVehicle">WAVehicle</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.controller.WAPIDLateralController.Kp">
+<code class="sig-name descname">Kp</code><a class="headerlink" href="#wa_simulator.controller.WAPIDLateralController.Kp" title="Permalink to this definition">¶</a></dt>
+<dd><p>proportional gain</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>double</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.controller.WAPIDLateralController.Ki">
+<code class="sig-name descname">Ki</code><a class="headerlink" href="#wa_simulator.controller.WAPIDLateralController.Ki" title="Permalink to this definition">¶</a></dt>
+<dd><p>integral gain</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>double</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.controller.WAPIDLateralController.Kd">
+<code class="sig-name descname">Kd</code><a class="headerlink" href="#wa_simulator.controller.WAPIDLateralController.Kd" title="Permalink to this definition">¶</a></dt>
+<dd><p>derivative gain</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>double</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.controller.WAPIDLateralController.dist">
+<code class="sig-name descname">dist</code><a class="headerlink" href="#wa_simulator.controller.WAPIDLateralController.dist" title="Permalink to this definition">¶</a></dt>
+<dd><p>lookahead distance</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>double</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.controller.WAPIDLateralController.target">
+<code class="sig-name descname">target</code><a class="headerlink" href="#wa_simulator.controller.WAPIDLateralController.target" title="Permalink to this definition">¶</a></dt>
+<dd><p>point on the path that is attempting to reach</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>double</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.controller.WAPIDLateralController.sentinel">
+<code class="sig-name descname">sentinel</code><a class="headerlink" href="#wa_simulator.controller.WAPIDLateralController.sentinel" title="Permalink to this definition">¶</a></dt>
+<dd><p>some point a dist directly in front of the vehicle</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>double</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.controller.WAPIDLateralController.err">
+<code class="sig-name descname">err</code><a class="headerlink" href="#wa_simulator.controller.WAPIDLateralController.err" title="Permalink to this definition">¶</a></dt>
+<dd><p>overall error</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>double</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.controller.WAPIDLateralController.errd">
+<code class="sig-name descname">errd</code><a class="headerlink" href="#wa_simulator.controller.WAPIDLateralController.errd" title="Permalink to this definition">¶</a></dt>
+<dd><p>derivative error (not accumulated)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>double</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.controller.WAPIDLateralController.erri">
+<code class="sig-name descname">erri</code><a class="headerlink" href="#wa_simulator.controller.WAPIDLateralController.erri" title="Permalink to this definition">¶</a></dt>
+<dd><p>integral error accumulated over time</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>double</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.controller.WAPIDLateralController.SetGains">
+<code class="sig-name descname">SetGains</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">Kp</span></em>, <em class="sig-param"><span class="n">Ki</span></em>, <em class="sig-param"><span class="n">Kd</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAPIDLateralController.SetGains" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the gains</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Kp</strong> (<em>double</em>) – new proportional gain</p></li>
+<li><p><strong>Ki</strong> (<em>double</em>) – new integral gain</p></li>
+<li><p><strong>Kd</strong> (<em>double</em>) – new derivative gain</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.controller.WAPIDLateralController.SetLookAheadDistance">
+<code class="sig-name descname">SetLookAheadDistance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">dist</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAPIDLateralController.SetLookAheadDistance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the lookahead distance</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dist</strong> (<em>double</em>) – new lookahead distance</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.controller.WAPIDLateralController.Synchronize">
+<code class="sig-name descname">Synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">time</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAPIDLateralController.Synchronize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Synchronize the controller at the passed time</p>
+<p>Doesn’t actually do anything.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>time</strong> (<em>double</em>) – the time to synchronize the controller to</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.controller.WAPIDLateralController.Advance">
+<code class="sig-name descname">Advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAPIDLateralController.Advance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Advance the state of the controller by step</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>step</strong> (<em>double</em>) – step size to update the controller by</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.controller.WAPIDLateralController.calcSign">
+<code class="sig-name descname">calcSign</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">state</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAPIDLateralController.calcSign" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the sign of the angle between the projections of the sentinel vector
+and the target vector (with origin at vehicle location).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>state</strong> (<em>tuple</em>) – (x position, y position, yaw about the Z, speed)</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the sign indicating direction of the state and the sentinel on the path (-1 for left or 1 for right)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
+<dl class="py class">
+<dt id="wa_simulator.controller.WAPIDLongitudinalController">
+<em class="property">class </em><code class="sig-prename descclassname">wa_simulator.controller.</code><code class="sig-name descname">WAPIDLongitudinalController</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">vehicle</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAPIDLongitudinalController" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#wa_simulator.controller.WAController" title="wa_simulator.controller.WAController"><code class="xref py py-class docutils literal notranslate"><span class="pre">wa_simulator.controller.WAController</span></code></a></p>
+<p>Longitudinal (throttle, braking) controller which minimizes error using a PID</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>vehicle</strong> (<a class="reference internal" href="../vehicle/index.html#wa_simulator.vehicle.WAVehicle" title="wa_simulator.vehicle.WAVehicle"><em>WAVehicle</em></a>) – the vehicle who has dynamics</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt id="wa_simulator.controller.WAPIDLongitudinalController.vehicle">
+<code class="sig-name descname">vehicle</code><a class="headerlink" href="#wa_simulator.controller.WAPIDLongitudinalController.vehicle" title="Permalink to this definition">¶</a></dt>
+<dd><p>the vehicle who has dynamics</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="../vehicle/index.html#wa_simulator.vehicle.WAVehicle" title="wa_simulator.vehicle.WAVehicle">WAVehicle</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.controller.WAPIDLongitudinalController.Kp">
+<code class="sig-name descname">Kp</code><a class="headerlink" href="#wa_simulator.controller.WAPIDLongitudinalController.Kp" title="Permalink to this definition">¶</a></dt>
+<dd><p>proportional gain</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>double</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.controller.WAPIDLongitudinalController.Ki">
+<code class="sig-name descname">Ki</code><a class="headerlink" href="#wa_simulator.controller.WAPIDLongitudinalController.Ki" title="Permalink to this definition">¶</a></dt>
+<dd><p>integral gain</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>double</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.controller.WAPIDLongitudinalController.Kd">
+<code class="sig-name descname">Kd</code><a class="headerlink" href="#wa_simulator.controller.WAPIDLongitudinalController.Kd" title="Permalink to this definition">¶</a></dt>
+<dd><p>derivative gain</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>double</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.controller.WAPIDLongitudinalController.err">
+<code class="sig-name descname">err</code><a class="headerlink" href="#wa_simulator.controller.WAPIDLongitudinalController.err" title="Permalink to this definition">¶</a></dt>
+<dd><p>overall error</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>double</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.controller.WAPIDLongitudinalController.errd">
+<code class="sig-name descname">errd</code><a class="headerlink" href="#wa_simulator.controller.WAPIDLongitudinalController.errd" title="Permalink to this definition">¶</a></dt>
+<dd><p>derivative error (not accumulated)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>double</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.controller.WAPIDLongitudinalController.erri">
+<code class="sig-name descname">erri</code><a class="headerlink" href="#wa_simulator.controller.WAPIDLongitudinalController.erri" title="Permalink to this definition">¶</a></dt>
+<dd><p>integral error accumulated over time</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>double</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.controller.WAPIDLongitudinalController.speed">
+<code class="sig-name descname">speed</code><a class="headerlink" href="#wa_simulator.controller.WAPIDLongitudinalController.speed" title="Permalink to this definition">¶</a></dt>
+<dd><p>the current speed</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>double</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.controller.WAPIDLongitudinalController.target_speed">
+<code class="sig-name descname">target_speed</code><a class="headerlink" href="#wa_simulator.controller.WAPIDLongitudinalController.target_speed" title="Permalink to this definition">¶</a></dt>
+<dd><p>the target speed</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>double</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.controller.WAPIDLongitudinalController.throttle_threshold">
+<code class="sig-name descname">throttle_threshold</code><a class="headerlink" href="#wa_simulator.controller.WAPIDLongitudinalController.throttle_threshold" title="Permalink to this definition">¶</a></dt>
+<dd><p>throttle position at which vehicle is moving too fast and the step size should decrease</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>double</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.controller.WAPIDLongitudinalController.SetGains">
+<code class="sig-name descname">SetGains</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">Kp</span></em>, <em class="sig-param"><span class="n">Ki</span></em>, <em class="sig-param"><span class="n">Kd</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAPIDLongitudinalController.SetGains" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the gains</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Kp</strong> (<em>double</em>) – new proportional gain</p></li>
+<li><p><strong>Ki</strong> (<em>double</em>) – new integral gain</p></li>
+<li><p><strong>Kd</strong> (<em>double</em>) – new derivative gain</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.controller.WAPIDLongitudinalController.SetTargetSpeed">
+<code class="sig-name descname">SetTargetSpeed</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">speed</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAPIDLongitudinalController.SetTargetSpeed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the target speed for the controller</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>speed</strong> (<em>double</em>) – the new target speed</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.controller.WAPIDLongitudinalController.Synchronize">
+<code class="sig-name descname">Synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">time</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAPIDLongitudinalController.Synchronize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Synchronize the controller at the passed time</p>
+<p>Doesn’t actually do anything.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>time</strong> (<em>double</em>) – the time to synchronize the controller to</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.controller.WAPIDLongitudinalController.Advance">
+<code class="sig-name descname">Advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAPIDLongitudinalController.Advance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Advance the state of the controller by step</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>step</strong> (<em>double</em>) – step size to update the controller by</p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
 </div>
 </div>
 </div>
@@ -713,6 +1143,50 @@ step value, the method is only run once.</p>
 <li><a class="reference internal" href="#wa_simulator.controller.WAMultipleControllers.Synchronize">Synchronize</a></li>
 <li><a class="reference internal" href="#wa_simulator.controller.WAMultipleControllers.Advance">Advance</a></li>
 <li><a class="reference internal" href="#wa_simulator.controller.WAMultipleControllers.GetInputs">GetInputs</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAPIDController">WAPIDController</a><ul>
+<li><a class="reference internal" href="#wa_simulator.controller.WAPIDController.lat_controller">lat_controller</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAPIDController.long_controller">long_controller</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAPIDController.Synchronize">Synchronize</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAPIDController.Advance">Advance</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAPIDController.GetInputs">GetInputs</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAPIDLateralController">WAPIDLateralController</a><ul>
+<li><a class="reference internal" href="#wa_simulator.controller.WAPIDLateralController.path">path</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAPIDLateralController.vehicle">vehicle</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAPIDLateralController.Kp">Kp</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAPIDLateralController.Ki">Ki</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAPIDLateralController.Kd">Kd</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAPIDLateralController.dist">dist</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAPIDLateralController.target">target</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAPIDLateralController.sentinel">sentinel</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAPIDLateralController.err">err</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAPIDLateralController.errd">errd</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAPIDLateralController.erri">erri</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAPIDLateralController.SetGains">SetGains</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAPIDLateralController.SetLookAheadDistance">SetLookAheadDistance</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAPIDLateralController.Synchronize">Synchronize</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAPIDLateralController.Advance">Advance</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAPIDLateralController.calcSign">calcSign</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAPIDLongitudinalController">WAPIDLongitudinalController</a><ul>
+<li><a class="reference internal" href="#wa_simulator.controller.WAPIDLongitudinalController.vehicle">vehicle</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAPIDLongitudinalController.Kp">Kp</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAPIDLongitudinalController.Ki">Ki</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAPIDLongitudinalController.Kd">Kd</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAPIDLongitudinalController.err">err</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAPIDLongitudinalController.errd">errd</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAPIDLongitudinalController.erri">erri</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAPIDLongitudinalController.speed">speed</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAPIDLongitudinalController.target_speed">target_speed</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAPIDLongitudinalController.throttle_threshold">throttle_threshold</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAPIDLongitudinalController.SetGains">SetGains</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAPIDLongitudinalController.SetTargetSpeed">SetTargetSpeed</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAPIDLongitudinalController.Synchronize">Synchronize</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAPIDLongitudinalController.Advance">Advance</a></li>
 </ul>
 </li>
 </ul>

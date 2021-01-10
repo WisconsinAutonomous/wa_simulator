@@ -1,0 +1,69 @@
+:mod:`wa_simulator.chrono.controller`
+=====================================
+
+.. py:module:: wa_simulator.chrono.controller
+
+.. autoapi-nested-parse::
+
+   Wisconsin Autonomous - https://www.wisconsinautonomous.org
+
+   Copyright (c) 2021 wisconsinautonomous.org
+   All rights reserved.
+
+   Use of this source code is governed by a BSD-style license that can be found
+   in the LICENSE file at the top level of the repo
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   wa_simulator.chrono.controller.WAIrrlichtController
+
+
+
+.. py:class:: WAIrrlichtController(visualization, system)
+
+   Bases: :class:`wa_simulator.controller.WAController`
+
+   Wrapper for a ChIrrGuiDriver.
+
+   Uses the keyboard in the irrlicht window to control the car. Window must be active
+   to work. Currently not supported on Mac when the anaconda build is used
+
+   :param visualization: the irrlicht visualization
+   :type visualization: WAIrrlichtVisualization
+   :param system: the system
+   :type system: WASystem
+
+   .. method:: Synchronize(self, time)
+
+      Synchronize the irrlicht driver at the specified time
+
+      :param time: time to synchronize at
+      :type time: double
+
+
+   .. method:: Advance(self, step)
+
+      Advance the irrlicht driver by the specified step
+
+      :param step: step to advance by
+      :type step: double
+
+
+   .. method:: GetInputs(self)
+
+      Get the vehicle inputs
+
+      Overrides base class method. Converts a veh.DriverInputs to a WAVehicleInputs
+
+      :returns: The input class
+
+
+

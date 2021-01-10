@@ -4,6 +4,15 @@ API Reference
 .. py:module:: wa_simulator
 
 
+Subpackages
+-----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 3
+
+   chrono/index.rst
+
+
 Submodules
 ----------
 .. toctree::

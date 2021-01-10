@@ -28,6 +28,9 @@ Classes
    wa_simulator.controller.WASimpleController
    wa_simulator.controller.WAKeyboardController
    wa_simulator.controller.WAMultipleControllers
+   wa_simulator.controller.WAPIDController
+   wa_simulator.controller.WAPIDLateralController
+   wa_simulator.controller.WAPIDLongitudinalController
 
 
 
@@ -361,6 +364,295 @@ Classes
       Overrides base class method. Will just grab the first controllers inputs.
 
       :returns: The input class
+
+
+
+.. py:class:: WAPIDController(lat_controller=None, long_controller=None)
+
+   Bases: :class:`wa_simulator.controller.WAController`
+
+   PID Controller that contains a lateral and longitudinal controller
+
+   Uses the lateral controller for steering and longitudinal controller throttle/braking
+
+   :param lat_controller: Lateral controller for steering. Defaults to None.
+   :type lat_controller: WAPIDLateralController, optional
+   :param long_controller: Longitudinal controller for throttle/braking. Defaults to None.
+   :type long_controller: WAPIDLongitudinalController, optional
+
+   .. attribute:: lat_controller
+
+      Lateral controller for steering
+
+      :type: WAPIDLateralController
+
+   .. attribute:: long_controller
+
+      Longitudinal controller for throttle/braking
+
+      :type: WAPIDLongitudinalController
+
+   .. method:: Synchronize(self, time)
+
+      Synchronize each controller at the specified time
+
+      :param time: the time at which the controller should synchronize all modules
+      :type time: double
+
+
+   .. method:: Advance(self, step)
+
+      Advance the state of each controller
+
+      :param step: the time step at which the controller should be advanced
+      :type step: double
+
+
+   .. method:: GetInputs(self)
+
+      Get the vehicle inputs
+
+      Overrides base class method. Grabs the steering from the lateral controller and the
+      throttle and braking from the longitudinal controller
+
+      :returns: The input class
+      :rtype: WAVehicleInputs
+
+
+
+.. py:class:: WAPIDLateralController(path, vehicle)
+
+   Bases: :class:`wa_simulator.controller.WAController`
+
+   Lateral (steering) controller which minimizes error using a PID
+
+   :param path: the path the vehicle is attempting to follow
+   :type path: WAPath
+   :param vehicle: the vehicle who has dynamics
+   :type vehicle: WAVehicle
+
+   .. attribute:: path
+
+      the path the vehicle is attempting to follow
+
+      :type: WAPath
+
+   .. attribute:: vehicle
+
+      the vehicle who has dynamics
+
+      :type: WAVehicle
+
+   .. attribute:: Kp
+
+      proportional gain
+
+      :type: double
+
+   .. attribute:: Ki
+
+      integral gain
+
+      :type: double
+
+   .. attribute:: Kd
+
+      derivative gain
+
+      :type: double
+
+   .. attribute:: dist
+
+      lookahead distance
+
+      :type: double
+
+   .. attribute:: target
+
+      point on the path that is attempting to reach
+
+      :type: double
+
+   .. attribute:: sentinel
+
+      some point a dist directly in front of the vehicle
+
+      :type: double
+
+   .. attribute:: err
+
+      overall error
+
+      :type: double
+
+   .. attribute:: errd
+
+      derivative error (not accumulated)
+
+      :type: double
+
+   .. attribute:: erri
+
+      integral error accumulated over time
+
+      :type: double
+
+   .. method:: SetGains(self, Kp, Ki, Kd)
+
+      Set the gains
+
+      :param Kp: new proportional gain
+      :type Kp: double
+      :param Ki: new integral gain
+      :type Ki: double
+      :param Kd: new derivative gain
+      :type Kd: double
+
+
+   .. method:: SetLookAheadDistance(self, dist)
+
+      Set the lookahead distance
+
+      :param dist: new lookahead distance
+      :type dist: double
+
+
+   .. method:: Synchronize(self, time)
+
+      Synchronize the controller at the passed time
+
+      Doesn't actually do anything.
+
+      :param time: the time to synchronize the controller to
+      :type time: double
+
+
+   .. method:: Advance(self, step)
+
+      Advance the state of the controller by step
+
+      :param step: step size to update the controller by
+      :type step: double
+
+
+   .. method:: calcSign(self, state)
+
+      Calculate the sign of the angle between the projections of the sentinel vector
+      and the target vector (with origin at vehicle location).
+
+      :param state: (x position, y position, yaw about the Z, speed)
+      :type state: tuple
+
+      :returns: the sign indicating direction of the state and the sentinel on the path (-1 for left or 1 for right)
+      :rtype: int
+
+
+
+.. py:class:: WAPIDLongitudinalController(vehicle)
+
+   Bases: :class:`wa_simulator.controller.WAController`
+
+   Longitudinal (throttle, braking) controller which minimizes error using a PID
+
+   :param vehicle: the vehicle who has dynamics
+   :type vehicle: WAVehicle
+
+   .. attribute:: vehicle
+
+      the vehicle who has dynamics
+
+      :type: WAVehicle
+
+   .. attribute:: Kp
+
+      proportional gain
+
+      :type: double
+
+   .. attribute:: Ki
+
+      integral gain
+
+      :type: double
+
+   .. attribute:: Kd
+
+      derivative gain
+
+      :type: double
+
+   .. attribute:: err
+
+      overall error
+
+      :type: double
+
+   .. attribute:: errd
+
+      derivative error (not accumulated)
+
+      :type: double
+
+   .. attribute:: erri
+
+      integral error accumulated over time
+
+      :type: double
+
+   .. attribute:: speed
+
+      the current speed
+
+      :type: double
+
+   .. attribute:: target_speed
+
+      the target speed
+
+      :type: double
+
+   .. attribute:: throttle_threshold
+
+      throttle position at which vehicle is moving too fast and the step size should decrease
+
+      :type: double
+
+   .. method:: SetGains(self, Kp, Ki, Kd)
+
+      Set the gains
+
+      :param Kp: new proportional gain
+      :type Kp: double
+      :param Ki: new integral gain
+      :type Ki: double
+      :param Kd: new derivative gain
+      :type Kd: double
+
+
+   .. method:: SetTargetSpeed(self, speed)
+
+      Set the target speed for the controller
+
+      :param speed: the new target speed
+      :type speed: double
+
+
+   .. method:: Synchronize(self, time)
+
+      Synchronize the controller at the passed time
+
+      Doesn't actually do anything.
+
+      :param time: the time to synchronize the controller to
+      :type time: double
+
+
+   .. method:: Advance(self, step)
+
+      Advance the state of the controller by step
+
+      :param step: step size to update the controller by
+      :type step: double
 
 
 

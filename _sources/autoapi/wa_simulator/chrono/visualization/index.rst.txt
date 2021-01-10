@@ -1,0 +1,87 @@
+:mod:`wa_simulator.chrono.visualization`
+========================================
+
+.. py:module:: wa_simulator.chrono.visualization
+
+.. autoapi-nested-parse::
+
+   Wisconsin Autonomous - https://www.wisconsinautonomous.org
+
+   Copyright (c) 2021 wisconsinautonomous.org
+   All rights reserved.
+
+   Use of this source code is governed by a BSD-style license that can be found
+   in the LICENSE file at the top level of the repo
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   wa_simulator.chrono.visualization.WAChronoIrrlicht
+
+
+
+.. py:class:: WAChronoIrrlicht(vehicle, system)
+
+   Bases: :class:`wa_simulator.visualization.WAVisualization`
+
+   Chrono irrlicht visualization wrapper. Sets default values for a Vehicle irr app
+
+   :param vehicle: vehicle that holds the Chrono vehicle
+   :type vehicle: WAChronoVehicle
+   :param system: holds information regarding the simulation and performs dynamic updates
+   :type system: WAChronoSystem
+
+   .. attribute:: render_steps
+
+      steps between which the visualization should update
+
+      :type: int
+
+   .. attribute:: system
+
+      system used to grab certain parameters of the simulation
+
+      :type: WAChronoSystem
+
+   .. attribute:: app
+
+      The vehicle irrlicht app that displays the 3D rendering
+
+      :type: ChVehicleIrrApp
+
+   .. method:: Advance(self, step)
+
+      Advance the state of the visualization by the specified step
+
+      Will update the render only if the simulation step is a multiple of render steps
+
+      :param step: step size to update the visualization by
+      :type step: double
+
+
+   .. method:: Synchronize(self, time, vehicle_inputs)
+
+      Synchronize the irrlicht app with the vehicle inputs at the passed time
+
+      :param time: time to synchronize the simulation to
+      :type time: double
+      :param vehicle_inputs: the vehicle inputs
+      :type vehicle_inputs: WAVehicleInputs
+
+
+   .. method:: IsOk(self)
+
+      Checks if the irrlicht rending window is still alive
+
+      :returns: whether the simulation is still alive
+      :rtype: bool
+
+
+

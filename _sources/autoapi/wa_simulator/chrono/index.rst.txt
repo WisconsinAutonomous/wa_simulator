@@ -1,0 +1,38 @@
+:mod:`wa_simulator.chrono`
+==========================
+
+.. py:module:: wa_simulator.chrono
+
+.. autoapi-nested-parse::
+
+   Requires the `PyChrono <https://projectchrono.org/pychrono/>`_ library.
+
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   controller/index.rst
+   environment/index.rst
+   system/index.rst
+   terrain/index.rst
+   vehicle/index.rst
+   visualization/index.rst
+
+
+Package Contents
+----------------
+
+.. data:: CHRONO_DATA_DIRECTORY
+   
+
+   
+
+.. data:: CHRONO_VEH_DATA_DIRECTORY
+   
+
+   
+

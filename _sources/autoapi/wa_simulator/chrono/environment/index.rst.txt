@@ -1,0 +1,77 @@
+:mod:`wa_simulator.chrono.environment`
+======================================
+
+.. py:module:: wa_simulator.chrono.environment
+
+.. autoapi-nested-parse::
+
+   Wisconsin Autonomous - https://www.wisconsinautonomous.org
+
+   Copyright (c) 2021 wisconsinautonomous.org
+   All rights reserved.
+
+   Use of this source code is governed by a BSD-style license that can be found
+   in the LICENSE file at the top level of the repo
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   wa_simulator.chrono.environment.WAChronoEnvironment
+
+
+
+.. py:class:: WAChronoEnvironment(filename, system, terrain=None)
+
+   Bases: :class:`wa_simulator.environment.WAEnvironment`
+
+   The environment wrapper that's responsible for holding Chrono assets and the terrain
+
+   TODO: Add assets from file
+
+   :param filename: the json specification file describing the environment
+   :type filename: str
+   :param system: the wa system that wraps a ChSystem
+   :type system: WASystem
+   :param terrain: a chrono terrain. Will create one if not passed. Defaults to None.
+   :type terrain: ChTerrain, optional
+
+   .. attribute:: terrain
+
+      the wrapper for the chrono terrain
+
+      :type: WAChronoTerrain
+
+   .. attribute:: EGP_ENV_MODEL_FILE
+      :annotation: = environments/ev_grand_prix.json
+
+      
+
+   .. attribute:: IAC_ENV_MODEL_FILE
+      :annotation: = environments/iac.json
+
+      
+
+   .. method:: Synchronize(self, time)
+
+      Synchronize the environment. Will just synchronize the terrain
+
+      :param time: [description]
+      :type time: [type]
+
+
+   .. method:: Advance(self, step)
+
+      Advance the environment by the step size. Will just advance the terrain.
+
+      :param step: the step size to update the environment by
+      :type step: double
+
+
+

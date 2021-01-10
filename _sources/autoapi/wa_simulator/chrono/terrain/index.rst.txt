@@ -1,0 +1,84 @@
+:mod:`wa_simulator.chrono.terrain`
+==================================
+
+.. py:module:: wa_simulator.chrono.terrain
+
+.. autoapi-nested-parse::
+
+   Wisconsin Autonomous - https://www.wisconsinautonomous.org
+
+   Copyright (c) 2021 wisconsinautonomous.org
+   All rights reserved.
+
+   Use of this source code is governed by a BSD-style license that can be found
+   in the LICENSE file at the top level of the repo
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   wa_simulator.chrono.terrain.WAChronoTerrain
+
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   wa_simulator.chrono.terrain.ReadTerrainModelFile
+
+
+.. function:: ReadTerrainModelFile(filename)
+
+   Get the json specification file describing a ChTerrain
+
+   :param filename: the relative path to a terrain json file
+   :type filename: str
+
+   :returns: the absolute json file
+   :rtype: str
+
+
+.. py:class:: WAChronoTerrain(filename, system)
+
+   Bases: :class:`wa_simulator.terrain.WATerrain`
+
+   Wrapper for a ChTerrain
+
+   Only support for RigidTerrain is supported for now.
+
+   :param filename: the json specification file describing the terrain
+   :type filename: str
+   :param system: system used to create the terrain
+   :type system: WASystem
+
+   .. attribute:: terrain
+
+      the created rigid terrain
+
+      :type: RigidTerrain
+
+   .. method:: Synchronize(self, time)
+
+      Synchronize the terrain at the specified time
+
+      :param time: time at which synchronization should occur
+      :type time: double
+
+
+   .. method:: Advance(self, step)
+
+      Advance the terrain dynamics by the specified step
+
+      :param step: the step at which the simulation should be updated by
+      :type step: double
+
+
+

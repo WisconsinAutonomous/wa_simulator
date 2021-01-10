@@ -1,0 +1,64 @@
+:mod:`wa_simulator.chrono.system`
+=================================
+
+.. py:module:: wa_simulator.chrono.system
+
+.. autoapi-nested-parse::
+
+   Wisconsin Autonomous - https://www.wisconsinautonomous.org
+
+   Copyright (c) 2021 wisconsinautonomous.org
+   All rights reserved.
+
+   Use of this source code is governed by a BSD-style license that can be found
+   in the LICENSE file at the top level of the repo
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   wa_simulator.chrono.system.WAChronoSystem
+
+
+
+.. py:class:: WAChronoSystem(step_size, render_step_size=0.02, contact_method='NSC')
+
+   Bases: :class:`wa_simulator.system.WASystem`
+
+   Chrono system wrapper.
+
+   Performs dynamics automatically
+
+   :param step_size: simulation step size
+   :type step_size: double
+   :param render_step_size: render step size. Defaults to 2e-2.
+   :type render_step_size: double, optional
+   :param contact_method: the contact method to use (NSC or SMC). Defaults to "NSC".
+   :type contact_method: str, optional
+
+   :raises TypeError: verify the contact method is a string
+
+   .. method:: Advance(self)
+
+      Advance the simulation.
+
+      Will update the dynamics of the chrono simulation
+
+
+   .. method:: GetSimTime(self)
+
+      Get the simulation time.
+
+      Will get the time from the wrapped ChSystem
+
+      :returns: the simulation time
+      :rtype: double
+
+
+
