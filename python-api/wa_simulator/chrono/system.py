@@ -9,7 +9,7 @@ in the LICENSE file at the top level of the repo
 """
 
 # WA Simulator
-from wa_simulator.simulation.system import WASystem
+from wa_simulator.system import WASystem
 
 # Chrono specific imports
 import pychrono as chrono

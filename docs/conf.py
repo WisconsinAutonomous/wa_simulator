@@ -51,7 +51,7 @@ autoapi_options = [
     "special-members",
     "imported-members",
 ]
-autoapi_ignore = ["*_chrono/*", "*_import.py*"]
+autoapi_ignore = ["*_import.py*"]
 autoapi_generate_api_docs = True
 autoapi_add_toctree_entry = False
 autoapi_template_dir = "_templates"

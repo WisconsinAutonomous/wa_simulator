@@ -23,7 +23,7 @@ setup(
 
     license = "BSD",
     description = ("Simulation tool for prototyping autonomous vehicle related algorithms. Wrapper of the PyChrono simulator."),
-    long_description=read('README.md'),
+    long_description=read('../README.md'),
     long_description_content_type='text/markdown',  # Optional (see note above)
 
     packages=find_packages(),

@@ -9,10 +9,13 @@ in the LICENSE file at the top level of the repo
 """
 
 # WA Simulator
-from wa_simulator.controller.controller import WAController, WAVehicleInputs
+from wa_simulator.controller import WAController, WAVehicleInputs
 
 # Chrono imports
 import pychrono.vehicle as veh
+
+# Other imports
+import numpy as np
 
 
 class WAIrrlichtController(WAController):

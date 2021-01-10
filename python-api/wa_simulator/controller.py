@@ -13,7 +13,7 @@ from abc import ABC, abstractmethod  # Abstract Base Class
 # Other imports
 import sys, tty, termios, atexit
 from select import select
-from numpy import clip, ceil
+import numpy as np
 
 
 class WAVehicleInputs:
@@ -261,27 +261,27 @@ class WAKeyboardController(WAController):
             if key == -1:
                 return
             elif key == 0:
-                self.throttle_target = clip(
+                self.throttle_target = np.clip(
                     self.throttle_target + self.throttle_delta, 0.0, +1.0
                 )
                 if self.throttle_target > 0:
-                    self.braking_target = clip(
+                    self.braking_target = np.clip(
                         self.braking_target - self.braking_delta * 3, 0.0, +1.0
                     )
             elif key == 2:
-                self.throttle_target = clip(
+                self.throttle_target = np.clip(
                     self.throttle_target - self.throttle_delta * 3, 0.0, +1.0
                 )
                 if self.throttle_target <= 0:
-                    self.braking_target = clip(
+                    self.braking_target = np.clip(
                         self.braking_target + self.braking_delta, 0.0, +1.0
                     )
             elif key == 1:
-                self.steering_target = clip(
+                self.steering_target = np.clip(
                     self.steering_target + self.steering_delta, -1.0, +1.0
                 )
             elif key == 3:
-                self.steering_target = clip(
+                self.steering_target = np.clip(
                     self.steering_target - self.steering_delta, -1.0, +1.0
                 )
             else:
@@ -366,3 +366,306 @@ class WAMultipleControllers(WAController):
         """
 
         return self.controllers[0].GetInputs()
+
+
+class WAPIDController(WAController):
+    """PID Controller that contains a lateral and longitudinal controller
+
+    Uses the lateral controller for steering and longitudinal controller throttle/braking
+
+    Args:
+        lat_controller (WAPIDLateralController, optional): Lateral controller for steering. Defaults to None.
+        long_controller (WAPIDLongitudinalController, optional): Longitudinal controller for throttle/braking. Defaults to None.
+
+    Attributes:
+        lat_controller (WAPIDLateralController): Lateral controller for steering
+        long_controller (WAPIDLongitudinalController): Longitudinal controller for throttle/braking
+    """
+
+    def __init__(self, lat_controller=None, long_controller=None):
+        self.vehicle = vehicle
+
+        # Lateral controller (steering)
+        if lat_controller is None:
+            lat_controller = WAPIDLateralController(track.center)
+            lat_controller.SetGains(Kp=0.4, Ki=0, Kd=0.25)
+            lat_controller.SetLookAheadDistance(dist=5)
+        self.lat_controller = lat_controller
+
+        if long_controller is None:
+            # Longitudinal controller (throttle and braking)
+            long_controller = WAPIDLongitudinalController()
+            long_controller.SetGains(Kp=0.4, Ki=0, Kd=0)
+            long_controller.SetTargetSpeed(speed=15.0)
+        self.long_controller = long_controller
+
+    def Synchronize(self, time):
+        """Synchronize each controller at the specified time
+
+        Args:
+            time (double): the time at which the controller should synchronize all modules
+        """
+        self.lat_controller.Synchronize(time)
+        self.long_controller.Synchronize(time)
+
+    def Advance(self, step):
+        """Advance the state of each controller
+
+        Args:
+            step (double): the time step at which the controller should be advanced
+        """
+        self.lat_controller.Advance(step)
+        self.long_controller.Advance(step)
+
+    def GetInputs(self):
+        """Get the vehicle inputs
+
+        Overrides base class method. Grabs the steering from the lateral controller and the
+        throttle and braking from the longitudinal controller
+
+        Returns:
+            WAVehicleInputs: The input class
+        """
+        self.steering = self.lat_controller.steering
+        self.throttle = self.long_controller.throttle
+        self.braking = self.long_controller.braking
+        return WAVehicleInputs(
+            self.steering,
+            self.throttle,
+            self.braking,
+        )
+
+
+class WAPIDLateralController(WAController):
+    """Lateral (steering) controller which minimizes error using a PID
+
+    Args:
+        path (WAPath): the path the vehicle is attempting to follow
+        vehicle (WAVehicle): the vehicle who has dynamics
+
+    Attributes:
+        path (WAPath): the path the vehicle is attempting to follow
+        vehicle (WAVehicle): the vehicle who has dynamics
+        Kp (double): proportional gain
+        Ki (double): integral gain
+        Kd (double): derivative gain
+        dist (double): lookahead distance
+        target (double): point on the path that is attempting to reach
+        sentinel (double): some point a dist directly in front of the vehicle
+        err (double): overall error
+        errd (double): derivative error (not accumulated)
+        erri (double): integral error accumulated over time
+    """
+
+    def __init__(self, path, vehicle):
+        self.Kp = 0
+        self.Ki = 0
+        self.Kd = 0
+
+        self.dist = 0
+        self.target = np.array([0, 0, 0])
+        self.sentinel = np.array([0, 0, 0])
+
+        self.err = 0
+        self.errd = 0
+        self.erri = 0
+
+        self.path = path
+        self.vehicle = vehicle
+
+    def SetGains(self, Kp, Ki, Kd):
+        """Set the gains
+
+        Args:
+            Kp (double): new proportional gain
+            Ki (double): new integral gain
+            Kd (double): new derivative gain
+        """
+        self.Kp = Kp
+        self.Ki = Ki
+        self.Kd = Kd
+
+    def SetLookAheadDistance(self, dist):
+        """Set the lookahead distance
+
+        Args:
+            dist (double): new lookahead distance
+        """
+        self.dist = dist
+
+    def Synchronize(self, time):
+        """Synchronize the controller at the passed time
+
+        Doesn't actually do anything.
+
+        Args:
+            time (double): the time to synchronize the controller to
+        """
+        pass
+
+    def Advance(self, step):
+        """Advance the state of the controller by step
+
+        Args:
+            step (double): step size to update the controller by
+        """
+        state = self.vehicle.GetSimpleState()
+        self.sentinel = np.array(
+            [
+                self.dist * np.cos(state.yaw) + state.x,
+                self.dist * np.sin(state.yaw) + state.y,
+                0,
+            ]
+        )
+
+        self.target = self.path.calcClosestPoint(self.sentinel)
+
+        # The "error" vector is the projection onto the horizontal plane (z=0) of
+        # vector between sentinel and target
+        err_vec = self.target - self.sentinel
+        err_vec.z = 0
+
+        # Calculate the sign of the angle between the projections of the sentinel
+        # vector and the target vector (with origin at vehicle location).
+        sign = self.calcSign(state)
+
+        # Calculate current error (magnitude)
+        err = sign * err_vec.Length()
+
+        # Estimate error derivative (backward FD approximation).
+        self.errd = (err - self.err) / step
+
+        # Calculate current error integral (trapezoidal rule).
+        self.erri += (err + self.err) * step / 2
+
+        # Cache new error
+        self.err = err
+
+        # Return PID output (steering value)
+        self.steering = np.clip(
+            self.Kp * self.err + self.Ki * self.erri + self.Kd * self.errd, -1.0, 1.0
+        )
+
+    def calcSign(self, state):
+        """Calculate the sign of the angle between the projections of the sentinel vector
+        and the target vector (with origin at vehicle location).
+
+        Args:
+            state (tuple): (x position, y position, yaw about the Z, speed)
+
+        Returns:
+            int: the sign indicating direction of the state and the sentinel on the path (-1 for left or 1 for right)
+        """
+        pos = np.array([state.x, state.y, 0])
+
+        sentinel_vec = self.sentinel - pos
+        target_vec = self.target - pos
+
+        temp = np.dot(np.cross(sentinel_vec, target_vec), np.array([0, 0, 1]))
+
+        return (temp > 0) - (temp < 0)
+
+
+class WAPIDLongitudinalController(WAController):
+    """Longitudinal (throttle, braking) controller which minimizes error using a PID
+
+    Args:
+        vehicle (WAVehicle): the vehicle who has dynamics
+
+    Attributes:
+        vehicle (WAVehicle): the vehicle who has dynamics
+        Kp (double): proportional gain
+        Ki (double): integral gain
+        Kd (double): derivative gain
+        err (double): overall error
+        errd (double): derivative error (not accumulated)
+        erri (double): integral error accumulated over time
+        speed (double): the current speed
+        target_speed (double): the target speed
+        throttle_threshold (double): throttle position at which vehicle is moving too fast and the step size should decrease
+    """
+
+    def __init__(self, vehicle):
+        self.Kp = 0
+        self.Ki = 0
+        self.Kd = 0
+
+        self.err = 0
+        self.errd = 0
+        self.erri = 0
+
+        self.speed = 0
+        self.target_speed = 0
+
+        self.throttle_threshold = 0.2
+
+        self.vehicle = vehicle
+
+    def SetGains(self, Kp, Ki, Kd):
+        """Set the gains
+
+        Args:
+            Kp (double): new proportional gain
+            Ki (double): new integral gain
+            Kd (double): new derivative gain
+        """
+        self.Kp = Kp
+        self.Ki = Ki
+        self.Kd = Kd
+
+    def SetTargetSpeed(self, speed):
+        """Set the target speed for the controller
+
+        Args:
+            speed (double): the new target speed
+        """
+        self.target_speed = speed
+
+    def Synchronize(self, time):
+        """Synchronize the controller at the passed time
+
+        Doesn't actually do anything.
+
+        Args:
+            time (double): the time to synchronize the controller to
+        """
+        pass
+
+    def Advance(self, step):
+        """Advance the state of the controller by step
+
+        Args:
+            step (double): step size to update the controller by
+        """
+
+        self.speed = self.vehicle.GetSimpleState().v
+
+        # Calculate current error
+        err = self.target_speed - self.speed
+
+        # Estimate error derivative (backward FD approximation)
+        self.errd = (err - self.err) / step
+
+        # Calculate current error integral (trapezoidal rule).
+        self.erri += (err + self.err) * step / 2
+
+        # Cache new error
+        self.err = err
+
+        # Return PID output (steering value)
+        throttle = np.clip(
+            self.Kp * self.err + self.Ki * self.erri + self.Kd * self.errd, -1.0, 1.0
+        )
+
+        if throttle > 0:
+            # Vehicle moving too slow
+            self.braking = 0
+            self.throttle = throttle
+        elif self.target_throttle > self.throttle_threshold:
+            # Vehicle moving too fast: reduce throttle
+            self.braking = 0
+            self.throttle = self.target_throttle + throttle
+        else:
+            # Vehicle moving too fast: apply brakes
+            self.braking = -throttle
+            self.throttle = 0

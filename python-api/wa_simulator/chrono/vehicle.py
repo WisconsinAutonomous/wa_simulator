@@ -9,7 +9,7 @@ in the LICENSE file at the top level of the repo
 """
 
 # WA Simulator
-from wa_simulator.vehicle.vehicle import WAVehicle
+from wa_simulator.vehicle import WAVehicle
 
 # Chrono specific imports
 import pychrono as chrono
@@ -97,8 +97,6 @@ class WAChronoVehicle(WAVehicle):
         initRot (chrono.ChQuaternionD, optional): the initial orientation of the vehicle. Defaults to chrono.ChQuaternionD(1, 0, 0, 0).
 
     Attributes:
-        GO_KART_MODEL_FILE (str): json specification file for the go kart model representation
-        IAC_VEH_MODEL_FILE (str): json specification file for the iac car model representation
         vehicle (ChVehicle): a chrono vehicle that this class essentially wraps
         terrain (ChTerrain): a terrain that the vehicle interacts with
     """

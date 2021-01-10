@@ -9,7 +9,7 @@ in the LICENSE file at the top level of the repo
 """
 
 # WA Simulator
-from wa_simulator.environment.terrain import WATerrain
+from wa_simulator.terrain import WATerrain
 
 # Chrono specific imports
 import pychrono as chrono

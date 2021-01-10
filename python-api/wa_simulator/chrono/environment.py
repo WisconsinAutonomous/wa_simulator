@@ -9,8 +9,8 @@ in the LICENSE file at the top level of the repo
 """
 
 # WA Simulator
-from wa_simulator.environment.environment import WAEnvironment
-from wa_simulator.chrono.environment.chrono_terrain import WAChronoTerrain
+from wa_simulator.environment import WAEnvironment
+from wa_simulator.chrono.terrain import WAChronoTerrain
 
 # Chrono specific imports
 import pychrono as chrono
@@ -19,7 +19,7 @@ import pychrono as chrono
 class WAChronoEnvironment(WAEnvironment):
     """The environment wrapper that's responsible for holding Chrono assets and the terrain
 
-    TODO: Add assets
+    TODO: Add assets from file
 
     Args:
         filename (str): the json specification file describing the environment
@@ -27,8 +27,6 @@ class WAChronoEnvironment(WAEnvironment):
         terrain (ChTerrain, optional): a chrono terrain. Will create one if not passed. Defaults to None.
 
     Attributes:
-        EGP_ENV_MODEL_FILE (str): evGrand Prix environment file
-        IAC_ENV_MODEL_FILE (str): IAC environment file
         terrain (WAChronoTerrain): the wrapper for the chrono terrain
     """
 
