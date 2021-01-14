@@ -195,19 +195,25 @@ in the LICENSE file at the top level of the repo</p>
 <td><p>Simple controller designed to never change the inputs</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#wa_simulator.controller.WAKeyboardController" title="wa_simulator.controller.WAKeyboardController"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WAKeyboardController</span></code></a></p></td>
+<td><p>Base keyboard controller. Still must be inherited (can’t be instantiated). Has utilites.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#wa_simulator.controller.WATerminalKeyboardController" title="wa_simulator.controller.WATerminalKeyboardController"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WATerminalKeyboardController</span></code></a></p></td>
 <td><p>Controls a vehicle via input from the terminal window.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#wa_simulator.controller.WAMultipleControllers" title="wa_simulator.controller.WAMultipleControllers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WAMultipleControllers</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#wa_simulator.controller.WAMultipleControllers" title="wa_simulator.controller.WAMultipleControllers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WAMultipleControllers</span></code></a></p></td>
 <td><p>Wrapper class for multiple controllers. Allows multiple controllers to be used.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#wa_simulator.controller.WAPIDController" title="wa_simulator.controller.WAPIDController"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WAPIDController</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#wa_simulator.controller.WAPIDController" title="wa_simulator.controller.WAPIDController"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WAPIDController</span></code></a></p></td>
 <td><p>PID Controller that contains a lateral and longitudinal controller</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#wa_simulator.controller.WAPIDLateralController" title="wa_simulator.controller.WAPIDLateralController"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WAPIDLateralController</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#wa_simulator.controller.WAPIDLateralController" title="wa_simulator.controller.WAPIDLateralController"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WAPIDLateralController</span></code></a></p></td>
 <td><p>Lateral (steering) controller which minimizes error using a PID</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#wa_simulator.controller.WAPIDLongitudinalController" title="wa_simulator.controller.WAPIDLongitudinalController"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WAPIDLongitudinalController</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#wa_simulator.controller.WAPIDLongitudinalController" title="wa_simulator.controller.WAPIDLongitudinalController"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WAPIDLongitudinalController</span></code></a></p></td>
 <td><p>Longitudinal (throttle, braking) controller which minimizes error using a PID</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#wa_simulator.controller.WAMatplotlibController" title="wa_simulator.controller.WAMatplotlibController"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WAMatplotlibController</span></code></a></p></td>
+<td><p>Controls a vehicle via keyboard input from a matplotlib figure</p></td>
 </tr>
 </tbody>
 </table></div>
@@ -338,172 +344,23 @@ other logic in the Advance method.</p>
 <dt id="wa_simulator.controller.WAKeyboardController">
 <em class="property">class </em><code class="sig-prename descclassname">wa_simulator.controller.</code><code class="sig-name descname">WAKeyboardController</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">system</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#wa_simulator.controller.WAController" title="wa_simulator.controller.WAController"><code class="xref py py-class docutils literal notranslate"><span class="pre">wa_simulator.controller.WAController</span></code></a></p>
-<p>Controls a vehicle via input from the terminal window.</p>
-<p>Uses the KeyGetter object to grab input from the user in the terminal window.
-Inherits from the WAController method</p>
+<p>Base keyboard controller. Still must be inherited (can’t be instantiated). Has utilites.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>system</strong> (<em>ChSystem</em>) – The system used to manage the simulation</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>system</strong> (<em>ChSystem</em>) – The system used to manage the simulation</p></li>
+<li><p><strong>steering_target</strong> (<em>double</em>) – The target steering value.</p></li>
+<li><p><strong>throttle_target</strong> (<em>double</em>) – The target throttle value.</p></li>
+<li><p><strong>braking_target</strong> (<em>double</em>) – The target braking value.</p></li>
+<li><p><strong>steering_delta</strong> (<em>double</em>) – The delta steering value.</p></li>
+<li><p><strong>throttle_delta</strong> (<em>double</em>) – The delta throttle value.</p></li>
+<li><p><strong>braking_delta</strong> (<em>double</em>) – The delta braking value.</p></li>
+<li><p><strong>steering_gain</strong> (<em>double</em>) – The gain steering value.</p></li>
+<li><p><strong>throttle_gain</strong> (<em>double</em>) – The gain throttle value.</p></li>
+<li><p><strong>braking_gain</strong> (<em>double</em>) – The gain braking value.</p></li>
+</ul>
 </dd>
 </dl>
-<dl class="py attribute">
-<dt id="wa_simulator.controller.WAKeyboardController.key_getter">
-<code class="sig-name descname">key_getter</code><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.key_getter" title="Permalink to this definition">¶</a></dt>
-<dd><p>The object used to grab input from the terminal</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#wa_simulator.controller.WAKeyboardController.KeyGetter" title="wa_simulator.controller.WAKeyboardController.KeyGetter">KeyGetter</a></p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py attribute">
-<dt id="wa_simulator.controller.WAKeyboardController.steering_target">
-<code class="sig-name descname">steering_target</code><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.steering_target" title="Permalink to this definition">¶</a></dt>
-<dd><p>The target steering value.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>double</p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py attribute">
-<dt id="wa_simulator.controller.WAKeyboardController.throttle_target">
-<code class="sig-name descname">throttle_target</code><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.throttle_target" title="Permalink to this definition">¶</a></dt>
-<dd><p>The target throttle value.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>double</p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py attribute">
-<dt id="wa_simulator.controller.WAKeyboardController.braking_target">
-<code class="sig-name descname">braking_target</code><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.braking_target" title="Permalink to this definition">¶</a></dt>
-<dd><p>The target braking value.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>double</p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py attribute">
-<dt id="wa_simulator.controller.WAKeyboardController.steering_delta">
-<code class="sig-name descname">steering_delta</code><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.steering_delta" title="Permalink to this definition">¶</a></dt>
-<dd><p>The delta steering value.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>double</p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py attribute">
-<dt id="wa_simulator.controller.WAKeyboardController.throttle_delta">
-<code class="sig-name descname">throttle_delta</code><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.throttle_delta" title="Permalink to this definition">¶</a></dt>
-<dd><p>The delta throttle value.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>double</p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py attribute">
-<dt id="wa_simulator.controller.WAKeyboardController.braking_delta">
-<code class="sig-name descname">braking_delta</code><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.braking_delta" title="Permalink to this definition">¶</a></dt>
-<dd><p>The delta braking value.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>double</p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py attribute">
-<dt id="wa_simulator.controller.WAKeyboardController.steering_gain">
-<code class="sig-name descname">steering_gain</code><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.steering_gain" title="Permalink to this definition">¶</a></dt>
-<dd><p>The gain steering value.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>double</p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py attribute">
-<dt id="wa_simulator.controller.WAKeyboardController.throttle_gain">
-<code class="sig-name descname">throttle_gain</code><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.throttle_gain" title="Permalink to this definition">¶</a></dt>
-<dd><p>The gain throttle value.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>double</p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py attribute">
-<dt id="wa_simulator.controller.WAKeyboardController.braking_gain">
-<code class="sig-name descname">braking_gain</code><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.braking_gain" title="Permalink to this definition">¶</a></dt>
-<dd><p>The gain braking value.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>double</p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py class">
-<dt id="wa_simulator.controller.WAKeyboardController.KeyGetter">
-<em class="property">class </em><code class="sig-name descname">KeyGetter</code><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.KeyGetter" title="Permalink to this definition">¶</a></dt>
-<dd><p>Gets user input from the terminal.</p>
-<p>Will look for different input from the command line. The terminal window
-must be active for this to work.</p>
-<p>TODO: Fairly confident this only works on UNIX.</p>
-<dl class="py attribute">
-<dt id="wa_simulator.controller.WAKeyboardController.KeyGetter.fd">
-<code class="sig-name descname">fd</code><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.KeyGetter.fd" title="Permalink to this definition">¶</a></dt>
-<dd><p>Integer file descriptor.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>STDIN_FILENO</p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py attribute">
-<dt id="wa_simulator.controller.WAKeyboardController.KeyGetter.new_term">
-<code class="sig-name descname">new_term</code><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.KeyGetter.new_term" title="Permalink to this definition">¶</a></dt>
-<dd><p>tty attributes for the fd. Setting terminal settings.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>list</p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py attribute">
-<dt id="wa_simulator.controller.WAKeyboardController.KeyGetter.old_term">
-<code class="sig-name descname">old_term</code><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.KeyGetter.old_term" title="Permalink to this definition">¶</a></dt>
-<dd><p>tty attributes for the fd. Restoring terminal settings.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>list</p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py method">
-<dt id="wa_simulator.controller.WAKeyboardController.KeyGetter.__call__">
-<code class="sig-name descname">__call__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.KeyGetter.__call__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Checks the terminal window for a user input.</p>
-<p>This method is called through key_getter_object(). Will check terminal
-window for arrow keys. Will exit if any other key is pressed.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>a value between [0,3] describing the arrow key pressed</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>int</p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py method">
-<dt id="wa_simulator.controller.WAKeyboardController.KeyGetter.set_normal_term">
-<code class="sig-name descname">set_normal_term</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.KeyGetter.set_normal_term" title="Permalink to this definition">¶</a></dt>
-<dd><p>Resets to normal terminal.  On Windows this is a no-op.</p>
-</dd></dl>
-</dd></dl>
 <dl class="py method">
 <dt id="wa_simulator.controller.WAKeyboardController.SetSteeringDelta">
 <code class="sig-name descname">SetSteeringDelta</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">steering_delta</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.SetSteeringDelta" title="Permalink to this definition">¶</a></dt>
@@ -549,24 +406,6 @@ window for arrow keys. Will exit if any other key is pressed.</p>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="wa_simulator.controller.WAKeyboardController.KeyCheck">
-<code class="sig-name descname">KeyCheck</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.KeyCheck" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the key from the KeyGetter and update target values based on input.</p>
-<p>The updated target values are based off the delta values for that respective input.
-In this controller, input values are clipped at [-1,1] or [0,1].</p>
-</dd></dl>
-<dl class="py method">
-<dt id="wa_simulator.controller.WAKeyboardController.Synchronize">
-<code class="sig-name descname">Synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">time</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.Synchronize" title="Permalink to this definition">¶</a></dt>
-<dd><p>Synchronize the controller at the specified time</p>
-<p>Calls KeyCheck</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>time</strong> (<em>double</em>) – the time at which the controller should synchronize all depends to</p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py method">
 <dt id="wa_simulator.controller.WAKeyboardController.Advance">
 <code class="sig-name descname">Advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.Advance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Advance the controller by the specified step</p>
@@ -575,6 +414,119 @@ step value, the method is only run once.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>step</strong> (<em>double</em>) – the time step at which the controller should be advanced</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.controller.WAKeyboardController.Update">
+<code class="sig-name descname">Update</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">key</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.Update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the target values based on the key.</p>
+<p>The updated target values are based off the delta values for that respective input.
+In this controller, input values are clipped at [-1,1] or [0,1].</p>
+<p>0: throttle increase, braking decreases
+1: adjust steering right
+2: brake increase, throttle decrease
+3: adjust steering left</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>key</strong> (<em>int</em>) – the key input</p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
+<dl class="py class">
+<dt id="wa_simulator.controller.WATerminalKeyboardController">
+<em class="property">class </em><code class="sig-prename descclassname">wa_simulator.controller.</code><code class="sig-name descname">WATerminalKeyboardController</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">system</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WATerminalKeyboardController" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#wa_simulator.controller.WAKeyboardController" title="wa_simulator.controller.WAKeyboardController"><code class="xref py py-class docutils literal notranslate"><span class="pre">wa_simulator.controller.WAKeyboardController</span></code></a></p>
+<p>Controls a vehicle via input from the terminal window.</p>
+<p>Uses the KeyGetter object to grab input from the user in the terminal window.
+Inherits from the WAKeyboardController method</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>system</strong> (<em>ChSystem</em>) – The system used to manage the simulation</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt id="wa_simulator.controller.WATerminalKeyboardController.key_getter">
+<code class="sig-name descname">key_getter</code><a class="headerlink" href="#wa_simulator.controller.WATerminalKeyboardController.key_getter" title="Permalink to this definition">¶</a></dt>
+<dd><p>The object used to grab input from the terminal</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#wa_simulator.controller.WATerminalKeyboardController.KeyGetter" title="wa_simulator.controller.WATerminalKeyboardController.KeyGetter">KeyGetter</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py class">
+<dt id="wa_simulator.controller.WATerminalKeyboardController.KeyGetter">
+<em class="property">class </em><code class="sig-name descname">KeyGetter</code><a class="headerlink" href="#wa_simulator.controller.WATerminalKeyboardController.KeyGetter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets user input from the terminal.</p>
+<p>Will look for different input from the command line. The terminal window
+must be active for this to work.</p>
+<p>TODO: Fairly confident this only works on UNIX.</p>
+<dl class="py attribute">
+<dt id="wa_simulator.controller.WATerminalKeyboardController.KeyGetter.fd">
+<code class="sig-name descname">fd</code><a class="headerlink" href="#wa_simulator.controller.WATerminalKeyboardController.KeyGetter.fd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Integer file descriptor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>STDIN_FILENO</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.controller.WATerminalKeyboardController.KeyGetter.new_term">
+<code class="sig-name descname">new_term</code><a class="headerlink" href="#wa_simulator.controller.WATerminalKeyboardController.KeyGetter.new_term" title="Permalink to this definition">¶</a></dt>
+<dd><p>tty attributes for the fd. Setting terminal settings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.controller.WATerminalKeyboardController.KeyGetter.old_term">
+<code class="sig-name descname">old_term</code><a class="headerlink" href="#wa_simulator.controller.WATerminalKeyboardController.KeyGetter.old_term" title="Permalink to this definition">¶</a></dt>
+<dd><p>tty attributes for the fd. Restoring terminal settings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.controller.WATerminalKeyboardController.KeyGetter.__call__">
+<code class="sig-name descname">__call__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WATerminalKeyboardController.KeyGetter.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks the terminal window for a user input.</p>
+<p>This method is called through key_getter_object(). Will check terminal
+window for arrow keys. Will exit if any other key is pressed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a value between [0,3] describing the arrow key pressed</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.controller.WATerminalKeyboardController.KeyGetter.set_normal_term">
+<code class="sig-name descname">set_normal_term</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WATerminalKeyboardController.KeyGetter.set_normal_term" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resets to normal terminal.  On Windows this is a no-op.</p>
+</dd></dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.controller.WATerminalKeyboardController.KeyCheck">
+<code class="sig-name descname">KeyCheck</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WATerminalKeyboardController.KeyCheck" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the key from the KeyGetter and update target values based on input.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.controller.WATerminalKeyboardController.Synchronize">
+<code class="sig-name descname">Synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">time</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WATerminalKeyboardController.Synchronize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Synchronize the controller at the specified time</p>
+<p>Calls KeyCheck</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>time</strong> (<em>double</em>) – the time at which the controller should synchronize all depends to</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1034,6 +986,42 @@ and the target vector (with origin at vehicle location).</p>
 </dl>
 </dd></dl>
 </dd></dl>
+<dl class="py class">
+<dt id="wa_simulator.controller.WAMatplotlibController">
+<em class="property">class </em><code class="sig-prename descclassname">wa_simulator.controller.</code><code class="sig-name descname">WAMatplotlibController</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">system</span></em>, <em class="sig-param"><span class="n">vis</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAMatplotlibController" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#wa_simulator.controller.WAKeyboardController" title="wa_simulator.controller.WAKeyboardController"><code class="xref py py-class docutils literal notranslate"><span class="pre">wa_simulator.controller.WAKeyboardController</span></code></a></p>
+<p>Controls a vehicle via keyboard input from a matplotlib figure</p>
+<p>Will asynchronously change inputs based on user input to the matplotlib window.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>system</strong> (<em>ChSystem</em>) – The system used to manage the simulation</p></li>
+<li><p><strong>vis</strong> (<a class="reference internal" href="../visualization/index.html#wa_simulator.visualization.WAMatplotlibVisualization" title="wa_simulator.visualization.WAMatplotlibVisualization"><em>WAMatplotlibVisualization</em></a>) – The visualization that holds a matplotlib figure</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt id="wa_simulator.controller.WAMatplotlibController.vis">
+<code class="sig-name descname">vis</code><a class="headerlink" href="#wa_simulator.controller.WAMatplotlibController.vis" title="Permalink to this definition">¶</a></dt>
+<dd><p>The visualization that holds a matplotlib figure</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="../visualization/index.html#wa_simulator.visualization.WAMatplotlibVisualization" title="wa_simulator.visualization.WAMatplotlibVisualization">WAMatplotlibVisualization</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.controller.WAMatplotlibController.Synchronize">
+<code class="sig-name descname">Synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">time</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAMatplotlibController.Synchronize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Synchronize the controller at the specified time</p>
+<p>Doesn’t do anything since this controller is completely asynchronous</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>time</strong> (<em>double</em>) – the time at which the controller should synchronize all depends to</p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
 </div>
 </div>
 </div>
@@ -1112,31 +1100,26 @@ and the target vector (with origin at vehicle location).</p>
 </ul>
 </li>
 <li><a class="reference internal" href="#wa_simulator.controller.WAKeyboardController">WAKeyboardController</a><ul>
-<li><a class="reference internal" href="#wa_simulator.controller.WAKeyboardController.key_getter">key_getter</a></li>
-<li><a class="reference internal" href="#wa_simulator.controller.WAKeyboardController.steering_target">steering_target</a></li>
-<li><a class="reference internal" href="#wa_simulator.controller.WAKeyboardController.throttle_target">throttle_target</a></li>
-<li><a class="reference internal" href="#wa_simulator.controller.WAKeyboardController.braking_target">braking_target</a></li>
-<li><a class="reference internal" href="#wa_simulator.controller.WAKeyboardController.steering_delta">steering_delta</a></li>
-<li><a class="reference internal" href="#wa_simulator.controller.WAKeyboardController.throttle_delta">throttle_delta</a></li>
-<li><a class="reference internal" href="#wa_simulator.controller.WAKeyboardController.braking_delta">braking_delta</a></li>
-<li><a class="reference internal" href="#wa_simulator.controller.WAKeyboardController.steering_gain">steering_gain</a></li>
-<li><a class="reference internal" href="#wa_simulator.controller.WAKeyboardController.throttle_gain">throttle_gain</a></li>
-<li><a class="reference internal" href="#wa_simulator.controller.WAKeyboardController.braking_gain">braking_gain</a></li>
-<li><a class="reference internal" href="#wa_simulator.controller.WAKeyboardController.KeyGetter">KeyGetter</a><ul>
-<li><a class="reference internal" href="#wa_simulator.controller.WAKeyboardController.KeyGetter.fd">fd</a></li>
-<li><a class="reference internal" href="#wa_simulator.controller.WAKeyboardController.KeyGetter.new_term">new_term</a></li>
-<li><a class="reference internal" href="#wa_simulator.controller.WAKeyboardController.KeyGetter.old_term">old_term</a></li>
-<li><a class="reference internal" href="#wa_simulator.controller.WAKeyboardController.KeyGetter.__call__">__call__</a></li>
-<li><a class="reference internal" href="#wa_simulator.controller.WAKeyboardController.KeyGetter.set_normal_term">set_normal_term</a></li>
-</ul>
-</li>
 <li><a class="reference internal" href="#wa_simulator.controller.WAKeyboardController.SetSteeringDelta">SetSteeringDelta</a></li>
 <li><a class="reference internal" href="#wa_simulator.controller.WAKeyboardController.SetThrottleDelta">SetThrottleDelta</a></li>
 <li><a class="reference internal" href="#wa_simulator.controller.WAKeyboardController.SetBrakingDelta">SetBrakingDelta</a></li>
 <li><a class="reference internal" href="#wa_simulator.controller.WAKeyboardController.SetGains">SetGains</a></li>
-<li><a class="reference internal" href="#wa_simulator.controller.WAKeyboardController.KeyCheck">KeyCheck</a></li>
-<li><a class="reference internal" href="#wa_simulator.controller.WAKeyboardController.Synchronize">Synchronize</a></li>
 <li><a class="reference internal" href="#wa_simulator.controller.WAKeyboardController.Advance">Advance</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAKeyboardController.Update">Update</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#wa_simulator.controller.WATerminalKeyboardController">WATerminalKeyboardController</a><ul>
+<li><a class="reference internal" href="#wa_simulator.controller.WATerminalKeyboardController.key_getter">key_getter</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WATerminalKeyboardController.KeyGetter">KeyGetter</a><ul>
+<li><a class="reference internal" href="#wa_simulator.controller.WATerminalKeyboardController.KeyGetter.fd">fd</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WATerminalKeyboardController.KeyGetter.new_term">new_term</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WATerminalKeyboardController.KeyGetter.old_term">old_term</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WATerminalKeyboardController.KeyGetter.__call__">__call__</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WATerminalKeyboardController.KeyGetter.set_normal_term">set_normal_term</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#wa_simulator.controller.WATerminalKeyboardController.KeyCheck">KeyCheck</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WATerminalKeyboardController.Synchronize">Synchronize</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#wa_simulator.controller.WAMultipleControllers">WAMultipleControllers</a><ul>
@@ -1187,6 +1170,11 @@ and the target vector (with origin at vehicle location).</p>
 <li><a class="reference internal" href="#wa_simulator.controller.WAPIDLongitudinalController.SetTargetSpeed">SetTargetSpeed</a></li>
 <li><a class="reference internal" href="#wa_simulator.controller.WAPIDLongitudinalController.Synchronize">Synchronize</a></li>
 <li><a class="reference internal" href="#wa_simulator.controller.WAPIDLongitudinalController.Advance">Advance</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAMatplotlibController">WAMatplotlibController</a><ul>
+<li><a class="reference internal" href="#wa_simulator.controller.WAMatplotlibController.vis">vis</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAMatplotlibController.Synchronize">Synchronize</a></li>
 </ul>
 </li>
 </ul>

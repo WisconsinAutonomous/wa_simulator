@@ -27,10 +27,12 @@ Classes
    wa_simulator.controller.WAController
    wa_simulator.controller.WASimpleController
    wa_simulator.controller.WAKeyboardController
+   wa_simulator.controller.WATerminalKeyboardController
    wa_simulator.controller.WAMultipleControllers
    wa_simulator.controller.WAPIDController
    wa_simulator.controller.WAPIDLateralController
    wa_simulator.controller.WAPIDLongitudinalController
+   wa_simulator.controller.WAMatplotlibController
 
 
 
@@ -152,10 +154,101 @@ Classes
 
    Bases: :class:`wa_simulator.controller.WAController`
 
+   Base keyboard controller. Still must be inherited (can't be instantiated). Has utilites.
+
+   :param system: The system used to manage the simulation
+   :type system: ChSystem
+   :param steering_target: The target steering value.
+   :type steering_target: double
+   :param throttle_target: The target throttle value.
+   :type throttle_target: double
+   :param braking_target: The target braking value.
+   :type braking_target: double
+   :param steering_delta: The delta steering value.
+   :type steering_delta: double
+   :param throttle_delta: The delta throttle value.
+   :type throttle_delta: double
+   :param braking_delta: The delta braking value.
+   :type braking_delta: double
+   :param steering_gain: The gain steering value.
+   :type steering_gain: double
+   :param throttle_gain: The gain throttle value.
+   :type throttle_gain: double
+   :param braking_gain: The gain braking value.
+   :type braking_gain: double
+
+   .. method:: SetSteeringDelta(self, steering_delta)
+
+      Sets the steering delta value
+
+      :param steering_delta: the new steering delta value
+      :type steering_delta: double
+
+
+   .. method:: SetThrottleDelta(self, throttle_delta)
+
+      Sets the throttle delta value
+
+      :param throttle_delta: the new throttle delta value
+      :type throttle_delta: double
+
+
+   .. method:: SetBrakingDelta(self, braking_delta)
+
+      Sets the braking delta value
+
+      :param braking_delta: the new braking delta value
+      :type braking_delta: double
+
+
+   .. method:: SetGains(steering_gain, throttle_gain, braking_gain)
+
+      Sets the controllers gains
+
+      :param steering_gain: the new steering gain
+      :type steering_gain: double
+      :param throttle_gain: the new throttle gain
+      :type throttle_gain: double
+      :param braking_gain: the new braking gain
+      :type braking_gain: double
+
+
+   .. method:: Advance(self, step)
+
+      Advance the controller by the specified step
+
+      Integrates dynamics over some step range. If the original step is the same as the passed
+      step value, the method is only run once.
+
+      :param step: the time step at which the controller should be advanced
+      :type step: double
+
+
+   .. method:: Update(self, key)
+
+      Update the target values based on the key.
+
+      The updated target values are based off the delta values for that respective input.
+      In this controller, input values are clipped at [-1,1] or [0,1].
+
+      0: throttle increase, braking decreases
+      1: adjust steering right
+      2: brake increase, throttle decrease
+      3: adjust steering left
+
+      :param key: the key input
+      :type key: int
+
+
+
+.. py:class:: WATerminalKeyboardController(system)
+
+   Bases: :class:`wa_simulator.controller.WAKeyboardController`
+
    Controls a vehicle via input from the terminal window.
 
    Uses the KeyGetter object to grab input from the user in the terminal window.
-   Inherits from the WAController method
+   Inherits from the WAKeyboardController method
 
    :param system: The system used to manage the simulation
    :type system: ChSystem
@@ -165,60 +258,6 @@ Classes
       The object used to grab input from the terminal
 
       :type: KeyGetter
-
-   .. attribute:: steering_target
-
-      The target steering value.
-
-      :type: double
-
-   .. attribute:: throttle_target
-
-      The target throttle value.
-
-      :type: double
-
-   .. attribute:: braking_target
-
-      The target braking value.
-
-      :type: double
-
-   .. attribute:: steering_delta
-
-      The delta steering value.
-
-      :type: double
-
-   .. attribute:: throttle_delta
-
-      The delta throttle value.
-
-      :type: double
-
-   .. attribute:: braking_delta
-
-      The delta braking value.
-
-      :type: double
-
-   .. attribute:: steering_gain
-
-      The gain steering value.
-
-      :type: double
-
-   .. attribute:: throttle_gain
-
-      The gain throttle value.
-
-      :type: double
-
-   .. attribute:: braking_gain
-
-      The gain braking value.
-
-      :type: double
 
    .. py:class:: KeyGetter
 
@@ -264,48 +303,9 @@ Classes
 
 
 
-   .. method:: SetSteeringDelta(self, steering_delta)
-
-      Sets the steering delta value
-
-      :param steering_delta: the new steering delta value
-      :type steering_delta: double
-
-
-   .. method:: SetThrottleDelta(self, throttle_delta)
-
-      Sets the throttle delta value
-
-      :param throttle_delta: the new throttle delta value
-      :type throttle_delta: double
-
-
-   .. method:: SetBrakingDelta(self, braking_delta)
-
-      Sets the braking delta value
-
-      :param braking_delta: the new braking delta value
-      :type braking_delta: double
-
-
-   .. method:: SetGains(steering_gain, throttle_gain, braking_gain)
-
-      Sets the controllers gains
-
-      :param steering_gain: the new steering gain
-      :type steering_gain: double
-      :param throttle_gain: the new throttle gain
-      :type throttle_gain: double
-      :param braking_gain: the new braking gain
-      :type braking_gain: double
-
-
    .. method:: KeyCheck(self)
 
       Get the key from the KeyGetter and update target values based on input.
-
-      The updated target values are based off the delta values for that respective input.
-      In this controller, input values are clipped at [-1,1] or [0,1].
 
 
    .. method:: Synchronize(self, time)
@@ -316,17 +316,6 @@ Classes
 
       :param time: the time at which the controller should synchronize all depends to
       :type time: double
-
-
-   .. method:: Advance(self, step)
-
-      Advance the controller by the specified step
-
-      Integrates dynamics over some step range. If the original step is the same as the passed
-      step value, the method is only run once.
-
-      :param step: the time step at which the controller should be advanced
-      :type step: double
 
 
 
@@ -653,6 +642,36 @@ Classes
 
       :param step: step size to update the controller by
       :type step: double
+
+
+
+.. py:class:: WAMatplotlibController(system, vis)
+
+   Bases: :class:`wa_simulator.controller.WAKeyboardController`
+
+   Controls a vehicle via keyboard input from a matplotlib figure
+
+   Will asynchronously change inputs based on user input to the matplotlib window.
+
+   :param system: The system used to manage the simulation
+   :type system: ChSystem
+   :param vis: The visualization that holds a matplotlib figure
+   :type vis: WAMatplotlibVisualization
+
+   .. attribute:: vis
+
+      The visualization that holds a matplotlib figure
+
+      :type: WAMatplotlibVisualization
+
+   .. method:: Synchronize(self, time)
+
+      Synchronize the controller at the specified time
+
+      Doesn't do anything since this controller is completely asynchronous
+
+      :param time: the time at which the controller should synchronize all depends to
+      :type time: double
 
 
 

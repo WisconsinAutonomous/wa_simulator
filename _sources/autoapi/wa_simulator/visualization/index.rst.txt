@@ -178,6 +178,12 @@ Classes
 
       :type: multiprocessing.Queue
 
+   .. attribute:: input_q
+
+      Queue used to pass info between processes, but key press inputs (thread safe)
+
+      :type: multiprocessing.Queue
+
    .. attribute:: plotter
 
       Used to update the matplotlib window
@@ -189,6 +195,24 @@ Classes
       process created by multiprocessing (TODO: Should add join())
 
       :type: multiprocessing.Process
+
+   .. attribute:: check_for_key_presses
+
+      Whether to check VehiclePlotter for keyboard inputs
+
+      :type: bool
+
+   .. attribute:: key_input
+
+      The most recent keypress from the vehicle plotter
+
+      :type: matplotlib.backend_bases.KeyEvent
+
+   .. py:class:: SimState(outline=None, rr_wheel=None, rl_wheel=None, fr_wheel=None, fl_wheel=None, steering=None, throttle=None, braking=None, time=None, speed=None)
+
+      .. method:: Get(self)
+
+
 
    .. py:class:: VehiclePlotter
 
@@ -205,6 +229,12 @@ Classes
       .. attribute:: q
 
          Queue used to pass info between processes
+
+         :type: multiprocessing.Queue
+
+      .. attribute:: input_q
+
+         Queue used to pass info between processes, but for key press inputs
 
          :type: multiprocessing.Queue
 
@@ -232,12 +262,17 @@ Classes
 
          :type: plt.Text
 
-      .. method:: Initialize(self, q)
+      .. method:: Initialize(self, q, input_q)
 
          Initialize the matplotlib visual assets to be updated through the simulation. Initially plotted at (0,0).
 
          :param q: Queue used to communicate between processes
          :type q: multiprocessing.Queue
+         :param input_q: Queue used to communicate between processes, but for key press inputs
+         :type input_q: multiprocessing.Queue
+
+
+      .. method:: KeyPress(self, event)
 
 
       .. method:: Update(self, i)
@@ -250,25 +285,15 @@ Classes
          :type i: int
 
 
-      .. method:: Plot(self, q, placeholder)
+      .. method:: Plot(self, q, input_q)
 
          "Main" function that sets up the plotter and runs the blocking FuncAnimation update.
 
          :param q: Queue used to communicate and pass info between processes
          :type q: multiprocessing.Queue
-         :param placeholder: For some reason, multiprocessing yells when there is only one parameter
-         :type placeholder: None
+         :param input_q: Queue used to communicate and pass info between processes, but for key presses
+         :type input_q: multiprocessing.Queue
 
-
-
-   .. method:: Advance(self, step)
-
-      Advance the state of the visualization by the specified step
-
-      Will only call update if the scene should be rendered given the render step
-
-      :param step: step size to update the visualization by
-      :type step: double
 
 
    .. method:: Synchronize(self, time, vehicle_inputs)
@@ -281,6 +306,16 @@ Classes
       :type time: double
       :param vehicle_inputs: vehicle inputs
       :type vehicle_inputs: WAVehicleInputs
+
+
+   .. method:: Advance(self, step)
+
+      Advance the state of the visualization by the specified step
+
+      Will only call update if the scene should be rendered given the render step
+
+      :param step: step size to update the visualization by
+      :type step: double
 
 
    .. method:: Transform(self, entity, x, y, yaw, alpha=0, x_offset=0, y_offset=0)
@@ -319,6 +354,22 @@ Classes
 
       :returns: whether the simulation is still alive
       :rtype: bool
+
+
+   .. method:: CheckForKeyPresses(self, check_for_key_presses)
+
+      Will tell the VehiclePlotter to check for keypresses
+
+      :param check_for_key_presses: Whether the plotter should check if inputs
+      :type check_for_key_presses: bool
+
+
+   .. method:: GetKeyInput(self)
+
+      Will get the key input and reset it to None
+
+      :returns: the key input
+      :rtype: str
 
 
    .. method:: __del__(self)

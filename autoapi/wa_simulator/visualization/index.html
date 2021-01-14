@@ -422,6 +422,16 @@ in the LICENSE file at the top level of the repo</p>
 </dl>
 </dd></dl>
 <dl class="py attribute">
+<dt id="wa_simulator.visualization.WAMatplotlibVisualization.input_q">
+<code class="sig-name descname">input_q</code><a class="headerlink" href="#wa_simulator.visualization.WAMatplotlibVisualization.input_q" title="Permalink to this definition">¶</a></dt>
+<dd><p>Queue used to pass info between processes, but key press inputs (thread safe)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>multiprocessing.Queue</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
 <dt id="wa_simulator.visualization.WAMatplotlibVisualization.plotter">
 <code class="sig-name descname">plotter</code><a class="headerlink" href="#wa_simulator.visualization.WAMatplotlibVisualization.plotter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Used to update the matplotlib window</p>
@@ -441,6 +451,34 @@ in the LICENSE file at the top level of the repo</p>
 </dd>
 </dl>
 </dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.visualization.WAMatplotlibVisualization.check_for_key_presses">
+<code class="sig-name descname">check_for_key_presses</code><a class="headerlink" href="#wa_simulator.visualization.WAMatplotlibVisualization.check_for_key_presses" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whether to check VehiclePlotter for keyboard inputs</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.visualization.WAMatplotlibVisualization.key_input">
+<code class="sig-name descname">key_input</code><a class="headerlink" href="#wa_simulator.visualization.WAMatplotlibVisualization.key_input" title="Permalink to this definition">¶</a></dt>
+<dd><p>The most recent keypress from the vehicle plotter</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>matplotlib.backend_bases.KeyEvent</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py class">
+<dt id="wa_simulator.visualization.WAMatplotlibVisualization.SimState">
+<em class="property">class </em><code class="sig-name descname">SimState</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">outline</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">rr_wheel</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">rl_wheel</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">fr_wheel</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">fl_wheel</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">steering</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">throttle</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">braking</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">time</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">speed</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.visualization.WAMatplotlibVisualization.SimState" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt id="wa_simulator.visualization.WAMatplotlibVisualization.SimState.Get">
+<code class="sig-name descname">Get</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.visualization.WAMatplotlibVisualization.SimState.Get" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+</dd></dl>
 <dl class="py class">
 <dt id="wa_simulator.visualization.WAMatplotlibVisualization.VehiclePlotter">
 <em class="property">class </em><code class="sig-name descname">VehiclePlotter</code><a class="headerlink" href="#wa_simulator.visualization.WAMatplotlibVisualization.VehiclePlotter" title="Permalink to this definition">¶</a></dt>
@@ -455,6 +493,16 @@ window.</p>
 <dt id="wa_simulator.visualization.WAMatplotlibVisualization.VehiclePlotter.q">
 <code class="sig-name descname">q</code><a class="headerlink" href="#wa_simulator.visualization.WAMatplotlibVisualization.VehiclePlotter.q" title="Permalink to this definition">¶</a></dt>
 <dd><p>Queue used to pass info between processes</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>multiprocessing.Queue</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.visualization.WAMatplotlibVisualization.VehiclePlotter.input_q">
+<code class="sig-name descname">input_q</code><a class="headerlink" href="#wa_simulator.visualization.WAMatplotlibVisualization.VehiclePlotter.input_q" title="Permalink to this definition">¶</a></dt>
+<dd><p>Queue used to pass info between processes, but for key press inputs</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
 <dd class="field-odd"><p>multiprocessing.Queue</p>
@@ -503,14 +551,21 @@ window.</p>
 </dd></dl>
 <dl class="py method">
 <dt id="wa_simulator.visualization.WAMatplotlibVisualization.VehiclePlotter.Initialize">
-<code class="sig-name descname">Initialize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">q</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.visualization.WAMatplotlibVisualization.VehiclePlotter.Initialize" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">Initialize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">q</span></em>, <em class="sig-param"><span class="n">input_q</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.visualization.WAMatplotlibVisualization.VehiclePlotter.Initialize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize the matplotlib visual assets to be updated through the simulation. Initially plotted at (0,0).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>q</strong> (<em>multiprocessing.Queue</em>) – Queue used to communicate between processes</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>q</strong> (<em>multiprocessing.Queue</em>) – Queue used to communicate between processes</p></li>
+<li><p><strong>input_q</strong> (<em>multiprocessing.Queue</em>) – Queue used to communicate between processes, but for key press inputs</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.visualization.WAMatplotlibVisualization.VehiclePlotter.KeyPress">
+<code class="sig-name descname">KeyPress</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">event</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.visualization.WAMatplotlibVisualization.VehiclePlotter.KeyPress" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 <dl class="py method">
 <dt id="wa_simulator.visualization.WAMatplotlibVisualization.VehiclePlotter.Update">
 <code class="sig-name descname">Update</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">i</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.visualization.WAMatplotlibVisualization.VehiclePlotter.Update" title="Permalink to this definition">¶</a></dt>
@@ -524,28 +579,17 @@ window.</p>
 </dd></dl>
 <dl class="py method">
 <dt id="wa_simulator.visualization.WAMatplotlibVisualization.VehiclePlotter.Plot">
-<code class="sig-name descname">Plot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">q</span></em>, <em class="sig-param"><span class="n">placeholder</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.visualization.WAMatplotlibVisualization.VehiclePlotter.Plot" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">Plot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">q</span></em>, <em class="sig-param"><span class="n">input_q</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.visualization.WAMatplotlibVisualization.VehiclePlotter.Plot" title="Permalink to this definition">¶</a></dt>
 <dd><p>“Main” function that sets up the plotter and runs the blocking FuncAnimation update.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>q</strong> (<em>multiprocessing.Queue</em>) – Queue used to communicate and pass info between processes</p></li>
-<li><p><strong>placeholder</strong> (<em>None</em>) – For some reason, multiprocessing yells when there is only one parameter</p></li>
+<li><p><strong>input_q</strong> (<em>multiprocessing.Queue</em>) – Queue used to communicate and pass info between processes, but for key presses</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
-</dd></dl>
-<dl class="py method">
-<dt id="wa_simulator.visualization.WAMatplotlibVisualization.Advance">
-<code class="sig-name descname">Advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.visualization.WAMatplotlibVisualization.Advance" title="Permalink to this definition">¶</a></dt>
-<dd><p>Advance the state of the visualization by the specified step</p>
-<p>Will only call update if the scene should be rendered given the render step</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>step</strong> (<em>double</em>) – step size to update the visualization by</p>
-</dd>
-</dl>
 </dd></dl>
 <dl class="py method">
 <dt id="wa_simulator.visualization.WAMatplotlibVisualization.Synchronize">
@@ -558,6 +602,17 @@ window.</p>
 <li><p><strong>time</strong> (<em>double</em>) – time at which to update the vehicle to</p></li>
 <li><p><strong>vehicle_inputs</strong> (<a class="reference internal" href="../controller/index.html#wa_simulator.controller.WAVehicleInputs" title="wa_simulator.controller.WAVehicleInputs"><em>WAVehicleInputs</em></a>) – vehicle inputs</p></li>
 </ul>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.visualization.WAMatplotlibVisualization.Advance">
+<code class="sig-name descname">Advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.visualization.WAMatplotlibVisualization.Advance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Advance the state of the visualization by the specified step</p>
+<p>Will only call update if the scene should be rendered given the render step</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>step</strong> (<em>double</em>) – step size to update the visualization by</p>
 </dd>
 </dl>
 </dd></dl>
@@ -601,6 +656,29 @@ window.</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.visualization.WAMatplotlibVisualization.CheckForKeyPresses">
+<code class="sig-name descname">CheckForKeyPresses</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">check_for_key_presses</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.visualization.WAMatplotlibVisualization.CheckForKeyPresses" title="Permalink to this definition">¶</a></dt>
+<dd><p>Will tell the VehiclePlotter to check for keypresses</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>check_for_key_presses</strong> (<em>bool</em>) – Whether the plotter should check if inputs</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.visualization.WAMatplotlibVisualization.GetKeyInput">
+<code class="sig-name descname">GetKeyInput</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.visualization.WAMatplotlibVisualization.GetKeyInput" title="Permalink to this definition">¶</a></dt>
+<dd><p>Will get the key input and reset it to None</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the key input</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -722,24 +800,35 @@ window.</p>
 <li><a class="reference internal" href="#wa_simulator.visualization.WAMatplotlibVisualization.fr_wheel">fr_wheel</a></li>
 <li><a class="reference internal" href="#wa_simulator.visualization.WAMatplotlibVisualization.fl_wheel">fl_wheel</a></li>
 <li><a class="reference internal" href="#wa_simulator.visualization.WAMatplotlibVisualization.q">q</a></li>
+<li><a class="reference internal" href="#wa_simulator.visualization.WAMatplotlibVisualization.input_q">input_q</a></li>
 <li><a class="reference internal" href="#wa_simulator.visualization.WAMatplotlibVisualization.plotter">plotter</a></li>
 <li><a class="reference internal" href="#wa_simulator.visualization.WAMatplotlibVisualization.p">p</a></li>
+<li><a class="reference internal" href="#wa_simulator.visualization.WAMatplotlibVisualization.check_for_key_presses">check_for_key_presses</a></li>
+<li><a class="reference internal" href="#wa_simulator.visualization.WAMatplotlibVisualization.key_input">key_input</a></li>
+<li><a class="reference internal" href="#wa_simulator.visualization.WAMatplotlibVisualization.SimState">SimState</a><ul>
+<li><a class="reference internal" href="#wa_simulator.visualization.WAMatplotlibVisualization.SimState.Get">Get</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#wa_simulator.visualization.WAMatplotlibVisualization.VehiclePlotter">VehiclePlotter</a><ul>
 <li><a class="reference internal" href="#wa_simulator.visualization.WAMatplotlibVisualization.VehiclePlotter.q">q</a></li>
+<li><a class="reference internal" href="#wa_simulator.visualization.WAMatplotlibVisualization.VehiclePlotter.input_q">input_q</a></li>
 <li><a class="reference internal" href="#wa_simulator.visualization.WAMatplotlibVisualization.VehiclePlotter.fig">fig</a></li>
 <li><a class="reference internal" href="#wa_simulator.visualization.WAMatplotlibVisualization.VehiclePlotter.ax">ax</a></li>
 <li><a class="reference internal" href="#wa_simulator.visualization.WAMatplotlibVisualization.VehiclePlotter.mat_vehicle">mat_vehicle</a></li>
 <li><a class="reference internal" href="#wa_simulator.visualization.WAMatplotlibVisualization.VehiclePlotter.annotation">annotation</a></li>
 <li><a class="reference internal" href="#wa_simulator.visualization.WAMatplotlibVisualization.VehiclePlotter.Initialize">Initialize</a></li>
+<li><a class="reference internal" href="#wa_simulator.visualization.WAMatplotlibVisualization.VehiclePlotter.KeyPress">KeyPress</a></li>
 <li><a class="reference internal" href="#wa_simulator.visualization.WAMatplotlibVisualization.VehiclePlotter.Update">Update</a></li>
 <li><a class="reference internal" href="#wa_simulator.visualization.WAMatplotlibVisualization.VehiclePlotter.Plot">Plot</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#wa_simulator.visualization.WAMatplotlibVisualization.Advance">Advance</a></li>
 <li><a class="reference internal" href="#wa_simulator.visualization.WAMatplotlibVisualization.Synchronize">Synchronize</a></li>
+<li><a class="reference internal" href="#wa_simulator.visualization.WAMatplotlibVisualization.Advance">Advance</a></li>
 <li><a class="reference internal" href="#wa_simulator.visualization.WAMatplotlibVisualization.Transform">Transform</a></li>
 <li><a class="reference internal" href="#wa_simulator.visualization.WAMatplotlibVisualization.Update">Update</a></li>
 <li><a class="reference internal" href="#wa_simulator.visualization.WAMatplotlibVisualization.IsOk">IsOk</a></li>
+<li><a class="reference internal" href="#wa_simulator.visualization.WAMatplotlibVisualization.CheckForKeyPresses">CheckForKeyPresses</a></li>
+<li><a class="reference internal" href="#wa_simulator.visualization.WAMatplotlibVisualization.GetKeyInput">GetKeyInput</a></li>
 <li><a class="reference internal" href="#wa_simulator.visualization.WAMatplotlibVisualization.__del__">__del__</a></li>
 </ul>
 </li>
