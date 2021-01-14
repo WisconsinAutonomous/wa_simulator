@@ -10,6 +10,9 @@ in the LICENSE file at the top level of the repo
 
 from abc import ABC, abstractmethod  # Abstract Base Class
 
+# WA Simulator
+from wa_simulator.visualization import WAMatplotlibVisualization
+
 # Other imports
 import sys, tty, termios, atexit
 from select import select
@@ -123,16 +126,10 @@ class WASimpleController(WAController):
 
 
 class WAKeyboardController(WAController):
-    """Controls a vehicle via input from the terminal window.
-
-    Uses the KeyGetter object to grab input from the user in the terminal window.
-    Inherits from the WAController method
+    """Base keyboard controller. Still must be inherited (can't be instantiated). Has utilites.
 
     Args:
         system (ChSystem): The system used to manage the simulation
-
-    Attributes:
-        key_getter (KeyGetter): The object used to grab input from the terminal
         steering_target (double): The target steering value.
         throttle_target (double): The target throttle value.
         braking_target (double): The target braking value.
@@ -142,6 +139,139 @@ class WAKeyboardController(WAController):
         steering_gain (double): The gain steering value.
         throttle_gain (double): The gain throttle value.
         braking_gain (double): The gain braking value.
+    """
+
+    def __init__(self, system):
+        super().__init__(system)
+
+        self.steering_target = 0
+        self.throttle_target = 0
+        self.braking_target = 0
+
+        self.steering_delta = system.render_step_size / 0.25
+        self.throttle_delta = system.render_step_size / 1.0
+        self.braking_delta = system.render_step_size / 0.3
+
+        self.steering_gain = 4.0
+        self.throttle_gain = 4.0
+        self.braking_gain = 4.0
+
+    def SetSteeringDelta(self, steering_delta):
+        """Sets the steering delta value
+
+        Args:
+            steering_delta (double): the new steering delta value
+        """
+        self.steering_delta = steering_delta
+
+    def SetThrottleDelta(self, throttle_delta):
+        """Sets the throttle delta value
+
+        Args:
+            throttle_delta (double): the new throttle delta value
+        """
+        self.throttle_delta = throttle_delta
+
+    def SetBrakingDelta(self, braking_delta):
+        """Sets the braking delta value
+
+        Args:
+            braking_delta (double): the new braking delta value
+        """
+        self.braking_delta = braking_delta
+
+    def SetGains(steering_gain, throttle_gain, braking_gain):
+        """Sets the controllers gains
+
+        Args:
+            steering_gain (double): the new steering gain
+            throttle_gain (double): the new throttle gain
+            braking_gain (double): the new braking gain
+        """
+        self.steering_gain = steering_gain
+        self.throttle_gain = throttle_gain
+        self.braking_gain = braking_gain
+
+    def Advance(self, step):
+        """Advance the controller by the specified step
+
+        Integrates dynamics over some step range. If the original step is the same as the passed
+        step value, the method is only run once.
+
+        Args:
+                step (double): the time step at which the controller should be advanced
+        """
+        # Integrate dynamics, taking as many steps as required to reach the value 'step'
+        t = 0
+        while t < step:
+            h = step - t
+
+            steering_deriv = self.steering_gain * (self.steering_target - self.steering)
+            throttle_deriv = self.throttle_gain * (self.throttle_target - self.throttle)
+            braking_deriv = self.braking_gain * (self.braking_target - self.braking)
+
+            self.steering += h * steering_deriv
+            self.throttle += h * throttle_deriv
+            self.braking += h * braking_deriv
+
+            t += h
+
+    def Update(self, key):
+        """Update the target values based on the key.
+
+        The updated target values are based off the delta values for that respective input.
+        In this controller, input values are clipped at [-1,1] or [0,1].
+
+        0: throttle increase, braking decreases
+        1: adjust steering right
+        2: brake increase, throttle decrease
+        3: adjust steering left
+
+        Args:
+            key (int): the key input
+        """
+        if key == -1:
+            return
+        elif key == 0:
+            self.throttle_target = np.clip(
+                self.throttle_target + self.throttle_delta, 0.0, +1.0
+            )
+            if self.throttle_target > 0:
+                self.braking_target = np.clip(
+                    self.braking_target - self.braking_delta * 3, 0.0, +1.0
+                )
+        elif key == 2:
+            self.throttle_target = np.clip(
+                self.throttle_target - self.throttle_delta * 3, 0.0, +1.0
+            )
+            if self.throttle_target <= 0:
+                self.braking_target = np.clip(
+                    self.braking_target + self.braking_delta, 0.0, +1.0
+                )
+        elif key == 1:
+            self.steering_target = np.clip(
+                self.steering_target + self.steering_delta, -1.0, +1.0
+            )
+        elif key == 3:
+            self.steering_target = np.clip(
+                self.steering_target - self.steering_delta, -1.0, +1.0
+            )
+        else:
+            print("Key not recognized")
+            return
+
+
+class WATerminalKeyboardController(WAKeyboardController):
+    """Controls a vehicle via input from the terminal window.
+
+    Uses the KeyGetter object to grab input from the user in the terminal window.
+    Inherits from the WAKeyboardController method
+
+    Args:
+        system (ChSystem): The system used to manage the simulation
+
+    Attributes:
+        key_getter (KeyGetter): The object used to grab input from the terminal
     """
 
     class KeyGetter:
@@ -202,91 +332,11 @@ class WAKeyboardController(WAController):
 
         self.key_getter = self.KeyGetter()
 
-        self.steering_target = 0
-        self.throttle_target = 0
-        self.braking_target = 0
-
-        self.steering_delta = system.render_step_size / 0.25
-        self.throttle_delta = system.render_step_size / 1.0
-        self.braking_delta = system.render_step_size / 0.3
-
-        self.steering_gain = 4.0
-        self.throttle_gain = 4.0
-        self.braking_gain = 4.0
-
-    def SetSteeringDelta(self, steering_delta):
-        """Sets the steering delta value
-
-        Args:
-            steering_delta (double): the new steering delta value
-        """
-        self.steering_delta = steering_delta
-
-    def SetThrottleDelta(self, throttle_delta):
-        """Sets the throttle delta value
-
-        Args:
-            throttle_delta (double): the new throttle delta value
-        """
-        self.throttle_delta = throttle_delta
-
-    def SetBrakingDelta(self, braking_delta):
-        """Sets the braking delta value
-
-        Args:
-            braking_delta (double): the new braking delta value
-        """
-        self.braking_delta = braking_delta
-
-    def SetGains(steering_gain, throttle_gain, braking_gain):
-        """Sets the controllers gains
-
-        Args:
-            steering_gain (double): the new steering gain
-            throttle_gain (double): the new throttle gain
-            braking_gain (double): the new braking gain
-        """
-        self.steering_gain = steering_gain
-        self.throttle_gain = throttle_gain
-        self.braking_gain = braking_gain
-
     def KeyCheck(self):
-        """Get the key from the KeyGetter and update target values based on input.
-
-        The updated target values are based off the delta values for that respective input.
-        In this controller, input values are clipped at [-1,1] or [0,1].
-        """
+        """Get the key from the KeyGetter and update target values based on input."""
         try:
             key = self.key_getter()
-            if key == -1:
-                return
-            elif key == 0:
-                self.throttle_target = np.clip(
-                    self.throttle_target + self.throttle_delta, 0.0, +1.0
-                )
-                if self.throttle_target > 0:
-                    self.braking_target = np.clip(
-                        self.braking_target - self.braking_delta * 3, 0.0, +1.0
-                    )
-            elif key == 2:
-                self.throttle_target = np.clip(
-                    self.throttle_target - self.throttle_delta * 3, 0.0, +1.0
-                )
-                if self.throttle_target <= 0:
-                    self.braking_target = np.clip(
-                        self.braking_target + self.braking_delta, 0.0, +1.0
-                    )
-            elif key == 1:
-                self.steering_target = np.clip(
-                    self.steering_target + self.steering_delta, -1.0, +1.0
-                )
-            elif key == 3:
-                self.steering_target = np.clip(
-                    self.steering_target - self.steering_delta, -1.0, +1.0
-                )
-            else:
-                print("Key not recognized")
-                return
+            self.Update(key)
         except Exception as e:
             print(e)
             return
@@ -300,30 +350,6 @@ class WAKeyboardController(WAController):
                 time (double): the time at which the controller should synchronize all depends to
         """
         self.KeyCheck()
-
-    def Advance(self, step):
-        """Advance the controller by the specified step
-
-        Integrates dynamics over some step range. If the original step is the same as the passed
-        step value, the method is only run once.
-
-        Args:
-                step (double): the time step at which the controller should be advanced
-        """
-        # Integrate dynamics, taking as many steps as required to reach the value 'step'
-        t = 0
-        while t < step:
-            h = step - t
-
-            steering_deriv = self.steering_gain * (self.steering_target - self.steering)
-            throttle_deriv = self.throttle_gain * (self.throttle_target - self.throttle)
-            braking_deriv = self.braking_gain * (self.braking_target - self.braking)
-
-            self.steering += h * steering_deriv
-            self.throttle += h * throttle_deriv
-            self.braking += h * braking_deriv
-
-            t += h
 
 
 class WAMultipleControllers(WAController):
@@ -669,3 +695,43 @@ class WAPIDLongitudinalController(WAController):
             # Vehicle moving too fast: apply brakes
             self.braking = -throttle
             self.throttle = 0
+
+
+class WAMatplotlibController(WAKeyboardController):
+    """Controls a vehicle via keyboard input from a matplotlib figure
+
+    Will asynchronously change inputs based on user input to the matplotlib window.
+
+    Args:
+        system (ChSystem): The system used to manage the simulation
+        vis (WAMatplotlibVisualization): The visualization that holds a matplotlib figure
+
+    Attributes:
+        vis (WAMatplotlibVisualization): The visualization that holds a matplotlib figure
+    """
+
+    def __init__(self, system, vis):
+        if not isinstance(vis, WAMatplotlibVisualization):
+            raise TypeError(
+                "Visualization passed in is not a WAMatplotlibVisualization."
+            )
+
+        super().__init__(system)
+
+        self.vis = vis
+
+        self.vis.CheckForKeyPresses(True)
+
+        self._input_dict = {'up': 0, 'right': 1, 'down': 2, 'left': 3}
+
+    def Synchronize(self, time):
+        """Synchronize the controller at the specified time
+
+        Doesn't do anything since this controller is completely asynchronous
+
+        Args:
+                time (double): the time at which the controller should synchronize all depends to
+        """
+        if self.vis.key_input is not None:
+            key_input = self._input_dict[self.vis.GetKeyInput()]
+            self.Update(key_input)

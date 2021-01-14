@@ -77,9 +77,65 @@ class WAMatplotlibVisualization:
         fr_wheel (double): right front wheel outline that's updated based on the pose of the body in the simulation
         fl_wheel (double): left front  wheel outline that's updated based on the pose of the body in the simulation
         q (multiprocessing.Queue): Queue used to pass info between processes (thread safe)
+        input_q (multiprocessing.Queue): Queue used to pass info between processes, but key press inputs (thread safe)
         plotter (VehiclePlotter): Used to update the matplotlib window
         p (multiprocessing.Process): process created by multiprocessing (TODO: Should add join())
+        check_for_key_presses (bool): Whether to check VehiclePlotter for keyboard inputs
+        key_input (matplotlib.backend_bases.KeyEvent): The most recent keypress from the vehicle plotter
     """
+
+    class SimState:
+        def __init__(
+            self,
+            outline=None,
+            rr_wheel=None,
+            rl_wheel=None,
+            fr_wheel=None,
+            fl_wheel=None,
+            steering=None,
+            throttle=None,
+            braking=None,
+            time=None,
+            speed=None,
+        ):
+            """The simulation state. Used to store variables sent between processes.
+
+            Args:
+                outline (np.array, optional): matplotlib representation of the body. Defaults to None.
+                rr_wheel (np.array, optional): matplotlib representation of the rear right wheel. Defaults to None.
+                rl_wheel (np.array, optional): matplotlib representation of the rear left wheel. Defaults to None.
+                fr_wheel (np.array, optional): matplotlib representation of the front right wheel. Defaults to None.
+                fl_wheel (np.array, optional): matplotlib representation of the front left wheel. Defaults to None.
+                steering (double, optional): steering value. Defaults to None.
+                throttle (double, optional): throttle value. Defaults to None.
+                braking (double, optional): braking value. Defaults to None.
+                time (double, optional): time of the simulation. Defaults to None.
+                speed (double, optional): speed of the vehicle. Defaults to None.
+            """
+            self.outline = outline
+            self.rr_wheel = rr_wheel
+            self.rl_wheel = rl_wheel
+            self.fr_wheel = fr_wheel
+            self.fl_wheel = fl_wheel
+            self.steering = steering
+            self.throttle = throttle
+            self.braking = braking
+            self.time = time
+            self.speed = speed
+
+        def Get(self):
+            return (
+                self.outline,
+                self.rr_wheel,
+                self.rl_wheel,
+                self.fr_wheel,
+                self.fl_wheel,
+                self.steering,
+                self.throttle,
+                self.braking,
+                self.time,
+                self.speed,
+            )
 
     class VehiclePlotter:
         """Class used to handle plotting of the vehicle.
@@ -94,22 +150,29 @@ class WAMatplotlibVisualization:
 
         Attributes:
             q (multiprocessing.Queue): Queue used to pass info between processes
+            input_q (multiprocessing.Queue): Queue used to pass info between processes, but for key press inputs
             fig (plt.Figure): Matplotlib figure used for plotting
             ax (plt.Axes): Matplotlib axes used for plotting
             mat_vehicle (tuple): Class that holds the matplotlib visualization objects so their state can be updated
             annotation (plt.Text): Holds text displayed in the plot window for debug purposes.
         """
 
-        def Initialize(self, q):
+        def Initialize(self, q, input_q):
             """Initialize the matplotlib visual assets to be updated through the simulation. Initially plotted at (0,0).
 
             Args:
                 q (multiprocessing.Queue): Queue used to communicate between processes
+                input_q (multiprocessing.Queue): Queue used to communicate between processes, but for key press inputs
             """
             self.q = q
+            self.input_q = input_q
 
             cabcolor = "-k"
             wheelcolor = "-k"
+
+            out = self.q.get()
+            if not isinstance(out, WAMatplotlibVisualization.SimState):
+                raise TypeError("Out is not a SimState")
 
             (
                 outline,
@@ -122,7 +185,7 @@ class WAMatplotlibVisualization:
                 braking,
                 time,
                 speed,
-            ) = self.q.get()
+            ) = out.Get()
 
             # Initial plotting setup
             self.fig, self.ax = plt.subplots(figsize=(8, 8))
@@ -173,6 +236,11 @@ class WAMatplotlibVisualization:
             self.ax.set_ylim(-25, 25)
             self.ax.set_aspect("equal", adjustable="box")
 
+        def KeyPress(self, event):
+            if self.input_q.full():
+                self.input_q.get()
+            self.input_q.put(event.key)
+
         def Update(self, i):
             """Update the state of the vehicle in the visualization
 
@@ -182,6 +250,15 @@ class WAMatplotlibVisualization:
                 i (int): frame number
             """
             (cab, fr, rr, fl, rl) = self.mat_vehicle
+
+            out = self.q.get()
+            if isinstance(out, bool):
+                self.fig.canvas.mpl_connect("key_press_event", self.KeyPress)
+                self.event = True
+                return
+            elif not isinstance(out, WAMatplotlibVisualization.SimState):
+                raise TypeError("Out is not a SimState")
+
             (
                 outline,
                 rr_wheel,
@@ -193,7 +270,8 @@ class WAMatplotlibVisualization:
                 braking,
                 time,
                 speed,
-            ) = self.q.get()
+            ) = out.Get()
+
             cab.set_ydata(np.array(outline[1, :]).flatten())
             cab.set_xdata(np.array(outline[0, :]).flatten())
             fr.set_ydata(np.array(fr_wheel[1, :]).flatten())
@@ -215,14 +293,14 @@ class WAMatplotlibVisualization:
             )
             self.annotation.set_text(text)
 
-        def Plot(self, q, placeholder):
+        def Plot(self, q, input_q):
             """ "Main" function that sets up the plotter and runs the blocking FuncAnimation update.
 
             Args:
                 q (multiprocessing.Queue): Queue used to communicate and pass info between processes
-                placeholder (None): For some reason, multiprocessing yells when there is only one parameter
+                input_q (multiprocessing.Queue): Queue used to communicate and pass info between processes, but for key presses
             """
-            self.Initialize(q)
+            self.Initialize(q, input_q)
 
             anim = FuncAnimation(self.fig, self.Update, interval=10)
 
@@ -295,13 +373,14 @@ class WAMatplotlibVisualization:
             set_start_method("spawn", force=True)
 
         self.q = Queue(maxsize=1)
+        self.input_q = Queue(maxsize=1)
 
         self.plotter = self.VehiclePlotter()
-        self.p = Process(target=self.plotter.Plot, args=(self.q, 0))
+        self.p = Process(target=self.plotter.Plot, args=(self.q, self.input_q))
         self.p.start()
 
         self.q.put(
-            (
+            self.SimState(
                 self.outline,
                 self.rr_wheel,
                 self.rl_wheel,
@@ -315,16 +394,9 @@ class WAMatplotlibVisualization:
             )
         )
 
-    def Advance(self, step):
-        """Advance the state of the visualization by the specified step
-
-        Will only call update if the scene should be rendered given the render step
-
-        Args:
-            step (double): step size to update the visualization by
-        """
-        if self.system.GetStepNumber() % self.render_steps == 0:
-            self.Update()
+        # Don't check for key presses as a default
+        self.check_for_key_presses = False
+        self.key_input = None
 
     def Synchronize(self, time, vehicle_inputs):
         """Synchronize the vehicle inputs to the values in this visualization
@@ -340,6 +412,20 @@ class WAMatplotlibVisualization:
         self.braking = vehicle_inputs.braking
 
         self.time = time
+
+    def Advance(self, step):
+        """Advance the state of the visualization by the specified step
+
+        Will only call update if the scene should be rendered given the render step
+
+        Args:
+            step (double): step size to update the visualization by
+        """
+        if self.system.GetStepNumber() % self.render_steps == 0:
+            self.Update()
+
+            if self.check_for_key_presses and self.input_q.full():
+                self.key_input = self.input_q.get()
 
     def Transform(self, entity, x, y, yaw, alpha=0, x_offset=0, y_offset=0):
         """Helper function to transfrom a numpy entity by the specified values
@@ -411,7 +497,7 @@ class WAMatplotlibVisualization:
         braking = self.braking
 
         self.q.put(
-            (
+            self.SimState(
                 outline,
                 rr_wheel,
                 rl_wheel,
@@ -432,6 +518,25 @@ class WAMatplotlibVisualization:
             bool: whether the simulation is still alive
         """
         return self.p.is_alive()
+
+    def CheckForKeyPresses(self, check_for_key_presses):
+        """Will tell the VehiclePlotter to check for keypresses
+
+        Args:
+            check_for_key_presses (bool): Whether the plotter should check if inputs
+        """
+        self.check_for_key_presses = check_for_key_presses
+        self.q.put(self.check_for_key_presses)
+
+    def GetKeyInput(self):
+        """Will get the key input and reset it to None
+
+        Returns:
+            str: the key input
+        """
+        ret = self.key_input
+        self.key_input = None
+        return ret
 
     def __del__(self):
         """Destructor
