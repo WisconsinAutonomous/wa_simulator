@@ -1,4 +1,4 @@
-# WA Vehicle Simulator
+# WA Vehicle Simulator - 0.0.1
 
 
 The WA Simulator is a powerful, multi-platform, lightweight and *user-friendly* simulation platform for testing algorithms intended for autonomous robot or vehicle applications.
