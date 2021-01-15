@@ -1,0 +1,36 @@
+:mod:`demo_bicycle_simple`
+==========================
+
+.. py:module:: demo_bicycle_simple
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   demo_bicycle_simple.main
+
+
+.. data:: parser
+   
+
+   
+
+.. data:: controller_group
+   
+
+   
+
+.. data:: args
+   
+
+   
+
+.. function:: main()
+
+

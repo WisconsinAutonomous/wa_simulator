@@ -1,0 +1,114 @@
+:mod:`conf`
+===========
+
+.. py:module:: conf
+
+
+Module Contents
+---------------
+
+.. data:: root_path
+   
+
+   
+
+.. data:: project
+   :annotation: = Wisconsin Autonomous Simulator
+
+   
+
+.. data:: copyright
+   :annotation: = 2021, Wisconsin Autonomous
+
+   
+
+.. data:: author
+   :annotation: = Wisconsin Autonomous
+
+   
+
+.. data:: release
+   :annotation: = 0.0.1
+
+   
+
+.. data:: extensions
+   :annotation: = ['rinoh.frontend.sphinx', 'sphinx.ext.napoleon', 'sphinx.ext.autodoc', 'autoapi.extension', 'm2r2', 'sphinx.ext.githubpages']
+
+   
+
+.. data:: autoapi_type
+   :annotation: = python
+
+   
+
+.. data:: autoapi_dirs
+   :annotation: = ['..']
+
+   
+
+.. data:: autoapi_options
+   :annotation: = ['members', 'undoc-members', 'show-inheritance', 'show-module-summary', 'special-members', 'imported-members']
+
+   
+
+.. data:: autoapi_ignore
+   :annotation: = ['*_import.py*']
+
+   
+
+.. data:: autoapi_generate_api_docs
+   :annotation: = True
+
+   
+
+.. data:: autoapi_add_toctree_entry
+   :annotation: = False
+
+   
+
+.. data:: autoapi_template_dir
+   :annotation: = _templates
+
+   
+
+.. data:: templates_path
+   :annotation: = ['_templates']
+
+   
+
+.. data:: exclude_patterns
+   :annotation: = []
+
+   
+
+.. data:: pygments_style
+   :annotation: = friendly
+
+   
+
+.. data:: html_theme
+   :annotation: = furo
+
+   
+
+.. data:: html_favicon
+   :annotation: = _static/wa-dark-favicon.png
+
+   
+
+.. data:: html_theme_options
+   
+
+   
+
+.. data:: html_static_path
+   :annotation: = ['_static']
+
+   
+
+.. data:: html_css_files
+   :annotation: = ['css/custom.css']
+
+   
+

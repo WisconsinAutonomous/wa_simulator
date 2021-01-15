@@ -1,0 +1,36 @@
+:mod:`demo_chrono_simple`
+=========================
+
+.. py:module:: demo_chrono_simple
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   demo_chrono_simple.main
+
+
+.. data:: parser
+   
+
+   
+
+.. data:: controller_group
+   
+
+   
+
+.. data:: args
+   
+
+   
+
+.. function:: main()
+
+

@@ -22,8 +22,12 @@ Functions
 .. autoapisummary::
 
    setup.read
+   setup.get_package_data
 
 
 .. function:: read(fname)
+
+
+.. function:: get_package_data(directory, rm='wa_simulator/')
 
 

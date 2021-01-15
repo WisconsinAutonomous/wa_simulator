@@ -36,7 +36,7 @@ Functions
 
    Get the absolute path to the file passed
 
-   :param filename: file relative to the data foler to get the absolute path for
+   :param filename: file relative to the data folder to get the absolute path for
    :type filename: str
 
    :returns: the absolute path of the file
