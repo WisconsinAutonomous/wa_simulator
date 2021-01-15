@@ -1,7 +1,9 @@
+from time import time as get_wall_time
+import signal
 from ._import import _import, _get_dirs, _get_files
 
 
-for d in _get_dirs(__file__, ignore=["chrono"]):
+for d in _get_dirs(__file__, ignore=["chrono", "data"]):
     _import(d, globals())
 
 for f in _get_files(__file__):
@@ -24,11 +26,7 @@ def _signal_handler(sig, frame):
     sys.exit(0)
 
 
-import signal
-
 # setup the signal listener to listen for the interrupt signal (ctrl+c)
 signal.signal(signal.SIGINT, _signal_handler)
 
 del _import, _get_dirs, _get_files, signal
-
-from time import time as get_wall_time

@@ -1,0 +1,21 @@
+package:
+  name: wa_simulator
+  version: '1.0.0'
+
+source:
+  path: .
+
+requirements:
+  build:
+    - python
+
+  run:
+    - python
+    - numpy
+    - matplotlib
+
+about:
+  home: https://wisconsinautonomous.github.io/wa_simulator/
+  license: BSD 3-Clause
+  license_family: BSD
+  summary: Autonomous vehicle simulation tools

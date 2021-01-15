@@ -2,6 +2,7 @@
 Requires the `PyChrono <https://projectchrono.org/pychrono/>`_ library.
 """
 
+from .._import import _import, _get_files
 from .. import *
 
 try:
@@ -11,7 +12,6 @@ try:
     import pychrono.vehicle as veh
     import pathlib
 except Exception as e:
-    print("Couldn't import PyChrono.\n")
     raise e
 
 # Set the chrono data directory to in-repo data directory
@@ -23,7 +23,6 @@ CHRONO_VEH_DATA_DIRECTORY = str(
 chrono.SetChronoDataPath(CHRONO_DATA_DIRECTORY)
 veh.SetDataPath(CHRONO_VEH_DATA_DIRECTORY)
 
-from .._import import _import, _get_files
 
 for d in _get_files(__file__):
     _import(d, globals())
