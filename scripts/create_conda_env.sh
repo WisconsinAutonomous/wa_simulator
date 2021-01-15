@@ -1,4 +1,12 @@
 #!/bin/sh
+#
+# This script should be run via curl:
+#   sh -c "$(curl -fsSL https://raw.githubusercontent.com/WisconsinAutonomous/wa_simulator/master/scripts/create_conda_env.sh)"
+# or via wget:
+#   sh -c "$(wget -qO- https://raw.githubusercontent.com/WisconsinAutonomous/wa_simulator/master/scripts/create_conda_env.sh)"
+# or via fetch:
+#   sh -c "$(fetch -o - https://raw.githubusercontent.com/WisconsinAutonomous/wa_simulator/master/scripts/create_conda_env.sh)"
+#
 
 exit_error() {
 	msg=$1
@@ -20,10 +28,11 @@ exit_okay() {
 
 check_command() {
 	cmd=$1
-	if [ -z "$cmd" ]; then
-		exit_error "Pass a command to the check_command function."
+	if [ -z "$2" ]; then
+		which $cmd >/dev/null || exit_error "$cmd not found. Install $cmd and try again."
+	else
+		return $(which $cmd >/dev/null)
 	fi
-	which $cmd >/dev/null || exit_error "$cmd not found. Install $cmd and try again."
 }
 
 ask_okay() {
@@ -34,32 +43,50 @@ ask_okay() {
 
 	read -p "$msg ([y]/n)? " CONT
 	case ${CONT:0:1} in
-	y | Y | "") ;;
-
+	y | Y | "")
+		return 0
+		;;
 	*)
-		exit_okay
+		return -1
 		;;
 	esac
 }
 
 # Verify the script was run on purpose
-ask_okay "Create new conda env"
+if ! ask_okay "Create new conda env"; then
+	exit_okay
+fi
+
+# Common prerequisites
+check_command curl # Curl
 
 # Check operating system specific prerequisites
 check_command uname
 os=$(uname)
 
 if [[ "$os" == 'Darwin' ]]; then
-	# Check for prerequisites
-	check_command brew # MacOS package manager
+	if ! check_command brew "1" && ask_okay "Install Homebrew package manager"; then
+		echo 'Installing Homebrew. May take a few minutes'
+		wait 1
+		/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+	fi
+	if ! check_command conda "1" && ask_okay "Install Anaconda"; then
+		echo 'Installing Anaconda. May take a few minutes'
+		wait 1
+		brew install --cask anaconda
+	fi
+	brew list libomp >/dev/null || brew install libomp
 elif [[ "$os" == 'Linux' ]]; then
-	echo ''
+	check_command conda # Anaconda
 else
 	exit_error "Detected operating system is $os. Currently not supported."
 fi
 
-# Common prerequisites
-check_command conda # Anaconda
-check_command wget  # Web Get
+# Get the environment.yml file from github
+env_file=$(curl -fsSL https://raw.githubusercontent.com/WisconsinAutonomous/wa_simulator/develop/environment.yml)
 
 # Create the conda environment from the retrieved environment.yml file
+tmpfile=environment.yml
+echo "$env_file" >>$tmpfile
+conda env create -f=$tmpfile
+rm -f $tmpfile
