@@ -1,0 +1,11 @@
+name: wa
+channels:
+  - projectchrono/label/develop
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.8
+  - pip
+  - pychrono
+  - pip:
+    - wa-simulator==0.0.1
