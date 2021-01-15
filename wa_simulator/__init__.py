@@ -21,8 +21,6 @@ def _signal_handler(sig, frame):
     """
 
     import sys
-
-    print("^C")
     sys.exit(0)
 
 

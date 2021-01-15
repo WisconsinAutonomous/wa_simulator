@@ -6,6 +6,7 @@
    :maxdepth: 2
 
    Home <self>
+   background
    install
    autoapi/wa_simulator/index
 
