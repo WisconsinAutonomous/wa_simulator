@@ -2,6 +2,19 @@
 
 In this tutorial, we will create a custom controller that reads in commands via a `.csv` file.
 
+## Table of Contents
+- [Prerequisites](#prerequisites)
+- [Setup](#setup)
+- [Create the Controller](#create-the-controller)
+    - [CSV Structure](#csv-structure)
+    - [Parse the CSV](#parse-the-csv)
+    - [Implement the Advance and Synchronize Methods](#implement-the-advance-and-synchronize-methods)
+- [Creating our Main Method](#creating-our-main-method)
+- [Putting it All Together](#putting-it-all-together)
+- [Next Steps](#next-steps)
+- [Support](#support)
+- [See Also](#see-also)
+
 ## Prerequisites
 
 - Basic understanding of the command line
@@ -268,7 +281,7 @@ To run the demo, run:
 python custom_controller_demo.py
 ```
 
-You can also find the [code in our github repo](https://github.com/WisconsinAutonomous/wa_simulator/tree/develop/demos/python/tutorial/wa_custom_controller).
+You can also find the [code in our github repo](https://github.com/WisconsinAutonomous/wa_simulator/tree/develop/demos/python/tutorials/wa_custom_controller).
 
 A matplotlib window should pop up and the vehicle should move as we expect!
 
@@ -285,10 +298,3 @@ Contact [Aaron Young](aryoung5@wisc.edu) for any questions or concerns regarding
 Stay up to date with our technical info by following our [blog](https://www.wisconsinautonomous.org/blog).
 
 Follow us on [Facebook](https://www.facebook.com/wisconsinautonomous/), [Instagram](https://www.instagram.com/wisconsinautonomous/), and [LinkedIn](https://www.linkedin.com/company/wisconsin-autonomous/about/)!
-
-<br>
-
-<div>
-	<img src="https://github.com/WisconsinAutonomous/wa-resources/blob/master/Images/WA.png?raw=true" alt="Wisconsin Autonomous Logo" class="readme-img" height="100px">  
-	<img src="https://github.com/WisconsinAutonomous/wa-resources/blob/master/Images/UWCrest.png?raw=true" alt="University of Wisconsin - Madison Crest" class="readme-img" height="100px" align="right">
-</div>
