@@ -1,7 +1,7 @@
 sphinx==3.4.2
 furo==2020.12.30b24
 rinohtype==0.4.2
-m2r2==0.2.7
 sphinx-autoapi==1.5.1
 numpy==1.19.4
 matplotlib==3.3.3
+myst_parser==0.13.1
