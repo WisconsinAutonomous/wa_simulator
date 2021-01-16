@@ -12,7 +12,6 @@
 #
 import os
 import sys
-
 root_path = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.insert(0, root_path)
 sys.setrecursionlimit(1500)
@@ -37,8 +36,8 @@ extensions = [
     "sphinx.ext.napoleon",
     "sphinx.ext.autodoc",
     "autoapi.extension",
-    "m2r2",
     "sphinx.ext.githubpages",
+    "myst_parser",
 ]
 
 autoapi_type = "python"

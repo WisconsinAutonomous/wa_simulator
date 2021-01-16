@@ -1,3 +1,5 @@
+# Background
+
 ### ProjectChrono
 
 The WA Simulator provides a wrapper of the high fidelity, physics based simulation engine [ProjectChrono](http://www.projectchrono.org/) and it's python wrapped bindings [PyChrono](http://www.projectchrono.org/pychrono/). ProjectChrono has separate _modules_ which can be optionally built and can enhance certains use cases for Chrono. At the time of writing, modules that are intended to be used with this wrapper are the following: Chrono::Engine (_required_), Chrono::Vehicle (_required_), PyChrono (_required_),  Chrono::Irrlicht (_optional_), Chrono::Sensor (_optional_) and SynChrono (_optional_).

@@ -1,6 +1,5 @@
 # WA Vehicle Simulator
 
-
 The WA Simulator is a powerful, multi-platform, lightweight and *user-friendly* simulation platform for testing algorithms intended for autonomous robot or vehicle applications.
 This project is under active development by [Wisconsin Autonomous](https://wisconsinautonomous.org/), a student organization at the University of Wisconsin - Madison.
 
@@ -80,17 +79,17 @@ if __name__ == "__main__":
     main()
 ```
 
-## Setup Guide
+## Documentation
 
-Detailed installation guides for this repository have been written for Windows and Unix based operating systems (separate MacOS and Linux guides are available). Please follow the guide that is relevant to the operating system you're using.
-
-<!-- Windows: [Setup Guide](https://github.com/WisconsinAutonomous/control_sandbox/blob/master/WindowsSetup.md)\ -->
-<!-- Mac: [Setup Guide](https://github.com/WisconsinAutonomous/control_sandbox/blob/master/UnixSetup.md) -->
-<!-- Linux: [Setup Guide](https://github.com/WisconsinAutonomous/control_sandbox/blob/master/UnixSetup.md) -->
+- [Home](https://wisconsinautonomous.github.io/wa_simulator/index.html)
+- [Background](https://wisconsinautonomous.github.io/wa_simulator/background.html)
+- [Installation](https://wisconsinautonomous.github.io/wa_simulator/install.html)
+- [API Reference](https://wisconsinautonomous.github.io/wa_simulator/autoapi/wa_simulator/index.html)
+- [PyPI](https://pypi.org/project/wa-simulator/)
+- [Github](https://github.com/WisconsinAutonomous/wa_simulator)
 
 ## License 
-wa_simulator is made available under the BSD-3 License. For more details, see [LICENSE](https://github.com/WisconsinAutonomous/wa_simulator/blob/develop/LICENSE).
-
+`wa_simulator` is made available under the BSD-3 License. For more details, see [LICENSE](https://github.com/WisconsinAutonomous/wa_simulator/blob/develop/LICENSE).
 
 ## Support
 
