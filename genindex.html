@@ -128,9 +128,18 @@
 </form><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul>
 <li class="toctree-l1"><a class="reference internal" href="index.html">Home</a></li>
-<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="autoapi/wa_simulator/index.html">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label for="toctree-checkbox-1"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="autoapi/wa_simulator/chrono/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label for="toctree-checkbox-2"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1"><a class="reference internal" href="background.html">Background</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="installation/index.html">Installation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label for="toctree-checkbox-1"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation/unix.html">Unix Installation Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation/windows.html">Windows Installation Guide</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label for="toctree-checkbox-2"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/custom-controller.html">Creating a Custom Controller</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="autoapi/wa_simulator/index.html">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label for="toctree-checkbox-3"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="autoapi/wa_simulator/chrono/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label for="toctree-checkbox-4"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="autoapi/wa_simulator/chrono/controller/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.controller</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="autoapi/wa_simulator/chrono/environment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.environment</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="autoapi/wa_simulator/chrono/system/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.system</span></code></a></li>
@@ -152,6 +161,7 @@
 <li class="toctree-l2"><a class="reference internal" href="autoapi/wa_simulator/visualization/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.visualization</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference external" href="https://pypi.org/project/wa-simulator/">PyPI</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/WisconsinAutonomous/wa_simulator">Github</a></li>
 </ul>
 
@@ -204,9 +214,11 @@
 </li>
         <li><a href="autoapi/wa_simulator/cli/index.html#wa_simulator.cli.WAArgumentParser.add_default_arguments">add_default_arguments() (wa_simulator.cli.WAArgumentParser method)</a>
 </li>
-        <li><a href="autoapi/wa_simulator/chrono/controller/index.html#wa_simulator.chrono.controller.WAIrrlichtController.Advance">Advance() (wa_simulator.chrono.controller.WAIrrlichtController method)</a>
+        <li><a href="autoapi/custom_controller_demo/index.html#custom_controller_demo.CustomCSVController.Advance">Advance() (custom_controller_demo.CustomCSVController method)</a>
 
         <ul>
+          <li><a href="autoapi/wa_simulator/chrono/controller/index.html#wa_simulator.chrono.controller.WAIrrlichtController.Advance">(wa_simulator.chrono.controller.WAIrrlichtController method)</a>
+</li>
           <li><a href="autoapi/wa_simulator/chrono/environment/index.html#wa_simulator.chrono.environment.WAChronoEnvironment.Advance">(wa_simulator.chrono.environment.WAChronoEnvironment method)</a>
 </li>
           <li><a href="autoapi/wa_simulator/chrono/system/index.html#wa_simulator.chrono.system.WAChronoSystem.Advance">(wa_simulator.chrono.system.WAChronoSystem method)</a>
@@ -318,10 +330,10 @@
 </li>
         <li><a href="autoapi/wa_simulator/chrono/index.html#wa_simulator.chrono.CHRONO_DATA_DIRECTORY">CHRONO_DATA_DIRECTORY (in module wa_simulator.chrono)</a>
 </li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="autoapi/wa_simulator/chrono/index.html#wa_simulator.chrono.CHRONO_VEH_DATA_DIRECTORY">CHRONO_VEH_DATA_DIRECTORY (in module wa_simulator.chrono)</a>
 </li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
         <li>
     conf
 
@@ -338,6 +350,15 @@
         <li><a href="autoapi/conf/index.html#conf.copyright">copyright (in module conf)</a>
 </li>
         <li><a href="autoapi/wa_simulator/chrono/vehicle/index.html#wa_simulator.chrono.vehicle.CreateTireFromJSON">CreateTireFromJSON() (in module wa_simulator.chrono.vehicle)</a>
+</li>
+        <li>
+    custom_controller_demo
+
+        <ul>
+          <li><a href="autoapi/custom_controller_demo/index.html#module-custom_controller_demo">module</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/custom_controller_demo/index.html#custom_controller_demo.CustomCSVController">CustomCSVController (class in custom_controller_demo)</a>
 </li>
     </ul></td>
   </tr></table>
@@ -623,9 +644,11 @@
   <h2>M</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="autoapi/demo_bicycle_simple/index.html#demo_bicycle_simple.main">main() (in module demo_bicycle_simple)</a>
+        <li><a href="autoapi/custom_controller_demo/index.html#custom_controller_demo.main">main() (in module custom_controller_demo)</a>
 
         <ul>
+          <li><a href="autoapi/demo_bicycle_simple/index.html#demo_bicycle_simple.main">(in module demo_bicycle_simple)</a>
+</li>
           <li><a href="autoapi/demo_chrono_simple/index.html#demo_chrono_simple.main">(in module demo_chrono_simple)</a>
 </li>
         </ul></li>
@@ -650,6 +673,8 @@
 
         <ul>
           <li><a href="autoapi/conf/index.html#module-conf">conf</a>
+</li>
+          <li><a href="autoapi/custom_controller_demo/index.html#module-custom_controller_demo">custom_controller_demo</a>
 </li>
           <li><a href="autoapi/demo_bicycle_simple/index.html#module-demo_bicycle_simple">demo_bicycle_simple</a>
 </li>
@@ -778,6 +803,8 @@
 </li>
         <li><a href="autoapi/setup/index.html#setup.read">read() (in module setup)</a>
 </li>
+        <li><a href="autoapi/custom_controller_demo/index.html#custom_controller_demo.CustomCSVController.read_file">read_file() (custom_controller_demo.CustomCSVController method)</a>
+</li>
         <li><a href="autoapi/wa_simulator/chrono/terrain/index.html#wa_simulator.chrono.terrain.ReadTerrainModelFile">ReadTerrainModelFile() (in module wa_simulator.chrono.terrain)</a>
 </li>
         <li><a href="autoapi/wa_simulator/chrono/vehicle/index.html#wa_simulator.chrono.vehicle.ReadVehicleModelFile">ReadVehicleModelFile() (in module wa_simulator.chrono.vehicle)</a>
@@ -853,9 +880,11 @@
 </li>
         <li><a href="autoapi/wa_simulator/system/index.html#wa_simulator.system.WASystem.step_size">step_size (wa_simulator.system.WASystem attribute)</a>
 </li>
-        <li><a href="autoapi/wa_simulator/chrono/controller/index.html#wa_simulator.chrono.controller.WAIrrlichtController.Synchronize">Synchronize() (wa_simulator.chrono.controller.WAIrrlichtController method)</a>
+        <li><a href="autoapi/custom_controller_demo/index.html#custom_controller_demo.CustomCSVController.Synchronize">Synchronize() (custom_controller_demo.CustomCSVController method)</a>
 
         <ul>
+          <li><a href="autoapi/wa_simulator/chrono/controller/index.html#wa_simulator.chrono.controller.WAIrrlichtController.Synchronize">(wa_simulator.chrono.controller.WAIrrlichtController method)</a>
+</li>
           <li><a href="autoapi/wa_simulator/chrono/environment/index.html#wa_simulator.chrono.environment.WAChronoEnvironment.Synchronize">(wa_simulator.chrono.environment.WAChronoEnvironment method)</a>
 </li>
           <li><a href="autoapi/wa_simulator/chrono/terrain/index.html#wa_simulator.chrono.terrain.WAChronoTerrain.Synchronize">(wa_simulator.chrono.terrain.WAChronoTerrain method)</a>

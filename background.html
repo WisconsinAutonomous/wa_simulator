@@ -1,10 +1,10 @@
 <!doctype html>
 <html class="no-js">
   <head><meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="API Reference" href="autoapi/wa_simulator/index.html" /><link rel="prev" title="WA Vehicle Simulator - 0.0.1" href="index.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Installation" href="installation/index.html" /><link rel="prev" title="WA Vehicle Simulator - 0.0.1" href="index.html" />
 
     <link rel="shortcut icon" href="_static/wa-dark-favicon.png"/><meta name="generator" content="sphinx-3.4.2, furo 2020.12.30.beta24"/>
-        <title>Installation - Wisconsin Autonomous Simulator 0.0.1 documentation</title>
+        <title>Background - Wisconsin Autonomous Simulator 0.0.1 documentation</title>
       <link rel="stylesheet" href="_static/styles/furo.css?digest=33d2fc4f3f180ec1ffc6524e273e21d7d58cbe49">
     <link rel="stylesheet" href="_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="_static/pygments_dark.css">
@@ -106,7 +106,7 @@
       <a href="index.html"><div class="brand">Wisconsin Autonomous Simulator 0.0.1 documentation</div></a>
     </div>
     <div class="header-right">
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
     </div>
@@ -129,9 +129,18 @@
 </form><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="index.html">Home</a></li>
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Installation</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="autoapi/wa_simulator/index.html">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label for="toctree-checkbox-1"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="autoapi/wa_simulator/chrono/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label for="toctree-checkbox-2"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Background</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="installation/index.html">Installation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label for="toctree-checkbox-1"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation/unix.html">Unix Installation Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation/windows.html">Windows Installation Guide</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label for="toctree-checkbox-2"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/custom-controller.html">Creating a Custom Controller</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="autoapi/wa_simulator/index.html">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label for="toctree-checkbox-3"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="autoapi/wa_simulator/chrono/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label for="toctree-checkbox-4"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="autoapi/wa_simulator/chrono/controller/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.controller</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="autoapi/wa_simulator/chrono/environment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.environment</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="autoapi/wa_simulator/chrono/system/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.system</span></code></a></li>
@@ -153,6 +162,7 @@
 <li class="toctree-l2"><a class="reference internal" href="autoapi/wa_simulator/visualization/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.visualization</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference external" href="https://pypi.org/project/wa-simulator/">PyPI</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/WisconsinAutonomous/wa_simulator">Github</a></li>
 </ul>
 
@@ -165,29 +175,37 @@
   <main class="main">
     <div class="content">
       <article role="main">
-        <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+        <label class="toc-overlay-icon toc-content-icon" for="__toc">
           <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
         </label>
-        <div class="section" id="installation">
-<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
-<p>Please click the link for your respective platform to find information about installation.</p>
+        <div class="section" id="background">
+<h1>Background<a class="headerlink" href="#background" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="projectchrono">
+<h2>ProjectChrono<a class="headerlink" href="#projectchrono" title="Permalink to this headline">¶</a></h2>
+<p>The WA Simulator provides a wrapper of the high fidelity, physics based simulation engine <a class="reference external" href="http://www.projectchrono.org/">ProjectChrono</a> and it’s python wrapped bindings <a class="reference external" href="http://www.projectchrono.org/pychrono/">PyChrono</a>. ProjectChrono has separate <em>modules</em> which can be optionally built and can enhance certains use cases for Chrono. At the time of writing, modules that are intended to be used with this wrapper are the following: Chrono::Engine (<em>required</em>), Chrono::Vehicle (<em>required</em>), PyChrono (<em>required</em>),  Chrono::Irrlicht (<em>optional</em>), Chrono::Sensor (<em>optional</em>) and SynChrono (<em>optional</em>).</p>
+<p>Brief explanation of the aforementioned modules:</p>
 <ul class="simple">
-<li><p><a class="reference external" href="https://github.com/WisconsinAutonomous/wa_simulator/blob/develop/misc/docs/LinuxSetup.md">Linux Guide</a></p></li>
-<li><p><a class="reference external" href="https://github.com/WisconsinAutonomous/wa_simulator/blob/develop/misc/docs/WindowsSetup.md">Windows Guide</a></p></li>
-<li><p><a class="reference external" href="https://github.com/WisconsinAutonomous/wa_simulator/blob/develop/misc/docs/MacSetup.md">Mac Guide</a></p></li>
+<li><p><a class="reference external" href="http://api.projectchrono.org/manual_root.html">Chrono::Engine</a>: This is the baseline module for Chrono. It provides multi-purpose classes and functions used by all subsequent modules. The underlying physics engine is included in this module.</p></li>
+<li><p><a class="reference external" href="http://api.projectchrono.org/manual_vehicle.html">Chrono::Vehicle</a>: The vehicle module is built on top of Chrono::Engine and provides a framework for modeling high fidelity wheeled <em>and</em> tracked vehicles. This module is required specifically because it provides the functionality to create custom vehicle models.</p></li>
+<li><p><a class="reference external" href="http://api.projectchrono.org/pychrono_introduction.html">PyChrono</a>: PyChrono is the python wrapped bindings of the C++ Chrono project. This allows users to access <em>most</em> Chrono functionality through a python API. This aids in rapid development and deployment of autonomous algorithms and is easy to use.</p></li>
+<li><p>Chrono::Irrlicht: <a class="reference external" href="http://irrlicht.sourceforge.net/">Irrlicht</a> is a realtime 3D rendering engine written in C++. It is a very old framework and is likely to be updated by the Chrono developers in the near future. It provides the realtime visualization most common to day-to-day development.</p></li>
+<li><p><a class="reference external" href="http://api.projectchrono.org/manual_sensor.html">Chrono::Sensor</a>: The sensor module enables the ability to model and simulate sensors in a Chrono environment. Two types of sensors are available: dynamic and static. Dynamic sensors use the NVIDIA based ray tracing library <a class="reference external" href="https://developer.nvidia.com/optix">OptiX</a> and allow for simulation of sensors such as cameras or LiDARs. Static sensors do not require ray tracing, e.g. GPS, IMU, etc.</p></li>
+<li><p><a class="reference external" href="http://api.projectchrono.org/group__synchrono.html">SynChrono</a>: SynChrono is a new module aimed to provide multi-agent, distributed simulation for Chrono. Primarily as an addition to the vehicle module, SynChrono is built with either MPI or DDS as the message passing protocol.</p></li>
 </ul>
+<p>As the previous modules describe, there is abundant possibilities to create and test autonomous algorithms. This repository will provide scripts, documentation and wrapped classes aiding in quickly working with Chrono.</p>
+</div>
 </div>
 
       </article>
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="autoapi/wa_simulator/index.html">
+          <a class="next-page" href="installation/index.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">API Reference</div>
+                <div class="title">Installation</div>
               </div>
               <svg><use href="#svg-arrow-right"></use></svg>
             </a>
@@ -212,7 +230,7 @@
               <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
               <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
             |
-            <a class="muted-link" href="_sources/install.rst.txt"
+            <a class="muted-link" href="_sources/background.md.txt"
                rel="nofollow">
               Show Source
             </a>
@@ -220,8 +238,27 @@
         
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            Contents
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Background</a><ul>
+<li><a class="reference internal" href="#projectchrono">ProjectChrono</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>

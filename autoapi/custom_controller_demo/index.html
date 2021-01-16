@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
     <link rel="shortcut icon" href="../../_static/wa-dark-favicon.png"/><meta name="generator" content="sphinx-3.4.2, furo 2020.12.30.beta24"/>
-        <title>setup - Wisconsin Autonomous Simulator 0.0.1 documentation</title>
+        <title>custom_controller_demo - Wisconsin Autonomous Simulator 0.0.1 documentation</title>
       <link rel="stylesheet" href="../../_static/styles/furo.css?digest=33d2fc4f3f180ec1ffc6524e273e21d7d58cbe49">
     <link rel="stylesheet" href="../../_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../../_static/pygments_dark.css">
@@ -178,14 +178,24 @@
         <label class="toc-overlay-icon toc-content-icon" for="__toc">
           <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
         </label>
-        <div class="section" id="module-setup">
-<span id="setup"></span><h1><a class="reference internal" href="#module-setup" title="setup"><code class="xref py py-mod docutils literal notranslate"><span class="pre">setup</span></code></a><a class="headerlink" href="#module-setup" title="Permalink to this headline">¶</a></h1>
-<p>A setuptools based setup module.
-See:
-<a class="reference external" href="https://packaging.python.org/guides/distributing-packages-using-setuptools/">https://packaging.python.org/guides/distributing-packages-using-setuptools/</a>
-<a class="reference external" href="https://github.com/pypa/sampleproject">https://github.com/pypa/sampleproject</a></p>
+        <div class="section" id="module-custom_controller_demo">
+<span id="custom-controller-demo"></span><h1><a class="reference internal" href="#module-custom_controller_demo" title="custom_controller_demo"><code class="xref py py-mod docutils literal notranslate"><span class="pre">custom_controller_demo</span></code></a><a class="headerlink" href="#module-custom_controller_demo" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="module-contents">
 <h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h3>
+<div class="table-wrapper"><table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%"/>
+<col style="width: 90%"/>
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#custom_controller_demo.CustomCSVController" title="custom_controller_demo.CustomCSVController"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CustomCSVController</span></code></a></p></td>
+<td><p>Simple controller that controls the car from data in a csv file</p></td>
+</tr>
+</tbody>
+</table></div>
+</div>
 <div class="section" id="functions">
 <h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
 <div class="table-wrapper"><table class="longtable docutils align-default">
@@ -194,21 +204,32 @@ See:
 <col style="width: 90%"/>
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#setup.read" title="setup.read"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read</span></code></a>(fname)</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#setup.get_package_data" title="setup.get_package_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_package_data</span></code></a>(directory, rm='wa_simulator/')</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#custom_controller_demo.main" title="custom_controller_demo.main"><code class="xref py py-obj docutils literal notranslate"><span class="pre">main</span></code></a>()</p></td>
 <td><p></p></td>
 </tr>
 </tbody>
 </table></div>
-<dl class="py function">
-<dt id="setup.read">
-<code class="sig-prename descclassname">setup.</code><code class="sig-name descname">read</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fname</span></em><span class="sig-paren">)</span><a class="headerlink" href="#setup.read" title="Permalink to this definition">¶</a></dt>
+<dl class="py class">
+<dt id="custom_controller_demo.CustomCSVController">
+<em class="property">class </em><code class="sig-prename descclassname">custom_controller_demo.</code><code class="sig-name descname">CustomCSVController</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sys</span></em>, <em class="sig-param"><span class="n">csv_file</span></em><span class="sig-paren">)</span><a class="headerlink" href="#custom_controller_demo.CustomCSVController" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">wa_simulator.WAController</span></code></p>
+<p>Simple controller that controls the car from data in a csv file</p>
+<dl class="py method">
+<dt id="custom_controller_demo.CustomCSVController.read_file">
+<code class="sig-name descname">read_file</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">file</span></em><span class="sig-paren">)</span><a class="headerlink" href="#custom_controller_demo.CustomCSVController.read_file" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+<dl class="py method">
+<dt id="custom_controller_demo.CustomCSVController.Synchronize">
+<code class="sig-name descname">Synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">time</span></em><span class="sig-paren">)</span><a class="headerlink" href="#custom_controller_demo.CustomCSVController.Synchronize" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py method">
+<dt id="custom_controller_demo.CustomCSVController.Advance">
+<code class="sig-name descname">Advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#custom_controller_demo.CustomCSVController.Advance" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+</dd></dl>
 <dl class="py function">
-<dt id="setup.get_package_data">
-<code class="sig-prename descclassname">setup.</code><code class="sig-name descname">get_package_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">directory</span></em>, <em class="sig-param"><span class="n">rm</span><span class="o">=</span><span class="default_value">'wa_simulator/'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#setup.get_package_data" title="Permalink to this definition">¶</a></dt>
+<dt id="custom_controller_demo.main">
+<code class="sig-prename descclassname">custom_controller_demo.</code><code class="sig-name descname">main</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#custom_controller_demo.main" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 </div>
 </div>
@@ -230,7 +251,7 @@ See:
               <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
               <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
             |
-            <a class="muted-link" href="../../_sources/autoapi/setup/index.rst.txt"
+            <a class="muted-link" href="../../_sources/autoapi/custom_controller_demo/index.rst.txt"
                rel="nofollow">
               Show Source
             </a>
@@ -250,11 +271,17 @@ See:
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">setup</span></code></a><ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">custom_controller_demo</span></code></a><ul>
 <li><a class="reference internal" href="#module-contents">Module Contents</a><ul>
+<li><a class="reference internal" href="#classes">Classes</a></li>
 <li><a class="reference internal" href="#functions">Functions</a><ul>
-<li><a class="reference internal" href="#setup.read">read</a></li>
-<li><a class="reference internal" href="#setup.get_package_data">get_package_data</a></li>
+<li><a class="reference internal" href="#custom_controller_demo.CustomCSVController">CustomCSVController</a><ul>
+<li><a class="reference internal" href="#custom_controller_demo.CustomCSVController.read_file">read_file</a></li>
+<li><a class="reference internal" href="#custom_controller_demo.CustomCSVController.Synchronize">Synchronize</a></li>
+<li><a class="reference internal" href="#custom_controller_demo.CustomCSVController.Advance">Advance</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#custom_controller_demo.main">main</a></li>
 </ul>
 </li>
 </ul>

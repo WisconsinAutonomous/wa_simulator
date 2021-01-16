@@ -33,7 +33,7 @@ Module Contents
    
 
 .. data:: extensions
-   :annotation: = ['rinoh.frontend.sphinx', 'sphinx.ext.napoleon', 'sphinx.ext.autodoc', 'autoapi.extension', 'm2r2', 'sphinx.ext.githubpages']
+   :annotation: = ['rinoh.frontend.sphinx', 'sphinx.ext.napoleon', 'sphinx.ext.autodoc', 'autoapi.extension', 'sphinx.ext.githubpages', 'myst_parser']
 
    
 

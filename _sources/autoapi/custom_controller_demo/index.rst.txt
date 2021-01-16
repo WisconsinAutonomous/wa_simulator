@@ -1,0 +1,45 @@
+:mod:`custom_controller_demo`
+=============================
+
+.. py:module:: custom_controller_demo
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   custom_controller_demo.CustomCSVController
+
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   custom_controller_demo.main
+
+
+.. py:class:: CustomCSVController(sys, csv_file)
+
+   Bases: :class:`wa_simulator.WAController`
+
+   Simple controller that controls the car from data in a csv file
+
+   .. method:: read_file(self, file)
+
+
+   .. method:: Synchronize(self, time)
+
+
+   .. method:: Advance(self, step)
+
+
+
+.. function:: main()
+
+

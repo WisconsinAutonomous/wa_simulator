@@ -1,0 +1,544 @@
+<!doctype html>
+<html class="no-js">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="API Reference" href="../autoapi/wa_simulator/index.html" /><link rel="prev" title="Tutorials" href="index.html" />
+
+    <link rel="shortcut icon" href="../_static/wa-dark-favicon.png"/><meta name="generator" content="sphinx-3.4.2, furo 2020.12.30.beta24"/>
+        <title>Creating a Custom Controller - Wisconsin Autonomous Simulator 0.0.1 documentation</title>
+      <link rel="stylesheet" href="../_static/styles/furo.css?digest=33d2fc4f3f180ec1ffc6524e273e21d7d58cbe49">
+    <link rel="stylesheet" href="../_static/pygments.css">
+    <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../_static/pygments_dark.css">
+    
+
+
+<style>
+  :root {
+    --color-code-background: #f0f0f0;
+  --color-code-foreground: black;
+  
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+  }
+
+  /* For allowing end-user-specific overrides */
+  .override-light {
+    --color-code-background: #f0f0f0;
+  --color-code-foreground: black;
+  
+  }
+  .override-dark {
+    --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+  }
+</style><link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" />
+    <link rel="stylesheet" href="../_static/styles/furo-extensions.css?digest=26485485040e7aaf717c13fd0188a5ad2c2deb60">
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script defer="defer" src="../_static/jquery.js"></script>
+    <script defer="defer" src="../_static/underscore.js"></script>
+    <script defer="defer" src="../_static/doctools.js"></script>
+    <script defer src="../_static/scripts/main.js?digest=e931d09b2a40c1bb82b542effe772014573baf67"></script></head>
+  <body dir="">
+    
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+      stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z"/>
+      <line x1="4" y1="6" x2="20" y2="6" />
+      <line x1="10" y1="12" x2="20" y2="12" />
+      <line x1="6" y1="18" x2="20" y2="18" />
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+      class="feather feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+      class="feather feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
+
+<div class="announcement">
+  <aside class="announcement-content">
+     
+        <a style="text-decoration: none; color: white;" 
+           href="https://wisconsinautonomous.org">
+           <img src="https://github.com/WisconsinAutonomous/wa-resources/blob/master/Images/wa-dark.png?raw=true" 
+                style="vertical-align: middle; display: inline; padding-right: 7.5px; height: 20px;"/>
+           Checkout our website!
+        </a>
+     
+  </aside>
+</div>
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">Wisconsin Autonomous Simulator 0.0.1 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="../_static/wa-light.png" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../_static/wa-dark.png" alt="Dark Logo"/>
+  </div>
+  
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html">
+  <input class="sidebar-search" placeholder=Search name="q">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../background.html">Background</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../installation/index.html">Installation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label for="toctree-checkbox-1"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../installation/unix.html">Unix Installation Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/windows.html">Windows Installation Guide</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">Tutorials</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label for="toctree-checkbox-2"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Creating a Custom Controller</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../autoapi/wa_simulator/index.html">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label for="toctree-checkbox-3"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../autoapi/wa_simulator/chrono/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label for="toctree-checkbox-4"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../autoapi/wa_simulator/chrono/controller/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.controller</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../autoapi/wa_simulator/chrono/environment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.environment</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../autoapi/wa_simulator/chrono/system/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.system</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../autoapi/wa_simulator/chrono/terrain/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.terrain</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../autoapi/wa_simulator/chrono/vehicle/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.vehicle</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../autoapi/wa_simulator/chrono/visualization/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.visualization</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../autoapi/wa_simulator/cli/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.cli</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../autoapi/wa_simulator/constants/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.constants</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../autoapi/wa_simulator/controller/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.controller</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../autoapi/wa_simulator/data_loader/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.data_loader</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../autoapi/wa_simulator/environment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.environment</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../autoapi/wa_simulator/simulation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.simulation</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../autoapi/wa_simulator/system/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.system</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../autoapi/wa_simulator/terrain/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.terrain</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../autoapi/wa_simulator/vector/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.vector</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../autoapi/wa_simulator/vehicle/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.vehicle</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../autoapi/wa_simulator/visualization/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.visualization</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference external" href="https://pypi.org/project/wa-simulator/">PyPI</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/WisconsinAutonomous/wa_simulator">Github</a></li>
+</ul>
+
+</div>
+</div>
+      </div>
+      
+    </div>
+  </aside>
+  <main class="main">
+    <div class="content">
+      <article role="main">
+        <label class="toc-overlay-icon toc-content-icon" for="__toc">
+          <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+        </label>
+        <div class="section" id="creating-a-custom-controller">
+<h1>Creating a Custom Controller<a class="headerlink" href="#creating-a-custom-controller" title="Permalink to this headline">¶</a></h1>
+<p>In this tutorial, we will create a custom controller that reads in commands via a <code class="docutils literal notranslate"><span class="pre">.csv</span></code> file.</p>
+<div class="section" id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Basic understanding of the command line</p></li>
+<li><p>Basic understanding of Python</p></li>
+<li><p>You have <code class="docutils literal notranslate"><span class="pre">wa_simulator</span></code> installed (<a class="reference external" href="https://wisconsinautonomous.github.io/wa_simulator/installation/index.html">resources for that</a>)</p></li>
+</ul>
+<blockquote>
+<div><p>Note #1: This tutorial assumes you have installed the wa_simulator via Anaconda</p>
+</div></blockquote>
+<blockquote>
+<div><p>Note #2: This tutorial is meant for people using a Linux distribution or MacOS. It should work for Windows users within the Anaconda shell, but it hasn’t been tested.</p>
+</div></blockquote>
+</div>
+<div class="section" id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">¶</a></h2>
+<p>Since <code class="docutils literal notranslate"><span class="pre">wa_simulator</span></code> is installed via <code class="docutils literal notranslate"><span class="pre">conda</span></code>, creating a custom demo and controller is as easy as creating a single file. That is what we’ll do in this tutorial.</p>
+<p>Please <code class="docutils literal notranslate"><span class="pre">cd</span></code> into a location where you would like to place these files. Create a directory called <code class="docutils literal notranslate"><span class="pre">wa_custom_controller</span></code> with two files: <code class="docutils literal notranslate"><span class="pre">custom_controller_demo.py</span></code> and <code class="docutils literal notranslate"><span class="pre">controller_data.csv</span></code>. Your file structure should look like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>wa_custom_controller
+├── custom_controller_demo.py
+└── controller_data.csv
+</pre></div>
+</div>
+</div>
+<div class="section" id="create-the-controller">
+<h2>Create the Controller<a class="headerlink" href="#create-the-controller" title="Permalink to this headline">¶</a></h2>
+<p>To begin, open <code class="docutils literal notranslate"><span class="pre">custom_controller_demo.py</span></code> in your favorite editor. I recommend <a class="reference external" href="https://atom.io/">Atom</a> or <a class="reference external" href="https://code.visualstudio.com/">Visual Studio Code</a>.</p>
+<p>All controllers in the <code class="docutils literal notranslate"><span class="pre">wa_simulator</span></code> must <a class="reference external" href="https://www.w3schools.com/python/python_inheritance.asp">inherit</a> from the <code class="docutils literal notranslate"><span class="pre">WAController</span></code> class. Our custom class is no exception. <a class="reference external" href="https://wisconsinautonomous.github.io/wa_simulator/autoapi/wa_simulator/controller/index.html#wa_simulator.controller.WAController">Per the documentation</a>, our class <em>must</em> implement the <code class="docutils literal notranslate"><span class="pre">Synchronize</span></code> and <code class="docutils literal notranslate"><span class="pre">Advance</span></code> methods. The <code class="docutils literal notranslate"><span class="pre">WAController's</span></code> constructor takes a <code class="docutils literal notranslate"><span class="pre">WASystem</span></code>, so we need to have that to pass it to the underlying controller. We will also need to have a csv file that we’ll read, so let’s pass that in the constructor. Let’s create our class and implement these methods.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">wa_simulator</span> <span class="k">as</span> <span class="nn">wa</span>
+
+<span class="k">class</span> <span class="nc">CustomCSVController</span><span class="p">(</span><span class="n">wa</span><span class="o">.</span><span class="n">WAController</span><span class="p">):</span>
+    <span class="sd">"""Simple controller that controls the car from data in a csv file"""</span>
+
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">csv_file</span><span class="p">):</span>
+		<span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">Synchronize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">Advance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">step</span><span class="p">):</span>
+        <span class="k">pass</span>
+</pre></div>
+</div>
+<p>With the skeleton done, let’s start implementing our classes. In the <code class="docutils literal notranslate"><span class="pre">__init__</span></code> function, we need to do a bit of house keeping. First, let’s save the passed csv_file so we can edit it later. Also, we want to make sure the csv file is structured how we expect before reading it, so let’s call a function to verify everything’s correct and then read the file. The <code class="docutils literal notranslate"><span class="pre">__init__</span></code> function should now look like this:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">...</span>
+
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">csv_file</span><span class="p">):</span>
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">sys</span><span class="p">)</span> <span class="c1"># Calls the WAController's constructor</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">csv_file</span> <span class="o">=</span> <span class="n">csv_file</span>
+
+		<span class="c1"># to be implemented next</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">ctlr_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">csv_file</span><span class="p">)</span> 
+<span class="o">...</span>
+</pre></div>
+</div>
+<p>Since we’ve now introduced the <code class="docutils literal notranslate"><span class="pre">read_file</span></code> method, we’ll think a little bit about how we want the csv file to actually be structured.</p>
+<div class="section" id="csv-structure">
+<h3>CSV Structure<a class="headerlink" href="#csv-structure" title="Permalink to this headline">¶</a></h3>
+<p>A comma-separated values (csv) file is a intuitive way for structuring easily manipulated data. A typical csv may look like the following:</p>
+<div class="highlight-csv notranslate"><div class="highlight"><pre><span></span>x,y,z # Header
+0,0,0 # Entries ↓
+1,1,1
+2,2,2
+.,.,.
+.,.,.
+</pre></div>
+</div>
+<p>The header line describes what each column represents and each entry is the actual data. We will structure our data in the following format: <code class="docutils literal notranslate"><span class="pre">time,steering,throttle,braking</span></code>. Basically, at <code class="docutils literal notranslate"><span class="pre">time</span></code>, the <code class="docutils literal notranslate"><span class="pre">steering</span></code>, <code class="docutils literal notranslate"><span class="pre">throttle</span></code>, and <code class="docutils literal notranslate"><span class="pre">braking</span></code> values will be passed to the vehicle. As an example, feel free to use the following file or create your own. Place the information in the <code class="docutils literal notranslate"><span class="pre">controller_data.csv</span></code> we created earlier.</p>
+<div class="highlight-csv notranslate"><div class="highlight"><pre><span></span>time,steering,throttle,braking
+0,0,0.1,0
+1,1,0.1,0
+5,-1,0.1,0
+7.5,-1,1,0
+10,0,0,1
+</pre></div>
+</div>
+<p>As you can see in the file, we should expect to see the vehicle accelerate slowly for 1 second, begin to turn right, then turn left, accelerate even more and then brake at 10 seconds.</p>
+</div>
+<div class="section" id="parse-the-csv">
+<h3>Parse the CSV<a class="headerlink" href="#parse-the-csv" title="Permalink to this headline">¶</a></h3>
+<p>Now we need to actually parse the data we created. As mentioned earlier, let’s implement a method to check that the data is in the right format and then let’s actually read in the data and place it in a variable called <code class="docutils literal notranslate"><span class="pre">ctlr_data</span></code>.</p>
+<p>To make things easier, we’ll us <code class="docutils literal notranslate"><span class="pre">NumPy's</span></code> <code class="docutils literal notranslate"><span class="pre">genfromtxt</span></code> method to do the heavylifting. As a result, make sure you place <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">numpy</span> <span class="pre">as</span> <span class="pre">np</span></code> at the top of the <code class="docutils literal notranslate"><span class="pre">custom_controller_demo.py</span></code> file.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="o">...</span>
+
+    <span class="k">def</span> <span class="nf">read_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>
+        <span class="c1"># a delimiter is the thing that separates each data value in a row</span>
+        <span class="c1"># data is now a numpy array with our data</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">genfromtxt</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">','</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># Errors may occur with the above method, like if delimiter is wrong or inconsistent names</span>
+
+        <span class="c1"># Check to make sure the data is as we expected</span>
+        <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">names</span> <span class="o">!=</span> <span class="p">(</span><span class="s1">'time'</span><span class="p">,</span> <span class="s1">'steering'</span><span class="p">,</span> <span class="s1">'throttle'</span><span class="p">,</span> <span class="s1">'braking'</span><span class="p">)</span> <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">([</span><span class="n">r</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">data</span><span class="p">])</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">'The csv file is not structured incorrectly!'</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">data</span>
+<span class="o">...</span>
+
+</pre></div>
+</div>
+</div>
+<div class="section" id="implement-the-advance-and-synchronize-methods">
+<h3>Implement the Advance and Synchronize Methods<a class="headerlink" href="#implement-the-advance-and-synchronize-methods" title="Permalink to this headline">¶</a></h3>
+<p>With the data parsed, we can now implement our controller logic. We basically want to check at every <code class="docutils literal notranslate"><span class="pre">Synchronize</span></code> call whether the time is equal to or past some point in our data. We will then pass the vehicle inputs at the point.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">Synchronize</span></code> method is implemented as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">...</span>
+
+    <span class="k">def</span> <span class="nf">Synchronize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="p">):</span>
+        <span class="c1"># Check that there is still data left to read</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ctlr_data</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="n">time</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">'time'</span><span class="p">][</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="c1"># Set the vehicle inputs at that time point</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">steering</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">'steering'</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">throttle</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">'throttle'</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">braking</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">'braking'</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+            <span class="c1"># Remove that row in the data</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+<p>That’s basically all the logic we need. The <code class="docutils literal notranslate"><span class="pre">Advance</span></code> method doesn’t actually need anything else, so we can just leave it as before!</p>
+</div>
+</div>
+<div class="section" id="creating-our-main-method">
+<h2>Creating our Main Method<a class="headerlink" href="#creating-our-main-method" title="Permalink to this headline">¶</a></h2>
+<p>We’ll now create our main function to actually run our demo. We’ll visualize the simulation using <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code> and keep everything else rather simple.</p>
+<p>In <code class="docutils literal notranslate"><span class="pre">custom_controller_demo.py</span></code>, underneath your custom controller, add the following:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="c1"># Create the system</span>
+    <span class="n">sys</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">WASystem</span><span class="p">(</span><span class="n">step_size</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">)</span>
+
+    <span class="c1"># Create an environment using a premade environment description</span>
+    <span class="n">env_filename</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">WASimpleEnvironment</span><span class="o">.</span><span class="n">EGP_ENV_MODEL_FILE</span>
+    <span class="n">env</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">WASimpleEnvironment</span><span class="p">(</span><span class="n">env_filename</span><span class="p">,</span> <span class="n">sys</span><span class="p">)</span>
+
+    <span class="c1"># Create an vehicle using a premade vehicle description</span>
+    <span class="n">veh_filename</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">WALinearKinematicBicycle</span><span class="o">.</span><span class="n">GO_KART_MODEL_FILE</span>
+    <span class="n">veh</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">WALinearKinematicBicycle</span><span class="p">(</span><span class="n">veh_filename</span><span class="p">)</span>
+
+    <span class="c1"># Visualize the simulation using matplotlib</span>
+    <span class="n">vis</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">WAMatplotlibVisualization</span><span class="p">(</span><span class="n">veh</span><span class="p">,</span> <span class="n">sys</span><span class="p">)</span>
+
+    <span class="c1"># Create our custom controller!</span>
+    <span class="n">ctr</span> <span class="o">=</span> <span class="n">CustomCSVController</span><span class="p">(</span><span class="n">sys</span><span class="p">,</span> <span class="s1">'controller_data.csv'</span><span class="p">)</span>
+
+    <span class="c1"># Instantiate the simulation manager</span>
+    <span class="n">sim</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">WASimulation</span><span class="p">(</span><span class="n">sys</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">veh</span><span class="p">,</span> <span class="n">vis</span><span class="p">,</span> <span class="n">ctr</span><span class="p">)</span>
+
+    <span class="c1"># Run the simulation</span>
+    <span class="n">sim</span><span class="o">.</span><span class="n">Run</span><span class="p">()</span>
+
+<span class="c1"># Will call the main function when 'python custom_controller_demo.py' is run</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="putting-it-all-together">
+<h2>Putting it All Together<a class="headerlink" href="#putting-it-all-together" title="Permalink to this headline">¶</a></h2>
+<p>Your <code class="docutils literal notranslate"><span class="pre">controller_data.csv</span></code> should look like this:</p>
+<div class="highlight-csv notranslate"><div class="highlight"><pre><span></span>time,steering,throttle,braking
+0,0,0.1,0
+1,1,0.1,0
+5,-1,0.1,0
+7.5,-1,1,0
+10,0,0,1
+</pre></div>
+</div>
+<p>Your <code class="docutils literal notranslate"><span class="pre">custom_controller_demo.py</span></code> should look like this:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+<span class="kn">import</span> <span class="nn">wa_simulator</span> <span class="k">as</span> <span class="nn">wa</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+
+<span class="k">class</span> <span class="nc">CustomCSVController</span><span class="p">(</span><span class="n">wa</span><span class="o">.</span><span class="n">WAController</span><span class="p">):</span>
+    <span class="sd">"""Simple controller that controls the car from data in a csv file"""</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">csv_file</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">sys</span><span class="p">)</span>  <span class="c1"># Calls the WAController's constructor</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">csv_file</span> <span class="o">=</span> <span class="n">csv_file</span>
+
+        <span class="c1"># to be implemented next</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ctlr_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">csv_file</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">read_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>
+        <span class="c1"># a delimiter is the thing that separates each data value in a row</span>
+        <span class="c1"># data is now a numpy array with our data</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">genfromtxt</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">','</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># Errors may occur with the above method, like if delimiter is wrong or inconsistent names</span>
+
+        <span class="c1"># Check to make sure the data is as we expected</span>
+        <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">names</span> <span class="o">!=</span> <span class="p">(</span><span class="s1">'time'</span><span class="p">,</span> <span class="s1">'steering'</span><span class="p">,</span> <span class="s1">'throttle'</span><span class="p">,</span> <span class="s1">'braking'</span><span class="p">)</span> <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">([</span><span class="n">r</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">data</span><span class="p">])</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">'The csv file is not structured incorrectly!'</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">data</span>
+
+    <span class="k">def</span> <span class="nf">Synchronize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="p">):</span>
+        <span class="c1"># Check that there is still data left to read</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ctlr_data</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="n">time</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctlr_data</span><span class="p">[</span><span class="s1">'time'</span><span class="p">][</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="c1"># Set the vehicle inputs at that time point</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">steering</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctlr_data</span><span class="p">[</span><span class="s1">'steering'</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">throttle</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctlr_data</span><span class="p">[</span><span class="s1">'throttle'</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">braking</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctlr_data</span><span class="p">[</span><span class="s1">'braking'</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+            <span class="c1"># Remove that row in the ctlr_data</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ctlr_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ctlr_data</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">Advance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">step</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="c1"># Create the system</span>
+    <span class="n">sys</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">WASystem</span><span class="p">(</span><span class="n">step_size</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">)</span>
+
+    <span class="c1"># Create an environment using a premade environment description</span>
+    <span class="n">env_filename</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">WASimpleEnvironment</span><span class="o">.</span><span class="n">EGP_ENV_MODEL_FILE</span>
+    <span class="n">env</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">WASimpleEnvironment</span><span class="p">(</span><span class="n">env_filename</span><span class="p">,</span> <span class="n">sys</span><span class="p">)</span>
+
+    <span class="c1"># Create an vehicle using a premade vehicle description</span>
+    <span class="n">veh_filename</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">WALinearKinematicBicycle</span><span class="o">.</span><span class="n">GO_KART_MODEL_FILE</span>
+    <span class="n">veh</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">WALinearKinematicBicycle</span><span class="p">(</span><span class="n">veh_filename</span><span class="p">)</span>
+
+    <span class="c1"># Visualize the simulation using matplotlib</span>
+    <span class="n">vis</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">WAMatplotlibVisualization</span><span class="p">(</span><span class="n">veh</span><span class="p">,</span> <span class="n">sys</span><span class="p">)</span>
+
+    <span class="c1"># Create our custom controller!</span>
+    <span class="n">ctr</span> <span class="o">=</span> <span class="n">CustomCSVController</span><span class="p">(</span><span class="n">sys</span><span class="p">,</span> <span class="s1">'controller_data.csv'</span><span class="p">)</span>
+
+    <span class="c1"># Instantiate the simulation manager</span>
+    <span class="n">sim</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">WASimulation</span><span class="p">(</span><span class="n">sys</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">veh</span><span class="p">,</span> <span class="n">vis</span><span class="p">,</span> <span class="n">ctr</span><span class="p">)</span>
+
+    <span class="c1"># Run the simulation</span>
+    <span class="n">sim</span><span class="o">.</span><span class="n">Run</span><span class="p">()</span>
+
+
+<span class="c1"># Will call the main function when 'python custom_controller_demo.py' is run</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+
+</pre></div>
+</div>
+<p>To run the demo, run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python custom_controller_demo.py
+</pre></div>
+</div>
+<p>You can also find the <a class="reference external" href="https://github.com/WisconsinAutonomous/wa_simulator/tree/develop/demos/python/tutorial/wa_custom_controller">code in our github repo</a>.</p>
+<p>A matplotlib window should pop up and the vehicle should move as we expect!</p>
+</div>
+<div class="section" id="next-steps">
+<h2>Next Steps<a class="headerlink" href="#next-steps" title="Permalink to this headline">¶</a></h2>
+<p>You should now have a good understanding of how a controller is made in <code class="docutils literal notranslate"><span class="pre">wa_simulator</span></code>. Feel free to edit this demo or add your own logic! Happy coding!</p>
+</div>
+<div class="section" id="support">
+<h2>Support<a class="headerlink" href="#support" title="Permalink to this headline">¶</a></h2>
+<p>Contact <span class="xref myst">Aaron Young</span> for any questions or concerns regarding the contents of this repository.</p>
+</div>
+<div class="section" id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Permalink to this headline">¶</a></h2>
+<p>Stay up to date with our technical info by following our <a class="reference external" href="https://www.wisconsinautonomous.org/blog">blog</a>.</p>
+<p>Follow us on <a class="reference external" href="https://www.facebook.com/wisconsinautonomous/">Facebook</a>, <a class="reference external" href="https://www.instagram.com/wisconsinautonomous/">Instagram</a>, and <a class="reference external" href="https://www.linkedin.com/company/wisconsin-autonomous/about/">LinkedIn</a>!</p>
+<br/>
+<div>
+<img alt="Wisconsin Autonomous Logo" class="readme-img" height="100px" src="https://github.com/WisconsinAutonomous/wa-resources/blob/master/Images/WA.png?raw=true"/>
+<img align="right" alt="University of Wisconsin - Madison Crest" class="readme-img" height="100px" src="https://github.com/WisconsinAutonomous/wa-resources/blob/master/Images/UWCrest.png?raw=true"/>
+</div></div>
+</div>
+
+      </article>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="../autoapi/wa_simulator/index.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">API Reference</div>
+              </div>
+              <svg><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="index.html">
+              <svg><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Tutorials</div>
+                
+              </div>
+            </a>
+        </div>
+
+        <div class="related-information">
+              Copyright &#169; 2021, Wisconsin Autonomous
+            |
+            Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
+              and
+              <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+              <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
+            |
+            <a class="muted-link" href="../_sources/tutorials/custom-controller.md.txt"
+               rel="nofollow">
+              Show Source
+            </a>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            Contents
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Creating a Custom Controller</a><ul>
+<li><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
+<li><a class="reference internal" href="#setup">Setup</a></li>
+<li><a class="reference internal" href="#create-the-controller">Create the Controller</a><ul>
+<li><a class="reference internal" href="#csv-structure">CSV Structure</a></li>
+<li><a class="reference internal" href="#parse-the-csv">Parse the CSV</a></li>
+<li><a class="reference internal" href="#implement-the-advance-and-synchronize-methods">Implement the Advance and Synchronize Methods</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#creating-our-main-method">Creating our Main Method</a></li>
+<li><a class="reference internal" href="#putting-it-all-together">Putting it All Together</a></li>
+<li><a class="reference internal" href="#next-steps">Next Steps</a></li>
+<li><a class="reference internal" href="#support">Support</a></li>
+<li><a class="reference internal" href="#see-also">See Also</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </main>
+</div>
+  </body>
+</html>
