@@ -61,7 +61,7 @@ With the skeleton done, let's start implementing our classes. In the `__init__` 
 
 Since we've now introduced the `read_file` method, we'll think a little bit about how we want the csv file to actually be structured.
 
-#### CSV Structure
+### CSV Structure
 
 A comma-separated values (csv) file is a intuitive way for structuring easily manipulated data. A typical csv may look like the following:
 ```csv
@@ -86,7 +86,7 @@ time,steering,throttle,braking
 
 As you can see in the file, we should expect to see the vehicle accelerate slowly for 1 second, begin to turn right, then turn left, accelerate even more and then brake at 10 seconds.
 
-#### Parse the CSV
+### Parse the CSV
 Now we need to actually parse the data we created. As mentioned earlier, let's implement a method to check that the data is in the right format and then let's actually read in the data and place it in a variable called `ctlr_data`.
 
 To make things easier, we'll us `NumPy's` `genfromtxt` method to do the heavylifting. As a result, make sure you place `import numpy as np` at the top of the `custom_controller_demo.py` file. 
@@ -111,7 +111,7 @@ import numpy as np
 
 ```
 
-#### Implement the Advance and Synchronize Methods
+### Implement the Advance and Synchronize Methods
 With the data parsed, we can now implement our controller logic. We basically want to check at every `Synchronize` call whether the time is equal to or past some point in our data. We will then pass the vehicle inputs at the point.
 
 The `Synchronize` method is implemented as follows:
@@ -136,7 +136,7 @@ The `Synchronize` method is implemented as follows:
 
 That's basically all the logic we need. The `Advance` method doesn't actually need anything else, so we can just leave it as before!
 
-## Create our Main Function
+## Creating our Main Method
 
 We'll now create our main function to actually run our demo. We'll visualize the simulation using `matplotlib` and keep everything else rather simple.
 

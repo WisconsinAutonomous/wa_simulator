@@ -7,7 +7,7 @@ This project is under active development by [Wisconsin Autonomous](https://wisco
 
 The WA Simulator is a lightweight tool meant to facilitate algorithm development. As a result, the majority of the actual vehicle dynamics is hidden behind the wa_simulator API. All you need to do is import the module and instantiate the classes.
 
-#### Default Usage
+### Default Usage
 
 ```python
 # Import the wa_simulator
@@ -42,7 +42,7 @@ if __name__ == "__main__":
     main()
 ```
 
-#### With Chrono
+### With Chrono
 
 Using Chrono is as simple as changing a few file names and importing the chrono version of the simulator. Even though `wa_simulator.chrono` is the new import, all default `wa_simulator` classes are still accessible as seen above. [Background about Chrono can be found here](https://wisconsinautonomous.github.io/wa_simulator/background.html#ProjectChrono).
 
