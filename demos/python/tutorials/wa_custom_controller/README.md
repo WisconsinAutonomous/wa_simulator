@@ -264,7 +264,7 @@ if __name__ == "__main__":
 ```
 
 To run the demo, run:
-```bash
+```shell
 python custom_controller_demo.py
 ```
 
@@ -278,7 +278,7 @@ You should now have a good understanding of how a controller is made in `wa_simu
 
 ## Support
 
-Contact [Aaron Young](aryoung5@wisc.edu) for any questions or concerns regarding the contents of this repository.
+Contact [Aaron Young](mailto:aryoung5@wisc.edu) for any questions or concerns regarding the contents of this repository.
 
 ## See Also
 

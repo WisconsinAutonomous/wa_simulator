@@ -53,7 +53,11 @@ ask_okay() {
 }
 
 # Verify the script was run on purpose
-if ! ask_okay "Create new conda env"; then
+if ask_okay "Create new conda env"; then
+	CREATE_NEW_CONDA_ENV=1
+elif ask_okay "Update new conda env"; then
+	UPDATE_CONDA_ENV=1
+else
 	exit_okay
 fi
 
@@ -88,5 +92,9 @@ env_file=$(curl -fsSL https://raw.githubusercontent.com/WisconsinAutonomous/wa_s
 # Create the conda environment from the retrieved environment.yml file
 tmpfile=environment.yml
 echo "$env_file" >>$tmpfile
-conda env create -f=$tmpfile
+if [ -n "$CREATE_NEW_CONDA_ENV" ]; then
+	conda env create -f=$tmpfile
+elif [ -n "$UPDATE_CONDA_ENV" ]; then
+	conda env update -f=$tmpfile
+fi
 rm -f $tmpfile

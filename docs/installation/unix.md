@@ -2,7 +2,7 @@
 
 ## Summary
 
-```bash
+```shell
 # Recommended!!
 # To install wa_simulator in an anaconda environment (Linux systems must install anaconda externally)
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/WisconsinAutonomous/wa_simulator/master/scripts/create_conda_env.sh)"
@@ -24,7 +24,7 @@ The recommended approach to installing `wa_simulator` on Unix systems (Linux and
 
 > Note: As mentioned above, this script will utilize Anaconda. On MacOS systems, this will be installed automatically through the Homebrew package manager. On Linux systems, please [install anaconda separately](https://docs.anaconda.com/anaconda/install/linux/).
 
-```bash
+```shell
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/WisconsinAutonomous/wa_simulator/master/scripts/create_conda_env.sh)"
 ```
 
@@ -33,6 +33,6 @@ For _most_ use cases for this simulator, a conda package installation. For those
 ### Without Chrono
 
 `wa_simulator` is also available on [PyPI](https://pypi.org/project/wa-simulator/), so it also can be installed through `pip`. PyChrono requires non-python libraries to function, so it can not be installed via `pip`. Therefore, this installation of `wa_simulator` will not bring in PyChrono. You may build PyChrono from source or install it separately, if desired. _It is **highly** recommended to install this in a conda or virtualenv to isolate the installation_.
-```bash
+```shell
 pip install wa_simulator
 ```

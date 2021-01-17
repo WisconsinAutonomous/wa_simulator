@@ -93,7 +93,7 @@ if __name__ == "__main__":
 
 ## Support
 
-Contact [Aaron Young](aryoung5@wisc.edu) for any questions or concerns regarding the contents of this repository.
+Contact [Aaron Young](mailto:aryoung5@wisc.edu) for any questions or concerns regarding the contents of this repository.
 
 ## See Also
 

@@ -24,3 +24,14 @@ def GetWADataFile(filename):
             str: the absolute path of the file
     """
     return str(pathlib.Path(DATA_DIRECTORY) / filename)
+
+
+def SetWADataDirectory(path):
+    """Set the data path
+
+    Args:
+        path (str): relative (or absolute) path where the data is stored
+    """
+    global DATA_DIRECTORY
+
+    DATA_DIRECTORY = str(pathlib.Path(path).resolve())

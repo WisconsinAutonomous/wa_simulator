@@ -11,10 +11,13 @@ in the LICENSE file at the top level of the repo
 from abc import ABC, abstractmethod  # Abstract Base Class
 
 # WA Simulator
-from wa_simulator.visualization import WAMatplotlibVisualization
+from wa_simulator.visualization import WAMatplotlibVisualization, WAMatplotlibJupyterVisualization
 
 # Other imports
-import sys, tty, termios, atexit
+import sys
+import tty
+import termios
+import atexit
 from select import select
 import numpy as np
 
@@ -206,9 +209,12 @@ class WAKeyboardController(WAController):
         while t < step:
             h = step - t
 
-            steering_deriv = self.steering_gain * (self.steering_target - self.steering)
-            throttle_deriv = self.throttle_gain * (self.throttle_target - self.throttle)
-            braking_deriv = self.braking_gain * (self.braking_target - self.braking)
+            steering_deriv = self.steering_gain * \
+                (self.steering_target - self.steering)
+            throttle_deriv = self.throttle_gain * \
+                (self.throttle_target - self.throttle)
+            braking_deriv = self.braking_gain * \
+                (self.braking_target - self.braking)
 
             self.steering += h * steering_deriv
             self.throttle += h * throttle_deriv
@@ -711,7 +717,7 @@ class WAMatplotlibController(WAKeyboardController):
     """
 
     def __init__(self, system, vis):
-        if not isinstance(vis, WAMatplotlibVisualization):
+        if not isinstance(vis, WAMatplotlibVisualization) and not isinstance(vis, WAMatplotlibJupyterVisualization):
             raise TypeError(
                 "Visualization passed in is not a WAMatplotlibVisualization."
             )
