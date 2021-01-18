@@ -7,6 +7,8 @@ dependencies:
   - python=3.8
   - pip
   - pychrono
+  - jupyter
+  - jupyterlab
   - pip:
     - wa-simulator==0.0.2
     - ipympl
