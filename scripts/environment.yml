@@ -8,4 +8,5 @@ dependencies:
   - pip
   - pychrono
   - pip:
-    - wa-simulator==0.0.1
+    - wa-simulator==0.0.2
+    - ipympl

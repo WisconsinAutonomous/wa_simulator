@@ -581,10 +581,7 @@ class WAMatplotlibJupyterVisualization:
         rl_wheel (double): left rear wheel outline that's updated based on the pose of the body in the simulation
         fr_wheel (double): right front wheel outline that's updated based on the pose of the body in the simulation
         fl_wheel (double): left front  wheel outline that's updated based on the pose of the body in the simulation
-        q (multiprocessing.Queue): Queue used to pass info between processes (thread safe)
-        input_q (multiprocessing.Queue): Queue used to pass info between processes, but key press inputs (thread safe)
         plotter (VehiclePlotter): Used to update the matplotlib window
-        p (multiprocessing.Process): process created by multiprocessing (TODO: Should add join())
         check_for_key_presses (bool): Whether to check VehiclePlotter for keyboard inputs
         key_input (matplotlib.backend_bases.KeyEvent): The most recent keypress from the vehicle plotter
     """
@@ -604,8 +601,6 @@ class WAMatplotlibJupyterVisualization:
             state (SimState): The matplotlib simulation state
 
         Attributes:
-            q (multiprocessing.Queue): Queue used to pass info between processes
-            input_q (multiprocessing.Queue): Queue used to pass info between processes, but for key press inputs
             fig (plt.Figure): Matplotlib figure used for plotting
             ax (plt.Axes): Matplotlib axes used for plotting
             mat_vehicle (tuple): Class that holds the matplotlib visualization objects so their state can be updated
@@ -837,7 +832,6 @@ class WAMatplotlibJupyterVisualization:
 
             display(self.plotter.fig)
             clear_output(wait=True)
-            plt.pause(0.001)
 
     def Transform(self, entity, x, y, yaw, alpha=0, x_offset=0, y_offset=0):
         """Helper function to transfrom a numpy entity by the specified values
