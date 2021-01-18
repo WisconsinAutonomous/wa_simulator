@@ -182,7 +182,7 @@
 <h1>Unix Installation Guide<a class="headerlink" href="#unix-installation-guide" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="summary">
 <h2>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Recommended!!</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># Recommended!!</span>
 <span class="c1"># To install wa_simulator in an anaconda environment (Linux systems must install anaconda externally)</span>
 sh -c <span class="s2">"</span><span class="k">$(</span>curl -fsSL https://raw.githubusercontent.com/WisconsinAutonomous/wa_simulator/master/scripts/create_conda_env.sh<span class="k">)</span><span class="s2">"</span>
 
@@ -202,14 +202,14 @@ pip install wa_simulator
 <blockquote>
 <div><p>Note: As mentioned above, this script will utilize Anaconda. On MacOS systems, this will be installed automatically through the Homebrew package manager. On Linux systems, please <a class="reference external" href="https://docs.anaconda.com/anaconda/install/linux/">install anaconda separately</a>.</p>
 </div></blockquote>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sh -c <span class="s2">"</span><span class="k">$(</span>curl -fsSL https://raw.githubusercontent.com/WisconsinAutonomous/wa_simulator/master/scripts/create_conda_env.sh<span class="k">)</span><span class="s2">"</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>sh -c <span class="s2">"</span><span class="k">$(</span>curl -fsSL https://raw.githubusercontent.com/WisconsinAutonomous/wa_simulator/master/scripts/create_conda_env.sh<span class="k">)</span><span class="s2">"</span>
 </pre></div>
 </div>
 <p>For <em>most</em> use cases for this simulator, a conda package installation. For those who want to aid in development of the repository, further instructions for how to do that will be created in the future.</p>
 <div class="section" id="without-chrono">
 <h3>Without Chrono<a class="headerlink" href="#without-chrono" title="Permalink to this headline">¶</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">wa_simulator</span></code> is also available on <a class="reference external" href="https://pypi.org/project/wa-simulator/">PyPI</a>, so it also can be installed through <code class="docutils literal notranslate"><span class="pre">pip</span></code>. PyChrono requires non-python libraries to function, so it can not be installed via <code class="docutils literal notranslate"><span class="pre">pip</span></code>. Therefore, this installation of <code class="docutils literal notranslate"><span class="pre">wa_simulator</span></code> will not bring in PyChrono. You may build PyChrono from source or install it separately, if desired. <em>It is <strong>highly</strong> recommended to install this in a conda or virtualenv to isolate the installation</em>.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install wa_simulator
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pip install wa_simulator
 </pre></div>
 </div>
 </div>
