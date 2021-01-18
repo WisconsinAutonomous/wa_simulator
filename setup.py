@@ -30,7 +30,7 @@ def get_package_data(directory, rm='wa_simulator/'):
 
 setup(
     name="wa_simulator",
-    version="1.0.3",
+    version="0.0.2",
     author="Aaron Young",
     license="BSD",
     description=(
