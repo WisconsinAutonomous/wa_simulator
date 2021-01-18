@@ -90,7 +90,7 @@ fi
 env_file=$(curl -fsSL https://raw.githubusercontent.com/WisconsinAutonomous/wa_simulator/develop/environment.yml)
 
 # Create the conda environment from the retrieved environment.yml file
-tmpfile=environment.yml
+tmpfile=temp_env.yml
 echo "$env_file" >>$tmpfile
 if [ -n "$CREATE_NEW_CONDA_ENV" ]; then
 	conda env create -f=$tmpfile
