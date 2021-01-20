@@ -66,7 +66,7 @@ def main():
     sim = wa.WASimulation(sys, env, veh, vis, ctr)
 
     # Run the simulation
-    sim.Run()
+    sim.run()
 
 
 # Will call the main function when 'python custom_controller_demo.py' is run
