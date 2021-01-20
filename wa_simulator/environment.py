@@ -18,7 +18,7 @@ class WAEnvironment(ABC):
     """
 
     @abstractmethod
-    def Synchronize(self, time):
+    def synchronize(self, time):
         """Synchronize the environment at the specified time
 
         Function is primarily as a semantic separation between different functionality.
@@ -30,7 +30,7 @@ class WAEnvironment(ABC):
         pass
 
     @abstractmethod
-    def Advance(self, step):
+    def advance(self, step):
         """Advance the environment by the specified step
 
         Args:
@@ -54,7 +54,7 @@ class WASimpleEnvironment(WAEnvironment):
     def __init__(self, filename, sys):
         pass
 
-    def Synchronize(self, time):
+    def synchronize(self, time):
         """Synchronize the environment with the rest of the world at the specified time
 
         Doesn't actually do anything.
@@ -64,7 +64,7 @@ class WASimpleEnvironment(WAEnvironment):
         """
         pass
 
-    def Advance(self, step):
+    def advance(self, step):
         """Advance the state of the environment
 
         Doesn't actually do anything.

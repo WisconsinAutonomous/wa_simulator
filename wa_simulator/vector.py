@@ -1,5 +1,6 @@
 import numpy as np
 
+
 class WAVector(np.ndarray):
     """
     n-dimensional vector used for locations.
@@ -33,7 +34,7 @@ class WAVector(np.ndarray):
 
     def __sub__(self, other):
         if isinstance(other, int) or isinstance(other, float):
-            return np.subtract(self,other)
+            return np.subtract(self, other)
 
         n = max(len(self), len(other))
         for i in range(n):
@@ -47,7 +48,7 @@ class WAVector(np.ndarray):
             except IndexError:
                 other = np.append(other, 0)
 
-        return np.subtract(self,other)
+        return np.subtract(self, other)
 
     @property
     def x(self):
@@ -109,7 +110,7 @@ class WAVector(np.ndarray):
         except IndexError:
             raise Exception('Point :: x element does not exist. Exitting...')
 
-    def Length(self):
+    def length(self):
         """
         Get euclidean length of this WAVector
         """

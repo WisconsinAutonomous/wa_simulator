@@ -14,7 +14,7 @@ import pathlib
 DATA_DIRECTORY = str(pathlib.Path(__file__).absolute().parent / "data")
 
 
-def GetWADataFile(filename):
+def get_wa_data_file(filename):
     """Get the absolute path to the file passed
 
     Args:
@@ -26,7 +26,7 @@ def GetWADataFile(filename):
     return str(pathlib.Path(DATA_DIRECTORY) / filename)
 
 
-def SetWADataDirectory(path):
+def set_wa_data_directory(path):
     """Set the data path
 
     Args:

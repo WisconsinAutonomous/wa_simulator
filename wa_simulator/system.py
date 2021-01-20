@@ -36,7 +36,7 @@ class WASystem(ABC):
 
         self.time = 0
 
-    def Advance(self):
+    def advance(self):
         """Advance the system
 
         Will update the time and increment the step number
@@ -44,7 +44,7 @@ class WASystem(ABC):
         self.time += self.step_size
         self.step_number += 1
 
-    def GetSimTime(self):
+    def get_sim_time(self):
         """Get the simulation time
 
         Returns:
@@ -52,7 +52,7 @@ class WASystem(ABC):
         """
         return self.time
 
-    def GetStepNumber(self):
+    def get_step_number(self):
         """Get the step number
 
         Returns:

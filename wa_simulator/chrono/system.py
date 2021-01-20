@@ -45,7 +45,7 @@ class WAChronoSystem(WASystem):
         system.SetMaxPenetrationRecoverySpeed(4.0)
         self.system = system
 
-    def Advance(self):
+    def advance(self):
         """Advance the simulation.
 
         Will update the dynamics of the chrono simulation
@@ -53,7 +53,7 @@ class WAChronoSystem(WASystem):
         self.step_number += 1
         self.system.DoStepDynamics(self.step_size)
 
-    def GetSimTime(self):
+    def get_sim_time(self):
         """Get the simulation time.
 
         Will get the time from the wrapped ChSystem

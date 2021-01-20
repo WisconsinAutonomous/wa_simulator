@@ -34,7 +34,8 @@ class WAChronoIrrlicht(WAVisualization):
     """
 
     def __init__(self, vehicle, system):
-        self.render_steps = int(ceil(system.render_step_size / system.step_size))
+        self.render_steps = int(
+            ceil(system.render_step_size / system.step_size))
 
         self.system = system
 
@@ -60,7 +61,7 @@ class WAChronoIrrlicht(WAVisualization):
         self.app.AssetBindAll()
         self.app.AssetUpdateAll()
 
-    def Advance(self, step):
+    def advance(self, step):
         """Advance the state of the visualization by the specified step
 
         Will update the render only if the simulation step is a multiple of render steps
@@ -68,14 +69,14 @@ class WAChronoIrrlicht(WAVisualization):
         Args:
             step (double): step size to update the visualization by
         """
-        if self.system.GetStepNumber() % self.render_steps == 0:
+        if self.system.get_step_number() % self.render_steps == 0:
             self.app.BeginScene(True, True, irr.SColor(255, 140, 161, 192))
             self.app.DrawAll()
             self.app.EndScene()
 
         self.app.Advance(step)
 
-    def Synchronize(self, time, vehicle_inputs):
+    def synchronize(self, time, vehicle_inputs):
         """Synchronize the irrlicht app with the vehicle inputs at the passed time
 
         Args:
@@ -90,7 +91,7 @@ class WAChronoIrrlicht(WAVisualization):
 
         self.app.Synchronize("", vehicle_inputs)
 
-    def IsOk(self):
+    def is_ok(self):
         """Checks if the irrlicht rending window is still alive
 
         Returns:

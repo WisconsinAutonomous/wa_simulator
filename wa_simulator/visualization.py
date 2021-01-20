@@ -25,7 +25,7 @@ class WAVisualization(ABC):
     """
 
     @abstractmethod
-    def Synchronize(self, time, vehicle_inputs):
+    def synchronize(self, time, vehicle_inputs):
         """Synchronize the visualization at the specified time with the passed vehicle inputs
 
         Args:
@@ -35,7 +35,7 @@ class WAVisualization(ABC):
         pass
 
     @abstractmethod
-    def Advance(self, step):
+    def advance(self, step):
         """Advance the state of the visualization by the specified step
 
         Args:
@@ -44,7 +44,7 @@ class WAVisualization(ABC):
         pass
 
     @abstractmethod
-    def IsOk(self):
+    def is_ok(self):
         """Verifies the visualization is running properly.
 
         Returns:
@@ -92,7 +92,7 @@ class SimState:
         self.time = time
         self.speed = speed
 
-    def Get(self):
+    def get(self):
         """Get the class variables
 
         Returns:
@@ -164,7 +164,7 @@ class WAMatplotlibVisualization:
             annotation (plt.Text): Holds text displayed in the plot window for debug purposes.
         """
 
-        def Initialize(self, q, input_q):
+        def initialize(self, q, input_q):
             """Initialize the matplotlib visual assets to be updated through the simulation. Initially plotted at (0,0).
 
             Args:
@@ -192,7 +192,7 @@ class WAMatplotlibVisualization:
                 braking,
                 time,
                 speed,
-            ) = out.Get()
+            ) = out.get()
 
             # Initial plotting setup
             self.fig, self.ax = plt.subplots(figsize=(8, 8))
@@ -243,12 +243,12 @@ class WAMatplotlibVisualization:
             self.ax.set_ylim(-25, 25)
             self.ax.set_aspect("equal", adjustable="box")
 
-        def KeyPress(self, event):
+        def key_press(self, event):
             if self.input_q.full():
                 self.input_q.get()
             self.input_q.put(event.key)
 
-        def Update(self, i):
+        def update(self, i):
             """Update the state of the vehicle in the visualization
 
             Called at specific intervals by the FuncAnimation function in matplotlib
@@ -261,7 +261,7 @@ class WAMatplotlibVisualization:
 
             out = self.q.get()
             if isinstance(out, bool):
-                self.fig.canvas.mpl_connect("key_press_event", self.KeyPress)
+                self.fig.canvas.mpl_connect("key_press_event", self.key_press)
                 self.event = True
                 return
             elif not isinstance(out, SimState):
@@ -278,7 +278,7 @@ class WAMatplotlibVisualization:
                 braking,
                 time,
                 speed,
-            ) = out.Get()
+            ) = out.get()
 
             cab.set_ydata(np.array(outline[1, :]).flatten())
             cab.set_xdata(np.array(outline[0, :]).flatten())
@@ -301,16 +301,16 @@ class WAMatplotlibVisualization:
             )
             self.annotation.set_text(text)
 
-        def Plot(self, q, input_q):
+        def plot(self, q, input_q):
             """ "Main" function that sets up the plotter and runs the blocking FuncAnimation update.
 
             Args:
                 q (multiprocessing.Queue): Queue used to communicate and pass info between processes
                 input_q (multiprocessing.Queue): Queue used to communicate and pass info between processes, but for key presses
             """
-            self.Initialize(q, input_q)
+            self.initialize(q, input_q)
 
-            anim = FuncAnimation(self.fig, self.Update, interval=10)
+            anim = FuncAnimation(self.fig, self.update, interval=10)
 
             plt.show()
 
@@ -385,7 +385,7 @@ class WAMatplotlibVisualization:
         self.input_q = Queue(maxsize=1)
 
         self.plotter = self.VehiclePlotter()
-        self.p = Process(target=self.plotter.Plot, args=(self.q, self.input_q))
+        self.p = Process(target=self.plotter.plot, args=(self.q, self.input_q))
         self.p.start()
 
         self.q.put(
@@ -407,7 +407,7 @@ class WAMatplotlibVisualization:
         self.check_for_key_presses = False
         self.key_input = None
 
-    def Synchronize(self, time, vehicle_inputs):
+    def synchronize(self, time, vehicle_inputs):
         """Synchronize the vehicle inputs to the values in this visualization
 
         Will just set class members
@@ -422,7 +422,7 @@ class WAMatplotlibVisualization:
 
         self.time = time
 
-    def Advance(self, step):
+    def advance(self, step):
         """Advance the state of the visualization by the specified step
 
         Will only call update if the scene should be rendered given the render step
@@ -430,13 +430,13 @@ class WAMatplotlibVisualization:
         Args:
             step (double): step size to update the visualization by
         """
-        if self.system.GetStepNumber() % self.render_steps == 0:
-            self.Update()
+        if self.system.get_step_number() % self.render_steps == 0:
+            self.update()
 
             if self.check_for_key_presses and self.input_q.full():
                 self.key_input = self.input_q.get()
 
-    def Transform(self, entity, x, y, yaw, alpha=0, x_offset=0, y_offset=0):
+    def transform(self, entity, x, y, yaw, alpha=0, x_offset=0, y_offset=0):
         """Helper function to transfrom a numpy entity by the specified values
 
         Args:
@@ -464,17 +464,17 @@ class WAMatplotlibVisualization:
         )
         return T.dot(entity)
 
-    def Update(self):
+    def update(self):
         """Update the state of the vehicle representation.
 
         After updating, will push the state to the queue to be read by the VehiclePlotter
         """
 
         # State information
-        x, y, yaw, v = self.vehicle.GetSimpleState()
+        x, y, yaw, v = self.vehicle.get_simple_state()
         y *= -1
 
-        fr_wheel = self.Transform(
+        fr_wheel = self.transform(
             self.fr_wheel,
             x,
             y,
@@ -483,7 +483,7 @@ class WAMatplotlibVisualization:
             x_offset=self.Lf,
             y_offset=-self.track_width,
         )
-        fl_wheel = self.Transform(
+        fl_wheel = self.transform(
             self.fl_wheel,
             x,
             y,
@@ -492,14 +492,14 @@ class WAMatplotlibVisualization:
             x_offset=self.Lf,
             y_offset=self.track_width,
         )
-        rr_wheel = self.Transform(
+        rr_wheel = self.transform(
             self.rr_wheel, x, y, yaw, x_offset=-self.Lr, y_offset=-self.track_width
         )
-        rl_wheel = self.Transform(
+        rl_wheel = self.transform(
             self.rl_wheel, x, y, yaw, x_offset=-self.Lr, y_offset=self.track_width
         )
-        outline = self.Transform(self.outline, x, y, yaw)
-        time = self.system.GetSimTime()
+        outline = self.transform(self.outline, x, y, yaw)
+        time = self.system.get_sim_time()
 
         # Update plotter driver inputs
         steering = self.steering
@@ -521,7 +521,7 @@ class WAMatplotlibVisualization:
             )
         )
 
-    def IsOk(self):
+    def is_ok(self):
         """Checks if the rendering process is still alive
 
         Returns:
@@ -529,7 +529,7 @@ class WAMatplotlibVisualization:
         """
         return self.p.is_alive()
 
-    def CheckForKeyPresses(self, check_for_key_presses):
+    def set_check_for_key_presses(self, check_for_key_presses):
         """Will tell the VehiclePlotter to check for keypresses
 
         Args:
@@ -538,7 +538,7 @@ class WAMatplotlibVisualization:
         self.check_for_key_presses = check_for_key_presses
         self.q.put(self.check_for_key_presses)
 
-    def GetKeyInput(self):
+    def get_key_input(self):
         """Will get the key input and reset it to None
 
         Returns:
@@ -628,7 +628,7 @@ class WAMatplotlibJupyterVisualization:
                 braking,
                 time,
                 speed,
-            ) = state.Get()
+            ) = state.get()
 
             # Initial plotting setup
             self.fig, self.ax = plt.subplots(figsize=(8, 8))
@@ -679,7 +679,7 @@ class WAMatplotlibJupyterVisualization:
             self.ax.set_ylim(-25, 25)
             self.ax.set_aspect("equal", adjustable="box")
 
-        def Update(self, state):
+        def update(self, state):
             """Update the state of the vehicle in the visualization
 
             Called at specific intervals by the FuncAnimation function in matplotlib
@@ -701,7 +701,7 @@ class WAMatplotlibJupyterVisualization:
                 braking,
                 time,
                 speed,
-            ) = state.Get()
+            ) = state.get()
 
             cab.set_ydata(np.array(outline[1, :]).flatten())
             cab.set_xdata(np.array(outline[0, :]).flatten())
@@ -804,7 +804,7 @@ class WAMatplotlibJupyterVisualization:
         self.check_for_key_presses = False
         self.key_input = None
 
-    def Synchronize(self, time, vehicle_inputs):
+    def synchronize(self, time, vehicle_inputs):
         """Synchronize the vehicle inputs to the values in this visualization
 
         Will just set class members
@@ -819,7 +819,7 @@ class WAMatplotlibJupyterVisualization:
 
         self.time = time
 
-    def Advance(self, step):
+    def advance(self, step):
         """Advance the state of the visualization by the specified step
 
         Will only call update if the scene should be rendered given the render step
@@ -827,13 +827,13 @@ class WAMatplotlibJupyterVisualization:
         Args:
             step (double): step size to update the visualization by
         """
-        if self.system.GetStepNumber() % self.render_steps == 0:
-            self.Update()
+        if self.system.get_step_number() % self.render_steps == 0:
+            self.update()
 
             display(self.plotter.fig)
             clear_output(wait=True)
 
-    def Transform(self, entity, x, y, yaw, alpha=0, x_offset=0, y_offset=0):
+    def transform(self, entity, x, y, yaw, alpha=0, x_offset=0, y_offset=0):
         """Helper function to transfrom a numpy entity by the specified values
 
         Args:
@@ -861,17 +861,17 @@ class WAMatplotlibJupyterVisualization:
         )
         return T.dot(entity)
 
-    def Update(self):
+    def update(self):
         """Update the state of the vehicle representation.
 
         After updating, will push the state to the queue to be read by the VehiclePlotter
         """
 
         # State information
-        x, y, yaw, v = self.vehicle.GetSimpleState()
+        x, y, yaw, v = self.vehicle.get_simple_state()
         y *= -1
 
-        fr_wheel = self.Transform(
+        fr_wheel = self.transform(
             self.fr_wheel,
             x,
             y,
@@ -880,7 +880,7 @@ class WAMatplotlibJupyterVisualization:
             x_offset=self.Lf,
             y_offset=-self.track_width,
         )
-        fl_wheel = self.Transform(
+        fl_wheel = self.transform(
             self.fl_wheel,
             x,
             y,
@@ -889,15 +889,15 @@ class WAMatplotlibJupyterVisualization:
             x_offset=self.Lf,
             y_offset=self.track_width,
         )
-        rr_wheel = self.Transform(
+        rr_wheel = self.transform(
             self.rr_wheel, x, y, yaw, x_offset=-self.Lr, y_offset=-self.track_width
         )
-        rl_wheel = self.Transform(
+        rl_wheel = self.transform(
             self.rl_wheel, x, y, yaw, x_offset=-self.Lr, y_offset=self.track_width
         )
-        outline = self.Transform(self.outline, x, y, yaw)
+        outline = self.transform(self.outline, x, y, yaw)
 
-        self.plotter.Update(
+        self.plotter.update(
             SimState(
                 outline,
                 rr_wheel,
@@ -912,7 +912,7 @@ class WAMatplotlibJupyterVisualization:
             )
         )
 
-    def IsOk(self):
+    def is_ok(self):
         """Checks if the rendering process is still alive
 
         Returns:
@@ -920,7 +920,7 @@ class WAMatplotlibJupyterVisualization:
         """
         return plt.gcf().number == 1
 
-    def CheckForKeyPresses(self, check_for_key_presses):
+    def check_for_key_presses(self, check_for_key_presses):
         """Will set a callback for key presses
 
         Args:
@@ -928,11 +928,11 @@ class WAMatplotlibJupyterVisualization:
         """
         if check_for_key_presses:
             self.plotter.fig.canvas.mpl_connect(
-                "key_press_event", self.KeyPress)
+                "key_press_event", self.key_press)
 
         self.check_for_key_presses = check_for_key_presses
 
-    def KeyPress(self, event):
+    def key_press(self, event):
         """Get the key input
 
         Args:
@@ -940,7 +940,7 @@ class WAMatplotlibJupyterVisualization:
         """
         self.key_input = event.key
 
-    def GetKeyInput(self):
+    def get_key_input(self):
         """Will get the key input and reset it to None
 
         Returns:
@@ -961,7 +961,7 @@ class WAMultipleVisualizations(WAVisualization):
     def __init__(self, visualizations):
         self.visualizations = visualizations
 
-    def Synchronize(self, time, vehicle_inputs):
+    def synchronize(self, time, vehicle_inputs):
         """Synchronize each visualization at the specified time
 
         Args:
@@ -969,13 +969,13 @@ class WAMultipleVisualizations(WAVisualization):
             vehicle_inputs (WAVehicleInputs): vehicle inputs
         """
         for vis in self.visualizations:
-            vis.Synchronize(time, vehicle_inputs)
+            vis.synchronize(time, vehicle_inputs)
 
-    def Advance(self, step):
+    def advance(self, step):
         """Advance the state of each managed visualization
 
         Args:
             step (double): the time step at which the visualization should be advanced
         """
         for vis in self.visualizations:
-            vis.Advance(step)
+            vis.advance(step)

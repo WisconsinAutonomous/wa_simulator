@@ -11,14 +11,14 @@ in the LICENSE file at the top level of the repo
 from abc import ABC, abstractmethod  # Abstract Base Class
 
 # WA Simulator
-from wa_simulator.data_loader import GetWADataFile
+from wa_simulator.data_loader import get_wa_data_file
 from wa_simulator.constants import GRAVITY
 
 # Other imports
 import numpy as np
 
 
-def LoadPropertiesFromJSON(filename, prop):
+def load_properties_from_json(filename, prop):
     """Load a specified property from a json specification file
 
     Will load a json file and extract the passed property field for use
@@ -36,7 +36,7 @@ def LoadPropertiesFromJSON(filename, prop):
     """
     import json
 
-    full_filename = GetWADataFile(filename)
+    full_filename = get_wa_data_file(filename)
 
     with open(full_filename) as f:
         j = json.load(f)
@@ -64,11 +64,11 @@ class WAVehicle(ABC):
         self.vis_properties = (
             dict()
             if filename is None
-            else LoadPropertiesFromJSON(filename, "Visualization Properties")
+            else load_properties_from_json(filename, "Visualization Properties")
         )
 
     @abstractmethod
-    def Synchronize(self, time, vehicle_inputs):
+    def synchronize(self, time, vehicle_inputs):
         """Synchronize the vehicle at the specified time and driver inputs
 
         Args:
@@ -78,7 +78,7 @@ class WAVehicle(ABC):
         pass
 
     @abstractmethod
-    def Advance(self, step):
+    def advance(self, step):
         """Advance the vehicle by the specified step
 
         Args:
@@ -87,7 +87,7 @@ class WAVehicle(ABC):
         pass
 
     @abstractmethod
-    def GetSimpleState(self):
+    def get_simple_state(self):
         """Get a simple state representation of the vehicle.
 
         Must return a tuple with the following values:
@@ -149,9 +149,10 @@ class WALinearKinematicBicycle(WAVehicle):
         self.omega = 0
         self.omega_dot = 0
 
-        self.Initialize(LoadPropertiesFromJSON(filename, "Vehicle Properties"))
+        self.initialize(load_properties_from_json(
+            filename, "Vehicle Properties"))
 
-    def Initialize(self, vp):
+    def initialize(self, vp):
         # Initialize vehicle properties
         self.mass = vp["Mass"]
 
@@ -176,7 +177,7 @@ class WALinearKinematicBicycle(WAVehicle):
         (self.min_throttle, self.max_throttle) = vp["Throttle"]
         (self.min_braking, self.max_braking) = vp["Braking"]
 
-    def Synchronize(self, time, vehicle_inputs):
+    def synchronize(self, time, vehicle_inputs):
         """Synchronize the vehicle inputs to the values in this model
 
         Args:
@@ -194,7 +195,7 @@ class WALinearKinematicBicycle(WAVehicle):
         if self.braking > 1e-1:
             self.throttle = -self.braking
 
-    def Advance(self, step):
+    def advance(self, step):
         """Perform a dynamics update
 
         Args:
@@ -216,7 +217,8 @@ class WALinearKinematicBicycle(WAVehicle):
             F_g = self.mass * GRAVITY * np.sin(0)
             F_load = F_aero + R_x + F_g
             T_e = self.throttle * (
-                self.a[0] + self.a[1] * self.omega + self.a[2] * self.omega ** 2
+                self.a[0] + self.a[1] * self.omega +
+                self.a[2] * self.omega ** 2
             )
             omega_w = self.GR * self.omega  # Wheel angular velocity
             s = (omega_w * self.r_eff - self.v) / self.v  # slip ratio
@@ -242,7 +244,7 @@ class WALinearKinematicBicycle(WAVehicle):
         self.omega += self.omega_dot * step
         self.omega_dot = (T_e - self.GR * self.r_eff * F_load) / self.J_e
 
-    def GetSimpleState(self):
+    def get_simple_state(self):
         """Get a simple state representation of the vehicle.
 
         Returns:

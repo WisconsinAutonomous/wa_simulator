@@ -40,18 +40,18 @@ class WAChronoEnvironment(WAEnvironment):
 
         self.terrain = terrain
 
-    def Synchronize(self, time):
+    def synchronize(self, time):
         """Synchronize the environment. Will just synchronize the terrain
 
         Args:
             time ([type]): [description]
         """
-        self.terrain.Synchronize(time)
+        self.terrain.synchronize(time)
 
-    def Advance(self, step):
+    def advance(self, step):
         """Advance the environment by the step size. Will just advance the terrain.
 
         Args:
             step (double): the step size to update the environment by
         """
-        self.terrain.Advance(step)
+        self.terrain.advance(step)

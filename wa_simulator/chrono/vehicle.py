@@ -116,7 +116,8 @@ class WAChronoVehicle(WAVehicle):
         super().__init__("vehicles/GoKart/GoKart_KinematicBicycle.json")
 
         # Get the filenames
-        vehicle_file, powertrain_file, tire_file = ReadVehicleModelFile(filename)
+        vehicle_file, powertrain_file, tire_file = ReadVehicleModelFile(
+            filename)
 
         # Create the vehicle
         vehicle = veh.WheeledVehicle(system.system, vehicle_file)
@@ -126,7 +127,8 @@ class WAChronoVehicle(WAVehicle):
 
         # Set the visualization components for the vehicle
         vehicle.SetChassisVisualizationType(veh.VisualizationType_PRIMITIVES)
-        vehicle.SetSuspensionVisualizationType(veh.VisualizationType_PRIMITIVES)
+        vehicle.SetSuspensionVisualizationType(
+            veh.VisualizationType_PRIMITIVES)
         vehicle.SetSteeringVisualizationType(veh.VisualizationType_PRIMITIVES)
         vehicle.SetWheelVisualizationType(veh.VisualizationType_NONE)
 
@@ -138,14 +140,16 @@ class WAChronoVehicle(WAVehicle):
         # Create and initialize the tires
         for axle in vehicle.GetAxles():
             tireL = CreateTireFromJSON(tire_file)
-            vehicle.InitializeTire(tireL, axle.m_wheels[0], veh.VisualizationType_MESH)
+            vehicle.InitializeTire(
+                tireL, axle.m_wheels[0], veh.VisualizationType_MESH)
             tireR = CreateTireFromJSON(tire_file)
-            vehicle.InitializeTire(tireR, axle.m_wheels[1], veh.VisualizationType_MESH)
+            vehicle.InitializeTire(
+                tireR, axle.m_wheels[1], veh.VisualizationType_MESH)
 
         self.vehicle = vehicle
         self.terrain = env.terrain.terrain
 
-    def Advance(self, step):
+    def advance(self, step):
         """Perform a dynamics update
 
         Args:
@@ -153,7 +157,7 @@ class WAChronoVehicle(WAVehicle):
         """
         self.vehicle.Advance(step)
 
-    def Synchronize(self, time, vehicle_inputs):
+    def synchronize(self, time, vehicle_inputs):
         """Synchronize the vehicle with the vehicle inputs at the passed time
 
         Args:
@@ -171,7 +175,7 @@ class WAChronoVehicle(WAVehicle):
 
         self.vehicle.Synchronize(time, vehicle_inputs, self.terrain)
 
-    def GetSimpleState(self):
+    def get_simple_state(self):
         """Get a simple state representation of the vehicle.
 
         Returns:

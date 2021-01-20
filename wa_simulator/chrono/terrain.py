@@ -16,7 +16,7 @@ import pychrono as chrono
 import pychrono.vehicle as veh
 
 
-def ReadTerrainModelFile(filename):
+def read_terrain_model_file(filename):
     """Get the json specification file describing a ChTerrain
 
     Args:
@@ -55,12 +55,12 @@ class WAChronoTerrain(WATerrain):
 
     def __init__(self, filename, system):
         # Get the filenames
-        terrain_filename = ReadTerrainModelFile(filename)
+        terrain_filename = read_terrain_model_file(filename)
 
         # Create the terrain
         self.terrain = veh.RigidTerrain(system.system, terrain_filename)
 
-    def Synchronize(self, time):
+    def synchronize(self, time):
         """Synchronize the terrain at the specified time
 
         Args:
@@ -68,7 +68,7 @@ class WAChronoTerrain(WATerrain):
         """
         self.terrain.Synchronize(time)
 
-    def Advance(self, step):
+    def advance(self, step):
         """Advance the terrain dynamics by the specified step
 
         Args:

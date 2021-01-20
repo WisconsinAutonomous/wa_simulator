@@ -48,7 +48,7 @@ class WAController(ABC):
     This is done because in real life, those are the inputs our cars will have. The
     derived controller's (i.e. the new class that inherits from this class)
     responsibility is to take inputs from the simulation and return these values
-    through the GetInputs method.
+    through the get_inputs method.
 
     Args:
                 system (ChSystem): The system used to manage the simulation
@@ -62,7 +62,7 @@ class WAController(ABC):
         self.inputs = WAVehicleInputs()
 
     @abstractmethod
-    def Synchronize(self, time):
+    def synchronize(self, time):
         """Synchronize the controller at the specified time
 
         Function is primarily as a semantic separation between different functionality.
@@ -76,7 +76,7 @@ class WAController(ABC):
         pass
 
     @abstractmethod
-    def Advance(self, step):
+    def advance(self, step):
         """Advance the controller by the specified step
 
         Args:
@@ -84,7 +84,7 @@ class WAController(ABC):
         """
         pass
 
-    def GetInputs(self):
+    def get_inputs(self):
         """Get the vehicle inputs
 
         Returns:
@@ -121,10 +121,10 @@ class WASimpleController(WAController):
     Can be used for situations where controlling the vehicle isn't actually necessary
     """
 
-    def Advance(self, step):
+    def advance(self, step):
         pass
 
-    def Synchronize(self, time):
+    def synchronize(self, time):
         pass
 
 
@@ -159,7 +159,7 @@ class WAKeyboardController(WAController):
         self.throttle_gain = 4.0
         self.braking_gain = 4.0
 
-    def SetSteeringDelta(self, steering_delta):
+    def set_steering_delta(self, steering_delta):
         """Sets the steering delta value
 
         Args:
@@ -167,7 +167,7 @@ class WAKeyboardController(WAController):
         """
         self.steering_delta = steering_delta
 
-    def SetThrottleDelta(self, throttle_delta):
+    def set_throttle_delta(self, throttle_delta):
         """Sets the throttle delta value
 
         Args:
@@ -175,7 +175,7 @@ class WAKeyboardController(WAController):
         """
         self.throttle_delta = throttle_delta
 
-    def SetBrakingDelta(self, braking_delta):
+    def set_braking_delta(self, braking_delta):
         """Sets the braking delta value
 
         Args:
@@ -183,7 +183,7 @@ class WAKeyboardController(WAController):
         """
         self.braking_delta = braking_delta
 
-    def SetGains(steering_gain, throttle_gain, braking_gain):
+    def set_gains(steering_gain, throttle_gain, braking_gain):
         """Sets the controllers gains
 
         Args:
@@ -195,7 +195,7 @@ class WAKeyboardController(WAController):
         self.throttle_gain = throttle_gain
         self.braking_gain = braking_gain
 
-    def Advance(self, step):
+    def advance(self, step):
         """Advance the controller by the specified step
 
         Integrates dynamics over some step range. If the original step is the same as the passed
@@ -222,7 +222,7 @@ class WAKeyboardController(WAController):
 
             t += h
 
-    def Update(self, key):
+    def update(self, key):
         """Update the target values based on the key.
 
         The updated target values are based off the delta values for that respective input.
@@ -338,16 +338,16 @@ class WATerminalKeyboardController(WAKeyboardController):
 
         self.key_getter = self.KeyGetter()
 
-    def KeyCheck(self):
+    def key_check(self):
         """Get the key from the KeyGetter and update target values based on input."""
         try:
             key = self.key_getter()
-            self.Update(key)
+            self.update(key)
         except Exception as e:
             print(e)
             return
 
-    def Synchronize(self, time):
+    def synchronize(self, time):
         """Synchronize the controller at the specified time
 
         Calls KeyCheck
@@ -355,7 +355,7 @@ class WATerminalKeyboardController(WAKeyboardController):
         Args:
                 time (double): the time at which the controller should synchronize all depends to
         """
-        self.KeyCheck()
+        self.key_check()
 
 
 class WAMultipleControllers(WAController):
@@ -370,16 +370,16 @@ class WAMultipleControllers(WAController):
     def __init__(self, controllers):
         self.controllers = controllers
 
-    def Synchronize(self, time):
+    def synchronize(self, time):
         """Synchronize each controller at the specified time
 
         Args:
             time (double): the time at which the controller should synchronize all modules
         """
         for ctr in self.controllers:
-            ctr.Synchronize(time)
+            ctr.synchronize(time)
 
-    def Advance(self, step):
+    def advance(self, step):
         """Advance the state of each managed controller
 
         Args:
@@ -388,7 +388,7 @@ class WAMultipleControllers(WAController):
         for ctr in self.controllers:
             ctr.Advance(step)
 
-    def GetInputs(self):
+    def get_inputs(self):
         """Get the vehicle inputs
 
         Overrides base class method. Will just grab the first controllers inputs.
@@ -397,7 +397,7 @@ class WAMultipleControllers(WAController):
                 The input class
         """
 
-        return self.controllers[0].GetInputs()
+        return self.controllers[0].get_inputs()
 
 
 class WAPIDController(WAController):
@@ -420,36 +420,36 @@ class WAPIDController(WAController):
         # Lateral controller (steering)
         if lat_controller is None:
             lat_controller = WAPIDLateralController(track.center)
-            lat_controller.SetGains(Kp=0.4, Ki=0, Kd=0.25)
-            lat_controller.SetLookAheadDistance(dist=5)
+            lat_controller.set_gains(Kp=0.4, Ki=0, Kd=0.25)
+            lat_controller.set_lookahead_distance(dist=5)
         self.lat_controller = lat_controller
 
         if long_controller is None:
             # Longitudinal controller (throttle and braking)
             long_controller = WAPIDLongitudinalController()
-            long_controller.SetGains(Kp=0.4, Ki=0, Kd=0)
-            long_controller.SetTargetSpeed(speed=15.0)
+            long_controller.set_gains(Kp=0.4, Ki=0, Kd=0)
+            long_controller.set_target_speed(speed=15.0)
         self.long_controller = long_controller
 
-    def Synchronize(self, time):
+    def synchronize(self, time):
         """Synchronize each controller at the specified time
 
         Args:
             time (double): the time at which the controller should synchronize all modules
         """
-        self.lat_controller.Synchronize(time)
-        self.long_controller.Synchronize(time)
+        self.lat_controller.synchronize(time)
+        self.long_controller.synchronize(time)
 
-    def Advance(self, step):
+    def advance(self, step):
         """Advance the state of each controller
 
         Args:
             step (double): the time step at which the controller should be advanced
         """
-        self.lat_controller.Advance(step)
-        self.long_controller.Advance(step)
+        self.lat_controller.advance(step)
+        self.long_controller.advance(step)
 
-    def GetInputs(self):
+    def get_inputs(self):
         """Get the vehicle inputs
 
         Overrides base class method. Grabs the steering from the lateral controller and the
@@ -505,7 +505,7 @@ class WAPIDLateralController(WAController):
         self.path = path
         self.vehicle = vehicle
 
-    def SetGains(self, Kp, Ki, Kd):
+    def set_gains(self, Kp, Ki, Kd):
         """Set the gains
 
         Args:
@@ -517,7 +517,7 @@ class WAPIDLateralController(WAController):
         self.Ki = Ki
         self.Kd = Kd
 
-    def SetLookAheadDistance(self, dist):
+    def set_lookahead_distance(self, dist):
         """Set the lookahead distance
 
         Args:
@@ -525,7 +525,7 @@ class WAPIDLateralController(WAController):
         """
         self.dist = dist
 
-    def Synchronize(self, time):
+    def synchronize(self, time):
         """Synchronize the controller at the passed time
 
         Doesn't actually do anything.
@@ -535,13 +535,13 @@ class WAPIDLateralController(WAController):
         """
         pass
 
-    def Advance(self, step):
+    def advance(self, step):
         """Advance the state of the controller by step
 
         Args:
             step (double): step size to update the controller by
         """
-        state = self.vehicle.GetSimpleState()
+        state = self.vehicle.get_simple_state()
         self.sentinel = np.array(
             [
                 self.dist * np.cos(state.yaw) + state.x,
@@ -559,10 +559,10 @@ class WAPIDLateralController(WAController):
 
         # Calculate the sign of the angle between the projections of the sentinel
         # vector and the target vector (with origin at vehicle location).
-        sign = self.calcSign(state)
+        sign = self.calc_sign(state)
 
         # Calculate current error (magnitude)
-        err = sign * err_vec.Length()
+        err = sign * err_vec.length()
 
         # Estimate error derivative (backward FD approximation).
         self.errd = (err - self.err) / step
@@ -578,7 +578,7 @@ class WAPIDLateralController(WAController):
             self.Kp * self.err + self.Ki * self.erri + self.Kd * self.errd, -1.0, 1.0
         )
 
-    def calcSign(self, state):
+    def calc_sign(self, state):
         """Calculate the sign of the angle between the projections of the sentinel vector
         and the target vector (with origin at vehicle location).
 
@@ -633,7 +633,7 @@ class WAPIDLongitudinalController(WAController):
 
         self.vehicle = vehicle
 
-    def SetGains(self, Kp, Ki, Kd):
+    def set_gains(self, Kp, Ki, Kd):
         """Set the gains
 
         Args:
@@ -645,7 +645,7 @@ class WAPIDLongitudinalController(WAController):
         self.Ki = Ki
         self.Kd = Kd
 
-    def SetTargetSpeed(self, speed):
+    def set_target_speed(self, speed):
         """Set the target speed for the controller
 
         Args:
@@ -653,7 +653,7 @@ class WAPIDLongitudinalController(WAController):
         """
         self.target_speed = speed
 
-    def Synchronize(self, time):
+    def synchronize(self, time):
         """Synchronize the controller at the passed time
 
         Doesn't actually do anything.
@@ -663,14 +663,14 @@ class WAPIDLongitudinalController(WAController):
         """
         pass
 
-    def Advance(self, step):
+    def advance(self, step):
         """Advance the state of the controller by step
 
         Args:
             step (double): step size to update the controller by
         """
 
-        self.speed = self.vehicle.GetSimpleState().v
+        self.speed = self.vehicle.get_simple_state().v
 
         # Calculate current error
         err = self.target_speed - self.speed
@@ -726,11 +726,11 @@ class WAMatplotlibController(WAKeyboardController):
 
         self.vis = vis
 
-        self.vis.CheckForKeyPresses(True)
+        self.vis.set_check_for_key_presses(True)
 
         self._input_dict = {'up': 0, 'right': 1, 'down': 2, 'left': 3}
 
-    def Synchronize(self, time):
+    def synchronize(self, time):
         """Synchronize the controller at the specified time
 
         Doesn't do anything since this controller is completely asynchronous
@@ -739,5 +739,5 @@ class WAMatplotlibController(WAKeyboardController):
                 time (double): the time at which the controller should synchronize all depends to
         """
         if self.vis.key_input is not None:
-            key_input = self._input_dict[self.vis.GetKeyInput()]
-            self.Update(key_input)
+            key_input = self._input_dict[self.vis.get_key_input()]
+            self.update(key_input)

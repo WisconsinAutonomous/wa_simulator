@@ -26,7 +26,7 @@ class CustomCSVController(wa.WAController):
 
         return data
 
-    def Synchronize(self, time):
+    def synchronize(self, time):
         # Check that there is still data left to read
         if len(self.ctlr_data) == 0:
             return
@@ -40,7 +40,7 @@ class CustomCSVController(wa.WAController):
             # Remove that row in the ctlr_data
             self.ctlr_data = np.delete(self.ctlr_data, 0, axis=0)
 
-    def Advance(self, step):
+    def advance(self, step):
         pass
 
 

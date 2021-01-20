@@ -1,11 +1,11 @@
 #!/bin/sh
 #
 # This script should be run via curl:
-#   sh -c "$(curl -fsSL https://raw.githubusercontent.com/WisconsinAutonomous/wa_simulator/master/scripts/create_conda_env.sh)"
+#   sh -c "$(curl -fsSL https://raw.githubusercontent.com/WisconsinAutonomous/wa_simulator/master/scripts/config_conda_env.sh)"
 # or via wget:
-#   sh -c "$(wget -qO- https://raw.githubusercontent.com/WisconsinAutonomous/wa_simulator/master/scripts/create_conda_env.sh)"
+#   sh -c "$(wget -qO- https://raw.githubusercontent.com/WisconsinAutonomous/wa_simulator/master/scripts/config_conda_env.sh)"
 # or via fetch:
-#   sh -c "$(fetch -o - https://raw.githubusercontent.com/WisconsinAutonomous/wa_simulator/master/scripts/create_conda_env.sh)"
+#   sh -c "$(fetch -o - https://raw.githubusercontent.com/WisconsinAutonomous/wa_simulator/master/scripts/config_conda_env.sh)"
 #
 
 exit_error() {
@@ -52,10 +52,20 @@ ask_okay() {
 	esac
 }
 
+ask_response() {
+	msg=$1
+	if [ -z "$msg" ]; then
+		exit_error "Pass a message to the ask_okay function."
+	fi
+
+	read -p "$msg " RESP
+	echo $RESP
+}
+
 # Verify the script was run on purpose
 if ask_okay "Create new conda env"; then
 	CREATE_NEW_CONDA_ENV=1
-elif ask_okay "Update new conda env"; then
+elif ask_okay "Update conda env"; then
 	UPDATE_CONDA_ENV=1
 else
 	exit_okay
@@ -69,15 +79,23 @@ check_command uname
 os=$(uname)
 
 if [[ "$os" == 'Darwin' ]]; then
-	if ! check_command brew "1" && ask_okay "Install Homebrew package manager"; then
-		echo 'Installing Homebrew. May take a few minutes'
-		wait 1
-		/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+	if ! check_command brew "1"; then
+		if ask_okay "Install Homebrew package manager"; then
+			echo 'Installing Homebrew. May take a few minutes'
+			wait 1
+			/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+		else
+			exit_error "You may be missing packages. Brew should be used to install these packages."
+		fi
 	fi
-	if ! check_command conda "1" && ask_okay "Install Anaconda"; then
-		echo 'Installing Anaconda. May take a few minutes'
-		wait 1
-		brew install --cask anaconda
+	if ! check_command conda "1"; then
+		if ask_okay "Install Anaconda"; then
+			echo 'Installing Anaconda. May take a few minutes'
+			wait 1
+			brew install --cask anaconda
+		else
+			exit_error "conda command not found."
+		fi
 	fi
 	brew list libomp >/dev/null || brew install libomp
 elif [[ "$os" == 'Linux' ]]; then
@@ -87,14 +105,20 @@ else
 fi
 
 # Get the environment.yml file from github
-env_file=$(curl -fsSL https://raw.githubusercontent.com/WisconsinAutonomous/wa_simulator/develop/environment.yml)
+env_file=$(curl -fsSL https://raw.githubusercontent.com/WisconsinAutonomous/wa_simulator/master/environment.yml)
+
+# Check the name
+name="wa"
+if ! ask_okay "Using environment name '$name' okay"; then
+	name=$(ask_response "Environment name :: ")
+fi
 
 # Create the conda environment from the retrieved environment.yml file
 tmpfile=temp_env.yml
 echo "$env_file" >>$tmpfile
 if [ -n "$CREATE_NEW_CONDA_ENV" ]; then
-	conda env create -f=$tmpfile
+	conda env create --name=$name -f=$tmpfile
 elif [ -n "$UPDATE_CONDA_ENV" ]; then
-	conda env update -f=$tmpfile
+	conda env update --name=$name -f=$tmpfile
 fi
 rm -f $tmpfile

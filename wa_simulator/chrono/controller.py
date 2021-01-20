@@ -47,7 +47,7 @@ class WAIrrlichtController(WAController):
 
         self.driver = driver
 
-    def Synchronize(self, time):
+    def synchronize(self, time):
         """Synchronize the irrlicht driver at the specified time
 
         Args:
@@ -55,7 +55,7 @@ class WAIrrlichtController(WAController):
         """
         self.driver.Synchronize(time)
 
-    def Advance(self, step):
+    def advance(self, step):
         """Advance the irrlicht driver by the specified step
 
         Args:
@@ -63,7 +63,7 @@ class WAIrrlichtController(WAController):
         """
         self.driver.Advance(step)
 
-    def GetInputs(self):
+    def get_inputs(self):
         """Get the vehicle inputs
 
         Overrides base class method. Converts a veh.DriverInputs to a WAVehicleInputs

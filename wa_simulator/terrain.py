@@ -18,7 +18,7 @@ class WATerrain(ABC):
     """
 
     @abstractmethod
-    def Synchronize(self, time):
+    def synchronize(self, time):
         """Synchronize the terrain at the specified time
 
         Function is primarily as a semantic separation between different functionality.
@@ -30,7 +30,7 @@ class WATerrain(ABC):
         pass
 
     @abstractmethod
-    def Advance(self, step):
+    def advance(self, step):
         """Advance the terrain by the specified step
 
         Args:
