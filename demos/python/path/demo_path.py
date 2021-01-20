@@ -5,6 +5,7 @@
 
 # Import the simulator
 import wa_simulator as wa
+import matplotlib.pyplot as plt
 
 # Command line arguments
 parser = wa.WAArgumentParser(use_defaults=False)
@@ -68,10 +69,10 @@ def main():
         [49.8, 132.9],
     ]
 
-    plot = wa.WASplinePath(points, num_points=1000)
+    path = wa.WASplinePath(points, num_points=100000)
 
     if args.plot:
-        plot.plot("k", show=True)
+        path.plot("k", show=True)
 
 
 if __name__ == "__main__":

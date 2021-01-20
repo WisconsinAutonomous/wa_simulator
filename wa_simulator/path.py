@@ -15,6 +15,35 @@ from abc import ABC, abstractmethod  # Abstract Base Class
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.interpolate import splprep, splev
+from scipy.spatial.distance import cdist
+
+
+def calc_path_length_cummulative(x, y):
+    """Get the cummulative distance along a path provided the given x and y position values
+
+    Args:
+        x (np.ndarray): x coordinates
+        y (np.ndarray): y coordinates
+
+    Returns:
+        np.ndarray: the cummulative distance along the path
+    """
+    return np.cumsum(np.linalg.norm(np.diff(np.column_stack((x, y)), axis=0), axis=1))
+
+
+def calc_path_curvature(dx, dy, ddx, ddy):
+    """Calculate the curvature of a path at each point
+
+    Args:
+        dx (np.ndarray): first x derivative
+        dy (np.ndarray): first y derivative
+        ddx (np.ndarray): second x derivative
+        ddy (np.ndarray): second y derivative
+
+    Returns:
+        np.ndarray: the curvature at each point
+    """
+    return (dx * ddy - dy * ddx) / (dx ** 2 + dy ** 2) ** (3 / 2)
 
 
 class WAPath:
@@ -54,7 +83,8 @@ class WASplinePath(WAPath):
         tck, u = splprep(waypoints.T, s=smoothness, per=is_closed)
         u_new = np.linspace(u.min(), u.max(), num_points)
 
-        self.x, self.y = splev(u_new, tck, der=0)  # interpolation
+        # Evaluate the interpolation to get values
+        self.x, self.y = splev(u_new, tck, der=0)  # position
         self.dx, self.dy = splev(u_new, tck, der=1)  # first derivative
         self.ddx, self.ddy = splev(u_new, tck, der=2)  # second derivative
 
@@ -70,7 +100,9 @@ class WASplinePath(WAPath):
         Returns:
             wa.WAVector: the closest point on the path
         """
-        pass
+        dist = cdist(np.column_stack((self.x, self.y)), [pos])
+        idx, = np.argmin(dist, axis=0)
+        return self.x[idx], self.y[idx], idx
 
     def plot(self, *args, show=True, **kwargs):
         """Plot the path
@@ -81,6 +113,22 @@ class WASplinePath(WAPath):
         plt.plot(self.x, self.y, *args, **kwargs)
         if show:
             plt.show()
+
+    def calc_length_cummulative(self):
+        """Get the cummulative distance along the path
+
+        Returns:
+            np.ndarray: Cummulative distance along the path
+        """
+        return calc_path_length_cummulative(self.x, self.y)
+
+    def calc_curvature(self):
+        """Get the curvature at each point on the path
+
+        Returns:
+            np.ndarray: Curvature at each point on the path
+        """
+        return calc_path_curvature(self.dx, self.dy, self.ddx, self.ddy)
 
 
 class WABezierPath(WAPath):
