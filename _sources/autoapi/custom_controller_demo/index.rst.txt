@@ -33,10 +33,10 @@ Functions
    .. method:: read_file(self, file)
 
 
-   .. method:: Synchronize(self, time)
+   .. method:: synchronize(self, time)
 
 
-   .. method:: Advance(self, step)
+   .. method:: advance(self, step)
 
 
 

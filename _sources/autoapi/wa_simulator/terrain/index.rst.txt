@@ -35,7 +35,7 @@ Classes
 
    Maintains knowledge of the terrain or "ground" that a vehicle interacts with.
 
-   .. method:: Synchronize(self, time)
+   .. method:: synchronize(self, time)
       :abstractmethod:
 
       Synchronize the terrain at the specified time
@@ -47,7 +47,7 @@ Classes
       :type time: double
 
 
-   .. method:: Advance(self, step)
+   .. method:: advance(self, step)
       :abstractmethod:
 
       Advance the terrain by the specified step

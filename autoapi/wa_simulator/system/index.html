@@ -154,6 +154,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../controller/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.controller</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../data_loader/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.data_loader</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../environment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.environment</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../path/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.path</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../simulation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.simulation</span></code></a></li>
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.system</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../terrain/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.terrain</span></code></a></li>
@@ -257,14 +258,14 @@ module dynamics depending on the underlying models.</p>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="wa_simulator.system.WASystem.Advance">
-<code class="sig-name descname">Advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.system.WASystem.Advance" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.system.WASystem.advance">
+<code class="sig-name descname">advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.system.WASystem.advance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Advance the system</p>
 <p>Will update the time and increment the step number</p>
 </dd></dl>
 <dl class="py method">
-<dt id="wa_simulator.system.WASystem.GetSimTime">
-<code class="sig-name descname">GetSimTime</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.system.WASystem.GetSimTime" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.system.WASystem.get_sim_time">
+<code class="sig-name descname">get_sim_time</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.system.WASystem.get_sim_time" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the simulation time</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -276,8 +277,8 @@ module dynamics depending on the underlying models.</p>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="wa_simulator.system.WASystem.GetStepNumber">
-<code class="sig-name descname">GetStepNumber</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.system.WASystem.GetStepNumber" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.system.WASystem.get_step_number">
+<code class="sig-name descname">get_step_number</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.system.WASystem.get_step_number" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the step number</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -355,9 +356,9 @@ module dynamics depending on the underlying models.</p>
 <li><a class="reference internal" href="#wa_simulator.system.WASystem.step_size">step_size</a></li>
 <li><a class="reference internal" href="#wa_simulator.system.WASystem.render_step_size">render_step_size</a></li>
 <li><a class="reference internal" href="#wa_simulator.system.WASystem.time">time</a></li>
-<li><a class="reference internal" href="#wa_simulator.system.WASystem.Advance">Advance</a></li>
-<li><a class="reference internal" href="#wa_simulator.system.WASystem.GetSimTime">GetSimTime</a></li>
-<li><a class="reference internal" href="#wa_simulator.system.WASystem.GetStepNumber">GetStepNumber</a></li>
+<li><a class="reference internal" href="#wa_simulator.system.WASystem.advance">advance</a></li>
+<li><a class="reference internal" href="#wa_simulator.system.WASystem.get_sim_time">get_sim_time</a></li>
+<li><a class="reference internal" href="#wa_simulator.system.WASystem.get_step_number">get_step_number</a></li>
 </ul>
 </li>
 </ul>

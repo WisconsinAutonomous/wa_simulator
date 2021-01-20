@@ -32,10 +32,10 @@ Functions
 
 .. autoapisummary::
 
-   wa_simulator.chrono.terrain.ReadTerrainModelFile
+   wa_simulator.chrono.terrain.read_terrain_model_file
 
 
-.. function:: ReadTerrainModelFile(filename)
+.. function:: read_terrain_model_file(filename)
 
    Get the json specification file describing a ChTerrain
 
@@ -65,7 +65,7 @@ Functions
 
       :type: RigidTerrain
 
-   .. method:: Synchronize(self, time)
+   .. method:: synchronize(self, time)
 
       Synchronize the terrain at the specified time
 
@@ -73,7 +73,7 @@ Functions
       :type time: double
 
 
-   .. method:: Advance(self, step)
+   .. method:: advance(self, step)
 
       Advance the terrain dynamics by the specified step
 

@@ -33,10 +33,10 @@ Functions
 
 .. autoapisummary::
 
-   wa_simulator.vehicle.LoadPropertiesFromJSON
+   wa_simulator.vehicle.load_properties_from_json
 
 
-.. function:: LoadPropertiesFromJSON(filename, prop)
+.. function:: load_properties_from_json(filename, prop)
 
    Load a specified property from a json specification file
 
@@ -72,7 +72,7 @@ Functions
 
       :type: dict
 
-   .. method:: Synchronize(self, time, vehicle_inputs)
+   .. method:: synchronize(self, time, vehicle_inputs)
       :abstractmethod:
 
       Synchronize the vehicle at the specified time and driver inputs
@@ -83,7 +83,7 @@ Functions
       :type vehicle_inputs: WAVehicleInputs
 
 
-   .. method:: Advance(self, step)
+   .. method:: advance(self, step)
       :abstractmethod:
 
       Advance the vehicle by the specified step
@@ -92,7 +92,7 @@ Functions
       :type step: double
 
 
-   .. method:: GetSimpleState(self)
+   .. method:: get_simple_state(self)
       :abstractmethod:
 
       Get a simple state representation of the vehicle.
@@ -261,10 +261,10 @@ Functions
 
       
 
-   .. method:: Initialize(self, vp)
+   .. method:: initialize(self, vp)
 
 
-   .. method:: Synchronize(self, time, vehicle_inputs)
+   .. method:: synchronize(self, time, vehicle_inputs)
 
       Synchronize the vehicle inputs to the values in this model
 
@@ -274,7 +274,7 @@ Functions
       :type vehicle_inputs: WAVehicleInputs
 
 
-   .. method:: Advance(self, step)
+   .. method:: advance(self, step)
 
       Perform a dynamics update
 
@@ -282,7 +282,7 @@ Functions
       :type step: double
 
 
-   .. method:: GetSimpleState(self)
+   .. method:: get_simple_state(self)
 
       Get a simple state representation of the vehicle.
 

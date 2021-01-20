@@ -5,7 +5,7 @@
 ```shell
 # Recommended!!
 # To install wa_simulator in an anaconda environment (Linux systems must install anaconda externally)
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/WisconsinAutonomous/wa_simulator/master/scripts/create_conda_env.sh)"
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/WisconsinAutonomous/wa_simulator/master/scripts/config_conda_env.sh)"
 
 # OR
 
@@ -25,7 +25,7 @@ The recommended approach to installing `wa_simulator` on Unix systems (Linux and
 > Note: As mentioned above, this script will utilize Anaconda. On MacOS systems, this will be installed automatically through the Homebrew package manager. On Linux systems, please [install anaconda separately](https://docs.anaconda.com/anaconda/install/linux/).
 
 ```shell
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/WisconsinAutonomous/wa_simulator/master/scripts/create_conda_env.sh)"
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/WisconsinAutonomous/wa_simulator/master/scripts/config_conda_env.sh)"
 ```
 
 For _most_ use cases for this simulator, a conda package installation. For those who want to aid in development of the repository, further instructions for how to do that will be created in the future.

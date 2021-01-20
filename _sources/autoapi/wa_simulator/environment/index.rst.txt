@@ -36,7 +36,7 @@ Classes
 
    The environment object is responsible for handling data or assets within the world.
 
-   .. method:: Synchronize(self, time)
+   .. method:: synchronize(self, time)
       :abstractmethod:
 
       Synchronize the environment at the specified time
@@ -48,7 +48,7 @@ Classes
       :type time: double
 
 
-   .. method:: Advance(self, step)
+   .. method:: advance(self, step)
       :abstractmethod:
 
       Advance the environment by the specified step
@@ -79,7 +79,7 @@ Classes
 
       
 
-   .. method:: Synchronize(self, time)
+   .. method:: synchronize(self, time)
 
       Synchronize the environment with the rest of the world at the specified time
 
@@ -89,7 +89,7 @@ Classes
       :type time: double
 
 
-   .. method:: Advance(self, step)
+   .. method:: advance(self, step)
 
       Advance the state of the environment
 

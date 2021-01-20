@@ -154,6 +154,7 @@
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.controller</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../data_loader/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.data_loader</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../environment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.environment</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../path/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.path</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../simulation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.simulation</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../system/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.system</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../terrain/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.terrain</span></code></a></li>
@@ -253,7 +254,7 @@ maintaining such properties, simply should be used for passing values around.</p
 This is done because in real life, those are the inputs our cars will have. The
 derived controller’s (i.e. the new class that inherits from this class)
 responsibility is to take inputs from the simulation and return these values
-through the GetInputs method.</p>
+through the get_inputs method.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>system</strong> (<em>ChSystem</em>) – The system used to manage the simulation</p>
@@ -282,8 +283,8 @@ through the GetInputs method.</p>
 <code class="sig-name descname">braking</code><a class="headerlink" href="#wa_simulator.controller.WAController.braking" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="py method">
-<dt id="wa_simulator.controller.WAController.Synchronize">
-<em class="property">abstract </em><code class="sig-name descname">Synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">time</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAController.Synchronize" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.controller.WAController.synchronize">
+<em class="property">abstract </em><code class="sig-name descname">synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">time</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAController.synchronize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Synchronize the controller at the specified time</p>
 <p>Function is primarily as a semantic separation between different functionality.
 Most of the time, all controller logic can be placed in the Advance method. ROS would
@@ -296,8 +297,8 @@ other logic in the Advance method.</p>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="wa_simulator.controller.WAController.Advance">
-<em class="property">abstract </em><code class="sig-name descname">Advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAController.Advance" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.controller.WAController.advance">
+<em class="property">abstract </em><code class="sig-name descname">advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAController.advance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Advance the controller by the specified step</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -306,8 +307,8 @@ other logic in the Advance method.</p>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="wa_simulator.controller.WAController.GetInputs">
-<code class="sig-name descname">GetInputs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAController.GetInputs" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.controller.WAController.get_inputs">
+<code class="sig-name descname">get_inputs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAController.get_inputs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the vehicle inputs</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -326,8 +327,8 @@ other logic in the Advance method.</p>
 <p>Simple controller designed to never change the inputs</p>
 <p>Can be used for situations where controlling the vehicle isn’t actually necessary</p>
 <dl class="py method">
-<dt id="wa_simulator.controller.WASimpleController.Advance">
-<code class="sig-name descname">Advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WASimpleController.Advance" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.controller.WASimpleController.advance">
+<code class="sig-name descname">advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WASimpleController.advance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Advance the controller by the specified step</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -336,8 +337,8 @@ other logic in the Advance method.</p>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="wa_simulator.controller.WASimpleController.Synchronize">
-<code class="sig-name descname">Synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">time</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WASimpleController.Synchronize" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.controller.WASimpleController.synchronize">
+<code class="sig-name descname">synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">time</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WASimpleController.synchronize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Synchronize the controller at the specified time</p>
 <p>Function is primarily as a semantic separation between different functionality.
 Most of the time, all controller logic can be placed in the Advance method. ROS would
@@ -372,8 +373,8 @@ other logic in the Advance method.</p>
 </dd>
 </dl>
 <dl class="py method">
-<dt id="wa_simulator.controller.WAKeyboardController.SetSteeringDelta">
-<code class="sig-name descname">SetSteeringDelta</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">steering_delta</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.SetSteeringDelta" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.controller.WAKeyboardController.set_steering_delta">
+<code class="sig-name descname">set_steering_delta</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">steering_delta</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.set_steering_delta" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets the steering delta value</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -382,8 +383,8 @@ other logic in the Advance method.</p>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="wa_simulator.controller.WAKeyboardController.SetThrottleDelta">
-<code class="sig-name descname">SetThrottleDelta</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">throttle_delta</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.SetThrottleDelta" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.controller.WAKeyboardController.set_throttle_delta">
+<code class="sig-name descname">set_throttle_delta</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">throttle_delta</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.set_throttle_delta" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets the throttle delta value</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -392,8 +393,8 @@ other logic in the Advance method.</p>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="wa_simulator.controller.WAKeyboardController.SetBrakingDelta">
-<code class="sig-name descname">SetBrakingDelta</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">braking_delta</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.SetBrakingDelta" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.controller.WAKeyboardController.set_braking_delta">
+<code class="sig-name descname">set_braking_delta</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">braking_delta</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.set_braking_delta" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets the braking delta value</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -402,8 +403,8 @@ other logic in the Advance method.</p>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="wa_simulator.controller.WAKeyboardController.SetGains">
-<code class="sig-name descname">SetGains</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">steering_gain</span></em>, <em class="sig-param"><span class="n">throttle_gain</span></em>, <em class="sig-param"><span class="n">braking_gain</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.SetGains" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.controller.WAKeyboardController.set_gains">
+<code class="sig-name descname">set_gains</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">steering_gain</span></em>, <em class="sig-param"><span class="n">throttle_gain</span></em>, <em class="sig-param"><span class="n">braking_gain</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.set_gains" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets the controllers gains</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -416,8 +417,8 @@ other logic in the Advance method.</p>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="wa_simulator.controller.WAKeyboardController.Advance">
-<code class="sig-name descname">Advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.Advance" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.controller.WAKeyboardController.advance">
+<code class="sig-name descname">advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.advance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Advance the controller by the specified step</p>
 <p>Integrates dynamics over some step range. If the original step is the same as the passed
 step value, the method is only run once.</p>
@@ -428,8 +429,8 @@ step value, the method is only run once.</p>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="wa_simulator.controller.WAKeyboardController.Update">
-<code class="sig-name descname">Update</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">key</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.Update" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.controller.WAKeyboardController.update">
+<code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">key</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.update" title="Permalink to this definition">¶</a></dt>
 <dd><p>Update the target values based on the key.</p>
 <p>The updated target values are based off the delta values for that respective input.
 In this controller, input values are clipped at [-1,1] or [0,1].</p>
@@ -525,13 +526,13 @@ window for arrow keys. Will exit if any other key is pressed.</p>
 </dd></dl>
 </dd></dl>
 <dl class="py method">
-<dt id="wa_simulator.controller.WATerminalKeyboardController.KeyCheck">
-<code class="sig-name descname">KeyCheck</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WATerminalKeyboardController.KeyCheck" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.controller.WATerminalKeyboardController.key_check">
+<code class="sig-name descname">key_check</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WATerminalKeyboardController.key_check" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the key from the KeyGetter and update target values based on input.</p>
 </dd></dl>
 <dl class="py method">
-<dt id="wa_simulator.controller.WATerminalKeyboardController.Synchronize">
-<code class="sig-name descname">Synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">time</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WATerminalKeyboardController.Synchronize" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.controller.WATerminalKeyboardController.synchronize">
+<code class="sig-name descname">synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">time</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WATerminalKeyboardController.synchronize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Synchronize the controller at the specified time</p>
 <p>Calls KeyCheck</p>
 <dl class="field-list simple">
@@ -553,8 +554,8 @@ window for arrow keys. Will exit if any other key is pressed.</p>
 </dd>
 </dl>
 <dl class="py method">
-<dt id="wa_simulator.controller.WAMultipleControllers.Synchronize">
-<code class="sig-name descname">Synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">time</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAMultipleControllers.Synchronize" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.controller.WAMultipleControllers.synchronize">
+<code class="sig-name descname">synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">time</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAMultipleControllers.synchronize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Synchronize each controller at the specified time</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -563,8 +564,8 @@ window for arrow keys. Will exit if any other key is pressed.</p>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="wa_simulator.controller.WAMultipleControllers.Advance">
-<code class="sig-name descname">Advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAMultipleControllers.Advance" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.controller.WAMultipleControllers.advance">
+<code class="sig-name descname">advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAMultipleControllers.advance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Advance the state of each managed controller</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -573,8 +574,8 @@ window for arrow keys. Will exit if any other key is pressed.</p>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="wa_simulator.controller.WAMultipleControllers.GetInputs">
-<code class="sig-name descname">GetInputs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAMultipleControllers.GetInputs" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.controller.WAMultipleControllers.get_inputs">
+<code class="sig-name descname">get_inputs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAMultipleControllers.get_inputs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the vehicle inputs</p>
 <p>Overrides base class method. Will just grab the first controllers inputs.</p>
 <dl class="field-list simple">
@@ -619,8 +620,8 @@ window for arrow keys. Will exit if any other key is pressed.</p>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="wa_simulator.controller.WAPIDController.Synchronize">
-<code class="sig-name descname">Synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">time</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAPIDController.Synchronize" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.controller.WAPIDController.synchronize">
+<code class="sig-name descname">synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">time</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAPIDController.synchronize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Synchronize each controller at the specified time</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -629,8 +630,8 @@ window for arrow keys. Will exit if any other key is pressed.</p>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="wa_simulator.controller.WAPIDController.Advance">
-<code class="sig-name descname">Advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAPIDController.Advance" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.controller.WAPIDController.advance">
+<code class="sig-name descname">advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAPIDController.advance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Advance the state of each controller</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -639,8 +640,8 @@ window for arrow keys. Will exit if any other key is pressed.</p>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="wa_simulator.controller.WAPIDController.GetInputs">
-<code class="sig-name descname">GetInputs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAPIDController.GetInputs" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.controller.WAPIDController.get_inputs">
+<code class="sig-name descname">get_inputs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAPIDController.get_inputs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the vehicle inputs</p>
 <p>Overrides base class method. Grabs the steering from the lateral controller and the
 throttle and braking from the longitudinal controller</p>
@@ -662,7 +663,7 @@ throttle and braking from the longitudinal controller</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>path</strong> (<em>WAPath</em>) – the path the vehicle is attempting to follow</p></li>
+<li><p><strong>path</strong> (<a class="reference internal" href="../path/index.html#wa_simulator.path.WAPath" title="wa_simulator.path.WAPath"><em>WAPath</em></a>) – the path the vehicle is attempting to follow</p></li>
 <li><p><strong>vehicle</strong> (<a class="reference internal" href="../vehicle/index.html#wa_simulator.vehicle.WAVehicle" title="wa_simulator.vehicle.WAVehicle"><em>WAVehicle</em></a>) – the vehicle who has dynamics</p></li>
 </ul>
 </dd>
@@ -673,7 +674,7 @@ throttle and braking from the longitudinal controller</p>
 <dd><p>the path the vehicle is attempting to follow</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>WAPath</p>
+<dd class="field-odd"><p><a class="reference internal" href="../path/index.html#wa_simulator.path.WAPath" title="wa_simulator.path.WAPath">WAPath</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -778,8 +779,8 @@ throttle and braking from the longitudinal controller</p>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="wa_simulator.controller.WAPIDLateralController.SetGains">
-<code class="sig-name descname">SetGains</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">Kp</span></em>, <em class="sig-param"><span class="n">Ki</span></em>, <em class="sig-param"><span class="n">Kd</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAPIDLateralController.SetGains" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.controller.WAPIDLateralController.set_gains">
+<code class="sig-name descname">set_gains</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">Kp</span></em>, <em class="sig-param"><span class="n">Ki</span></em>, <em class="sig-param"><span class="n">Kd</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAPIDLateralController.set_gains" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the gains</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -792,8 +793,8 @@ throttle and braking from the longitudinal controller</p>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="wa_simulator.controller.WAPIDLateralController.SetLookAheadDistance">
-<code class="sig-name descname">SetLookAheadDistance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">dist</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAPIDLateralController.SetLookAheadDistance" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.controller.WAPIDLateralController.set_lookahead_distance">
+<code class="sig-name descname">set_lookahead_distance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">dist</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAPIDLateralController.set_lookahead_distance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the lookahead distance</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -802,8 +803,8 @@ throttle and braking from the longitudinal controller</p>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="wa_simulator.controller.WAPIDLateralController.Synchronize">
-<code class="sig-name descname">Synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">time</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAPIDLateralController.Synchronize" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.controller.WAPIDLateralController.synchronize">
+<code class="sig-name descname">synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">time</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAPIDLateralController.synchronize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Synchronize the controller at the passed time</p>
 <p>Doesn’t actually do anything.</p>
 <dl class="field-list simple">
@@ -813,8 +814,8 @@ throttle and braking from the longitudinal controller</p>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="wa_simulator.controller.WAPIDLateralController.Advance">
-<code class="sig-name descname">Advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAPIDLateralController.Advance" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.controller.WAPIDLateralController.advance">
+<code class="sig-name descname">advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAPIDLateralController.advance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Advance the state of the controller by step</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -823,8 +824,8 @@ throttle and braking from the longitudinal controller</p>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="wa_simulator.controller.WAPIDLateralController.calcSign">
-<code class="sig-name descname">calcSign</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">state</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAPIDLateralController.calcSign" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.controller.WAPIDLateralController.calc_sign">
+<code class="sig-name descname">calc_sign</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">state</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAPIDLateralController.calc_sign" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the sign of the angle between the projections of the sentinel vector
 and the target vector (with origin at vehicle location).</p>
 <dl class="field-list simple">
@@ -951,8 +952,8 @@ and the target vector (with origin at vehicle location).</p>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="wa_simulator.controller.WAPIDLongitudinalController.SetGains">
-<code class="sig-name descname">SetGains</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">Kp</span></em>, <em class="sig-param"><span class="n">Ki</span></em>, <em class="sig-param"><span class="n">Kd</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAPIDLongitudinalController.SetGains" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.controller.WAPIDLongitudinalController.set_gains">
+<code class="sig-name descname">set_gains</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">Kp</span></em>, <em class="sig-param"><span class="n">Ki</span></em>, <em class="sig-param"><span class="n">Kd</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAPIDLongitudinalController.set_gains" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the gains</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -965,8 +966,8 @@ and the target vector (with origin at vehicle location).</p>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="wa_simulator.controller.WAPIDLongitudinalController.SetTargetSpeed">
-<code class="sig-name descname">SetTargetSpeed</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">speed</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAPIDLongitudinalController.SetTargetSpeed" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.controller.WAPIDLongitudinalController.set_target_speed">
+<code class="sig-name descname">set_target_speed</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">speed</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAPIDLongitudinalController.set_target_speed" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the target speed for the controller</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -975,8 +976,8 @@ and the target vector (with origin at vehicle location).</p>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="wa_simulator.controller.WAPIDLongitudinalController.Synchronize">
-<code class="sig-name descname">Synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">time</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAPIDLongitudinalController.Synchronize" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.controller.WAPIDLongitudinalController.synchronize">
+<code class="sig-name descname">synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">time</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAPIDLongitudinalController.synchronize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Synchronize the controller at the passed time</p>
 <p>Doesn’t actually do anything.</p>
 <dl class="field-list simple">
@@ -986,8 +987,8 @@ and the target vector (with origin at vehicle location).</p>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="wa_simulator.controller.WAPIDLongitudinalController.Advance">
-<code class="sig-name descname">Advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAPIDLongitudinalController.Advance" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.controller.WAPIDLongitudinalController.advance">
+<code class="sig-name descname">advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAPIDLongitudinalController.advance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Advance the state of the controller by step</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1021,8 +1022,8 @@ and the target vector (with origin at vehicle location).</p>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="wa_simulator.controller.WAMatplotlibController.Synchronize">
-<code class="sig-name descname">Synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">time</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAMatplotlibController.Synchronize" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.controller.WAMatplotlibController.synchronize">
+<code class="sig-name descname">synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">time</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAMatplotlibController.synchronize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Synchronize the controller at the specified time</p>
 <p>Doesn’t do anything since this controller is completely asynchronous</p>
 <dl class="field-list simple">
@@ -1099,23 +1100,23 @@ and the target vector (with origin at vehicle location).</p>
 <li><a class="reference internal" href="#wa_simulator.controller.WAController.steering">steering</a></li>
 <li><a class="reference internal" href="#wa_simulator.controller.WAController.throttle">throttle</a></li>
 <li><a class="reference internal" href="#wa_simulator.controller.WAController.braking">braking</a></li>
-<li><a class="reference internal" href="#wa_simulator.controller.WAController.Synchronize">Synchronize</a></li>
-<li><a class="reference internal" href="#wa_simulator.controller.WAController.Advance">Advance</a></li>
-<li><a class="reference internal" href="#wa_simulator.controller.WAController.GetInputs">GetInputs</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAController.synchronize">synchronize</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAController.advance">advance</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAController.get_inputs">get_inputs</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#wa_simulator.controller.WASimpleController">WASimpleController</a><ul>
-<li><a class="reference internal" href="#wa_simulator.controller.WASimpleController.Advance">Advance</a></li>
-<li><a class="reference internal" href="#wa_simulator.controller.WASimpleController.Synchronize">Synchronize</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WASimpleController.advance">advance</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WASimpleController.synchronize">synchronize</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#wa_simulator.controller.WAKeyboardController">WAKeyboardController</a><ul>
-<li><a class="reference internal" href="#wa_simulator.controller.WAKeyboardController.SetSteeringDelta">SetSteeringDelta</a></li>
-<li><a class="reference internal" href="#wa_simulator.controller.WAKeyboardController.SetThrottleDelta">SetThrottleDelta</a></li>
-<li><a class="reference internal" href="#wa_simulator.controller.WAKeyboardController.SetBrakingDelta">SetBrakingDelta</a></li>
-<li><a class="reference internal" href="#wa_simulator.controller.WAKeyboardController.SetGains">SetGains</a></li>
-<li><a class="reference internal" href="#wa_simulator.controller.WAKeyboardController.Advance">Advance</a></li>
-<li><a class="reference internal" href="#wa_simulator.controller.WAKeyboardController.Update">Update</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAKeyboardController.set_steering_delta">set_steering_delta</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAKeyboardController.set_throttle_delta">set_throttle_delta</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAKeyboardController.set_braking_delta">set_braking_delta</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAKeyboardController.set_gains">set_gains</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAKeyboardController.advance">advance</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAKeyboardController.update">update</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#wa_simulator.controller.WATerminalKeyboardController">WATerminalKeyboardController</a><ul>
@@ -1128,22 +1129,22 @@ and the target vector (with origin at vehicle location).</p>
 <li><a class="reference internal" href="#wa_simulator.controller.WATerminalKeyboardController.KeyGetter.set_normal_term">set_normal_term</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#wa_simulator.controller.WATerminalKeyboardController.KeyCheck">KeyCheck</a></li>
-<li><a class="reference internal" href="#wa_simulator.controller.WATerminalKeyboardController.Synchronize">Synchronize</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WATerminalKeyboardController.key_check">key_check</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WATerminalKeyboardController.synchronize">synchronize</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#wa_simulator.controller.WAMultipleControllers">WAMultipleControllers</a><ul>
-<li><a class="reference internal" href="#wa_simulator.controller.WAMultipleControllers.Synchronize">Synchronize</a></li>
-<li><a class="reference internal" href="#wa_simulator.controller.WAMultipleControllers.Advance">Advance</a></li>
-<li><a class="reference internal" href="#wa_simulator.controller.WAMultipleControllers.GetInputs">GetInputs</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAMultipleControllers.synchronize">synchronize</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAMultipleControllers.advance">advance</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAMultipleControllers.get_inputs">get_inputs</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#wa_simulator.controller.WAPIDController">WAPIDController</a><ul>
 <li><a class="reference internal" href="#wa_simulator.controller.WAPIDController.lat_controller">lat_controller</a></li>
 <li><a class="reference internal" href="#wa_simulator.controller.WAPIDController.long_controller">long_controller</a></li>
-<li><a class="reference internal" href="#wa_simulator.controller.WAPIDController.Synchronize">Synchronize</a></li>
-<li><a class="reference internal" href="#wa_simulator.controller.WAPIDController.Advance">Advance</a></li>
-<li><a class="reference internal" href="#wa_simulator.controller.WAPIDController.GetInputs">GetInputs</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAPIDController.synchronize">synchronize</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAPIDController.advance">advance</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAPIDController.get_inputs">get_inputs</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#wa_simulator.controller.WAPIDLateralController">WAPIDLateralController</a><ul>
@@ -1158,11 +1159,11 @@ and the target vector (with origin at vehicle location).</p>
 <li><a class="reference internal" href="#wa_simulator.controller.WAPIDLateralController.err">err</a></li>
 <li><a class="reference internal" href="#wa_simulator.controller.WAPIDLateralController.errd">errd</a></li>
 <li><a class="reference internal" href="#wa_simulator.controller.WAPIDLateralController.erri">erri</a></li>
-<li><a class="reference internal" href="#wa_simulator.controller.WAPIDLateralController.SetGains">SetGains</a></li>
-<li><a class="reference internal" href="#wa_simulator.controller.WAPIDLateralController.SetLookAheadDistance">SetLookAheadDistance</a></li>
-<li><a class="reference internal" href="#wa_simulator.controller.WAPIDLateralController.Synchronize">Synchronize</a></li>
-<li><a class="reference internal" href="#wa_simulator.controller.WAPIDLateralController.Advance">Advance</a></li>
-<li><a class="reference internal" href="#wa_simulator.controller.WAPIDLateralController.calcSign">calcSign</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAPIDLateralController.set_gains">set_gains</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAPIDLateralController.set_lookahead_distance">set_lookahead_distance</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAPIDLateralController.synchronize">synchronize</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAPIDLateralController.advance">advance</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAPIDLateralController.calc_sign">calc_sign</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#wa_simulator.controller.WAPIDLongitudinalController">WAPIDLongitudinalController</a><ul>
@@ -1176,15 +1177,15 @@ and the target vector (with origin at vehicle location).</p>
 <li><a class="reference internal" href="#wa_simulator.controller.WAPIDLongitudinalController.speed">speed</a></li>
 <li><a class="reference internal" href="#wa_simulator.controller.WAPIDLongitudinalController.target_speed">target_speed</a></li>
 <li><a class="reference internal" href="#wa_simulator.controller.WAPIDLongitudinalController.throttle_threshold">throttle_threshold</a></li>
-<li><a class="reference internal" href="#wa_simulator.controller.WAPIDLongitudinalController.SetGains">SetGains</a></li>
-<li><a class="reference internal" href="#wa_simulator.controller.WAPIDLongitudinalController.SetTargetSpeed">SetTargetSpeed</a></li>
-<li><a class="reference internal" href="#wa_simulator.controller.WAPIDLongitudinalController.Synchronize">Synchronize</a></li>
-<li><a class="reference internal" href="#wa_simulator.controller.WAPIDLongitudinalController.Advance">Advance</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAPIDLongitudinalController.set_gains">set_gains</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAPIDLongitudinalController.set_target_speed">set_target_speed</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAPIDLongitudinalController.synchronize">synchronize</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAPIDLongitudinalController.advance">advance</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#wa_simulator.controller.WAMatplotlibController">WAMatplotlibController</a><ul>
 <li><a class="reference internal" href="#wa_simulator.controller.WAMatplotlibController.vis">vis</a></li>
-<li><a class="reference internal" href="#wa_simulator.controller.WAMatplotlibController.Synchronize">Synchronize</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAMatplotlibController.synchronize">synchronize</a></li>
 </ul>
 </li>
 </ul>

@@ -66,14 +66,14 @@ Classes
 
       :type: double
 
-   .. method:: Advance(self)
+   .. method:: advance(self)
 
       Advance the system
 
       Will update the time and increment the step number
 
 
-   .. method:: GetSimTime(self)
+   .. method:: get_sim_time(self)
 
       Get the simulation time
 
@@ -81,7 +81,7 @@ Classes
       :rtype: double
 
 
-   .. method:: GetStepNumber(self)
+   .. method:: get_step_number(self)
 
       Get the step number
 

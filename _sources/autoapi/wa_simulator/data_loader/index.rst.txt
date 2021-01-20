@@ -24,8 +24,8 @@ Functions
 
 .. autoapisummary::
 
-   wa_simulator.data_loader.GetWADataFile
-   wa_simulator.data_loader.SetWADataDirectory
+   wa_simulator.data_loader.get_wa_data_file
+   wa_simulator.data_loader.set_wa_data_directory
 
 
 .. data:: DATA_DIRECTORY
@@ -33,7 +33,7 @@ Functions
 
    
 
-.. function:: GetWADataFile(filename)
+.. function:: get_wa_data_file(filename)
 
    Get the absolute path to the file passed
 
@@ -44,7 +44,7 @@ Functions
    :rtype: str
 
 
-.. function:: SetWADataDirectory(path)
+.. function:: set_wa_data_directory(path)
 
    Set the data path
 

@@ -154,6 +154,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../controller/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.controller</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../data_loader/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.data_loader</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../environment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.environment</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../path/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.path</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../simulation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.simulation</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../system/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.system</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../terrain/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.terrain</span></code></a></li>
@@ -212,14 +213,14 @@ in the LICENSE file at the top level of the repo</p>
 <col style="width: 90%"/>
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#wa_simulator.vehicle.LoadPropertiesFromJSON" title="wa_simulator.vehicle.LoadPropertiesFromJSON"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LoadPropertiesFromJSON</span></code></a>(filename, prop)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#wa_simulator.vehicle.load_properties_from_json" title="wa_simulator.vehicle.load_properties_from_json"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_properties_from_json</span></code></a>(filename, prop)</p></td>
 <td><p>Load a specified property from a json specification file</p></td>
 </tr>
 </tbody>
 </table></div>
 <dl class="py function">
-<dt id="wa_simulator.vehicle.LoadPropertiesFromJSON">
-<code class="sig-prename descclassname">wa_simulator.vehicle.</code><code class="sig-name descname">LoadPropertiesFromJSON</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em>, <em class="sig-param"><span class="n">prop</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.vehicle.LoadPropertiesFromJSON" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.vehicle.load_properties_from_json">
+<code class="sig-prename descclassname">wa_simulator.vehicle.</code><code class="sig-name descname">load_properties_from_json</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em>, <em class="sig-param"><span class="n">prop</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.vehicle.load_properties_from_json" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load a specified property from a json specification file</p>
 <p>Will load a json file and extract the passed property field for use
 by the underyling vehicle object</p>
@@ -264,8 +265,8 @@ with the terrain/assets/world and take three inputs: steering, throttle, braking
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="wa_simulator.vehicle.WAVehicle.Synchronize">
-<em class="property">abstract </em><code class="sig-name descname">Synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">time</span></em>, <em class="sig-param"><span class="n">vehicle_inputs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.vehicle.WAVehicle.Synchronize" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.vehicle.WAVehicle.synchronize">
+<em class="property">abstract </em><code class="sig-name descname">synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">time</span></em>, <em class="sig-param"><span class="n">vehicle_inputs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.vehicle.WAVehicle.synchronize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Synchronize the vehicle at the specified time and driver inputs</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -277,8 +278,8 @@ with the terrain/assets/world and take three inputs: steering, throttle, braking
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="wa_simulator.vehicle.WAVehicle.Advance">
-<em class="property">abstract </em><code class="sig-name descname">Advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.vehicle.WAVehicle.Advance" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.vehicle.WAVehicle.advance">
+<em class="property">abstract </em><code class="sig-name descname">advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.vehicle.WAVehicle.advance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Advance the vehicle by the specified step</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -287,8 +288,8 @@ with the terrain/assets/world and take three inputs: steering, throttle, braking
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="wa_simulator.vehicle.WAVehicle.GetSimpleState">
-<em class="property">abstract </em><code class="sig-name descname">GetSimpleState</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.vehicle.WAVehicle.GetSimpleState" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.vehicle.WAVehicle.get_simple_state">
+<em class="property">abstract </em><code class="sig-name descname">get_simple_state</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.vehicle.WAVehicle.get_simple_state" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get a simple state representation of the vehicle.</p>
 <dl class="simple">
 <dt>Must return a tuple with the following values:</dt><dd><p>(x position, y position, yaw about the Z, speed)</p>
@@ -541,12 +542,12 @@ with the terrain/assets/world and take three inputs: steering, throttle, braking
 <code class="sig-name descname">IAC_VEH_MODEL_FILE</code><em class="property"> = vehicles/IAC/IAC_KinematicBicycle.json</em><a class="headerlink" href="#wa_simulator.vehicle.WALinearKinematicBicycle.IAC_VEH_MODEL_FILE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="py method">
-<dt id="wa_simulator.vehicle.WALinearKinematicBicycle.Initialize">
-<code class="sig-name descname">Initialize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">vp</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.vehicle.WALinearKinematicBicycle.Initialize" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.vehicle.WALinearKinematicBicycle.initialize">
+<code class="sig-name descname">initialize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">vp</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.vehicle.WALinearKinematicBicycle.initialize" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="py method">
-<dt id="wa_simulator.vehicle.WALinearKinematicBicycle.Synchronize">
-<code class="sig-name descname">Synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">time</span></em>, <em class="sig-param"><span class="n">vehicle_inputs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.vehicle.WALinearKinematicBicycle.Synchronize" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.vehicle.WALinearKinematicBicycle.synchronize">
+<code class="sig-name descname">synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">time</span></em>, <em class="sig-param"><span class="n">vehicle_inputs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.vehicle.WALinearKinematicBicycle.synchronize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Synchronize the vehicle inputs to the values in this model</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -558,8 +559,8 @@ with the terrain/assets/world and take three inputs: steering, throttle, braking
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="wa_simulator.vehicle.WALinearKinematicBicycle.Advance">
-<code class="sig-name descname">Advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.vehicle.WALinearKinematicBicycle.Advance" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.vehicle.WALinearKinematicBicycle.advance">
+<code class="sig-name descname">advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.vehicle.WALinearKinematicBicycle.advance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Perform a dynamics update</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -568,8 +569,8 @@ with the terrain/assets/world and take three inputs: steering, throttle, braking
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="wa_simulator.vehicle.WALinearKinematicBicycle.GetSimpleState">
-<code class="sig-name descname">GetSimpleState</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.vehicle.WALinearKinematicBicycle.GetSimpleState" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.vehicle.WALinearKinematicBicycle.get_simple_state">
+<code class="sig-name descname">get_simple_state</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.vehicle.WALinearKinematicBicycle.get_simple_state" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get a simple state representation of the vehicle.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -643,12 +644,12 @@ with the terrain/assets/world and take three inputs: steering, throttle, braking
 <li><a class="reference internal" href="#module-contents">Module Contents</a><ul>
 <li><a class="reference internal" href="#classes">Classes</a></li>
 <li><a class="reference internal" href="#functions">Functions</a><ul>
-<li><a class="reference internal" href="#wa_simulator.vehicle.LoadPropertiesFromJSON">LoadPropertiesFromJSON</a></li>
+<li><a class="reference internal" href="#wa_simulator.vehicle.load_properties_from_json">load_properties_from_json</a></li>
 <li><a class="reference internal" href="#wa_simulator.vehicle.WAVehicle">WAVehicle</a><ul>
 <li><a class="reference internal" href="#wa_simulator.vehicle.WAVehicle.vis_properties">vis_properties</a></li>
-<li><a class="reference internal" href="#wa_simulator.vehicle.WAVehicle.Synchronize">Synchronize</a></li>
-<li><a class="reference internal" href="#wa_simulator.vehicle.WAVehicle.Advance">Advance</a></li>
-<li><a class="reference internal" href="#wa_simulator.vehicle.WAVehicle.GetSimpleState">GetSimpleState</a></li>
+<li><a class="reference internal" href="#wa_simulator.vehicle.WAVehicle.synchronize">synchronize</a></li>
+<li><a class="reference internal" href="#wa_simulator.vehicle.WAVehicle.advance">advance</a></li>
+<li><a class="reference internal" href="#wa_simulator.vehicle.WAVehicle.get_simple_state">get_simple_state</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#wa_simulator.vehicle.WALinearKinematicBicycle">WALinearKinematicBicycle</a><ul>
@@ -676,10 +677,10 @@ with the terrain/assets/world and take three inputs: steering, throttle, braking
 <li><a class="reference internal" href="#wa_simulator.vehicle.WALinearKinematicBicycle.max_braking">max_braking</a></li>
 <li><a class="reference internal" href="#wa_simulator.vehicle.WALinearKinematicBicycle.GO_KART_MODEL_FILE">GO_KART_MODEL_FILE</a></li>
 <li><a class="reference internal" href="#wa_simulator.vehicle.WALinearKinematicBicycle.IAC_VEH_MODEL_FILE">IAC_VEH_MODEL_FILE</a></li>
-<li><a class="reference internal" href="#wa_simulator.vehicle.WALinearKinematicBicycle.Initialize">Initialize</a></li>
-<li><a class="reference internal" href="#wa_simulator.vehicle.WALinearKinematicBicycle.Synchronize">Synchronize</a></li>
-<li><a class="reference internal" href="#wa_simulator.vehicle.WALinearKinematicBicycle.Advance">Advance</a></li>
-<li><a class="reference internal" href="#wa_simulator.vehicle.WALinearKinematicBicycle.GetSimpleState">GetSimpleState</a></li>
+<li><a class="reference internal" href="#wa_simulator.vehicle.WALinearKinematicBicycle.initialize">initialize</a></li>
+<li><a class="reference internal" href="#wa_simulator.vehicle.WALinearKinematicBicycle.synchronize">synchronize</a></li>
+<li><a class="reference internal" href="#wa_simulator.vehicle.WALinearKinematicBicycle.advance">advance</a></li>
+<li><a class="reference internal" href="#wa_simulator.vehicle.WALinearKinematicBicycle.get_simple_state">get_simple_state</a></li>
 </ul>
 </li>
 </ul>

@@ -154,6 +154,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../controller/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.controller</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../data_loader/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.data_loader</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../environment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.environment</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../path/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.path</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../simulation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.simulation</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../system/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.system</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../terrain/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.terrain</span></code></a></li>
@@ -216,8 +217,8 @@ to work. Currently not supported on Mac when the anaconda build is used</p>
 </dd>
 </dl>
 <dl class="py method">
-<dt id="wa_simulator.chrono.controller.WAIrrlichtController.Synchronize">
-<code class="sig-name descname">Synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">time</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.chrono.controller.WAIrrlichtController.Synchronize" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.chrono.controller.WAIrrlichtController.synchronize">
+<code class="sig-name descname">synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">time</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.chrono.controller.WAIrrlichtController.synchronize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Synchronize the irrlicht driver at the specified time</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -226,8 +227,8 @@ to work. Currently not supported on Mac when the anaconda build is used</p>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="wa_simulator.chrono.controller.WAIrrlichtController.Advance">
-<code class="sig-name descname">Advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.chrono.controller.WAIrrlichtController.Advance" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.chrono.controller.WAIrrlichtController.advance">
+<code class="sig-name descname">advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.chrono.controller.WAIrrlichtController.advance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Advance the irrlicht driver by the specified step</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -236,8 +237,8 @@ to work. Currently not supported on Mac when the anaconda build is used</p>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="wa_simulator.chrono.controller.WAIrrlichtController.GetInputs">
-<code class="sig-name descname">GetInputs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.chrono.controller.WAIrrlichtController.GetInputs" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.chrono.controller.WAIrrlichtController.get_inputs">
+<code class="sig-name descname">get_inputs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.chrono.controller.WAIrrlichtController.get_inputs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the vehicle inputs</p>
 <p>Overrides base class method. Converts a veh.DriverInputs to a WAVehicleInputs</p>
 <dl class="field-list simple">
@@ -309,9 +310,9 @@ to work. Currently not supported on Mac when the anaconda build is used</p>
 <li><a class="reference internal" href="#module-contents">Module Contents</a><ul>
 <li><a class="reference internal" href="#classes">Classes</a><ul>
 <li><a class="reference internal" href="#wa_simulator.chrono.controller.WAIrrlichtController">WAIrrlichtController</a><ul>
-<li><a class="reference internal" href="#wa_simulator.chrono.controller.WAIrrlichtController.Synchronize">Synchronize</a></li>
-<li><a class="reference internal" href="#wa_simulator.chrono.controller.WAIrrlichtController.Advance">Advance</a></li>
-<li><a class="reference internal" href="#wa_simulator.chrono.controller.WAIrrlichtController.GetInputs">GetInputs</a></li>
+<li><a class="reference internal" href="#wa_simulator.chrono.controller.WAIrrlichtController.synchronize">synchronize</a></li>
+<li><a class="reference internal" href="#wa_simulator.chrono.controller.WAIrrlichtController.advance">advance</a></li>
+<li><a class="reference internal" href="#wa_simulator.chrono.controller.WAIrrlichtController.get_inputs">get_inputs</a></li>
 </ul>
 </li>
 </ul>

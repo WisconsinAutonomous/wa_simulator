@@ -1,0 +1,31 @@
+:mod:`demo_path`
+================
+
+.. py:module:: demo_path
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   demo_path.main
+
+
+.. data:: parser
+   
+
+   
+
+.. data:: args
+   
+
+   
+
+.. function:: main()
+
+

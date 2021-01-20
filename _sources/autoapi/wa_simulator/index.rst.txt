@@ -24,6 +24,7 @@ Submodules
    controller/index.rst
    data_loader/index.rst
    environment/index.rst
+   path/index.rst
    simulation/index.rst
    system/index.rst
    terrain/index.rst

@@ -62,7 +62,7 @@ Classes
    This is done because in real life, those are the inputs our cars will have. The
    derived controller's (i.e. the new class that inherits from this class)
    responsibility is to take inputs from the simulation and return these values
-   through the GetInputs method.
+   through the get_inputs method.
 
    :param system: The system used to manage the simulation
    :type system: ChSystem
@@ -88,7 +88,7 @@ Classes
 
       
 
-   .. method:: Synchronize(self, time)
+   .. method:: synchronize(self, time)
       :abstractmethod:
 
       Synchronize the controller at the specified time
@@ -102,7 +102,7 @@ Classes
       :type time: double
 
 
-   .. method:: Advance(self, step)
+   .. method:: advance(self, step)
       :abstractmethod:
 
       Advance the controller by the specified step
@@ -111,7 +111,7 @@ Classes
       :type step: double
 
 
-   .. method:: GetInputs(self)
+   .. method:: get_inputs(self)
 
       Get the vehicle inputs
 
@@ -128,7 +128,7 @@ Classes
 
    Can be used for situations where controlling the vehicle isn't actually necessary
 
-   .. method:: Advance(self, step)
+   .. method:: advance(self, step)
 
       Advance the controller by the specified step
 
@@ -136,7 +136,7 @@ Classes
       :type step: double
 
 
-   .. method:: Synchronize(self, time)
+   .. method:: synchronize(self, time)
 
       Synchronize the controller at the specified time
 
@@ -177,7 +177,7 @@ Classes
    :param braking_gain: The gain braking value.
    :type braking_gain: double
 
-   .. method:: SetSteeringDelta(self, steering_delta)
+   .. method:: set_steering_delta(self, steering_delta)
 
       Sets the steering delta value
 
@@ -185,7 +185,7 @@ Classes
       :type steering_delta: double
 
 
-   .. method:: SetThrottleDelta(self, throttle_delta)
+   .. method:: set_throttle_delta(self, throttle_delta)
 
       Sets the throttle delta value
 
@@ -193,7 +193,7 @@ Classes
       :type throttle_delta: double
 
 
-   .. method:: SetBrakingDelta(self, braking_delta)
+   .. method:: set_braking_delta(self, braking_delta)
 
       Sets the braking delta value
 
@@ -201,7 +201,7 @@ Classes
       :type braking_delta: double
 
 
-   .. method:: SetGains(steering_gain, throttle_gain, braking_gain)
+   .. method:: set_gains(steering_gain, throttle_gain, braking_gain)
 
       Sets the controllers gains
 
@@ -213,7 +213,7 @@ Classes
       :type braking_gain: double
 
 
-   .. method:: Advance(self, step)
+   .. method:: advance(self, step)
 
       Advance the controller by the specified step
 
@@ -224,7 +224,7 @@ Classes
       :type step: double
 
 
-   .. method:: Update(self, key)
+   .. method:: update(self, key)
 
       Update the target values based on the key.
 
@@ -303,12 +303,12 @@ Classes
 
 
 
-   .. method:: KeyCheck(self)
+   .. method:: key_check(self)
 
       Get the key from the KeyGetter and update target values based on input.
 
 
-   .. method:: Synchronize(self, time)
+   .. method:: synchronize(self, time)
 
       Synchronize the controller at the specified time
 
@@ -330,7 +330,7 @@ Classes
    :param controllers: List of controllers.
    :type controllers: list
 
-   .. method:: Synchronize(self, time)
+   .. method:: synchronize(self, time)
 
       Synchronize each controller at the specified time
 
@@ -338,7 +338,7 @@ Classes
       :type time: double
 
 
-   .. method:: Advance(self, step)
+   .. method:: advance(self, step)
 
       Advance the state of each managed controller
 
@@ -346,7 +346,7 @@ Classes
       :type step: double
 
 
-   .. method:: GetInputs(self)
+   .. method:: get_inputs(self)
 
       Get the vehicle inputs
 
@@ -381,7 +381,7 @@ Classes
 
       :type: WAPIDLongitudinalController
 
-   .. method:: Synchronize(self, time)
+   .. method:: synchronize(self, time)
 
       Synchronize each controller at the specified time
 
@@ -389,7 +389,7 @@ Classes
       :type time: double
 
 
-   .. method:: Advance(self, step)
+   .. method:: advance(self, step)
 
       Advance the state of each controller
 
@@ -397,7 +397,7 @@ Classes
       :type step: double
 
 
-   .. method:: GetInputs(self)
+   .. method:: get_inputs(self)
 
       Get the vehicle inputs
 
@@ -486,7 +486,7 @@ Classes
 
       :type: double
 
-   .. method:: SetGains(self, Kp, Ki, Kd)
+   .. method:: set_gains(self, Kp, Ki, Kd)
 
       Set the gains
 
@@ -498,7 +498,7 @@ Classes
       :type Kd: double
 
 
-   .. method:: SetLookAheadDistance(self, dist)
+   .. method:: set_lookahead_distance(self, dist)
 
       Set the lookahead distance
 
@@ -506,7 +506,7 @@ Classes
       :type dist: double
 
 
-   .. method:: Synchronize(self, time)
+   .. method:: synchronize(self, time)
 
       Synchronize the controller at the passed time
 
@@ -516,7 +516,7 @@ Classes
       :type time: double
 
 
-   .. method:: Advance(self, step)
+   .. method:: advance(self, step)
 
       Advance the state of the controller by step
 
@@ -524,7 +524,7 @@ Classes
       :type step: double
 
 
-   .. method:: calcSign(self, state)
+   .. method:: calc_sign(self, state)
 
       Calculate the sign of the angle between the projections of the sentinel vector
       and the target vector (with origin at vehicle location).
@@ -606,7 +606,7 @@ Classes
 
       :type: double
 
-   .. method:: SetGains(self, Kp, Ki, Kd)
+   .. method:: set_gains(self, Kp, Ki, Kd)
 
       Set the gains
 
@@ -618,7 +618,7 @@ Classes
       :type Kd: double
 
 
-   .. method:: SetTargetSpeed(self, speed)
+   .. method:: set_target_speed(self, speed)
 
       Set the target speed for the controller
 
@@ -626,7 +626,7 @@ Classes
       :type speed: double
 
 
-   .. method:: Synchronize(self, time)
+   .. method:: synchronize(self, time)
 
       Synchronize the controller at the passed time
 
@@ -636,7 +636,7 @@ Classes
       :type time: double
 
 
-   .. method:: Advance(self, step)
+   .. method:: advance(self, step)
 
       Advance the state of the controller by step
 
@@ -664,7 +664,7 @@ Classes
 
       :type: WAMatplotlibVisualization
 
-   .. method:: Synchronize(self, time)
+   .. method:: synchronize(self, time)
 
       Synchronize the controller at the specified time
 

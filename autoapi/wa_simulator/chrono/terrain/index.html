@@ -154,6 +154,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../controller/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.controller</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../data_loader/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.data_loader</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../environment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.environment</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../path/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.path</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../simulation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.simulation</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../system/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.system</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../terrain/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.terrain</span></code></a></li>
@@ -209,14 +210,14 @@ in the LICENSE file at the top level of the repo</p>
 <col style="width: 90%"/>
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#wa_simulator.chrono.terrain.ReadTerrainModelFile" title="wa_simulator.chrono.terrain.ReadTerrainModelFile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ReadTerrainModelFile</span></code></a>(filename)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#wa_simulator.chrono.terrain.read_terrain_model_file" title="wa_simulator.chrono.terrain.read_terrain_model_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_terrain_model_file</span></code></a>(filename)</p></td>
 <td><p>Get the json specification file describing a ChTerrain</p></td>
 </tr>
 </tbody>
 </table></div>
 <dl class="py function">
-<dt id="wa_simulator.chrono.terrain.ReadTerrainModelFile">
-<code class="sig-prename descclassname">wa_simulator.chrono.terrain.</code><code class="sig-name descname">ReadTerrainModelFile</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.chrono.terrain.ReadTerrainModelFile" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.chrono.terrain.read_terrain_model_file">
+<code class="sig-prename descclassname">wa_simulator.chrono.terrain.</code><code class="sig-name descname">read_terrain_model_file</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.chrono.terrain.read_terrain_model_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the json specification file describing a ChTerrain</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -255,8 +256,8 @@ in the LICENSE file at the top level of the repo</p>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="wa_simulator.chrono.terrain.WAChronoTerrain.Synchronize">
-<code class="sig-name descname">Synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">time</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.chrono.terrain.WAChronoTerrain.Synchronize" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.chrono.terrain.WAChronoTerrain.synchronize">
+<code class="sig-name descname">synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">time</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.chrono.terrain.WAChronoTerrain.synchronize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Synchronize the terrain at the specified time</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -265,8 +266,8 @@ in the LICENSE file at the top level of the repo</p>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="wa_simulator.chrono.terrain.WAChronoTerrain.Advance">
-<code class="sig-name descname">Advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.chrono.terrain.WAChronoTerrain.Advance" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.chrono.terrain.WAChronoTerrain.advance">
+<code class="sig-name descname">advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.chrono.terrain.WAChronoTerrain.advance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Advance the terrain dynamics by the specified step</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -337,11 +338,11 @@ in the LICENSE file at the top level of the repo</p>
 <li><a class="reference internal" href="#module-contents">Module Contents</a><ul>
 <li><a class="reference internal" href="#classes">Classes</a></li>
 <li><a class="reference internal" href="#functions">Functions</a><ul>
-<li><a class="reference internal" href="#wa_simulator.chrono.terrain.ReadTerrainModelFile">ReadTerrainModelFile</a></li>
+<li><a class="reference internal" href="#wa_simulator.chrono.terrain.read_terrain_model_file">read_terrain_model_file</a></li>
 <li><a class="reference internal" href="#wa_simulator.chrono.terrain.WAChronoTerrain">WAChronoTerrain</a><ul>
 <li><a class="reference internal" href="#wa_simulator.chrono.terrain.WAChronoTerrain.terrain">terrain</a></li>
-<li><a class="reference internal" href="#wa_simulator.chrono.terrain.WAChronoTerrain.Synchronize">Synchronize</a></li>
-<li><a class="reference internal" href="#wa_simulator.chrono.terrain.WAChronoTerrain.Advance">Advance</a></li>
+<li><a class="reference internal" href="#wa_simulator.chrono.terrain.WAChronoTerrain.synchronize">synchronize</a></li>
+<li><a class="reference internal" href="#wa_simulator.chrono.terrain.WAChronoTerrain.advance">advance</a></li>
 </ul>
 </li>
 </ul>

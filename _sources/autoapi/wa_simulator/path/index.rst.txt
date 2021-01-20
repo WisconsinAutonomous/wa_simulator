@@ -1,0 +1,158 @@
+:mod:`wa_simulator.path`
+========================
+
+.. py:module:: wa_simulator.path
+
+.. autoapi-nested-parse::
+
+   Wisconsin Autonomous - https://www.wisconsinautonomous.org
+
+   Copyright (c) 2021 wisconsinautonomous.org
+   All rights reserved.
+
+   Use of this source code is governed by a BSD-style license that can be found
+   in the LICENSE file at the top level of the repo
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   wa_simulator.path.WAPath
+   wa_simulator.path.WASplinePath
+   wa_simulator.path.WABezierPath
+
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   wa_simulator.path.calc_path_length_cummulative
+   wa_simulator.path.calc_path_curvature
+
+
+.. function:: calc_path_length_cummulative(x, y)
+
+   Get the cummulative distance along a path provided the given x and y position values
+
+   :param x: x coordinates
+   :type x: np.ndarray
+   :param y: y coordinates
+   :type y: np.ndarray
+
+   :returns: the cummulative distance along the path
+   :rtype: np.ndarray
+
+
+.. function:: calc_path_curvature(dx, dy, ddx, ddy)
+
+   Calculate the curvature of a path at each point
+
+   :param dx: first x derivative
+   :type dx: np.ndarray
+   :param dy: first y derivative
+   :type dy: np.ndarray
+   :param ddx: second x derivative
+   :type ddx: np.ndarray
+   :param ddy: second y derivative
+   :type ddy: np.ndarray
+
+   :returns: the curvature at each point
+   :rtype: np.ndarray
+
+
+.. py:class:: WAPath
+
+   Base Path object. To be used to generate paths or trajectories for path planning and/or path following
+
+   .. method:: calc_closest_point(self, pos)
+      :abstractmethod:
+
+      Calcualte the closest point on the path from the passed position
+
+      :param pos: the position to find the closest point on the path to
+      :type pos: wa.WAVector
+
+      :returns: the closest point on the path
+      :rtype: wa.WAVector
+
+
+   .. method:: plot(self)
+      :abstractmethod:
+
+      Plot the path. Most likely plotter is matplotlib, but technically anything can be used.
+
+
+
+.. py:class:: WASplinePath(waypoints, num_points=100, smoothness=0.0, is_closed=True)
+
+   Bases: :class:`wa_simulator.path.WAPath`
+
+   Base Path object. To be used to generate paths or trajectories for path planning and/or path following
+
+   .. method:: calc_closest_point(self, pos)
+
+      Calcualte the closest point on the path from the passed position
+
+      :param pos: the position to find the closest point on the path to
+      :type pos: wa.WAVector
+
+      :returns: the closest point on the path
+      :rtype: wa.WAVector
+
+
+   .. method:: plot(self, *args, show=True, **kwargs)
+
+      Plot the path
+
+      :param show: show the plot window. Defaults to True.
+      :type show: bool, optional
+
+
+   .. method:: calc_length_cummulative(self)
+
+      Get the cummulative distance along the path
+
+      :returns: Cummulative distance along the path
+      :rtype: np.ndarray
+
+
+   .. method:: calc_curvature(self)
+
+      Get the curvature at each point on the path
+
+      :returns: Curvature at each point on the path
+      :rtype: np.ndarray
+
+
+
+.. py:class:: WABezierPath
+
+   Bases: :class:`wa_simulator.path.WAPath`
+
+   Base Path object. To be used to generate paths or trajectories for path planning and/or path following
+
+   .. method:: calc_closest_point(self, pos)
+
+      Calcualte the closest point on the path from the passed position
+
+      :param pos: the position to find the closest point on the path to
+      :type pos: wa.WAVector
+
+      :returns: the closest point on the path
+      :rtype: wa.WAVector
+
+
+   .. method:: plot(self)
+
+      Plot the path.
+
+
+

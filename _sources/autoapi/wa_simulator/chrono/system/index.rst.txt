@@ -44,14 +44,14 @@ Classes
 
    :raises TypeError: verify the contact method is a string
 
-   .. method:: Advance(self)
+   .. method:: advance(self)
 
       Advance the simulation.
 
       Will update the dynamics of the chrono simulation
 
 
-   .. method:: GetSimTime(self)
+   .. method:: get_sim_time(self)
 
       Get the simulation time.
 

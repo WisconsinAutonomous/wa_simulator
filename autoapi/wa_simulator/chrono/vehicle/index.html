@@ -154,6 +154,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../controller/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.controller</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../data_loader/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.data_loader</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../environment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.environment</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../path/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.path</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../simulation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.simulation</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../system/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.system</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../terrain/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.terrain</span></code></a></li>
@@ -294,8 +295,8 @@ in the LICENSE file at the top level of the repo</p>
 <code class="sig-name descname">IAC_VEH_MODEL_FILE</code><em class="property"> = IAC/IAC.json</em><a class="headerlink" href="#wa_simulator.chrono.vehicle.WAChronoVehicle.IAC_VEH_MODEL_FILE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="py method">
-<dt id="wa_simulator.chrono.vehicle.WAChronoVehicle.Advance">
-<code class="sig-name descname">Advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.chrono.vehicle.WAChronoVehicle.Advance" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.chrono.vehicle.WAChronoVehicle.advance">
+<code class="sig-name descname">advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.chrono.vehicle.WAChronoVehicle.advance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Perform a dynamics update</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -304,8 +305,8 @@ in the LICENSE file at the top level of the repo</p>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="wa_simulator.chrono.vehicle.WAChronoVehicle.Synchronize">
-<code class="sig-name descname">Synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">time</span></em>, <em class="sig-param"><span class="n">vehicle_inputs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.chrono.vehicle.WAChronoVehicle.Synchronize" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.chrono.vehicle.WAChronoVehicle.synchronize">
+<code class="sig-name descname">synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">time</span></em>, <em class="sig-param"><span class="n">vehicle_inputs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.chrono.vehicle.WAChronoVehicle.synchronize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Synchronize the vehicle with the vehicle inputs at the passed time</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -317,8 +318,8 @@ in the LICENSE file at the top level of the repo</p>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="wa_simulator.chrono.vehicle.WAChronoVehicle.GetSimpleState">
-<code class="sig-name descname">GetSimpleState</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.chrono.vehicle.WAChronoVehicle.GetSimpleState" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.chrono.vehicle.WAChronoVehicle.get_simple_state">
+<code class="sig-name descname">get_simple_state</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.chrono.vehicle.WAChronoVehicle.get_simple_state" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get a simple state representation of the vehicle.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -399,9 +400,9 @@ in the LICENSE file at the top level of the repo</p>
 <li><a class="reference internal" href="#wa_simulator.chrono.vehicle.WAChronoVehicle.terrain">terrain</a></li>
 <li><a class="reference internal" href="#wa_simulator.chrono.vehicle.WAChronoVehicle.GO_KART_MODEL_FILE">GO_KART_MODEL_FILE</a></li>
 <li><a class="reference internal" href="#wa_simulator.chrono.vehicle.WAChronoVehicle.IAC_VEH_MODEL_FILE">IAC_VEH_MODEL_FILE</a></li>
-<li><a class="reference internal" href="#wa_simulator.chrono.vehicle.WAChronoVehicle.Advance">Advance</a></li>
-<li><a class="reference internal" href="#wa_simulator.chrono.vehicle.WAChronoVehicle.Synchronize">Synchronize</a></li>
-<li><a class="reference internal" href="#wa_simulator.chrono.vehicle.WAChronoVehicle.GetSimpleState">GetSimpleState</a></li>
+<li><a class="reference internal" href="#wa_simulator.chrono.vehicle.WAChronoVehicle.advance">advance</a></li>
+<li><a class="reference internal" href="#wa_simulator.chrono.vehicle.WAChronoVehicle.synchronize">synchronize</a></li>
+<li><a class="reference internal" href="#wa_simulator.chrono.vehicle.WAChronoVehicle.get_simple_state">get_simple_state</a></li>
 </ul>
 </li>
 </ul>

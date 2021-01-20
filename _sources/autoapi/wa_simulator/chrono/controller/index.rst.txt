@@ -41,7 +41,7 @@ Classes
    :param system: the system
    :type system: WASystem
 
-   .. method:: Synchronize(self, time)
+   .. method:: synchronize(self, time)
 
       Synchronize the irrlicht driver at the specified time
 
@@ -49,7 +49,7 @@ Classes
       :type time: double
 
 
-   .. method:: Advance(self, step)
+   .. method:: advance(self, step)
 
       Advance the irrlicht driver by the specified step
 
@@ -57,7 +57,7 @@ Classes
       :type step: double
 
 
-   .. method:: GetInputs(self)
+   .. method:: get_inputs(self)
 
       Get the vehicle inputs
 

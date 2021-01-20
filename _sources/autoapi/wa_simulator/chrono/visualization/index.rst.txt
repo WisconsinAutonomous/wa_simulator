@@ -56,7 +56,7 @@ Classes
 
       :type: ChVehicleIrrApp
 
-   .. method:: Advance(self, step)
+   .. method:: advance(self, step)
 
       Advance the state of the visualization by the specified step
 
@@ -66,7 +66,7 @@ Classes
       :type step: double
 
 
-   .. method:: Synchronize(self, time, vehicle_inputs)
+   .. method:: synchronize(self, time, vehicle_inputs)
 
       Synchronize the irrlicht app with the vehicle inputs at the passed time
 
@@ -76,7 +76,7 @@ Classes
       :type vehicle_inputs: WAVehicleInputs
 
 
-   .. method:: IsOk(self)
+   .. method:: is_ok(self)
 
       Checks if the irrlicht rending window is still alive
 

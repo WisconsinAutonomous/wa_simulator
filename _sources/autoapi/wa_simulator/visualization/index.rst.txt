@@ -39,7 +39,7 @@ Classes
 
    Derived classes will use various world attributes to visualize the simulation
 
-   .. method:: Synchronize(self, time, vehicle_inputs)
+   .. method:: synchronize(self, time, vehicle_inputs)
       :abstractmethod:
 
       Synchronize the visualization at the specified time with the passed vehicle inputs
@@ -50,7 +50,7 @@ Classes
       :type vehicle_inputs: WAVehicleInputs
 
 
-   .. method:: Advance(self, step)
+   .. method:: advance(self, step)
       :abstractmethod:
 
       Advance the state of the visualization by the specified step
@@ -59,7 +59,7 @@ Classes
       :type step: double
 
 
-   .. method:: IsOk(self)
+   .. method:: is_ok(self)
       :abstractmethod:
 
       Verifies the visualization is running properly.
@@ -71,7 +71,7 @@ Classes
 
 .. py:class:: SimState(outline=None, rr_wheel=None, rl_wheel=None, fr_wheel=None, fl_wheel=None, steering=None, throttle=None, braking=None, time=None, speed=None)
 
-   .. method:: Get(self)
+   .. method:: get(self)
 
       Get the class variables
 
@@ -269,7 +269,7 @@ Classes
 
          :type: plt.Text
 
-      .. method:: Initialize(self, q, input_q)
+      .. method:: initialize(self, q, input_q)
 
          Initialize the matplotlib visual assets to be updated through the simulation. Initially plotted at (0,0).
 
@@ -279,10 +279,10 @@ Classes
          :type input_q: multiprocessing.Queue
 
 
-      .. method:: KeyPress(self, event)
+      .. method:: key_press(self, event)
 
 
-      .. method:: Update(self, i)
+      .. method:: update(self, i)
 
          Update the state of the vehicle in the visualization
 
@@ -292,7 +292,7 @@ Classes
          :type i: int
 
 
-      .. method:: Plot(self, q, input_q)
+      .. method:: plot(self, q, input_q)
 
          "Main" function that sets up the plotter and runs the blocking FuncAnimation update.
 
@@ -303,7 +303,7 @@ Classes
 
 
 
-   .. method:: Synchronize(self, time, vehicle_inputs)
+   .. method:: synchronize(self, time, vehicle_inputs)
 
       Synchronize the vehicle inputs to the values in this visualization
 
@@ -315,7 +315,7 @@ Classes
       :type vehicle_inputs: WAVehicleInputs
 
 
-   .. method:: Advance(self, step)
+   .. method:: advance(self, step)
 
       Advance the state of the visualization by the specified step
 
@@ -325,7 +325,7 @@ Classes
       :type step: double
 
 
-   .. method:: Transform(self, entity, x, y, yaw, alpha=0, x_offset=0, y_offset=0)
+   .. method:: transform(self, entity, x, y, yaw, alpha=0, x_offset=0, y_offset=0)
 
       Helper function to transfrom a numpy entity by the specified values
 
@@ -348,14 +348,14 @@ Classes
       :rtype: np.array
 
 
-   .. method:: Update(self)
+   .. method:: update(self)
 
       Update the state of the vehicle representation.
 
       After updating, will push the state to the queue to be read by the VehiclePlotter
 
 
-   .. method:: IsOk(self)
+   .. method:: is_ok(self)
 
       Checks if the rendering process is still alive
 
@@ -363,7 +363,7 @@ Classes
       :rtype: bool
 
 
-   .. method:: CheckForKeyPresses(self, check_for_key_presses)
+   .. method:: set_check_for_key_presses(self, check_for_key_presses)
 
       Will tell the VehiclePlotter to check for keypresses
 
@@ -371,7 +371,7 @@ Classes
       :type check_for_key_presses: bool
 
 
-   .. method:: GetKeyInput(self)
+   .. method:: get_key_input(self)
 
       Will get the key input and reset it to None
 
@@ -549,7 +549,7 @@ Classes
 
          :type: plt.Text
 
-      .. method:: Update(self, state)
+      .. method:: update(self, state)
 
          Update the state of the vehicle in the visualization
 
@@ -560,7 +560,7 @@ Classes
 
 
 
-   .. method:: Synchronize(self, time, vehicle_inputs)
+   .. method:: synchronize(self, time, vehicle_inputs)
 
       Synchronize the vehicle inputs to the values in this visualization
 
@@ -572,7 +572,7 @@ Classes
       :type vehicle_inputs: WAVehicleInputs
 
 
-   .. method:: Advance(self, step)
+   .. method:: advance(self, step)
 
       Advance the state of the visualization by the specified step
 
@@ -582,7 +582,7 @@ Classes
       :type step: double
 
 
-   .. method:: Transform(self, entity, x, y, yaw, alpha=0, x_offset=0, y_offset=0)
+   .. method:: transform(self, entity, x, y, yaw, alpha=0, x_offset=0, y_offset=0)
 
       Helper function to transfrom a numpy entity by the specified values
 
@@ -605,14 +605,14 @@ Classes
       :rtype: np.array
 
 
-   .. method:: Update(self)
+   .. method:: update(self)
 
       Update the state of the vehicle representation.
 
       After updating, will push the state to the queue to be read by the VehiclePlotter
 
 
-   .. method:: IsOk(self)
+   .. method:: is_ok(self)
 
       Checks if the rendering process is still alive
 
@@ -620,7 +620,7 @@ Classes
       :rtype: bool
 
 
-   .. method:: CheckForKeyPresses(self, check_for_key_presses)
+   .. method:: check_for_key_presses(self, check_for_key_presses)
 
       Will set a callback for key presses
 
@@ -628,7 +628,7 @@ Classes
       :type check_for_key_presses: bool
 
 
-   .. method:: KeyPress(self, event)
+   .. method:: key_press(self, event)
 
       Get the key input
 
@@ -636,7 +636,7 @@ Classes
       :type event: plt.KeyEvent
 
 
-   .. method:: GetKeyInput(self)
+   .. method:: get_key_input(self)
 
       Will get the key input and reset it to None
 
@@ -654,7 +654,7 @@ Classes
    :param visualizations: List of visualizations.
    :type visualizations: list
 
-   .. method:: Synchronize(self, time, vehicle_inputs)
+   .. method:: synchronize(self, time, vehicle_inputs)
 
       Synchronize each visualization at the specified time
 
@@ -664,7 +664,7 @@ Classes
       :type vehicle_inputs: WAVehicleInputs
 
 
-   .. method:: Advance(self, step)
+   .. method:: advance(self, step)
 
       Advance the state of each managed visualization
 

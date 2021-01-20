@@ -154,6 +154,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../controller/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.controller</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../data_loader/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.data_loader</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../environment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.environment</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../path/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.path</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../simulation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.simulation</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../system/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.system</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../terrain/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.terrain</span></code></a></li>
@@ -180,6 +181,11 @@
         </label>
         <div class="section" id="module-wa_simulator.vector">
 <span id="wa-simulator-vector"></span><h1><a class="reference internal" href="#module-wa_simulator.vector" title="wa_simulator.vector"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.vector</span></code></a><a class="headerlink" href="#module-wa_simulator.vector" title="Permalink to this headline">¶</a></h1>
+<p>Wisconsin Autonomous - <a class="reference external" href="https://www.wisconsinautonomous.org">https://www.wisconsinautonomous.org</a></p>
+<p>Copyright (c) 2021 wisconsinautonomous.org
+All rights reserved.</p>
+<p>Use of this source code is governed by a BSD-style license that can be found
+in the LICENSE file at the top level of the repo</p>
 <div class="section" id="module-contents">
 <h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="classes">
@@ -191,7 +197,7 @@
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#wa_simulator.vector.WAVector" title="wa_simulator.vector.WAVector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WAVector</span></code></a></p></td>
-<td><p>n-dimensional vector used for locations.</p></td>
+<td><p>Wrapper of a numpy array to allow for x,y,z properties</p></td>
 </tr>
 </tbody>
 </table></div>
@@ -199,49 +205,132 @@
 <dt id="wa_simulator.vector.WAVector">
 <em class="property">class </em><code class="sig-prename descclassname">wa_simulator.vector.</code><code class="sig-name descname">WAVector</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">shape</span></em>, <em class="sig-param"><span class="n">dtype</span><span class="o">=</span><span class="default_value">float</span></em>, <em class="sig-param"><span class="n">buffer</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">offset</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">strides</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">order</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.vector.WAVector" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></p>
-<p>n-dimensional vector used for locations.
-inherits +, -, * (as dot-product)
-&gt; p1 = WAVector([1, 2])
+<p>Wrapper of a numpy array to allow for x,y,z properties</p>
+<dl class="simple">
+<dt>Usage:</dt><dd><p>&gt; p1 = WAVector([1, 2])
 &gt; p2 = WAVector([4, 5])
 &gt; p1 + p2
 WAVector([5, 7])</p>
+</dd>
+</dl>
 <dl class="py method">
 <dt id="wa_simulator.vector.WAVector.__eq__">
 <code class="sig-name descname">__eq__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">other</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.vector.WAVector.__eq__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return self==value.</p>
+<dd><p>Check if two vectors are equal</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>other</strong> (<em>wa.WAVector</em>) – the vector to cross check with</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>whether the values of the vectors are equal</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
 </dd></dl>
 <dl class="py method">
 <dt id="wa_simulator.vector.WAVector.__ne__">
 <code class="sig-name descname">__ne__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">other</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.vector.WAVector.__ne__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return self!=value.</p>
+<dd><p>Check if two vectors are not equal</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>other</strong> (<em>wa.WAVector</em>) – the vector to cross check with</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>whethe values of the vectors are not equal</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
 </dd></dl>
 <dl class="py method">
 <dt id="wa_simulator.vector.WAVector.__iter__">
 <code class="sig-name descname">__iter__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.vector.WAVector.__iter__" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Iterate over the x,y,z properties</p>
+<dl class="field-list simple">
+<dt class="field-odd">Yields</dt>
+<dd class="field-odd"><p><em>float</em> – the x, y or z value</p>
+</dd>
+</dl>
+</dd></dl>
 <dl class="py method">
 <dt id="wa_simulator.vector.WAVector.__sub__">
 <code class="sig-name descname">__sub__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">other</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.vector.WAVector.__sub__" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Substract a vector from this vector</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>other</strong> (<em>wa.WAVector</em>) – the other vector to substract from this vector</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the result</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>wa.WAVector</p>
+</dd>
+</dl>
+</dd></dl>
 <dl class="py method">
 <dt id="wa_simulator.vector.WAVector.x">
 <em class="property">property </em><code class="sig-name descname">x</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.vector.WAVector.x" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get 1st element. Exit if undefined.</p>
+<dd><p>Get first element</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>Exception</strong> – exit if undefined</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the 1st element</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>any</p>
+</dd>
+</dl>
 </dd></dl>
 <dl class="py method">
 <dt id="wa_simulator.vector.WAVector.y">
 <em class="property">property </em><code class="sig-name descname">y</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.vector.WAVector.y" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get 2nd element. Exit if undefined.</p>
+<dd><p>Get the second element</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>Exception</strong> – Exits if undefined</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the second element</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>any</p>
+</dd>
+</dl>
 </dd></dl>
 <dl class="py method">
 <dt id="wa_simulator.vector.WAVector.z">
 <em class="property">property </em><code class="sig-name descname">z</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.vector.WAVector.z" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get 3rd element. Exit if undefined.</p>
+<dd><p>Get the third element</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>Exception</strong> – Exits if undefined</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the third element</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>any</p>
+</dd>
+</dl>
 </dd></dl>
 <dl class="py method">
-<dt id="wa_simulator.vector.WAVector.Length">
-<code class="sig-name descname">Length</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.vector.WAVector.Length" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get euclidean length of this WAVector</p>
+<dt id="wa_simulator.vector.WAVector.length">
+<code class="sig-name descname">length</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.vector.WAVector.length" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the euclidean length of this vector</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the euclidean length</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
 </dd></dl>
 </dd></dl>
 </div>
@@ -313,7 +402,7 @@ WAVector([5, 7])</p>
 <li><a class="reference internal" href="#wa_simulator.vector.WAVector.x">x</a></li>
 <li><a class="reference internal" href="#wa_simulator.vector.WAVector.y">y</a></li>
 <li><a class="reference internal" href="#wa_simulator.vector.WAVector.z">z</a></li>
-<li><a class="reference internal" href="#wa_simulator.vector.WAVector.Length">Length</a></li>
+<li><a class="reference internal" href="#wa_simulator.vector.WAVector.length">length</a></li>
 </ul>
 </li>
 </ul>

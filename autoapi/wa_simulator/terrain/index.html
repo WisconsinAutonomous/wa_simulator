@@ -154,6 +154,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../controller/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.controller</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../data_loader/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.data_loader</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../environment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.environment</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../path/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.path</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../simulation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.simulation</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../system/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.system</span></code></a></li>
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.terrain</span></code></a></li>
@@ -207,8 +208,8 @@ in the LICENSE file at the top level of the repo</p>
 <p>Base class for the terrain object</p>
 <p>Maintains knowledge of the terrain or “ground” that a vehicle interacts with.</p>
 <dl class="py method">
-<dt id="wa_simulator.terrain.WATerrain.Synchronize">
-<em class="property">abstract </em><code class="sig-name descname">Synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">time</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.terrain.WATerrain.Synchronize" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.terrain.WATerrain.synchronize">
+<em class="property">abstract </em><code class="sig-name descname">synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">time</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.terrain.WATerrain.synchronize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Synchronize the terrain at the specified time</p>
 <p>Function is primarily as a semantic separation between different functionality.
 Most of the time, all terrain logic can be placed in the Advance method.</p>
@@ -219,8 +220,8 @@ Most of the time, all terrain logic can be placed in the Advance method.</p>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="wa_simulator.terrain.WATerrain.Advance">
-<em class="property">abstract </em><code class="sig-name descname">Advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.terrain.WATerrain.Advance" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.terrain.WATerrain.advance">
+<em class="property">abstract </em><code class="sig-name descname">advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.terrain.WATerrain.advance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Advance the terrain by the specified step</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -291,8 +292,8 @@ Most of the time, all terrain logic can be placed in the Advance method.</p>
 <li><a class="reference internal" href="#module-contents">Module Contents</a><ul>
 <li><a class="reference internal" href="#classes">Classes</a><ul>
 <li><a class="reference internal" href="#wa_simulator.terrain.WATerrain">WATerrain</a><ul>
-<li><a class="reference internal" href="#wa_simulator.terrain.WATerrain.Synchronize">Synchronize</a></li>
-<li><a class="reference internal" href="#wa_simulator.terrain.WATerrain.Advance">Advance</a></li>
+<li><a class="reference internal" href="#wa_simulator.terrain.WATerrain.synchronize">synchronize</a></li>
+<li><a class="reference internal" href="#wa_simulator.terrain.WATerrain.advance">advance</a></li>
 </ul>
 </li>
 </ul>

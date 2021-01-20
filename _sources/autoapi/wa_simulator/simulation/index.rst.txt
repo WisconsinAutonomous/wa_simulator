@@ -34,7 +34,7 @@ Classes
    Helper class that provides a standard way to create an ABC using
    inheritance.
 
-   .. method:: Record(self, filename)
+   .. method:: record(self, filename)
 
       Save simulation state. Only saves the vehicle simple state
 
@@ -42,7 +42,7 @@ Classes
       :type filename: str
 
 
-   .. method:: Synchronize(self, time)
+   .. method:: synchronize(self, time)
 
       Synchronize each simulation module.
 
@@ -52,7 +52,7 @@ Classes
       :type time: double
 
 
-   .. method:: Advance(self, step)
+   .. method:: advance(self, step)
 
       Advance each simulation module.
 
@@ -60,14 +60,14 @@ Classes
       :type step: double
 
 
-   .. method:: Run(self)
+   .. method:: run(self)
 
       Run the simulation
 
       Can be used to clear up main functions.
 
 
-   .. method:: IsOk(self)
+   .. method:: is_ok(self)
 
       Verifies the simulation is running as expected.
 

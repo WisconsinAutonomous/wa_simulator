@@ -97,7 +97,7 @@ Functions
 
       
 
-   .. method:: Advance(self, step)
+   .. method:: advance(self, step)
 
       Perform a dynamics update
 
@@ -105,7 +105,7 @@ Functions
       :type step: double
 
 
-   .. method:: Synchronize(self, time, vehicle_inputs)
+   .. method:: synchronize(self, time, vehicle_inputs)
 
       Synchronize the vehicle with the vehicle inputs at the passed time
 
@@ -115,7 +115,7 @@ Functions
       :type vehicle_inputs: WAVehicleInputs
 
 
-   .. method:: GetSimpleState(self)
+   .. method:: get_simple_state(self)
 
       Get a simple state representation of the vehicle.
 

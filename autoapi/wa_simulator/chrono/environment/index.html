@@ -154,6 +154,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../controller/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.controller</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../data_loader/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.data_loader</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../environment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.environment</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../path/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.path</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../simulation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.simulation</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../system/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.system</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../terrain/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.terrain</span></code></a></li>
@@ -234,8 +235,8 @@ in the LICENSE file at the top level of the repo</p>
 <code class="sig-name descname">IAC_ENV_MODEL_FILE</code><em class="property"> = environments/iac.json</em><a class="headerlink" href="#wa_simulator.chrono.environment.WAChronoEnvironment.IAC_ENV_MODEL_FILE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="py method">
-<dt id="wa_simulator.chrono.environment.WAChronoEnvironment.Synchronize">
-<code class="sig-name descname">Synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">time</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.chrono.environment.WAChronoEnvironment.Synchronize" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.chrono.environment.WAChronoEnvironment.synchronize">
+<code class="sig-name descname">synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">time</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.chrono.environment.WAChronoEnvironment.synchronize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Synchronize the environment. Will just synchronize the terrain</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -244,8 +245,8 @@ in the LICENSE file at the top level of the repo</p>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="wa_simulator.chrono.environment.WAChronoEnvironment.Advance">
-<code class="sig-name descname">Advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.chrono.environment.WAChronoEnvironment.Advance" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.chrono.environment.WAChronoEnvironment.advance">
+<code class="sig-name descname">advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.chrono.environment.WAChronoEnvironment.advance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Advance the environment by the step size. Will just advance the terrain.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -319,8 +320,8 @@ in the LICENSE file at the top level of the repo</p>
 <li><a class="reference internal" href="#wa_simulator.chrono.environment.WAChronoEnvironment.terrain">terrain</a></li>
 <li><a class="reference internal" href="#wa_simulator.chrono.environment.WAChronoEnvironment.EGP_ENV_MODEL_FILE">EGP_ENV_MODEL_FILE</a></li>
 <li><a class="reference internal" href="#wa_simulator.chrono.environment.WAChronoEnvironment.IAC_ENV_MODEL_FILE">IAC_ENV_MODEL_FILE</a></li>
-<li><a class="reference internal" href="#wa_simulator.chrono.environment.WAChronoEnvironment.Synchronize">Synchronize</a></li>
-<li><a class="reference internal" href="#wa_simulator.chrono.environment.WAChronoEnvironment.Advance">Advance</a></li>
+<li><a class="reference internal" href="#wa_simulator.chrono.environment.WAChronoEnvironment.synchronize">synchronize</a></li>
+<li><a class="reference internal" href="#wa_simulator.chrono.environment.WAChronoEnvironment.advance">advance</a></li>
 </ul>
 </li>
 </ul>

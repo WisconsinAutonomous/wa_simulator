@@ -58,7 +58,7 @@ Classes
 
       
 
-   .. method:: Synchronize(self, time)
+   .. method:: synchronize(self, time)
 
       Synchronize the environment. Will just synchronize the terrain
 
@@ -66,7 +66,7 @@ Classes
       :type time: [type]
 
 
-   .. method:: Advance(self, step)
+   .. method:: advance(self, step)
 
       Advance the environment by the step size. Will just advance the terrain.
 

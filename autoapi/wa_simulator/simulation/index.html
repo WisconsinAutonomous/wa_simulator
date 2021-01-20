@@ -1,7 +1,7 @@
 <!doctype html>
 <html class="no-js">
   <head><meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="wa_simulator.system" href="../system/index.html" /><link rel="prev" title="wa_simulator.environment" href="../environment/index.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="wa_simulator.system" href="../system/index.html" /><link rel="prev" title="wa_simulator.path" href="../path/index.html" />
 
     <link rel="shortcut icon" href="../../../_static/wa-dark-favicon.png"/><meta name="generator" content="sphinx-3.4.2, furo 2020.12.30.beta24"/>
         <title>wa_simulator.simulation - Wisconsin Autonomous Simulator 0.0.1 documentation</title>
@@ -154,6 +154,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../controller/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.controller</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../data_loader/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.data_loader</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../environment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.environment</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../path/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.path</span></code></a></li>
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.simulation</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../system/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.system</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../terrain/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.terrain</span></code></a></li>
@@ -207,8 +208,8 @@ in the LICENSE file at the top level of the repo</p>
 <p>Helper class that provides a standard way to create an ABC using
 inheritance.</p>
 <dl class="py method">
-<dt id="wa_simulator.simulation.WASimulation.Record">
-<code class="sig-name descname">Record</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">filename</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.simulation.WASimulation.Record" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.simulation.WASimulation.record">
+<code class="sig-name descname">record</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">filename</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.simulation.WASimulation.record" title="Permalink to this definition">¶</a></dt>
 <dd><p>Save simulation state. Only saves the vehicle simple state</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -217,8 +218,8 @@ inheritance.</p>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="wa_simulator.simulation.WASimulation.Synchronize">
-<code class="sig-name descname">Synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">time</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.simulation.WASimulation.Synchronize" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.simulation.WASimulation.synchronize">
+<code class="sig-name descname">synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">time</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.simulation.WASimulation.synchronize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Synchronize each simulation module.</p>
 <p>Will pass information between simulation modules</p>
 <dl class="field-list simple">
@@ -228,8 +229,8 @@ inheritance.</p>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="wa_simulator.simulation.WASimulation.Advance">
-<code class="sig-name descname">Advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.simulation.WASimulation.Advance" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.simulation.WASimulation.advance">
+<code class="sig-name descname">advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.simulation.WASimulation.advance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Advance each simulation module.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -238,14 +239,14 @@ inheritance.</p>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="wa_simulator.simulation.WASimulation.Run">
-<code class="sig-name descname">Run</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.simulation.WASimulation.Run" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.simulation.WASimulation.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.simulation.WASimulation.run" title="Permalink to this definition">¶</a></dt>
 <dd><p>Run the simulation</p>
 <p>Can be used to clear up main functions.</p>
 </dd></dl>
 <dl class="py method">
-<dt id="wa_simulator.simulation.WASimulation.IsOk">
-<code class="sig-name descname">IsOk</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.simulation.WASimulation.IsOk" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.simulation.WASimulation.is_ok">
+<code class="sig-name descname">is_ok</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.simulation.WASimulation.is_ok" title="Permalink to this definition">¶</a></dt>
 <dd><p>Verifies the simulation is running as expected.</p>
 <p>Checks the visualization if it’s still active. Should probably check other
 modules for any errors.</p>
@@ -276,14 +277,14 @@ modules for any errors.</p>
               </div>
               <svg><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="../environment/index.html">
+          <a class="prev-page" href="../path/index.html">
               <svg><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.environment</span></code></div>
+                <div class="title"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.path</span></code></div>
                 
               </div>
             </a>
@@ -321,11 +322,11 @@ modules for any errors.</p>
 <li><a class="reference internal" href="#module-contents">Module Contents</a><ul>
 <li><a class="reference internal" href="#classes">Classes</a><ul>
 <li><a class="reference internal" href="#wa_simulator.simulation.WASimulation">WASimulation</a><ul>
-<li><a class="reference internal" href="#wa_simulator.simulation.WASimulation.Record">Record</a></li>
-<li><a class="reference internal" href="#wa_simulator.simulation.WASimulation.Synchronize">Synchronize</a></li>
-<li><a class="reference internal" href="#wa_simulator.simulation.WASimulation.Advance">Advance</a></li>
-<li><a class="reference internal" href="#wa_simulator.simulation.WASimulation.Run">Run</a></li>
-<li><a class="reference internal" href="#wa_simulator.simulation.WASimulation.IsOk">IsOk</a></li>
+<li><a class="reference internal" href="#wa_simulator.simulation.WASimulation.record">record</a></li>
+<li><a class="reference internal" href="#wa_simulator.simulation.WASimulation.synchronize">synchronize</a></li>
+<li><a class="reference internal" href="#wa_simulator.simulation.WASimulation.advance">advance</a></li>
+<li><a class="reference internal" href="#wa_simulator.simulation.WASimulation.run">run</a></li>
+<li><a class="reference internal" href="#wa_simulator.simulation.WASimulation.is_ok">is_ok</a></li>
 </ul>
 </li>
 </ul>

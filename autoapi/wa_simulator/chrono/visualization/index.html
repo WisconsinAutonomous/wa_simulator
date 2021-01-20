@@ -154,6 +154,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../controller/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.controller</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../data_loader/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.data_loader</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../environment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.environment</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../path/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.path</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../simulation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.simulation</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../system/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.system</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../terrain/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.terrain</span></code></a></li>
@@ -244,8 +245,8 @@ in the LICENSE file at the top level of the repo</p>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="wa_simulator.chrono.visualization.WAChronoIrrlicht.Advance">
-<code class="sig-name descname">Advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.chrono.visualization.WAChronoIrrlicht.Advance" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.chrono.visualization.WAChronoIrrlicht.advance">
+<code class="sig-name descname">advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.chrono.visualization.WAChronoIrrlicht.advance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Advance the state of the visualization by the specified step</p>
 <p>Will update the render only if the simulation step is a multiple of render steps</p>
 <dl class="field-list simple">
@@ -255,8 +256,8 @@ in the LICENSE file at the top level of the repo</p>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="wa_simulator.chrono.visualization.WAChronoIrrlicht.Synchronize">
-<code class="sig-name descname">Synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">time</span></em>, <em class="sig-param"><span class="n">vehicle_inputs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.chrono.visualization.WAChronoIrrlicht.Synchronize" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.chrono.visualization.WAChronoIrrlicht.synchronize">
+<code class="sig-name descname">synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">time</span></em>, <em class="sig-param"><span class="n">vehicle_inputs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.chrono.visualization.WAChronoIrrlicht.synchronize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Synchronize the irrlicht app with the vehicle inputs at the passed time</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -268,8 +269,8 @@ in the LICENSE file at the top level of the repo</p>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="wa_simulator.chrono.visualization.WAChronoIrrlicht.IsOk">
-<code class="sig-name descname">IsOk</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.chrono.visualization.WAChronoIrrlicht.IsOk" title="Permalink to this definition">¶</a></dt>
+<dt id="wa_simulator.chrono.visualization.WAChronoIrrlicht.is_ok">
+<code class="sig-name descname">is_ok</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.chrono.visualization.WAChronoIrrlicht.is_ok" title="Permalink to this definition">¶</a></dt>
 <dd><p>Checks if the irrlicht rending window is still alive</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -346,9 +347,9 @@ in the LICENSE file at the top level of the repo</p>
 <li><a class="reference internal" href="#wa_simulator.chrono.visualization.WAChronoIrrlicht.render_steps">render_steps</a></li>
 <li><a class="reference internal" href="#wa_simulator.chrono.visualization.WAChronoIrrlicht.system">system</a></li>
 <li><a class="reference internal" href="#wa_simulator.chrono.visualization.WAChronoIrrlicht.app">app</a></li>
-<li><a class="reference internal" href="#wa_simulator.chrono.visualization.WAChronoIrrlicht.Advance">Advance</a></li>
-<li><a class="reference internal" href="#wa_simulator.chrono.visualization.WAChronoIrrlicht.Synchronize">Synchronize</a></li>
-<li><a class="reference internal" href="#wa_simulator.chrono.visualization.WAChronoIrrlicht.IsOk">IsOk</a></li>
+<li><a class="reference internal" href="#wa_simulator.chrono.visualization.WAChronoIrrlicht.advance">advance</a></li>
+<li><a class="reference internal" href="#wa_simulator.chrono.visualization.WAChronoIrrlicht.synchronize">synchronize</a></li>
+<li><a class="reference internal" href="#wa_simulator.chrono.visualization.WAChronoIrrlicht.is_ok">is_ok</a></li>
 </ul>
 </li>
 </ul>
