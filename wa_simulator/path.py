@@ -83,6 +83,17 @@ class WAPath:
 
 class WASplinePath(WAPath):
     def __init__(self, waypoints, num_points=100, smoothness=0.0, is_closed=True):
+        """Spline path implemented with SciPy's splprep and splev methods
+
+        Args:
+            waypoints (np.ndarray): the waypoints to fit the spline to
+            num_points (int, optional): number of points to interpolate. Defaults to 100.
+            smoothness (float, optional): how fit to each point the spline should be. will hit all points by default. Defaults to 0.0.
+            is_closed (bool, optional): Is the path a closed loop. Defaults to True.
+
+        Raises:
+            TypeError: the waypoints array type is not as expected
+        """
         # Check points type and shape
         if isinstance(waypoints, list):
             waypoints = np.array(waypoints)

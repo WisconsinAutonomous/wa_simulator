@@ -15,7 +15,7 @@ In this tutorial, we will create a custom controller that reads in commands via 
 - [Support](#support)
 - [See Also](#see-also)
 
-```{include} ../../demos/python/tutorials/wa_custom_controller/README.md
+```{include} ../../tutorials/wa_custom_controller/README.md
 :start-line: 4
 :end-line: -6
 ```

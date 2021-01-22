@@ -64,7 +64,7 @@ Since we've now introduced the `read_file` method, we'll think a little bit abou
 ### CSV Structure
 
 A comma-separated values (csv) file is a intuitive way for structuring easily manipulated data. A typical csv may look like the following:
-```csv
+```
 x,y,z # Header
 0,0,0 # Entries ↓
 1,1,1
@@ -75,7 +75,7 @@ x,y,z # Header
 
 The header line describes what each column represents and each entry is the actual data. We will structure our data in the following format: `time,steering,throttle,braking`. Basically, at `time`, the `steering`, `throttle`, and `braking` values will be passed to the vehicle. As an example, feel free to use the following file or create your own. Place the information in the `controller_data.csv` we created earlier.
 
-```csv
+```
 time,steering,throttle,braking
 0,0,0.1,0
 1,1,0.1,0
@@ -174,7 +174,7 @@ if __name__ == "__main__":
 ## Putting it All Together
 
 Your `controller_data.csv` should look like this:
-```csv
+```
 time,steering,throttle,braking
 0,0,0.1,0
 1,1,0.1,0
