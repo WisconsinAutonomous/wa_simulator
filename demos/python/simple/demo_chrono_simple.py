@@ -7,22 +7,7 @@
 import wa_simulator.chrono as wa
 
 # Command line arguments
-parser = wa.WAArgumentParser(use_defaults=True)
-controller_group = parser.add_mutually_exclusive_group(required=True)
-controller_group.add_argument(
-    "-ic",
-    "--irrlicht_controller",
-    action="store_true",
-    help="Use Irrlicht Controller",
-    default=False,
-)
-controller_group.add_argument(
-    "-sc",
-    "--simple_controller",
-    action="store_true",
-    help="Use Simple Controller",
-    default=False,
-)
+parser = wa.WAArgumentParser(use_sim_defaults=True)
 args = parser.parse_args()
 
 
@@ -49,24 +34,24 @@ def main():
     # ----------------------
     # Create a visualization
     # Will use matplotlib and irrlicht for visualization
+    vis = None
     if args.irrlicht:
-        vis = wa.WAChronoIrrlicht(veh, sys)
-    elif args.matplotlib:
-        vis = wa.WAMatplotlibVisualization(veh, sys)
-    else:
-        vis = None
+        vis = irr = wa.WAChronoIrrlicht(veh, sys)
+    if args.matplotlib:
+        vis = mat = wa.WAMatplotlibVisualization(
+            veh, sys, plotter_type="multi")
+    if args.irrlicht and args.matplotlib:
+        vis = wa.WAMultipleVisualizations([irr, mat])
 
     # -------------------
     # Create a controller
-    # Will be an interactive controller where WASD can be used to control the car
-    if args.irrlicht_controller:
-        if not args.irrlicht:
-            raise RuntimeError(
-                "To use the irrlicht controller, you must use an irrlicht visualization. Pass in 'iv' to achieve this."
-            )
-        ctr = wa.WAIrrlichtController(vis, sys)
+    # Will be an interactive controller
+    if args.matplotlib:
+        ctr = wa.WAMatplotlibController(sys, mat)
+    elif args.irrlicht:
+        ctr = wa.WAIrrlichtController(irr, sys)
     else:
-        ctr = wa.WAMatplotlibController(sys, vis)
+        ctr = wa.WATerminalKeyboardController(sys)
 
     # --------------------------
     # Create a simuation wrapper

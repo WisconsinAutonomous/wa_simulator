@@ -11,7 +11,9 @@ in the LICENSE file at the top level of the repo
 from abc import ABC, abstractmethod  # Abstract Base Class
 
 # WA Simulator
-from wa_simulator.visualization import WAMatplotlibVisualization, WAMatplotlibJupyterVisualization
+from wa_simulator.visualization import WAMatplotlibVisualization
+from wa_simulator.inputs import WAVehicleInputs
+from wa_simulator.vector import WAVector
 
 # Other imports
 import sys
@@ -20,25 +22,6 @@ import termios
 import atexit
 from select import select
 import numpy as np
-
-
-class WAVehicleInputs:
-    """Object used to hold the inputs to the vehicle model
-
-    The value ranges for the vehicle inputs may vary depending on the
-    used vehicle model (i.e. radians vs percentages). This class is not reponsible for
-    maintaining such properties, simply should be used for passing values around.
-
-    Args:
-                steering (double, optional): steering input. Defaults to 0.0.
-                throttle (double, optional): throttle input. Defaults to 0.0.
-                braking (double, optional): braking input. Defaults to 0.0.
-    """
-
-    def __init__(self, steering=0.0, throttle=0.0, braking=0.0):
-        self.steering = steering
-        self.throttle = throttle
-        self.braking = braking
 
 
 class WAController(ABC):
@@ -51,10 +34,10 @@ class WAController(ABC):
     through the get_inputs method.
 
     Args:
-                system (ChSystem): The system used to manage the simulation
+        system (ChSystem): The system used to manage the simulation
 
     Attributes:
-                inputs (WAVehicleInputs): Inputs to the vehicle model
+        inputs (WAVehicleInputs): Inputs to the vehicle model
     """
 
     def __init__(self, system):
@@ -128,7 +111,7 @@ class WASimpleController(WAController):
         pass
 
 
-class WAKeyboardController(WAController):
+class _WAKeyboardController(WAController):
     """Base keyboard controller. Still must be inherited (can't be instantiated). Has utilites.
 
     Args:
@@ -151,9 +134,9 @@ class WAKeyboardController(WAController):
         self.throttle_target = 0
         self.braking_target = 0
 
-        self.steering_delta = system.render_step_size / 0.25
-        self.throttle_delta = system.render_step_size / 1.0
-        self.braking_delta = system.render_step_size / 0.3
+        self.steering_delta = system.render_step_size / 2.0
+        self.throttle_delta = system.render_step_size / 6.0
+        self.braking_delta = system.render_step_size / 1.5
 
         self.steering_gain = 4.0
         self.throttle_gain = 4.0
@@ -216,9 +199,11 @@ class WAKeyboardController(WAController):
             braking_deriv = self.braking_gain * \
                 (self.braking_target - self.braking)
 
-            self.steering += h * steering_deriv
-            self.throttle += h * throttle_deriv
-            self.braking += h * braking_deriv
+            self.steering += min(self.steering_delta, h *
+                                 steering_deriv, key=abs)
+            self.throttle += min(self.throttle_delta, h *
+                                 throttle_deriv, key=abs)
+            self.braking += min(self.braking_delta, h * braking_deriv, key=abs)
 
             t += h
 
@@ -267,11 +252,11 @@ class WAKeyboardController(WAController):
             return
 
 
-class WATerminalKeyboardController(WAKeyboardController):
+class WATerminalKeyboardController(_WAKeyboardController):
     """Controls a vehicle via input from the terminal window.
 
     Uses the KeyGetter object to grab input from the user in the terminal window.
-    Inherits from the WAKeyboardController method
+    Inherits from the _WAKeyboardController method
 
     Args:
         system (ChSystem): The system used to manage the simulation
@@ -406,30 +391,74 @@ class WAPIDController(WAController):
     Uses the lateral controller for steering and longitudinal controller throttle/braking
 
     Args:
+        system (ChSystem): The system used to manage the simulation
+        vehicle (WAVehicle): The vehicle to grab the state from
+        path (WAPath): The path to follow
         lat_controller (WAPIDLateralController, optional): Lateral controller for steering. Defaults to None.
         long_controller (WAPIDLongitudinalController, optional): Longitudinal controller for throttle/braking. Defaults to None.
 
     Attributes:
+        vehicle (WAVehicle): The vehicle to grab the state from
+        path (WAPath): The path to follow
         lat_controller (WAPIDLateralController): Lateral controller for steering
         long_controller (WAPIDLongitudinalController): Longitudinal controller for throttle/braking
     """
 
-    def __init__(self, lat_controller=None, long_controller=None):
+    def __init__(self, system, vehicle, path, lat_controller=None, long_controller=None):
+        super().__init__(system)
+
         self.vehicle = vehicle
+        self.path = path
 
         # Lateral controller (steering)
         if lat_controller is None:
-            lat_controller = WAPIDLateralController(track.center)
-            lat_controller.set_gains(Kp=0.4, Ki=0, Kd=0.25)
+            lat_controller = WAPIDLateralController(system, vehicle, path)
+            lat_controller.set_gains(Kp=0.4, Ki=0, Kd=0)
             lat_controller.set_lookahead_distance(dist=5)
         self.lat_controller = lat_controller
 
         if long_controller is None:
             # Longitudinal controller (throttle and braking)
-            long_controller = WAPIDLongitudinalController()
+            long_controller = WAPIDLongitudinalController(system, vehicle)
             long_controller.set_gains(Kp=0.4, Ki=0, Kd=0)
-            long_controller.set_target_speed(speed=15.0)
+            long_controller.set_target_speed(speed=10.0)
         self.long_controller = long_controller
+
+        self.target_steering = 0
+        self.target_throttle = 0
+        self.target_braking = 0
+
+        self.steering_delta = 1.0 / 50
+        self.throttle_delta = 1.0 / 50
+        self.braking_delta = 1.0 / 50
+
+        self.steering_gain = 4.0
+        self.throttle_gain = 0.25
+        self.braking_gain = 4.0
+
+    def set_delta(self, steering_delta, throttle_delta, braking_delta):
+        """Set the delta values
+
+        Args:
+            steering_delta (float): max steering delta
+            throttle_delta (float): max throttle delta
+            braking_delta (float): max braking delta
+        """
+        self.steering_delta = steering_delta
+        self.throttle_delta = throttle_delta
+        self.braking_delta = braking_delta
+
+    def set_gains(self, steering_gain, throttle_gain, braking_gain):
+        """Set the gain values
+
+        Args:
+            steering_gain (float): steering gain
+            throttle_gain (float): throttle gain
+            braking_gain (float): braking gain
+        """
+        self.steering_gain = steering_gain
+        self.throttle_gain = throttle_gain
+        self.braking_gain = braking_gain
 
     def synchronize(self, time):
         """Synchronize each controller at the specified time
@@ -449,6 +478,30 @@ class WAPIDController(WAController):
         self.lat_controller.advance(step)
         self.long_controller.advance(step)
 
+        self.target_steering = self.lat_controller.steering
+        self.target_throttle = self.long_controller.throttle
+        self.target_braking = self.long_controller.braking
+
+        # Integrate dynamics, taking as many steps as required to reach the value 'step'
+        t = 0.0
+        while t < step:
+            h = min(self.system.step_size, step - t)
+
+            steering_deriv = self.steering_gain * \
+                (self.target_steering - self.steering)
+            throttle_deriv = self.throttle_gain * \
+                (self.target_throttle - self.throttle)
+            braking_deriv = self.braking_gain * \
+                (self.target_braking - self.braking)
+
+            self.steering += min(h * steering_deriv,
+                                 self.steering_delta, key=abs)
+            self.throttle += min(h * throttle_deriv,
+                                 self.throttle_delta, key=abs)
+            self.braking += min(h * braking_deriv, self.braking_delta, key=abs)
+
+            t += h
+
     def get_inputs(self):
         """Get the vehicle inputs
 
@@ -458,9 +511,6 @@ class WAPIDController(WAController):
         Returns:
             WAVehicleInputs: The input class
         """
-        self.steering = self.lat_controller.steering
-        self.throttle = self.long_controller.throttle
-        self.braking = self.long_controller.braking
         return WAVehicleInputs(
             self.steering,
             self.throttle,
@@ -472,12 +522,13 @@ class WAPIDLateralController(WAController):
     """Lateral (steering) controller which minimizes error using a PID
 
     Args:
-        path (WAPath): the path the vehicle is attempting to follow
+        system (ChSystem): The system used to manage the simulation
         vehicle (WAVehicle): the vehicle who has dynamics
+        path (WAPath): the path the vehicle is attempting to follow
 
     Attributes:
-        path (WAPath): the path the vehicle is attempting to follow
         vehicle (WAVehicle): the vehicle who has dynamics
+        path (WAPath): the path the vehicle is attempting to follow
         Kp (double): proportional gain
         Ki (double): integral gain
         Kd (double): derivative gain
@@ -489,14 +540,16 @@ class WAPIDLateralController(WAController):
         erri (double): integral error accumulated over time
     """
 
-    def __init__(self, path, vehicle):
+    def __init__(self, system, vehicle, path):
+        super().__init__(system)
+
         self.Kp = 0
         self.Ki = 0
         self.Kd = 0
 
         self.dist = 0
-        self.target = np.array([0, 0, 0])
-        self.sentinel = np.array([0, 0, 0])
+        self.target = WAVector([0, 0, 0])
+        self.sentinel = WAVector([0, 0, 0])
 
         self.err = 0
         self.errd = 0
@@ -541,16 +594,16 @@ class WAPIDLateralController(WAController):
         Args:
             step (double): step size to update the controller by
         """
-        state = self.vehicle.get_simple_state()
-        self.sentinel = np.array(
+        x, y, yaw, v = self.vehicle.get_simple_state()
+        self.sentinel = WAVector(
             [
-                self.dist * np.cos(state.yaw) + state.x,
-                self.dist * np.sin(state.yaw) + state.y,
+                self.dist * np.cos(yaw) + x,
+                self.dist * np.sin(yaw) + y,
                 0,
             ]
         )
 
-        self.target = self.path.calcClosestPoint(self.sentinel)
+        self.target = self.path.calc_closest_point(self.sentinel)
 
         # The "error" vector is the projection onto the horizontal plane (z=0) of
         # vector between sentinel and target
@@ -559,7 +612,7 @@ class WAPIDLateralController(WAController):
 
         # Calculate the sign of the angle between the projections of the sentinel
         # vector and the target vector (with origin at vehicle location).
-        sign = self.calc_sign(state)
+        sign = self.calc_sign(x, y)
 
         # Calculate current error (magnitude)
         err = sign * err_vec.length()
@@ -578,30 +631,32 @@ class WAPIDLateralController(WAController):
             self.Kp * self.err + self.Ki * self.erri + self.Kd * self.errd, -1.0, 1.0
         )
 
-    def calc_sign(self, state):
+    def calc_sign(self, x, y):
         """Calculate the sign of the angle between the projections of the sentinel vector
         and the target vector (with origin at vehicle location).
 
         Args:
-            state (tuple): (x position, y position, yaw about the Z, speed)
+            x (float): x position
+            y (float): y position
 
         Returns:
             int: the sign indicating direction of the state and the sentinel on the path (-1 for left or 1 for right)
         """
-        pos = np.array([state.x, state.y, 0])
+        pos = WAVector([x, y, 0])
 
         sentinel_vec = self.sentinel - pos
         target_vec = self.target - pos
 
-        temp = np.dot(np.cross(sentinel_vec, target_vec), np.array([0, 0, 1]))
+        temp = np.dot(np.cross(sentinel_vec, target_vec), WAVector([0, 0, 1]))
 
-        return (temp > 0) - (temp < 0)
+        return int(temp > 0) - int(temp < 0)
 
 
 class WAPIDLongitudinalController(WAController):
     """Longitudinal (throttle, braking) controller which minimizes error using a PID
 
     Args:
+        system (ChSystem): The system used to manage the simulation
         vehicle (WAVehicle): the vehicle who has dynamics
 
     Attributes:
@@ -617,7 +672,9 @@ class WAPIDLongitudinalController(WAController):
         throttle_threshold (double): throttle position at which vehicle is moving too fast and the step size should decrease
     """
 
-    def __init__(self, vehicle):
+    def __init__(self, system, vehicle):
+        super().__init__(system)
+
         self.Kp = 0
         self.Ki = 0
         self.Kd = 0
@@ -670,7 +727,7 @@ class WAPIDLongitudinalController(WAController):
             step (double): step size to update the controller by
         """
 
-        self.speed = self.vehicle.get_simple_state().v
+        _, _, _, self.speed = self.vehicle.get_simple_state()
 
         # Calculate current error
         err = self.target_speed - self.speed
@@ -693,17 +750,17 @@ class WAPIDLongitudinalController(WAController):
             # Vehicle moving too slow
             self.braking = 0
             self.throttle = throttle
-        elif self.target_throttle > self.throttle_threshold:
+        elif self.throttle > self.throttle_threshold:
             # Vehicle moving too fast: reduce throttle
             self.braking = 0
-            self.throttle = self.target_throttle + throttle
+            self.throttle += throttle
         else:
             # Vehicle moving too fast: apply brakes
             self.braking = -throttle
             self.throttle = 0
 
 
-class WAMatplotlibController(WAKeyboardController):
+class WAMatplotlibController(_WAKeyboardController):
     """Controls a vehicle via keyboard input from a matplotlib figure
 
     Will asynchronously change inputs based on user input to the matplotlib window.
@@ -712,21 +769,19 @@ class WAMatplotlibController(WAKeyboardController):
         system (ChSystem): The system used to manage the simulation
         vis (WAMatplotlibVisualization): The visualization that holds a matplotlib figure
 
-    Attributes:
+Attributes:
         vis (WAMatplotlibVisualization): The visualization that holds a matplotlib figure
     """
 
     def __init__(self, system, vis):
-        if not isinstance(vis, WAMatplotlibVisualization) and not isinstance(vis, WAMatplotlibJupyterVisualization):
+        if not isinstance(vis, WAMatplotlibVisualization):
             raise TypeError(
                 "Visualization passed in is not a WAMatplotlibVisualization."
             )
 
         super().__init__(system)
 
-        self.vis = vis
-
-        self.vis.set_check_for_key_presses(True)
+        vis.register_key_press_event(self.key_press)
 
         self._input_dict = {'up': 0, 'right': 1, 'down': 2, 'left': 3}
 
@@ -738,6 +793,7 @@ class WAMatplotlibController(WAKeyboardController):
         Args:
                 time (double): the time at which the controller should synchronize all depends to
         """
-        if self.vis.key_input is not None:
-            key_input = self._input_dict[self.vis.get_key_input()]
-            self.update(key_input)
+        pass
+
+    def key_press(self, value):
+        self.update(self._input_dict[value])

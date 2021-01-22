@@ -7,22 +7,7 @@
 import wa_simulator as wa
 
 # Command line arguments
-parser = wa.WAArgumentParser(use_defaults=True)
-controller_group = parser.add_mutually_exclusive_group(required=True)
-controller_group.add_argument(
-    "-kc",
-    "--keyboard_controller",
-    action="store_true",
-    help="Use Keyboard Controller",
-    default=False,
-)
-controller_group.add_argument(
-    "-sc",
-    "--simple_controller",
-    action="store_true",
-    help="Use Simple Controller",
-    default=False,
-)
+parser = wa.WAArgumentParser(use_sim_defaults=True)
 args = parser.parse_args()
 
 
@@ -44,21 +29,26 @@ def main():
     # Create a vehicle
     # Pre-made go kart veh file
     veh_filename = wa.WALinearKinematicBicycle.GO_KART_MODEL_FILE
-    veh = wa.WALinearKinematicBicycle(veh_filename)
+    veh = wa.WALinearKinematicBicycle(veh_filename, x=49.8, y=132.9)
 
     # ----------------------
     # Create a visualization
     # Will use matplotlib for visualization
-    vis = wa.WAMatplotlibVisualization(veh, sys)
+    vis = wa.WAMatplotlibVisualization(veh, sys, plotter_type="multi")
+
+    # -------------
+    # Create a Path
+    # Load data points from a csv file and interpolate a path
+    filename = wa.get_wa_data_file("paths/sample_medium_loop.csv")
+    points = wa.load_waypoints_from_csv(filename, delimiter=",")
+    path = wa.WASplinePath(points, num_points=1000, is_closed=True)
+
+    vis.plot(path.x, path.y)
 
     # -------------------
     # Create a controller
-    # Will be an interactive controller where the arrow can be used to control the car
-    # Must run it from the terminal
-    if args.keyboard_controller:
-        ctr = wa.WAMatplotlibController(sys, vis)
-    else:
-        ctr = wa.WASimpleController(sys)
+    # Create a pid controller
+    ctr = wa.WAPIDController(sys, veh, path)
 
     # --------------------------
     # Create a simuation wrapper

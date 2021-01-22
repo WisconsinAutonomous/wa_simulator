@@ -27,4 +27,4 @@ veh.SetDataPath(CHRONO_VEH_DATA_DIRECTORY)
 for d in _get_files(__file__):
     _import(d, globals())
 
-del chrono, veh, pathlib, _import, _get_files
+del pathlib, _import, _get_files

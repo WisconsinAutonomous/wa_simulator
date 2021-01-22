@@ -13,22 +13,31 @@ import argparse
 
 class WAArgumentParser(argparse.ArgumentParser):
     def __init__(
-        self, use_defaults=True, description=("Wisconsin Autonomous Simulator")
+        self, use_sim_defaults=True, description=("Wisconsin Autonomous Simulator")
     ):
         """Argument parser wrapper.
 
         Has handy default arguments method
 
         Args:
-            use_defaults (bool, optional): Use the default arguments (can add more). Defaults to True.
+            use_sim_defaults (bool, optional): Use the default arguments (can add more). Defaults to True.
             description (str, optional): Description used to describe the simulation. Printed by the help menu. Defaults to ("Wisconsin Autonomous Simulator").
         """
         super().__init__(description=description)
 
-        if use_defaults:
-            self.add_default_arguments()
+        if use_sim_defaults:
+            self.add_default_sim_arguments()
 
-    def add_default_arguments(self):
+    def add_default_sim_arguments(self):
+        """Adds default arguments for most simulations
+
+        Includes:
+            -s,--sim_step_size: Simulation step size
+            -rs,--render_step_size: Rendering step size
+            -iv,--irrlicht: Use irrlicht visualization
+            -mv,--matplotlib: Use matplotlib visualization
+            -r,--record: Record the simulation to a csv
+        """
         self.add_argument(
             "-s",
             "--sim_step_size",
@@ -44,17 +53,16 @@ class WAArgumentParser(argparse.ArgumentParser):
             "--render_step_size",
             type=float,
             help="Render Update Rate [Hz]",
-            default=1 / 50.0,
+            default=1 / 10.0,
         )
-        vis_group = self.add_mutually_exclusive_group()
-        vis_group.add_argument(
+        self.add_argument(
             "-iv",
             "--irrlicht",
             action="store_true",
             help="Use Irrlicht to Visualize",
             default=False,
         )
-        vis_group.add_argument(
+        self.add_argument(
             "-mv",
             "--matplotlib",
             action="store_true",

@@ -9,6 +9,7 @@ in the LICENSE file at the top level of the repo
 """
 
 # WA Simulator
+from wa_simulator.vector import WAVector
 from wa_simulator.visualization import WAVisualization
 
 # Chrono specific imports
@@ -17,7 +18,63 @@ import pychrono.vehicle as veh
 import pychrono.irrlicht as irr
 
 # Other imports
+import numpy as np
 from math import ceil
+
+
+def draw_path_in_irrlicht(path, sys):
+    """Draw a path object in irrlicht
+
+    Args:
+        path (WAPath): WA path object to visualize in irrlicht
+        sys (WASystem): system that manages the simulation
+    """
+    ch_points = chrono.vector_ChVectorD()
+    for p in np.column_stack((path.x, path.y)):
+        ch_points.push_back(chrono.ChVectorD(p[0], p[1], 0.5))
+    curve = chrono.ChBezierCurve(ch_points)
+
+    road = sys.system.NewBody()
+    road.SetBodyFixed(True)
+    sys.system.AddBody(road)
+
+    num_points = len(path.x)
+    path_asset = chrono.ChLineShape()
+    path_asset.SetLineGeometry(chrono.ChLineBezier(curve))
+    path_asset.SetColor(chrono.ChColor(0, 0.8, 0))
+    path_asset.SetNumRenderPoints(max(2 * num_points, 400))
+    road.AddAsset(path_asset)
+
+
+def create_sphere_in_irrlicht(system, rgb=(1, 0, 0)):
+    """Create and add a sphere to the irrlicht visualization
+
+    Args:
+        system (WASystem): the system that manages the simulation
+        rgb (tuple, optional): (red, green, blue). Defaults to (1, 0, 0) or red.
+
+    Returns:
+        chrono.ChBodyEasySphere: the sphere that was created
+    """
+    sphere = chrono.ChBodyEasySphere(0.25, 1000, True, False)
+    sphere.SetBodyFixed(True)
+    sphere.AddAsset(chrono.ChColorAsset(*rgb))
+    system.system.Add(sphere)
+
+    return sphere
+
+
+def update_position_of_sphere(sphere, pos):
+    """Update the position of a sphere being visualized in irrlicht
+
+    Args:
+        sphere (chrono.ChBodyEasySphere): the sphere to change the position of
+        pos (WAVector): the new position
+    """
+    if not isinstance(pos, WAVector):
+        pos = WAVector(pos)
+
+    sphere.SetPos(chrono.ChVectorD(pos.x, pos.y, 0))
 
 
 class WAChronoIrrlicht(WAVisualization):

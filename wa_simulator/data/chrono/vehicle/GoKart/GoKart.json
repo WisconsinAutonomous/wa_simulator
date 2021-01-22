@@ -10,7 +10,7 @@
 	},
 
 	"Tire": {
-		"Input File": "GoKart/tire/GoKart_TMeasyTire.json"
+		"Input File": "GoKart/tire/GoKart_RigidTire.json"
 	},
   
 	"Vehicle Properties": {

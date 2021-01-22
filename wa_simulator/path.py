@@ -18,6 +18,20 @@ from scipy.interpolate import splprep, splev
 from scipy.spatial.distance import cdist
 
 
+def load_waypoints_from_csv(filename, **kwargs):
+    """Get data points from a csv file. 
+
+    Should be structured as "x,y,z\nx,y,z...". See NumPy.loadtxt for more info on arguments.
+
+    Args:
+        filename (str): file to open and read data from
+
+    Returns:
+        np.ndarray: a nxm array with each data point in each row
+    """
+    return np.loadtxt(filename, **kwargs)
+
+
 def calc_path_length_cummulative(x, y):
     """Get the cummulative distance along a path provided the given x and y position values
 
@@ -72,7 +86,7 @@ class WASplinePath(WAPath):
         # Check points type and shape
         if isinstance(waypoints, list):
             waypoints = np.array(waypoints)
-        elif not isinstance(waypoints, np.array):
+        elif not isinstance(waypoints, np.ndarray):
             raise TypeError(
                 'waypoints type is not recognized. List or NumPy array required.')
 
@@ -100,6 +114,9 @@ class WASplinePath(WAPath):
         Returns:
             wa.WAVector: the closest point on the path
         """
+        if len(pos) == 3:
+            pos = pos[:2]
+
         dist = cdist(np.column_stack((self.x, self.y)), [pos])
         idx, = np.argmin(dist, axis=0)
         return self.x[idx], self.y[idx], idx

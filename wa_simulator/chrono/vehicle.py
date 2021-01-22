@@ -141,10 +141,10 @@ class WAChronoVehicle(WAVehicle):
         for axle in vehicle.GetAxles():
             tireL = CreateTireFromJSON(tire_file)
             vehicle.InitializeTire(
-                tireL, axle.m_wheels[0], veh.VisualizationType_MESH)
+                tireL, axle.m_wheels[0], veh.VisualizationType_PRIMITIVES)
             tireR = CreateTireFromJSON(tire_file)
             vehicle.InitializeTire(
-                tireR, axle.m_wheels[1], veh.VisualizationType_MESH)
+                tireR, axle.m_wheels[1], veh.VisualizationType_PRIMITIVES)
 
         self.vehicle = vehicle
         self.terrain = env.terrain.terrain
