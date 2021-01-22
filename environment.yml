@@ -9,7 +9,7 @@ dependencies:
   - jupyter
   - jupyterlab
   - pip:
-    - wa-simulator==0.0.2
+    - wa-simulator
     - ipympl
     - scipy
     - numpy

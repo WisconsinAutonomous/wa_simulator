@@ -13,7 +13,7 @@ exit_error() {
 	if [ -z "$1" ]; then
 		msg="Unknown Error"
 	fi
-	echo $'\n'"Script exited with error: $msg"
+	echo -e "\nScript exited with error: $msg"
 	exit 1
 }
 
@@ -22,7 +22,7 @@ exit_okay() {
 	if [ -z "$msg" ]; then
 		msg="OK"
 	fi
-	echo $'\n'"Script exitted: $msg"
+	echo -e "\nScript exitted: $msg"
 	exit 0
 }
 
@@ -78,10 +78,10 @@ check_command curl # Curl
 check_command uname
 os=$(uname)
 
-if [[ "$os" == 'Darwin' ]]; then
+if [[ "$os" == "Darwin" ]]; then
 	if ! check_command brew "1"; then
 		if ask_okay "Install Homebrew package manager"; then
-			echo 'Installing Homebrew. May take a few minutes'
+			echo "Installing Homebrew. May take a few minutes"
 			wait 1
 			/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 		else
@@ -90,7 +90,7 @@ if [[ "$os" == 'Darwin' ]]; then
 	fi
 	if ! check_command conda "1"; then
 		if ask_okay "Install Anaconda"; then
-			echo 'Installing Anaconda. May take a few minutes'
+			echo "Installing Anaconda. May take a few minutes"
 			wait 1
 			brew install --cask anaconda
 		else
@@ -98,7 +98,7 @@ if [[ "$os" == 'Darwin' ]]; then
 		fi
 	fi
 	brew list libomp >/dev/null || brew install libomp
-elif [[ "$os" == 'Linux' ]]; then
+elif [[ "$os" == "Linux" ]]; then
 	check_command conda # Anaconda
 else
 	exit_error "Detected operating system is $os. Currently not supported."
@@ -109,7 +109,7 @@ env_file=$(curl -fsSL https://raw.githubusercontent.com/WisconsinAutonomous/wa_s
 
 # Check the name
 name="wa"
-if ! ask_okay "Using environment name '$name' okay"; then
+if ! ask_okay "Using environment name $name okay"; then
 	name=$(ask_response "Environment name :: ")
 fi
 
