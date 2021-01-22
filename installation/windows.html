@@ -106,7 +106,7 @@
       <a href="../index.html"><div class="brand">Wisconsin Autonomous Simulator 0.0.1 documentation</div></a>
     </div>
     <div class="header-right">
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
     </div>
@@ -177,12 +177,35 @@
   <main class="main">
     <div class="content">
       <article role="main">
-        <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+        <label class="toc-overlay-icon toc-content-icon" for="__toc">
           <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
         </label>
         <div class="section" id="windows-installation-guide">
 <h1>Windows Installation Guide<a class="headerlink" href="#windows-installation-guide" title="Permalink to this headline">¶</a></h1>
-<p><em><strong>Under Construction</strong></em></p>
+<div class="section" id="conda-environment">
+<h2>Conda environment<a class="headerlink" href="#conda-environment" title="Permalink to this headline">¶</a></h2>
+<p>Anaconda is a really powerful packaging environment available on both Unix and Windows systems. In this guide, you will download an <code class="docutils literal notranslate"><span class="pre">environment.yml</span></code> file which describes a <code class="docutils literal notranslate"><span class="pre">conda</span></code> environment and then create an env from those instructions given in the YaML file.</p>
+<div class="section" id="download-the-environment-file">
+<h3>Download the environment file<a class="headerlink" href="#download-the-environment-file" title="Permalink to this headline">¶</a></h3>
+<p>First, let’s download the environment file.</p>
+<p>In the terminal, you can run the following:</p>
+<div class="highlight-terminal notranslate"><div class="highlight"><pre><span></span>curl.exe -o environment.yml https://raw.githubusercontent.com/WisconsinAutonomous/wa_simulator/master/environment.yml
+</pre></div>
+</div>
+<p>In PowerShell, you can run the following:</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span>iwr -outf environment.yml https://raw.githubusercontent.com/WisconsinAutonomous/wa_simulator/master/environment.yml
+</pre></div>
+</div>
+</div>
+<div class="section" id="create-the-conda-environment">
+<h3>Create the conda environment<a class="headerlink" href="#create-the-conda-environment" title="Permalink to this headline">¶</a></h3>
+<p>Now, let’s actually create the environment. <em>This requires Anaconda to be installed</em>.</p>
+<div class="highlight-terminal notranslate"><div class="highlight"><pre><span></span>conda env create --name=wa -f=environment.yml
+</pre></div>
+</div>
+<p>This will create an environment with the name <code class="docutils literal notranslate"><span class="pre">wa</span></code>, but feel free to change it to anything you’d like.</p>
+</div>
+</div>
 </div>
 
       </article>
@@ -227,8 +250,31 @@
         
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            Contents
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Windows Installation Guide</a><ul>
+<li><a class="reference internal" href="#conda-environment">Conda environment</a><ul>
+<li><a class="reference internal" href="#download-the-environment-file">Download the environment file</a></li>
+<li><a class="reference internal" href="#create-the-conda-environment">Create the conda environment</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>
