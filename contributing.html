@@ -1,10 +1,10 @@
 <!doctype html>
 <html class="no-js">
   <head><meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Installation" href="installation/index.html" /><link rel="prev" title="WA Vehicle Simulator" href="index.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" />
 
     <link rel="shortcut icon" href="_static/wa-dark-favicon.png"/><meta name="generator" content="sphinx-3.4.2, furo 2020.12.30.beta24"/>
-        <title>Background - Wisconsin Autonomous Simulator 0.0.1 documentation</title>
+        <title>Contributing - Wisconsin Autonomous Simulator 0.0.1 documentation</title>
       <link rel="stylesheet" href="_static/styles/furo.css?digest=33d2fc4f3f180ec1ffc6524e273e21d7d58cbe49">
     <link rel="stylesheet" href="_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="_static/pygments_dark.css">
@@ -127,9 +127,9 @@
   <input type="hidden" name="check_keywords" value="yes">
   <input type="hidden" name="area" value="default">
 </form><div class="sidebar-scroll"><div class="sidebar-tree">
-  <ul class="current">
+  <ul>
 <li class="toctree-l1"><a class="reference internal" href="index.html">Home</a></li>
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="background.html">Background</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="installation/index.html">Installation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label for="toctree-checkbox-1"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="installation/unix.html">Unix Installation Guide</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installation/windows.html">Windows Installation Guide</a></li>
@@ -180,21 +180,61 @@
         <label class="toc-overlay-icon toc-content-icon" for="__toc">
           <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
         </label>
-        <div class="section" id="background">
-<h1>Background<a class="headerlink" href="#background" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="projectchrono">
-<h2>ProjectChrono<a class="headerlink" href="#projectchrono" title="Permalink to this headline">¶</a></h2>
-<p>The WA Simulator provides a wrapper of the high fidelity, physics based simulation engine <a class="reference external" href="http://www.projectchrono.org/">ProjectChrono</a> and it’s python wrapped bindings <a class="reference external" href="http://www.projectchrono.org/pychrono/">PyChrono</a>. ProjectChrono has separate <em>modules</em> which can be optionally built and can enhance certains use cases for Chrono. At the time of writing, modules that are intended to be used with this wrapper are the following: Chrono::Engine (<em>required</em>), Chrono::Vehicle (<em>required</em>), PyChrono (<em>required</em>),  Chrono::Irrlicht (<em>optional</em>), Chrono::Sensor (<em>optional</em>) and SynChrono (<em>optional</em>).</p>
-<p>Brief explanation of the aforementioned modules:</p>
-<ul class="simple">
-<li><p><a class="reference external" href="http://api.projectchrono.org/manual_root.html">Chrono::Engine</a>: This is the baseline module for Chrono. It provides multi-purpose classes and functions used by all subsequent modules. The underlying physics engine is included in this module.</p></li>
-<li><p><a class="reference external" href="http://api.projectchrono.org/manual_vehicle.html">Chrono::Vehicle</a>: The vehicle module is built on top of Chrono::Engine and provides a framework for modeling high fidelity wheeled <em>and</em> tracked vehicles. This module is required specifically because it provides the functionality to create custom vehicle models.</p></li>
-<li><p><a class="reference external" href="http://api.projectchrono.org/pychrono_introduction.html">PyChrono</a>: PyChrono is the python wrapped bindings of the C++ Chrono project. This allows users to access <em>most</em> Chrono functionality through a python API. This aids in rapid development and deployment of autonomous algorithms and is easy to use.</p></li>
-<li><p>Chrono::Irrlicht: <a class="reference external" href="http://irrlicht.sourceforge.net/">Irrlicht</a> is a realtime 3D rendering engine written in C++. It is a very old framework and is likely to be updated by the Chrono developers in the near future. It provides the realtime visualization most common to day-to-day development.</p></li>
-<li><p><a class="reference external" href="http://api.projectchrono.org/manual_sensor.html">Chrono::Sensor</a>: The sensor module enables the ability to model and simulate sensors in a Chrono environment. Two types of sensors are available: dynamic and static. Dynamic sensors use the NVIDIA based ray tracing library <a class="reference external" href="https://developer.nvidia.com/optix">OptiX</a> and allow for simulation of sensors such as cameras or LiDARs. Static sensors do not require ray tracing, e.g. GPS, IMU, etc.</p></li>
-<li><p><a class="reference external" href="http://api.projectchrono.org/group__synchrono.html">SynChrono</a>: SynChrono is a new module aimed to provide multi-agent, distributed simulation for Chrono. Primarily as an addition to the vehicle module, SynChrono is built with either MPI or DDS as the message passing protocol.</p></li>
-</ul>
-<p>As the previous modules describe, there is abundant possibilities to create and test autonomous algorithms. This repository will provide scripts, documentation and wrapped classes aiding in quickly working with Chrono.</p>
+        <div class="section" id="contributing">
+<h1>Contributing<a class="headerlink" href="#contributing" title="Permalink to this headline">¶</a></h1>
+<p>Contributing to the repository is fairly easy. The simulator was developed to be Object Oriented, so the goal was that one could simply inherit any defined class to add their own functionality. There could be bugs or additional features would like to be added, so please see below for instructions how to actually make contributions to the repo.</p>
+<blockquote>
+<div><p>Note: If you’re contributing to the repository, it can be assumed you know what you’re doing. Please be thoughtful in your changes and consult the correct people if you’re looking to make changes.</p>
+</div></blockquote>
+<div class="section" id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">¶</a></h2>
+<p>It is as simple as cloning and installing a symlinked version of the repository.</p>
+<div class="section" id="cloning-the-repo">
+<h3>Cloning the repo<a class="headerlink" href="#cloning-the-repo" title="Permalink to this headline">¶</a></h3>
+<p>Clone the repo as normal:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/WisconsinAutonomous/wa_simulator.git
+<span class="nb">cd</span> wa_simulator
+</pre></div>
+</div>
+<blockquote>
+<div><p>Make a conda or virtualenv, as that aids in the development process</p>
+</div></blockquote>
+</div>
+<div class="section" id="installing-a-symlinked-version-for-testing">
+<h3>Installing a symlinked version for testing<a class="headerlink" href="#installing-a-symlinked-version-for-testing" title="Permalink to this headline">¶</a></h3>
+<p>Using a symlink install means we can use the repository as normal, but when we change the source code, our changes will be reflected in any file where <code class="docutils literal notranslate"><span class="pre">wa_simulator</span></code> is imported. This can be done with the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install -e .
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="guidelines">
+<h2>Guidelines<a class="headerlink" href="#guidelines" title="Permalink to this headline">¶</a></h2>
+<p>A lot of work has gone into making this package scalable and functional. Please consider all of the following guidelines and follow them to ensure the repository will persist for a long time.</p>
+<div class="section" id="documentation">
+<h3>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h3>
+<p>Please follow <a class="reference external" href="https://google.github.io/styleguide/pyguide.html">Google’s guidelines for Python Styling</a>. These comments are also used to automatically generate the documentation. For Visual Studio Code users, the <a class="reference external" href="https://github.com/NilsJPWerner/autoDocstring">Python Docstring Generator</a> package may be helpful.</p>
+</div>
+<div class="section" id="file-structure">
+<h3>File Structure<a class="headerlink" href="#file-structure" title="Permalink to this headline">¶</a></h3>
+<p>The simulator is structured as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>wa_simulator
+├── docs/				# Contains documentation
+├── licenses/ 			# External software licenses
+├── scripts/			# Installation scripts
+├── tutorials/			# Tutorials for understanding the wa_simulator API
+├── wa_simulator/
+│   ├── chrono/         # Contains code that requires chrono
+│   │	└── ...         # Chrono code     
+│   ├── data/         	# Data files that ship with the repo
+│   │	└── ...
+│   └── ...             # Core code
+├── environment.yml
+├── LICENSE
+└── setup.py
+</pre></div>
+</div>
+</div>
 </div>
 </div>
 
@@ -202,26 +242,8 @@
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="installation/index.html">
-              <div class="page-info">
-                <div class="context">
-                  <span>Next</span>
-                </div>
-                <div class="title">Installation</div>
-              </div>
-              <svg><use href="#svg-arrow-right"></use></svg>
-            </a>
-          <a class="prev-page" href="index.html">
-              <svg><use href="#svg-arrow-right"></use></svg>
-              <div class="page-info">
-                <div class="context">
-                  <span>Previous</span>
-                </div>
-                
-                <div class="title">Home</div>
-                
-              </div>
-            </a>
+          
+          
         </div>
 
         <div class="related-information">
@@ -232,7 +254,7 @@
               <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
               <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
             |
-            <a class="muted-link" href="_sources/background.md.txt"
+            <a class="muted-link" href="_sources/contributing.md.txt"
                rel="nofollow">
               Show Source
             </a>
@@ -252,8 +274,17 @@
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">Background</a><ul>
-<li><a class="reference internal" href="#projectchrono">ProjectChrono</a></li>
+<li><a class="reference internal" href="#">Contributing</a><ul>
+<li><a class="reference internal" href="#setup">Setup</a><ul>
+<li><a class="reference internal" href="#cloning-the-repo">Cloning the repo</a></li>
+<li><a class="reference internal" href="#installing-a-symlinked-version-for-testing">Installing a symlinked version for testing</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#guidelines">Guidelines</a><ul>
+<li><a class="reference internal" href="#documentation">Documentation</a></li>
+<li><a class="reference internal" href="#file-structure">File Structure</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
