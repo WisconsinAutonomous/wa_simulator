@@ -109,7 +109,7 @@ env_file=$(curl -fsSL https://raw.githubusercontent.com/WisconsinAutonomous/wa_s
 
 # Check the name
 name="wa"
-if ! ask_okay "Using environment name $name okay"; then
+if ! ask_okay "Environment name '$name' okay"; then
 	name=$(ask_response "Environment name :: ")
 fi
 
