@@ -18,7 +18,6 @@ from wa_simulator.vector import WAVector
 # Other imports
 import sys
 import tty
-import termios
 import atexit
 from select import select
 import numpy as np
@@ -252,95 +251,100 @@ class _WAKeyboardController(WAController):
             return
 
 
-class WATerminalKeyboardController(_WAKeyboardController):
-    """Controls a vehicle via input from the terminal window.
+try:
+    import termios
+    
+    class WATerminalKeyboardController(_WAKeyboardController):
+        """Controls a vehicle via input from the terminal window.
 
-    Uses the KeyGetter object to grab input from the user in the terminal window.
-    Inherits from the _WAKeyboardController method
-
-    Args:
-        system (ChSystem): The system used to manage the simulation
-
-    Attributes:
-        key_getter (KeyGetter): The object used to grab input from the terminal
-    """
-
-    class KeyGetter:
-        """Gets user input from the terminal.
-
-        Will look for different input from the command line. The terminal window
-        must be active for this to work.
-
-        TODO: Fairly confident this only works on UNIX.
-
-        Attributes:
-                fd (STDIN_FILENO): Integer file descriptor.
-                new_term (list): tty attributes for the fd. Setting terminal settings.
-                old_term (list): tty attributes for the fd. Restoring terminal settings.
-        """
-
-        def __init__(self):
-            # Save the terminal settings
-            self.fd = sys.stdin.fileno()
-            self.new_term = termios.tcgetattr(self.fd)
-            self.old_term = termios.tcgetattr(self.fd)
-
-            # New terminal setting unbuffered
-            self.new_term[3] = self.new_term[3] & ~termios.ICANON & ~termios.ECHO
-            termios.tcsetattr(self.fd, termios.TCSAFLUSH, self.new_term)
-
-            # Support normal-terminal reset at exit
-            atexit.register(self.set_normal_term)
-
-        def __call__(self):
-            """Checks the terminal window for a user input.
-
-            This method is called through key_getter_object(). Will check terminal
-            window for arrow keys. Will exit if any other key is pressed.
-
-            Returns:
-                int: a value between [0,3] describing the arrow key pressed
-            """
-            dr, dw, de = select([sys.stdin], [], [], 0)
-            if dr == []:
-                return -1
-
-            c = sys.stdin.read(3)[2]
-            vals = [65, 67, 66, 68]
-
-            if vals.count(ord(c)) == 0:
-                self.set_normal_term()
-                raise RuntimeError(f'"{ord(c)}" is not an arrow key.')
-
-            return vals.index(ord(c))
-
-        def set_normal_term(self):
-            """Resets to normal terminal.  On Windows this is a no-op."""
-            termios.tcsetattr(self.fd, termios.TCSAFLUSH, self.old_term)
-
-    def __init__(self, system):
-        super().__init__(system)
-
-        self.key_getter = self.KeyGetter()
-
-    def key_check(self):
-        """Get the key from the KeyGetter and update target values based on input."""
-        try:
-            key = self.key_getter()
-            self.update(key)
-        except Exception as e:
-            print(e)
-            return
-
-    def synchronize(self, time):
-        """Synchronize the controller at the specified time
-
-        Calls KeyCheck
+        Uses the KeyGetter object to grab input from the user in the terminal window.
+        Inherits from the _WAKeyboardController method
 
         Args:
-                time (double): the time at which the controller should synchronize all depends to
+            system (ChSystem): The system used to manage the simulation
+
+        Attributes:
+            key_getter (KeyGetter): The object used to grab input from the terminal
         """
-        self.key_check()
+
+        class KeyGetter:
+            """Gets user input from the terminal.
+
+            Will look for different input from the command line. The terminal window
+            must be active for this to work.
+
+            TODO: Fairly confident this only works on UNIX.
+
+            Attributes:
+                    fd (STDIN_FILENO): Integer file descriptor.
+                    new_term (list): tty attributes for the fd. Setting terminal settings.
+                    old_term (list): tty attributes for the fd. Restoring terminal settings.
+            """
+
+            def __init__(self):
+                # Save the terminal settings
+                self.fd = sys.stdin.fileno()
+                self.new_term = termios.tcgetattr(self.fd)
+                self.old_term = termios.tcgetattr(self.fd)
+
+                # New terminal setting unbuffered
+                self.new_term[3] = self.new_term[3] & ~termios.ICANON & ~termios.ECHO
+                termios.tcsetattr(self.fd, termios.TCSAFLUSH, self.new_term)
+
+                # Support normal-terminal reset at exit
+                atexit.register(self.set_normal_term)
+
+            def __call__(self):
+                """Checks the terminal window for a user input.
+
+                This method is called through key_getter_object(). Will check terminal
+                window for arrow keys. Will exit if any other key is pressed.
+
+                Returns:
+                    int: a value between [0,3] describing the arrow key pressed
+                """
+                dr, dw, de = select([sys.stdin], [], [], 0)
+                if dr == []:
+                    return -1
+
+                c = sys.stdin.read(3)[2]
+                vals = [65, 67, 66, 68]
+
+                if vals.count(ord(c)) == 0:
+                    self.set_normal_term()
+                    raise RuntimeError(f'"{ord(c)}" is not an arrow key.')
+
+                return vals.index(ord(c))
+
+            def set_normal_term(self):
+                """Resets to normal terminal.  On Windows this is a no-op."""
+                termios.tcsetattr(self.fd, termios.TCSAFLUSH, self.old_term)
+
+        def __init__(self, system):
+            super().__init__(system)
+
+            self.key_getter = self.KeyGetter()
+
+        def key_check(self):
+            """Get the key from the KeyGetter and update target values based on input."""
+            try:
+                key = self.key_getter()
+                self.update(key)
+            except Exception as e:
+                print(e)
+                return
+
+        def synchronize(self, time):
+            """Synchronize the controller at the specified time
+
+            Calls KeyCheck
+
+            Args:
+                    time (double): the time at which the controller should synchronize all depends to
+            """
+            self.key_check()
+except:
+    pass
 
 
 class WAMultipleControllers(WAController):
