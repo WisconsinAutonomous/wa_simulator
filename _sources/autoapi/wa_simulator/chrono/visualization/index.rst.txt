@@ -27,6 +27,49 @@ Classes
 
 
 
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   wa_simulator.chrono.visualization.draw_path_in_irrlicht
+   wa_simulator.chrono.visualization.create_sphere_in_irrlicht
+   wa_simulator.chrono.visualization.update_position_of_sphere
+
+
+.. function:: draw_path_in_irrlicht(path, sys)
+
+   Draw a path object in irrlicht
+
+   :param path: WA path object to visualize in irrlicht
+   :type path: WAPath
+   :param sys: system that manages the simulation
+   :type sys: WASystem
+
+
+.. function:: create_sphere_in_irrlicht(system, rgb=(1, 0, 0))
+
+   Create and add a sphere to the irrlicht visualization
+
+   :param system: the system that manages the simulation
+   :type system: WASystem
+   :param rgb: (red, green, blue). Defaults to (1, 0, 0) or red.
+   :type rgb: tuple, optional
+
+   :returns: the sphere that was created
+   :rtype: chrono.ChBodyEasySphere
+
+
+.. function:: update_position_of_sphere(sphere, pos)
+
+   Update the position of a sphere being visualized in irrlicht
+
+   :param sphere: the sphere to change the position of
+   :type sphere: chrono.ChBodyEasySphere
+   :param pos: the new position
+   :type pos: WAVector
+
+
 .. py:class:: WAChronoIrrlicht(vehicle, system)
 
    Bases: :class:`wa_simulator.visualization.WAVisualization`

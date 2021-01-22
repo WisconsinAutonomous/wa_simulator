@@ -154,6 +154,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../controller/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.controller</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../data_loader/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.data_loader</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../environment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.environment</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../inputs/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.inputs</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../path/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.path</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../simulation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.simulation</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../system/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.system</span></code></a></li>
@@ -201,6 +202,71 @@ in the LICENSE file at the top level of the repo</p>
 </tr>
 </tbody>
 </table></div>
+</div>
+<div class="section" id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
+<div class="table-wrapper"><table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%"/>
+<col style="width: 90%"/>
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#wa_simulator.chrono.visualization.draw_path_in_irrlicht" title="wa_simulator.chrono.visualization.draw_path_in_irrlicht"><code class="xref py py-obj docutils literal notranslate"><span class="pre">draw_path_in_irrlicht</span></code></a>(path, sys)</p></td>
+<td><p>Draw a path object in irrlicht</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#wa_simulator.chrono.visualization.create_sphere_in_irrlicht" title="wa_simulator.chrono.visualization.create_sphere_in_irrlicht"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_sphere_in_irrlicht</span></code></a>(system, rgb=(1, 0, 0))</p></td>
+<td><p>Create and add a sphere to the irrlicht visualization</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#wa_simulator.chrono.visualization.update_position_of_sphere" title="wa_simulator.chrono.visualization.update_position_of_sphere"><code class="xref py py-obj docutils literal notranslate"><span class="pre">update_position_of_sphere</span></code></a>(sphere, pos)</p></td>
+<td><p>Update the position of a sphere being visualized in irrlicht</p></td>
+</tr>
+</tbody>
+</table></div>
+<dl class="py function">
+<dt id="wa_simulator.chrono.visualization.draw_path_in_irrlicht">
+<code class="sig-prename descclassname">wa_simulator.chrono.visualization.</code><code class="sig-name descname">draw_path_in_irrlicht</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span></em>, <em class="sig-param"><span class="n">sys</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.chrono.visualization.draw_path_in_irrlicht" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw a path object in irrlicht</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<a class="reference internal" href="../../path/index.html#wa_simulator.path.WAPath" title="wa_simulator.path.WAPath"><em>WAPath</em></a>) – WA path object to visualize in irrlicht</p></li>
+<li><p><strong>sys</strong> (<a class="reference internal" href="../../system/index.html#wa_simulator.system.WASystem" title="wa_simulator.system.WASystem"><em>WASystem</em></a>) – system that manages the simulation</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py function">
+<dt id="wa_simulator.chrono.visualization.create_sphere_in_irrlicht">
+<code class="sig-prename descclassname">wa_simulator.chrono.visualization.</code><code class="sig-name descname">create_sphere_in_irrlicht</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">system</span></em>, <em class="sig-param"><span class="n">rgb</span><span class="o">=</span><span class="default_value">(1, 0, 0)</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.chrono.visualization.create_sphere_in_irrlicht" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create and add a sphere to the irrlicht visualization</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>system</strong> (<a class="reference internal" href="../../system/index.html#wa_simulator.system.WASystem" title="wa_simulator.system.WASystem"><em>WASystem</em></a>) – the system that manages the simulation</p></li>
+<li><p><strong>rgb</strong> (<em>tuple</em><em>, </em><em>optional</em>) – (red, green, blue). Defaults to (1, 0, 0) or red.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the sphere that was created</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>chrono.ChBodyEasySphere</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py function">
+<dt id="wa_simulator.chrono.visualization.update_position_of_sphere">
+<code class="sig-prename descclassname">wa_simulator.chrono.visualization.</code><code class="sig-name descname">update_position_of_sphere</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sphere</span></em>, <em class="sig-param"><span class="n">pos</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.chrono.visualization.update_position_of_sphere" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the position of a sphere being visualized in irrlicht</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sphere</strong> (<em>chrono.ChBodyEasySphere</em>) – the sphere to change the position of</p></li>
+<li><p><strong>pos</strong> (<a class="reference internal" href="../../vector/index.html#wa_simulator.vector.WAVector" title="wa_simulator.vector.WAVector"><em>WAVector</em></a>) – the new position</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 <dl class="py class">
 <dt id="wa_simulator.chrono.visualization.WAChronoIrrlicht">
 <em class="property">class </em><code class="sig-prename descclassname">wa_simulator.chrono.visualization.</code><code class="sig-name descname">WAChronoIrrlicht</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">vehicle</span></em>, <em class="sig-param"><span class="n">system</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.chrono.visualization.WAChronoIrrlicht" title="Permalink to this definition">¶</a></dt>
@@ -263,7 +329,7 @@ in the LICENSE file at the top level of the repo</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>time</strong> (<em>double</em>) – time to synchronize the simulation to</p></li>
-<li><p><strong>vehicle_inputs</strong> (<a class="reference internal" href="../../controller/index.html#wa_simulator.controller.WAVehicleInputs" title="wa_simulator.controller.WAVehicleInputs"><em>WAVehicleInputs</em></a>) – the vehicle inputs</p></li>
+<li><p><strong>vehicle_inputs</strong> (<a class="reference internal" href="../../inputs/index.html#wa_simulator.inputs.WAVehicleInputs" title="wa_simulator.inputs.WAVehicleInputs"><em>WAVehicleInputs</em></a>) – the vehicle inputs</p></li>
 </ul>
 </dd>
 </dl>
@@ -342,7 +408,11 @@ in the LICENSE file at the top level of the repo</p>
             <ul>
 <li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.visualization</span></code></a><ul>
 <li><a class="reference internal" href="#module-contents">Module Contents</a><ul>
-<li><a class="reference internal" href="#classes">Classes</a><ul>
+<li><a class="reference internal" href="#classes">Classes</a></li>
+<li><a class="reference internal" href="#functions">Functions</a><ul>
+<li><a class="reference internal" href="#wa_simulator.chrono.visualization.draw_path_in_irrlicht">draw_path_in_irrlicht</a></li>
+<li><a class="reference internal" href="#wa_simulator.chrono.visualization.create_sphere_in_irrlicht">create_sphere_in_irrlicht</a></li>
+<li><a class="reference internal" href="#wa_simulator.chrono.visualization.update_position_of_sphere">update_position_of_sphere</a></li>
 <li><a class="reference internal" href="#wa_simulator.chrono.visualization.WAChronoIrrlicht">WAChronoIrrlicht</a><ul>
 <li><a class="reference internal" href="#wa_simulator.chrono.visualization.WAChronoIrrlicht.render_steps">render_steps</a></li>
 <li><a class="reference internal" href="#wa_simulator.chrono.visualization.WAChronoIrrlicht.system">system</a></li>

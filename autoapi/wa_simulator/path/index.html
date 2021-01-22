@@ -1,7 +1,7 @@
 <!doctype html>
 <html class="no-js">
   <head><meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="wa_simulator.simulation" href="../simulation/index.html" /><link rel="prev" title="wa_simulator.environment" href="../environment/index.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="wa_simulator.simulation" href="../simulation/index.html" /><link rel="prev" title="wa_simulator.inputs" href="../inputs/index.html" />
 
     <link rel="shortcut icon" href="../../../_static/wa-dark-favicon.png"/><meta name="generator" content="sphinx-3.4.2, furo 2020.12.30.beta24"/>
         <title>wa_simulator.path - Wisconsin Autonomous Simulator 0.0.1 documentation</title>
@@ -154,6 +154,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../controller/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.controller</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../data_loader/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.data_loader</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../environment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.environment</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../inputs/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.inputs</span></code></a></li>
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.path</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../simulation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.simulation</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../system/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.system</span></code></a></li>
@@ -216,14 +217,34 @@ in the LICENSE file at the top level of the repo</p>
 <col style="width: 90%"/>
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#wa_simulator.path.calc_path_length_cummulative" title="wa_simulator.path.calc_path_length_cummulative"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_path_length_cummulative</span></code></a>(x, y)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#wa_simulator.path.load_waypoints_from_csv" title="wa_simulator.path.load_waypoints_from_csv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_waypoints_from_csv</span></code></a>(filename, **kwargs)</p></td>
+<td><p>Get data points from a csv file.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#wa_simulator.path.calc_path_length_cummulative" title="wa_simulator.path.calc_path_length_cummulative"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_path_length_cummulative</span></code></a>(x, y)</p></td>
 <td><p>Get the cummulative distance along a path provided the given x and y position values</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#wa_simulator.path.calc_path_curvature" title="wa_simulator.path.calc_path_curvature"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_path_curvature</span></code></a>(dx, dy, ddx, ddy)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#wa_simulator.path.calc_path_curvature" title="wa_simulator.path.calc_path_curvature"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_path_curvature</span></code></a>(dx, dy, ddx, ddy)</p></td>
 <td><p>Calculate the curvature of a path at each point</p></td>
 </tr>
 </tbody>
 </table></div>
+<dl class="py function">
+<dt id="wa_simulator.path.load_waypoints_from_csv">
+<code class="sig-prename descclassname">wa_simulator.path.</code><code class="sig-name descname">load_waypoints_from_csv</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.path.load_waypoints_from_csv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get data points from a csv file.</p>
+<blockquote>
+<div><p>Should be structured as “x,y,z</p>
+</div></blockquote>
+<p>x,y,z…”. See NumPy.loadtxt for more info on arguments.</p>
+<blockquote>
+<div><dl class="simple">
+<dt>Args:</dt><dd><p>filename (str): file to open and read data from</p>
+</dd>
+<dt>Returns:</dt><dd><p>np.ndarray: a nxm array with each data point in each row</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
 <dl class="py function">
 <dt id="wa_simulator.path.calc_path_length_cummulative">
 <code class="sig-prename descclassname">wa_simulator.path.</code><code class="sig-name descname">calc_path_length_cummulative</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.path.calc_path_length_cummulative" title="Permalink to this definition">¶</a></dt>
@@ -392,14 +413,14 @@ in the LICENSE file at the top level of the repo</p>
               </div>
               <svg><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="../environment/index.html">
+          <a class="prev-page" href="../inputs/index.html">
               <svg><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.environment</span></code></div>
+                <div class="title"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.inputs</span></code></div>
                 
               </div>
             </a>
@@ -437,6 +458,7 @@ in the LICENSE file at the top level of the repo</p>
 <li><a class="reference internal" href="#module-contents">Module Contents</a><ul>
 <li><a class="reference internal" href="#classes">Classes</a></li>
 <li><a class="reference internal" href="#functions">Functions</a><ul>
+<li><a class="reference internal" href="#wa_simulator.path.load_waypoints_from_csv">load_waypoints_from_csv</a></li>
 <li><a class="reference internal" href="#wa_simulator.path.calc_path_length_cummulative">calc_path_length_cummulative</a></li>
 <li><a class="reference internal" href="#wa_simulator.path.calc_path_curvature">calc_path_curvature</a></li>
 <li><a class="reference internal" href="#wa_simulator.path.WAPath">WAPath</a><ul>

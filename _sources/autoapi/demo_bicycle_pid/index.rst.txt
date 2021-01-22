@@ -1,7 +1,7 @@
-:mod:`demo_bicycle_simple`
-==========================
+:mod:`demo_bicycle_pid`
+=======================
 
-.. py:module:: demo_bicycle_simple
+.. py:module:: demo_bicycle_pid
 
 
 Module Contents
@@ -13,7 +13,7 @@ Functions
 
 .. autoapisummary::
 
-   demo_bicycle_simple.main
+   demo_bicycle_pid.main
 
 
 .. data:: parser

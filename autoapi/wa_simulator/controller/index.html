@@ -154,6 +154,7 @@
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.controller</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../data_loader/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.data_loader</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../environment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.environment</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../inputs/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.inputs</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../path/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.path</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../simulation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.simulation</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../system/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.system</span></code></a></li>
@@ -196,17 +197,11 @@ in the LICENSE file at the top level of the repo</p>
 <col style="width: 90%"/>
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#wa_simulator.controller.WAVehicleInputs" title="wa_simulator.controller.WAVehicleInputs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WAVehicleInputs</span></code></a></p></td>
-<td><p>Object used to hold the inputs to the vehicle model</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#wa_simulator.controller.WAController" title="wa_simulator.controller.WAController"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WAController</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#wa_simulator.controller.WAController" title="wa_simulator.controller.WAController"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WAController</span></code></a></p></td>
 <td><p>Base class for a controller</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#wa_simulator.controller.WASimpleController" title="wa_simulator.controller.WASimpleController"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WASimpleController</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#wa_simulator.controller.WASimpleController" title="wa_simulator.controller.WASimpleController"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WASimpleController</span></code></a></p></td>
 <td><p>Simple controller designed to never change the inputs</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#wa_simulator.controller.WAKeyboardController" title="wa_simulator.controller.WAKeyboardController"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WAKeyboardController</span></code></a></p></td>
-<td><p>Base keyboard controller. Still must be inherited (can’t be instantiated). Has utilites.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#wa_simulator.controller.WATerminalKeyboardController" title="wa_simulator.controller.WATerminalKeyboardController"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WATerminalKeyboardController</span></code></a></p></td>
 <td><p>Controls a vehicle via input from the terminal window.</p></td>
@@ -229,23 +224,6 @@ in the LICENSE file at the top level of the repo</p>
 </tbody>
 </table></div>
 <dl class="py class">
-<dt id="wa_simulator.controller.WAVehicleInputs">
-<em class="property">class </em><code class="sig-prename descclassname">wa_simulator.controller.</code><code class="sig-name descname">WAVehicleInputs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">steering</span><span class="o">=</span><span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">throttle</span><span class="o">=</span><span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">braking</span><span class="o">=</span><span class="default_value">0.0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAVehicleInputs" title="Permalink to this definition">¶</a></dt>
-<dd><p>Object used to hold the inputs to the vehicle model</p>
-<p>The value ranges for the vehicle inputs may vary depending on the
-used vehicle model (i.e. radians vs percentages). This class is not reponsible for
-maintaining such properties, simply should be used for passing values around.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>steering</strong> (<em>double</em><em>, </em><em>optional</em>) – steering input. Defaults to 0.0.</p></li>
-<li><p><strong>throttle</strong> (<em>double</em><em>, </em><em>optional</em>) – throttle input. Defaults to 0.0.</p></li>
-<li><p><strong>braking</strong> (<em>double</em><em>, </em><em>optional</em>) – braking input. Defaults to 0.0.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py class">
 <dt id="wa_simulator.controller.WAController">
 <em class="property">class </em><code class="sig-prename descclassname">wa_simulator.controller.</code><code class="sig-name descname">WAController</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">system</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAController" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
@@ -266,7 +244,7 @@ through the get_inputs method.</p>
 <dd><p>Inputs to the vehicle model</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#wa_simulator.controller.WAVehicleInputs" title="wa_simulator.controller.WAVehicleInputs">WAVehicleInputs</a></p>
+<dd class="field-odd"><p><a class="reference internal" href="../inputs/index.html#wa_simulator.inputs.WAVehicleInputs" title="wa_simulator.inputs.WAVehicleInputs">WAVehicleInputs</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -315,7 +293,7 @@ other logic in the Advance method.</p>
 <dd class="field-odd"><p>The input class</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="#wa_simulator.controller.WAVehicleInputs" title="wa_simulator.controller.WAVehicleInputs">WAVehicleInputs</a></p>
+<dd class="field-even"><p><a class="reference internal" href="../inputs/index.html#wa_simulator.inputs.WAVehicleInputs" title="wa_simulator.inputs.WAVehicleInputs">WAVehicleInputs</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -352,106 +330,12 @@ other logic in the Advance method.</p>
 </dd></dl>
 </dd></dl>
 <dl class="py class">
-<dt id="wa_simulator.controller.WAKeyboardController">
-<em class="property">class </em><code class="sig-prename descclassname">wa_simulator.controller.</code><code class="sig-name descname">WAKeyboardController</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">system</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#wa_simulator.controller.WAController" title="wa_simulator.controller.WAController"><code class="xref py py-class docutils literal notranslate"><span class="pre">wa_simulator.controller.WAController</span></code></a></p>
-<p>Base keyboard controller. Still must be inherited (can’t be instantiated). Has utilites.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>system</strong> (<em>ChSystem</em>) – The system used to manage the simulation</p></li>
-<li><p><strong>steering_target</strong> (<em>double</em>) – The target steering value.</p></li>
-<li><p><strong>throttle_target</strong> (<em>double</em>) – The target throttle value.</p></li>
-<li><p><strong>braking_target</strong> (<em>double</em>) – The target braking value.</p></li>
-<li><p><strong>steering_delta</strong> (<em>double</em>) – The delta steering value.</p></li>
-<li><p><strong>throttle_delta</strong> (<em>double</em>) – The delta throttle value.</p></li>
-<li><p><strong>braking_delta</strong> (<em>double</em>) – The delta braking value.</p></li>
-<li><p><strong>steering_gain</strong> (<em>double</em>) – The gain steering value.</p></li>
-<li><p><strong>throttle_gain</strong> (<em>double</em>) – The gain throttle value.</p></li>
-<li><p><strong>braking_gain</strong> (<em>double</em>) – The gain braking value.</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="py method">
-<dt id="wa_simulator.controller.WAKeyboardController.set_steering_delta">
-<code class="sig-name descname">set_steering_delta</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">steering_delta</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.set_steering_delta" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sets the steering delta value</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>steering_delta</strong> (<em>double</em>) – the new steering delta value</p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py method">
-<dt id="wa_simulator.controller.WAKeyboardController.set_throttle_delta">
-<code class="sig-name descname">set_throttle_delta</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">throttle_delta</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.set_throttle_delta" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sets the throttle delta value</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>throttle_delta</strong> (<em>double</em>) – the new throttle delta value</p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py method">
-<dt id="wa_simulator.controller.WAKeyboardController.set_braking_delta">
-<code class="sig-name descname">set_braking_delta</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">braking_delta</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.set_braking_delta" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sets the braking delta value</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>braking_delta</strong> (<em>double</em>) – the new braking delta value</p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py method">
-<dt id="wa_simulator.controller.WAKeyboardController.set_gains">
-<code class="sig-name descname">set_gains</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">steering_gain</span></em>, <em class="sig-param"><span class="n">throttle_gain</span></em>, <em class="sig-param"><span class="n">braking_gain</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.set_gains" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sets the controllers gains</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>steering_gain</strong> (<em>double</em>) – the new steering gain</p></li>
-<li><p><strong>throttle_gain</strong> (<em>double</em>) – the new throttle gain</p></li>
-<li><p><strong>braking_gain</strong> (<em>double</em>) – the new braking gain</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py method">
-<dt id="wa_simulator.controller.WAKeyboardController.advance">
-<code class="sig-name descname">advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.advance" title="Permalink to this definition">¶</a></dt>
-<dd><p>Advance the controller by the specified step</p>
-<p>Integrates dynamics over some step range. If the original step is the same as the passed
-step value, the method is only run once.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>step</strong> (<em>double</em>) – the time step at which the controller should be advanced</p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py method">
-<dt id="wa_simulator.controller.WAKeyboardController.update">
-<code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">key</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAKeyboardController.update" title="Permalink to this definition">¶</a></dt>
-<dd><p>Update the target values based on the key.</p>
-<p>The updated target values are based off the delta values for that respective input.
-In this controller, input values are clipped at [-1,1] or [0,1].</p>
-<p>0: throttle increase, braking decreases
-1: adjust steering right
-2: brake increase, throttle decrease
-3: adjust steering left</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>key</strong> (<em>int</em>) – the key input</p>
-</dd>
-</dl>
-</dd></dl>
-</dd></dl>
-<dl class="py class">
 <dt id="wa_simulator.controller.WATerminalKeyboardController">
 <em class="property">class </em><code class="sig-prename descclassname">wa_simulator.controller.</code><code class="sig-name descname">WATerminalKeyboardController</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">system</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WATerminalKeyboardController" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#wa_simulator.controller.WAKeyboardController" title="wa_simulator.controller.WAKeyboardController"><code class="xref py py-class docutils literal notranslate"><span class="pre">wa_simulator.controller.WAKeyboardController</span></code></a></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">wa_simulator.controller._WAKeyboardController</span></code></p>
 <p>Controls a vehicle via input from the terminal window.</p>
 <p>Uses the KeyGetter object to grab input from the user in the terminal window.
-Inherits from the WAKeyboardController method</p>
+Inherits from the _WAKeyboardController method</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>system</strong> (<em>ChSystem</em>) – The system used to manage the simulation</p>
@@ -587,18 +471,41 @@ window for arrow keys. Will exit if any other key is pressed.</p>
 </dd></dl>
 <dl class="py class">
 <dt id="wa_simulator.controller.WAPIDController">
-<em class="property">class </em><code class="sig-prename descclassname">wa_simulator.controller.</code><code class="sig-name descname">WAPIDController</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">lat_controller</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">long_controller</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAPIDController" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">wa_simulator.controller.</code><code class="sig-name descname">WAPIDController</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">system</span></em>, <em class="sig-param"><span class="n">vehicle</span></em>, <em class="sig-param"><span class="n">path</span></em>, <em class="sig-param"><span class="n">lat_controller</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">long_controller</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAPIDController" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#wa_simulator.controller.WAController" title="wa_simulator.controller.WAController"><code class="xref py py-class docutils literal notranslate"><span class="pre">wa_simulator.controller.WAController</span></code></a></p>
 <p>PID Controller that contains a lateral and longitudinal controller</p>
 <p>Uses the lateral controller for steering and longitudinal controller throttle/braking</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
+<li><p><strong>system</strong> (<em>ChSystem</em>) – The system used to manage the simulation</p></li>
+<li><p><strong>vehicle</strong> (<a class="reference internal" href="../vehicle/index.html#wa_simulator.vehicle.WAVehicle" title="wa_simulator.vehicle.WAVehicle"><em>WAVehicle</em></a>) – The vehicle to grab the state from</p></li>
+<li><p><strong>path</strong> (<a class="reference internal" href="../path/index.html#wa_simulator.path.WAPath" title="wa_simulator.path.WAPath"><em>WAPath</em></a>) – The path to follow</p></li>
 <li><p><strong>lat_controller</strong> (<a class="reference internal" href="#wa_simulator.controller.WAPIDLateralController" title="wa_simulator.controller.WAPIDLateralController"><em>WAPIDLateralController</em></a><em>, </em><em>optional</em>) – Lateral controller for steering. Defaults to None.</p></li>
 <li><p><strong>long_controller</strong> (<a class="reference internal" href="#wa_simulator.controller.WAPIDLongitudinalController" title="wa_simulator.controller.WAPIDLongitudinalController"><em>WAPIDLongitudinalController</em></a><em>, </em><em>optional</em>) – Longitudinal controller for throttle/braking. Defaults to None.</p></li>
 </ul>
 </dd>
 </dl>
+<dl class="py attribute">
+<dt id="wa_simulator.controller.WAPIDController.vehicle">
+<code class="sig-name descname">vehicle</code><a class="headerlink" href="#wa_simulator.controller.WAPIDController.vehicle" title="Permalink to this definition">¶</a></dt>
+<dd><p>The vehicle to grab the state from</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="../vehicle/index.html#wa_simulator.vehicle.WAVehicle" title="wa_simulator.vehicle.WAVehicle">WAVehicle</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.controller.WAPIDController.path">
+<code class="sig-name descname">path</code><a class="headerlink" href="#wa_simulator.controller.WAPIDController.path" title="Permalink to this definition">¶</a></dt>
+<dd><p>The path to follow</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="../path/index.html#wa_simulator.path.WAPath" title="wa_simulator.path.WAPath">WAPath</a></p>
+</dd>
+</dl>
+</dd></dl>
 <dl class="py attribute">
 <dt id="wa_simulator.controller.WAPIDController.lat_controller">
 <code class="sig-name descname">lat_controller</code><a class="headerlink" href="#wa_simulator.controller.WAPIDController.lat_controller" title="Permalink to this definition">¶</a></dt>
@@ -616,6 +523,34 @@ window for arrow keys. Will exit if any other key is pressed.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
 <dd class="field-odd"><p><a class="reference internal" href="#wa_simulator.controller.WAPIDLongitudinalController" title="wa_simulator.controller.WAPIDLongitudinalController">WAPIDLongitudinalController</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.controller.WAPIDController.set_delta">
+<code class="sig-name descname">set_delta</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">steering_delta</span></em>, <em class="sig-param"><span class="n">throttle_delta</span></em>, <em class="sig-param"><span class="n">braking_delta</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAPIDController.set_delta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the delta values</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>steering_delta</strong> (<em>float</em>) – max steering delta</p></li>
+<li><p><strong>throttle_delta</strong> (<em>float</em>) – max throttle delta</p></li>
+<li><p><strong>braking_delta</strong> (<em>float</em>) – max braking delta</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.controller.WAPIDController.set_gains">
+<code class="sig-name descname">set_gains</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">steering_gain</span></em>, <em class="sig-param"><span class="n">throttle_gain</span></em>, <em class="sig-param"><span class="n">braking_gain</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAPIDController.set_gains" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the gain values</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>steering_gain</strong> (<em>float</em>) – steering gain</p></li>
+<li><p><strong>throttle_gain</strong> (<em>float</em>) – throttle gain</p></li>
+<li><p><strong>braking_gain</strong> (<em>float</em>) – braking gain</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -650,34 +585,25 @@ throttle and braking from the longitudinal controller</p>
 <dd class="field-odd"><p>The input class</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="#wa_simulator.controller.WAVehicleInputs" title="wa_simulator.controller.WAVehicleInputs">WAVehicleInputs</a></p>
+<dd class="field-even"><p><a class="reference internal" href="../inputs/index.html#wa_simulator.inputs.WAVehicleInputs" title="wa_simulator.inputs.WAVehicleInputs">WAVehicleInputs</a></p>
 </dd>
 </dl>
 </dd></dl>
 </dd></dl>
 <dl class="py class">
 <dt id="wa_simulator.controller.WAPIDLateralController">
-<em class="property">class </em><code class="sig-prename descclassname">wa_simulator.controller.</code><code class="sig-name descname">WAPIDLateralController</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span></em>, <em class="sig-param"><span class="n">vehicle</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAPIDLateralController" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">wa_simulator.controller.</code><code class="sig-name descname">WAPIDLateralController</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">system</span></em>, <em class="sig-param"><span class="n">vehicle</span></em>, <em class="sig-param"><span class="n">path</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAPIDLateralController" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#wa_simulator.controller.WAController" title="wa_simulator.controller.WAController"><code class="xref py py-class docutils literal notranslate"><span class="pre">wa_simulator.controller.WAController</span></code></a></p>
 <p>Lateral (steering) controller which minimizes error using a PID</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>path</strong> (<a class="reference internal" href="../path/index.html#wa_simulator.path.WAPath" title="wa_simulator.path.WAPath"><em>WAPath</em></a>) – the path the vehicle is attempting to follow</p></li>
+<li><p><strong>system</strong> (<em>ChSystem</em>) – The system used to manage the simulation</p></li>
 <li><p><strong>vehicle</strong> (<a class="reference internal" href="../vehicle/index.html#wa_simulator.vehicle.WAVehicle" title="wa_simulator.vehicle.WAVehicle"><em>WAVehicle</em></a>) – the vehicle who has dynamics</p></li>
+<li><p><strong>path</strong> (<a class="reference internal" href="../path/index.html#wa_simulator.path.WAPath" title="wa_simulator.path.WAPath"><em>WAPath</em></a>) – the path the vehicle is attempting to follow</p></li>
 </ul>
 </dd>
 </dl>
-<dl class="py attribute">
-<dt id="wa_simulator.controller.WAPIDLateralController.path">
-<code class="sig-name descname">path</code><a class="headerlink" href="#wa_simulator.controller.WAPIDLateralController.path" title="Permalink to this definition">¶</a></dt>
-<dd><p>the path the vehicle is attempting to follow</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="../path/index.html#wa_simulator.path.WAPath" title="wa_simulator.path.WAPath">WAPath</a></p>
-</dd>
-</dl>
-</dd></dl>
 <dl class="py attribute">
 <dt id="wa_simulator.controller.WAPIDLateralController.vehicle">
 <code class="sig-name descname">vehicle</code><a class="headerlink" href="#wa_simulator.controller.WAPIDLateralController.vehicle" title="Permalink to this definition">¶</a></dt>
@@ -685,6 +611,16 @@ throttle and braking from the longitudinal controller</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
 <dd class="field-odd"><p><a class="reference internal" href="../vehicle/index.html#wa_simulator.vehicle.WAVehicle" title="wa_simulator.vehicle.WAVehicle">WAVehicle</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.controller.WAPIDLateralController.path">
+<code class="sig-name descname">path</code><a class="headerlink" href="#wa_simulator.controller.WAPIDLateralController.path" title="Permalink to this definition">¶</a></dt>
+<dd><p>the path the vehicle is attempting to follow</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="../path/index.html#wa_simulator.path.WAPath" title="wa_simulator.path.WAPath">WAPath</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -825,12 +761,15 @@ throttle and braking from the longitudinal controller</p>
 </dd></dl>
 <dl class="py method">
 <dt id="wa_simulator.controller.WAPIDLateralController.calc_sign">
-<code class="sig-name descname">calc_sign</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">state</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAPIDLateralController.calc_sign" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">calc_sign</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAPIDLateralController.calc_sign" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the sign of the angle between the projections of the sentinel vector
 and the target vector (with origin at vehicle location).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>state</strong> (<em>tuple</em>) – (x position, y position, yaw about the Z, speed)</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>float</em>) – x position</p></li>
+<li><p><strong>y</strong> (<em>float</em>) – y position</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>the sign indicating direction of the state and the sentinel on the path (-1 for left or 1 for right)</p>
@@ -843,12 +782,15 @@ and the target vector (with origin at vehicle location).</p>
 </dd></dl>
 <dl class="py class">
 <dt id="wa_simulator.controller.WAPIDLongitudinalController">
-<em class="property">class </em><code class="sig-prename descclassname">wa_simulator.controller.</code><code class="sig-name descname">WAPIDLongitudinalController</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">vehicle</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAPIDLongitudinalController" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">wa_simulator.controller.</code><code class="sig-name descname">WAPIDLongitudinalController</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">system</span></em>, <em class="sig-param"><span class="n">vehicle</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAPIDLongitudinalController" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#wa_simulator.controller.WAController" title="wa_simulator.controller.WAController"><code class="xref py py-class docutils literal notranslate"><span class="pre">wa_simulator.controller.WAController</span></code></a></p>
 <p>Longitudinal (throttle, braking) controller which minimizes error using a PID</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>vehicle</strong> (<a class="reference internal" href="../vehicle/index.html#wa_simulator.vehicle.WAVehicle" title="wa_simulator.vehicle.WAVehicle"><em>WAVehicle</em></a>) – the vehicle who has dynamics</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>system</strong> (<em>ChSystem</em>) – The system used to manage the simulation</p></li>
+<li><p><strong>vehicle</strong> (<a class="reference internal" href="../vehicle/index.html#wa_simulator.vehicle.WAVehicle" title="wa_simulator.vehicle.WAVehicle"><em>WAVehicle</em></a>) – the vehicle who has dynamics</p></li>
+</ul>
 </dd>
 </dl>
 <dl class="py attribute">
@@ -1000,17 +942,16 @@ and the target vector (with origin at vehicle location).</p>
 <dl class="py class">
 <dt id="wa_simulator.controller.WAMatplotlibController">
 <em class="property">class </em><code class="sig-prename descclassname">wa_simulator.controller.</code><code class="sig-name descname">WAMatplotlibController</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">system</span></em>, <em class="sig-param"><span class="n">vis</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAMatplotlibController" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#wa_simulator.controller.WAKeyboardController" title="wa_simulator.controller.WAKeyboardController"><code class="xref py py-class docutils literal notranslate"><span class="pre">wa_simulator.controller.WAKeyboardController</span></code></a></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">wa_simulator.controller._WAKeyboardController</span></code></p>
 <p>Controls a vehicle via keyboard input from a matplotlib figure</p>
-<p>Will asynchronously change inputs based on user input to the matplotlib window.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>system</strong> (<em>ChSystem</em>) – The system used to manage the simulation</p></li>
-<li><p><strong>vis</strong> (<a class="reference internal" href="../visualization/index.html#wa_simulator.visualization.WAMatplotlibVisualization" title="wa_simulator.visualization.WAMatplotlibVisualization"><em>WAMatplotlibVisualization</em></a>) – The visualization that holds a matplotlib figure</p></li>
-</ul>
+<blockquote>
+<div><p>Will asynchronously change inputs based on user input to the matplotlib window.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>system (ChSystem): The system used to manage the simulation
+vis (WAMatplotlibVisualization): The visualization that holds a matplotlib figure</p>
 </dd>
 </dl>
+</div></blockquote>
 <dl class="py attribute">
 <dt id="wa_simulator.controller.WAMatplotlibController.vis">
 <code class="sig-name descname">vis</code><a class="headerlink" href="#wa_simulator.controller.WAMatplotlibController.vis" title="Permalink to this definition">¶</a></dt>
@@ -1032,6 +973,10 @@ and the target vector (with origin at vehicle location).</p>
 </dd>
 </dl>
 </dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.controller.WAMatplotlibController.key_press">
+<code class="sig-name descname">key_press</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.controller.WAMatplotlibController.key_press" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 </dd></dl>
 </div>
 </div>
@@ -1094,7 +1039,6 @@ and the target vector (with origin at vehicle location).</p>
 <li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.controller</span></code></a><ul>
 <li><a class="reference internal" href="#module-contents">Module Contents</a><ul>
 <li><a class="reference internal" href="#classes">Classes</a><ul>
-<li><a class="reference internal" href="#wa_simulator.controller.WAVehicleInputs">WAVehicleInputs</a></li>
 <li><a class="reference internal" href="#wa_simulator.controller.WAController">WAController</a><ul>
 <li><a class="reference internal" href="#wa_simulator.controller.WAController.inputs">inputs</a></li>
 <li><a class="reference internal" href="#wa_simulator.controller.WAController.steering">steering</a></li>
@@ -1108,15 +1052,6 @@ and the target vector (with origin at vehicle location).</p>
 <li><a class="reference internal" href="#wa_simulator.controller.WASimpleController">WASimpleController</a><ul>
 <li><a class="reference internal" href="#wa_simulator.controller.WASimpleController.advance">advance</a></li>
 <li><a class="reference internal" href="#wa_simulator.controller.WASimpleController.synchronize">synchronize</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#wa_simulator.controller.WAKeyboardController">WAKeyboardController</a><ul>
-<li><a class="reference internal" href="#wa_simulator.controller.WAKeyboardController.set_steering_delta">set_steering_delta</a></li>
-<li><a class="reference internal" href="#wa_simulator.controller.WAKeyboardController.set_throttle_delta">set_throttle_delta</a></li>
-<li><a class="reference internal" href="#wa_simulator.controller.WAKeyboardController.set_braking_delta">set_braking_delta</a></li>
-<li><a class="reference internal" href="#wa_simulator.controller.WAKeyboardController.set_gains">set_gains</a></li>
-<li><a class="reference internal" href="#wa_simulator.controller.WAKeyboardController.advance">advance</a></li>
-<li><a class="reference internal" href="#wa_simulator.controller.WAKeyboardController.update">update</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#wa_simulator.controller.WATerminalKeyboardController">WATerminalKeyboardController</a><ul>
@@ -1140,16 +1075,20 @@ and the target vector (with origin at vehicle location).</p>
 </ul>
 </li>
 <li><a class="reference internal" href="#wa_simulator.controller.WAPIDController">WAPIDController</a><ul>
+<li><a class="reference internal" href="#wa_simulator.controller.WAPIDController.vehicle">vehicle</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAPIDController.path">path</a></li>
 <li><a class="reference internal" href="#wa_simulator.controller.WAPIDController.lat_controller">lat_controller</a></li>
 <li><a class="reference internal" href="#wa_simulator.controller.WAPIDController.long_controller">long_controller</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAPIDController.set_delta">set_delta</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAPIDController.set_gains">set_gains</a></li>
 <li><a class="reference internal" href="#wa_simulator.controller.WAPIDController.synchronize">synchronize</a></li>
 <li><a class="reference internal" href="#wa_simulator.controller.WAPIDController.advance">advance</a></li>
 <li><a class="reference internal" href="#wa_simulator.controller.WAPIDController.get_inputs">get_inputs</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#wa_simulator.controller.WAPIDLateralController">WAPIDLateralController</a><ul>
-<li><a class="reference internal" href="#wa_simulator.controller.WAPIDLateralController.path">path</a></li>
 <li><a class="reference internal" href="#wa_simulator.controller.WAPIDLateralController.vehicle">vehicle</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAPIDLateralController.path">path</a></li>
 <li><a class="reference internal" href="#wa_simulator.controller.WAPIDLateralController.Kp">Kp</a></li>
 <li><a class="reference internal" href="#wa_simulator.controller.WAPIDLateralController.Ki">Ki</a></li>
 <li><a class="reference internal" href="#wa_simulator.controller.WAPIDLateralController.Kd">Kd</a></li>
@@ -1186,6 +1125,7 @@ and the target vector (with origin at vehicle location).</p>
 <li><a class="reference internal" href="#wa_simulator.controller.WAMatplotlibController">WAMatplotlibController</a><ul>
 <li><a class="reference internal" href="#wa_simulator.controller.WAMatplotlibController.vis">vis</a></li>
 <li><a class="reference internal" href="#wa_simulator.controller.WAMatplotlibController.synchronize">synchronize</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAMatplotlibController.key_press">key_press</a></li>
 </ul>
 </li>
 </ul>

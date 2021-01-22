@@ -27,7 +27,7 @@ Classes
 
 
 
-.. py:class:: WAArgumentParser(use_defaults=True, description='Wisconsin Autonomous Simulator')
+.. py:class:: WAArgumentParser(use_sim_defaults=True, description='Wisconsin Autonomous Simulator')
 
    Bases: :class:`argparse.ArgumentParser`
 
@@ -46,7 +46,16 @@ Classes
    :keyword - add_help -- Add a -h/-help option:
    :keyword - allow_abbrev -- Allow long options to be abbreviated unambiguously:
 
-   .. method:: add_default_arguments(self)
+   .. method:: add_default_sim_arguments(self)
+
+      Adds default arguments for most simulations
+
+      Includes:
+          -s,--sim_step_size: Simulation step size
+          -rs,--render_step_size: Rendering step size
+          -iv,--irrlicht: Use irrlicht visualization
+          -mv,--matplotlib: Use matplotlib visualization
+          -r,--record: Record the simulation to a csv
 
 
 

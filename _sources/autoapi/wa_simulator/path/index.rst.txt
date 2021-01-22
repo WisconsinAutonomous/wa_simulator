@@ -34,8 +34,23 @@ Functions
 
 .. autoapisummary::
 
+   wa_simulator.path.load_waypoints_from_csv
    wa_simulator.path.calc_path_length_cummulative
    wa_simulator.path.calc_path_curvature
+
+
+.. function:: load_waypoints_from_csv(filename, **kwargs)
+
+   Get data points from a csv file.
+
+       Should be structured as "x,y,z
+   x,y,z...". See NumPy.loadtxt for more info on arguments.
+
+       Args:
+           filename (str): file to open and read data from
+
+       Returns:
+           np.ndarray: a nxm array with each data point in each row
 
 
 .. function:: calc_path_length_cummulative(x, y)

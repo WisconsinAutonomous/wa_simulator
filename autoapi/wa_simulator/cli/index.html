@@ -154,6 +154,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../controller/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.controller</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../data_loader/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.data_loader</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../environment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.environment</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../inputs/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.inputs</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../path/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.path</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../simulation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.simulation</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../system/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.system</span></code></a></li>
@@ -203,7 +204,7 @@ in the LICENSE file at the top level of the repo</p>
 </table></div>
 <dl class="py class">
 <dt id="wa_simulator.cli.WAArgumentParser">
-<em class="property">class </em><code class="sig-prename descclassname">wa_simulator.cli.</code><code class="sig-name descname">WAArgumentParser</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">use_defaults</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">description</span><span class="o">=</span><span class="default_value">'Wisconsin Autonomous Simulator'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.cli.WAArgumentParser" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">wa_simulator.cli.</code><code class="sig-name descname">WAArgumentParser</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">use_sim_defaults</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">description</span><span class="o">=</span><span class="default_value">'Wisconsin Autonomous Simulator'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.cli.WAArgumentParser" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">argparse.ArgumentParser</span></code></p>
 <p>Object for parsing command line strings into Python objects.</p>
 <dl class="field-list simple">
@@ -225,9 +226,18 @@ in the LICENSE file at the top level of the repo</p>
 </dd>
 </dl>
 <dl class="py method">
-<dt id="wa_simulator.cli.WAArgumentParser.add_default_arguments">
-<code class="sig-name descname">add_default_arguments</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.cli.WAArgumentParser.add_default_arguments" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt id="wa_simulator.cli.WAArgumentParser.add_default_sim_arguments">
+<code class="sig-name descname">add_default_sim_arguments</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.cli.WAArgumentParser.add_default_sim_arguments" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds default arguments for most simulations</p>
+<dl class="simple">
+<dt>Includes:</dt><dd><p>-s,–sim_step_size: Simulation step size
+-rs,–render_step_size: Rendering step size
+-iv,–irrlicht: Use irrlicht visualization
+-mv,–matplotlib: Use matplotlib visualization
+-r,–record: Record the simulation to a csv</p>
+</dd>
+</dl>
+</dd></dl>
 </dd></dl>
 </div>
 </div>
@@ -291,7 +301,7 @@ in the LICENSE file at the top level of the repo</p>
 <li><a class="reference internal" href="#module-contents">Module Contents</a><ul>
 <li><a class="reference internal" href="#classes">Classes</a><ul>
 <li><a class="reference internal" href="#wa_simulator.cli.WAArgumentParser">WAArgumentParser</a><ul>
-<li><a class="reference internal" href="#wa_simulator.cli.WAArgumentParser.add_default_arguments">add_default_arguments</a></li>
+<li><a class="reference internal" href="#wa_simulator.cli.WAArgumentParser.add_default_sim_arguments">add_default_sim_arguments</a></li>
 </ul>
 </li>
 </ul>

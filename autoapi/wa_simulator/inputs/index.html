@@ -1,10 +1,10 @@
 <!doctype html>
 <html class="no-js">
   <head><meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="wa_simulator.inputs" href="../inputs/index.html" /><link rel="prev" title="wa_simulator.data_loader" href="../data_loader/index.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="wa_simulator.path" href="../path/index.html" /><link rel="prev" title="wa_simulator.environment" href="../environment/index.html" />
 
     <link rel="shortcut icon" href="../../../_static/wa-dark-favicon.png"/><meta name="generator" content="sphinx-3.4.2, furo 2020.12.30.beta24"/>
-        <title>wa_simulator.environment - Wisconsin Autonomous Simulator 0.0.1 documentation</title>
+        <title>wa_simulator.inputs - Wisconsin Autonomous Simulator 0.0.1 documentation</title>
       <link rel="stylesheet" href="../../../_static/styles/furo.css?digest=33d2fc4f3f180ec1ffc6524e273e21d7d58cbe49">
     <link rel="stylesheet" href="../../../_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../../../_static/pygments_dark.css">
@@ -153,8 +153,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../constants/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.constants</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../controller/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.controller</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../data_loader/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.data_loader</span></code></a></li>
-<li class="toctree-l2 current current-page"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.environment</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../inputs/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../environment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.environment</span></code></a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.inputs</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../path/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.path</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../simulation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.simulation</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../system/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.system</span></code></a></li>
@@ -180,8 +180,8 @@
         <label class="toc-overlay-icon toc-content-icon" for="__toc">
           <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
         </label>
-        <div class="section" id="module-wa_simulator.environment">
-<span id="wa-simulator-environment"></span><h1><a class="reference internal" href="#module-wa_simulator.environment" title="wa_simulator.environment"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.environment</span></code></a><a class="headerlink" href="#module-wa_simulator.environment" title="Permalink to this headline">¶</a></h1>
+        <div class="section" id="module-wa_simulator.inputs">
+<span id="wa-simulator-inputs"></span><h1><a class="reference internal" href="#module-wa_simulator.inputs" title="wa_simulator.inputs"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.inputs</span></code></a><a class="headerlink" href="#module-wa_simulator.inputs" title="Permalink to this headline">¶</a></h1>
 <p>Wisconsin Autonomous - <a class="reference external" href="https://www.wisconsinautonomous.org">https://www.wisconsinautonomous.org</a></p>
 <p>Copyright (c) 2021 wisconsinautonomous.org
 All rights reserved.</p>
@@ -197,86 +197,27 @@ in the LICENSE file at the top level of the repo</p>
 <col style="width: 90%"/>
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#wa_simulator.environment.WAEnvironment" title="wa_simulator.environment.WAEnvironment"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WAEnvironment</span></code></a></p></td>
-<td><p>Base class for the environment object.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#wa_simulator.environment.WASimpleEnvironment" title="wa_simulator.environment.WASimpleEnvironment"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WASimpleEnvironment</span></code></a></p></td>
-<td><p>Simple environment that doesn’t have any assets within the world.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#wa_simulator.inputs.WAVehicleInputs" title="wa_simulator.inputs.WAVehicleInputs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WAVehicleInputs</span></code></a></p></td>
+<td><p>Object used to hold the inputs to the vehicle model</p></td>
 </tr>
 </tbody>
 </table></div>
 <dl class="py class">
-<dt id="wa_simulator.environment.WAEnvironment">
-<em class="property">class </em><code class="sig-prename descclassname">wa_simulator.environment.</code><code class="sig-name descname">WAEnvironment</code><a class="headerlink" href="#wa_simulator.environment.WAEnvironment" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
-<p>Base class for the environment object.</p>
-<p>The environment object is responsible for handling data or assets within the world.</p>
-<dl class="py method">
-<dt id="wa_simulator.environment.WAEnvironment.synchronize">
-<em class="property">abstract </em><code class="sig-name descname">synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">time</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.environment.WAEnvironment.synchronize" title="Permalink to this definition">¶</a></dt>
-<dd><p>Synchronize the environment at the specified time</p>
-<p>Function is primarily as a semantic separation between different functionality.
-Most of the time, all environment logic can be placed in the Advance method.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>time</strong> (<em>double</em>) – the time at which the environment should synchronize all depends to</p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py method">
-<dt id="wa_simulator.environment.WAEnvironment.advance">
-<em class="property">abstract </em><code class="sig-name descname">advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.environment.WAEnvironment.advance" title="Permalink to this definition">¶</a></dt>
-<dd><p>Advance the environment by the specified step</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>step</strong> (<em>double</em>) – the time step at which the environment should be advanced</p>
-</dd>
-</dl>
-</dd></dl>
-</dd></dl>
-<dl class="py class">
-<dt id="wa_simulator.environment.WASimpleEnvironment">
-<em class="property">class </em><code class="sig-prename descclassname">wa_simulator.environment.</code><code class="sig-name descname">WASimpleEnvironment</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em>, <em class="sig-param"><span class="n">sys</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.environment.WASimpleEnvironment" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#wa_simulator.environment.WAEnvironment" title="wa_simulator.environment.WAEnvironment"><code class="xref py py-class docutils literal notranslate"><span class="pre">wa_simulator.environment.WAEnvironment</span></code></a></p>
-<p>Simple environment that doesn’t have any assets within the world.</p>
+<dt id="wa_simulator.inputs.WAVehicleInputs">
+<em class="property">class </em><code class="sig-prename descclassname">wa_simulator.inputs.</code><code class="sig-name descname">WAVehicleInputs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">steering</span><span class="o">=</span><span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">throttle</span><span class="o">=</span><span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">braking</span><span class="o">=</span><span class="default_value">0.0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.inputs.WAVehicleInputs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Object used to hold the inputs to the vehicle model</p>
+<p>The value ranges for the vehicle inputs may vary depending on the
+used vehicle model (i.e. radians vs percentages). This class is not reponsible for
+maintaining such properties, simply should be used for passing values around.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>filename</strong> (<em>str</em>) – filename</p></li>
-<li><p><strong>sys</strong> (<a class="reference internal" href="../system/index.html#wa_simulator.system.WASystem" title="wa_simulator.system.WASystem"><em>WASystem</em></a>) – system</p></li>
+<li><p><strong>steering</strong> (<em>double</em><em>, </em><em>optional</em>) – steering input. Defaults to 0.0.</p></li>
+<li><p><strong>throttle</strong> (<em>double</em><em>, </em><em>optional</em>) – throttle input. Defaults to 0.0.</p></li>
+<li><p><strong>braking</strong> (<em>double</em><em>, </em><em>optional</em>) – braking input. Defaults to 0.0.</p></li>
 </ul>
 </dd>
 </dl>
-<dl class="py attribute">
-<dt id="wa_simulator.environment.WASimpleEnvironment.EGP_ENV_MODEL_FILE">
-<code class="sig-name descname">EGP_ENV_MODEL_FILE</code><em class="property"> = environments/ev_grand_prix.json</em><a class="headerlink" href="#wa_simulator.environment.WASimpleEnvironment.EGP_ENV_MODEL_FILE" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-<dl class="py attribute">
-<dt id="wa_simulator.environment.WASimpleEnvironment.IAC_ENV_MODEL_FILE">
-<code class="sig-name descname">IAC_ENV_MODEL_FILE</code><em class="property"> = environments/iac.json</em><a class="headerlink" href="#wa_simulator.environment.WASimpleEnvironment.IAC_ENV_MODEL_FILE" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-<dl class="py method">
-<dt id="wa_simulator.environment.WASimpleEnvironment.synchronize">
-<code class="sig-name descname">synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">time</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.environment.WASimpleEnvironment.synchronize" title="Permalink to this definition">¶</a></dt>
-<dd><p>Synchronize the environment with the rest of the world at the specified time</p>
-<p>Doesn’t actually do anything.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>time</strong> (<em>double</em>) – the time at which the enviornment should be synchronized to</p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py method">
-<dt id="wa_simulator.environment.WASimpleEnvironment.advance">
-<code class="sig-name descname">advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.environment.WASimpleEnvironment.advance" title="Permalink to this definition">¶</a></dt>
-<dd><p>Advance the state of the environment</p>
-<p>Doesn’t actually do anything.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>step</strong> (<em>double</em>) – the time step at which the enviornment should be advanced</p>
-</dd>
-</dl>
-</dd></dl>
 </dd></dl>
 </div>
 </div>
@@ -286,23 +227,23 @@ Most of the time, all environment logic can be placed in the Advance method.</p>
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="../inputs/index.html">
+          <a class="next-page" href="../path/index.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.inputs</span></code></div>
+                <div class="title"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.path</span></code></div>
               </div>
               <svg><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="../data_loader/index.html">
+          <a class="prev-page" href="../environment/index.html">
               <svg><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.data_loader</span></code></div>
+                <div class="title"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.environment</span></code></div>
                 
               </div>
             </a>
@@ -316,7 +257,7 @@ Most of the time, all environment logic can be placed in the Advance method.</p>
               <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
               <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
             |
-            <a class="muted-link" href="../../../_sources/autoapi/wa_simulator/environment/index.rst.txt"
+            <a class="muted-link" href="../../../_sources/autoapi/wa_simulator/inputs/index.rst.txt"
                rel="nofollow">
               Show Source
             </a>
@@ -336,21 +277,10 @@ Most of the time, all environment logic can be placed in the Advance method.</p>
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.environment</span></code></a><ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.inputs</span></code></a><ul>
 <li><a class="reference internal" href="#module-contents">Module Contents</a><ul>
 <li><a class="reference internal" href="#classes">Classes</a><ul>
-<li><a class="reference internal" href="#wa_simulator.environment.WAEnvironment">WAEnvironment</a><ul>
-<li><a class="reference internal" href="#wa_simulator.environment.WAEnvironment.synchronize">synchronize</a></li>
-<li><a class="reference internal" href="#wa_simulator.environment.WAEnvironment.advance">advance</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#wa_simulator.environment.WASimpleEnvironment">WASimpleEnvironment</a><ul>
-<li><a class="reference internal" href="#wa_simulator.environment.WASimpleEnvironment.EGP_ENV_MODEL_FILE">EGP_ENV_MODEL_FILE</a></li>
-<li><a class="reference internal" href="#wa_simulator.environment.WASimpleEnvironment.IAC_ENV_MODEL_FILE">IAC_ENV_MODEL_FILE</a></li>
-<li><a class="reference internal" href="#wa_simulator.environment.WASimpleEnvironment.synchronize">synchronize</a></li>
-<li><a class="reference internal" href="#wa_simulator.environment.WASimpleEnvironment.advance">advance</a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#wa_simulator.inputs.WAVehicleInputs">WAVehicleInputs</a></li>
 </ul>
 </li>
 </ul>

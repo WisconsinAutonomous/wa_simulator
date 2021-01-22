@@ -23,10 +23,8 @@ Classes
 
 .. autoapisummary::
 
-   wa_simulator.controller.WAVehicleInputs
    wa_simulator.controller.WAController
    wa_simulator.controller.WASimpleController
-   wa_simulator.controller.WAKeyboardController
    wa_simulator.controller.WATerminalKeyboardController
    wa_simulator.controller.WAMultipleControllers
    wa_simulator.controller.WAPIDController
@@ -34,22 +32,6 @@ Classes
    wa_simulator.controller.WAPIDLongitudinalController
    wa_simulator.controller.WAMatplotlibController
 
-
-
-.. py:class:: WAVehicleInputs(steering=0.0, throttle=0.0, braking=0.0)
-
-   Object used to hold the inputs to the vehicle model
-
-   The value ranges for the vehicle inputs may vary depending on the
-   used vehicle model (i.e. radians vs percentages). This class is not reponsible for
-   maintaining such properties, simply should be used for passing values around.
-
-   :param steering: steering input. Defaults to 0.0.
-   :type steering: double, optional
-   :param throttle: throttle input. Defaults to 0.0.
-   :type throttle: double, optional
-   :param braking: braking input. Defaults to 0.0.
-   :type braking: double, optional
 
 
 .. py:class:: WAController(system)
@@ -150,105 +132,14 @@ Classes
 
 
 
-.. py:class:: WAKeyboardController(system)
-
-   Bases: :class:`wa_simulator.controller.WAController`
-
-   Base keyboard controller. Still must be inherited (can't be instantiated). Has utilites.
-
-   :param system: The system used to manage the simulation
-   :type system: ChSystem
-   :param steering_target: The target steering value.
-   :type steering_target: double
-   :param throttle_target: The target throttle value.
-   :type throttle_target: double
-   :param braking_target: The target braking value.
-   :type braking_target: double
-   :param steering_delta: The delta steering value.
-   :type steering_delta: double
-   :param throttle_delta: The delta throttle value.
-   :type throttle_delta: double
-   :param braking_delta: The delta braking value.
-   :type braking_delta: double
-   :param steering_gain: The gain steering value.
-   :type steering_gain: double
-   :param throttle_gain: The gain throttle value.
-   :type throttle_gain: double
-   :param braking_gain: The gain braking value.
-   :type braking_gain: double
-
-   .. method:: set_steering_delta(self, steering_delta)
-
-      Sets the steering delta value
-
-      :param steering_delta: the new steering delta value
-      :type steering_delta: double
-
-
-   .. method:: set_throttle_delta(self, throttle_delta)
-
-      Sets the throttle delta value
-
-      :param throttle_delta: the new throttle delta value
-      :type throttle_delta: double
-
-
-   .. method:: set_braking_delta(self, braking_delta)
-
-      Sets the braking delta value
-
-      :param braking_delta: the new braking delta value
-      :type braking_delta: double
-
-
-   .. method:: set_gains(steering_gain, throttle_gain, braking_gain)
-
-      Sets the controllers gains
-
-      :param steering_gain: the new steering gain
-      :type steering_gain: double
-      :param throttle_gain: the new throttle gain
-      :type throttle_gain: double
-      :param braking_gain: the new braking gain
-      :type braking_gain: double
-
-
-   .. method:: advance(self, step)
-
-      Advance the controller by the specified step
-
-      Integrates dynamics over some step range. If the original step is the same as the passed
-      step value, the method is only run once.
-
-      :param step: the time step at which the controller should be advanced
-      :type step: double
-
-
-   .. method:: update(self, key)
-
-      Update the target values based on the key.
-
-      The updated target values are based off the delta values for that respective input.
-      In this controller, input values are clipped at [-1,1] or [0,1].
-
-      0: throttle increase, braking decreases
-      1: adjust steering right
-      2: brake increase, throttle decrease
-      3: adjust steering left
-
-      :param key: the key input
-      :type key: int
-
-
-
 .. py:class:: WATerminalKeyboardController(system)
 
-   Bases: :class:`wa_simulator.controller.WAKeyboardController`
+   Bases: :class:`wa_simulator.controller._WAKeyboardController`
 
    Controls a vehicle via input from the terminal window.
 
    Uses the KeyGetter object to grab input from the user in the terminal window.
-   Inherits from the WAKeyboardController method
+   Inherits from the _WAKeyboardController method
 
    :param system: The system used to manage the simulation
    :type system: ChSystem
@@ -356,7 +247,7 @@ Classes
 
 
 
-.. py:class:: WAPIDController(lat_controller=None, long_controller=None)
+.. py:class:: WAPIDController(system, vehicle, path, lat_controller=None, long_controller=None)
 
    Bases: :class:`wa_simulator.controller.WAController`
 
@@ -364,10 +255,28 @@ Classes
 
    Uses the lateral controller for steering and longitudinal controller throttle/braking
 
+   :param system: The system used to manage the simulation
+   :type system: ChSystem
+   :param vehicle: The vehicle to grab the state from
+   :type vehicle: WAVehicle
+   :param path: The path to follow
+   :type path: WAPath
    :param lat_controller: Lateral controller for steering. Defaults to None.
    :type lat_controller: WAPIDLateralController, optional
    :param long_controller: Longitudinal controller for throttle/braking. Defaults to None.
    :type long_controller: WAPIDLongitudinalController, optional
+
+   .. attribute:: vehicle
+
+      The vehicle to grab the state from
+
+      :type: WAVehicle
+
+   .. attribute:: path
+
+      The path to follow
+
+      :type: WAPath
 
    .. attribute:: lat_controller
 
@@ -380,6 +289,30 @@ Classes
       Longitudinal controller for throttle/braking
 
       :type: WAPIDLongitudinalController
+
+   .. method:: set_delta(self, steering_delta, throttle_delta, braking_delta)
+
+      Set the delta values
+
+      :param steering_delta: max steering delta
+      :type steering_delta: float
+      :param throttle_delta: max throttle delta
+      :type throttle_delta: float
+      :param braking_delta: max braking delta
+      :type braking_delta: float
+
+
+   .. method:: set_gains(self, steering_gain, throttle_gain, braking_gain)
+
+      Set the gain values
+
+      :param steering_gain: steering gain
+      :type steering_gain: float
+      :param throttle_gain: throttle gain
+      :type throttle_gain: float
+      :param braking_gain: braking gain
+      :type braking_gain: float
+
 
    .. method:: synchronize(self, time)
 
@@ -409,28 +342,30 @@ Classes
 
 
 
-.. py:class:: WAPIDLateralController(path, vehicle)
+.. py:class:: WAPIDLateralController(system, vehicle, path)
 
    Bases: :class:`wa_simulator.controller.WAController`
 
    Lateral (steering) controller which minimizes error using a PID
 
-   :param path: the path the vehicle is attempting to follow
-   :type path: WAPath
+   :param system: The system used to manage the simulation
+   :type system: ChSystem
    :param vehicle: the vehicle who has dynamics
    :type vehicle: WAVehicle
-
-   .. attribute:: path
-
-      the path the vehicle is attempting to follow
-
-      :type: WAPath
+   :param path: the path the vehicle is attempting to follow
+   :type path: WAPath
 
    .. attribute:: vehicle
 
       the vehicle who has dynamics
 
       :type: WAVehicle
+
+   .. attribute:: path
+
+      the path the vehicle is attempting to follow
+
+      :type: WAPath
 
    .. attribute:: Kp
 
@@ -524,25 +459,29 @@ Classes
       :type step: double
 
 
-   .. method:: calc_sign(self, state)
+   .. method:: calc_sign(self, x, y)
 
       Calculate the sign of the angle between the projections of the sentinel vector
       and the target vector (with origin at vehicle location).
 
-      :param state: (x position, y position, yaw about the Z, speed)
-      :type state: tuple
+      :param x: x position
+      :type x: float
+      :param y: y position
+      :type y: float
 
       :returns: the sign indicating direction of the state and the sentinel on the path (-1 for left or 1 for right)
       :rtype: int
 
 
 
-.. py:class:: WAPIDLongitudinalController(vehicle)
+.. py:class:: WAPIDLongitudinalController(system, vehicle)
 
    Bases: :class:`wa_simulator.controller.WAController`
 
    Longitudinal (throttle, braking) controller which minimizes error using a PID
 
+   :param system: The system used to manage the simulation
+   :type system: ChSystem
    :param vehicle: the vehicle who has dynamics
    :type vehicle: WAVehicle
 
@@ -647,16 +586,15 @@ Classes
 
 .. py:class:: WAMatplotlibController(system, vis)
 
-   Bases: :class:`wa_simulator.controller.WAKeyboardController`
+   Bases: :class:`wa_simulator.controller._WAKeyboardController`
 
    Controls a vehicle via keyboard input from a matplotlib figure
 
-   Will asynchronously change inputs based on user input to the matplotlib window.
+       Will asynchronously change inputs based on user input to the matplotlib window.
 
-   :param system: The system used to manage the simulation
-   :type system: ChSystem
-   :param vis: The visualization that holds a matplotlib figure
-   :type vis: WAMatplotlibVisualization
+       Args:
+           system (ChSystem): The system used to manage the simulation
+           vis (WAMatplotlibVisualization): The visualization that holds a matplotlib figure
 
    .. attribute:: vis
 
@@ -672,6 +610,9 @@ Classes
 
       :param time: the time at which the controller should synchronize all depends to
       :type time: double
+
+
+   .. method:: key_press(self, value)
 
 
 

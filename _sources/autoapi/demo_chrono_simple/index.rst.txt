@@ -21,11 +21,6 @@ Functions
 
    
 
-.. data:: controller_group
-   
-
-   
-
 .. data:: args
    
 

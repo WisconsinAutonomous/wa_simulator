@@ -24,10 +24,8 @@ Classes
 .. autoapisummary::
 
    wa_simulator.visualization.WAVisualization
-   wa_simulator.visualization.SimState
-   wa_simulator.visualization.WAMatplotlibVisualization
-   wa_simulator.visualization.WAMatplotlibJupyterVisualization
    wa_simulator.visualization.WAMultipleVisualizations
+   wa_simulator.visualization.WAMatplotlibVisualization
 
 
 
@@ -69,582 +67,6 @@ Classes
 
 
 
-.. py:class:: SimState(outline=None, rr_wheel=None, rl_wheel=None, fr_wheel=None, fl_wheel=None, steering=None, throttle=None, braking=None, time=None, speed=None)
-
-   .. method:: get(self)
-
-      Get the class variables
-
-      :returns: all of the variables
-      :rtype: tuple
-
-
-
-.. py:class:: WAMatplotlibVisualization(vehicle, system)
-
-   Matplotlib visualizer of the simulator world and the vehicle
-
-   :param vehicle: vehicle to render in the matplotlib plot window
-   :type vehicle: WAVehicle
-   :param system: system used to grab certain parameters of the simulation
-   :type system: WASystem
-
-   .. attribute:: render_steps
-
-      steps between which the visualization should update
-
-      :type: int
-
-   .. attribute:: vehicle
-
-      vehicle to render in the matplotlib plot window
-
-      :type: WAVehicle
-
-   .. attribute:: system
-
-      system used to grab certain parameters of the simulation
-
-      :type: WASystem
-
-   .. attribute:: Lf
-
-      distance between COM and front axle
-
-      :type: double
-
-   .. attribute:: Lr
-
-      distance between COM and rear axle
-
-      :type: double
-
-   .. attribute:: track_width
-
-      distance between wheels connected to the same axle
-
-      :type: double
-
-   .. attribute:: wheelbase
-
-      distance between front and rear wheels
-
-      :type: double
-
-   .. attribute:: steering
-
-      steering value
-
-      :type: double
-
-   .. attribute:: throttle
-
-      throttle value
-
-      :type: double
-
-   .. attribute:: braking
-
-      braking value
-
-      :type: double
-
-   .. attribute:: time
-
-      time of the simulation
-
-      :type: double
-
-   .. attribute:: outline
-
-      chassis outline for the vehicle that's updated based on pose of the vehicle
-
-      :type: double
-
-   .. attribute:: rr_wheel
-
-      right rear wheel outline that's updated based on the pose of the body in the simulation
-
-      :type: double
-
-   .. attribute:: rl_wheel
-
-      left rear wheel outline that's updated based on the pose of the body in the simulation
-
-      :type: double
-
-   .. attribute:: fr_wheel
-
-      right front wheel outline that's updated based on the pose of the body in the simulation
-
-      :type: double
-
-   .. attribute:: fl_wheel
-
-      left front  wheel outline that's updated based on the pose of the body in the simulation
-
-      :type: double
-
-   .. attribute:: q
-
-      Queue used to pass info between processes (thread safe)
-
-      :type: multiprocessing.Queue
-
-   .. attribute:: input_q
-
-      Queue used to pass info between processes, but key press inputs (thread safe)
-
-      :type: multiprocessing.Queue
-
-   .. attribute:: plotter
-
-      Used to update the matplotlib window
-
-      :type: VehiclePlotter
-
-   .. attribute:: p
-
-      process created by multiprocessing (TODO: Should add join())
-
-      :type: multiprocessing.Process
-
-   .. attribute:: check_for_key_presses
-
-      Whether to check VehiclePlotter for keyboard inputs
-
-      :type: bool
-
-   .. attribute:: key_input
-
-      The most recent keypress from the vehicle plotter
-
-      :type: matplotlib.backend_bases.KeyEvent
-
-   .. py:class:: VehiclePlotter
-
-      Class used to handle plotting of the vehicle.
-
-      Runs in separate process and communicates with main thread via multiprocessing.Queue
-      object. Done to improve simulation performance. Plotter will block until vehicle state has updated.
-      On vehicle state update, the visualization representation is also updated.
-
-      Instead of being redrawn, handles to matplotlib assets are stored and their states are updated
-      at each visualization update. This improves performance and doesn't require clearing the plot
-      window.
-
-      .. attribute:: q
-
-         Queue used to pass info between processes
-
-         :type: multiprocessing.Queue
-
-      .. attribute:: input_q
-
-         Queue used to pass info between processes, but for key press inputs
-
-         :type: multiprocessing.Queue
-
-      .. attribute:: fig
-
-         Matplotlib figure used for plotting
-
-         :type: plt.Figure
-
-      .. attribute:: ax
-
-         Matplotlib axes used for plotting
-
-         :type: plt.Axes
-
-      .. attribute:: mat_vehicle
-
-         Class that holds the matplotlib visualization objects so their state can be updated
-
-         :type: tuple
-
-      .. attribute:: annotation
-
-         Holds text displayed in the plot window for debug purposes.
-
-         :type: plt.Text
-
-      .. method:: initialize(self, q, input_q)
-
-         Initialize the matplotlib visual assets to be updated through the simulation. Initially plotted at (0,0).
-
-         :param q: Queue used to communicate between processes
-         :type q: multiprocessing.Queue
-         :param input_q: Queue used to communicate between processes, but for key press inputs
-         :type input_q: multiprocessing.Queue
-
-
-      .. method:: key_press(self, event)
-
-
-      .. method:: update(self, i)
-
-         Update the state of the vehicle in the visualization
-
-         Called at specific intervals by the FuncAnimation function in matplotlib
-
-         :param i: frame number
-         :type i: int
-
-
-      .. method:: plot(self, q, input_q)
-
-         "Main" function that sets up the plotter and runs the blocking FuncAnimation update.
-
-         :param q: Queue used to communicate and pass info between processes
-         :type q: multiprocessing.Queue
-         :param input_q: Queue used to communicate and pass info between processes, but for key presses
-         :type input_q: multiprocessing.Queue
-
-
-
-   .. method:: synchronize(self, time, vehicle_inputs)
-
-      Synchronize the vehicle inputs to the values in this visualization
-
-      Will just set class members
-
-      :param time: time at which to update the vehicle to
-      :type time: double
-      :param vehicle_inputs: vehicle inputs
-      :type vehicle_inputs: WAVehicleInputs
-
-
-   .. method:: advance(self, step)
-
-      Advance the state of the visualization by the specified step
-
-      Will only call update if the scene should be rendered given the render step
-
-      :param step: step size to update the visualization by
-      :type step: double
-
-
-   .. method:: transform(self, entity, x, y, yaw, alpha=0, x_offset=0, y_offset=0)
-
-      Helper function to transfrom a numpy entity by the specified values
-
-      :param entity: Numpy entity that describes some visualization asset to be updated
-      :type entity: np.array
-      :param x: x translation distance
-      :type x: double
-      :param y: y translation distance
-      :type y: double
-      :param yaw: angle to rotate by
-      :type yaw: double
-      :param alpha: angle to rotate by to be added after the rotation. Defaults to 0.
-      :type alpha: double, optional
-      :param x_offset: x translation distance to be added after the rotation. Defaults to 0.
-      :type x_offset: double, optional
-      :param y_offset: y translation distance to be added after the rotation. Defaults to 0.
-      :type y_offset: double, optional
-
-      :returns: the new entity
-      :rtype: np.array
-
-
-   .. method:: update(self)
-
-      Update the state of the vehicle representation.
-
-      After updating, will push the state to the queue to be read by the VehiclePlotter
-
-
-   .. method:: is_ok(self)
-
-      Checks if the rendering process is still alive
-
-      :returns: whether the simulation is still alive
-      :rtype: bool
-
-
-   .. method:: set_check_for_key_presses(self, check_for_key_presses)
-
-      Will tell the VehiclePlotter to check for keypresses
-
-      :param check_for_key_presses: Whether the plotter should check if inputs
-      :type check_for_key_presses: bool
-
-
-   .. method:: get_key_input(self)
-
-      Will get the key input and reset it to None
-
-      :returns: the key input
-      :rtype: str
-
-
-   .. method:: __del__(self)
-
-      Destructor
-
-      Will try to block and wait for the process to complete.
-
-
-
-.. py:class:: WAMatplotlibJupyterVisualization(vehicle, system)
-
-   Matplotlib visualizer of the simulator world and the vehicle
-
-   :param vehicle: vehicle to render in the matplotlib plot window
-   :type vehicle: WAVehicle
-   :param system: system used to grab certain parameters of the simulation
-   :type system: WASystem
-
-   .. attribute:: render_steps
-
-      steps between which the visualization should update
-
-      :type: int
-
-   .. attribute:: vehicle
-
-      vehicle to render in the matplotlib plot window
-
-      :type: WAVehicle
-
-   .. attribute:: system
-
-      system used to grab certain parameters of the simulation
-
-      :type: WASystem
-
-   .. attribute:: Lf
-
-      distance between COM and front axle
-
-      :type: double
-
-   .. attribute:: Lr
-
-      distance between COM and rear axle
-
-      :type: double
-
-   .. attribute:: track_width
-
-      distance between wheels connected to the same axle
-
-      :type: double
-
-   .. attribute:: wheelbase
-
-      distance between front and rear wheels
-
-      :type: double
-
-   .. attribute:: steering
-
-      steering value
-
-      :type: double
-
-   .. attribute:: throttle
-
-      throttle value
-
-      :type: double
-
-   .. attribute:: braking
-
-      braking value
-
-      :type: double
-
-   .. attribute:: time
-
-      time of the simulation
-
-      :type: double
-
-   .. attribute:: outline
-
-      chassis outline for the vehicle that's updated based on pose of the vehicle
-
-      :type: double
-
-   .. attribute:: rr_wheel
-
-      right rear wheel outline that's updated based on the pose of the body in the simulation
-
-      :type: double
-
-   .. attribute:: rl_wheel
-
-      left rear wheel outline that's updated based on the pose of the body in the simulation
-
-      :type: double
-
-   .. attribute:: fr_wheel
-
-      right front wheel outline that's updated based on the pose of the body in the simulation
-
-      :type: double
-
-   .. attribute:: fl_wheel
-
-      left front  wheel outline that's updated based on the pose of the body in the simulation
-
-      :type: double
-
-   .. attribute:: plotter
-
-      Used to update the matplotlib window
-
-      :type: VehiclePlotter
-
-   .. attribute:: check_for_key_presses
-
-      Whether to check VehiclePlotter for keyboard inputs
-
-      :type: bool
-
-   .. attribute:: key_input
-
-      The most recent keypress from the vehicle plotter
-
-      :type: matplotlib.backend_bases.KeyEvent
-
-   .. py:class:: VehiclePlotter(state)
-
-      Class used to handle plotting of the vehicle.
-
-      Runs in separate process and communicates with main thread via multiprocessing.Queue
-      object. Done to improve simulation performance. Plotter will block until vehicle state has updated.
-      On vehicle state update, the visualization representation is also updated.
-
-      Instead of being redrawn, handles to matplotlib assets are stored and their states are updated
-      at each visualization update. This improves performance and doesn't require clearing the plot
-      window.
-
-      :param state: The matplotlib simulation state
-      :type state: SimState
-
-      .. attribute:: fig
-
-         Matplotlib figure used for plotting
-
-         :type: plt.Figure
-
-      .. attribute:: ax
-
-         Matplotlib axes used for plotting
-
-         :type: plt.Axes
-
-      .. attribute:: mat_vehicle
-
-         Class that holds the matplotlib visualization objects so their state can be updated
-
-         :type: tuple
-
-      .. attribute:: annotation
-
-         Holds text displayed in the plot window for debug purposes.
-
-         :type: plt.Text
-
-      .. method:: update(self, state)
-
-         Update the state of the vehicle in the visualization
-
-         Called at specific intervals by the FuncAnimation function in matplotlib
-
-         :param i: frame number
-         :type i: int
-
-
-
-   .. method:: synchronize(self, time, vehicle_inputs)
-
-      Synchronize the vehicle inputs to the values in this visualization
-
-      Will just set class members
-
-      :param time: time at which to update the vehicle to
-      :type time: double
-      :param vehicle_inputs: vehicle inputs
-      :type vehicle_inputs: WAVehicleInputs
-
-
-   .. method:: advance(self, step)
-
-      Advance the state of the visualization by the specified step
-
-      Will only call update if the scene should be rendered given the render step
-
-      :param step: step size to update the visualization by
-      :type step: double
-
-
-   .. method:: transform(self, entity, x, y, yaw, alpha=0, x_offset=0, y_offset=0)
-
-      Helper function to transfrom a numpy entity by the specified values
-
-      :param entity: Numpy entity that describes some visualization asset to be updated
-      :type entity: np.array
-      :param x: x translation distance
-      :type x: double
-      :param y: y translation distance
-      :type y: double
-      :param yaw: angle to rotate by
-      :type yaw: double
-      :param alpha: angle to rotate by to be added after the rotation. Defaults to 0.
-      :type alpha: double, optional
-      :param x_offset: x translation distance to be added after the rotation. Defaults to 0.
-      :type x_offset: double, optional
-      :param y_offset: y translation distance to be added after the rotation. Defaults to 0.
-      :type y_offset: double, optional
-
-      :returns: the new entity
-      :rtype: np.array
-
-
-   .. method:: update(self)
-
-      Update the state of the vehicle representation.
-
-      After updating, will push the state to the queue to be read by the VehiclePlotter
-
-
-   .. method:: is_ok(self)
-
-      Checks if the rendering process is still alive
-
-      :returns: whether the simulation is still alive
-      :rtype: bool
-
-
-   .. method:: check_for_key_presses(self, check_for_key_presses)
-
-      Will set a callback for key presses
-
-      :param check_for_key_presses: Whether the plotter should check if inputs
-      :type check_for_key_presses: bool
-
-
-   .. method:: key_press(self, event)
-
-      Get the key input
-
-      :param event: the key event
-      :type event: plt.KeyEvent
-
-
-   .. method:: get_key_input(self)
-
-      Will get the key input and reset it to None
-
-      :returns: the key input
-      :rtype: str
-
-
-
 .. py:class:: WAMultipleVisualizations(visualizations)
 
    Bases: :class:`wa_simulator.visualization.WAVisualization`
@@ -670,6 +92,109 @@ Classes
 
       :param step: the time step at which the visualization should be advanced
       :type step: double
+
+
+   .. method:: is_ok(self)
+
+      Verifies the visualization is running properly.
+
+      :returns: Whether the visualization is running correctly.
+      :rtype: bool
+
+
+
+.. py:class:: WAMatplotlibVisualization(vehicle, system, plotter_type='single', **kwargs)
+
+   Bases: :class:`wa_simulator.visualization.WAVisualization`
+
+   Matplotlib visualizer of the simulator world and the vehicle
+
+   :param vehicle: vehicle to render in the matplotlib plot window
+   :type vehicle: WAVehicle
+   :param system: system used to grab certain parameters of the simulation
+   :type system: WASystem
+   :param plotter_type: Type of plotter. "single" for single threaded, "multi" for multi threaded (fastest), "jupyter" if jupyter is used. Defaults to "single".
+   :type plotter_type: str, optional
+
+   .. attribute:: render_steps
+
+      steps between which the visualization should update
+
+      :type: int
+
+   .. attribute:: vehicle
+
+      vehicle to render in the matplotlib plot window
+
+      :type: WAVehicle
+
+   .. attribute:: system
+
+      system used to grab certain parameters of the simulation
+
+      :type: WASystem
+
+   .. attribute:: mat_vehicle
+
+      a wrapper class used to create a visual representation of the vehicle in matplotlib
+
+      :type: _MatplotlibVehicle
+
+   .. attribute:: dashboard
+
+      a wrapper class used to create a visual dashboard on the matplotlib window
+
+      :type: _MatplotlibSimpleDashboard
+
+   .. attribute:: plotter
+
+      a wrapper class that handles matplotlib visualization and possible single/multi threading
+
+      :type: _MatplotlibPlotter
+
+   :raises ValueError: plotter_type isn't recognized
+
+   .. method:: synchronize(self, time, vehicle_inputs)
+
+      Synchronize the vehicle inputs to the values in this visualization
+
+      Will just set class members
+
+      :param time: time at which to update the vehicle to
+      :type time: double
+      :param vehicle_inputs: vehicle inputs
+      :type vehicle_inputs: WAVehicleInputs
+
+
+   .. method:: advance(self, step)
+
+      Advance the state of the visualization by the specified step
+
+      Will only call update if the scene should be rendered given the render step
+
+      :param step: step size to update the visualization by
+      :type step: double
+
+
+   .. method:: is_ok(self)
+
+      Checks if the rendering process is still alive
+
+      :returns: whether the simulation is still alive
+      :rtype: bool
+
+
+   .. method:: register_key_press_event(self, callback)
+
+      Register a key press callback with the matplotlib visualization
+
+      :param callback: the callback to invoke when a key is pressed
+      :type callback: function
+
+
+   .. method:: plot(self, *args, **kwargs)
+
+      Pass plot info to the underyling plotter
 
 
 
