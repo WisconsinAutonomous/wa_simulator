@@ -53,7 +53,7 @@ Module Contents
    
 
 .. data:: autoapi_ignore
-   :annotation: = ['*_import.py*']
+   :annotation: = ['*_import*']
 
    
 

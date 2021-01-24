@@ -6,9 +6,11 @@ Contributing to the repository is fairly easy. The simulator was developed to be
 
 ## Setup
 
-It is as simple as cloning and installing a symlinked version of the repository.
+There are two forms of contributions: source code or documentation. Editing the documentation is as simple as cloning the repo and adding/editting content within the `docs` folder. All documentation is written in `markdown` and converted to `html` through `myst_parser` and `sphinx`. To edit the source code, as well as the documentation, you will want to install the package through a symlink.
 
-### Cloning the repo
+> **Note**: A `conda` or `virtualenv` will add isolation to your python environments and reduce conflicts amongst packages. It is _highly_ recommended to use one!!
+
+### Cloning the Repo
 
 Clone the repo as normal:
 ```bash
@@ -16,22 +18,24 @@ git clone https://github.com/WisconsinAutonomous/wa_simulator.git
 cd wa_simulator
 ```
 
-> Make a conda or virtualenv, as that aids in the development process
+### Installing a Symbolic Linked Version for Testing
 
-### Installing a symlinked version for testing
+A symbolic link or symlink is a file that references another. The advantages of symlinks is that a folder or file can _essentially_ be placed in two separate locations. In reference to this repository, we want to create a symlinked install because when we edit the code within the cloned repo, we want that change also to be reflected in the installed files.
 
-Using a symlink install means we can use the repository as normal, but when we change the source code, our changes will be reflected in any file where `wa_simulator` is imported. This can be done with the following command:
+From within your `wa_simulator` directory, we can have `pip` this for us with the following command:
 ```bash
 pip install -e .
 ```
 
+You should now be able to edit the source and have those changes be reflected in whatever file imports `wa_simulator`!
+
+### Deploy your Changes
+
+[GitHub actions](https://github.com/features/actions) are used to automatically build the site and [GitHub pages](https://pages.github.com/) are used to host the static site. To update deployed content, you have to push to the `master` branch. This will automatically rebuild the site. Please ensure there are no errors in your code/documentation before doing so, as you may get an email from github if something bad happens.
+
 ## Guidelines
 
-A lot of work has gone into making this package scalable and functional. Please consider all of the following guidelines and follow them to ensure the repository will persist for a long time.
-
-### Documentation
-
-Please follow [Google's guidelines for Python Styling](https://google.github.io/styleguide/pyguide.html). These comments are also used to automatically generate the documentation. For Visual Studio Code users, the [Python Docstring Generator](https://github.com/NilsJPWerner/autoDocstring) package may be helpful.
+A lot of work has gone into making this package functional and scalable. Please consider all of the following guidelines and follow them to ensure the repository will persist for a long time.
 
 ### File Structure
 
@@ -42,13 +46,56 @@ wa_simulator
 ├── licenses/ 			# External software licenses
 ├── scripts/			# Installation scripts
 ├── tutorials/			# Tutorials for understanding the wa_simulator API
-├── wa_simulator/
-│   ├── chrono/         # Contains code that requires chrono
-│   │	└── ...         # Chrono code     
-│   ├── data/         	# Data files that ship with the repo
-│   │	└── ...
-│   └── ...             # Core code
-├── environment.yml
+├── wa_simulator/		# Source code
+├── environment.yml		# Describes a conda environment
 ├── LICENSE
-└── setup.py
+└── setup.py			# Package description and installation instructions for pip
 ```
+
+### Editing the Source Code
+
+If you plan on editing the source code, please visit the `wa_simulator/` folder. The `wa_simulator/` folder is structured as follows:
+```
+wa_simulator/
+├── chrono/				# Chrono specific code (requires chrono to be installed)
+│   └── ...
+├── data/				# Data files that ship with the repo
+│   └── ...        	
+└── ...					# Core wa_simulator code
+```
+
+As stated earlier, unless given approval by the managers of the repository, there should be no need to edit the source code. The Object Oriented nature of the package means you can just inherit the base classes and add your own logic _outside_ the repo (no need to edit the source). However, bugs or nice features may be added. See [this section](#installing-a-symbolic-linked-version-for-testing) to install the repo for development purposes.
+
+#### Commenting 
+
+Commenting your code is not only _required_ when contributing to this repository, but also common practice in almost every place where code is written.
+
+Please follow [Google's guidelines for Python Styling](https://google.github.io/styleguide/pyguide.html). These comments are also used to automatically generate the documentation. For Visual Studio Code users, the [Python Docstring Generator](https://github.com/NilsJPWerner/autoDocstring) package may be helpful.
+
+### Editing the Documentation
+
+If you plan on editing the documentation pages (i.e. adding a tutorial or fixing an existing page), please visit the `docs/` folder. The `docs/` folder is structured as follows:
+```
+docs/
+├── _static/				# Static files that persist through the build process
+│   ├── css/custom.css      # Custom css changes that are different from the default furo theme
+│   └── ...        			# Images, favicons, etc.
+├── _templates/				# Templates for autoapi documentation generation (i.e. the API Reference page)
+│   └── python/.../        	
+├── installation/			# Installation build instructions
+├── tutorials/				# Tutorials for the simulator
+├── background.md			# Background tab with information related to the repository
+├── conf.py					# Settings related to extensions, themes, etc.
+├── contributing.md			# Contributing tab with instructions on how to contribute to the repo
+└── index.md				# The "home" page
+```
+
+Please try to maintain the file structure as described above. All tabs with only a single page (i.e. background or contributing), should have their `markdown` file with in the `docs/` folder. If the tab has or will have multiple pages (i.e. tutorials), create a folder titled the same as that tab. To add pages, insert the name of the file without the `.md` extension within the table of contents inside `index.md`. Each folder should also contain an `index.md` used as the home page of that tab.
+
+Markdown files are converted to reStructuredText by `myst_parser` which is used by the documentation package [Sphinx](https://www.sphinx-doc.org/en/master/). Both Markdown and reStructuredText have their advantages and disadvantages, `myst_parser` allows us to use the easy to understand `markdown` language but also compile the content down to something Sphinx understands. To see additional features of the `myst_parser` library, please visit their [website](https://myst-parser.readthedocs.io/en/latest/).
+
+#### Building the Documentation
+
+There are multiple ways to build sphinx documentation. The easiest is using the `Makefile` or `make.bat` file provided directly in this repository. On Unix systems, once can run `make html` to build the html pages. Then go to your browser, and open the `index.html` file located inside `docs/build/html/`.
+
+`sphinx-autobuild` is also extremely easy to use and will automatically build the html pages when a change is made. See their [PyPI page](https://pypi.org/project/sphinx-autobuild/).
