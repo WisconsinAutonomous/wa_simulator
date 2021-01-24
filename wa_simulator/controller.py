@@ -17,9 +17,6 @@ from wa_simulator.vector import WAVector
 
 # Other imports
 import sys
-import tty
-import atexit
-from select import select
 import numpy as np
 
 
@@ -253,7 +250,10 @@ class _WAKeyboardController(WAController):
 
 try:
     import termios
-    
+    import tty
+    import atexit
+    from select import select
+
     class WATerminalKeyboardController(_WAKeyboardController):
         """Controls a vehicle via input from the terminal window.
 

@@ -8,13 +8,13 @@ Anaconda is a really powerful packaging environment available on both Unix and W
 
 First, let's download the environment file.
 
-In the terminal, you can run the following:
-```terminal
+In the Command Prompt, you can run the following:
+```
 curl.exe -o environment.yml https://raw.githubusercontent.com/WisconsinAutonomous/wa_simulator/master/environment.yml
 ```
 
 In PowerShell, you can run the following:
-```powershell
+```
 iwr -outf environment.yml https://raw.githubusercontent.com/WisconsinAutonomous/wa_simulator/master/environment.yml
 ```
 
@@ -22,7 +22,7 @@ iwr -outf environment.yml https://raw.githubusercontent.com/WisconsinAutonomous/
 
 Now, let's actually create the environment. _This requires Anaconda to be installed_.
 
-```terminal
+```
 conda env create --name=wa -f=environment.yml
 ```
 
