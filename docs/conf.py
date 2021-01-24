@@ -10,6 +10,8 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
+import wa_simulator
+from datetime import date
 import os
 import sys
 root_path = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
@@ -19,11 +21,11 @@ sys.setrecursionlimit(1500)
 # -- Project information -----------------------------------------------------
 
 project = "Wisconsin Autonomous Simulator"
-copyright = "2021, Wisconsin Autonomous"
+copyright = f"{date.today().year}, Wisconsin Autonomous"
 author = "Wisconsin Autonomous"
 
 # The full version, including alpha/beta/rc tags
-release = "0.0.1"
+release = wa_simulator.__version__
 
 
 # -- General configuration ---------------------------------------------------
