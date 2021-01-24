@@ -23,11 +23,15 @@ Functions
 
    setup.read
    setup.get_package_data
+   setup.get_version
 
 
 .. function:: read(fname)
 
 
 .. function:: get_package_data(directory, rm='wa_simulator/')
+
+
+.. function:: get_version()
 
 

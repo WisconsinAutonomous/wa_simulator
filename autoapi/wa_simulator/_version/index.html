@@ -1,10 +1,10 @@
 <!doctype html>
 <html class="no-js">
   <head><meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="wa_simulator.vector" href="../vector/index.html" /><link rel="prev" title="wa_simulator.system" href="../system/index.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
     <link rel="shortcut icon" href="../../../_static/wa-dark-favicon.png"/><meta name="generator" content="sphinx-3.4.2, furo 2020.12.30.beta24"/>
-        <title>wa_simulator.terrain - Wisconsin Autonomous Simulator 0.0.7 documentation</title>
+        <title>wa_simulator._version - Wisconsin Autonomous Simulator 0.0.7 documentation</title>
       <link rel="stylesheet" href="../../../_static/styles/furo.css?digest=33d2fc4f3f180ec1ffc6524e273e21d7d58cbe49">
     <link rel="stylesheet" href="../../../_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../../../_static/pygments_dark.css">
@@ -127,7 +127,7 @@
   <input type="hidden" name="check_keywords" value="yes">
   <input type="hidden" name="area" value="default">
 </form><div class="sidebar-scroll"><div class="sidebar-tree">
-  <ul class="current">
+  <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../index.html">Home</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../background.html">Background</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../installation/index.html">Installation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label for="toctree-checkbox-1"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
@@ -139,7 +139,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/custom-controller.html">Creating a Custom Controller</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current has-children"><a class="reference internal" href="../index.html">API Reference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label for="toctree-checkbox-3"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../index.html">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label for="toctree-checkbox-3"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../chrono/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label for="toctree-checkbox-4"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../chrono/controller/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.controller</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../chrono/environment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.environment</span></code></a></li>
@@ -158,7 +158,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../path/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.path</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../simulation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.simulation</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../system/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.system</span></code></a></li>
-<li class="toctree-l2 current current-page"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.terrain</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../terrain/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.terrain</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../vector/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.vector</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../vehicle/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.vehicle</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../visualization/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.visualization</span></code></a></li>
@@ -184,58 +184,14 @@
         <label class="toc-overlay-icon toc-content-icon" for="__toc">
           <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
         </label>
-        <div class="section" id="module-wa_simulator.terrain">
-<span id="wa-simulator-terrain"></span><h1><a class="reference internal" href="#module-wa_simulator.terrain" title="wa_simulator.terrain"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.terrain</span></code></a><a class="headerlink" href="#module-wa_simulator.terrain" title="Permalink to this headline">¶</a></h1>
-<p>Wisconsin Autonomous - <a class="reference external" href="https://www.wisconsinautonomous.org">https://www.wisconsinautonomous.org</a></p>
-<p>Copyright (c) 2021 wisconsinautonomous.org
-All rights reserved.</p>
-<p>Use of this source code is governed by a BSD-style license that can be found
-in the LICENSE file at the top level of the repo</p>
+        <div class="section" id="module-wa_simulator._version">
+<span id="wa-simulator-version"></span><h1><a class="reference internal" href="#module-wa_simulator._version" title="wa_simulator._version"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator._version</span></code></a><a class="headerlink" href="#module-wa_simulator._version" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="module-contents">
 <h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="classes">
-<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h3>
-<div class="table-wrapper"><table class="longtable docutils align-default">
-<colgroup>
-<col style="width: 10%"/>
-<col style="width: 90%"/>
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#wa_simulator.terrain.WATerrain" title="wa_simulator.terrain.WATerrain"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WATerrain</span></code></a></p></td>
-<td><p>Base class for the terrain object</p></td>
-</tr>
-</tbody>
-</table></div>
-<dl class="py class">
-<dt id="wa_simulator.terrain.WATerrain">
-<em class="property">class </em><code class="sig-prename descclassname">wa_simulator.terrain.</code><code class="sig-name descname">WATerrain</code><a class="headerlink" href="#wa_simulator.terrain.WATerrain" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
-<p>Base class for the terrain object</p>
-<p>Maintains knowledge of the terrain or “ground” that a vehicle interacts with.</p>
-<dl class="py method">
-<dt id="wa_simulator.terrain.WATerrain.synchronize">
-<em class="property">abstract </em><code class="sig-name descname">synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">time</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.terrain.WATerrain.synchronize" title="Permalink to this definition">¶</a></dt>
-<dd><p>Synchronize the terrain at the specified time</p>
-<p>Function is primarily as a semantic separation between different functionality.
-Most of the time, all terrain logic can be placed in the Advance method.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>time</strong> (<em>double</em>) – the time at which the terrain should synchronize all depends to</p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py method">
-<dt id="wa_simulator.terrain.WATerrain.advance">
-<em class="property">abstract </em><code class="sig-name descname">advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.terrain.WATerrain.advance" title="Permalink to this definition">¶</a></dt>
-<dd><p>Advance the terrain by the specified step</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>step</strong> (<em>double</em>) – the time step at which the terrain should be advanced</p>
-</dd>
-</dl>
-</dd></dl>
-</dd></dl>
-</div>
+<dl class="py data">
+<dt id="wa_simulator._version.__version__">
+<code class="sig-prename descclassname">wa_simulator._version.</code><code class="sig-name descname">__version__</code><em class="property"> = 0.0.7.dev0</em><a class="headerlink" href="#wa_simulator._version.__version__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 </div>
 </div>
 
@@ -243,26 +199,8 @@ Most of the time, all terrain logic can be placed in the Advance method.</p>
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="../vector/index.html">
-              <div class="page-info">
-                <div class="context">
-                  <span>Next</span>
-                </div>
-                <div class="title"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.vector</span></code></div>
-              </div>
-              <svg><use href="#svg-arrow-right"></use></svg>
-            </a>
-          <a class="prev-page" href="../system/index.html">
-              <svg><use href="#svg-arrow-right"></use></svg>
-              <div class="page-info">
-                <div class="context">
-                  <span>Previous</span>
-                </div>
-                
-                <div class="title"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.system</span></code></div>
-                
-              </div>
-            </a>
+          
+          
         </div>
 
         <div class="related-information">
@@ -273,7 +211,7 @@ Most of the time, all terrain logic can be placed in the Advance method.</p>
               <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
               <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
             |
-            <a class="muted-link" href="../../../_sources/autoapi/wa_simulator/terrain/index.rst.txt"
+            <a class="muted-link" href="../../../_sources/autoapi/wa_simulator/_version/index.rst.txt"
                rel="nofollow">
               Show Source
             </a>
@@ -293,16 +231,9 @@ Most of the time, all terrain logic can be placed in the Advance method.</p>
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.terrain</span></code></a><ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator._version</span></code></a><ul>
 <li><a class="reference internal" href="#module-contents">Module Contents</a><ul>
-<li><a class="reference internal" href="#classes">Classes</a><ul>
-<li><a class="reference internal" href="#wa_simulator.terrain.WATerrain">WATerrain</a><ul>
-<li><a class="reference internal" href="#wa_simulator.terrain.WATerrain.synchronize">synchronize</a></li>
-<li><a class="reference internal" href="#wa_simulator.terrain.WATerrain.advance">advance</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li><a class="reference internal" href="#wa_simulator._version.__version__">__version__</a></li>
 </ul>
 </li>
 </ul>

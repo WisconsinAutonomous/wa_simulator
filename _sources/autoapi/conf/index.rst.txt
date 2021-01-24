@@ -18,7 +18,7 @@ Module Contents
    
 
 .. data:: copyright
-   :annotation: = 2021, Wisconsin Autonomous
+   
 
    
 
@@ -28,7 +28,7 @@ Module Contents
    
 
 .. data:: release
-   :annotation: = 0.0.1
+   
 
    
 

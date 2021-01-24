@@ -34,3 +34,21 @@ Submodules
    visualization/index.rst
 
 
+Package Contents
+----------------
+
+.. data:: __author__
+   :annotation: = Wisconsin Autonomous (wisconsinautonomous@studentorg.wisc.edu)
+
+   
+
+.. data:: __license__
+   :annotation: = BSD3
+
+   
+
+.. data:: __version__
+   
+
+   
+

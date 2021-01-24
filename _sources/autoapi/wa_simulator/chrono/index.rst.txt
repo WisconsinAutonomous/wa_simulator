@@ -26,6 +26,21 @@ Submodules
 Package Contents
 ----------------
 
+.. data:: __version__
+   
+
+   
+
+.. data:: __author__
+   :annotation: = Wisconsin Autonomous (wisconsinautonomous@studentorg.wisc.edu)
+
+   
+
+.. data:: __license__
+   :annotation: = BSD3
+
+   
+
 .. data:: CHRONO_DATA_DIRECTORY
    
 
