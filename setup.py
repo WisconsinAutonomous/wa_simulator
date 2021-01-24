@@ -31,7 +31,7 @@ def get_package_data(directory, rm='wa_simulator/'):
 
 # Get the version (borrowed from SQLAlchemy)
 def get_version():
-    with open(os.path.join(base_path, "wa_simulator", "_version.py")) as fp:
+    with open(os.path.join(os.path.dirname(__file__), "wa_simulator", "_version.py")) as fp:
         return (
             re.compile(
                 r""".*__version__ = ["'](.*?)['"]""", re.S).match(fp.read()).group(1)
