@@ -1,7 +1,11 @@
 from time import time as get_wall_time
 import signal
 from ._import import _import, _get_dirs, _get_files
+from ._version import __version__
 
+__author__ = "Wisconsin Autonomous (wisconsinautonomous@studentorg.wisc.edu)"
+__license__ = "BSD3"
+__version__ = __version__
 
 for d in _get_dirs(__file__, ignore=["chrono", "data"]):
     _import(d, globals())

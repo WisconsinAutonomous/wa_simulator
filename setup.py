@@ -8,6 +8,7 @@ https://github.com/pypa/sampleproject
 from setuptools import setup, find_packages
 from pathlib import Path
 import os
+import re
 
 # Utility function to read the README file.
 # Used for the long_description.  It's nice, because now 1) we have a top level
@@ -28,11 +29,21 @@ def get_package_data(directory, rm='wa_simulator/'):
     return paths
 
 
+# Get the version (borrowed from SQLAlchemy)
+def get_version():
+    with open(os.path.join(base_path, "wa_simulator", "_version.py")) as fp:
+        return (
+            re.compile(
+                r""".*__version__ = ["'](.*?)['"]""", re.S).match(fp.read()).group(1)
+        )
+
+
 setup(
     name="wa_simulator",
-    version="0.0.6",
-    author="Aaron Young",
-    license="BSD",
+    version=get_version(),
+    author="Wisconsin Autonomous",
+    author_email="wisconsinautonomous@studentorg.wisc.edu",
+    license="BSD3",
     description=(
         "Simulation tool for prototyping autonomous vehicle related algorithms. Wrapper of the PyChrono simulator."
     ),
