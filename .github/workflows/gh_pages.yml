@@ -14,7 +14,7 @@ jobs:
         with:
           fetch-depth: 0 # otherwise, you will failed to push refs to dest repo
       - name: Build and Commit
-        uses: AaronYoung5/pages@master
+        uses: sphinx-notes/pages@master
         with:
           documentation_path: docs
       - name: Push changes
