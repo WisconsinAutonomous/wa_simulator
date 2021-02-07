@@ -1,0 +1,19 @@
+{
+	"Name": "evGrand Prix Scene",
+  
+	"World": {
+		"Point Lights": [
+			{
+				"Position": [50.0,50.0,100.0],
+				"Color": [1.0, 1.0, 1.0],
+				"Maximum Range": 500.0
+			},
+			{
+				"Position": [-50.0,-50.0,100.0],
+				"Color": [1.0, 1.0, 1.0],
+				"Maximum Range": 500.0
+			}
+		]
+	}
+  }
+  

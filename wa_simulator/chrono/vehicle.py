@@ -16,7 +16,7 @@ import pychrono as chrono
 import pychrono.vehicle as veh
 
 
-def ReadVehicleModelFile(filename):
+def read_vehicle_model_file(filename):
     """Read a json specification file to get additional file names to be loaded into ChVehicle classes
 
     Args:
@@ -50,7 +50,7 @@ def ReadVehicleModelFile(filename):
     return vehicle_filename, powertrain_filename, tire_filename
 
 
-def CreateTireFromJSON(tire_filename):
+def create_tire_from_json(tire_filename):
     """Creates a tire from a tire file
 
     Args:
@@ -116,7 +116,7 @@ class WAChronoVehicle(WAVehicle):
         super().__init__("vehicles/GoKart/GoKart_KinematicBicycle.json")
 
         # Get the filenames
-        vehicle_file, powertrain_file, tire_file = ReadVehicleModelFile(
+        vehicle_file, powertrain_file, tire_file = read_vehicle_model_file(
             filename)
 
         # Create the vehicle
@@ -139,10 +139,10 @@ class WAChronoVehicle(WAVehicle):
 
         # Create and initialize the tires
         for axle in vehicle.GetAxles():
-            tireL = CreateTireFromJSON(tire_file)
+            tireL = create_tire_from_json(tire_file)
             vehicle.InitializeTire(
                 tireL, axle.m_wheels[0], veh.VisualizationType_PRIMITIVES)
-            tireR = CreateTireFromJSON(tire_file)
+            tireR = create_tire_from_json(tire_file)
             vehicle.InitializeTire(
                 tireR, axle.m_wheels[1], veh.VisualizationType_PRIMITIVES)
 
