@@ -29,7 +29,7 @@ class WAIrrlichtController(WAController):
         system (WASystem): the system
     """
 
-    def __init__(self, visualization, system):
+    def __init__(self, system, visualization):
         # Create the interactive driver
         driver = veh.ChIrrGuiDriver(visualization.app)
 
