@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # This script should be run via curl:
 #   sh -c "$(curl -fsSL https://raw.githubusercontent.com/WisconsinAutonomous/wa_simulator/master/scripts/config_conda_env.sh)"
