@@ -60,7 +60,7 @@ def main():
 
     # Create an vehicle using a premade vehicle description
     veh_filename = wa.WAChronoVehicle.GO_KART_MODEL_FILE
-    veh = wa.WAChronoVehicle(veh_filename)
+    veh = wa.WAChronoVehicle(veh_filename, sys, env)
 
     # Visualize the simulation using matplotlib
     vis = wa.WAMatplotlibVisualization(veh, sys)
@@ -72,7 +72,7 @@ def main():
     sim = wa.WASimulation(sys, env, veh, vis, ctr)
 
     # Run the simulation
-    sim.Run()
+    sim.run()
 
 
 if __name__ == "__main__":
