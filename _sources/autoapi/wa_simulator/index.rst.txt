@@ -29,6 +29,7 @@ Submodules
    simulation/index.rst
    system/index.rst
    terrain/index.rst
+   track/index.rst
    vector/index.rst
    vehicle/index.rst
    visualization/index.rst

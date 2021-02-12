@@ -1,10 +1,10 @@
 <!doctype html>
 <html class="no-js">
   <head><meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="wa_simulator.environment" href="../environment/index.html" /><link rel="prev" title="wa_simulator.controller" href="../controller/index.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="wa_simulator.vector" href="../vector/index.html" /><link rel="prev" title="wa_simulator.terrain" href="../terrain/index.html" />
 
     <link rel="shortcut icon" href="../../../_static/wa-dark-favicon.png"/><meta name="generator" content="sphinx-3.4.2, furo 2020.12.30.beta24"/>
-        <title>wa_simulator.data_loader - Wisconsin Autonomous Simulator 0.0.7 documentation</title>
+        <title>wa_simulator.track - Wisconsin Autonomous Simulator 0.0.7 documentation</title>
       <link rel="stylesheet" href="../../../_static/styles/furo.css?digest=33d2fc4f3f180ec1ffc6524e273e21d7d58cbe49">
     <link rel="stylesheet" href="../../../_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../../../_static/pygments_dark.css">
@@ -152,14 +152,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../cli/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.cli</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../constants/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.constants</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../controller/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.controller</span></code></a></li>
-<li class="toctree-l2 current current-page"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.data_loader</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../data_loader/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.data_loader</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../environment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.environment</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../inputs/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.inputs</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../path/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.path</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../simulation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.simulation</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../system/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.system</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../terrain/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.terrain</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../track/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.track</span></code></a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.track</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../vector/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.vector</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../vehicle/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.vehicle</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../visualization/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.visualization</span></code></a></li>
@@ -185,8 +185,8 @@
         <label class="toc-overlay-icon toc-content-icon" for="__toc">
           <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
         </label>
-        <div class="section" id="module-wa_simulator.data_loader">
-<span id="wa-simulator-data-loader"></span><h1><a class="reference internal" href="#module-wa_simulator.data_loader" title="wa_simulator.data_loader"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.data_loader</span></code></a><a class="headerlink" href="#module-wa_simulator.data_loader" title="Permalink to this headline">¶</a></h1>
+        <div class="section" id="module-wa_simulator.track">
+<span id="wa-simulator-track"></span><h1><a class="reference internal" href="#module-wa_simulator.track" title="wa_simulator.track"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.track</span></code></a><a class="headerlink" href="#module-wa_simulator.track" title="Permalink to this headline">¶</a></h1>
 <p>Wisconsin Autonomous - <a class="reference external" href="https://www.wisconsinautonomous.org">https://www.wisconsinautonomous.org</a></p>
 <p>Copyright (c) 2021 wisconsinautonomous.org
 All rights reserved.</p>
@@ -194,6 +194,20 @@ All rights reserved.</p>
 in the LICENSE file at the top level of the repo</p>
 <div class="section" id="module-contents">
 <h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h3>
+<div class="table-wrapper"><table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%"/>
+<col style="width: 90%"/>
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#wa_simulator.track.WATrack" title="wa_simulator.track.WATrack"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WATrack</span></code></a></p></td>
+<td><p>Base Track object. Basically holds three WAPaths: centerline and two boundaries. This class provides convenience functions so that it is easier to write various track related code</p></td>
+</tr>
+</tbody>
+</table></div>
+</div>
 <div class="section" id="functions">
 <h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
 <div class="table-wrapper"><table class="longtable docutils align-default">
@@ -202,43 +216,79 @@ in the LICENSE file at the top level of the repo</p>
 <col style="width: 90%"/>
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#wa_simulator.data_loader.get_wa_data_file" title="wa_simulator.data_loader.get_wa_data_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_wa_data_file</span></code></a>(filename)</p></td>
-<td><p>Get the absolute path to the file passed</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#wa_simulator.data_loader.set_wa_data_directory" title="wa_simulator.data_loader.set_wa_data_directory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_wa_data_directory</span></code></a>(path)</p></td>
-<td><p>Set the data path</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#wa_simulator.track.create_constant_width_track" title="wa_simulator.track.create_constant_width_track"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_constant_width_track</span></code></a>(center: WAPath, width: float)</p></td>
+<td><p>Generates a WAConstantWidthTrack given a centerline and a constant width. Simply “walks” along path and takes the normal from the center at a distance equal to width/2</p></td>
 </tr>
 </tbody>
 </table></div>
-<dl class="py data">
-<dt id="wa_simulator.data_loader.DATA_DIRECTORY">
-<code class="sig-prename descclassname">wa_simulator.data_loader.</code><code class="sig-name descname">DATA_DIRECTORY</code><a class="headerlink" href="#wa_simulator.data_loader.DATA_DIRECTORY" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
 <dl class="py function">
-<dt id="wa_simulator.data_loader.get_wa_data_file">
-<code class="sig-prename descclassname">wa_simulator.data_loader.</code><code class="sig-name descname">get_wa_data_file</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.data_loader.get_wa_data_file" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the absolute path to the file passed</p>
+<dt id="wa_simulator.track.create_constant_width_track">
+<code class="sig-prename descclassname">wa_simulator.track.</code><code class="sig-name descname">create_constant_width_track</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">center</span><span class="p">:</span> <span class="n">WAPath</span></em>, <em class="sig-param"><span class="n">width</span><span class="p">:</span> <span class="n">float</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.track.create_constant_width_track" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates a WAConstantWidthTrack given a centerline and a constant width. Simply “walks” along path and takes the normal from the center at a distance equal to width/2</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>filename</strong> (<em>str</em>) – file relative to the data folder to get the absolute path for</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>the absolute path of the file</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>str</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>center</strong> (<a class="reference internal" href="../path/index.html#wa_simulator.path.WAPath" title="wa_simulator.path.WAPath"><em>WAPath</em></a>) – The centerline of the track</p></li>
+<li><p><strong>width</strong> (<em>float</em>) – The constant distance between the left and right boundaries (distance between centerline and a boundary is width/2)</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
-<dl class="py function">
-<dt id="wa_simulator.data_loader.set_wa_data_directory">
-<code class="sig-prename descclassname">wa_simulator.data_loader.</code><code class="sig-name descname">set_wa_data_directory</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.data_loader.set_wa_data_directory" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the data path</p>
+<dl class="py class">
+<dt id="wa_simulator.track.WATrack">
+<em class="property">class </em><code class="sig-prename descclassname">wa_simulator.track.</code><code class="sig-name descname">WATrack</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">center</span><span class="p">:</span> <span class="n">WAPath</span></em>, <em class="sig-param"><span class="n">left</span><span class="p">:</span> <span class="n">WAPath</span></em>, <em class="sig-param"><span class="n">right</span><span class="p">:</span> <span class="n">WAPath</span></em>, <em class="sig-param"><span class="n">extras</span><span class="p">:</span> <span class="n">dict</span> <span class="o">=</span> <span class="default_value">{}</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.track.WATrack" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base Track object. Basically holds three WAPaths: centerline and two boundaries. This class provides convenience functions so that it is easier to write various track related code</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – relative (or absolute) path where the data is stored</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>center</strong> (<a class="reference internal" href="../path/index.html#wa_simulator.path.WAPath" title="wa_simulator.path.WAPath"><em>WAPath</em></a>) – The centerline of the track.</p></li>
+<li><p><strong>left</strong> (<a class="reference internal" href="../path/index.html#wa_simulator.path.WAPath" title="wa_simulator.path.WAPath"><em>WAPath</em></a>) – The “left” side boundary. Side is determined by orientation from the centerline by index.</p></li>
+<li><p><strong>right</strong> (<a class="reference internal" href="../path/index.html#wa_simulator.path.WAPath" title="wa_simulator.path.WAPath"><em>WAPath</em></a>) – The “right” side boundary. Side is determined by orientation from the centerline by index.</p></li>
+<li><p><strong>extras</strong> (<em>dict</em>) – Extra parameters that are used for the track</p></li>
+</ul>
 </dd>
 </dl>
+<dl class="py attribute">
+<dt id="wa_simulator.track.WATrack.center">
+<code class="sig-name descname">center</code><a class="headerlink" href="#wa_simulator.track.WATrack.center" title="Permalink to this definition">¶</a></dt>
+<dd><p>The centerline of the track.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="../path/index.html#wa_simulator.path.WAPath" title="wa_simulator.path.WAPath">WAPath</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.track.WATrack.left">
+<code class="sig-name descname">left</code><a class="headerlink" href="#wa_simulator.track.WATrack.left" title="Permalink to this definition">¶</a></dt>
+<dd><p>The “left” side boundary. Side is determined by orientation from the centerline by index.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="../path/index.html#wa_simulator.path.WAPath" title="wa_simulator.path.WAPath">WAPath</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt id="wa_simulator.track.WATrack.right">
+<code class="sig-name descname">right</code><a class="headerlink" href="#wa_simulator.track.WATrack.right" title="Permalink to this definition">¶</a></dt>
+<dd><p>The “right” side boundary. Side is determined by orientation from the centerline by index.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="../path/index.html#wa_simulator.path.WAPath" title="wa_simulator.path.WAPath">WAPath</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.track.WATrack.inside_boundaries">
+<code class="sig-name descname">inside_boundaries</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">point</span><span class="p">:</span> <span class="n">WAVector</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.track.WATrack.inside_boundaries" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check whether the passed point is within the track boundaries</p>
+<p><a class="reference external" href="https://stackoverflow.com/a/33155594">https://stackoverflow.com/a/33155594</a></p>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.track.WATrack.plot">
+<code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.track.WATrack.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the path. Most likely plotter is matplotlib, but technically anything can be used.</p>
+</dd></dl>
 </dd></dl>
 </div>
 </div>
@@ -248,23 +298,23 @@ in the LICENSE file at the top level of the repo</p>
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="../environment/index.html">
+          <a class="next-page" href="../vector/index.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.environment</span></code></div>
+                <div class="title"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.vector</span></code></div>
               </div>
               <svg><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="../controller/index.html">
+          <a class="prev-page" href="../terrain/index.html">
               <svg><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.controller</span></code></div>
+                <div class="title"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.terrain</span></code></div>
                 
               </div>
             </a>
@@ -278,7 +328,7 @@ in the LICENSE file at the top level of the repo</p>
               <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
               <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
             |
-            <a class="muted-link" href="../../../_sources/autoapi/wa_simulator/data_loader/index.rst.txt"
+            <a class="muted-link" href="../../../_sources/autoapi/wa_simulator/track/index.rst.txt"
                rel="nofollow">
               Show Source
             </a>
@@ -298,12 +348,19 @@ in the LICENSE file at the top level of the repo</p>
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.data_loader</span></code></a><ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.track</span></code></a><ul>
 <li><a class="reference internal" href="#module-contents">Module Contents</a><ul>
+<li><a class="reference internal" href="#classes">Classes</a></li>
 <li><a class="reference internal" href="#functions">Functions</a><ul>
-<li><a class="reference internal" href="#wa_simulator.data_loader.DATA_DIRECTORY">DATA_DIRECTORY</a></li>
-<li><a class="reference internal" href="#wa_simulator.data_loader.get_wa_data_file">get_wa_data_file</a></li>
-<li><a class="reference internal" href="#wa_simulator.data_loader.set_wa_data_directory">set_wa_data_directory</a></li>
+<li><a class="reference internal" href="#wa_simulator.track.create_constant_width_track">create_constant_width_track</a></li>
+<li><a class="reference internal" href="#wa_simulator.track.WATrack">WATrack</a><ul>
+<li><a class="reference internal" href="#wa_simulator.track.WATrack.center">center</a></li>
+<li><a class="reference internal" href="#wa_simulator.track.WATrack.left">left</a></li>
+<li><a class="reference internal" href="#wa_simulator.track.WATrack.right">right</a></li>
+<li><a class="reference internal" href="#wa_simulator.track.WATrack.inside_boundaries">inside_boundaries</a></li>
+<li><a class="reference internal" href="#wa_simulator.track.WATrack.plot">plot</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>

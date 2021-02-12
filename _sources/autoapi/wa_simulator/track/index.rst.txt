@@ -1,0 +1,91 @@
+:mod:`wa_simulator.track`
+=========================
+
+.. py:module:: wa_simulator.track
+
+.. autoapi-nested-parse::
+
+   Wisconsin Autonomous - https://www.wisconsinautonomous.org
+
+   Copyright (c) 2021 wisconsinautonomous.org
+   All rights reserved.
+
+   Use of this source code is governed by a BSD-style license that can be found
+   in the LICENSE file at the top level of the repo
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   wa_simulator.track.WATrack
+
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   wa_simulator.track.create_constant_width_track
+
+
+.. function:: create_constant_width_track(center: WAPath, width: float)
+
+   Generates a WAConstantWidthTrack given a centerline and a constant width. Simply "walks" along path and takes the normal from the center at a distance equal to width/2
+
+   :param center: The centerline of the track
+   :type center: WAPath
+   :param width: The constant distance between the left and right boundaries (distance between centerline and a boundary is width/2)
+   :type width: float
+
+
+.. py:class:: WATrack(center: WAPath, left: WAPath, right: WAPath, extras: dict = {})
+
+   Base Track object. Basically holds three WAPaths: centerline and two boundaries. This class provides convenience functions so that it is easier to write various track related code
+
+   :param center: The centerline of the track.
+   :type center: WAPath
+   :param left: The "left" side boundary. Side is determined by orientation from the centerline by index.
+   :type left: WAPath
+   :param right: The "right" side boundary. Side is determined by orientation from the centerline by index.
+   :type right: WAPath
+   :param extras: Extra parameters that are used for the track
+   :type extras: dict
+
+   .. attribute:: center
+
+      The centerline of the track.
+
+      :type: WAPath
+
+   .. attribute:: left
+
+      The "left" side boundary. Side is determined by orientation from the centerline by index.
+
+      :type: WAPath
+
+   .. attribute:: right
+
+      The "right" side boundary. Side is determined by orientation from the centerline by index.
+
+      :type: WAPath
+
+   .. method:: inside_boundaries(self, point: WAVector)
+
+      Check whether the passed point is within the track boundaries
+
+      https://stackoverflow.com/a/33155594
+
+
+   .. method:: plot(self)
+
+      Plot the path. Most likely plotter is matplotlib, but technically anything can be used.
+
+
+

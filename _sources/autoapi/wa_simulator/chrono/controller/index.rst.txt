@@ -27,7 +27,7 @@ Classes
 
 
 
-.. py:class:: WAIrrlichtController(visualization, system)
+.. py:class:: WAIrrlichtController(system, visualization)
 
    Bases: :class:`wa_simulator.controller.WAController`
 

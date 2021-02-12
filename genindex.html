@@ -158,6 +158,7 @@
 <li class="toctree-l2"><a class="reference internal" href="autoapi/wa_simulator/simulation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.simulation</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="autoapi/wa_simulator/system/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.system</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="autoapi/wa_simulator/terrain/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.terrain</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/wa_simulator/track/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.track</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="autoapi/wa_simulator/vector/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.vector</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="autoapi/wa_simulator/vehicle/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.vehicle</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="autoapi/wa_simulator/visualization/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.visualization</span></code></a></li>
@@ -330,11 +331,9 @@
 </li>
         <li><a href="autoapi/wa_simulator/vehicle/index.html#wa_simulator.vehicle.WALinearKinematicBicycle.c_rl">c_rl (wa_simulator.vehicle.WALinearKinematicBicycle attribute)</a>
 </li>
-        <li><a href="autoapi/wa_simulator/path/index.html#wa_simulator.path.WABezierPath.calc_closest_point">calc_closest_point() (wa_simulator.path.WABezierPath method)</a>
+        <li><a href="autoapi/wa_simulator/path/index.html#wa_simulator.path.WAPath.calc_closest_point">calc_closest_point() (wa_simulator.path.WAPath method)</a>
 
         <ul>
-          <li><a href="autoapi/wa_simulator/path/index.html#wa_simulator.path.WAPath.calc_closest_point">(wa_simulator.path.WAPath method)</a>
-</li>
           <li><a href="autoapi/wa_simulator/path/index.html#wa_simulator.path.WASplinePath.calc_closest_point">(wa_simulator.path.WASplinePath method)</a>
 </li>
         </ul></li>
@@ -346,10 +345,12 @@
 </li>
         <li><a href="autoapi/wa_simulator/path/index.html#wa_simulator.path.calc_path_length_cummulative">calc_path_length_cummulative() (in module wa_simulator.path)</a>
 </li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="autoapi/wa_simulator/controller/index.html#wa_simulator.controller.WAPIDLateralController.calc_sign">calc_sign() (wa_simulator.controller.WAPIDLateralController method)</a>
 </li>
+        <li><a href="autoapi/wa_simulator/track/index.html#wa_simulator.track.WATrack.center">center (wa_simulator.track.WATrack attribute)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="autoapi/wa_simulator/chrono/index.html#wa_simulator.chrono.CHRONO_DATA_DIRECTORY">CHRONO_DATA_DIRECTORY (in module wa_simulator.chrono)</a>
 </li>
         <li><a href="autoapi/wa_simulator/chrono/index.html#wa_simulator.chrono.CHRONO_VEH_DATA_DIRECTORY">CHRONO_VEH_DATA_DIRECTORY (in module wa_simulator.chrono)</a>
@@ -362,6 +363,8 @@
 </li>
         </ul></li>
         <li><a href="autoapi/conf/index.html#conf.copyright">copyright (in module conf)</a>
+</li>
+        <li><a href="autoapi/wa_simulator/track/index.html#wa_simulator.track.create_constant_width_track">create_constant_width_track() (in module wa_simulator.track)</a>
 </li>
         <li><a href="autoapi/wa_simulator/chrono/visualization/index.html#wa_simulator.chrono.visualization.create_sphere_in_irrlicht">create_sphere_in_irrlicht() (in module wa_simulator.chrono.visualization)</a>
 </li>
@@ -540,9 +543,13 @@
         </ul></li>
         <li><a href="autoapi/wa_simulator/vehicle/index.html#wa_simulator.vehicle.WALinearKinematicBicycle.initialize">initialize() (wa_simulator.vehicle.WALinearKinematicBicycle method)</a>
 </li>
+        <li><a href="autoapi/wa_simulator/controller/index.html#wa_simulator.controller.WAController.inputs">inputs (wa_simulator.controller.WAController attribute)</a>
+</li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="autoapi/wa_simulator/controller/index.html#wa_simulator.controller.WAController.inputs">inputs (wa_simulator.controller.WAController attribute)</a>
+        <li><a href="autoapi/wa_simulator/track/index.html#wa_simulator.track.WATrack.inside_boundaries">inside_boundaries() (wa_simulator.track.WATrack method)</a>
+</li>
+        <li><a href="autoapi/wa_simulator/path/index.html#id0">is_closed (wa_simulator.path.WAPath.WAPathParameters attribute)</a>, <a href="autoapi/wa_simulator/path/index.html#wa_simulator.path.WAPath.WAPathParameters.is_closed">[1]</a>
 </li>
         <li><a href="autoapi/wa_simulator/chrono/visualization/index.html#wa_simulator.chrono.visualization.WAChronoIrrlicht.is_ok">is_ok() (wa_simulator.chrono.visualization.WAChronoIrrlicht method)</a>
 
@@ -612,10 +619,12 @@
 </li>
         <li><a href="autoapi/wa_simulator/controller/index.html#wa_simulator.controller.WAPIDController.lat_controller">lat_controller (wa_simulator.controller.WAPIDController attribute)</a>
 </li>
-        <li><a href="autoapi/wa_simulator/vector/index.html#wa_simulator.vector.WAVector.length">length() (wa_simulator.vector.WAVector method)</a>
+        <li><a href="autoapi/wa_simulator/track/index.html#wa_simulator.track.WATrack.left">left (wa_simulator.track.WATrack attribute)</a>
 </li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/wa_simulator/vector/index.html#wa_simulator.vector.WAVector.length">length() (wa_simulator.vector.WAVector method)</a>
+</li>
         <li><a href="autoapi/wa_simulator/vehicle/index.html#wa_simulator.vehicle.load_properties_from_json">load_properties_from_json() (in module wa_simulator.vehicle)</a>
 </li>
         <li><a href="autoapi/wa_simulator/path/index.html#wa_simulator.path.load_waypoints_from_csv">load_waypoints_from_csv() (in module wa_simulator.path)</a>
@@ -696,6 +705,8 @@
 </li>
           <li><a href="autoapi/wa_simulator/terrain/index.html#module-wa_simulator.terrain">wa_simulator.terrain</a>
 </li>
+          <li><a href="autoapi/wa_simulator/track/index.html#module-wa_simulator.track">wa_simulator.track</a>
+</li>
           <li><a href="autoapi/wa_simulator/vector/index.html#module-wa_simulator.vector">wa_simulator.vector</a>
 </li>
           <li><a href="autoapi/wa_simulator/vehicle/index.html#module-wa_simulator.vehicle">wa_simulator.vehicle</a>
@@ -712,6 +723,10 @@
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="autoapi/wa_simulator/controller/index.html#wa_simulator.controller.WATerminalKeyboardController.KeyGetter.new_term">new_term (wa_simulator.controller.WATerminalKeyboardController.KeyGetter attribute)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/wa_simulator/path/index.html#id1">num_points (wa_simulator.path.WASplinePath.WASplinePathParameters attribute)</a>, <a href="autoapi/wa_simulator/path/index.html#wa_simulator.path.WASplinePath.WASplinePathParameters.num_points">[1]</a>
 </li>
     </ul></td>
   </tr></table>
@@ -737,18 +752,20 @@
   <h2>P</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/wa_simulator/path/index.html#wa_simulator.path.WAPath.parameters">parameters (wa_simulator.path.WAPath attribute)</a>
+</li>
         <li><a href="autoapi/wa_simulator/controller/index.html#wa_simulator.controller.WAPIDController.path">path (wa_simulator.controller.WAPIDController attribute)</a>
 
         <ul>
           <li><a href="autoapi/wa_simulator/controller/index.html#wa_simulator.controller.WAPIDLateralController.path">(wa_simulator.controller.WAPIDLateralController attribute)</a>
 </li>
         </ul></li>
-        <li><a href="autoapi/wa_simulator/path/index.html#wa_simulator.path.WABezierPath.plot">plot() (wa_simulator.path.WABezierPath method)</a>
+        <li><a href="autoapi/wa_simulator/path/index.html#wa_simulator.path.WAPath.plot">plot() (wa_simulator.path.WAPath method)</a>
 
         <ul>
-          <li><a href="autoapi/wa_simulator/path/index.html#wa_simulator.path.WAPath.plot">(wa_simulator.path.WAPath method)</a>
-</li>
           <li><a href="autoapi/wa_simulator/path/index.html#wa_simulator.path.WASplinePath.plot">(wa_simulator.path.WASplinePath method)</a>
+</li>
+          <li><a href="autoapi/wa_simulator/track/index.html#wa_simulator.track.WATrack.plot">(wa_simulator.track.WATrack method)</a>
 </li>
           <li><a href="autoapi/wa_simulator/visualization/index.html#wa_simulator.visualization.WAMatplotlibVisualization.plot">(wa_simulator.visualization.WAMatplotlibVisualization method)</a>
 </li>
@@ -756,6 +773,8 @@
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="autoapi/wa_simulator/visualization/index.html#wa_simulator.visualization.WAMatplotlibVisualization.plotter">plotter (wa_simulator.visualization.WAMatplotlibVisualization attribute)</a>
+</li>
+        <li><a href="autoapi/wa_simulator/path/index.html#wa_simulator.path.WAPath.points">points (wa_simulator.path.WAPath attribute)</a>
 </li>
         <li><a href="autoapi/conf/index.html#conf.project">project (in module conf)</a>
 </li>
@@ -781,10 +800,10 @@
 </li>
         <li><a href="autoapi/wa_simulator/simulation/index.html#wa_simulator.simulation.WASimulation.record">record() (wa_simulator.simulation.WASimulation method)</a>
 </li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="autoapi/wa_simulator/visualization/index.html#wa_simulator.visualization.WAMatplotlibVisualization.register_key_press_event">register_key_press_event() (wa_simulator.visualization.WAMatplotlibVisualization method)</a>
 </li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="autoapi/conf/index.html#conf.release">release (in module conf)</a>
 </li>
         <li><a href="autoapi/wa_simulator/system/index.html#wa_simulator.system.WASystem.render_step_size">render_step_size (wa_simulator.system.WASystem attribute)</a>
@@ -795,6 +814,8 @@
           <li><a href="autoapi/wa_simulator/visualization/index.html#wa_simulator.visualization.WAMatplotlibVisualization.render_steps">(wa_simulator.visualization.WAMatplotlibVisualization attribute)</a>
 </li>
         </ul></li>
+        <li><a href="autoapi/wa_simulator/track/index.html#wa_simulator.track.WATrack.right">right (wa_simulator.track.WATrack attribute)</a>
+</li>
         <li><a href="autoapi/conf/index.html#conf.root_path">root_path (in module conf)</a>
 </li>
         <li><a href="autoapi/wa_simulator/simulation/index.html#wa_simulator.simulation.WASimulation.run">run() (wa_simulator.simulation.WASimulation method)</a>
@@ -834,6 +855,8 @@
           <li><a href="autoapi/setup/index.html#module-setup">module</a>
 </li>
         </ul></li>
+        <li><a href="autoapi/wa_simulator/path/index.html#id2">smoothness (wa_simulator.path.WASplinePath.WASplinePathParameters attribute)</a>, <a href="autoapi/wa_simulator/path/index.html#wa_simulator.path.WASplinePath.WASplinePathParameters.smoothness">[1]</a>
+</li>
         <li><a href="autoapi/wa_simulator/controller/index.html#wa_simulator.controller.WAPIDLongitudinalController.speed">speed (wa_simulator.controller.WAPIDLongitudinalController attribute)</a>
 </li>
         <li><a href="autoapi/wa_simulator/controller/index.html#wa_simulator.controller.WAController.steering">steering (wa_simulator.controller.WAController attribute)</a>
@@ -1107,6 +1130,13 @@
           <li><a href="autoapi/wa_simulator/terrain/index.html#module-wa_simulator.terrain">module</a>
 </li>
         </ul></li>
+        <li>
+    wa_simulator.track
+
+        <ul>
+          <li><a href="autoapi/wa_simulator/track/index.html#module-wa_simulator.track">module</a>
+</li>
+        </ul></li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
         <li>
@@ -1131,8 +1161,6 @@
 </li>
         </ul></li>
         <li><a href="autoapi/wa_simulator/cli/index.html#wa_simulator.cli.WAArgumentParser">WAArgumentParser (class in wa_simulator.cli)</a>
-</li>
-        <li><a href="autoapi/wa_simulator/path/index.html#wa_simulator.path.WABezierPath">WABezierPath (class in wa_simulator.path)</a>
 </li>
         <li><a href="autoapi/wa_simulator/chrono/environment/index.html#wa_simulator.chrono.environment.WAChronoEnvironment">WAChronoEnvironment (class in wa_simulator.chrono.environment)</a>
 </li>
@@ -1162,6 +1190,8 @@
 </li>
         <li><a href="autoapi/wa_simulator/path/index.html#wa_simulator.path.WAPath">WAPath (class in wa_simulator.path)</a>
 </li>
+        <li><a href="autoapi/wa_simulator/path/index.html#wa_simulator.path.WAPath.WAPathParameters">WAPath.WAPathParameters (class in wa_simulator.path)</a>
+</li>
         <li><a href="autoapi/wa_simulator/controller/index.html#wa_simulator.controller.WAPIDController">WAPIDController (class in wa_simulator.controller)</a>
 </li>
         <li><a href="autoapi/wa_simulator/controller/index.html#wa_simulator.controller.WAPIDLateralController">WAPIDLateralController (class in wa_simulator.controller)</a>
@@ -1176,6 +1206,8 @@
 </li>
         <li><a href="autoapi/wa_simulator/path/index.html#wa_simulator.path.WASplinePath">WASplinePath (class in wa_simulator.path)</a>
 </li>
+        <li><a href="autoapi/wa_simulator/path/index.html#wa_simulator.path.WASplinePath.WASplinePathParameters">WASplinePath.WASplinePathParameters (class in wa_simulator.path)</a>
+</li>
         <li><a href="autoapi/wa_simulator/system/index.html#wa_simulator.system.WASystem">WASystem (class in wa_simulator.system)</a>
 </li>
         <li><a href="autoapi/wa_simulator/controller/index.html#wa_simulator.controller.WATerminalKeyboardController">WATerminalKeyboardController (class in wa_simulator.controller)</a>
@@ -1184,6 +1216,8 @@
 </li>
         <li><a href="autoapi/wa_simulator/terrain/index.html#wa_simulator.terrain.WATerrain">WATerrain (class in wa_simulator.terrain)</a>
 </li>
+        <li><a href="autoapi/wa_simulator/track/index.html#wa_simulator.track.WATrack">WATrack (class in wa_simulator.track)</a>
+</li>
         <li><a href="autoapi/wa_simulator/vector/index.html#wa_simulator.vector.WAVector">WAVector (class in wa_simulator.vector)</a>
 </li>
         <li><a href="autoapi/wa_simulator/vehicle/index.html#wa_simulator.vehicle.WAVehicle">WAVehicle (class in wa_simulator.vehicle)</a>
@@ -1191,6 +1225,8 @@
         <li><a href="autoapi/wa_simulator/inputs/index.html#wa_simulator.inputs.WAVehicleInputs">WAVehicleInputs (class in wa_simulator.inputs)</a>
 </li>
         <li><a href="autoapi/wa_simulator/visualization/index.html#wa_simulator.visualization.WAVisualization">WAVisualization (class in wa_simulator.visualization)</a>
+</li>
+        <li><a href="autoapi/wa_simulator/path/index.html#wa_simulator.path.WAPath.waypoints">waypoints (wa_simulator.path.WAPath attribute)</a>
 </li>
     </ul></td>
   </tr></table>

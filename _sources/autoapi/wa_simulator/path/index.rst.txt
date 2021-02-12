@@ -25,7 +25,6 @@ Classes
 
    wa_simulator.path.WAPath
    wa_simulator.path.WASplinePath
-   wa_simulator.path.WABezierPath
 
 
 
@@ -83,9 +82,43 @@ Functions
    :rtype: np.ndarray
 
 
-.. py:class:: WAPath
+.. py:class:: WAPath(waypoints=None, parameters=WAPathParameters())
 
    Base Path object. To be used to generate paths or trajectories for path planning and/or path following
+
+   .. attribute:: parameters
+
+      The parameters used to interpolate along the path
+
+      :type: WAPath.WAPathParameters
+
+   .. attribute:: waypoints
+
+      The waypoints that the path interpolates about or maintains
+
+      :type: np.ndarray
+
+   .. attribute:: points
+
+      The interpolated points (can be the waypoints)
+
+      :type: np.ndarray
+
+   .. py:class:: WAPathParameters
+
+      Holds the parameters for the interpolated path
+
+      .. attribute:: is_closed
+
+         Whether the path is a closed loop. Defaults to True.
+
+         :type: bool
+
+      .. attribute:: is_closed
+         :annotation: = True
+
+         
+
 
    .. method:: calc_closest_point(self, pos)
       :abstractmethod:
@@ -99,18 +132,61 @@ Functions
       :rtype: wa.WAVector
 
 
-   .. method:: plot(self)
+   .. method:: plot(self, *args, show=True, **kwargs)
       :abstractmethod:
 
-      Plot the path. Most likely plotter is matplotlib, but technically anything can be used.
+      Plot the path
+
+      :param show: show the plot window. Defaults to True.
+      :type show: bool, optional
 
 
 
-.. py:class:: WASplinePath(waypoints, num_points=100, smoothness=0.0, is_closed=True)
+.. py:class:: WASplinePath(waypoints, parameters=None, **kwargs)
 
    Bases: :class:`wa_simulator.path.WAPath`
 
-   Base Path object. To be used to generate paths or trajectories for path planning and/or path following
+   Spline path implemented with SciPy's splprep and splev methods
+
+   :param waypoints: the waypoints to fit the spline to
+   :type waypoints: np.ndarray
+   :param num_points: number of points to interpolate. Defaults to 100.
+   :type num_points: int, optional
+   :param smoothness: how fit to each point the spline should be. will hit all points by default. Defaults to 0.0.
+   :type smoothness: float, optional
+   :param is_closed: Is the path a closed loop. Defaults to True.
+   :type is_closed: bool, optional
+
+   :raises TypeError: the waypoints array type is not as expected
+
+   .. py:class:: WASplinePathParameters
+
+      Bases: :class:`wa_simulator.path.WAPath`
+
+      The parameters for a WASplinePath
+
+      .. attribute:: num_points
+
+         number of points to interpolate along the path. Defaults to 100.
+
+         :type: int
+
+      .. attribute:: smoothness
+
+         How close the path is to the waypoints. Defaults to 0.0 (goes through all the points).
+
+         :type: float
+
+      .. attribute:: num_points
+         :annotation: = 100
+
+         
+
+      .. attribute:: smoothness
+         :annotation: = 0.0
+
+         
+
 
    .. method:: calc_closest_point(self, pos)
 
@@ -120,6 +196,7 @@ Functions
       :type pos: wa.WAVector
 
       :returns: the closest point on the path
+                idx: the index of the point on the path
       :rtype: wa.WAVector
 
 
@@ -145,29 +222,6 @@ Functions
 
       :returns: Curvature at each point on the path
       :rtype: np.ndarray
-
-
-
-.. py:class:: WABezierPath
-
-   Bases: :class:`wa_simulator.path.WAPath`
-
-   Base Path object. To be used to generate paths or trajectories for path planning and/or path following
-
-   .. method:: calc_closest_point(self, pos)
-
-      Calcualte the closest point on the path from the passed position
-
-      :param pos: the position to find the closest point on the path to
-      :type pos: wa.WAVector
-
-      :returns: the closest point on the path
-      :rtype: wa.WAVector
-
-
-   .. method:: plot(self)
-
-      Plot the path.
 
 
 
