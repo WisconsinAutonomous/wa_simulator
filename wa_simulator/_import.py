@@ -4,7 +4,7 @@ import importlib
 
 
 def _not_hidden(f):
-    return f[0] != "_"
+    return f[0] != "_" and f[0] !='.'
 
 
 def _get_files(file_):

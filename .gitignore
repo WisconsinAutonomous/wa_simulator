@@ -1,6 +1,7 @@
 # OS hidden files
 .vscode
 .DS_Store
+.*.swp
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

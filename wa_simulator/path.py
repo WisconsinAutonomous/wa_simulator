@@ -11,6 +11,9 @@ in the LICENSE file at the top level of the repo
 
 from abc import ABC, abstractmethod  # Abstract Base Class
 
+# WA Simulator
+from wa_simulator.vector import WAVector
+
 # Other imports
 import numpy as np
 import matplotlib.pyplot as plt
@@ -61,7 +64,35 @@ def calc_path_curvature(dx, dy, ddx, ddy):
 
 
 class WAPath:
-    """Base Path object. To be used to generate paths or trajectories for path planning and/or path following"""
+    """Base Path object. To be used to generate paths or trajectories for path planning and/or path following
+
+    Attributes:
+        parameters (WAPath.WAPathParameters): The parameters used to interpolate along the path
+        waypoints (np.ndarray): The waypoints that the path interpolates about or maintains
+        points (np.ndarray): The interpolated points (can be the waypoints)
+    """
+
+    class WAPathParameters:
+        """Holds the parameters for the interpolated path
+
+        Attributes:
+            is_closed (bool): Whether the path is a closed loop. Defaults to True. 
+        """
+        is_closed = True
+
+    def __init__(self, waypoints=None, parameters=WAPathParameters()):
+        # Check points type and shape
+        if isinstance(waypoints, list):
+            waypoints = np.array(waypoints)
+        elif not isinstance(waypoints, np.ndarray):
+            raise TypeError(
+                'waypoints type is not recognized. List or NumPy array required.')
+
+        self.waypoints = waypoints
+        self.points = waypoints
+        self.d_points = None
+
+        self.parameters = parameters
 
     @abstractmethod
     def calc_closest_point(self, pos):
@@ -76,42 +107,65 @@ class WAPath:
         pass
 
     @abstractmethod
-    def plot(self):
-        """Plot the path. Most likely plotter is matplotlib, but technically anything can be used."""
-        pass
+    def plot(self, *args, show=True, **kwargs):
+        """Plot the path
+
+        Args:
+            show (bool, optional): show the plot window. Defaults to True.
+        """
+        plt.plot(self.points[:, 0], self.points[:, 1], *args, **kwargs)
+        if show:
+            plt.show()
 
 
 class WASplinePath(WAPath):
-    def __init__(self, waypoints, num_points=100, smoothness=0.0, is_closed=True):
-        """Spline path implemented with SciPy's splprep and splev methods
+    """Spline path implemented with SciPy's splprep and splev methods
 
-        Args:
-            waypoints (np.ndarray): the waypoints to fit the spline to
-            num_points (int, optional): number of points to interpolate. Defaults to 100.
-            smoothness (float, optional): how fit to each point the spline should be. will hit all points by default. Defaults to 0.0.
-            is_closed (bool, optional): Is the path a closed loop. Defaults to True.
+    Args:
+        waypoints (np.ndarray): the waypoints to fit the spline to
+        num_points (int, optional): number of points to interpolate. Defaults to 100.
+        smoothness (float, optional): how fit to each point the spline should be. will hit all points by default. Defaults to 0.0.
+        is_closed (bool, optional): Is the path a closed loop. Defaults to True.
 
-        Raises:
-            TypeError: the waypoints array type is not as expected
+    Raises:
+        TypeError: the waypoints array type is not as expected
+    """
+
+    class WASplinePathParameters(WAPath.WAPathParameters):
+        """The parameters for a WASplinePath
+
+        Attributes:
+            num_points (int): number of points to interpolate along the path. Defaults to 100.
+            smoothness (float): How close the path is to the waypoints. Defaults to 0.0 (goes through all the points).
         """
-        # Check points type and shape
-        if isinstance(waypoints, list):
-            waypoints = np.array(waypoints)
-        elif not isinstance(waypoints, np.ndarray):
-            raise TypeError(
-                'waypoints type is not recognized. List or NumPy array required.')
+        num_points = 100
+        smoothness = 0.0
 
-        # Store the waypoints
-        self.waypoints = waypoints
+    def __init__(self, waypoints, parameters=None, **kwargs):
+        # Check inputs
+        parameters = parameters if parameters is not None else self.WASplinePathParameters()
+        allowed_args = {'num_points', 'smoothness', 'is_closed'}
+        for key, value in kwargs.items():
+            if key not in allowed_args:
+                raise ValueError(
+                    f'Passed argument {key} is not allowed. Must be any of the following: {allowed_args}')
+            setattr(parameters, key, value)
+
+        super().__init__(waypoints, parameters)
 
         # Interpolate the path
-        tck, u = splprep(waypoints.T, s=smoothness, per=is_closed)
-        u_new = np.linspace(u.min(), u.max(), num_points)
+        tck, u = splprep(waypoints.T, s=self.parameters.smoothness,
+                         per=self.parameters.is_closed)
+        u_new = np.linspace(u.min(), u.max(), self.parameters.num_points)
 
         # Evaluate the interpolation to get values
         self.x, self.y = splev(u_new, tck, der=0)  # position
         self.dx, self.dy = splev(u_new, tck, der=1)  # first derivative
         self.ddx, self.ddy = splev(u_new, tck, der=2)  # second derivative
+
+        # store the points for later
+        self.points = np.column_stack((self.x, self.y))
+        self.d_points = np.column_stack((self.dx, self.dy))
 
         # Variables for tracking path
         self.last_index = None
@@ -124,13 +178,15 @@ class WASplinePath(WAPath):
 
         Returns:
             wa.WAVector: the closest point on the path
+            idx: the index of the point on the path
         """
         if len(pos) == 3:
             pos = pos[:2]
 
-        dist = cdist(np.column_stack((self.x, self.y)), [pos])
+        dist = cdist(self.points, [pos])
         idx, = np.argmin(dist, axis=0)
-        return self.x[idx], self.y[idx], idx
+
+        return WAVector([self.x[idx], self.y[idx]]), idx
 
     def plot(self, *args, show=True, **kwargs):
         """Plot the path
@@ -157,24 +213,3 @@ class WASplinePath(WAPath):
             np.ndarray: Curvature at each point on the path
         """
         return calc_path_curvature(self.dx, self.dy, self.ddx, self.ddy)
-
-
-class WABezierPath(WAPath):
-
-    def __init__(self):
-        pass
-
-    def calc_closest_point(self, pos):
-        """Calcualte the closest point on the path from the passed position
-
-        Args:
-            pos (wa.WAVector): the position to find the closest point on the path to
-
-        Returns:
-            wa.WAVector: the closest point on the path
-        """
-        pass
-
-    def plot(self):
-        """Plot the path."""
-        pass
