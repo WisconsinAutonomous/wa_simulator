@@ -12,9 +12,8 @@ from abc import ABC, abstractmethod  # Abstract Base Class
 
 # WA Simulator
 from wa_simulator.system import WASystem
-from wa_simulator.data_loader import get_wa_data_file
-from wa_simulator.utils import load_json, check_field, check_field_allowed_values
-from wa_simulator.vector import WAVector
+from wa_simulator.core import WAVector
+from wa_simulator.utils import load_json, check_field, check_field_allowed_values, get_wa_data_file
 from wa_simulator.vehicle import WAVehicle
 from wa_simulator.constants import WA_EARTH_RADIUS, WA_PI
 

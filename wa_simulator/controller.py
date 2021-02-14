@@ -13,7 +13,7 @@ from abc import ABC, abstractmethod  # Abstract Base Class
 # WA Simulator
 from wa_simulator.visualization import WAMatplotlibVisualization
 from wa_simulator.inputs import WAVehicleInputs
-from wa_simulator.vector import WAVector
+from wa_simulator.core import WAVector
 
 # Other imports
 import sys
@@ -425,7 +425,7 @@ class WAPIDController(WAController):
             # Longitudinal controller (throttle and braking)
             long_controller = WAPIDLongitudinalController(system, vehicle)
             long_controller.set_gains(Kp=0.4, Ki=0, Kd=0)
-            long_controller.set_target_speed(speed=10.0)
+            long_controller.set_target_speed(speed=7.0)
         self.long_controller = long_controller
 
         self.target_steering = 0

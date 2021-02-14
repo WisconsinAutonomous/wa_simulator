@@ -9,9 +9,8 @@ in the LICENSE file at the top level of the repo
 """
 
 # WA Simulator
+from wa_simulator.core import WAVector, WAQuaternion
 from wa_simulator.utils import check_field
-from wa_simulator.vector import WAVector
-from wa_simulator.quaternion import WAQuaternion
 
 # Chrono specific imports
 import pychrono as chrono

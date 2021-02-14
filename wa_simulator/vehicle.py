@@ -11,10 +11,9 @@ in the LICENSE file at the top level of the repo
 from abc import ABC, abstractmethod  # Abstract Base Class
 
 # WA Simulator
-from wa_simulator.data_loader import get_wa_data_file
+from wa_simulator.core import WAVector, WAQuaternion
+from wa_simulator.utils import get_wa_data_file
 from wa_simulator.constants import WA_GRAVITY
-from wa_simulator.vector import WAVector
-from wa_simulator.quaternion import WAQuaternion
 
 # Other imports
 import numpy as np

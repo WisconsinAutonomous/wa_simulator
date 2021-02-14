@@ -13,7 +13,7 @@ from abc import ABC, abstractmethod  # Abstract Base Class
 
 # WA Simulator
 from wa_simulator.path import WAPath
-from wa_simulator.vector import WAVector
+from wa_simulator.core import WAVector
 
 # Other imports
 import numpy as np
@@ -36,13 +36,13 @@ def create_constant_width_track(center: WAPath, width: float):
     points = center.points
 
     for i in range(len(points)-1):
-        ix, iy = points[i]
+        ix, iy, iz = points[i]
         d_point = center.d_points[i]
         l = np.linalg.norm(d_point)
         dx = d_point[0] * width / (2 * l)
         dy = d_point[1] * width / (2 * l)
-        left.append([ix - dy, iy + dx])
-        right.append([ix + dy, iy - dx])
+        left.append([ix - dy, iy + dx, iz])
+        right.append([ix + dy, iy - dx, iz])
 
     def close_path_if_necessary(points): return np.array(points) if center.parameters.is_closed and not np.array_equal(
         points[0], points[-1]) else np.vstack((points, points[0]))
@@ -89,9 +89,8 @@ class WATrack:
                 f'WATrack.inside_boundary: Expects a WAVector, not a {type(point)}.')
 
         closest_point, idx = self.center.calc_closest_point(point)
-        A, B, C = point, WAVector(self.left.points[idx]), WAVector(
-            self.right.points[idx])
-        a, b, c = (B-C).length(), (C-A).length(), (A-B).length()
+        A, B, C = point, WAVector(self.left.points[idx]), WAVector(self.right.points[idx])  # noqa
+        a, b, c = (B-C).length, (C-A).length, (A-B).length
         return a**2 + b**2 >= c**2 and a**2 + c**2 >= b**2
 
     def plot(self):

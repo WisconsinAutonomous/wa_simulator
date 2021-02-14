@@ -9,7 +9,7 @@ in the LICENSE file at the top level of the repo
 """
 
 # WA Simulator
-from wa_simulator.vector import WAVector
+from wa_simulator.core import WAVector
 from wa_simulator.visualization import WAVisualization
 
 # Chrono specific imports

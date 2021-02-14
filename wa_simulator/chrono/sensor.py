@@ -9,8 +9,7 @@ in the LICENSE file at the top level of the repo
 """
 
 # WA Simulator
-from wa_simulator.data_loader import get_wa_data_file
-from wa_simulator.utils import check_type, load_json, check_field
+from wa_simulator.utils import check_type, load_json, check_field, get_wa_data_file
 from wa_simulator.sensor import WASensorManager, WASensor, load_sensor_from_json
 from wa_simulator.chrono.vehicle import WAChronoVehicle
 from wa_simulator.chrono.utils import ChVector_from_list, ChFrame_from_json
@@ -18,16 +17,29 @@ from wa_simulator.chrono.system import WAChronoSystem
 
 # Chrono specific imports
 import pychrono as chrono
-import pychrono.sensor as sens
+
+try:
+    import pychrono.sensor as sens
+    missing_chrono_sensor = False
+except ImportError:
+    missing_chrono_sensor = True
+
+    def sens_import_error(function_name: str):
+        """Helper function that prints out if a function in this class is used when Chrono::Sensor isn't available for import"""
+        msg = f"{function_name}: Requires Chrono::Sensor and was not found. Chrono::Sensor requires build Chrono from source. Consult Aaron Young (aryoung5@wisc.edu) if you have questions."
+        raise RuntimeError(msg)
 
 
-def load_chrono_sensor_scene_from_json(filename: str, manager: "WAChronoSensorManager"):
+def load_chromissing_chrono_sensoror_scene_from_json(filename: str, manager: "WAChronoSensorManager"):
     """Load a chrono sensor scene from a json specification file. A scene may consist of "World" attributes (i.e. lights) or sensors
 
     Args:
         filename (str): The json specification file describing the scene
         manager (WASensorManager): The sensor manager to edit the scene of
     """
+    if missing_chrono_sensor:
+        sens_import_error('load_chromissing_chrono_sensoror_scene_from_json')
+
     j = load_json(chrono.GetChronoDataFile(filename))
 
     # Validate the json file
@@ -58,11 +70,12 @@ def load_chrono_sensor_scene_from_json(filename: str, manager: "WAChronoSensorMa
         s = j['Sensors']
 
         for sensor in s:
-            new_sensor = load_chrono_sensor_from_json(sensor, manager.vehicle)
+            new_sensor = load_chromissing_chrono_sensoror_from_json(
+                sensor, manager.vehicle)
             manager.add_sensor(new_sensor)
 
 
-def load_chrono_sensor_from_json(filename: str, vehicle: WAChronoVehicle):
+def load_chromissing_chrono_sensoror_from_json(filename: str, vehicle: WAChronoVehicle):
     """Load a chrono sensor from json
 
     If the passed json file isn't a chrono type, it will call the correct method.
@@ -71,6 +84,9 @@ def load_chrono_sensor_from_json(filename: str, vehicle: WAChronoVehicle):
         filename (str): The json specification file that describes the sensor
         vehicle (WAChronoVehicle): The vehicle each sensor will be attached to
     """
+    if missing_chrono_sensor:
+        sens_import_error('load_chromissing_chrono_sensoror_from_json')
+
     # Check if the file can be found in the chrono portion of the data folder
     try:
         j = load_json(chrono.GetChronoDataFile(filename))
@@ -101,6 +117,9 @@ class WAChronoSensorManager(WASensorManager):
     EGP_SENSOR_SCENE_FILE = "sensors/scenes/ev_grand_prix.json"
 
     def __init__(self, system: WAChronoSystem, vehicle: WAChronoVehicle, filename: str = None):
+        if missing_chrono_sensor:
+            sens_import_error('WAChronoSensorManager.__init__')
+
         check_type(system, WAChronoSystem, 'system', 'WAChronoSensorManager.__init__')  # noqa
         check_type(vehicle, WAChronoVehicle, 'vehicle', 'WAChronoSensorManager.__init__')  # noqa
 
@@ -112,7 +131,7 @@ class WAChronoSensorManager(WASensorManager):
         self.manager = sens.ChSensorManager(self.system.system)
 
         if filename is not None:
-            load_chrono_sensor_scene_from_json(filename, self)
+            load_chromissing_chrono_sensoror_scene_from_json(filename, self)
 
     def add_sensor(self, sensor: "WAChronoSensor"):
         """Add a sensor to the sensor manager"""
@@ -142,6 +161,9 @@ class WAChronoSensor(WASensor):
     MONO_CAM_SENSOR_FILE = "sensors/models/generic_monocamera.json"
 
     def __init__(self, vehicle: WAChronoVehicle, filename: str):
+        if missing_chrono_sensor:
+            sens_import_error('WAChronoSensor.__init__')
+
         filename = chrono.GetChronoDataFile(filename)
         j = load_json(filename)
 

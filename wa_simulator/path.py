@@ -12,7 +12,7 @@ in the LICENSE file at the top level of the repo
 from abc import ABC, abstractmethod  # Abstract Base Class
 
 # WA Simulator
-from wa_simulator.vector import WAVector
+from wa_simulator.core import WAVector
 
 # Other imports
 import numpy as np
@@ -96,7 +96,7 @@ class WAPath:
 
     @abstractmethod
     def calc_closest_point(self, pos):
-        """Calcualte the closest point on the path from the passed position
+        """Calculate the closest point on the path from the passed position
 
         Args:
             pos (wa.WAVector): the position to find the closest point on the path to
@@ -154,24 +154,24 @@ class WASplinePath(WAPath):
         super().__init__(waypoints, parameters)
 
         # Interpolate the path
-        tck, u = splprep(waypoints.T, s=self.parameters.smoothness,
+        tck, u = splprep(self.waypoints.T, s=self.parameters.smoothness,
                          per=self.parameters.is_closed)
         u_new = np.linspace(u.min(), u.max(), self.parameters.num_points)
 
         # Evaluate the interpolation to get values
-        self.x, self.y = splev(u_new, tck, der=0)  # position
-        self.dx, self.dy = splev(u_new, tck, der=1)  # first derivative
-        self.ddx, self.ddy = splev(u_new, tck, der=2)  # second derivative
+        self.x, self.y, self.z = splev(u_new, tck, der=0)  # position
+        self.dx, self.dy, self.dz = splev(u_new, tck, der=1)  # first derivative # noqa
+        self.ddx, self.ddy, self.ddz = splev(u_new, tck, der=2)  # second derivative # noqa
 
         # store the points for later
-        self.points = np.column_stack((self.x, self.y))
-        self.d_points = np.column_stack((self.dx, self.dy))
+        self.points = np.column_stack((self.x, self.y, self.z))
+        self.d_points = np.column_stack((self.dx, self.dy, self.dz))
 
         # Variables for tracking path
         self.last_index = None
 
     def calc_closest_point(self, pos):
-        """Calcualte the closest point on the path from the passed position
+        """Calculate the closest point on the path from the passed position
 
         Args:
             pos (wa.WAVector): the position to find the closest point on the path to
@@ -180,13 +180,10 @@ class WASplinePath(WAPath):
             wa.WAVector: the closest point on the path
             idx: the index of the point on the path
         """
-        if len(pos) == 3:
-            pos = pos[:2]
-
         dist = cdist(self.points, [pos])
         idx, = np.argmin(dist, axis=0)
 
-        return WAVector([self.x[idx], self.y[idx], 0]), idx
+        return WAVector([self.x[idx], self.y[idx], self.z[idx]]), idx
 
     def plot(self, *args, show=True, **kwargs):
         """Plot the path
