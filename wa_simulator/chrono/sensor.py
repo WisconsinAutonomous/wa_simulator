@@ -30,7 +30,7 @@ except ImportError:
         raise RuntimeError(msg)
 
 
-def load_chromissing_chrono_sensoror_scene_from_json(filename: str, manager: "WAChronoSensorManager"):
+def load_chrono_sensor_scene_from_json(filename: str, manager: "WAChronoSensorManager"):
     """Load a chrono sensor scene from a json specification file. A scene may consist of "World" attributes (i.e. lights) or sensors
 
     Args:
@@ -38,7 +38,7 @@ def load_chromissing_chrono_sensoror_scene_from_json(filename: str, manager: "WA
         manager (WASensorManager): The sensor manager to edit the scene of
     """
     if missing_chrono_sensor:
-        sens_import_error('load_chromissing_chrono_sensoror_scene_from_json')
+        sens_import_error('load_chrono_sensor_scene_from_json')
 
     j = load_json(chrono.GetChronoDataFile(filename))
 
@@ -47,6 +47,7 @@ def load_chromissing_chrono_sensoror_scene_from_json(filename: str, manager: "WA
     check_field(j, 'Template', value='Chrono Sensor Scene')
     check_field(j, 'World', field_type=dict, optional=True)
     check_field(j, 'Sensors', field_type=list, optional=True)
+    check_field(j, 'Obstacles', field_type=list, optional=True)
 
     if 'World' in j:
         w = j['World']
@@ -70,12 +71,32 @@ def load_chromissing_chrono_sensoror_scene_from_json(filename: str, manager: "WA
         s = j['Sensors']
 
         for sensor in s:
-            new_sensor = load_chromissing_chrono_sensoror_from_json(
+            new_sensor = load_chrono_sensor_from_json(
                 sensor, manager.vehicle)
             manager.add_sensor(new_sensor)
 
+    if 'Obstacles' in j:
+        obstacles = j['Obstacles']
 
-def load_chromissing_chrono_sensoror_from_json(filename: str, vehicle: WAChronoVehicle):
+        for o in obstacles:
+            check_field(o, 'Size', field_type=list)
+            check_field(o, 'Position', field_type=list)
+            check_field(o, 'Color', field_type=list, optional=True)
+
+            size = ChVector_from_list(o['Size'])
+            pos = ChVector_from_list(o['Position'])
+
+            box = chrono.ChBodyEasyBox(size.x, size.y, size.z, 1000, True, False)  # noqa
+            box.SetPos(pos)
+            if 'Color' in o:
+                c = ChVector_from_list(o['Color'])
+                box.AddAsset(chrono.ChColorAsset(chrono.ChColor(c.x, c.y, c.z)))  # noqa
+            box.SetBodyFixed(True)
+
+            manager.system.system.Add(box)
+
+
+def load_chrono_sensor_from_json(filename: str, vehicle: WAChronoVehicle):
     """Load a chrono sensor from json
 
     If the passed json file isn't a chrono type, it will call the correct method.
@@ -85,7 +106,7 @@ def load_chromissing_chrono_sensoror_from_json(filename: str, vehicle: WAChronoV
         vehicle (WAChronoVehicle): The vehicle each sensor will be attached to
     """
     if missing_chrono_sensor:
-        sens_import_error('load_chromissing_chrono_sensoror_from_json')
+        sens_import_error('load_chrono_sensor_from_json')
 
     # Check if the file can be found in the chrono portion of the data folder
     try:
@@ -131,7 +152,7 @@ class WAChronoSensorManager(WASensorManager):
         self.manager = sens.ChSensorManager(self.system.system)
 
         if filename is not None:
-            load_chromissing_chrono_sensoror_scene_from_json(filename, self)
+            load_chrono_sensor_scene_from_json(filename, self)
 
     def add_sensor(self, sensor: "WAChronoSensor"):
         """Add a sensor to the sensor manager"""
@@ -159,6 +180,7 @@ class WAChronoSensor(WASensor):
 
     # Global filenames for various sensors
     MONO_CAM_SENSOR_FILE = "sensors/models/generic_monocamera.json"
+    LDMRS_LIDAR_SENSOR_FILE = "sensors/models/ldmrs.json"
 
     def __init__(self, vehicle: WAChronoVehicle, filename: str):
         if missing_chrono_sensor:
@@ -199,9 +221,13 @@ class WAChronoSensor(WASensor):
         Returns:
             np.ndarray: The sensor data. Type depends on the actual sensor
         """
-        if hasattr(self.sensor, 'GetMostRecentRGBA8Buffer'):
+        name = self.sensor.GetName().lower()
+        if 'camera' in name:
             buff = self.sensor.GetMostRecentRGBA8Buffer()
             return buff.GetRGBA8Data()
+        if 'lidar' in name:
+            buff = self.sensor.GetMostRecentXYZIBuffer()
+            return buff.GetXYZIData()
         else:
             raise TypeError(
-                f"WAChronoSensorManager.get_data: sensor has unknown type '{type(self.sensor)}'.")
+                f"WAChronoSensorManager.get_data: can't determine sensor type from name: '{name}'.")

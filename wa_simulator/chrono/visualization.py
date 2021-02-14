@@ -115,8 +115,7 @@ class WAChronoIrrlicht(WAVisualization):
         self.app.SetChaseCamera(chrono.ChVectorD(0.0, 0.0, 1.75), 6.0, 0.5)
         self.app.SetTimestep(system.step_size)
 
-        self.app.AssetBindAll()
-        self.app.AssetUpdateAll()
+        self.first = True
 
     def advance(self, step):
         """Advance the state of the visualization by the specified step
@@ -126,6 +125,12 @@ class WAChronoIrrlicht(WAVisualization):
         Args:
             step (double): step size to update the visualization by
         """
+        if self.first:
+            self.first = False
+
+            self.app.AssetBindAll()
+            self.app.AssetUpdateAll()
+
         if self.system.get_step_number() % self.render_steps == 0:
             self.app.BeginScene(True, True, irr.SColor(255, 140, 161, 192))
             self.app.DrawAll()

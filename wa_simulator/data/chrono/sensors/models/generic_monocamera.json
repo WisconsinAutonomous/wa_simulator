@@ -1,5 +1,5 @@
 {
-	"Name": "Generic sensor",
+	"Name": "Generic camera sensor",
 	"Type": "Sensor",
 	"Template": "Camera",
   
