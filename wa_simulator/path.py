@@ -186,7 +186,7 @@ class WASplinePath(WAPath):
         dist = cdist(self.points, [pos])
         idx, = np.argmin(dist, axis=0)
 
-        return WAVector([self.x[idx], self.y[idx]]), idx
+        return WAVector([self.x[idx], self.y[idx], 0]), idx
 
     def plot(self, *args, show=True, **kwargs):
         """Plot the path

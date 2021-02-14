@@ -2,7 +2,8 @@
 	"Name": "evGrand Prix Track",
   
 	"Terrain": {
-	  "Input File": "terrain/evGrandPrix/RigidPlane.json"
+	  "Input File": "terrain/evGrandPrix/RigidPlane.json",
+		"Texture": "terrain/evGrandPrix/concrete.jpg"
 	}
-  }
+}
   

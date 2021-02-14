@@ -1,6 +1,6 @@
 # Blender v2.81 (sub 16) OBJ File: ''
 # www.blender.org
-mtllib sedan_tire.mtl
+mtllib GoKart_tire.mtl
 o Tire_Cylinder
 v 0.329843 0.079051 -0.021124
 v 0.317493 0.092523 0.019769

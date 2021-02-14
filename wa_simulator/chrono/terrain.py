@@ -9,35 +9,51 @@ in the LICENSE file at the top level of the repo
 """
 
 # WA Simulator
+from wa_simulator.utils import load_json, check_field
 from wa_simulator.terrain import WATerrain
+from wa_simulator.chrono.system import WAChronoSystem
 
 # Chrono specific imports
 import pychrono as chrono
 import pychrono.vehicle as veh
 
 
-def read_terrain_model_file(filename):
-    """Get the json specification file describing a ChTerrain
+def load_chrono_terrain_from_json(filename: str, system: WAChronoSystem):
+    """Load a ChTerrain from a json specification file
 
     Args:
         filename (str): the relative path to a terrain json file
+        system (WAChronoSystem): the chrono system used to handle the terrain
 
     Returns:
-        str: the absolute json file
+        ChTerrain: The loaded terrain
     """
-    import json
+    j = load_json(chrono.GetChronoDataFile(filename))
 
-    full_filename = chrono.GetChronoDataFile(filename)
+    # Validate the json file
+    check_field(j, 'Terrain', field_type=dict)
 
-    with open(full_filename) as f:
-        j = json.load(f)
+    t = j['Terrain']
+    check_field(t, 'Input File', field_type=str)
+    check_field(t, 'Texture', field_type=str, optional=True)
 
-    if "Terrain" not in j:
-        print("'Terrain' not present in the passed json file.")
-        exit()
-    terrain_filename = chrono.GetChronoDataFile(j["Terrain"]["Input File"])
+    terrain = veh.RigidTerrain(system.system, chrono.GetChronoDataFile(t['Input File']))  # noqa
 
-    return terrain_filename
+    # Add texture to the terrain, if desired
+    if 'Texture' in t:
+        texture_filename = chrono.GetChronoDataFile(t['Texture'])
+
+        vis_mat = chrono.ChVisualMaterial()
+        vis_mat.SetKdTexture(texture_filename)
+        vis_mat.SetSpecularColor(chrono.ChVectorF(0.0, 0.0, 0.0))
+        vis_mat.SetFresnelMin(0)
+        vis_mat.SetFresnelMax(0.1)
+
+        patch_asset = terrain.GetPatches()[0].GetGroundBody().GetAssets()[0]
+        patch_visual_asset = chrono.CastToChVisualization(patch_asset)
+        patch_visual_asset.material_list.append(vis_mat)
+
+    return terrain
 
 
 class WAChronoTerrain(WATerrain):
@@ -47,18 +63,14 @@ class WAChronoTerrain(WATerrain):
 
     Args:
         filename (str): the json specification file describing the terrain
-        system (WASystem): system used to create the terrain
+        system (WAChronoSystem): system used to create the terrain
 
     Attributes:
         terrain (RigidTerrain): the created rigid terrain
     """
 
-    def __init__(self, filename, system):
-        # Get the filenames
-        terrain_filename = read_terrain_model_file(filename)
-
-        # Create the terrain
-        self.terrain = veh.RigidTerrain(system.system, terrain_filename)
+    def __init__(self, filename, system: WAChronoSystem):
+        self.terrain = load_chrono_terrain_from_json(filename, system)
 
     def synchronize(self, time):
         """Synchronize the terrain at the specified time

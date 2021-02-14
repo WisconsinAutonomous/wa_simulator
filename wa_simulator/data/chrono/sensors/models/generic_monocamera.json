@@ -7,11 +7,7 @@
 	  "Update Rate": 30,
 	  "Width": 1280,
 	  "Height": 720,
-	  "Horizontal Field of View": 1.408,
-	  "Lag": 0.02,
-	  "Exposure Time": 0,
-	  "Supersample Factor": 2,
-	  "Lens Model": "SPHERICAL"
+	  "Horizontal Field of View": 1.408
 	},
   
 	"Filters":
@@ -24,6 +20,11 @@
 	  {
 		"Filter": "ChFilterRGBA8Access"
 	  }
-	]
-  }
+	],
+
+	"Offset Pose": {
+		"Position": [-8.0, 0.0, 2.0],
+		"Rotation": [1.0, 0.0, 0.0, 0.0]
+	}
+}
   

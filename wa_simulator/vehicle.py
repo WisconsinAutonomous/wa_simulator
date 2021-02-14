@@ -12,7 +12,9 @@ from abc import ABC, abstractmethod  # Abstract Base Class
 
 # WA Simulator
 from wa_simulator.data_loader import get_wa_data_file
-from wa_simulator.constants import GRAVITY
+from wa_simulator.constants import WA_GRAVITY
+from wa_simulator.vector import WAVector
+from wa_simulator.quaternion import WAQuaternion
 
 # Other imports
 import numpy as np
@@ -95,6 +97,50 @@ class WAVehicle(ABC):
         """
         pass
 
+    @abstractmethod
+    def _get_acceleration(self):
+        """Get the acceleration of the vehicle
+
+        Really shouldn't be used by a controller. Made for sensor related calculations
+
+        Returns:
+            WAVector: The acceleration where X is forward, Z is up and Y is left (ISO standard)
+        """
+        pass
+
+    @abstractmethod
+    def _get_angular_velocity(self):
+        """Get the angular velocity of the vehicle
+
+        Really shouldn't be used by a controller. Made for sensor related calculations
+
+        Returns:
+            WAVector: The angular velocity
+        """
+        pass
+
+    @abstractmethod
+    def _get_position(self):
+        """Get the position of the vehicle
+
+        Really shouldn't be used by a controller. Made for sensor related calculations
+
+        Returns:
+            WAPosition: The position of the vehicle
+        """
+        pass
+
+    @abstractmethod
+    def _get_orientation(self):
+        """Get the orientation of the vehicle
+
+        Really shouldn't be used by a controller. Made for sensor related calculations
+
+        Returns:
+            WAQuaternion: The orientation of the vehicle
+        """
+        pass
+
 
 class WALinearKinematicBicycle(WAVehicle):
     """A linear, kinematic bicycle model
@@ -143,11 +189,14 @@ class WALinearKinematicBicycle(WAVehicle):
         self.y = y
         self.yaw = yaw
         self.v = v
-        self.acc = 0
+        self.acc = 0.0
 
         # Wheel angular velocity
-        self.omega = 0
-        self.omega_dot = 0
+        self.omega = 0.0
+        self.omega_dot = 0.0
+
+        self.yaw_dot = 0.0
+        self.last_yaw = 0.0
 
         self.initialize(load_properties_from_json(
             filename, "Vehicle Properties"))
@@ -214,7 +263,7 @@ class WALinearKinematicBicycle(WAVehicle):
             # Update engine and tire forces
             F_aero = self.c_a * self.v ** 2
             R_x = self.c_rl * self.v
-            F_g = self.mass * GRAVITY * np.sin(0)
+            F_g = self.mass * WA_GRAVITY * np.sin(0)
             F_load = F_aero + R_x + F_g
             T_e = self.throttle * (
                 self.a[0] + self.a[1] * self.omega +
@@ -244,6 +293,10 @@ class WALinearKinematicBicycle(WAVehicle):
         self.omega += self.omega_dot * step
         self.omega_dot = (T_e - self.GR * self.r_eff * F_load) / self.J_e
 
+        self.yaw_dot = (self.last_yaw - self.yaw) / \
+            step if abs(self.v) > 0.1 else 0
+        self.last_yaw = self.yaw
+
     def get_simple_state(self):
         """Get a simple state representation of the vehicle.
 
@@ -251,3 +304,35 @@ class WALinearKinematicBicycle(WAVehicle):
             tuple: (x position, y position, yaw about the Z, speed)
         """
         return self.x, self.y, self.yaw, self.v
+
+    def _get_acceleration(self):
+        """Get the acceleration of the vehicle
+
+        Returns:
+            WAVector: The acceleration where X is forward, Z is up and Y is left (ISO standard)
+        """
+        return WAVector([np.cos(self.yaw) * self.acc, np.sin(self.yaw) * self.acc, WA_GRAVITY])
+
+    def _get_angular_velocity(self):
+        """Get the angular velocity of the vehicle
+
+        Returns:
+            WAVector: The angular velocity
+        """
+        return WAVector([0.0, 0.0, self.yaw_dot])
+
+    def _get_position(self):
+        """Get the position of the vehicle
+
+        Returns:
+            WAQuaternion: The position of the vehicle
+        """
+        return WAVector([self.x, self.y, 0.0])
+
+    def _get_orientation(self):
+        """Get the orientation of the vehicle
+
+        Returns:
+            WAQuaternion: The orientation of the vehicle
+        """
+        return WAQuaternion.from_z_rotation(self.yaw)

@@ -607,7 +607,7 @@ class WAPIDLateralController(WAController):
             ]
         )
 
-        self.target = self.path.calc_closest_point(self.sentinel)
+        self.target, _ = self.path.calc_closest_point(self.sentinel)
 
         # The "error" vector is the projection onto the horizontal plane (z=0) of
         # vector between sentinel and target
@@ -619,7 +619,7 @@ class WAPIDLateralController(WAController):
         sign = self.calc_sign(x, y)
 
         # Calculate current error (magnitude)
-        err = sign * err_vec.length()
+        err = sign * err_vec.length
 
         # Estimate error derivative (backward FD approximation).
         self.errd = (err - self.err) / step

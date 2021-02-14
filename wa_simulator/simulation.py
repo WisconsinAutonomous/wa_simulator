@@ -19,6 +19,7 @@ class WASimulation(ABC):
         vehicle,
         visualization,
         controller,
+        sensor_manager=None,
         record_filename=None,
     ):
         """A manager for a simulation. Advances and synchronizes simulation modules.
@@ -33,6 +34,7 @@ class WASimulation(ABC):
             vehicle (WAVehicle): describes the simulation vehicle
             visualization (WAVisualization): describes the simulation visualization
             controller (WAController): describes the simulation controller
+            sensor_manager (WASensorManager): manages the sensors in the simulation
             record_filename (str, optional): the filename to store saved simulation data. Defaults to None.
 
         Attributes:
@@ -41,6 +43,7 @@ class WASimulation(ABC):
             vehicle (WAVehicle): describes the simulation vehicle
             visualization (WAVisualization): describes the simulation visualization
             controller (WAController): describes the simulation controller
+            sensor_manager (WASensorManager): manages the sensors in the simulation
             record_filename (str): the filename to store saved simulation data
         """
 
@@ -49,6 +52,7 @@ class WASimulation(ABC):
         self.vehicle = vehicle
         self.visualization = visualization
         self.controller = controller
+        self.sensor_manager = sensor_manager
 
         self.record_filename = record_filename
         if self.record_filename:
@@ -84,6 +88,9 @@ class WASimulation(ABC):
             # Will synchronize the visualization if necessary
             self.visualization.synchronize(time, vehicle_inputs)
 
+        if self.sensor_manager:
+            self.sensor_manager.synchronize(time)
+
     def advance(self, step):
         """Advance each simulation module.
 
@@ -99,6 +106,9 @@ class WASimulation(ABC):
         if self.visualization:
             # Will advance the visualization if necessary
             self.visualization.advance(step)
+
+        if self.sensor_manager:
+            self.sensor_manager.advance(step)
 
     def run(self):
         """Run the simulation

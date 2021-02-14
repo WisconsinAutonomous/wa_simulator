@@ -9,7 +9,9 @@ in the LICENSE file at the top level of the repo
 """
 
 # WA Simulator
+from wa_simulator.utils import check_field, load_json
 from wa_simulator.vehicle import WAVehicle
+from wa_simulator.chrono.utils import ChVector_to_WAVector, ChQuaternion_to_WAQuaternion
 
 # Chrono specific imports
 import pychrono as chrono
@@ -25,26 +27,20 @@ def read_vehicle_model_file(filename):
     Returns:
         tuple: returns each json specification file for the vehicle, powertrain and tire
     """
-    import json
+    j = load_json(veh.GetDataFile(filename))
 
-    full_filename = veh.GetDataFile(filename)
+    # Validate json file
+    check_field(j, "Vehicle", field_type=dict)
+    check_field(j, "Powertrain", field_type=dict)
+    check_field(j, "Tire", field_type=dict)
 
-    with open(full_filename) as f:
-        j = json.load(f)
+    check_field(j["Vehicle"], "Input File", field_type=str)
+    check_field(j["Powertrain"], "Input File", field_type=str)
+    check_field(j["Tire"], "Input File", field_type=str)
 
-    if "Vehicle" not in j:
-        print("'Vehicle' not present in the passed json file.")
-        exit()
+    # Extract the actual files
     vehicle_filename = veh.GetDataFile(j["Vehicle"]["Input File"])
-
-    if "Powertrain" not in j:
-        print("'Powertrain' not present in the passed json file.")
-        exit()
     powertrain_filename = veh.GetDataFile(j["Powertrain"]["Input File"])
-
-    if "Tire" not in j:
-        print("'Tire' not present in the passed json file.")
-        exit()
     tire_filename = veh.GetDataFile(j["Tire"]["Input File"])
 
     return vehicle_filename, powertrain_filename, tire_filename
@@ -59,22 +55,11 @@ def create_tire_from_json(tire_filename):
     Returns:
         ChTire: the created tire
     """
-    import json
+    j = load_json(tire_filename)
 
-    with open(tire_filename) as f:
-        j = json.load(f)
-
-    if "Type" not in j:
-        print("'Type' not present in the passed json file.")
-        exit()
-
-    if j["Type"] != "Tire":
-        print("Passed json file is not a tire file.")
-        exit()
-
-    if "Template" not in j:
-        print("'Template' not present in the passed json file.")
-        exit()
+    # Valide json file
+    check_field(j, "Type", value="Tire")
+    check_field(j, "Template", allowed_values=["TMeasyTire", "RigidTire"])
 
     tire_type = j["Template"]
     if tire_type == "TMeasyTire":
@@ -82,8 +67,7 @@ def create_tire_from_json(tire_filename):
     elif tire_type == "RigidTire":
         return veh.RigidTire(tire_filename)
     else:
-        print(f"'{tire_type}' not a recognized tire type.")
-        exit()
+        raise TypeError(f"'{tire_type} not a recognized tire type")
 
 
 class WAChronoVehicle(WAVehicle):
@@ -127,9 +111,8 @@ class WAChronoVehicle(WAVehicle):
 
         # Set the visualization components for the vehicle
         vehicle.SetChassisVisualizationType(veh.VisualizationType_PRIMITIVES)
-        vehicle.SetSuspensionVisualizationType(
-            veh.VisualizationType_PRIMITIVES)
-        vehicle.SetSteeringVisualizationType(veh.VisualizationType_PRIMITIVES)
+        vehicle.SetSuspensionVisualizationType(veh.VisualizationType_NONE)
+        vehicle.SetSteeringVisualizationType(veh.VisualizationType_NONE)
         vehicle.SetWheelVisualizationType(veh.VisualizationType_NONE)
 
         # Create the powertrain
@@ -141,10 +124,10 @@ class WAChronoVehicle(WAVehicle):
         for axle in vehicle.GetAxles():
             tireL = create_tire_from_json(tire_file)
             vehicle.InitializeTire(
-                tireL, axle.m_wheels[0], veh.VisualizationType_PRIMITIVES)
+                tireL, axle.m_wheels[0], veh.VisualizationType_MESH)
             tireR = create_tire_from_json(tire_file)
             vehicle.InitializeTire(
-                tireR, axle.m_wheels[1], veh.VisualizationType_PRIMITIVES)
+                tireR, axle.m_wheels[1], veh.VisualizationType_MESH)
 
         self.vehicle = vehicle
         self.terrain = env.terrain.terrain
@@ -188,3 +171,48 @@ class WAChronoVehicle(WAVehicle):
             self.vehicle.GetVehicleRot().Q_to_Euler123().z,
             self.vehicle.GetVehicleSpeed(),
         )
+
+    def _get_acceleration(self):
+        """Get the acceleration of the vehicle
+
+        Really shouldn't be used by a controller. Made for sensor related calculations
+
+        Returns:
+            WAVector: The acceleration where X is forward, Z is up and Y is left (ISO standard)
+        """
+
+        acc = self.vehicle.GetChassisBody().PointAccelerationLocalToParent(
+            self.vehicle.GetChassis().GetLocalDriverCoordsys().pos)
+        acc = self.vehicle.GetChassisBody().GetRot().Rotate(acc) - \
+            self.vehicle.GetSystem().Get_G_acc()
+        return ChVector_to_WAVector(acc)
+
+    def _get_angular_velocity(self):
+        """Get the angular velocity of the vehicle
+
+        Really shouldn't be used by a controller. Made for sensor related calculations
+
+        Returns:
+            WAVector: The angular velocity
+        """
+        return ChVector_to_WAVector(self.vehicle.GetChassisBody().GetWvel_loc())
+
+    def _get_position(self):
+        """Get the position of the vehicle
+
+        Really shouldn't be used by a controller. Made for sensor related calculations
+
+        Returns:
+            WAVector: The position of the vehicle
+        """
+        return ChVector_to_WAVector(self.vehicle.GetVehiclePos())
+
+    def _get_orientation(self):
+        """Get the orientation of the vehicle
+
+        Really shouldn't be used by a controller. Made for sensor related calculations
+
+        Returns:
+            WAVector: The orientation of the vehicle
+        """
+        return ChQuaternion_to_WAQuaternion(self.vehicle.GetVehicleRot())

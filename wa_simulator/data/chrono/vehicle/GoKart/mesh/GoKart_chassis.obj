@@ -1,6 +1,6 @@
 # Blender v2.79 (sub 0) OBJ File: ''
 # www.blender.org
-mtllib sedan_chassis_vis.mtl
+mtllib GoKart_chassis.mtl
 o sedan_chassis_visualization_Plane.002
 v -1.507851 -0.870918 0.539960
 v -1.479814 -0.854858 0.536137
