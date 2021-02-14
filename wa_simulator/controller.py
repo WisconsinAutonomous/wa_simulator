@@ -18,7 +18,7 @@ from wa_simulator.vector import WAVector
 # Other imports
 import sys
 import numpy as np
-
+from collections import namedtuple
 
 class WAController(ABC):
     """Base class for a controller
@@ -801,3 +801,101 @@ Attributes:
 
     def key_press(self, value):
         self.update(self._input_dict[value])
+
+class ROSController(WAController):
+    """
+    A controller to bridge between the WA Simulator and ROS.
+    """
+    # ROS Imports
+    try:
+        import rclpy
+        from rclpy.node import Node
+        from std_msgs.msg import Float64
+        from nav_msgs.msg import Odometry
+    except:
+        Node = object
+
+    def __init__(self, sys, vehicle, control_msg_type, accessor):
+        """
+        Params:
+            - control_msg_type: The type of the ROS control message that the node
+                should subscribe to.
+            - accessor: A method that takes a an instance of the control_msg_type
+                and returns a (steering, throttle, braking) tuple
+        """
+        super().__init__(sys)
+        
+        # This should run if the rclpy imports failed
+        if(type(ROSController.Node) == object):
+            print("It appears ROS2 is not installed. It must be installed to use the ROSController.")
+            exit(0)
+
+        self.accessor = accessor
+        self.vehicle = vehicle
+        ROSController.rclpy.init(args=None)
+        self.ros_bridge = ROSController.ROSBridgeNode(control_msg_type, self.control_callback)
+
+    def control_callback(self, msg):
+        """
+        Callback passed to the ros_bridge ROS node and is called when a control
+        message is received.
+        """
+        self.steering, self.throttle, self.braking = self.accessor(msg)
+    
+    def synchronize(self, time):
+        # This probably should run more than once
+        ROSController.rclpy.spin_once(self.ros_bridge, timeout_sec=0)
+
+        # Publish
+        self.ros_bridge.publish_time(time)
+        x, y, yaw, v = self.vehicle.get_simple_state()
+        self.ros_bridge.publish_position(y, x)
+    
+    def advance(self, step):
+        ROSController.rclpy.spin_once(self.ros_bridge, timeout_sec=0)
+
+
+    # This is intentionally an internal class to ROSController
+    class ROSBridgeNode(Node):
+        """
+        The ROS node that bridges to the simulator.
+        """
+
+        # Utility types
+        Publishers = namedtuple('Publishers', ['time', 'position'])
+        Subscribers = namedtuple('Subscribers', ['control'])
+
+        def __init__(self, control_msg_type, bridge_control_callback):
+            """
+            Params:
+            - control_msg_type: The type of the ROS control message that the node
+                should subscribe to.
+            """
+            super().__init__('wa_simulator_bridge')
+
+            self.control_msg_type = control_msg_type
+            self.bridge_control_callback = bridge_control_callback
+
+            self.bridge_publishers = self.Publishers(
+                time=self.create_publisher(ROSController.Float64, '/wa_simulator/time', 1),
+                position=self.create_publisher(ROSController.Odometry, '/wa_simulator/position', 1)
+            )
+
+            self.bridge_subscribers = self.Subscribers(
+                control=self.create_subscription(self.control_msg_type, "/wa_simulator/control", self.control_callback, 1)
+            )
+        
+        def publish_time(self, time):
+            msg = ROSController.Float64()
+            msg.data = float(time)
+            self.bridge_publishers.time.publish(msg)
+        
+        def publish_position(self, lat, lng):
+            msg = ROSController.Odometry()
+            msg.pose.pose.position.x = lng
+            msg.pose.pose.position.y = lat
+            self.bridge_publishers.position.publish(msg)
+
+        def control_callback(self, msg):
+            self.bridge_control_callback(msg)
+        
