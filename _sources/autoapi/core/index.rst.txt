@@ -1,0 +1,160 @@
+:mod:`core`
+===========
+
+.. py:module:: core
+
+.. autoapi-nested-parse::
+
+   Wisconsin Autonomous - https://www.wisconsinautonomous.org
+
+   Copyright (c) 2021 wisconsinautonomous.org
+   All rights reserved.
+
+   Use of this source code is governed by a BSD-style license that can be found
+   in the LICENSE file at the top level of the repo
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   core.TestWASimulator
+   core.TestWAVector
+   core.TestWAQuaternion
+   core.TestWAArgumentParser
+
+
+
+.. py:class:: TestWASimulator(methodName='runTest')
+
+   Bases: :class:`unittest.TestCase`
+
+   Tests various package level things
+
+   .. method:: test_main_import(self)
+
+      Verifies the main import works
+
+
+
+.. py:class:: TestWAVector(methodName='runTest')
+
+   Bases: :class:`unittest.TestCase`
+
+   Tests methods related to WAVectors
+
+   .. method:: test_add(self)
+
+      Tests simple addition of two WAVectors
+
+
+   .. method:: test_add2(self)
+
+      Tests simple addition of two WAVectors
+
+
+   .. method:: test_add3(self)
+
+      Tests adding a constant to a WAVector
+
+
+   .. method:: test_sub(self)
+
+      Tests simple subtraction of two WAVectors
+
+
+   .. method:: test_sub2(self)
+
+      Tests subtracting a constant to a WAVector
+
+
+   .. method:: test_mul(self)
+
+      Tests multiplying a vector by a constant
+
+
+   .. method:: test_cross(self)
+
+      Tests cross product of two WAVectors
+
+
+   .. method:: test_dot(self)
+
+      Tests dot product of two WAVectors
+
+
+   .. method:: test_length(self)
+
+      Tests the length method of a WAVector
+
+
+
+.. py:class:: TestWAQuaternion(methodName='runTest')
+
+   Bases: :class:`unittest.TestCase`
+
+   Tests methods related to WAQuaternion's
+
+   .. method:: test_add(self)
+
+      Tests simple addition of two WAQuaternion's
+
+
+   .. method:: test_add2(self)
+
+      Tests simple addition of two WAQuaternion's
+
+
+   .. method:: test_add3(self)
+
+      Tests adding a constant to a WAQuaternion
+
+
+   .. method:: test_sub(self)
+
+      Tests simple subtraction of two WAQuaternion
+
+
+   .. method:: test_sub2(self)
+
+      Tests subtracting a constant to a WAQuaternion
+
+
+   .. method:: test_mul(self)
+
+      Tests multiplying a quaternion by a constant
+
+
+   .. method:: test_mul2(self)
+
+      Tests multiplcation (additive rotation) of two WAQuaternion's
+
+
+   .. method:: test_length(self)
+
+      Tests the length method of a WAQuaternion
+
+
+   .. method:: test_rot(self)
+
+      Tests rotation of a vector by a quaternion
+
+
+
+.. py:class:: TestWAArgumentParser(methodName='runTest')
+
+   Bases: :class:`unittest.TestCase`
+
+   Tests method related to WAArgumentParser
+
+   .. method:: test_default(self)
+
+      Tests default arguments
+
+
+

@@ -123,7 +123,7 @@ Functions
    .. method:: calc_closest_point(self, pos)
       :abstractmethod:
 
-      Calcualte the closest point on the path from the passed position
+      Calculate the closest point on the path from the passed position
 
       :param pos: the position to find the closest point on the path to
       :type pos: wa.WAVector
@@ -190,7 +190,7 @@ Functions
 
    .. method:: calc_closest_point(self, pos)
 
-      Calcualte the closest point on the path from the passed position
+      Calculate the closest point on the path from the passed position
 
       :param pos: the position to find the closest point on the path to
       :type pos: wa.WAVector

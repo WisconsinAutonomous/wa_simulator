@@ -1,0 +1,87 @@
+:mod:`wa_simulator.core`
+========================
+
+.. py:module:: wa_simulator.core
+
+.. autoapi-nested-parse::
+
+   Wisconsin Autonomous - https://www.wisconsinautonomous.org
+
+   Copyright (c) 2021 wisconsinautonomous.org
+   All rights reserved.
+
+   Use of this source code is governed by a BSD-style license that can be found
+   in the LICENSE file at the top level of the repo
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   wa_simulator.core.WAVector
+   wa_simulator.core.WAQuaternion
+   wa_simulator.core.WAArgumentParser
+
+
+
+.. py:class:: WAVector(shape, dtype=float, buffer=None, offset=0, strides=None, order=None)
+
+   Bases: :class:`pyrr.Vector3`
+
+
+.. py:class:: WAQuaternion(shape, dtype=float, buffer=None, offset=0, strides=None, order=None)
+
+   Bases: :class:`pyrr.Quaternion`
+
+   .. method:: __add__(self, other)
+
+      Adds two quaternions or a constant
+
+
+   .. method:: __sub__(self, other)
+
+      Subs two quaternions or a constant
+
+
+   .. method:: __mul__(self, other)
+
+      Multiplies by a constant
+
+
+
+.. py:class:: WAArgumentParser(use_sim_defaults: bool = True, skip_defaults: list = [], description='Wisconsin Autonomous Simulator')
+
+   Bases: :class:`argparse.ArgumentParser`
+
+   Argument parser wrapper.
+
+   Has handy default arguments method
+
+   :param use_sim_defaults: Use the default arguments (can add more). Defaults to True.
+   :type use_sim_defaults: bool, optional
+   :param skip_defaults: The default arguments to skip.
+   :type skip_defaults: list, optional
+   :param description: Description used to describe the simulation. Printed by the help menu. Defaults to ("Wisconsin Autonomous Simulator").
+   :type description: str, optional
+
+   .. method:: add_default_sim_arguments(self, skip_defaults=[])
+
+      Adds default arguments for most simulations
+
+      :param skip_defaults: The default arguments to skip.
+      :type skip_defaults: list, optional
+
+      Includes:
+          -s,--sim_step_size: Simulation step size
+          -rs,--render_step_size: Rendering step size
+          -iv,--irrlicht: Use irrlicht visualization
+          -mv,--matplotlib: Use matplotlib visualization
+          -r,--record: Record the simulation to a csv
+
+
+

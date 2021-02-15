@@ -1,0 +1,333 @@
+:mod:`wa_simulator.sensor`
+==========================
+
+.. py:module:: wa_simulator.sensor
+
+.. autoapi-nested-parse::
+
+   Wisconsin Autonomous - https://www.wisconsinautonomous.org
+
+   Copyright (c) 2021 wisconsinautonomous.org
+   All rights reserved.
+
+   Use of this source code is governed by a BSD-style license that can be found
+   in the LICENSE file at the top level of the repo
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   wa_simulator.sensor.WASensorManager
+   wa_simulator.sensor.WANoiseModel
+   wa_simulator.sensor.WANoNoiseModel
+   wa_simulator.sensor.WANormalDriftNoiseModel
+   wa_simulator.sensor.WANormalNoiseModel
+   wa_simulator.sensor.WASensor
+   wa_simulator.sensor.WAIMUSensor
+   wa_simulator.sensor.WAGPSSensor
+
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   wa_simulator.sensor.load_sensor_suite_from_json
+   wa_simulator.sensor.load_sensor_from_json
+
+
+.. function:: load_sensor_suite_from_json(filename: str, manager: WASensorManager)
+
+   Load a sensor suite from json
+
+   :param filename: The json specification file that describes the sensor suite
+   :type filename: str
+   :param manager: The sensor manager to store all created objects in
+   :type manager: WASensorManager
+
+
+.. function:: load_sensor_from_json(filename: str, vehicle: WAVehicle)
+
+   Load a sensor from json
+
+   :param filename: The json specification file that describes the sensor
+   :type filename: str
+   :param vehicle: The vehicle each sensor will be attached to
+   :type vehicle: WAVehicle
+
+
+.. py:class:: WASensorManager(system: WASystem, vehicle: WAVehicle, filename: str = None)
+
+   Base class that manages sensors.
+
+   :param system: The system for the simulation
+   :type system: WASystem
+   :param filename: A json file to load a scene from. Defaults to None (does nothing).
+   :type filename: str
+
+   .. attribute:: system
+
+      The system for the simulation
+
+      :type: WASystem
+
+   .. attribute:: vehicle
+
+      The vehicle each sensor will be attached to
+
+      :type: WAVehicle
+
+   .. attribute:: sensors
+
+      List of the attached sensors
+
+      :type: list
+
+   .. attribute:: EGP_SENSOR_SUITE_FILE
+      :annotation: = sensors/suites/ev_grand_prix.json
+
+      
+
+   .. method:: add_sensor(self, sensor: WASensor)
+
+      Add a sensor to the sensor manager
+
+
+   .. method:: synchronize(self, time)
+
+      Synchronize the sensor at the specified time
+
+      :param time: the time at which the sensors are synchronized to
+      :type time: float
+
+
+   .. method:: advance(self, step)
+
+      Advance the state of the sensor by the specified time step
+
+      :param step: the step to update the sensor by
+      :type step: float
+
+
+
+.. py:class:: WANoiseModel
+
+   Bases: :class:`abc.ABC`
+
+   Base class for a noise model
+
+   Very similar to ChNoiseModel (https://github.com/projectchrono/chrono/blob/feature/sensor/src/chrono_sensor/ChNoiseModel.h)
+   Made because ChSensor currently _requires_ OptiX (NVIDIA proprietary software)
+
+   .. method:: add_noise(data: list)
+      :abstractmethod:
+
+      Add noise to the data
+
+      :param data: The data to add noise to
+      :type data: list
+
+
+
+.. py:class:: WANoNoiseModel
+
+   Bases: :class:`wa_simulator.sensor.WANoiseModel`
+
+   Derived noise model. Does nothing
+
+   .. method:: add_noise(data: list)
+
+      Do nothing
+
+
+
+.. py:class:: WANormalDriftNoiseModel(p: dict)
+
+   Bases: :class:`wa_simulator.sensor.WANoiseModel`
+
+   Derived noise model. Gaussian drifting noise with noncorrelated equal distributions
+
+   Very similar to ChNormalDriftModel (https://github.com/projectchrono/chrono/blob/feature/sensor/src/chrono_sensor/ChNoiseModel.h)
+   Made because ChSensor currently _requires_ OptiX (NVIDIA proprietary software)
+
+   :param p: Model properties/parameters taken from a json specification file
+   :type p: dict
+
+   .. method:: add_noise(self, data: list)
+
+      Add noise to the data
+
+      :param data: The data to add noise to
+      :type data: list
+
+
+
+.. py:class:: WANormalNoiseModel(p: dict)
+
+   Bases: :class:`wa_simulator.sensor.WANoiseModel`
+
+   Derived noise model. Gaussian drifting noise with noncorrelated equal distributions
+
+   Very similar to ChNormalModel (https://github.com/projectchrono/chrono/blob/feature/sensor/src/chrono_sensor/ChNoiseModel.h)
+   Made because ChSensor currently _requires_ OptiX (NVIDIA proprietary software)
+
+   :param p: Model properties/parameters taken from a json specification file
+   :type p: dict
+
+   .. method:: add_noise(self, data: list)
+
+      Add noise to the data
+
+      :param data: The data to add noise to
+      :type data: list
+
+
+
+.. py:class:: WASensor
+
+   Bases: :class:`abc.ABC`
+
+   Base class for a sensor
+
+   .. method:: synchronize(self, time)
+      :abstractmethod:
+
+      Synchronize the sensor at the specified time
+
+      :param time: the time at which the sensors are synchronized to
+      :type time: float
+
+
+   .. method:: advance(self, step)
+      :abstractmethod:
+
+      Advance the state of the sensor by the specified time step
+
+      :param step: the step to update the sensor by
+      :type step: float
+
+
+   .. method:: get_data(self)
+      :abstractmethod:
+
+      Get the sensor data
+
+
+
+.. py:class:: WAIMUSensor(vehicle: WAVehicle, filename: str)
+
+   Bases: :class:`wa_simulator.sensor.WASensor`
+
+   Derived sensor class that implements an IMU model
+
+   :param vehicle: the vehicle that the state data will be extracted from
+   :type vehicle: WAVehicle
+   :param filename: a json specification file that describes an IMU sensor model
+   :type filename: str
+
+   .. attribute:: SBG_IMU_SENSOR_FILE
+      :annotation: = sensors/models/SBG_IMU.json
+
+      
+
+   .. method:: synchronize(self, time)
+
+      Synchronize the sensor at the specified time
+
+      :param time: the time at which the sensors are synchronized to
+      :type time: float
+
+
+   .. method:: advance(self, step)
+
+      Advance the state of the sensor by the specified time step
+
+      :param step: the step to update the sensor by
+      :type step: float
+
+
+   .. method:: get_data(self)
+
+      Get the sensor data
+
+      :returns: Tuple in the form of (acceleration, angular_velocity, orientation)
+      :rtype: (WAVector, WAVector, WAQuaternion)
+
+
+
+.. py:class:: WAGPSSensor(vehicle: WAVehicle, filename: str)
+
+   Bases: :class:`wa_simulator.sensor.WASensor`
+
+   Derived sensor class that implements an GPS model
+
+   :param vehicle: the vehicle that the state data will be extracted from
+   :type vehicle: WAVehicle
+   :param filename: a json specification file that describes an IMU sensor model
+   :type filename: str
+
+   .. attribute:: SBG_GPS_SENSOR_FILE
+      :annotation: = sensors/models/SBG_GPS.json
+
+      
+
+   .. method:: synchronize(self, time)
+
+      Synchronize the sensor at the specified time
+
+      :param time: the time at which the sensors are synchronized to
+      :type time: float
+
+
+   .. method:: advance(self, step)
+
+      Advance the state of the sensor by the specified time step
+
+      :param step: the step to update the sensor by
+      :type step: float
+
+
+   .. method:: get_data(self)
+
+      Get the sensor data
+
+      :returns: The coordinate location of the vehicle in the form of [longitude, latitude, altitude]
+      :rtype: WAVector
+
+
+   .. method:: cartesian_to_gps(coords: WAVector, ref: WAVector)
+      :staticmethod:
+
+      Convert a point from cartesian to gps
+
+      :param coords: The coordinate to convert
+      :type coords: WAVector
+      :param ref: The "origin" or reference point
+      :type ref: WAVector
+
+      :returns: The coordinate in the form of[longitude, latitude, altitude]
+      :rtype: WAVector
+
+
+   .. method:: gps_to_cartesian(coords: WAVector, ref: WAVector)
+      :staticmethod:
+
+      Convert a gps coordinate to cartesian given some reference
+
+      :param coords: The coordinate to convert
+      :type coords: WAVector
+      :param ref: The "origin" or reference point
+      :type ref: WAVector
+
+      :returns: The x, y, z point in cartesian
+      :rtype: WAVector
+
+
+

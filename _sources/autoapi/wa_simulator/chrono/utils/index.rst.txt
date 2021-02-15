@@ -1,0 +1,69 @@
+:mod:`wa_simulator.chrono.utils`
+================================
+
+.. py:module:: wa_simulator.chrono.utils
+
+.. autoapi-nested-parse::
+
+   Wisconsin Autonomous - https://www.wisconsinautonomous.org
+
+   Copyright (c) 2021 wisconsinautonomous.org
+   All rights reserved.
+
+   Use of this source code is governed by a BSD-style license that can be found
+   in the LICENSE file at the top level of the repo
+
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   wa_simulator.chrono.utils.ChVector_to_WAVector
+   wa_simulator.chrono.utils.ChQuaternion_to_WAQuaternion
+   wa_simulator.chrono.utils.ChFrame_from_json
+   wa_simulator.chrono.utils.ChVector_from_list
+
+
+.. function:: ChVector_to_WAVector(vector: chrono.ChVectorD)
+
+   Converts a ChVector to a WAVector
+
+   :param vector: The vector to convert
+   :type vector: ChVector
+
+
+.. function:: ChQuaternion_to_WAQuaternion(quaternion: chrono.ChQuaternionD)
+
+   Converts a ChQuaternion to a WAQuaternion
+
+   :param quaternion: The quaternion to convert
+   :type quaternion: ChQuaternion
+
+
+.. function:: ChFrame_from_json(j: dict)
+
+   Creates a ChFrame from a json object.
+
+   :param j: The json object that will be converted to a ChFrame
+   :type j: dict
+
+   :returns: The frame created from the json object
+   :rtype: ChFrameD
+
+
+.. function:: ChVector_from_list(l: list, vector_type=chrono.ChVectorD)
+
+   Creates a ChVector from a list
+
+   :param l: The list to convert to a ChVector
+   :type l: list
+   :param vector_type: The ChVector type to convert to
+   :type vector_type: Type
+
+

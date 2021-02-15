@@ -32,11 +32,11 @@ Functions
 
 .. autoapisummary::
 
-   wa_simulator.chrono.vehicle.ReadVehicleModelFile
-   wa_simulator.chrono.vehicle.CreateTireFromJSON
+   wa_simulator.chrono.vehicle.read_vehicle_model_file
+   wa_simulator.chrono.vehicle.create_tire_from_json
 
 
-.. function:: ReadVehicleModelFile(filename)
+.. function:: read_vehicle_model_file(filename)
 
    Read a json specification file to get additional file names to be loaded into ChVehicle classes
 
@@ -47,7 +47,7 @@ Functions
    :rtype: tuple
 
 
-.. function:: CreateTireFromJSON(tire_filename)
+.. function:: create_tire_from_json(tire_filename)
 
    Creates a tire from a tire file
 

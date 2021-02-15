@@ -19,18 +19,18 @@ Submodules
    :titlesonly:
    :maxdepth: 1
 
-   cli/index.rst
    constants/index.rst
    controller/index.rst
-   data_loader/index.rst
+   core/index.rst
    environment/index.rst
    inputs/index.rst
    path/index.rst
+   sensor/index.rst
    simulation/index.rst
    system/index.rst
    terrain/index.rst
    track/index.rst
-   vector/index.rst
+   utils/index.rst
    vehicle/index.rst
    visualization/index.rst
 

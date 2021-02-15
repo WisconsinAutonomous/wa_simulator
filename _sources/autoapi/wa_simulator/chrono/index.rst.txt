@@ -17,8 +17,10 @@ Submodules
 
    controller/index.rst
    environment/index.rst
+   sensor/index.rst
    system/index.rst
    terrain/index.rst
+   utils/index.rst
    vehicle/index.rst
    visualization/index.rst
 

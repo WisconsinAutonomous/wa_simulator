@@ -27,7 +27,7 @@ Classes
 
 
 
-.. py:class:: WASimulation(system, environment, vehicle, visualization, controller, record_filename=None)
+.. py:class:: WASimulation(system, environment, vehicle, visualization, controller, sensor_manager=None, record_filename=None)
 
    Bases: :class:`abc.ABC`
 

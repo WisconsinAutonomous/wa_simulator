@@ -3,12 +3,33 @@
 
 .. py:module:: wa_simulator.constants
 
+.. autoapi-nested-parse::
+
+   Wisconsin Autonomous - https://www.wisconsinautonomous.org
+
+   Copyright (c) 2021 wisconsinautonomous.org
+   All rights reserved.
+
+   Use of this source code is governed by a BSD-style license that can be found
+   in the LICENSE file at the top level of the repo
+
+
 
 Module Contents
 ---------------
 
-.. data:: GRAVITY
+.. data:: WA_GRAVITY
    :annotation: = 9.81
+
+   
+
+.. data:: WA_EARTH_RADIUS
+   :annotation: = 6371000.0
+
+   
+
+.. data:: WA_PI
+   :annotation: = 3.141592653589793
 
    
 
