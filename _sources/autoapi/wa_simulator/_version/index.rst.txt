@@ -10,7 +10,7 @@ Module Contents
 ---------------
 
 .. data:: __version__
-   :annotation: = 0.0.9
+   :annotation: = 0.0.10
 
    
 

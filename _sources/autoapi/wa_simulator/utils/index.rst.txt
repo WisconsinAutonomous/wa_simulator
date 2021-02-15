@@ -26,6 +26,7 @@ Functions
 
    wa_simulator.utils.get_wa_data_file
    wa_simulator.utils.set_wa_data_directory
+   wa_simulator.utils.set_wa_data_directory_temp
    wa_simulator.utils.check_type
    wa_simulator.utils.load_json
    wa_simulator.utils.check_field
@@ -51,6 +52,14 @@ Functions
 .. function:: set_wa_data_directory(path)
 
    Set the data path
+
+   :param path: relative (or absolute) path where the data is stored
+   :type path: str
+
+
+.. function:: set_wa_data_directory_temp(path)
+
+   Set the data path and yield the result. Will restore old directory immediately after
 
    :param path: relative (or absolute) path where the data is stored
    :type path: str

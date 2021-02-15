@@ -102,7 +102,7 @@ Functions
       :type: str
 
    .. attribute:: EGP_SENSOR_SCENE_FILE
-      :annotation: = sensors/scenes/ev_grand_prix.json
+      
 
       
 
@@ -117,6 +117,11 @@ Functions
 
       :param step: the step to update the sensor by
       :type step: float
+
+
+   .. method:: add_body(self, body)
+
+      Adds a ChBody to the ChSystem. Saves them to be used later
 
 
 

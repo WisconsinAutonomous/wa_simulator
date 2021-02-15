@@ -3,7 +3,7 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="#" /><link rel="search" title="Search" href="search.html" />
 
-    <link rel="shortcut icon" href="_static/wa-dark-favicon.png"/><meta name="generator" content="sphinx-3.4.2, furo 2020.12.30.beta24"/><title>Index - Wisconsin Autonomous Simulator 0.0.9 documentation</title>
+    <link rel="shortcut icon" href="_static/wa-dark-favicon.png"/><meta name="generator" content="sphinx-3.4.2, furo 2020.12.30.beta24"/><title>Index - Wisconsin Autonomous Simulator 0.0.10 documentation</title>
 <link rel="stylesheet" href="_static/styles/furo.css?digest=33d2fc4f3f180ec1ffc6524e273e21d7d58cbe49">
     <link rel="stylesheet" href="_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="_static/pygments_dark.css">
@@ -102,7 +102,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">Wisconsin Autonomous Simulator 0.0.9 documentation</div></a>
+      <a href="index.html"><div class="brand">Wisconsin Autonomous Simulator 0.0.10 documentation</div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
@@ -236,6 +236,8 @@
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="autoapi/wa_simulator/vehicle/index.html#wa_simulator.vehicle.WALinearKinematicBicycle.a">a (wa_simulator.vehicle.WALinearKinematicBicycle attribute)</a>
+</li>
+        <li><a href="autoapi/wa_simulator/chrono/sensor/index.html#wa_simulator.chrono.sensor.WAChronoSensorManager.add_body">add_body() (wa_simulator.chrono.sensor.WAChronoSensorManager method)</a>
 </li>
         <li><a href="autoapi/wa_simulator/core/index.html#wa_simulator.core.WAArgumentParser.add_default_sim_arguments">add_default_sim_arguments() (wa_simulator.core.WAArgumentParser method)</a>
 </li>
@@ -385,10 +387,10 @@
 </li>
         <li><a href="autoapi/wa_simulator/utils/index.html#wa_simulator.utils.check_type">check_type() (in module wa_simulator.utils)</a>
 </li>
-        <li><a href="autoapi/wa_simulator/chrono/utils/index.html#wa_simulator.chrono.utils.ChFrame_from_json">ChFrame_from_json() (in module wa_simulator.chrono.utils)</a>
-</li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/wa_simulator/chrono/utils/index.html#wa_simulator.chrono.utils.ChFrame_from_json">ChFrame_from_json() (in module wa_simulator.chrono.utils)</a>
+</li>
         <li><a href="autoapi/wa_simulator/chrono/utils/index.html#wa_simulator.chrono.utils.ChQuaternion_to_WAQuaternion">ChQuaternion_to_WAQuaternion() (in module wa_simulator.chrono.utils)</a>
 </li>
         <li><a href="autoapi/wa_simulator/chrono/index.html#wa_simulator.chrono.CHRONO_DATA_DIRECTORY">CHRONO_DATA_DIRECTORY (in module wa_simulator.chrono)</a>
@@ -408,13 +410,6 @@
         </ul></li>
         <li><a href="autoapi/conf/index.html#conf.copyright">copyright (in module conf)</a>
 </li>
-        <li>
-    core
-
-        <ul>
-          <li><a href="autoapi/core/index.html#module-core">module</a>
-</li>
-        </ul></li>
         <li><a href="autoapi/wa_simulator/track/index.html#wa_simulator.track.create_constant_width_track">create_constant_width_track() (in module wa_simulator.track)</a>
 </li>
         <li><a href="autoapi/wa_simulator/chrono/visualization/index.html#wa_simulator.chrono.visualization.create_sphere_in_irrlicht">create_sphere_in_irrlicht() (in module wa_simulator.chrono.visualization)</a>
@@ -746,15 +741,17 @@
         <ul>
           <li><a href="autoapi/conf/index.html#module-conf">conf</a>
 </li>
-          <li><a href="autoapi/core/index.html#module-core">core</a>
-</li>
           <li><a href="autoapi/custom_controller_demo/index.html#module-custom_controller_demo">custom_controller_demo</a>
 </li>
           <li><a href="autoapi/setup/index.html#module-setup">setup</a>
 </li>
-          <li><a href="autoapi/track/index.html#module-track">track</a>
+          <li><a href="autoapi/tests/index.html#module-tests">tests</a>
 </li>
-          <li><a href="autoapi/vehicle/index.html#module-vehicle">vehicle</a>
+          <li><a href="autoapi/tests/test_core/index.html#module-tests.test_core">tests.test_core</a>
+</li>
+          <li><a href="autoapi/tests/test_track/index.html#module-tests.test_track">tests.test_track</a>
+</li>
+          <li><a href="autoapi/tests/test_vehicle/index.html#module-tests.test_vehicle">tests.test_vehicle</a>
 </li>
           <li><a href="autoapi/wa_simulator/index.html#module-wa_simulator">wa_simulator</a>
 </li>
@@ -949,6 +946,8 @@
 </li>
         <li><a href="autoapi/wa_simulator/utils/index.html#wa_simulator.utils.set_wa_data_directory">set_wa_data_directory() (in module wa_simulator.utils)</a>
 </li>
+        <li><a href="autoapi/wa_simulator/utils/index.html#wa_simulator.utils.set_wa_data_directory_temp">set_wa_data_directory_temp() (in module wa_simulator.utils)</a>
+</li>
         <li>
     setup
 
@@ -1058,75 +1057,103 @@
           <li><a href="autoapi/wa_simulator/chrono/vehicle/index.html#wa_simulator.chrono.vehicle.WAChronoVehicle.terrain">(wa_simulator.chrono.vehicle.WAChronoVehicle attribute)</a>
 </li>
         </ul></li>
-        <li><a href="autoapi/core/index.html#core.TestWAQuaternion.test_add">test_add() (core.TestWAQuaternion method)</a>
+        <li><a href="autoapi/tests/test_core/index.html#tests.test_core.TestWAQuaternion.test_add">test_add() (tests.test_core.TestWAQuaternion method)</a>
 
         <ul>
-          <li><a href="autoapi/core/index.html#core.TestWAVector.test_add">(core.TestWAVector method)</a>
+          <li><a href="autoapi/tests/test_core/index.html#tests.test_core.TestWAVector.test_add">(tests.test_core.TestWAVector method)</a>
 </li>
         </ul></li>
-        <li><a href="autoapi/core/index.html#core.TestWAQuaternion.test_add2">test_add2() (core.TestWAQuaternion method)</a>
+        <li><a href="autoapi/tests/test_core/index.html#tests.test_core.TestWAQuaternion.test_add2">test_add2() (tests.test_core.TestWAQuaternion method)</a>
 
         <ul>
-          <li><a href="autoapi/core/index.html#core.TestWAVector.test_add2">(core.TestWAVector method)</a>
+          <li><a href="autoapi/tests/test_core/index.html#tests.test_core.TestWAVector.test_add2">(tests.test_core.TestWAVector method)</a>
 </li>
         </ul></li>
-        <li><a href="autoapi/core/index.html#core.TestWAQuaternion.test_add3">test_add3() (core.TestWAQuaternion method)</a>
+        <li><a href="autoapi/tests/test_core/index.html#tests.test_core.TestWAQuaternion.test_add3">test_add3() (tests.test_core.TestWAQuaternion method)</a>
 
         <ul>
-          <li><a href="autoapi/core/index.html#core.TestWAVector.test_add3">(core.TestWAVector method)</a>
+          <li><a href="autoapi/tests/test_core/index.html#tests.test_core.TestWAVector.test_add3">(tests.test_core.TestWAVector method)</a>
 </li>
         </ul></li>
-        <li><a href="autoapi/track/index.html#track.TestWATrack.test_create_constant_width_track">test_create_constant_width_track() (track.TestWATrack method)</a>
+        <li><a href="autoapi/tests/test_track/index.html#tests.test_track.TestWATrack.test_create_constant_width_track">test_create_constant_width_track() (tests.test_track.TestWATrack method)</a>
 </li>
-        <li><a href="autoapi/core/index.html#core.TestWAVector.test_cross">test_cross() (core.TestWAVector method)</a>
+        <li><a href="autoapi/tests/test_core/index.html#tests.test_core.TestWAVector.test_cross">test_cross() (tests.test_core.TestWAVector method)</a>
 </li>
-        <li><a href="autoapi/core/index.html#core.TestWAArgumentParser.test_default">test_default() (core.TestWAArgumentParser method)</a>
+        <li><a href="autoapi/tests/test_core/index.html#tests.test_core.TestWAArgumentParser.test_default">test_default() (tests.test_core.TestWAArgumentParser method)</a>
 </li>
-        <li><a href="autoapi/core/index.html#core.TestWAVector.test_dot">test_dot() (core.TestWAVector method)</a>
+        <li><a href="autoapi/tests/test_core/index.html#tests.test_core.TestWAVector.test_dot">test_dot() (tests.test_core.TestWAVector method)</a>
 </li>
-        <li><a href="autoapi/core/index.html#core.TestWAQuaternion.test_length">test_length() (core.TestWAQuaternion method)</a>
+        <li><a href="autoapi/tests/test_core/index.html#tests.test_core.TestWAQuaternion.test_length">test_length() (tests.test_core.TestWAQuaternion method)</a>
 
         <ul>
-          <li><a href="autoapi/core/index.html#core.TestWAVector.test_length">(core.TestWAVector method)</a>
+          <li><a href="autoapi/tests/test_core/index.html#tests.test_core.TestWAVector.test_length">(tests.test_core.TestWAVector method)</a>
 </li>
         </ul></li>
-        <li><a href="autoapi/core/index.html#core.TestWASimulator.test_main_import">test_main_import() (core.TestWASimulator method)</a>
+        <li><a href="autoapi/tests/test_core/index.html#tests.test_core.TestWASimulator.test_main_import">test_main_import() (tests.test_core.TestWASimulator method)</a>
+</li>
+        <li><a href="autoapi/tests/test_core/index.html#tests.test_core.TestWAQuaternion.test_mul">test_mul() (tests.test_core.TestWAQuaternion method)</a>
+
+        <ul>
+          <li><a href="autoapi/tests/test_core/index.html#tests.test_core.TestWAVector.test_mul">(tests.test_core.TestWAVector method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/tests/test_core/index.html#tests.test_core.TestWAQuaternion.test_mul2">test_mul2() (tests.test_core.TestWAQuaternion method)</a>
 </li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="autoapi/core/index.html#core.TestWAQuaternion.test_mul">test_mul() (core.TestWAQuaternion method)</a>
+        <li><a href="autoapi/tests/test_core/index.html#tests.test_core.TestWAQuaternion.test_rot">test_rot() (tests.test_core.TestWAQuaternion method)</a>
+</li>
+        <li><a href="autoapi/tests/test_core/index.html#tests.test_core.TestWAQuaternion.test_sub">test_sub() (tests.test_core.TestWAQuaternion method)</a>
 
         <ul>
-          <li><a href="autoapi/core/index.html#core.TestWAVector.test_mul">(core.TestWAVector method)</a>
+          <li><a href="autoapi/tests/test_core/index.html#tests.test_core.TestWAVector.test_sub">(tests.test_core.TestWAVector method)</a>
 </li>
         </ul></li>
-        <li><a href="autoapi/core/index.html#core.TestWAQuaternion.test_mul2">test_mul2() (core.TestWAQuaternion method)</a>
-</li>
-        <li><a href="autoapi/core/index.html#core.TestWAQuaternion.test_rot">test_rot() (core.TestWAQuaternion method)</a>
-</li>
-        <li><a href="autoapi/core/index.html#core.TestWAQuaternion.test_sub">test_sub() (core.TestWAQuaternion method)</a>
+        <li><a href="autoapi/tests/test_core/index.html#tests.test_core.TestWAQuaternion.test_sub2">test_sub2() (tests.test_core.TestWAQuaternion method)</a>
 
         <ul>
-          <li><a href="autoapi/core/index.html#core.TestWAVector.test_sub">(core.TestWAVector method)</a>
+          <li><a href="autoapi/tests/test_core/index.html#tests.test_core.TestWAVector.test_sub2">(tests.test_core.TestWAVector method)</a>
 </li>
         </ul></li>
-        <li><a href="autoapi/core/index.html#core.TestWAQuaternion.test_sub2">test_sub2() (core.TestWAQuaternion method)</a>
+        <li>
+    tests
 
         <ul>
-          <li><a href="autoapi/core/index.html#core.TestWAVector.test_sub2">(core.TestWAVector method)</a>
+          <li><a href="autoapi/tests/index.html#module-tests">module</a>
 </li>
         </ul></li>
-        <li><a href="autoapi/core/index.html#core.TestWAArgumentParser">TestWAArgumentParser (class in core)</a>
+        <li>
+    tests.test_core
+
+        <ul>
+          <li><a href="autoapi/tests/test_core/index.html#module-tests.test_core">module</a>
 </li>
-        <li><a href="autoapi/vehicle/index.html#vehicle.TestWALinearKinematicBicycle">TestWALinearKinematicBicycle (class in vehicle)</a>
+        </ul></li>
+        <li>
+    tests.test_track
+
+        <ul>
+          <li><a href="autoapi/tests/test_track/index.html#module-tests.test_track">module</a>
 </li>
-        <li><a href="autoapi/core/index.html#core.TestWAQuaternion">TestWAQuaternion (class in core)</a>
+        </ul></li>
+        <li>
+    tests.test_vehicle
+
+        <ul>
+          <li><a href="autoapi/tests/test_vehicle/index.html#module-tests.test_vehicle">module</a>
 </li>
-        <li><a href="autoapi/core/index.html#core.TestWASimulator">TestWASimulator (class in core)</a>
+        </ul></li>
+        <li><a href="autoapi/tests/test_core/index.html#tests.test_core.TestWAArgumentParser">TestWAArgumentParser (class in tests.test_core)</a>
 </li>
-        <li><a href="autoapi/track/index.html#track.TestWATrack">TestWATrack (class in track)</a>
+        <li><a href="autoapi/tests/test_vehicle/index.html#tests.test_vehicle.TestWALinearKinematicBicycle">TestWALinearKinematicBicycle (class in tests.test_vehicle)</a>
 </li>
-        <li><a href="autoapi/core/index.html#core.TestWAVector">TestWAVector (class in core)</a>
+        <li><a href="autoapi/tests/test_core/index.html#tests.test_core.TestWAQuaternion">TestWAQuaternion (class in tests.test_core)</a>
+</li>
+        <li><a href="autoapi/tests/test_core/index.html#tests.test_core.TestWASimulator">TestWASimulator (class in tests.test_core)</a>
+</li>
+        <li><a href="autoapi/tests/test_track/index.html#tests.test_track.TestWATrack">TestWATrack (class in tests.test_track)</a>
+</li>
+        <li><a href="autoapi/tests/test_core/index.html#tests.test_core.TestWAVector">TestWAVector (class in tests.test_core)</a>
 </li>
         <li><a href="autoapi/wa_simulator/controller/index.html#wa_simulator.controller.WAController.throttle">throttle (wa_simulator.controller.WAController attribute)</a>
 </li>
@@ -1134,13 +1161,6 @@
 </li>
         <li><a href="autoapi/wa_simulator/system/index.html#wa_simulator.system.WASystem.time">time (wa_simulator.system.WASystem attribute)</a>
 </li>
-        <li>
-    track
-
-        <ul>
-          <li><a href="autoapi/track/index.html#module-track">module</a>
-</li>
-        </ul></li>
     </ul></td>
   </tr></table>
 </section>
@@ -1161,13 +1181,6 @@
     <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="autoapi/wa_simulator/vehicle/index.html#wa_simulator.vehicle.WALinearKinematicBicycle.v">v (wa_simulator.vehicle.WALinearKinematicBicycle attribute)</a>
 </li>
-        <li>
-    vehicle
-
-        <ul>
-          <li><a href="autoapi/vehicle/index.html#module-vehicle">module</a>
-</li>
-        </ul></li>
         <li><a href="autoapi/wa_simulator/chrono/sensor/index.html#wa_simulator.chrono.sensor.WAChronoSensorManager.vehicle">vehicle (wa_simulator.chrono.sensor.WAChronoSensorManager attribute)</a>
 
         <ul>

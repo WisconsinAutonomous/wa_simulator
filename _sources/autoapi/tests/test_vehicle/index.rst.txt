@@ -1,7 +1,7 @@
-:mod:`track`
-============
+:mod:`tests.test_vehicle`
+=========================
 
-.. py:module:: track
+.. py:module:: tests.test_vehicle
 
 .. autoapi-nested-parse::
 
@@ -23,19 +23,14 @@ Classes
 
 .. autoapisummary::
 
-   track.TestWATrack
+   tests.test_vehicle.TestWALinearKinematicBicycle
 
 
 
-.. py:class:: TestWATrack(methodName='runTest')
+.. py:class:: TestWALinearKinematicBicycle(methodName='runTest')
 
    Bases: :class:`unittest.TestCase`
 
-   Tests method related to the WATrack
-
-   .. method:: test_create_constant_width_track(self)
-
-      Tests the create_constant_width_track method
-
+   Tests method related to the WALinearKinematicBicycle
 
 

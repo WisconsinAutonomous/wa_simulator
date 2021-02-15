@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="wa_simulator.vehicle" href="../vehicle/index.html" /><link rel="prev" title="wa_simulator.track" href="../track/index.html" />
 
     <link rel="shortcut icon" href="../../../_static/wa-dark-favicon.png"/><meta name="generator" content="sphinx-3.4.2, furo 2020.12.30.beta24"/>
-        <title>wa_simulator.utils - Wisconsin Autonomous Simulator 0.0.9 documentation</title>
+        <title>wa_simulator.utils - Wisconsin Autonomous Simulator 0.0.10 documentation</title>
       <link rel="stylesheet" href="../../../_static/styles/furo.css?digest=33d2fc4f3f180ec1ffc6524e273e21d7d58cbe49">
     <link rel="stylesheet" href="../../../_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../../../_static/pygments_dark.css">
@@ -103,7 +103,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../index.html"><div class="brand">Wisconsin Autonomous Simulator 0.0.9 documentation</div></a>
+      <a href="../../../index.html"><div class="brand">Wisconsin Autonomous Simulator 0.0.10 documentation</div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon" for="__toc">
@@ -210,16 +210,19 @@ in the LICENSE file at the top level of the repo</p>
 <tr class="row-even"><td><p><a class="reference internal" href="#wa_simulator.utils.set_wa_data_directory" title="wa_simulator.utils.set_wa_data_directory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_wa_data_directory</span></code></a>(path)</p></td>
 <td><p>Set the data path</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#wa_simulator.utils.check_type" title="wa_simulator.utils.check_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_type</span></code></a>(obj, correct_type, variable_name, function_name)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#wa_simulator.utils.set_wa_data_directory_temp" title="wa_simulator.utils.set_wa_data_directory_temp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_wa_data_directory_temp</span></code></a>(path)</p></td>
+<td><p>Set the data path and yield the result. Will restore old directory immediately after</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#wa_simulator.utils.check_type" title="wa_simulator.utils.check_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_type</span></code></a>(obj, correct_type, variable_name, function_name)</p></td>
 <td><p>Check the type of an object to verify it is the correct type</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#wa_simulator.utils.load_json" title="wa_simulator.utils.load_json"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_json</span></code></a>(filename: str)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#wa_simulator.utils.load_json" title="wa_simulator.utils.load_json"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_json</span></code></a>(filename: str)</p></td>
 <td><p>Load a json file</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#wa_simulator.utils.check_field" title="wa_simulator.utils.check_field"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_field</span></code></a>(j: dict, field: str, value=None, field_type=None, allowed_values: list = None, optional: bool = False)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#wa_simulator.utils.check_field" title="wa_simulator.utils.check_field"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_field</span></code></a>(j: dict, field: str, value=None, field_type=None, allowed_values: list = None, optional: bool = False)</p></td>
 <td><p>Check a field in a dict loaded from json</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#wa_simulator.utils.check_field_allowed_values" title="wa_simulator.utils.check_field_allowed_values"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_field_allowed_values</span></code></a>(j: dict, field: str, allowed_values: list)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#wa_simulator.utils.check_field_allowed_values" title="wa_simulator.utils.check_field_allowed_values"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_field_allowed_values</span></code></a>(j: dict, field: str, allowed_values: list)</p></td>
 <td><p>Check a field in a dict loaded from json and check that all elements are allowed</p></td>
 </tr>
 </tbody>
@@ -248,6 +251,16 @@ in the LICENSE file at the top level of the repo</p>
 <dt id="wa_simulator.utils.set_wa_data_directory">
 <code class="sig-prename descclassname">wa_simulator.utils.</code><code class="sig-name descname">set_wa_data_directory</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.utils.set_wa_data_directory" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the data path</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – relative (or absolute) path where the data is stored</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py function">
+<dt id="wa_simulator.utils.set_wa_data_directory_temp">
+<code class="sig-prename descclassname">wa_simulator.utils.</code><code class="sig-name descname">set_wa_data_directory_temp</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.utils.set_wa_data_directory_temp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the data path and yield the result. Will restore old directory immediately after</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – relative (or absolute) path where the data is stored</p>
@@ -374,6 +387,7 @@ in the LICENSE file at the top level of the repo</p>
 <li><a class="reference internal" href="#wa_simulator.utils.DATA_DIRECTORY">DATA_DIRECTORY</a></li>
 <li><a class="reference internal" href="#wa_simulator.utils.get_wa_data_file">get_wa_data_file</a></li>
 <li><a class="reference internal" href="#wa_simulator.utils.set_wa_data_directory">set_wa_data_directory</a></li>
+<li><a class="reference internal" href="#wa_simulator.utils.set_wa_data_directory_temp">set_wa_data_directory_temp</a></li>
 <li><a class="reference internal" href="#wa_simulator.utils.check_type">check_type</a></li>
 <li><a class="reference internal" href="#wa_simulator.utils.load_json">load_json</a></li>
 <li><a class="reference internal" href="#wa_simulator.utils.check_field">check_field</a></li>

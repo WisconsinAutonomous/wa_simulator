@@ -1,7 +1,7 @@
-:mod:`core`
-===========
+:mod:`tests.test_core`
+======================
 
-.. py:module:: core
+.. py:module:: tests.test_core
 
 .. autoapi-nested-parse::
 
@@ -23,10 +23,10 @@ Classes
 
 .. autoapisummary::
 
-   core.TestWASimulator
-   core.TestWAVector
-   core.TestWAQuaternion
-   core.TestWAArgumentParser
+   tests.test_core.TestWASimulator
+   tests.test_core.TestWAVector
+   tests.test_core.TestWAQuaternion
+   tests.test_core.TestWAArgumentParser
 
 
 

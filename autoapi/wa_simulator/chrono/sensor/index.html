@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="../../../../genindex.html" /><link rel="search" title="Search" href="../../../../search.html" /><link rel="next" title="wa_simulator.chrono.system" href="../system/index.html" /><link rel="prev" title="wa_simulator.chrono.environment" href="../environment/index.html" />
 
     <link rel="shortcut icon" href="../../../../_static/wa-dark-favicon.png"/><meta name="generator" content="sphinx-3.4.2, furo 2020.12.30.beta24"/>
-        <title>wa_simulator.chrono.sensor - Wisconsin Autonomous Simulator 0.0.9 documentation</title>
+        <title>wa_simulator.chrono.sensor - Wisconsin Autonomous Simulator 0.0.10 documentation</title>
       <link rel="stylesheet" href="../../../../_static/styles/furo.css?digest=33d2fc4f3f180ec1ffc6524e273e21d7d58cbe49">
     <link rel="stylesheet" href="../../../../_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../../../../_static/pygments_dark.css">
@@ -103,7 +103,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../../index.html"><div class="brand">Wisconsin Autonomous Simulator 0.0.9 documentation</div></a>
+      <a href="../../../../index.html"><div class="brand">Wisconsin Autonomous Simulator 0.0.10 documentation</div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon" for="__toc">
@@ -316,7 +316,7 @@ in the LICENSE file at the top level of the repo</p>
 </dd></dl>
 <dl class="py attribute">
 <dt id="wa_simulator.chrono.sensor.WAChronoSensorManager.EGP_SENSOR_SCENE_FILE">
-<code class="sig-name descname">EGP_SENSOR_SCENE_FILE</code><em class="property"> = sensors/scenes/ev_grand_prix.json</em><a class="headerlink" href="#wa_simulator.chrono.sensor.WAChronoSensorManager.EGP_SENSOR_SCENE_FILE" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">EGP_SENSOR_SCENE_FILE</code><a class="headerlink" href="#wa_simulator.chrono.sensor.WAChronoSensorManager.EGP_SENSOR_SCENE_FILE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="py method">
 <dt id="wa_simulator.chrono.sensor.WAChronoSensorManager.add_sensor">
@@ -332,6 +332,11 @@ in the LICENSE file at the top level of the repo</p>
 <dd class="field-odd"><p><strong>step</strong> (<em>float</em>) – the step to update the sensor by</p>
 </dd>
 </dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.chrono.sensor.WAChronoSensorManager.add_body">
+<code class="sig-name descname">add_body</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">body</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.chrono.sensor.WAChronoSensorManager.add_body" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a ChBody to the ChSystem. Saves them to be used later</p>
 </dd></dl>
 </dd></dl>
 <dl class="py class">
@@ -454,6 +459,7 @@ in the LICENSE file at the top level of the repo</p>
 <li><a class="reference internal" href="#wa_simulator.chrono.sensor.WAChronoSensorManager.EGP_SENSOR_SCENE_FILE">EGP_SENSOR_SCENE_FILE</a></li>
 <li><a class="reference internal" href="#wa_simulator.chrono.sensor.WAChronoSensorManager.add_sensor">add_sensor</a></li>
 <li><a class="reference internal" href="#wa_simulator.chrono.sensor.WAChronoSensorManager.advance">advance</a></li>
+<li><a class="reference internal" href="#wa_simulator.chrono.sensor.WAChronoSensorManager.add_body">add_body</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#wa_simulator.chrono.sensor.WAChronoSensor">WAChronoSensor</a><ul>
