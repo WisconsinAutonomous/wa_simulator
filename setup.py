@@ -63,7 +63,8 @@ setup(
         "matplotlib>=3.3.2",
         "numpy>=1.19.3",
         "scipy",
-        "IPython"
+        "IPython",
+        "pyrr"
     ],
     project_urls={  # Optional
         "Homepage": "https://github.com/WisconsinAutonomous/wa_simulator/",
