@@ -40,14 +40,14 @@ def load_chrono_sensor_scene_from_json(filename: str, manager: "WAChronoSensorMa
     if missing_chrono_sensor:
         sens_import_error('load_chrono_sensor_scene_from_json')
 
-    j = load_json(chrono.GetChronoDataFile(filename))
+    j = load_json(filename)
 
     # Validate the json file
     check_field(j, 'Type', value='Sensor')
     check_field(j, 'Template', value='Chrono Sensor Scene')
     check_field(j, 'World', field_type=dict, optional=True)
     check_field(j, 'Sensors', field_type=list, optional=True)
-    check_field(j, 'Obstacles', field_type=list, optional=True)
+    check_field(j, 'Objects', field_type=list, optional=True)
 
     if 'World' in j:
         w = j['World']
@@ -75,13 +75,14 @@ def load_chrono_sensor_scene_from_json(filename: str, manager: "WAChronoSensorMa
                 sensor, manager.vehicle)
             manager.add_sensor(new_sensor)
 
-    if 'Obstacles' in j:
-        obstacles = j['Obstacles']
+    if 'Objects' in j:
+        objects = j['Objects']
 
-        for o in obstacles:
+        for o in objects:
             check_field(o, 'Size', field_type=list)
             check_field(o, 'Position', field_type=list)
             check_field(o, 'Color', field_type=list, optional=True)
+            check_field(o, 'Texture', field_type=str, optional=True)
 
             size = ChVector_from_list(o['Size'])
             pos = ChVector_from_list(o['Position'])
@@ -91,9 +92,13 @@ def load_chrono_sensor_scene_from_json(filename: str, manager: "WAChronoSensorMa
             if 'Color' in o:
                 c = ChVector_from_list(o['Color'])
                 box.AddAsset(chrono.ChColorAsset(chrono.ChColor(c.x, c.y, c.z)))  # noqa
+            if 'Texture' in o:
+                texture = chrono.ChVisualMaterial()
+                texture.SetKdTexture(get_wa_data_file(o['Texture']))
+                chrono.CastToChVisualization(box.GetAssets()[0]).material_list.append(texture)  # noqa
             box.SetBodyFixed(True)
 
-            manager.system.system.Add(box)
+            manager.add_body(box)
 
 
 def load_chrono_sensor_from_json(filename: str, vehicle: WAChronoVehicle):
@@ -135,7 +140,7 @@ class WAChronoSensorManager(WASensorManager):
     """
 
     # Global filenames for environment models
-    EGP_SENSOR_SCENE_FILE = "sensors/scenes/ev_grand_prix.json"
+    EGP_SENSOR_SCENE_FILE = chrono.GetChronoDataFile("sensors/scenes/ev_grand_prix.json")  # noqa
 
     def __init__(self, system: WAChronoSystem, vehicle: WAChronoVehicle, filename: str = None):
         if missing_chrono_sensor:
@@ -148,6 +153,8 @@ class WAChronoSensorManager(WASensorManager):
 
         self.system = system
         self.vehicle = vehicle
+
+        self.bodies = []
 
         self.manager = sens.ChSensorManager(self.system.system)
 
@@ -173,6 +180,11 @@ class WAChronoSensorManager(WASensorManager):
         self.manager.Update()
 
         super().advance(step)
+
+    def add_body(self, body):
+        """Adds a ChBody to the ChSystem. Saves them to be used later"""
+        self.system.system.Add(body)
+        self.bodies.append(body)
 
 
 class WAChronoSensor(WASensor):

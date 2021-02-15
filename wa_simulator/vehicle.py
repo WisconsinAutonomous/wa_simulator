@@ -310,7 +310,11 @@ class WALinearKinematicBicycle(WAVehicle):
         Returns:
             WAVector: The acceleration where X is forward, Z is up and Y is left (ISO standard)
         """
-        return WAVector([np.cos(self.yaw) * self.acc, np.sin(self.yaw) * self.acc, WA_GRAVITY])
+        angle = np.tan(np.interp(self.steering, [-1, 1], [self.min_steering, self.max_steering]))  # noqa
+        angle = angle if angle != 0 else 1e-3
+        tr = self.L / angle
+        tr = tr if tr != 0 else 1e-3
+        return WAVector([self.acc, self.v ** 2 / tr, WA_GRAVITY])
 
     def _get_angular_velocity(self):
         """Get the angular velocity of the vehicle

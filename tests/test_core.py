@@ -169,7 +169,7 @@ class TestWAArgumentParser(unittest.TestCase):
     def test_default(self):
         """Tests default arguments"""
         cli = WAArgumentParser(True)
-        args = cli.parse_args()
+        args = cli.parse_args('')
 
         self.assertEqual(args.step_size, 3e-3)
         self.assertEqual(args.render_step_size, 1 / 10.0)

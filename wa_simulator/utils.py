@@ -13,6 +13,7 @@ in the LICENSE file at the top level of the repo
 # ----------------------
 
 import pathlib
+import contextlib
 
 # Grab the data folder in the root of this repo
 DATA_DIRECTORY = str(pathlib.Path(__file__).absolute().parent / "data")
@@ -39,6 +40,21 @@ def set_wa_data_directory(path):
     global DATA_DIRECTORY
 
     DATA_DIRECTORY = str(pathlib.Path(path).resolve())
+
+
+@contextlib.contextmanager
+def set_wa_data_directory_temp(path):
+    """Set the data path and yield the result. Will restore old directory immediately after
+
+    Args:
+        path (str): relative (or absolute) path where the data is stored
+    """
+    global DATA_DIRECTORY
+
+    OLD_DATA_DIRECTORY = f'{DATA_DIRECTORY}'
+    DATA_DIRECTORY = str(pathlib.Path(path).resolve())
+    yield
+    DATA_DIRECTORY = OLD_DATA_DIRECTORY
 
 # -----------------------
 # Type checking utilities
