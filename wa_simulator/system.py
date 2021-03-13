@@ -8,10 +8,8 @@ Use of this source code is governed by a BSD-style license that can be found
 in the LICENSE file at the top level of the repo
 """
 
-from abc import ABC, abstractmethod  # Abstract Base Class
 
-
-class WASystem(ABC):
+class WASystem:
     """Used to manage simulation parameters and can be used to update simulation dynamics
 
     A system is used for organizational purposes almost exclusively. It is passed to other
@@ -19,17 +17,17 @@ class WASystem(ABC):
     module dynamics depending on the underlying models.
 
     Args:
-        step_size (double): the step size for the simulation
-        render_step_size (double, optional): Render step size. Defaults to 2e-2.
+        step_size (float): the step size for the simulation. Defaults to 3e-3.
+        render_step_size (float, optional): Render step size. Defaults to 2e-2.
 
     Attributes:
         step_number (int): Counter of the Advance function
-        step_size (double): the step size for the simulation
-        render_step_size (double): the render step size
-        time (double): stores the time from the simulation
+        step_size (float): the step size for the simulation
+        render_step_size (float): the render step size
+        time (float): stores the time from the simulation
     """
 
-    def __init__(self, step_size, render_step_size=2e-2):
+    def __init__(self, step_size: float = 3e-3, render_step_size: float = 2e-2):
         self.step_number = 0
         self.step_size = step_size
         self.render_step_size = render_step_size
@@ -43,19 +41,3 @@ class WASystem(ABC):
         """
         self.time += self.step_size
         self.step_number += 1
-
-    def get_sim_time(self):
-        """Get the simulation time
-
-        Returns:
-            double: the simulation time
-        """
-        return self.time
-
-    def get_step_number(self):
-        """Get the step number
-
-        Returns:
-            int: the step number
-        """
-        return self.step_number

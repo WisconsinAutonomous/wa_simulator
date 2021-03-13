@@ -26,16 +26,16 @@ except ImportError:
 
     def sens_import_error(function_name: str):
         """Helper function that prints out if a function in this class is used when Chrono::Sensor isn't available for import"""
-        msg = f"{function_name}: Requires Chrono::Sensor and was not found. Chrono::Sensor requires build Chrono from source. Consult Aaron Young (aryoung5@wisc.edu) if you have questions."
+        msg = f"{function_name}: Requires Chrono::Sensor and was not found. Chrono::Sensor requires building Chrono from source. Consult Aaron Young (aryoung5@wisc.edu) if you have questions."
         raise RuntimeError(msg)
 
 
-def load_chrono_sensor_scene_from_json(filename: str, manager: "WAChronoSensorManager"):
+def load_chrono_sensor_scene_from_json(manager: "WAChronoSensorManager", filename: str):
     """Load a chrono sensor scene from a json specification file. A scene may consist of "World" attributes (i.e. lights) or sensors
 
     Args:
-        filename (str): The json specification file describing the scene
         manager (WASensorManager): The sensor manager to edit the scene of
+        filename (str): The json specification file describing the scene
     """
     if missing_chrono_sensor:
         sens_import_error('load_chrono_sensor_scene_from_json')
@@ -65,14 +65,13 @@ def load_chrono_sensor_scene_from_json(filename: str, manager: "WAChronoSensorMa
             color = ChVector_from_list(p['Color'], chrono.ChVectorF)
             max_range = p['Maximum Range']
 
-            manager.manager.scene.AddPointLight(pos, color, max_range)
+            manager._manager.scene.AddPointLight(pos, color, max_range)
 
     if 'Sensors' in j:
         s = j['Sensors']
 
         for sensor in s:
-            new_sensor = load_chrono_sensor_from_json(
-                sensor, manager.vehicle)
+            new_sensor = load_chrono_sensor_from_json(sensor, manager._vehicle)
             manager.add_sensor(new_sensor)
 
     if 'Objects' in j:
@@ -87,28 +86,28 @@ def load_chrono_sensor_scene_from_json(filename: str, manager: "WAChronoSensorMa
             size = ChVector_from_list(o['Size'])
             pos = ChVector_from_list(o['Position'])
 
-            box = chrono.ChBodyEasyBox(size.x, size.y, size.z, 1000, True, False)  # noqa
+            box = chrono.ChBodyEasyBox(size.x, size.y, size.z, 1000, True, False)
             box.SetPos(pos)
             if 'Color' in o:
                 c = ChVector_from_list(o['Color'])
-                box.AddAsset(chrono.ChColorAsset(chrono.ChColor(c.x, c.y, c.z)))  # noqa
+                box.AddAsset(chrono.ChColorAsset(chrono.ChColor(c.x, c.y, c.z)))
             if 'Texture' in o:
                 texture = chrono.ChVisualMaterial()
                 texture.SetKdTexture(get_wa_data_file(o['Texture']))
-                chrono.CastToChVisualization(box.GetAssets()[0]).material_list.append(texture)  # noqa
+                chrono.CastToChVisualization(box.GetAssets()[0]).material_list.append(texture)
             box.SetBodyFixed(True)
 
             manager.add_body(box)
 
 
-def load_chrono_sensor_from_json(filename: str, vehicle: WAChronoVehicle):
+def load_chrono_sensor_from_json(vehicle: 'WAChronoVehicle', filename: str):
     """Load a chrono sensor from json
 
     If the passed json file isn't a chrono type, it will call the correct method.
 
     Args:
-        filename (str): The json specification file that describes the sensor
         vehicle (WAChronoVehicle): The vehicle each sensor will be attached to
+        filename (str): The json specification file that describes the sensor
     """
     if missing_chrono_sensor:
         sens_import_error('load_chrono_sensor_from_json')
@@ -119,7 +118,7 @@ def load_chrono_sensor_from_json(filename: str, vehicle: WAChronoVehicle):
     except FileNotFoundError:
         # File is not chrono specific, try that now
         j = load_json(get_wa_data_file(filename))
-        return load_sensor_from_json(filename, vehicle)
+        return load_sensor_from_json(vehicle, filename)
 
     return WAChronoSensor(vehicle, filename)
 
@@ -131,18 +130,12 @@ class WAChronoSensorManager(WASensorManager):
         system (WAChronoSystem): The system for the simulation
         vehicle (WAVehicle): The vehicle each sensor is attached to
         filename (str): A json file to load a scene from. Defaults to None (does nothing).
-
-    Attributes:
-        manager (ChSensorManager): The chrono sensor manager that actually performs the updates of the chrono objects
-        system (WAChronoSystem): The system for the simulation
-        vehicle (WAChronoVehicle): The vehicle each sensor is attached to
-        filename (str): A json file to load a scene from. Defaults to None (does nothing).
     """
 
     # Global filenames for environment models
     EGP_SENSOR_SCENE_FILE = chrono.GetChronoDataFile("sensors/scenes/ev_grand_prix.json")  # noqa
 
-    def __init__(self, system: WAChronoSystem, vehicle: WAChronoVehicle, filename: str = None):
+    def __init__(self, system: 'WAChronoSystem', vehicle: 'WAChronoVehicle', filename: str = None):
         if missing_chrono_sensor:
             sens_import_error('WAChronoSensorManager.__init__')
 
@@ -151,20 +144,17 @@ class WAChronoSensorManager(WASensorManager):
 
         super().__init__(system, vehicle)
 
-        self.system = system
-        self.vehicle = vehicle
+        self._bodies = []
 
-        self.bodies = []
-
-        self.manager = sens.ChSensorManager(self.system.system)
+        self._manager = sens.ChSensorManager(system._system)
 
         if filename is not None:
-            load_chrono_sensor_scene_from_json(filename, self)
+            load_chrono_sensor_scene_from_json(self, filename)
 
     def add_sensor(self, sensor: "WAChronoSensor"):
         """Add a sensor to the sensor manager"""
         if isinstance(sensor, WAChronoSensor):
-            self.manager.AddSensor(sensor.sensor)
+            self._manager.AddSensor(sensor._sensor)
         elif isinstance(sensor, WASensor):
             super().add_sensor(sensor)
         else:
@@ -177,14 +167,14 @@ class WAChronoSensorManager(WASensorManager):
         Args:
             step(float): the step to update the sensor by
         """
-        self.manager.Update()
+        self._manager.Update()
 
         super().advance(step)
 
     def add_body(self, body):
         """Adds a ChBody to the ChSystem. Saves them to be used later"""
-        self.system.system.Add(body)
-        self.bodies.append(body)
+        self._system._system.Add(body)
+        self._bodies.append(body)
 
 
 class WAChronoSensor(WASensor):
@@ -194,7 +184,7 @@ class WAChronoSensor(WASensor):
     MONO_CAM_SENSOR_FILE = "sensors/models/generic_monocamera.json"
     LDMRS_LIDAR_SENSOR_FILE = "sensors/models/ldmrs.json"
 
-    def __init__(self, vehicle: WAChronoVehicle, filename: str):
+    def __init__(self, vehicle: 'WAChronoVehicle', filename: str):
         if missing_chrono_sensor:
             sens_import_error('WAChronoSensor.__init__')
 
@@ -209,7 +199,7 @@ class WAChronoSensor(WASensor):
         offset_pose = ChFrame_from_json(j['Offset Pose'])
 
         # Create the chrono sensor through the Sensor chrono class
-        self.sensor = sens.Sensor.CreateFromJSON(filename, vehicle.vehicle.GetChassisBody(), offset_pose)  # noqa
+        self._sensor = sens.Sensor.CreateFromJSON(filename, vehicle._vehicle.GetChassisBody(), offset_pose)  # noqa
 
     def synchronize(self, time):
         """Synchronize the sensor at the specified time
@@ -233,12 +223,12 @@ class WAChronoSensor(WASensor):
         Returns:
             np.ndarray: The sensor data. Type depends on the actual sensor
         """
-        name = self.sensor.GetName().lower()
+        name = self._sensor.GetName().lower()
         if 'camera' in name:
-            buff = self.sensor.GetMostRecentRGBA8Buffer()
+            buff = self._sensor.GetMostRecentRGBA8Buffer()
             return buff.GetRGBA8Data()
         if 'lidar' in name:
-            buff = self.sensor.GetMostRecentXYZIBuffer()
+            buff = self._sensor.GetMostRecentXYZIBuffer()
             return buff.GetXYZIData()
         else:
             raise TypeError(

@@ -17,12 +17,17 @@ class WAVehicleInputs:
     maintaining such properties, simply should be used for passing values around.
 
     Args:
-                steering (double, optional): steering input. Defaults to 0.0.
-                throttle (double, optional): throttle input. Defaults to 0.0.
-                braking (double, optional): braking input. Defaults to 0.0.
+        steering (float, optional): steering input. Defaults to 0.0.
+        throttle (float, optional): throttle input. Defaults to 0.0.
+        braking (float, optional): braking input. Defaults to 0.0.
+
+    Attributes:
+        steering (float): steering input. 
+        throttle (float): throttle input. 
+        braking (float): braking input. 
     """
 
-    def __init__(self, steering=0.0, throttle=0.0, braking=0.0):
+    def __init__(self, steering: float = 0.0, throttle: float = 0.0, braking: float = 0.0):
         self.steering = steering
         self.throttle = throttle
         self.braking = braking

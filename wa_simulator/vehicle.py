@@ -8,10 +8,11 @@ Use of this source code is governed by a BSD-style license that can be found
 in the LICENSE file at the top level of the repo
 """
 
-from abc import ABC, abstractmethod  # Abstract Base Class
+from abc import abstractmethod  # Abstract Base Class
 
 # WA Simulator
 from wa_simulator.core import WAVector, WAQuaternion
+from wa_simulator.base import WABase
 from wa_simulator.utils import get_wa_data_file
 from wa_simulator.constants import WA_GRAVITY
 
@@ -19,7 +20,7 @@ from wa_simulator.constants import WA_GRAVITY
 import numpy as np
 
 
-def load_properties_from_json(filename, prop):
+def load_properties_from_json(filename: str, prop: str) -> dict:
     """Load a specified property from a json specification file
 
     Will load a json file and extract the passed property field for use
@@ -48,59 +49,89 @@ def load_properties_from_json(filename, prop):
     return j[prop]
 
 
-class WAVehicle(ABC):
+class WAVehicle(WABase):
     """Base class for a WAVehicle.
 
     To implement a new vehicle model, override this class. A WAVehicle should interact
     with the terrain/assets/world and take three inputs: steering, throttle, braking.
 
     Args:
+        system (WASystem): the system used to run the simulation
+        vehicle_inputs (WAVehicleInputs): The vehicle inputs
         filename (str, optional): Filename to be used for visualization properties
-
-    Attributes:
-        vis_properties (dict): Visual properties used for visualization of the vehicle.
     """
 
-    def __init__(self, filename=None):
-        self.vis_properties = (
+    def __init__(self, system: 'WASystem', vehicle_inputs: 'WAVehicleInputs', filename=None):
+        self._system = system
+        self._vehicle_inputs = vehicle_inputs
+
+        self._vis_properties = (
             dict()
             if filename is None
             else load_properties_from_json(filename, "Visualization Properties")
         )
 
-    @abstractmethod
-    def synchronize(self, time, vehicle_inputs):
-        """Synchronize the vehicle at the specified time and driver inputs
+    def get_visual_properties(self) -> dict:
+        """Get visual properties for visualizing the vehicle
 
-        Args:
-            time (double): the time at which the synchronize the vehicle to
-            vehicle_inputs (WAVehicleInputs): Inputs for the underyling dynamics
+        .. todo::
+            Define the visual properties required
+
+        Returns:
+            dict: the visual properties
+        """
+        return self._vis_properties
+
+    @abstractmethod
+    def synchronize(self, time: float):
+        pass
+
+    @abstractmethod
+    def advance(self, step: float):
+        pass
+
+    def is_ok(self) -> bool:
+        return True
+
+    @abstractmethod
+    def get_pos(self) -> WAVector:
+        """Get the center of mass (COM) position of the vehicle.
+
+        Returns:
+            WAVector: the position of the vehicle
         """
         pass
 
     @abstractmethod
-    def advance(self, step):
-        """Advance the vehicle by the specified step
+    def get_rot(self) -> WAQuaternion:
+        """Get the rotation about the center of mass (COM) of the vehicle
 
-        Args:
-            step (double): how much to advance the vehicle by
+        Returns:
+            WAQuaternion: the vehicles orientation
         """
         pass
 
     @abstractmethod
-    def get_simple_state(self):
-        """Get a simple state representation of the vehicle.
+    def get_pos_dt(self) -> WAVector:
+        """Get the instantaneous velocity of the vehicle
 
-        Must return a tuple with the following values:
-            (x position, y position, yaw about the Z, speed)
+        Returns:
+            WAVector: The velocity where X is forward, Z is up and Y is left (ISO standard)
         """
         pass
 
     @abstractmethod
-    def _get_acceleration(self):
+    def get_rot_dt(self) -> WAQuaternion:
+        """Get the angular velocity of the vehicle
+
+        Returns:
+            WAQuaternion: The angular velocity
+        """
+        pass
+
+    @abstractmethod
+    def get_pos_dtdt(self) -> WAVector:
         """Get the acceleration of the vehicle
-
-        Really shouldn't be used by a controller. Made for sensor related calculations
 
         Returns:
             WAVector: The acceleration where X is forward, Z is up and Y is left (ISO standard)
@@ -108,35 +139,11 @@ class WAVehicle(ABC):
         pass
 
     @abstractmethod
-    def _get_angular_velocity(self):
-        """Get the angular velocity of the vehicle
-
-        Really shouldn't be used by a controller. Made for sensor related calculations
+    def get_rot_dtdt(self) -> WAQuaternion:
+        """Get the angular acceleration of the vehicle
 
         Returns:
-            WAVector: The angular velocity
-        """
-        pass
-
-    @abstractmethod
-    def _get_position(self):
-        """Get the position of the vehicle
-
-        Really shouldn't be used by a controller. Made for sensor related calculations
-
-        Returns:
-            WAPosition: The position of the vehicle
-        """
-        pass
-
-    @abstractmethod
-    def _get_orientation(self):
-        """Get the orientation of the vehicle
-
-        Really shouldn't be used by a controller. Made for sensor related calculations
-
-        Returns:
-            WAQuaternion: The orientation of the vehicle
+            WAQuaternion: The angular acceleration
         """
         pass
 
@@ -145,197 +152,164 @@ class WALinearKinematicBicycle(WAVehicle):
     """A linear, kinematic bicycle model
 
     Args:
+        system (WASystem): the system used to run the simulation
+        vehicle_inputs (WAVehicleInputs): The vehicle inputs
         filename (str): json specification file used to describe the parameters for the vehicle
-        x (double, optional): x position of the vehicle. Defaults to 0.
-        y (double, optional): y position of the vehicle. Defaults to 0.
-        yaw (double, optional): angle about the Z. Defaults to 0.
-        v (double, optional): speed of the vehicle. Defaults to 0.
-
-    Attributes:
-        x (double): x position of the vehicle
-        y (double): y position of the vehicle
-        yaw (double): angle about the Z
-        v (double): speed of the vehicle
-        omega (double): wheel angular velocity
-        omega_dot (double): wheel angular acceleration
-        mass (double): vehicle mass
-        a (list): 2nd order torque coefficients
-        GR (double): gear ratio
-        r_eff (double): Effective radius at which the vehicle can turn
-        J_e (double): Inertia of the vehicle
-        c_a (double): Aerodynamic coefficient
-        c_rl (double): Friction coefficient
-        c (double): Tire force
-        F_max (double): Max force imposed at the wheel
-        L (double): Vehicle wheelbase (distance between front and back axles)
-        min_steering (double): Minimum steering value allowed
-        max_steering (double): Maximum steering value allowed
-        min_throttle (double): Minimum throttle value allowed
-        max_throttle (double): Maximum throttle value allowed
-        min_braking (double): Minimum braking value allowed
-        max_braking (double): Maximum braking value allowed
+        init_pos (WAVector): initial position
+        init_rot (WAQuaternion): initial rotation
+        init_pos_dt (WAVector): initial velocity
     """
 
     # Global filenames for vehicle models
     GO_KART_MODEL_FILE = "vehicles/GoKart/GoKart_KinematicBicycle.json"
-    IAC_VEH_MODEL_FILE = "vehicles/IAC/IAC_KinematicBicycle.json"
 
-    def __init__(self, filename, x=0, y=0, yaw=0, v=0):
-        super().__init__(filename)
+    def __init__(self, system: 'WASystem', vehicle_inputs: 'WAVehicleInputs', filename: str, init_pos: WAVector = WAVector(), init_rot: WAQuaternion = WAQuaternion.from_z_rotation(0), init_pos_dt: WAVector = WAVector()):
+        super().__init__(system, vehicle_inputs, filename)
 
         # Simple state variables
-        self.x = x
-        self.y = y
-        self.yaw = yaw
-        self.v = v
-        self.acc = 0.0
+        self._x = init_pos.x
+        self._y = init_pos.y
+        self._yaw = init_rot.to_euler()[2]
+        self._v = init_pos_dt.length
+        self._acc = 0.0
 
         # Wheel angular velocity
-        self.omega = 0.0
-        self.omega_dot = 0.0
+        self._omega = 0.0
+        self._omega_dot = 0.0
 
-        self.yaw_dot = 0.0
-        self.last_yaw = 0.0
+        self._yaw_dt = 0.0
+        self._yaw_dtdt = 0.0
+        self._last_yaw = 0.0
 
-        self.initialize(load_properties_from_json(
-            filename, "Vehicle Properties"))
+        properties = load_properties_from_json(filename, "Vehicle Properties")
+        self._initialize(properties)
 
-    def initialize(self, vp):
+    def _initialize(self, vp):
+        """Initialize the vehicle parameters
+
+        Expected properties:
+            "Wheelbase" (float): distance between the front and back tire
+            "Mass" (float): mass of the vehicle
+            "Gear Ratio" (float): gear ratio of the simulated powertrain
+            "Effective Radius" (float): 
+            "Inertia" (float): Effective inertia for the vehicle
+            "Aerodynamic Coefficient" (float):
+            "Friction Coefficient" (float):
+            "C" (float)
+            "Max Force" (float)
+            "Torque Coefficients" (list)
+            "Steering" ([min, max]): Min and max throttle values
+            "Throttle" ([min, max]): Min and max throttle values
+            "Braking" ([min, max]): Min and max braking values
+
+        Args:
+            vp (dict): Vehicle preoperties (see above for expected keys)
+        """
+
         # Initialize vehicle properties
-        self.mass = vp["Mass"]
+        self._mass = vp["Mass"]
 
         # Torque coefficients
-        self.a = vp["Torque Coefficients"]
+        self._a = vp["Torque Coefficients"]
 
         # Gear ratio, effective radius and inertia
-        self.GR = vp["Gear Ratio"]
-        self.r_eff = vp["Effective Radius"]
-        self.J_e = vp["Inertia"]
+        self._GR = vp["Gear Ratio"]
+        self._r_eff = vp["Effective Radius"]
+        self._J_e = vp["Inertia"]
 
         # Aerodynamic and friction coefficients
-        self.c_a = vp["Aerodynamic Coefficient"]
-        self.c_rl = vp["Friction Coefficient"]
+        self._c_a = vp["Aerodynamic Coefficient"]
+        self._c_rl = vp["Friction Coefficient"]
 
         # Tire forces
-        self.c = vp["C"]
-        self.F_max = vp["Max Force"]
+        self._c = vp["C"]
+        self._F_max = vp["Max Force"]
 
-        self.L = vp["Wheelbase"]
-        (self.min_steering, self.max_steering) = vp["Steering"]
-        (self.min_throttle, self.max_throttle) = vp["Throttle"]
-        (self.min_braking, self.max_braking) = vp["Braking"]
+        self._L = vp["Wheelbase"]
+        (self._min_steering, self._max_steering) = vp["Steering"]
+        (self._min_throttle, self._max_throttle) = vp["Throttle"]
+        (self._min_braking, self._max_braking) = vp["Braking"]
 
-    def synchronize(self, time, vehicle_inputs):
-        """Synchronize the vehicle inputs to the values in this model
+    def synchronize(self, time):
+        s = self._vehicle_inputs.steering
+        t = self._vehicle_inputs.throttle
+        b = self._vehicle_inputs.braking
 
-        Args:
-            time (double): time at which to update the vehicle to
-            vehicle_inputs (WAVehicleInputs): vehicle inputs
-        """
-        s = vehicle_inputs.steering
-        t = vehicle_inputs.throttle
-        b = vehicle_inputs.braking
+        self._steering = np.clip(s, self._min_steering, self._max_steering)
+        self._throttle = np.clip(t, self._min_throttle, self._max_throttle)
+        self._braking = np.clip(b, self._min_braking, self._max_braking)
 
-        self.steering = np.clip(s, self.min_steering, self.max_steering)
-        self.throttle = np.clip(t, self.min_throttle, self.max_throttle)
-        self.braking = np.clip(b, self.min_braking, self.max_braking)
-
-        if self.braking > 1e-1:
-            self.throttle = -self.braking
+        if self._braking > 1e-1:
+            self._throttle = -self._braking
 
     def advance(self, step):
-        """Perform a dynamics update
-
-        Args:
-            step (double): time step to update the vehicle by
-        """
-        if self.v == 0 and self.throttle == 0:
+        # TODO: COMMENT!
+        if self._v == 0 and self._throttle == 0:
             F_x = 0
             F_load = 0
             T_e = 0
         else:
-            if self.v == 0:
+            if self._v == 0:
                 # Remove possibity of divide by zero error
-                self.v = 1e-8
-                self.omega = 1e-8
+                self._v = 1e-8
+                self._omega = 1e-8
 
             # Update engine and tire forces
-            F_aero = self.c_a * self.v ** 2
-            R_x = self.c_rl * self.v
-            F_g = self.mass * WA_GRAVITY * np.sin(0)
+            F_aero = self._c_a * self._v ** 2
+            R_x = self._c_rl * self._v
+            F_g = self._mass * WA_GRAVITY * np.sin(0)
             F_load = F_aero + R_x + F_g
-            T_e = self.throttle * (
-                self.a[0] + self.a[1] * self.omega +
-                self.a[2] * self.omega ** 2
+            T_e = self._throttle * (
+                self._a[0] + self._a[1] * self._omega +
+                self._a[2] * self._omega ** 2
             )
-            omega_w = self.GR * self.omega  # Wheel angular velocity
-            s = (omega_w * self.r_eff - self.v) / self.v  # slip ratio
-            cs = self.c * s
+            omega_w = self._GR * self._omega  # Wheel angular velocity
+            s = (omega_w * self._r_eff - self._v) / self._v  # slip ratio
+            cs = self._c * s
 
             if abs(s) < 1:
                 F_x = cs
             else:
-                F_x = self.F_max
+                F_x = self._F_max
 
-        if self.throttle < 0:
-            if self.v <= 0:
+        if self._throttle < 0:
+            if self._v <= 0:
                 F_x = 0
             else:
                 F_x = -abs(F_x)
 
         # Update state information
-        self.x += self.v * np.cos(self.yaw) * step
-        self.y += self.v * np.sin(self.yaw) * step
-        self.yaw += self.v / self.L * np.tan(self.steering) * step
-        self.v += self.acc * step
-        self.acc = (F_x - F_load) / self.mass
-        self.omega += self.omega_dot * step
-        self.omega_dot = (T_e - self.GR * self.r_eff * F_load) / self.J_e
+        self._x += self._v * np.cos(self._yaw) * step
+        self._y += self._v * np.sin(self._yaw) * step
+        self._yaw += self._v / self._L * np.tan(self._steering) * step
+        self._v += self._acc * step
+        self._acc = (F_x - F_load) / self._mass
+        self._omega += self._omega_dot * step
+        self._omega_dot = (T_e - self._GR * self._r_eff * F_load) / self._J_e
 
-        self.yaw_dot = (self.last_yaw - self.yaw) / \
-            step if abs(self.v) > 0.1 else 0
-        self.last_yaw = self.yaw
+        v_epsilon = abs(self._v) > 0.1
+        self._yaw_dt = (self._last_yaw - self._yaw) / step if v_epsilon else 0
+        self._yaw_dtdt = (self._last_yaw - self._yaw) / step if v_epsilon else 0  # noqa
+        self._last_yaw = self._yaw
 
-    def get_simple_state(self):
-        """Get a simple state representation of the vehicle.
+    def get_pos(self) -> WAVector:
+        return WAVector([self._x, self._y, 0.0])
 
-        Returns:
-            tuple: (x position, y position, yaw about the Z, speed)
-        """
-        return self.x, self.y, self.yaw, self.v
+    def get_rot(self) -> WAQuaternion:
+        return WAQuaternion.from_z_rotation(self._yaw)
 
-    def _get_acceleration(self):
-        """Get the acceleration of the vehicle
+    def get_pos_dt(self) -> WAVector:
+        return WAVector([self._v * np.cos(self._yaw), self._v * np.sin(self._yaw), 0.0])
 
-        Returns:
-            WAVector: The acceleration where X is forward, Z is up and Y is left (ISO standard)
-        """
-        angle = np.tan(np.interp(self.steering, [-1, 1], [self.min_steering, self.max_steering]))  # noqa
+    def get_rot_dt(self) -> WAQuaternion:
+        return WAQuaternion.from_z_rotation(self._yaw_dt)
+
+    def get_pos_dtdt(self) -> WAVector:
+        angle = np.tan(np.interp(self._steering, [-1, 1], [self._min_steering, self._max_steering]))  # noqa
         angle = angle if angle != 0 else 1e-3
-        tr = self.L / angle
+        tr = self._L / angle
         tr = tr if tr != 0 else 1e-3
-        return WAVector([self.acc, self.v ** 2 / tr, WA_GRAVITY])
+        return WAVector([self._acc, self._v ** 2 / tr, WA_GRAVITY])
 
-    def _get_angular_velocity(self):
-        """Get the angular velocity of the vehicle
-
-        Returns:
-            WAVector: The angular velocity
-        """
-        return WAVector([0.0, 0.0, self.yaw_dot])
-
-    def _get_position(self):
-        """Get the position of the vehicle
-
-        Returns:
-            WAQuaternion: The position of the vehicle
-        """
-        return WAVector([self.x, self.y, 0.0])
-
-    def _get_orientation(self):
-        """Get the orientation of the vehicle
-
-        Returns:
-            WAQuaternion: The orientation of the vehicle
-        """
-        return WAQuaternion.from_z_rotation(self.yaw)
+    def get_rot_dtdt(self) -> WAQuaternion:
+        return WAQuaternion.from_z_rotation(self._yaw_dtdt)

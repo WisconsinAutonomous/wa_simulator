@@ -1,5 +1,5 @@
 {
-	"Name": "TEST GPS Sensor Model",
+	"Name": "Test GPS Sensor Model",
 	"Type": "Sensor",
 	"Template": "GPS",
 

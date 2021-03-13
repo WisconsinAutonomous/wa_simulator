@@ -26,7 +26,7 @@ wa_custom_controller
 
 To begin, open `custom_controller_demo.py` in your favorite editor. I recommend [Atom](https://atom.io/) or [Visual Studio Code](https://code.visualstudio.com/).
 
-All controllers in the `wa_simulator` must [inherit](https://www.w3schools.com/python/python_inheritance.asp) from the `WAController` class. Our custom class is no exception. [Per the documentation](https://wisconsinautonomous.github.io/wa_simulator/autoapi/wa_simulator/controller/index.html#wa_simulator.controller.WAController), our class _must_ implement the `Synchronize` and `Advance` methods. The `WAController's` constructor takes a `WASystem`, so we need to have that to pass it to the underlying controller. We will also need to have a csv file that we'll read, so let's pass that in the constructor. Let's create our class and implement these methods.
+All controllers in the `wa_simulator` must [inherit](https://www.w3schools.com/python/python_inheritance.asp) from the `WAController` class. Our custom class is no exception. [Per the documentation](https://wisconsinautonomous.github.io/wa_simulator/autoapi/wa_simulator/controller/index.html#wa_simulator.controller.WAController), our class _must_ implement the `synchronize`, `advance` abd `is_ok` methods. The `WAController's` constructor takes a `WASystem` and a shared `WAVehicleInputs` object, so we need to have those to pass it to the underlying controller. We will also need to have a csv file that we'll read, so let's pass that in the constructor. Let's create our class and implement these methods.
 
 ```python
 import wa_simulator as wa
@@ -34,14 +34,18 @@ import wa_simulator as wa
 class CustomCSVController(wa.WAController):
     """Simple controller that controls the car from data in a csv file"""
 
-	def __init__(self, sys, csv_file):
-		pass
+		def __init__(self, sys, veh_inputs, csv_file):
+			pass
 
     def synchronize(self, time):
         pass
 
     def advance(self, step):
         pass
+
+		def is_ok(self):
+				# Will just always return true
+				return True
 ```
 
 With the skeleton done, let's start implementing our classes. In the `__init__` function, we need to do a bit of house keeping. First, let's save the passed csv_file so we can edit it later. Also, we want to make sure the csv file is structured how we expect before reading it, so let's call a function to verify everything's correct and then read the file. The `__init__` function should now look like this:
@@ -49,8 +53,8 @@ With the skeleton done, let's start implementing our classes. In the `__init__` 
 ```python
 ...
 
-	def __init__(self, sys, csv_file):
-		super().__init__(sys) # Calls the WAController's constructor
+	def __init__(self, sys, veh_inputs, csv_file):
+		super().__init__(sys, veh_inputs) # Calls the WAController's constructor
 
 		self.csv_file = csv_file
 
@@ -146,22 +150,21 @@ def main():
     # Create the system
     sys = wa.WASystem(step_size=1e-3)
 
-    # Create an environment using a premade environment description
-    env_filename = wa.WASimpleEnvironment.EGP_ENV_MODEL_FILE
-    env = wa.WASimpleEnvironment(env_filename, sys)
+    # Create the vehicle inputs object
+    veh_inputs = wa.WAVehicleInputs()
 
     # Create an vehicle using a premade vehicle description
     veh_filename = wa.WALinearKinematicBicycle.GO_KART_MODEL_FILE
-    veh = wa.WALinearKinematicBicycle(veh_filename)
+    veh = wa.WALinearKinematicBicycle(sys, veh_inputs, veh_filename)
 
     # Visualize the simulation using matplotlib
-    vis = wa.WAMatplotlibVisualization(veh, sys)
+    vis = wa.WAMatplotlibVisualization(sys, veh, veh_inputs)
 
     # Create our custom controller!
-    ctr = CustomCSVController(sys, 'controller_data.csv')
+    ctr = CustomCSVController(sys, veh_inputs, 'controller_data.csv')
 
     # Instantiate the simulation manager
-    sim = wa.WASimulation(sys, env, veh, vis, ctr)
+    sim = wa.WASimulationManager(sys, veh, vis, ctr)
 
     # Run the simulation
     sim.run()
@@ -193,8 +196,8 @@ import numpy as np
 class CustomCSVController(wa.WAController):
     """Simple controller that controls the car from data in a csv file"""
 
-    def __init__(self, sys, csv_file):
-        super().__init__(sys)  # Calls the WAController's constructor
+    def __init__(self, sys, veh_inputs, csv_file):
+        super().__init__(sys, veh_inputs)  # Calls the WAController's constructor
 
         self.csv_file = csv_file
 
@@ -231,27 +234,30 @@ class CustomCSVController(wa.WAController):
     def advance(self, step):
         pass
 
+		def is_ok(self):
+				# Will just always return true
+				return True
+
 
 def main():
     # Create the system
     sys = wa.WASystem(step_size=1e-3)
 
-    # Create an environment using a premade environment description
-    env_filename = wa.WASimpleEnvironment.EGP_ENV_MODEL_FILE
-    env = wa.WASimpleEnvironment(env_filename, sys)
+    # Create the vehicle inputs object
+    veh_inputs = wa.WAVehicleInputs()
 
     # Create an vehicle using a premade vehicle description
     veh_filename = wa.WALinearKinematicBicycle.GO_KART_MODEL_FILE
-    veh = wa.WALinearKinematicBicycle(veh_filename)
+    veh = wa.WALinearKinematicBicycle(sys, veh_inputs, veh_filename)
 
     # Visualize the simulation using matplotlib
-    vis = wa.WAMatplotlibVisualization(veh, sys)
+    vis = wa.WAMatplotlibVisualization(sys, veh, veh_inputs)
 
     # Create our custom controller!
     ctr = CustomCSVController(sys, 'controller_data.csv')
 
     # Instantiate the simulation manager
-    sim = wa.WASimulation(sys, env, veh, vis, ctr)
+    sim = wa.WASimulationManager(sys, veh, vis, ctr)
 
     # Run the simulation
     sim.Run()

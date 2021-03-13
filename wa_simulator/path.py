@@ -9,7 +9,7 @@ in the LICENSE file at the top level of the repo
 """
 
 
-from abc import ABC, abstractmethod  # Abstract Base Class
+from abc import abstractmethod  # Abstract Base Class
 
 # WA Simulator
 from wa_simulator.core import WAVector
@@ -17,25 +17,27 @@ from wa_simulator.core import WAVector
 # Other imports
 import numpy as np
 import matplotlib.pyplot as plt
+import warnings
 from scipy.interpolate import splprep, splev
 from scipy.spatial.distance import cdist
 
 
-def load_waypoints_from_csv(filename, **kwargs):
-    """Get data points from a csv file. 
+def load_waypoints_from_csv(filename, **kwargs) -> np.ndarray:
+    r"""Get data points from a csv file.
 
-    Should be structured as "x,y,z\nx,y,z...". See NumPy.loadtxt for more info on arguments.
+    Should be structured as "x,y,z\\nx,y,z...". See `NumPy.loadtxt <https://numpy.org/doc/stable/reference/generated/numpy.loadtxt.html>`_
+    for more info on arguments.
 
     Args:
         filename (str): file to open and read data from
 
     Returns:
-        np.ndarray: a nxm array with each data point in each row
+        np.ndarray: an n x m array with each data point in each row
     """
     return np.loadtxt(filename, **kwargs)
 
 
-def calc_path_length_cummulative(x, y):
+def calc_path_length_cummulative(x, y) -> np.ndarray:
     """Get the cummulative distance along a path provided the given x and y position values
 
     Args:
@@ -48,7 +50,7 @@ def calc_path_length_cummulative(x, y):
     return np.cumsum(np.linalg.norm(np.diff(np.column_stack((x, y)), axis=0), axis=1))
 
 
-def calc_path_curvature(dx, dy, ddx, ddy):
+def calc_path_curvature(dx, dy, ddx, ddy) -> np.ndarray:
     """Calculate the curvature of a path at each point
 
     Args:
@@ -66,21 +68,50 @@ def calc_path_curvature(dx, dy, ddx, ddy):
 class WAPath:
     """Base Path object. To be used to generate paths or trajectories for path planning and/or path following
 
-    Attributes:
-        parameters (WAPath.WAPathParameters): The parameters used to interpolate along the path
+    All path objects *should* be implemented in a 3D coordinate space! This means, waypoints should be a list or np.ndarray of
+    lists or np.ndarrays of size 3!
+
+    Example:
+
+    .. highlight:: python
+    .. code-block:: python
+
+        from wa_simulator.path import WAPath, load_waypoints_from_csv
+
+        # Simple 2D Path
+        waypoints = [
+            [1,2,0],
+            [2,2,0],
+            [5,5,0],
+        ]
+        # Not actually allowed since WAPath is abstract (has abstract methods)
+        path_2D = WAPath(waypoints)
+
+        # Simple 3D Path
+        waypoints = [
+            [1,2,1],
+            [2,2,2],
+            [5,5,1],
+        ]
+        # Not actually allowed since WAPath is abstract (has abstract methods)
+        path_3D = WAPath(waypoints)
+
+        # JSON loaded path
+        waypoints = load_waypoints_from_csv("path.csv")
+        # Not actually allowed since WAPath is abstract (has abstract methods)
+        path_json = WAPath(waypoints)
+
+    Args:
         waypoints (np.ndarray): The waypoints that the path interpolates about or maintains
-        points (np.ndarray): The interpolated points (can be the waypoints)
+        **kwargs: Additional keyworded arguments.
+
+    Raises:
+        TypeError: the waypoints array type is not as expected
     """
 
-    class WAPathParameters:
-        """Holds the parameters for the interpolated path
+    def __init__(self, waypoints=None, **kwargs):
+        self._parameters = kwargs
 
-        Attributes:
-            is_closed (bool): Whether the path is a closed loop. Defaults to True. 
-        """
-        is_closed = True
-
-    def __init__(self, waypoints=None, parameters=WAPathParameters()):
         # Check points type and shape
         if isinstance(waypoints, list):
             waypoints = np.array(waypoints)
@@ -88,34 +119,85 @@ class WAPath:
             raise TypeError(
                 'waypoints type is not recognized. List or NumPy array required.')
 
-        self.waypoints = waypoints
-        self.points = waypoints
-        self.d_points = None
+        if 3 not in waypoints.shape:
+            raise ValueError(
+                f'waypoints shape is {waypoints.shape}, expected (n, 3) or (3, n).')
 
-        self.parameters = parameters
+        self._waypoints = waypoints
+        self._points = waypoints
+        self._d_points = None
 
-    @abstractmethod
-    def calc_closest_point(self, pos):
+        self._is_closed = False if 'is_closed' not in kwargs else kwargs['is_closed']
+
+    def get_points(self, der=0) -> np.ndarray:
+        """Get the points for this path
+
+        Args:
+            der (int): derivative to grab. Defaults to 0 (just the points).
+
+        Return:
+            np.ndarray: The points array
+
+        Raises:
+            ValueError: If der is not a supported value
+        """
+        if der == 0:
+            return self._points
+        elif der == 1:
+            return self._d_points
+        else:
+            raise ValueError(f'der value of {der} is not supported.')
+
+    def get_waypoints(self) -> np.ndarray:
+        """Get the waypoints for this path
+
+        Return:
+            np.ndarray: The waypoints array
+        """
+        return self._waypoints
+
+    def is_closed(self) -> bool:
+        """Get whether the path is closed
+
+        Returns:
+            bool: Is the path closed?
+        """
+        return self._is_closed
+
+    def get_parameters(self) -> dict:
+        """Get the parameters passed in to the this function.
+
+        Track objects essentially copy other paths, so we want to keep the parameters for later
+
+        Returns:
+            dict: The saved parameteres
+        """
+        return self._parameters
+
+    @ abstractmethod
+    def calc_closest_point(self, pos: WAVector, return_idx: bool = False) -> WAVector:
         """Calculate the closest point on the path from the passed position
 
         Args:
-            pos (wa.WAVector): the position to find the closest point on the path to
+            pos (WAVector): the position to find the closest point on the path to
+            return_idx (bool, optional): return the index of the point with respect to the self._points array
 
         Returns:
-            wa.WAVector: the closest point on the path
+            WAVector: the closest point on the path
+            int (optional): the index of the point on the path
         """
         pass
 
-    @abstractmethod
-    def plot(self, *args, show=True, **kwargs):
+    @ abstractmethod
+    def plot(self, *args, show: bool = True, **kwargs):
         """Plot the path
 
         Args:
+            *args: Positional arguments that are passed directly to the plotter
             show (bool, optional): show the plot window. Defaults to True.
+            **kwargs: Keyworded arguments passed to the plotter
         """
-        plt.plot(self.points[:, 0], self.points[:, 1], *args, **kwargs)
-        if show:
-            plt.show()
+        pass
 
 
 class WASplinePath(WAPath):
@@ -131,59 +213,46 @@ class WASplinePath(WAPath):
         TypeError: the waypoints array type is not as expected
     """
 
-    class WASplinePathParameters(WAPath.WAPathParameters):
-        """The parameters for a WASplinePath
-
-        Attributes:
-            num_points (int): number of points to interpolate along the path. Defaults to 100.
-            smoothness (float): How close the path is to the waypoints. Defaults to 0.0 (goes through all the points).
-        """
-        num_points = 100
-        smoothness = 0.0
-
-    def __init__(self, waypoints, parameters=None, **kwargs):
+    def __init__(self, waypoints, **kwargs):
         # Check inputs
-        parameters = parameters if parameters is not None else self.WASplinePathParameters()
-        allowed_args = {'num_points', 'smoothness', 'is_closed'}
-        for key, value in kwargs.items():
-            if key not in allowed_args:
-                raise ValueError(
-                    f'Passed argument {key} is not allowed. Must be any of the following: {allowed_args}')
-            setattr(parameters, key, value)
+        allowed_args = {'num_points': 100, 'smoothness': 0.0, 'is_closed': False}  # noqa
+        for key, value in allowed_args.items():
+            if key in kwargs:
+                value = kwargs[key]
+            setattr(self, '_' + key, value)
 
-        super().__init__(waypoints, parameters)
+        super().__init__(waypoints, **kwargs)
+
+        # Check if the path is actuall closed
+        if self._is_closed and not np.array_equal(waypoints[0], waypoints[-1]):
+            warnings.warn(
+                "is_closed has been set to True, but the first and last waypoints are not equal. Setting is_closed to False.", RuntimeWarning, stacklevel=100)
+            self._is_closed = False
 
         # Interpolate the path
-        tck, u = splprep(self.waypoints.T, s=self.parameters.smoothness,
-                         per=self.parameters.is_closed)
-        u_new = np.linspace(u.min(), u.max(), self.parameters.num_points)
+        tck, u = splprep(self._waypoints.T, s=self._smoothness, per=self._is_closed)  # noqa
+        u_new = np.linspace(u.min(), u.max(), self._num_points)
 
         # Evaluate the interpolation to get values
-        self.x, self.y, self.z = splev(u_new, tck, der=0)  # position
-        self.dx, self.dy, self.dz = splev(u_new, tck, der=1)  # first derivative # noqa
-        self.ddx, self.ddy, self.ddz = splev(u_new, tck, der=2)  # second derivative # noqa
+        self._x, self._y, self._z = splev(u_new, tck, der=0)  # position
+        self._dx, self._dy, self._dz = splev(u_new, tck, der=1)  # first derivative # noqa
+        self._ddx, self._ddy, self._ddz = splev(u_new, tck, der=2)  # second derivative # noqa
 
         # store the points for later
-        self.points = np.column_stack((self.x, self.y, self.z))
-        self.d_points = np.column_stack((self.dx, self.dy, self.dz))
+        self._points = np.column_stack((self._x, self._y, self._z))
+        self._d_points = np.column_stack((self._dx, self._dy, self._dz))
 
         # Variables for tracking path
-        self.last_index = None
+        self._last_index = None
 
-    def calc_closest_point(self, pos):
-        """Calculate the closest point on the path from the passed position
-
-        Args:
-            pos (wa.WAVector): the position to find the closest point on the path to
-
-        Returns:
-            wa.WAVector: the closest point on the path
-            idx: the index of the point on the path
-        """
-        dist = cdist(self.points, [pos])
+    def calc_closest_point(self, pos: WAVector, return_idx: bool = False) -> (WAVector, int):
+        dist = cdist(self._points, [pos])
         idx, = np.argmin(dist, axis=0)
 
-        return WAVector([self.x[idx], self.y[idx], self.z[idx]]), idx
+        pos = WAVector([self._x[idx], self._y[idx], self._z[idx]])
+        if return_idx:
+            return pos, idx
+        return pos
 
     def plot(self, *args, show=True, **kwargs):
         """Plot the path
@@ -191,22 +260,22 @@ class WASplinePath(WAPath):
         Args:
             show (bool, optional): show the plot window. Defaults to True.
         """
-        plt.plot(self.x, self.y, *args, **kwargs)
+        plt.plot(self._x, self._y, *args, **kwargs)
         if show:
             plt.show()
 
-    def calc_length_cummulative(self):
+    def calc_length_cummulative(self) -> np.ndarray:
         """Get the cummulative distance along the path
 
         Returns:
             np.ndarray: Cummulative distance along the path
         """
-        return calc_path_length_cummulative(self.x, self.y)
+        return calc_path_length_cummulative(self._x, self._y)
 
-    def calc_curvature(self):
+    def calc_curvature(self) -> np.ndarray:
         """Get the curvature at each point on the path
 
         Returns:
             np.ndarray: Curvature at each point on the path
         """
-        return calc_path_curvature(self.dx, self.dy, self.ddx, self.ddy)
+        return calc_path_curvature(self._dx, self._dy, self._ddx, self._ddy)

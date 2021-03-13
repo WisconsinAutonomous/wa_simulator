@@ -25,13 +25,16 @@ class WAIrrlichtController(WAController):
     to work. Currently not supported on Mac when the anaconda build is used
 
     Args:
+        system (WASystem): The system used to manage the simulation
+        vehicle_inputs (WAVehicleInputs): The vehicle inputs
         visualization (WAIrrlichtVisualization): the irrlicht visualization
-        system (WASystem): the system
     """
 
-    def __init__(self, system, visualization):
+    def __init__(self, system, vehicle_inputs, visualization):
+        super().__init__(system, vehicle_inputs)
+
         # Create the interactive driver
-        driver = veh.ChIrrGuiDriver(visualization.app)
+        driver = veh.ChIrrGuiDriver(visualization._app)
 
         render_step_size = system.render_step_size
 
@@ -62,6 +65,12 @@ class WAIrrlichtController(WAController):
             step (double): step to advance by
         """
         self.driver.Advance(step)
+
+        # Update the inputs
+        inputs = self.driver.GetInputs()
+        self._vehicle_inputs.steering = inputs.m_steering
+        self._vehicle_inputs.throttle = inputs.m_throttle
+        self._vehicle_inputs.braking = inputs.m_braking
 
     def get_inputs(self):
         """Get the vehicle inputs

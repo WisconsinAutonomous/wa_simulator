@@ -34,9 +34,11 @@ release = wa_simulator.__version__
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    "rinoh.frontend.sphinx",
+    # "rinoh.frontend.sphinx",
     "sphinx.ext.napoleon",
     "sphinx.ext.autodoc",
+    "sphinx.ext.todo",
+    "sphinx.ext.viewcode",
     "autoapi.extension",
     "sphinx.ext.githubpages",
     "myst_parser",
@@ -51,11 +53,18 @@ autoapi_options = [
     "show-module-summary",
     "special-members",
     "imported-members",
+    # "inherited-members"  # Doesn't work with viewcode extension
 ]
 autoapi_ignore = ["*_import*"]
+autoapi_keep_files = True
 autoapi_generate_api_docs = True
 autoapi_add_toctree_entry = False
 autoapi_template_dir = "_templates"
+
+viewcode_enable_epub = True
+
+# Display todos by setting to True
+todo_include_todos = True
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]

@@ -5,8 +5,8 @@ import numpy as np
 class CustomCSVController(wa.WAController):
     """Simple controller that controls the car from data in a csv file"""
 
-    def __init__(self, sys, csv_file):
-        super().__init__(sys)  # Calls the WAController's constructor
+    def __init__(self, sys, veh_inputs, csv_file):
+        super().__init__(sys, veh_inputs)  # Calls the WAController's constructor
 
         self.csv_file = csv_file
 
@@ -27,6 +27,8 @@ class CustomCSVController(wa.WAController):
         return data
 
     def synchronize(self, time):
+        super().synchronize(time)
+
         # Check that there is still data left to read
         if len(self.ctlr_data) == 0:
             return
@@ -43,27 +45,30 @@ class CustomCSVController(wa.WAController):
     def advance(self, step):
         pass
 
+    def is_ok(self):
+        # Will just always return true
+        return True
+
 
 def main():
     # Create the system
     sys = wa.WASystem(step_size=1e-3)
 
-    # Create an environment using a premade environment description
-    env_filename = wa.WASimpleEnvironment.EGP_ENV_MODEL_FILE
-    env = wa.WASimpleEnvironment(env_filename, sys)
+    # Create the vehicle inputs object
+    veh_inputs = wa.WAVehicleInputs()
 
     # Create an vehicle using a premade vehicle description
     veh_filename = wa.WALinearKinematicBicycle.GO_KART_MODEL_FILE
-    veh = wa.WALinearKinematicBicycle(veh_filename)
+    veh = wa.WALinearKinematicBicycle(sys, veh_inputs, veh_filename)
 
     # Visualize the simulation using matplotlib
-    vis = wa.WAMatplotlibVisualization(veh, sys)
+    vis = wa.WAMatplotlibVisualization(sys, veh, veh_inputs, plotter_type='multi')
 
     # Create our custom controller!
-    ctr = CustomCSVController(sys, 'controller_data.csv')
+    ctr = CustomCSVController(sys, veh_inputs, 'controller_data.csv')
 
     # Instantiate the simulation manager
-    sim = wa.WASimulation(sys, env, veh, vis, ctr)
+    sim = wa.WASimulationManager(sys, veh, vis, ctr)
 
     # Run the simulation
     sim.run()

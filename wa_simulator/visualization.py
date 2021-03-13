@@ -11,7 +11,10 @@ in the LICENSE file at the top level of the repo
 from abc import ABC, abstractmethod  # Abstract Base Class
 
 # WA Simulator
+from wa_simulator.base import WABase
 from wa_simulator.inputs import WAVehicleInputs
+from wa_simulator.vehicle import WAVehicle
+from wa_simulator.system import WASystem
 
 # Other imports
 from multiprocessing import Process, Pipe, Barrier, Queue, set_start_method
@@ -21,100 +24,78 @@ from matplotlib.animation import FuncAnimation
 from IPython.display import display, clear_output
 
 
-class WAVisualization(ABC):
+class WAVisualization(WABase):
     """Base class to be used for visualization of the simulation world.
 
-    Derived classes will use various world attributes to visualize the simulation
+    Inherits from WABase, so this class and any derived classes can be seen as components. Derived classes
+    can/should use various world attributes to visualize the simulation. `Matplotlib <https://matplotlib.org/>`_ and
+    `irrlicht <http://irrlicht.sourceforge.net/>`_ are two example visualizations that, depending on the simulation
+    configuration, users may select. Additional visualizations may be implemented, as well.
     """
 
     @abstractmethod
-    def synchronize(self, time, vehicle_inputs):
-        """Synchronize the visualization at the specified time with the passed vehicle inputs
-
-        Args:
-            time (double): time to synchronize the visualization to
-            vehicle_inputs (WAVehicleInputs): inputs to the vehicle. Can be helpful for visualization (debug) purposes.
-        """
+    def synchronize(self, time: float):
         pass
 
     @abstractmethod
-    def advance(self, step):
-        """Advance the state of the visualization by the specified step
-
-        Args:
-            step (double): step size to update the visualization by
-        """
+    def advance(self, step: float):
         pass
 
     @abstractmethod
-    def is_ok(self):
-        """Verifies the visualization is running properly.
+    def is_ok(self) -> bool:
+        pass
 
-        Returns:
-            bool: Whether the visualization is running correctly.
+    @abstractmethod
+    def visualize(self, path: 'WAPath', *args, **kwargs):
+        """Helper method that visualizes a WAPath in the chosen visualizer
+
+        Different visualizations will visualize a path in different ways. This is an abstract method,
+        so it must be implemented
+
+        Args:
+            path (WAPath): The path to visualize
+            *args: Positional arguments that are specific to the underyling visualizer implementation
+            **kwargs: Keyworded arguments that are specific to the underlying visualizer implementation
         """
         pass
 
-
-class WAMultipleVisualizations(WAVisualization):
-    """Wrapper class for multiple visualizations. Allows multiple visualizations to be used.
-
-    Args:
-        visualizations (list): List of visualizations.
-    """
-
-    def __init__(self, visualizations):
-        self.visualizations = visualizations
-
-    def synchronize(self, time, vehicle_inputs):
-        """Synchronize each visualization at the specified time
-
-        Args:
-            time (double): the time at which the visualization should synchronize all modules
-            vehicle_inputs (WAVehicleInputs): vehicle inputs
-        """
-        for vis in self.visualizations:
-            vis.synchronize(time, vehicle_inputs)
-
-    def advance(self, step):
-        """Advance the state of each managed visualization
-
-        Args:
-            step (double): the time step at which the visualization should be advanced
-        """
-        for vis in self.visualizations:
-            vis.advance(step)
-
-    def is_ok(self):
-        """Verifies the visualization is running properly.
-
-        Returns:
-            bool: Whether the visualization is running correctly.
-        """
-        for vis in self.visualizations:
-            if not vis.is_ok():
-                return False
-        return True
+# -------------------------
+# Matplotlib helper classes
+# -------------------------
 
 
 class _MatplotlibVehicle:
-    """Plotter class for a matplotlib vehicle"""
+    """Plotter class for a matplotlib vehicle
 
-    def __init__(self, properties):
+    Required visualization properties (keys present in the :code:`properties` dictionary):
+        "Tire Distance To Front" (float): Offset distance between the COM and the front axle
+        "Tire Distance To Rear" (float): Offset distance between the COM and the rear axle
+        "Body Distance To Front" (float): Offset distance between the COM and the front bumper
+        "Body Distance To Rear" (float): Offset distance between the COM and the rear bumper
+        "Body Width" (float): Width of the chassis
+        "Tire Width" (float): Tread width of each tire
+        "Tire Diameter" (float): Diameter of each tire (in a 2D visualization, will just be length)
+        "Track Width" (float): Distance between the wheels on either side of the vehicle
+
+
+    Args:
+        properties (dict): The properties associated with the vehicle representation. See above for required keys.
+    """
+
+    def __init__(self, properties: dict):
         body_Lf = properties["Body Distance to Front"]
         body_Lr = properties["Body Distance to Rear"]
         body_width = properties["Body Width"]
-        body_length = properties["Body Length"]
         tire_width = properties["Tire Width"]
         tire_diameter = properties["Tire Diameter"]
 
-        self.Lf = properties["Tire Distance to Front"]
-        self.Lr = properties["Tire Distance to Rear"]
-        self.track_width = properties["Track Width"]
-        self.wheelbase = self.Lf + self.Lr
+        self._Lf = properties["Tire Distance to Front"]
+        self._Lr = properties["Tire Distance to Rear"]
+        self._track_width = properties["Track Width"]
+        self._wheelbase = self._Lf + self._Lr
 
         # Visualization shapes
-        self.outline = np.array(
+        self._outline = np.array(
             [
                 [-body_Lr, body_Lf, body_Lf, -body_Lr, -body_Lr],
                 [
@@ -142,45 +123,126 @@ class _MatplotlibVehicle:
             ]
         )
 
-        self.rr_wheel = np.copy(wheel)
-        self.rl_wheel = np.copy(wheel)
-        self.rl_wheel[1, :] *= -1
+        self._rr_wheel = np.copy(wheel)
+        self._rl_wheel = np.copy(wheel)
+        self._rl_wheel[1, :] *= -1
 
-        self.fr_wheel = np.copy(wheel)
-        self.fl_wheel = np.copy(wheel)
-        self.fl_wheel[1, :] *= -1
+        self._fr_wheel = np.copy(wheel)
+        self._fl_wheel = np.copy(wheel)
+        self._fl_wheel[1, :] *= -1
 
-    def initialize(self, ax, cabcolor="-k", wheelcolor="-k"):
-        """Initialize plotting for the matplotlib vehicle"""
+    def initialize(self, ax, cabcolor: str = "-k", wheelcolor: str = "-k"):
+        """Initialize the plotting window for the matplotlib vehicle
+
+        Will save matplotlib returned objects to be used for plotting later.
+
+        Args:
+            ax (matplotlib.axes): the axes to plot the vehicle on
+            cabcolor (str): The cab color in matplotlib readable format. Defaults to solid black.
+            wheelcolor (str): The wheel color in matplotlib readable format. Defaults to solid black.
+        """
         cab, = ax.plot(
-            np.array(self.outline[0, :]).flatten(),
-            np.array(self.outline[1, :]).flatten(),
+            np.array(self._outline[0, :]).flatten(),
+            np.array(self._outline[1, :]).flatten(),
             cabcolor,
         )
         fr, = ax.plot(
-            np.array(self.fr_wheel[0, :]).flatten(),
-            np.array(self.fr_wheel[1, :]).flatten(),
+            np.array(self._fr_wheel[0, :]).flatten(),
+            np.array(self._fr_wheel[1, :]).flatten(),
             wheelcolor,
         )
         rr, = ax.plot(
-            np.array(self.rr_wheel[0, :]).flatten(),
-            np.array(self.rr_wheel[1, :]).flatten(),
+            np.array(self._rr_wheel[0, :]).flatten(),
+            np.array(self._rr_wheel[1, :]).flatten(),
             wheelcolor,
         )
         fl, = ax.plot(
-            np.array(self.fl_wheel[0, :]).flatten(),
-            np.array(self.fl_wheel[1, :]).flatten(),
+            np.array(self._fl_wheel[0, :]).flatten(),
+            np.array(self._fl_wheel[1, :]).flatten(),
             wheelcolor,
         )
         rl, = ax.plot(
-            np.array(self.rl_wheel[0, :]).flatten(),
-            np.array(self.rl_wheel[1, :]).flatten(),
+            np.array(self._rl_wheel[0, :]).flatten(),
+            np.array(self._rl_wheel[1, :]).flatten(),
             wheelcolor,
         )
-        self.mat_vehicle = (cab, fr, rr, fl, rl)
 
-    def transform(self, entity, x, y, yaw, alpha=0, x_offset=0, y_offset=0):
-        """Helper function to transfrom a numpy entity by the specified values"""
+        # TODO: Do these variables go out of scope? Are variables copied?
+        self._mat_vehicle = (cab, fr, rr, fl, rl)
+
+    def update(self, x: float, y: float, yaw: float, steering: float):
+        """Update the state of the matplotlib representation of the vehicle
+
+        Args:
+            x (float): x position of the vehicle
+            y (float): y position of the vehicle
+            yaw (float): yaw rotation of the vehicle about the z (up)
+            steering (float): steering angle of the vehicle
+        """
+
+        # TODO: I think irrlicht is backwards, so flip plotting so steering and visuals match
+        yaw *= -1
+        steering *= -1
+
+        # Update the position of each entity
+        # All updates are copies of the original array, so each update is basically a fresh update
+        fr_wheel = self._transform(
+            self._fr_wheel,
+            x,
+            y,
+            yaw,
+            alpha=steering,
+            x_offset=self._Lf,
+            y_offset=-self._track_width,
+        )
+        fl_wheel = self._transform(
+            self._fl_wheel,
+            x,
+            y,
+            yaw,
+            alpha=steering,
+            x_offset=self._Lf,
+            y_offset=self._track_width,
+        )
+        rr_wheel = self._transform(
+            self._rr_wheel, x, y, yaw, x_offset=-self._Lr, y_offset=-self._track_width
+        )
+        rl_wheel = self._transform(
+            self._rl_wheel, x, y, yaw, x_offset=-self._Lr, y_offset=self._track_width
+        )
+        outline = self._transform(self._outline, x, y, yaw)
+
+        (cab, fr, rr, fl, rl) = self._mat_vehicle
+
+        cab.set_ydata(np.array(outline[1, :]).flatten())
+        cab.set_xdata(np.array(outline[0, :]).flatten())
+        fr.set_ydata(np.array(fr_wheel[1, :]).flatten())
+        fr.set_xdata(np.array(fr_wheel[0, :]).flatten())
+        rr.set_ydata(np.array(rr_wheel[1, :]).flatten())
+        rr.set_xdata(np.array(rr_wheel[0, :]).flatten())
+        fl.set_ydata(np.array(fl_wheel[1, :]).flatten())
+        fl.set_xdata(np.array(fl_wheel[0, :]).flatten())
+        rl.set_ydata(np.array(rl_wheel[1, :]).flatten())
+        rl.set_xdata(np.array(rl_wheel[0, :]).flatten())
+
+    def _transform(self, entity: np.ndarray, x: float, y: float, yaw: float, alpha: float = 0, x_offset: float = 0, y_offset: float = 0):
+        """Helper function to transfrom a numpy entity by the specified values
+
+        There are two transformations that occur. First is considered "static". A simple transformation matrix is constructed where
+        the array is rotated by some yaw about the z and a translation from (0,0). A second transformation matrix is then dotted to
+        "add" another transform that will account for the previous transformations. This second transformation is used for wheels which
+        have the same rotation and position as the chassis, but also are offset and rotated by some value depending on the steering
+        angle and the position of the tire relative to the COM.
+
+        Args:
+           entity (np.ndarray): The numpy array to transform
+           x (float): The static x translation (offset will be applied post rotation)
+           y (float): The static y translation (offset will be applied post rotation)
+           yaw (float): The static rotation (alpha applied post this rotation)
+           alpha (float): The steering angle rotation applied in the second matrix
+           x_offset (float): The offset translation in the x direction applied in the second matrix
+           y_offset (float): The offset translation in the y direction applied in the second matrix
+        """
         T = np.array(
             [[np.cos(yaw), np.sin(yaw), x],
              [-np.sin(yaw), np.cos(yaw), y], [0, 0, 1]]
@@ -194,61 +256,22 @@ class _MatplotlibVehicle:
         )
         return T.dot(entity)
 
-    def update(self, x, y, yaw, steering):
-        """Update the state of the matplotlib representation of the vehicle"""
-
-        yaw *= -1
-        steering *= -1
-
-        # Update the position of each entity
-        fr_wheel = self.transform(
-            self.fr_wheel,
-            x,
-            y,
-            yaw,
-            alpha=steering,
-            x_offset=self.Lf,
-            y_offset=-self.track_width,
-        )
-        fl_wheel = self.transform(
-            self.fl_wheel,
-            x,
-            y,
-            yaw,
-            alpha=steering,
-            x_offset=self.Lf,
-            y_offset=self.track_width,
-        )
-        rr_wheel = self.transform(
-            self.rr_wheel, x, y, yaw, x_offset=-self.Lr, y_offset=-self.track_width
-        )
-        rl_wheel = self.transform(
-            self.rl_wheel, x, y, yaw, x_offset=-self.Lr, y_offset=self.track_width
-        )
-        outline = self.transform(self.outline, x, y, yaw)
-
-        (cab, fr, rr, fl, rl) = self.mat_vehicle
-
-        cab.set_ydata(np.array(outline[1, :]).flatten())
-        cab.set_xdata(np.array(outline[0, :]).flatten())
-        fr.set_ydata(np.array(fr_wheel[1, :]).flatten())
-        fr.set_xdata(np.array(fr_wheel[0, :]).flatten())
-        rr.set_ydata(np.array(rr_wheel[1, :]).flatten())
-        rr.set_xdata(np.array(rr_wheel[0, :]).flatten())
-        fl.set_ydata(np.array(fl_wheel[1, :]).flatten())
-        fl.set_xdata(np.array(fl_wheel[0, :]).flatten())
-        rl.set_ydata(np.array(rl_wheel[1, :]).flatten())
-        rl.set_xdata(np.array(rl_wheel[0, :]).flatten())
-
 
 class _MatplotlibSimpleDashboard:
-    """Simple dashboard with selected information that will be displayed within a matplotlib plot window"""
+    """Simple dashboard with selected information that will be displayed within a matplotlib plot window
+
+    TODO: Can we make this a base class and have multiple dashboards (i.e. just make this configurable)
+    """
 
     def initialize(self, ax):
-        """Initialize the annotation"""
+        """Initialize the annotation
+
+        Args:
+            ax (matplotlib.axes): The axes to place the annotation on
+        """
 
         bbox_props = dict(boxstyle="round", fc="w", ec="0.5", alpha=0.9)
-        self.annotation = ax.annotate(
+        self._annotation = ax.annotate(
             "",
             xy=(0.97, 0.7),
             xytext=(0, 10),
@@ -260,8 +283,15 @@ class _MatplotlibSimpleDashboard:
             bbox=bbox_props,
         )
 
-    def update(self, vehicle_inputs, time, speed):
-        """Update the annotation"""
+    def update(self, vehicle_inputs: WAVehicleInputs, time: float, speed: float):
+        """Update the dashboard
+
+        Args:
+            vehicle_inputs (WAVehicleInputs): The inputs for the vehicle. Visualized in the simple annotation.
+            time (float): The current time of the simulation
+            speed (float): The instantaneous speed of the vehicle
+        """
+
         text = (
             f"Time :: {time:.2f}\n"
             f"Steering :: {vehicle_inputs.steering:.2f}\n"
@@ -269,122 +299,243 @@ class _MatplotlibSimpleDashboard:
             f"Braking :: {vehicle_inputs.braking:.2f}\n"
             f"Speed :: {speed:.2f}"
         )
-        self.annotation.set_text(text)
+        self._annotation.set_text(text)
 
 
-class _MatplotlibPlotter(ABC):
-    """Base class for matplotlib visualization"""
+class _MatplotlibPlotter(WABase):
+    """Base class for matplotlib visualization
 
-    class Event:
-        def __init__(self, name, value):
+    Provides base implementation to be used for all subsequent implementors.
+
+    Args:
+        mat_vehicle (_MatplotlibVehicle): The matplotlib vehicle representation
+        dashboard (_MatplotlibSimpleDashboard): The dashboard that displays information related to the vehicle state
+        static (bool): if desireable, the matplotlib window can update its axes to "follow" the vehicle. Default is False (follows the vehicle)
+        padding (float): Padding between the vehicle's COM and the border of the plot window. Default is 25
+        xlim (tuple): x axis limits that are used if static is set to True
+        ylim (tuple): y axis limits that are used if static is set to True
+    """
+
+    class _Event:
+        """Event object that maintains the name of the event and the returned value.
+
+        In matplotlib, callbacks have a name and typically a few class attributes available.
+        In this simulator, we only need to pass around the values we want.
+
+        Args:
+            name (str): The name of the event
+            value (any): The value associated with the event
+
+        Attributes:
+            name (str): The name of the event
+            value (any): The value associated with the event
+        """
+
+        def __init__(self, name: str, value):
             self.name = name
             self.value = value
 
-    def __init__(self, mat_vehicle, dashboard, static=False, padding=25, xlim=(-50, 50), ylim=(50, -50)):
-        self.mat_vehicle = mat_vehicle
-        self.dashboard = dashboard
+    def __init__(self, mat_vehicle: _MatplotlibVehicle, dashboard: _MatplotlibSimpleDashboard, static: bool = False, padding: float = 25, xlim: tuple = (-50, 50), ylim: tuple = (50, -50)):
+        self._mat_vehicle = mat_vehicle
+        self._dashboard = dashboard
 
-        self.vehicle_inputs = WAVehicleInputs()
-        self.time = 0
+        self._vehicle_inputs = WAVehicleInputs()
+        self._state = (0, 0, 0, 0)
+        self._time = 0
 
-        self.static = static
-        self.padding = padding
-        self.xlim = xlim
-        self.ylim = ylim
+        self._static = static
+        self._padding = padding
+        self._xlim = xlim
+        self._ylim = ylim
 
         # Asynchronous Matplotlib events
-        self.events = dict()
+        self._events = dict()
 
-    def _initialize_plot(self):
-        """Initialize a matplotlib plot and pass the axes to the vehicle and dashboard"""
-        # Initial plotting setup
-        self.fig, self.ax = plt.subplots(figsize=(8, 8))
+    def set_vehicle(self, vehicle: WAVehicle):
+        """Set the vehicle object
 
-        # Plot styling
-        self.ax.set_xlim(*self.xlim)
-        self.ax.set_ylim(*self.ylim)
+        Args:
+            vehicle (WAVehicle): The vehicle 
+        """
+        self._vehicle = vehicle
 
-        self.ax.grid(True)
-        self.ax.set_aspect("equal", adjustable="box")
+    def set_vehicle_inputs(self, vehicle_inputs: WAVehicleInputs):
+        """Set the vehicle inputs object
 
-        # Initialize the plotters
-        self.mat_vehicle.initialize(self.ax)
-        self.dashboard.initialize(self.ax)
+        Args:
+            vehicle_inputs (WAVehicleInputs): The vehicle inputs
+        """
+        self._vehicle_inputs = vehicle_inputs
 
-    def synchronize(self, time, vehicle_inputs):
-        """Saves values to be visualized in matplotlib."""
-        self.vehicle_inputs = vehicle_inputs
-        self.time = time
+    def synchronize(self, time: float):
+        # Save values for later
+        self._time = time
 
-    @abstractmethod
-    def advance(self, step, state):
-        pass
+    def advance(self, step: float):
+        # Update the state
+        pos = self._vehicle.get_pos()
+        yaw = self._vehicle.get_rot().to_euler()[2]
+        v = self._vehicle.get_pos_dt().length
+        self._state = (pos.x, pos.y, yaw, v)
 
     @abstractmethod
     def register_key_press_event(self, callback):
-        pass
+        """Register callback with a key press event in the matplotlib window
 
-    @abstractmethod
-    def is_alive(self):
+        # matplotlib.backend_bases.KeyEvent>`_ provide an event
+        `Matplotlib KeyEvents <https://matplotlib.org/stable/api/backend_bases_api.html
+        object with various attributes. In the case of controllers, we only really need the keypressed and not necessarily the location of anything.
+
+        .. todo::
+            Add support for more general callbacks (i.e. mouse)
+
+        Args:
+            callback (method(int)): A callable method that takes in an int (represents the key pressed)
+        """
         pass
 
     @abstractmethod
     def plot(self, *args, **kwargs):
+        """Plot additional information within the matplotlib window
+
+        Args:
+            *args: positional arguments that are passed to the underyling plotter (and subsequently to matplotlib)
+            **kwargs: keyworded arguments that are passed to the underyling plotter (and subsequently to matplotlib)
+        """
         pass
 
+    def _initialize_plot(self):
+        """Helper method that initializes a matplotlib plot and passes the axes to the vehicle and dashboard"""
+
+        # Initial plotting setup
+        self._fig, self._ax = plt.subplots(figsize=(8, 8))
+
+        # Plot styling
+        self._ax.set_xlim(*self._xlim)
+        self._ax.set_ylim(*self._ylim)
+
+        self._ax.grid(True)
+        self._ax.set_aspect("equal", adjustable="box")
+
+        # Initialize the plotters
+        self._mat_vehicle.initialize(self._ax)
+        self._dashboard.initialize(self._ax)
+
     def _update_axes(self, x, y):
-        self.ax.set_xlim(x - self.padding, x + self.padding)
-        self.ax.set_ylim(y + self.padding, y - self.padding)
+        """Helper method to update the matplotlib axis plot.
+
+        Moving vehicles commonly want to be "followed". This method will place the vehicle at the center of the window and adjust
+        the axes accordingly. The padding specified at initialization will be added.
+
+        Args:
+            x (float): x position of the vehicle
+            y (float): y position of the vehicle
+        """
+        self._ax.set_xlim(x - self._padding, x + self._padding)
+        self._ax.set_ylim(y + self._padding, y - self._padding)
 
 
 class _MatplotlibSinglePlotter(_MatplotlibPlotter):
-    """Single process plotter for sequential visualization. Can be used in jupyter"""
+    """Single process plotter for sequential visualization. Can be used in jupyter.
+
+    A single threaded plotter basically will update it's state `in order` with other components. This can be thought of
+    as the typical use case for matplotlib where :code:`plt.show()`/:code:`plt.pause()` comes directly after `plt.plot`.
+
+    For jupyter, we need to use IPython to basically create an image and display that image in the jupyter browser. This really sucks
+    cause it's super slow. TODO: Is there a faster way to do that?
+
+    Args:
+        mat_vehicle (_MatplotlibVehicle): The matplotlib vehicle representation
+        dashboard (_MatplotlibSimpleDashboard): The dashboard that displays information related to the vehicle state
+        is_jupyter (bool): should jupyter visualization be used (i.e. IPython display)?
+        **kwargs: keyworded arguments used for the base _MatplotlibPlotter class
+    """
 
     def __init__(self, mat_vehicle, dashboard, is_jupyter=False, **kwargs):
         super().__init__(mat_vehicle, dashboard, **kwargs)
 
         self._initialize_plot()
 
-        self.is_jupyter = is_jupyter
+        self._is_jupyter = is_jupyter
 
-    def advance(self, step, state):
+    def advance(self, step):
+        super().advance(step)
+
         # Extract values
-        x, y, yaw, v = state
+        x, y, yaw, v = self._state
 
         # Update the simulation elements
-        self.mat_vehicle.update(x, y, yaw, self.vehicle_inputs.steering)
-        self.dashboard.update(self.vehicle_inputs, self.time, v)
+        self._mat_vehicle.update(x, y, yaw, self._vehicle_inputs.steering)
+        self._dashboard.update(self._vehicle_inputs, self._time, v)
 
-        if not self.static:
+        # Update the axes to "follow" the vehicle
+        if not self._static:
             self._update_axes(x, y)
 
         # Update the plot
-        if self.is_jupyter:
-            display(self.fig)
+        if self._is_jupyter:
+            display(self._fig)
             clear_output(wait=True)
         else:
             plt.pause(1e-9)
 
+    def is_ok(self):
+        return plt.fignum_exists(self._fig.number)
+
     def register_key_press_event(self, callback):
-        self.fig.canvas.mpl_connect('key_press_event', self.key_press)
-        self.events['key_press_event'] = callback
-
-    def key_press(self, event):
-        if event.name in self.events:
-            self.events[event.name](event.key)
-
-    def is_alive(self):
-        return plt.fignum_exists(self.fig.number)
+        self._fig.canvas.mpl_connect('key_press_event', self._key_press)
+        self._events['key_press_event'] = callback
 
     def plot(self, *args, **kwargs):
-        self.ax.plot(*args, **kwargs)
+        self._ax.plot(*args, **kwargs)
+
+    def _key_press(self, event):
+        """Key press callback. Passes the event key (i.e. 'up' or 'a') to the callback registered through :meth:`~register_key_press_event`.
+
+        Args:
+            event (matplotlib.event): event with a name and key attribute
+        """
+        if event.name in self._events:
+            # Call that event with the event key (is a string like 'up' or 'a')
+            self._events[event.name](event.key)
 
 
 class _MatplotlibMultiPlotter(_MatplotlibPlotter):
-    """Plotter used for situations where multiprocessing is desired. Faster than sequential."""
+    """Multi process plotter for sequential visualization. Significantly faster than the sequential :class:`~_MatplotlibSinglePlotter`.
+
+    A multi threaded plotter will basically update it's state at a fixed rate. All visualizations occur in a separate thread, so
+    a synchronized queue is used to pass information between threads. At the fixed rate, on an update, that information is grabbed from the front
+    of the queue. Stale information is always ignored so there is only ever 1 or 0 packets in the queue. A `asynchronous` constructor parameter
+    provides the configurability to either wait for state information to be used or continue and just throw out old state data. The
+    latter results in the simulation progressing significantly faster than the plotter, so it's not recommended.
+
+    Two communication methods are used. One is a queue and is used strictly for state information and the other is a Pipe and used for simulation
+    communication related items, such as keyboard callback registration.
+
+    Args:
+        mat_vehicle (_MatplotlibVehicle): The matplotlib vehicle representation
+        dashboard (_MatplotlibSimpleDashboard): The dashboard that displays information related to the vehicle state
+        asynchronous (bool): If true, the plotter will continue without waiting for the passed state information to be used. Defaults to synchronous.
+        **kwargs: keyworded arguments used for the base _MatplotlibPlotter class
+    """
 
     class _SimulationState:
-        def __init__(self, state, vehicle_inputs, time):
+        """Simulation state helper class that just holds various attributes for plotting
+
+        Pickable to pass between threads.
+
+        Args:
+            state (tuple): holds (x,y,yaw,steering)
+            vehicle_inputs (WAVehicleInputs): the inputs to the vehicle
+            time (float): the current time of the simulation
+
+        Attributes:
+            state (tuple): holds (x,y,yaw,steering)
+            vehicle_inputs (WAVehicleInputs): the inputs to the vehicle
+            time (float): the current time of the simulation
+        """
+
+        def __init__(self, state: tuple, vehicle_inputs: WAVehicleInputs, time: float):
             self.state = state
             self.vehicle_inputs = vehicle_inputs
             self.time = time
@@ -393,6 +544,17 @@ class _MatplotlibMultiPlotter(_MatplotlibPlotter):
             return self.state, self.vehicle_inputs, self.time
 
     class _PlotCall:
+        """Pickable plot call that is passed to the plotter thread.
+
+        Args:
+            *args: Positional arguments used in matplotlib.plot
+            **kwargs: Keyworded arguments used in matplotlib.plot
+
+        Attributes:
+            args: Positional arguments used in matplotlib.plot
+            kwargs: Keyworded arguments used in matplotlib.plot
+        """
+
         def __init__(self, *args, **kwargs):
             self.args = args
             self.kwargs = kwargs
@@ -400,184 +562,224 @@ class _MatplotlibMultiPlotter(_MatplotlibPlotter):
     def __init__(self, mat_vehicle, dashboard, asynchronous=False, **kwargs):
         super().__init__(mat_vehicle, dashboard, **kwargs)
 
-        self.asynchronous = asynchronous
+        self._asynchronous = asynchronous
 
-        self.events['close_event'] = self.close
+        self._events['close_event'] = self._close
 
         # Initialize multiprocessing objects
         if plt.get_backend() == "MacOSX":
             set_start_method("spawn", force=True)
 
         # Communication pipelines between processes
-        self.event_sender, self.event_receiver = Pipe()
-        self.queue = Queue(1)
+        self._event_sender, self._event_receiver = Pipe()
+        self._queue = Queue(1)
 
         # Barrier that will wait for initialization to occur
-        self.barrier = Barrier(2)
+        self._barrier = Barrier(2)
 
-        self.p = Process(target=self.run)
-        self.p.start()
+        self._p = Process(target=self.run)
+        self._p.start()
 
         # Wait for the matplotlib window to initialize
-        self.barrier.wait()
+        self._barrier.wait()
 
-    def advance(self, step, state):
-        """Advance the state of the matplotlib window"""
-        if self.event_receiver.poll():
-            event = self.event_receiver.recv()
-            if event.name in self.events:
-                self.events[event.name](event.value)
+    def advance(self, step):
+        super().advance(step)
+
+        if self._event_receiver.poll():
+            event = self._event_receiver.recv()
+            if event.name in self._events:
+                self._events[event.name](event.value)
 
         # Send the state to the other process to visualize
-        state = self._SimulationState(state, self.vehicle_inputs, self.time)
-        if not self.queue._closed:
-            if self.asynchronous and self.queue.empty():
-                self.queue.put_nowait(state)
+        state = self._SimulationState(
+            self._state, self._vehicle_inputs, self._time)
+        if not self._queue._closed:
+            if self._asynchronous and self._queue.empty():
+                self._queue.put_nowait(state)
             else:
-                self.queue.put(state)
+                self._queue.put(state)
 
     def run(self):
         """Multiprocess starter method. Will initialize matplotlib and setup FuncAnimation"""
+
         # Initialize matplotlib
         self._initialize_plot()
-        self.fig.canvas.mpl_connect('close_event', self.handle_close)
+        self._fig.canvas.mpl_connect('close_event', self._handle_close)
 
         # Initialize animation
-        anim = FuncAnimation(self.fig, self.update, interval=10)
+        anim = FuncAnimation(self._fig, self._update, interval=10)
 
         # Synchronize with main process
-        self.barrier.wait()
+        self._barrier.wait()
 
         plt.show()
 
         # Flush the queue
-        if not self.queue.empty():
-            self.queue.get_nowait()
+        if not self._queue.empty():
+            self._queue.get_nowait()
 
-    def update(self, i):
-        """Called at a specific interval by FuncAnimation. Will update matplotlib window"""
-        state = self.queue.get()
+    def _update(self, i: int):
+        """Called at a specific interval by FuncAnimation. Will update matplotlib window
+
+        Args:
+            i (int): window count
+        """
+        try:
+            state = self._queue.get(timeout=5 if i == 0 else 1)
+        except:
+            plt.close(self._fig)
+            return
+
         if isinstance(state, self._SimulationState):
             (x, y, yaw, v), vehicle_inputs, time = state()
 
-            self.mat_vehicle.update(x, y, yaw, vehicle_inputs.steering)
-            self.dashboard.update(vehicle_inputs, time, v)
+            self._mat_vehicle.update(x, y, yaw, vehicle_inputs.steering)
+            self._dashboard.update(vehicle_inputs, time, v)
 
-            if not self.static:
+            if not self._static:
                 self._update_axes(x, y)
         elif isinstance(state, str):
             if state == 'key_press_event':
-                self.fig.canvas.mpl_connect('key_press_event', self.key_press)
+                self._fig.canvas.mpl_connect('key_press_event', self._key_press)
         elif isinstance(state, self._PlotCall):
-            self.ax.plot(*state.args, **state.kwargs)
+            self._ax.plot(*state.args, **state.kwargs)
 
-    def handle_close(self, event):
-        """Callback from matplotlib when a plot is closed"""
-        self.event_sender.send(self.Event(event.name, ''))
-
-    def register_key_press_event(self, callback):
-        self.queue.put('key_press_event')
-        self.events['key_press_event'] = callback
-
-    def key_press(self, event):
-        self.event_sender.send(self.Event(event.name, event.key))
-
-    def is_alive(self):
-        return self.p.is_alive()
+    def is_ok(self) -> bool:
+        return self._p.is_alive()
 
     def plot(self, *args, **kwargs):
-        self.queue.put(self._PlotCall(*args, **kwargs))
+        self._queue.put(self._PlotCall(*args, **kwargs))
 
-    def close(self, event):
-        self.queue.close()
-        self.event_receiver.close()
-        self.event_sender.close()
-        self.p.join()
+    def register_key_press_event(self, callback):
+        self._queue.put('key_press_event')
+        self._events['key_press_event'] = callback
+
+    def _handle_close(self, event):
+        """Callback from matplotlib when a plot is closed"""
+        self._event_sender.send(self._Event(event.name, 'close_event'))
+
+    def _key_press(self, event):
+        """Key press callback. Passes the event key (i.e. 'up' or 'a') to the callback registered through :meth:`~register_key_press_event`.
+
+        Args:
+            event (matplotlib.event): event with a name and key attribute
+        """
+        self._event_sender.send(self._Event(event.name, event.key))
+
+    def _close(self, event):
+        """Close callback"""
+        self._queue.close()
+        self._event_receiver.close()
+        self._event_sender.close()
+        self._p.join()
 
     def __del__(self):
         """Destructor"""
-        if hasattr(self, "p") and self.p.is_alive():
-            self.p.join()
+        if hasattr(self, "p") and self._p.is_alive():
+            self._p.join()
 
 
 class WAMatplotlibVisualization(WAVisualization):
     """Matplotlib visualizer of the simulator world and the vehicle
 
-    Args:
-        vehicle (WAVehicle): vehicle to render in the matplotlib plot window
-        system (WASystem): system used to grab certain parameters of the simulation
-        plotter_type (str, optional): Type of plotter. "single" for single threaded, "multi" for multi threaded (fastest), "jupyter" if jupyter is used. Defaults to "single".
+    Plotter requires a vehicle and should be used for vehicle simulations where a 2d world representation is adequate. Furthermore,
+    for vehicle models that aren't implemented through Chrono, this is the only implemented visualization for users.
 
-    Attributes:
-        render_steps (int): steps between which the visualization should update
-        vehicle (WAVehicle): vehicle to render in the matplotlib plot window
+    There are three types of matplotlib plotters currently implemented: "single", "multi" and "jupyter". Each has a different purpose with the same
+    goal (to visualize the simulation).
+
+    * single:
+
+      * Uses a single thread where visualization updates are done sequentially with other simulation components.
+
+      * *Worse performance than multi*.
+
+    * multi:
+
+      * Uses two threads where visualization updates are placed on a separate threads and updates are asynchronous. State information of the environment and vehicle are passed to the plotter on each update, but updates of the visuals are done at a fixed rate(10 [Hz]).
+
+      * *Better performance than single*.
+
+    * jupyter:
+
+      * Supports visualization of a matplotlib window in a `jupyter notebook <https://jupyter.org/>`_.
+
+      * *Performance is very poor*. *Do not use outside of jupyter*.
+
+    Args:
         system (WASystem): system used to grab certain parameters of the simulation
-        mat_vehicle (_MatplotlibVehicle): a wrapper class used to create a visual representation of the vehicle in matplotlib
-        dashboard (_MatplotlibSimpleDashboard): a wrapper class used to create a visual dashboard on the matplotlib window
-        plotter (_MatplotlibPlotter): a wrapper class that handles matplotlib visualization and possible single/multi threading
+        vehicle (WAVehicle): vehicle to render in the matplotlib plot window
+        vehicle_inputs (WAVehicleInputs): the vehicle inputs
+        plotter_type (str, optional): Type of plotter. "single" for single threaded, "multi" for multi threaded(fastest), "jupyter" if jupyter is used. Defaults to "single".
+        **kwargs: Additional arguments that are based to the underlying plotter implementation.
 
     Raises:
         ValueError: plotter_type isn't recognized
     """
 
-    def __init__(self, vehicle, system, plotter_type="single", **kwargs):
-        self.render_steps = int(
-            np.ceil(system.render_step_size / system.step_size))
+    def __init__(self, system: WASystem, vehicle: WAVehicle, vehicle_inputs: WAVehicleInputs, plotter_type: str = "single", **kwargs):
+        self._system = system
+        self._vehicle = vehicle
+        self._vehicle_inputs = vehicle_inputs
 
-        self.vehicle = vehicle
-        self.system = system
+        self._render_steps = int(np.ceil(system.render_step_size / system.step_size))  # noqa
 
-        self.mat_vehicle = _MatplotlibVehicle(self.vehicle.vis_properties)
-        self.dashboard = _MatplotlibSimpleDashboard()
+        # Create the vehicle and dashboard
+        self._mat_vehicle = _MatplotlibVehicle(
+            self._vehicle.get_visual_properties())
+        self._dashboard = _MatplotlibSimpleDashboard()
 
+        supported_plotters = ['multi', 'single', 'jupyter']
+
+        # Create the underlying plotter
         if plotter_type == "multi":
-            self.plotter = _MatplotlibMultiPlotter(
-                self.mat_vehicle, self.dashboard, **kwargs)
+            self._plotter = _MatplotlibMultiPlotter(self._mat_vehicle, self._dashboard, **kwargs)
         elif plotter_type == "single" or plotter_type == "jupyter":
-            self.plotter = _MatplotlibSinglePlotter(
-                self.mat_vehicle, self.dashboard, is_jupyter=plotter_type == 'jupyter', **kwargs)
+            is_jupyter = plotter_type == 'jupyter'
+            self._plotter = _MatplotlibSinglePlotter(
+                self._mat_vehicle, self._dashboard, is_jupyter=is_jupyter, **kwargs)
         else:
             raise ValueError(
-                f"Unknown plotter type: {plotter_type}. Must be multi, single or jupyter")
+                f"Unknown plotter type: {plotter_type}. Must be one of the following: {', '.join(supported_plotters)}")
 
-    def synchronize(self, time, vehicle_inputs):
-        """Synchronize the vehicle inputs to the values in this visualization
+        self._plotter.set_vehicle(vehicle)
+        self._plotter.set_vehicle_inputs(vehicle_inputs)
 
-        Will just set class members
+    def synchronize(self, time: float):
+        self._plotter.synchronize(time)
 
-        Args:
-            time (double): time at which to update the vehicle to
-            vehicle_inputs (WAVehicleInputs): vehicle inputs
-        """
-        self.plotter.synchronize(time, vehicle_inputs)
+    def advance(self, step: float):
+        if self._system.step_number % self._render_steps == 0:
+            # Will only call advance at the rate specified by render_step_size in the passed system
+            self._plotter.advance(step)
 
-    def advance(self, step):
-        """Advance the state of the visualization by the specified step
-
-        Will only call update if the scene should be rendered given the render step
-
-        Args:
-            step (double): step size to update the visualization by
-        """
-        if self.system.get_step_number() % self.render_steps == 0:
-            self.plotter.advance(step, self.vehicle.get_simple_state())
-
-    def is_ok(self):
-        """Checks if the rendering process is still alive
-
-        Returns:
-            bool: whether the simulation is still alive
-        """
-        return self.plotter.is_alive()
+    def is_ok(self) -> bool:
+        return self._plotter.is_ok()
 
     def register_key_press_event(self, callback):
         """Register a key press callback with the matplotlib visualization
 
         Args:
-            callback (function): the callback to invoke when a key is pressed
+            callback(function): the callback to invoke when a key is pressed
         """
-        self.plotter.register_key_press_event(callback)
+        self._plotter.register_key_press_event(callback)
 
     def plot(self, *args, **kwargs):
-        """Pass plot info to the underyling plotter"""
-        self.plotter.plot(*args, **kwargs)
+        """Pass plot info to the underyling plotter
+
+        In some cases, additional information will want to be plotted in the plotter window. For example, in a vehicle simulation where
+        a controller is attempting to follow a path, that path may want to be visualized in the matplotlib window. This method faciliates
+        that functionality.
+
+        See the `matplotlib docs <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html>`_ to see additional *args and **kwargs arguments.
+
+        Args:
+            *args: positional arguments that are passed to the underyling plotter (and subsequently to matplotlib)
+            **kwargs: keyworded arguments that are passed to the underyling plotter (and subsequently to matplotlib)
+        """
+        self._plotter.plot(*args, **kwargs)
+
+    def visualize(self, path: 'WAPath', *args, **kwargs):
+        points = path.get_points()
+        self._plotter.plot(points[:, 0], points[:, 1], *args, **kwargs)

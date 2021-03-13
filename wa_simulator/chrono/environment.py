@@ -9,11 +9,50 @@ in the LICENSE file at the top level of the repo
 """
 
 # WA Simulator
+from wa_simulator.utils import load_json, check_field
 from wa_simulator.environment import WAEnvironment
-from wa_simulator.chrono.terrain import WAChronoTerrain
 
 # Chrono specific imports
 import pychrono as chrono
+import pychrono.vehicle as veh
+
+
+def load_chrono_terrain_from_json(system: 'WAChronoSystem', filename: str):
+    """Load a ChTerrain from a json specification file
+
+    Args:
+        filename (str): the relative path to a terrain json file
+        system (WAChronoSystem): the chrono system used to handle the terrain
+
+    Returns:
+        ChTerrain: The loaded terrain
+    """
+    j = load_json(chrono.GetChronoDataFile(filename))
+
+    # Validate the json file
+    check_field(j, 'Terrain', field_type=dict)
+
+    t = j['Terrain']
+    check_field(t, 'Input File', field_type=str)
+    check_field(t, 'Texture', field_type=str, optional=True)
+
+    terrain = veh.RigidTerrain(system._system, chrono.GetChronoDataFile(t['Input File']))  # noqa
+
+    # Add texture to the terrain, if desired
+    if 'Texture' in t:
+        texture_filename = chrono.GetChronoDataFile(t['Texture'])
+
+        vis_mat = chrono.ChVisualMaterial()
+        vis_mat.SetKdTexture(texture_filename)
+        vis_mat.SetSpecularColor(chrono.ChVectorF(0.0, 0.0, 0.0))
+        vis_mat.SetFresnelMin(0)
+        vis_mat.SetFresnelMax(0.1)
+
+        patch_asset = terrain.GetPatches()[0].GetGroundBody().GetAssets()[0]
+        patch_visual_asset = chrono.CastToChVisualization(patch_asset)
+        patch_visual_asset.material_list.append(vis_mat)
+
+    return terrain
 
 
 class WAChronoEnvironment(WAEnvironment):
@@ -22,36 +61,18 @@ class WAChronoEnvironment(WAEnvironment):
     TODO: Add assets from file
 
     Args:
-        filename (str): the json specification file describing the environment
         system (WASystem): the wa system that wraps a ChSystem
-        terrain (ChTerrain, optional): a chrono terrain. Will create one if not passed. Defaults to None.
-
-    Attributes:
-        terrain (WAChronoTerrain): the wrapper for the chrono terrain
+        filename (str): the json specification file describing the environment
     """
 
     # Global filenames for environment models
     EGP_ENV_MODEL_FILE = "environments/ev_grand_prix.json"
-    IAC_ENV_MODEL_FILE = "environments/iac.json"
 
-    def __init__(self, filename, system, terrain=None):
-        if terrain is None:
-            terrain = WAChronoTerrain(filename, system)
-
-        self.terrain = terrain
+    def __init__(self, system: 'WAChronoSystem', filename: str):
+        self._terrain = load_chrono_terrain_from_json(system, filename)
 
     def synchronize(self, time):
-        """Synchronize the environment. Will just synchronize the terrain
-
-        Args:
-            time ([type]): [description]
-        """
-        self.terrain.synchronize(time)
+        self._terrain.Synchronize(time)
 
     def advance(self, step):
-        """Advance the environment by the step size. Will just advance the terrain.
-
-        Args:
-            step (double): the step size to update the environment by
-        """
-        self.terrain.advance(step)
+        self._terrain.Advance(step)

@@ -10,127 +10,129 @@ in the LICENSE file at the top level of the repo
 
 from abc import ABC, abstractmethod  # Abstract Base Class
 
+# WA Simulator
+from wa_simulator.base import WABase
+from wa_simulator.system import WASystem
 
-class WASimulation(ABC):
-    def __init__(
-        self,
-        system,
-        environment,
-        vehicle,
-        visualization,
-        controller,
-        sensor_manager=None,
-        record_filename=None,
-    ):
-        """A manager for a simulation. Advances and synchronizes simulation modules.
 
-        The simulation object is used primarily for cleaning up main functions. The Run method
-        should be used primarily, as the use case for this simulator is mainly for the use of the
-        controllers.
+class WASimulationManager(WABase):
+    """A manager for a simulation. Advances and synchronizes simulation modules.
 
-        Args:
-            system (WASystem): describes the simulation system
-            environment (WAEnvironment): describes the simulation environment
-            vehicle (WAVehicle): describes the simulation vehicle
-            visualization (WAVisualization): describes the simulation visualization
-            controller (WAController): describes the simulation controller
-            sensor_manager (WASensorManager): manages the sensors in the simulation
-            record_filename (str, optional): the filename to store saved simulation data. Defaults to None.
+    The simulation manager is used primarily for cleaning up demo and runner files.
+    Typically, users do not want to have all update methods(synchronize / advance) in their actual demo file, as that would convalute the
+    demo and make things more complicated. This class aims to simplify these scenarios
+    buy wrapping update related method calls not necessarily relevant to the user.
 
-        Attributes:
-            system (WASystem): describes the simulation system
-            environment (WAEnvironment): describes the simulation environment
-            vehicle (WAVehicle): describes the simulation vehicle
-            visualization (WAVisualization): describes the simulation visualization
-            controller (WAController): describes the simulation controller
-            sensor_manager (WASensorManager): manages the sensors in the simulation
-            record_filename (str): the filename to store saved simulation data
-        """
+    This class constructor (the :code:`__init__` method) has two actual arguments: :code:`*args` and :code:`**kwargs`.
+    These two arguments have special attributes not relevant in other languages, so for more
+    information on those, please see `this reference <https://www.digitalocean.com/community/tutorials/how-to-use-args-and-kwargs-in-python-3>`_.
 
-        self.system = system
-        self.environment = environment
-        self.vehicle = vehicle
-        self.visualization = visualization
-        self.controller = controller
-        self.sensor_manager = sensor_manager
+    Although not techincally an error, this class should not be inherited from.
 
-        self.record_filename = record_filename
-        if self.record_filename:
-            # Overwrite current files
-            with open(self.record_filename, "w") as f:
-                pass
+    Args:
+        system (WASystem): the system that has meta properties such as time and render step size
+        *args: Positional arguments made up of WABase classes. An exception will be thrown if the components are not WABase level classes
+        record (boolean): Log simulation data as a csv?
+        output_filename (str): Only used if record is true. If record is true and this is empty, an exception will be raised.
 
-    def record(self, filename):
-        """Save simulation state. Only saves the vehicle simple state
+    Raises:
+        ValueError: If any one of the positional arguments does not derive from WABase (`see classes that do <google.com>`_).
+        ValueError: If record is true but output_filename is empty.
 
-        Args:
-            filename (str): file to append info to
-        """
-        with open(filename, "a+") as f:
-            x, y, yaw, v = self.vehicle.get_simple_state()
-            f.write(f"{x},{y},{yaw},{v}")
+    .. todo::
+        - Add link to all WABase classes
 
-    def synchronize(self, time):
-        """Synchronize each simulation module.
+    Examples:
 
-        Will pass information between simulation modules
+    .. highlight:: python
+    .. code-block:: python
 
-        Args:
-            time (double): the time to synchronize the simulation to
-        """
-        vehicle_inputs = self.controller.get_inputs()
+        import wa_simulator as wa
 
-        self.controller.synchronize(time)
-        self.vehicle.synchronize(time, vehicle_inputs)
-        self.environment.synchronize(time)
+        ... # Initialization of subcomponents
 
-        if self.visualization:
-            # Will synchronize the visualization if necessary
-            self.visualization.synchronize(time, vehicle_inputs)
+        # Ex 1.
+        manager = wa.WASimulationManager(
+            vehicle, visualization, system, controller, environment)
 
-        if self.sensor_manager:
-            self.sensor_manager.synchronize(time)
+        # Ex 2.
+        manager = wa.WASimulationManager(sensor_manager, system, environment)
 
-    def advance(self, step):
-        """Advance each simulation module.
+        # Ex 3.
+        # WARNING: Recording is not currently supported
+        manager = wa.WASimulationManager(vehicle, visualization, system, controller,
+                                     environment, sensor_manager, record=True, output_filename="example.csv")
+    """
 
-        Args:
-            step (double): the step size to update each module by
-        """
-        self.system.advance()
+    def __init__(self, system: WASystem, *args, record: bool = False, output_filename: str = ""):
+        self._system = system
 
-        self.environment.advance(step)
-        self.vehicle.advance(step)
-        self.controller.advance(step)
+        self._components = []
+        for i, comp in enumerate(args):
+            if comp is None:
+                continue
 
-        if self.visualization:
-            # Will advance the visualization if necessary
-            self.visualization.advance(step)
+            # Check to make sure each element derives from WABase
+            if not isinstance(comp, WABase):
+                raise TypeError(
+                    f'Argument in position {i} is of type {type(comp)}, not {type(WABase)}.')
+            elif isinstance(comp, WASimulationManager):
+                raise TypeError(
+                    f'Argument in position {i} is of type {type(WASimulationManager)}. This is not allowed')
 
-        if self.sensor_manager:
-            self.sensor_manager.advance(step)
+            self._components.append(comp)
+
+        self.set_record(record, output_filename)
+
+    def synchronize(self, time: float):
+        for comp in self._components:
+            comp.synchronize(time)
+
+    def advance(self, step: float):
+        self._system.advance()
+
+        for comp in self._components:
+            comp.advance(step)
+
+    def is_ok(self) -> bool:
+        for comp in self._components:
+            if not comp.is_ok():
+                return False
+        return True
 
     def run(self):
-        """Run the simulation
+        """Helper method that runs a simulation loop. 
 
-        Can be used to clear up main functions.
+        It's recommended to just use :meth:`~synchronize` and :meth:`~advance` to remain explicit in intent,
+        but this method can also be used to update states of components. Basically, this method will just
+        call the :meth:`~synchronize` and :meth:`~advance` functions in a :code:`while` loop until any components
+        fail.
         """
+        step_size = self._system.step_size
         while self.is_ok():
-            time = self.system.get_sim_time()
+            time = self._system.time
 
             self.synchronize(time)
-            self.advance(self.system.step_size)
+            self.advance(step_size)
 
-            if self.record_filename:
-                self.record(self.record_filename)
+    def record(self):
+        """Perform a record step for each component active in the simulation.
 
-    def is_ok(self):
-        """Verifies the simulation is running as expected.
-
-        Checks the visualization if it's still active. Should probably check other
-        modules for any errors.
-
-        Returns:
-            bool: Whether the simulation running as expected
+        .. warning::
+            Currently not implemented
         """
-        return self.visualization.is_ok() if self.visualization else True
+        pass
+
+    def set_record(self, record: bool = True, output_filename: str = ""):
+        """Specify whether the simulation should be recorded.
+
+        Args:
+            record (bool): record the simulation?
+            output_filename (str): the csv filename to save data to. If record is true and this is empty, an exception will be raised
+        """
+        self._record = record
+        self._output_filename = output_filename
+
+        if record and len(output_filename) == 0:
+            raise AttributeError(
+                "record has been set to 'True', but output_filename is empty.")

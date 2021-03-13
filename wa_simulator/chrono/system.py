@@ -29,7 +29,7 @@ class WAChronoSystem(WASystem):
         TypeError: verify the contact method is a string
     """
 
-    def __init__(self, step_size, render_step_size=2e-2, contact_method="NSC"):
+    def __init__(self, step_size: float, render_step_size: float = 2e-2, contact_method: str = "NSC"):
         super().__init__(step_size, render_step_size)
 
         if not isinstance(contact_method, str):
@@ -43,7 +43,8 @@ class WAChronoSystem(WASystem):
         system.SetSolverType(chrono.ChSolver.Type_BARZILAIBORWEIN)
         system.SetSolverMaxIterations(150)
         system.SetMaxPenetrationRecoverySpeed(4.0)
-        self.system = system
+
+        self._system = system
 
     def advance(self):
         """Advance the simulation.
@@ -51,15 +52,6 @@ class WAChronoSystem(WASystem):
         Will update the dynamics of the chrono simulation
         """
         self.step_number += 1
-        self.system.DoStepDynamics(self.step_size)
+        self.time = self._system.GetChTime()
 
-    def get_sim_time(self):
-        """Get the simulation time.
-
-        Will get the time from the wrapped ChSystem
-
-        Returns:
-            double: the simulation time
-        """
-        self.time = self.system.GetChTime()
-        return self.time
+        self._system.DoStepDynamics(self.step_size)

@@ -27,8 +27,20 @@ class TestWASimulator(unittest.TestCase):
         """Verifies the main import works"""
         import wa_simulator as wa
 
+        self.assertTrue(hasattr(wa, 'WABase'))  # base.py
+        self.assertTrue(hasattr(wa, 'WA_PI'))  # constants.py
+        self.assertTrue(hasattr(wa, 'WAController'))  # controller.py
         self.assertTrue(hasattr(wa, 'WAVector'))  # core.py
+        self.assertTrue(hasattr(wa, 'WAEnvironment'))  # environment.py
+        self.assertTrue(hasattr(wa, 'WAVehicleInputs'))  # inputs.py
         self.assertTrue(hasattr(wa, 'WAPath'))  # path.py
+        self.assertTrue(hasattr(wa, 'WASensor'))  # sensor.py
+        self.assertTrue(hasattr(wa, 'WASimulationManager'))  # simulation.py
+        self.assertTrue(hasattr(wa, 'WASystem'))  # system.py
+        self.assertTrue(hasattr(wa, 'WATrack'))  # track.py
+        self.assertTrue(hasattr(wa, 'get_wa_data_file'))  # utils.py
+        self.assertTrue(hasattr(wa, 'WAVehicle'))  # vehicle.py
+        self.assertTrue(hasattr(wa, 'WAVisualization'))  # visualization.py
 
 
 class TestWAVector(unittest.TestCase):
@@ -175,7 +187,6 @@ class TestWAArgumentParser(unittest.TestCase):
         self.assertEqual(args.render_step_size, 1 / 10.0)
         self.assertEqual(args.irrlicht, False)
         self.assertEqual(args.matplotlib, False)
-        self.assertEqual(args.record, False)
 
 
 if __name__ == '__main__':

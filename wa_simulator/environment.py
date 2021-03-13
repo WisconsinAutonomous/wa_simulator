@@ -8,68 +8,56 @@ Use of this source code is governed by a BSD-style license that can be found
 in the LICENSE file at the top level of the repo
 """
 
-from abc import ABC, abstractmethod  # Abstract Base Class
+from abc import abstractmethod  # Abstract Base Class
+
+# WA Simulator
+from wa_simulator.base import WABase
 
 
-class WAEnvironment(ABC):
+class WAEnvironment(WABase):
     """Base class for the environment object.
 
     The environment object is responsible for handling data or assets within the world.
+    Assets may be obstacles, miscellaneous objects, other vehicles or weather.
     """
 
     @abstractmethod
-    def synchronize(self, time):
-        """Synchronize the environment at the specified time
-
-        Function is primarily as a semantic separation between different functionality.
-        Most of the time, all environment logic can be placed in the Advance method.
-
-        Args:
-                time (double): the time at which the environment should synchronize all depends to
-        """
+    def synchronize(self, time: float):
         pass
 
     @abstractmethod
-    def advance(self, step):
-        """Advance the environment by the specified step
-
-        Args:
-                step (double): the time step at which the environment should be advanced
-        """
+    def advance(self, step: float):
         pass
+
+    def is_ok(self) -> bool:
+        return True
 
 
 class WASimpleEnvironment(WAEnvironment):
-    """Simple environment that doesn't have any assets within the world.
-
-    Args:
-        filename (str): filename
-        sys (WASystem): system
-    """
+    """Simple environment that doesn't have any assets within the world."""
 
     # Global filenames for environment models
     EGP_ENV_MODEL_FILE = "environments/ev_grand_prix.json"
-    IAC_ENV_MODEL_FILE = "environments/iac.json"
 
-    def __init__(self, filename, sys):
+    def __init__(self):
         pass
 
-    def synchronize(self, time):
+    def synchronize(self, time: float):
         """Synchronize the environment with the rest of the world at the specified time
 
-        Doesn't actually do anything.
+        Simple environment doesn't actually do anything for now.
 
         Args:
-            time (double): the time at which the enviornment should be synchronized to
+            time (float): the time at which the enviornment should be synchronized to
         """
         pass
 
-    def advance(self, step):
+    def advance(self, step: float):
         """Advance the state of the environment
 
-        Doesn't actually do anything.
+        Simple environment doesn't actually do anything for now.
 
         Args:
-            step (double): the time step at which the enviornment should be advanced
+            step (float): the time step at which the enviornment should be advanced
         """
         pass

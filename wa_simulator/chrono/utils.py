@@ -29,13 +29,31 @@ def ChVector_to_WAVector(vector: chrono.ChVectorD):
     return WAVector([vector.x, vector.y, vector.z])
 
 
+def WAVector_to_ChVector(vector: WAVector):
+    """Converts a WAVector to a ChVector
+
+    Args:
+        vector (WAVector): The vector to convert
+    """
+    return chrono.ChVectorD(vector.x, vector.y, vector.z)
+
+
 def ChQuaternion_to_WAQuaternion(quaternion: chrono.ChQuaternionD):
     """Converts a ChQuaternion to a WAQuaternion
 
     Args:
         quaternion (ChQuaternion): The quaternion to convert
     """
-    return WAQuaternion([quaternion.e0, quaternion.e1, quaternion.e2, quaternion.e3])
+    return WAQuaternion([quaternion.e1, quaternion.e2, quaternion.e3, quaternion.e0])
+
+
+def WAQuaternion_to_ChQuaternion(quaternion: WAQuaternion):
+    """Converts a WAQuaternion to a ChQuaternion
+
+    Args:
+        quaternion (WAQuaternion): The quaternion to convert
+    """
+    return chrono.ChQuaternionD(quaternion.x, quaternion.y, quaternion.z, quaternion.w)
 
 # ----------------------
 # json related utilities

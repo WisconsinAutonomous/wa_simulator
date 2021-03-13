@@ -11,13 +11,6 @@
 
 .. py:module:: {{ obj.name }}
 
-{% if obj.docstring %}
-.. autoapi-nested-parse::
-
-   {{ obj.docstring|prepare_docstring|indent(3) }}
-
-{% endif %}
-
 {% block subpackages %}
 {% set visible_subpackages = obj.subpackages|selectattr("display")|list %}
 {% if visible_subpackages %}
@@ -100,3 +93,10 @@ Functions
 {% endfor %}
 {% endif %}
 {% endblock %}
+
+.. {% if obj.docstring %}
+.. .. autoapi-nested-parse::
+..
+..    {{ obj.docstring|prepare_docstring|indent(3) }}
+..
+.. {% endif %}

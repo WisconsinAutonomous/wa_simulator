@@ -94,7 +94,7 @@ Please try to maintain the file structure as described above. All tabs with only
 
 Markdown files are converted to reStructuredText by `myst_parser` which is used by the documentation package [Sphinx](https://www.sphinx-doc.org/en/master/). Both Markdown and reStructuredText have their advantages and disadvantages, `myst_parser` allows us to use the easy to understand `markdown` language but also compile the content down to something Sphinx understands. To see additional features of the `myst_parser` library, please visit their [website](https://myst-parser.readthedocs.io/en/latest/).
 
-#### Building the Documentation
+## Building the Documentation
 
 There are multiple ways to build sphinx documentation. The easiest is using the `Makefile` or `make.bat` file provided directly in this repository. On Unix systems, once can run `make html` to build the html pages. Then go to your browser, and open the `index.html` file located inside `docs/build/html/`.
 

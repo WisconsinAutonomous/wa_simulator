@@ -11,6 +11,7 @@ in the LICENSE file at the top level of the repo
 import argparse
 from pyrr import Vector3, Quaternion
 from numbers import Number
+import math
 
 # ---------------------------------
 # Vector/Quaternion/Math core items
@@ -52,6 +53,26 @@ class WAQuaternion(Quaternion):
             return WAQuaternion([self.x * other, self.y * other, self.z * other, self.w * other])
         else:
             return super().__mul__(other)
+
+    def to_euler(self):
+        """Converts this quaternion to euler angles (see `here <https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles>`_
+
+        Returns:
+            tuple: (roll, pitch, yaw)
+        """
+
+        sinr_cosp = 2 * (self.w * self.x + self.y * self.z)
+        cosr_cosp = 1 - 2 * (self.x * self.x + self.y * self.y)
+        roll = math.atan2(sinr_cosp, cosr_cosp)
+
+        sinp = 2 * (self.w * self.y - self.z * self.x)
+        pitch = math.copysign(math.pi / 2, sinp) if abs(sinp) >= 1 else math.asin(sinp)  # noqa
+
+        siny_cosp = 2 * (self.w * self.z + self.x * self.y)
+        cosy_cosp = 1 - 2 * (self.z * self.z + self.y * self.y)
+        yaw = math.atan2(siny_cosp, cosy_cosp)
+
+        return roll, pitch, yaw
 
 
 # --------------
@@ -126,11 +147,11 @@ class WAArgumentParser(argparse.ArgumentParser):
                 default=False,
             )
 
-        if 'r' not in skip_defaults:
-            self.add_argument(
-                "-r",
-                "--record",
-                action="store_true",
-                help="Record Simple State Data",
-                default=False,
-            )
+        # if 'r' not in skip_defaults:
+        #     self.add_argument(
+        #         "-r",
+        #         "--record",
+        #         action="store_true",
+        #         help="Record Simple State Data",
+        #         default=False,
+        #     )

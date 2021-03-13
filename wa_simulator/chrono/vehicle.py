@@ -9,17 +9,21 @@ in the LICENSE file at the top level of the repo
 """
 
 # WA Simulator
-from wa_simulator.utils import check_field, load_json
 from wa_simulator.vehicle import WAVehicle
-from wa_simulator.chrono.utils import ChVector_to_WAVector, ChQuaternion_to_WAQuaternion
+from wa_simulator.core import WAVector, WAQuaternion
+from wa_simulator.utils import check_field, load_json
+from wa_simulator.chrono.utils import ChVector_to_WAVector, ChQuaternion_to_WAQuaternion, WAVector_to_ChVector, WAQuaternion_to_ChQuaternion
 
 # Chrono specific imports
 import pychrono as chrono
 import pychrono.vehicle as veh
 
 
-def read_vehicle_model_file(filename):
+def read_vehicle_model_file(filename: str) -> tuple:
     """Read a json specification file to get additional file names to be loaded into ChVehicle classes
+
+    Will find the vehicle, powertrain and tire input files. The input files are other json files that are
+    readable by the Chrono simulator to be used to create bodies attached to the vehicle.
 
     Args:
         filename (str): the json specification file with Vehicle, Powertrain and Tire input models
@@ -46,14 +50,20 @@ def read_vehicle_model_file(filename):
     return vehicle_filename, powertrain_filename, tire_filename
 
 
-def create_tire_from_json(tire_filename):
-    """Creates a tire from a tire file
+def create_tire_from_json(tire_filename: str) -> veh.ChTire:
+    """Creates a ChTire from a tire file
+
+    .. info:
+        Currently, only TMeasyTires and RigidTires are supported
 
     Args:
         tire_filename (str): the tire json specification file
 
     Returns:
         ChTire: the created tire
+
+    Raises:
+        TypeError: If the tire type is not recognized
     """
     j = load_json(tire_filename)
 
@@ -74,40 +84,38 @@ class WAChronoVehicle(WAVehicle):
     """Chrono vehicle wrapper
 
     Args:
-        filename (str): json file specification file
         system (WAChronoSystem): the system used to run the simulation
         env (WAEnvironment): the environment with a terrain
-        initLoc (chrono.ChVectorD, optional): the inital location of the vehicle. Defaults to chrono.ChVectorD(0, 0, 0.5).
-        initRot (chrono.ChQuaternionD, optional): the initial orientation of the vehicle. Defaults to chrono.ChQuaternionD(1, 0, 0, 0).
-
-    Attributes:
-        vehicle (ChVehicle): a chrono vehicle that this class essentially wraps
-        terrain (ChTerrain): a terrain that the vehicle interacts with
+        vehicle_inputs (WAVehicleInputs): the vehicle inputs
+        filename (str): json file specification file
+        init_loc (WAVector, optional): the inital location of the vehicle. Defaults to WAVector([0, 0, 0.5]).
+        init_rot (WAQuaternion, optional): the initial orientation of the vehicle. Defaults to WAQuaternion([1, 0, 0, 0]).
     """
 
     # Global filenames for vehicle models
     GO_KART_MODEL_FILE = "GoKart/GoKart.json"
-    IAC_VEH_MODEL_FILE = "IAC/IAC.json"
 
     def __init__(
         self,
-        filename,
-        system,
-        env,
-        initLoc=chrono.ChVectorD(0, 0, 0.5),
-        initRot=chrono.ChQuaternionD(1, 0, 0, 0),
+        system: 'WAChronoSystem',
+        vehicle_inputs: 'WAVehicleInputs',
+        env: 'WAEnvironment',
+        filename: str,
+        init_loc: WAVector = WAVector([0, 0, 0.5]),
+        init_rot: WAQuaternion = WAQuaternion([1, 0, 0, 0]),
     ):
-        super().__init__("vehicles/GoKart/GoKart_KinematicBicycle.json")
+        super().__init__(system, vehicle_inputs, "vehicles/GoKart/GoKart_KinematicBicycle.json")
 
         # Get the filenames
-        vehicle_file, powertrain_file, tire_file = read_vehicle_model_file(
-            filename)
+        vehicle_file, powertrain_file, tire_file = read_vehicle_model_file(filename)
 
         # Create the vehicle
-        vehicle = veh.WheeledVehicle(system.system, vehicle_file)
+        vehicle = veh.WheeledVehicle(system._system, vehicle_file)
 
         # Initialize the vehicle
-        vehicle.Initialize(chrono.ChCoordsysD(initLoc, initRot))
+        init_loc = WAVector_to_ChVector(init_loc)
+        init_rot = WAQuaternion_to_ChQuaternion(init_rot)
+        vehicle.Initialize(chrono.ChCoordsysD(init_loc, init_rot))
 
         # Set the visualization components for the vehicle
         vehicle.SetChassisVisualizationType(veh.VisualizationType_PRIMITIVES)
@@ -129,90 +137,41 @@ class WAChronoVehicle(WAVehicle):
             vehicle.InitializeTire(
                 tireR, axle.m_wheels[1], veh.VisualizationType_MESH)
 
-        self.vehicle = vehicle
-        self.terrain = env.terrain.terrain
+        self._vehicle = vehicle
+        self._terrain = env._terrain
 
-    def advance(self, step):
-        """Perform a dynamics update
-
-        Args:
-            step (double): time step to update the vehicle by
-        """
-        self.vehicle.Advance(step)
-
-    def synchronize(self, time, vehicle_inputs):
-        """Synchronize the vehicle with the vehicle inputs at the passed time
-
-        Args:
-            time (double): time to synchronize the simulation to
-            vehicle_inputs (WAVehicleInputs): the vehicle inputs
-        """
-        if not isinstance(self.terrain, veh.ChTerrain):
-            raise TypeError("Synchronize: Terrain has not been set.")
-
+    def synchronize(self, time: float):
         d = veh.Inputs()
-        d.m_steering = vehicle_inputs.steering
-        d.m_throttle = vehicle_inputs.throttle
-        d.m_braking = vehicle_inputs.braking
-        vehicle_inputs = d
+        d.m_steering = self._vehicle_inputs.steering
+        d.m_throttle = self._vehicle_inputs.throttle
+        d.m_braking = self._vehicle_inputs.braking
 
-        self.vehicle.Synchronize(time, vehicle_inputs, self.terrain)
+        self._vehicle.Synchronize(time, d, self._terrain)
 
-    def get_simple_state(self):
-        """Get a simple state representation of the vehicle.
+    def advance(self, step: float):
+        self._vehicle.Advance(step)
 
-        Returns:
-            tuple: (x position, y position, yaw about the Z, speed)
-        """
-        pos = self.vehicle.GetVehiclePos()
-        return (
-            pos.x,
-            pos.y,
-            self.vehicle.GetVehicleRot().Q_to_Euler123().z,
-            self.vehicle.GetVehicleSpeed(),
-        )
+    def get_pos(self) -> WAVector:
+        return ChVector_to_WAVector(self._vehicle.GetVehiclePos())
 
-    def _get_acceleration(self):
-        """Get the acceleration of the vehicle
+    def get_rot(self) -> WAQuaternion:
+        return ChQuaternion_to_WAQuaternion(self._vehicle.GetVehicleRot())
 
-        Really shouldn't be used by a controller. Made for sensor related calculations
+    def get_pos_dt(self) -> WAVector:
+        vel = self._vehicle.GetChassisBody().PointSpeedLocalToParent(
+            self._vehicle.GetChassis().GetLocalDriverCoordsys().pos)
+        vel = self._vehicle.GetChassisBody().GetRot().Rotate(vel)
+        return ChVector_to_WAVector(vel)
 
-        Returns:
-            WAVector: The acceleration where X is forward, Z is up and Y is left (ISO standard)
-        """
+    def get_rot_dt(self) -> WAQuaternion:
+        return ChVector_to_WAVector(self._vehicle.GetChassisBody().GetWvel_loc())
 
-        acc = self.vehicle.GetChassisBody().PointAccelerationLocalToParent(
-            self.vehicle.GetChassis().GetLocalDriverCoordsys().pos)
-        acc = self.vehicle.GetChassisBody().GetRot().Rotate(acc) - \
-            self.vehicle.GetSystem().Get_G_acc()
+    def get_pos_dtdt(self) -> WAVector:
+        acc = self._vehicle.GetChassisBody().PointAccelerationLocalToParent(
+            self._vehicle.GetChassis().GetLocalDriverCoordsys().pos)
+        acc = self._vehicle.GetChassisBody().GetRot().Rotate(acc) - \
+            self._vehicle.GetSystem().Get_G_acc()
         return ChVector_to_WAVector(acc)
 
-    def _get_angular_velocity(self):
-        """Get the angular velocity of the vehicle
-
-        Really shouldn't be used by a controller. Made for sensor related calculations
-
-        Returns:
-            WAVector: The angular velocity
-        """
-        return ChVector_to_WAVector(self.vehicle.GetChassisBody().GetWvel_loc())
-
-    def _get_position(self):
-        """Get the position of the vehicle
-
-        Really shouldn't be used by a controller. Made for sensor related calculations
-
-        Returns:
-            WAVector: The position of the vehicle
-        """
-        return ChVector_to_WAVector(self.vehicle.GetVehiclePos())
-
-    def _get_orientation(self):
-        """Get the orientation of the vehicle
-
-        Really shouldn't be used by a controller. Made for sensor related calculations
-
-        Returns:
-            WAVector: The orientation of the vehicle
-        """
-        return ChQuaternion_to_WAQuaternion(self.vehicle.GetVehicleRot())
+    def get_rot_dtdt(self) -> WAQuaternion:
+        return ChVector_to_WAVector(self._vehicle.GetChassisBody().GetWacc_loc())

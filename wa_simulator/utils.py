@@ -19,7 +19,7 @@ import contextlib
 DATA_DIRECTORY = str(pathlib.Path(__file__).absolute().parent / "data")
 
 
-def get_wa_data_file(filename):
+def get_wa_data_file(filename: str) -> str:
     """Get the absolute path to the file passed
 
     Args:
@@ -28,10 +28,12 @@ def get_wa_data_file(filename):
     Returns:
             str: the absolute path of the file
     """
-    return str(pathlib.Path(DATA_DIRECTORY) / filename)
+    if filename[0] == pathlib.os.sep:
+        filename = filename[1:]
+    return str(pathlib.Path(DATA_DIRECTORY) / filename.replace(f'/^{pathlib.os.sep}/', ''))
 
 
-def set_wa_data_directory(path):
+def set_wa_data_directory(path: str):
     """Set the data path
 
     Args:
@@ -43,8 +45,8 @@ def set_wa_data_directory(path):
 
 
 @contextlib.contextmanager
-def set_wa_data_directory_temp(path):
-    """Set the data path and yield the result. Will restore old directory immediately after
+def set_wa_data_directory_temp(path: str):
+    """Set the data path and yield the result. Will restore old directory immediately after.
 
     Args:
         path (str): relative (or absolute) path where the data is stored
@@ -52,7 +54,7 @@ def set_wa_data_directory_temp(path):
     global DATA_DIRECTORY
 
     OLD_DATA_DIRECTORY = f'{DATA_DIRECTORY}'
-    DATA_DIRECTORY = str(pathlib.Path(path).resolve())
+    set_wa_data_directory(path)
     yield
     DATA_DIRECTORY = OLD_DATA_DIRECTORY
 
@@ -61,7 +63,7 @@ def set_wa_data_directory_temp(path):
 # -----------------------
 
 
-def check_type(obj, correct_type, variable_name, function_name):
+def check_type(obj, correct_type, variable_name: str, function_name: str):
     """Check the type of an object to verify it is the correct type
 
     Args:
@@ -69,6 +71,9 @@ def check_type(obj, correct_type, variable_name, function_name):
         correct_type (Any): The type obj should be
         variable_name (str): The name of the original variable for printing
         function_name (str): The name of the calling function
+
+    Raises:
+        TypeError: if obj is not the right type
     """
     if not isinstance(obj, correct_type):
         raise TypeError(
@@ -103,6 +108,12 @@ def check_field(j: dict, field: str, value=None, field_type=None, allowed_values
         field_type (Type, optional): The type the field must be
         allowed_values: The allowed values
         optional (bool, optional): Whether the field is optional
+
+    Raises:
+        KeyError: If the field is not in j
+        ValueError: If the value of j[field] does not equal some value
+        TypeError: If the type of j[field] is not the same as field_type
+        ValueError: j[field] is not one of the allowed_values
     """
 
     if field not in j:
@@ -131,6 +142,9 @@ def check_field_allowed_values(j: dict, field: str, allowed_values: list):
         j (dict): The dictionary loaded via a json file
         field (str): The field to check
         allowed_values: The allowed values
+
+    Raises:
+        ValueError: j[field] is not one of the allowed_values
     """
 
     check_field(j, field)
