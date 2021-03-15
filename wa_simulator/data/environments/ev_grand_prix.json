@@ -1,0 +1,14 @@
+{
+	"Name": "evGrand Prix Track Environment",
+	"Type": "Environment",
+	"Template": "WASimpleEnvironment",
+
+	"Track": {
+		"Track Input File": "tracks/sample_medium_loop.json",
+		"Boundary Object": 
+		{
+			"Size": [0.5, 5, 5],
+			"Color": [1, 0, 0]
+		}
+	}
+}

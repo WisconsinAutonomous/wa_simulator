@@ -9,7 +9,8 @@ in the LICENSE file at the top level of the repo
 """
 
 # WA Simulator
-from wa_simulator.controller import WAController, WAVehicleInputs
+from wa_simulator.controller import WAController
+from wa_simulator.vehicle_inputs import WAVehicleInputs
 
 # Chrono imports
 import pychrono.vehicle as veh

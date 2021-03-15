@@ -12,8 +12,7 @@ import unittest
 import numpy as np
 
 # Import the core module
-from wa_simulator.core import WAVector, WAQuaternion, WAArgumentParser
-from wa_simulator.constants import WA_PI
+from wa_simulator.core import WAVector, WAQuaternion, WAArgumentParser, WA_PI
 
 # -----
 # Tests
@@ -111,55 +110,6 @@ class TestWAVector(unittest.TestCase):
 
 class TestWAQuaternion(unittest.TestCase):
     """Tests methods related to WAQuaternion's"""
-
-    def test_add(self):
-        """Tests simple addition of two WAQuaternion's"""
-        q1 = WAQuaternion()
-        q2 = WAQuaternion([1, 1, 1, 1])
-
-        self.assertEqual(q1 + q2, WAQuaternion([1, 1, 1, 2]))
-
-    def test_add2(self):
-        """Tests simple addition of two WAQuaternion's"""
-        q1 = WAQuaternion([1, 91, 44, -10])
-        q2 = WAQuaternion([1, 12, -111, 0])
-
-        self.assertEqual(q1 + q2, WAQuaternion([2, 103, -67, -10]))
-
-    def test_add3(self):
-        """Tests adding a constant to a WAQuaternion"""
-        q = WAQuaternion([1, 1, 1, 10])
-        n = 5
-
-        self.assertEqual(q + n, WAQuaternion([6, 6, 6, 15]))
-
-    def test_sub(self):
-        """Tests simple subtraction of two WAQuaternion"""
-        q1 = WAQuaternion([1, 11, 5, 10])
-        q2 = WAQuaternion([2, 1, 1, 1])
-
-        self.assertEqual(q1 - q2, WAQuaternion([-1, 10, 4, 9]))
-
-    def test_sub2(self):
-        """Tests subtracting a constant to a WAQuaternion"""
-        q = WAQuaternion([5, 1, 1, 1])
-        n = 5
-
-        self.assertEqual(q - n, WAQuaternion([0, -4, -4, -4]))
-
-    def test_mul(self):
-        """Tests multiplying a quaternion by a constant"""
-        q = WAQuaternion([0, 1, 2, 3])
-        n = 5
-
-        self.assertEqual(q * n, WAQuaternion([0, 5, 10, 15]))
-
-    def test_mul2(self):
-        """Tests multiplcation (additive rotation) of two WAQuaternion's"""
-        q1 = WAQuaternion([1, 4, 5, 5])
-        q2 = WAQuaternion([6, 9, 10, 2])
-
-        self.assertEqual(q1*q2, WAQuaternion([27, 73, 45, -82]))
 
     def test_length(self):
         """Tests the length method of a WAQuaternion"""

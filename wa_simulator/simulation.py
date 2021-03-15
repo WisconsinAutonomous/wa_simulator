@@ -12,7 +12,6 @@ from abc import ABC, abstractmethod  # Abstract Base Class
 
 # WA Simulator
 from wa_simulator.base import WABase
-from wa_simulator.system import WASystem
 
 
 class WASimulationManager(WABase):
@@ -64,7 +63,7 @@ class WASimulationManager(WABase):
                                      environment, sensor_manager, record=True, output_filename="example.csv")
     """
 
-    def __init__(self, system: WASystem, *args, record: bool = False, output_filename: str = ""):
+    def __init__(self, system: 'WASystem', *args, record: bool = False, output_filename: str = ""):
         self._system = system
 
         self._components = []

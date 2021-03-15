@@ -11,35 +11,90 @@
 
 .. py:module:: {{ obj.name }}
 
-{% block subpackages %}
-{% set visible_subpackages = obj.subpackages|selectattr("display")|list %}
-{% if visible_subpackages %}
-Subpackages
------------
-.. toctree::
-   :titlesonly:
-   :maxdepth: 3
-
-{% for subpackage in visible_subpackages %}
-   {{ subpackage.short_name }}/index.rst
-{% endfor %}
-
-
-{% endif %}
-{% endblock %}
 {% block submodules %}
 {% set visible_submodules = obj.submodules|selectattr("display")|list %}
+{% set visible_subpackages = obj.subpackages|selectattr("display")|list %}
 {% if visible_submodules %}
-Submodules
-----------
-.. toctree::
-   :titlesonly:
-   :maxdepth: 1
+{% set core = ['base', 'core', 'utils', 'path', 'track', 'vehicle_inputs', 'system'] %}
+
+.. .. toctree::
+.. 	:hidden:
+.. 	:titlesonly:
+.. 	:maxdepth: 3
+..
+.. 	{% for subpackage in visible_subpackages %}
+.. 	{{ subpackage.short_name }}/index.rst
+..
+.. 	{% endfor %}
+.. 	{% for submodule in visible_submodules %}
+.. 	{{ submodule.short_name }}/index.rst
+..
+.. 	{% endfor %}
+
+Core
+----
+{% if visible_subpackages %}
+- :mod:`wa_simulator`
+{% else %}
+- :mod:`wa_simulator.chrono`
+{% endif %}
 
 {% for submodule in visible_submodules %}
-   {{ submodule.short_name }}/index.rst
+{% if submodule.short_name in core %}
+  - `{{ submodule.short_name|capitalize|replace("_inputs", "Inputs") }} <{{ submodule.short_name }}/index.html>`_
+{% endif %}
 {% endfor %}
 
+.. raw::
+  </br>
+
+{% for subpackage in visible_subpackages %}
+
+- :mod:`{{ subpackage.id }}`
+
+{% for submodule in subpackage.submodules|selectattr("display")|list %}
+
+{% if submodule.short_name in core %}
+  - `{{ submodule.short_name|capitalize }} <{{ submodule.short_name }}/index.html>`_
+
+{% endif %}
+{% endfor %}
+
+{% endfor %}
+
+
+
+Components
+----------
+
+{% if visible_subpackages %}
+- :mod:`wa_simulator`
+{% else %}
+- :mod:`wa_simulator.chrono`
+{% endif %}
+
+{% for submodule in visible_submodules %}
+{% if submodule.short_name not in core %}
+  - `{{ submodule.short_name|capitalize }} <{{ submodule.short_name }}/index.html>`_
+{% endif %}
+{% endfor %}
+
+.. raw::
+  </br>
+
+{% for subpackage in visible_subpackages %}
+
+- :mod:`{{ subpackage.id }}`
+
+{% for submodule in subpackage.submodules|selectattr("display")|list %}
+
+{% if submodule.short_name not in core %}
+  - `{{ submodule.short_name|capitalize }} <{{ submodule.short_name }}/index.html>`_
+
+{% endif %}
+{% endfor %}
+
+{% endfor %}
 
 {% endif %}
 {% endblock %}
@@ -57,13 +112,15 @@ Submodules
 
 {% set visible_classes = visible_children|selectattr("type", "equalto", "class")|list %}
 {% set visible_functions = visible_children|selectattr("type", "equalto", "function")|list %}
-{% if "show-module-summary" in autoapi_options and (visible_classes or visible_functions) %}
+{% set visible_attributes = visible_children|selectattr("type", "equalto", "data")|list %}
+{% if "show-module-summary" in autoapi_options and (visible_classes or visible_functions or visible_attributes) %}
 {% block classes scoped %}
 {% if visible_classes %}
 Classes
 ~~~~~~~
 
 .. autoapisummary::
+  :nosignatures:
 
 {% for klass in visible_classes %}
    {{ klass.id }}
@@ -79,6 +136,7 @@ Functions
 ~~~~~~~~~
 
 .. autoapisummary::
+  :nosignatures:
 
 {% for function in visible_functions %}
    {{ function.id }}
@@ -87,8 +145,31 @@ Functions
 
 {% endif %}
 {% endblock %}
+
+{% block attributes scoped %}
+{% if visible_attributes %}
+Attributes
+~~~~~~~~~~
+
+.. autoapisummary::
+  :nosignatures:
+
+{% for attribute in visible_attributes %}
+   {{ attribute.id }} 
+   :annotation: = {{ attribute.value }}
+{% endfor %}
+
+
 {% endif %}
-{% for obj_item in visible_children %}
+{% endblock %}
+{% endif %}
+{% for obj_item in visible_children|selectattr("type", "equalto", "data")|list %}
+{{ obj_item.render()|indent(0) }}
+{% endfor %}
+{% for obj_item in visible_children|selectattr("type", "equalto", "class")|list %}
+{{ obj_item.render()|indent(0) }}
+{% endfor %}
+{% for obj_item in visible_children|selectattr("type", "equalto", "function")|list %}
 {{ obj_item.render()|indent(0) }}
 {% endfor %}
 {% endif %}

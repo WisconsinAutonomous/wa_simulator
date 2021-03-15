@@ -12,9 +12,8 @@ from abc import ABC, abstractmethod  # Abstract Base Class
 
 # WA Simulator
 from wa_simulator.base import WABase
-from wa_simulator.inputs import WAVehicleInputs
-from wa_simulator.vehicle import WAVehicle
-from wa_simulator.system import WASystem
+from wa_simulator.path import WAPath
+from wa_simulator.environment import WABody
 
 # Other imports
 from multiprocessing import Process, Pipe, Barrier, Queue, set_start_method
@@ -46,14 +45,14 @@ class WAVisualization(WABase):
         pass
 
     @abstractmethod
-    def visualize(self, path: 'WAPath', *args, **kwargs):
-        """Helper method that visualizes a WAPath in the chosen visualizer
+    def visualize(self, obj, *args, **kwargs):
+        """Helper method that visualizes some object(s) in the chosen visualizer
 
-        Different visualizations will visualize a path in different ways. This is an abstract method,
-        so it must be implemented
+        Different visualizations will visualize the object(s) in different ways. This is an abstract method,
+        so it must be implemented.
 
         Args:
-            path (WAPath): The path to visualize
+            obj (Any): The object(s) to visualize
             *args: Positional arguments that are specific to the underyling visualizer implementation
             **kwargs: Keyworded arguments that are specific to the underlying visualizer implementation
         """
@@ -62,6 +61,38 @@ class WAVisualization(WABase):
 # -------------------------
 # Matplotlib helper classes
 # -------------------------
+
+
+def _transform(entity: np.ndarray, x: float, y: float, yaw: float, alpha: float = 0, x_offset: float = 0, y_offset: float = 0):
+    """Helper function to transfrom a numpy entity by the specified values
+
+    There are two transformations that occur. First is considered "static". A simple transformation matrix is constructed where
+    the array is rotated by some yaw about the z and a translation from (0,0). A second transformation matrix is then dotted to
+    "add" another transform that will account for the previous transformations. This second transformation is used for wheels which
+    have the same rotation and position as the chassis, but also are offset and rotated by some value depending on the steering
+    angle and the position of the tire relative to the COM.
+
+    Args:
+       entity (np.ndarray): The numpy array to transform
+       x (float): The static x translation (offset will be applied post rotation)
+       y (float): The static y translation (offset will be applied post rotation)
+       yaw (float): The static rotation (alpha applied post this rotation)
+       alpha (float): The steering angle rotation applied in the second matrix
+       x_offset (float): The offset translation in the x direction applied in the second matrix
+       y_offset (float): The offset translation in the y direction applied in the second matrix
+    """
+    T = np.array(
+        [[np.cos(yaw), np.sin(yaw), x],
+         [-np.sin(yaw), np.cos(yaw), y], [0, 0, 1]]
+    )
+    T = T @ np.array(
+        [
+            [np.cos(alpha), np.sin(alpha), x_offset],
+            [-np.sin(alpha), np.cos(alpha), y_offset],
+            [0, 0, 1],
+        ]
+    )
+    return T.dot(entity)
 
 
 class _MatplotlibVehicle:
@@ -186,16 +217,8 @@ class _MatplotlibVehicle:
 
         # Update the position of each entity
         # All updates are copies of the original array, so each update is basically a fresh update
-        fr_wheel = self._transform(
-            self._fr_wheel,
-            x,
-            y,
-            yaw,
-            alpha=steering,
-            x_offset=self._Lf,
-            y_offset=-self._track_width,
-        )
-        fl_wheel = self._transform(
+        fr_wheel = _transform(self._fr_wheel, x, y, yaw, alpha=steering, x_offset=self._Lf, y_offset=-self._track_width)
+        fl_wheel = _transform(
             self._fl_wheel,
             x,
             y,
@@ -204,13 +227,13 @@ class _MatplotlibVehicle:
             x_offset=self._Lf,
             y_offset=self._track_width,
         )
-        rr_wheel = self._transform(
+        rr_wheel = _transform(
             self._rr_wheel, x, y, yaw, x_offset=-self._Lr, y_offset=-self._track_width
         )
-        rl_wheel = self._transform(
+        rl_wheel = _transform(
             self._rl_wheel, x, y, yaw, x_offset=-self._Lr, y_offset=self._track_width
         )
-        outline = self._transform(self._outline, x, y, yaw)
+        outline = _transform(self._outline, x, y, yaw)
 
         (cab, fr, rr, fl, rl) = self._mat_vehicle
 
@@ -224,37 +247,6 @@ class _MatplotlibVehicle:
         fl.set_xdata(np.array(fl_wheel[0, :]).flatten())
         rl.set_ydata(np.array(rl_wheel[1, :]).flatten())
         rl.set_xdata(np.array(rl_wheel[0, :]).flatten())
-
-    def _transform(self, entity: np.ndarray, x: float, y: float, yaw: float, alpha: float = 0, x_offset: float = 0, y_offset: float = 0):
-        """Helper function to transfrom a numpy entity by the specified values
-
-        There are two transformations that occur. First is considered "static". A simple transformation matrix is constructed where
-        the array is rotated by some yaw about the z and a translation from (0,0). A second transformation matrix is then dotted to
-        "add" another transform that will account for the previous transformations. This second transformation is used for wheels which
-        have the same rotation and position as the chassis, but also are offset and rotated by some value depending on the steering
-        angle and the position of the tire relative to the COM.
-
-        Args:
-           entity (np.ndarray): The numpy array to transform
-           x (float): The static x translation (offset will be applied post rotation)
-           y (float): The static y translation (offset will be applied post rotation)
-           yaw (float): The static rotation (alpha applied post this rotation)
-           alpha (float): The steering angle rotation applied in the second matrix
-           x_offset (float): The offset translation in the x direction applied in the second matrix
-           y_offset (float): The offset translation in the y direction applied in the second matrix
-        """
-        T = np.array(
-            [[np.cos(yaw), np.sin(yaw), x],
-             [-np.sin(yaw), np.cos(yaw), y], [0, 0, 1]]
-        )
-        T = T @ np.array(
-            [
-                [np.cos(alpha), np.sin(alpha), x_offset],
-                [-np.sin(alpha), np.cos(alpha), y_offset],
-                [0, 0, 1],
-            ]
-        )
-        return T.dot(entity)
 
 
 class _MatplotlibSimpleDashboard:
@@ -283,7 +275,7 @@ class _MatplotlibSimpleDashboard:
             bbox=bbox_props,
         )
 
-    def update(self, vehicle_inputs: WAVehicleInputs, time: float, speed: float):
+    def update(self, vehicle_inputs: 'WAVehicleInputs', time: float, speed: float):
         """Update the dashboard
 
         Args:
@@ -339,7 +331,7 @@ class _MatplotlibPlotter(WABase):
         self._mat_vehicle = mat_vehicle
         self._dashboard = dashboard
 
-        self._vehicle_inputs = WAVehicleInputs()
+        self._vehicle_inputs = None
         self._state = (0, 0, 0, 0)
         self._time = 0
 
@@ -351,15 +343,15 @@ class _MatplotlibPlotter(WABase):
         # Asynchronous Matplotlib events
         self._events = dict()
 
-    def set_vehicle(self, vehicle: WAVehicle):
+    def set_vehicle(self, vehicle: 'WAVehicle'):
         """Set the vehicle object
 
         Args:
-            vehicle (WAVehicle): The vehicle 
+            vehicle (WAVehicle): The vehicle
         """
         self._vehicle = vehicle
 
-    def set_vehicle_inputs(self, vehicle_inputs: WAVehicleInputs):
+    def set_vehicle_inputs(self, vehicle_inputs: 'WAVehicleInputs'):
         """Set the vehicle inputs object
 
         Args:
@@ -374,7 +366,7 @@ class _MatplotlibPlotter(WABase):
     def advance(self, step: float):
         # Update the state
         pos = self._vehicle.get_pos()
-        yaw = self._vehicle.get_rot().to_euler()[2]
+        yaw = self._vehicle.get_rot().to_euler_yaw()
         v = self._vehicle.get_pos_dt().length
         self._state = (pos.x, pos.y, yaw, v)
 
@@ -535,7 +527,7 @@ class _MatplotlibMultiPlotter(_MatplotlibPlotter):
             time (float): the current time of the simulation
         """
 
-        def __init__(self, state: tuple, vehicle_inputs: WAVehicleInputs, time: float):
+        def __init__(self, state: tuple, vehicle_inputs: 'WAVehicleInputs', time: float):
             self.state = state
             self.vehicle_inputs = vehicle_inputs
             self.time = time
@@ -592,8 +584,7 @@ class _MatplotlibMultiPlotter(_MatplotlibPlotter):
                 self._events[event.name](event.value)
 
         # Send the state to the other process to visualize
-        state = self._SimulationState(
-            self._state, self._vehicle_inputs, self._time)
+        state = self._SimulationState(self._state, self._vehicle_inputs, self._time)
         if not self._queue._closed:
             if self._asynchronous and self._queue.empty():
                 self._queue.put_nowait(state)
@@ -711,14 +702,16 @@ class WAMatplotlibVisualization(WAVisualization):
         system (WASystem): system used to grab certain parameters of the simulation
         vehicle (WAVehicle): vehicle to render in the matplotlib plot window
         vehicle_inputs (WAVehicleInputs): the vehicle inputs
-        plotter_type (str, optional): Type of plotter. "single" for single threaded, "multi" for multi threaded(fastest), "jupyter" if jupyter is used. Defaults to "single".
+        environment (WAEnvironment, optional): An environment with various world bodies to visualize. Defaults to None (doesn't visualize anything).
+        path (WAPath, optional): A path to visualize. Defaults to None (doesn't visualize anything).
+        plotter_type (str, optional): Type of plotter. "single" for single threaded, "multi" for multi threaded (fastest), "jupyter" if jupyter is used. Defaults to "single".
         **kwargs: Additional arguments that are based to the underlying plotter implementation.
 
     Raises:
         ValueError: plotter_type isn't recognized
     """
 
-    def __init__(self, system: WASystem, vehicle: WAVehicle, vehicle_inputs: WAVehicleInputs, plotter_type: str = "single", **kwargs):
+    def __init__(self, system: 'WASystem', vehicle: 'WAVehicle', vehicle_inputs: 'WAVehicleInputs', environment: 'WAEnvironment' = None, path: 'WAPath' = None, plotter_type: str = "single", **kwargs):
         self._system = system
         self._vehicle = vehicle
         self._vehicle_inputs = vehicle_inputs
@@ -745,6 +738,12 @@ class WAMatplotlibVisualization(WAVisualization):
 
         self._plotter.set_vehicle(vehicle)
         self._plotter.set_vehicle_inputs(vehicle_inputs)
+
+        if environment is not None:
+            self.visualize(environment.get_bodies())
+
+        if path is not None:
+            self.visualize(path)
 
     def synchronize(self, time: float):
         self._plotter.synchronize(time)
@@ -780,6 +779,36 @@ class WAMatplotlibVisualization(WAVisualization):
         """
         self._plotter.plot(*args, **kwargs)
 
-    def visualize(self, path: 'WAPath', *args, **kwargs):
-        points = path.get_points()
-        self._plotter.plot(points[:, 0], points[:, 1], *args, **kwargs)
+    def visualize(self, obj, *args, **kwargs):
+
+        if isinstance(obj, WAPath):
+            points = obj.get_points()
+            self._plotter.plot(points[:, 0], points[:, 1], *args, **kwargs)
+        elif isinstance(obj, list):
+            if len([i for i in obj if not isinstance(i, WABody)]):
+                raise TypeError(f'List expected to have types of only {type(WABody)}.')
+
+            xx = np.zeros((len(obj) * 2, 5), dtype=float)
+            yy = np.zeros((len(obj) * 2, 5), dtype=float)
+
+            last_size = None
+
+            for i, body in enumerate(obj):
+                if not hasattr(body, 'size') or not hasattr(body, 'position') or not hasattr(body, 'yaw'):
+                    raise AttributeError("Body must have 'size', 'position' and 'yaw' fields")
+
+                position = body.position
+                yaw = body.yaw
+                size = body.size / 2
+                color = WAVector([1, 0, 0]) if not hasattr(obj[0], 'color') else obj[0].color
+
+                outline = np.array([[-size.y, size.y, size.y, -size.y, -size.y],
+                                    [size.x, size.x, -size.x, -size.x, size.x],
+                                    [1, 1, 1, 1, 1]])
+
+                outline = _transform(outline, position.x, position.y, yaw)
+
+                xx[i] = outline[0, :].flatten()
+                yy[i] = outline[1, :].flatten()
+
+            self._plotter.plot(xx.T, yy.T, color=color)

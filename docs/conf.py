@@ -60,6 +60,20 @@ autoapi_keep_files = True
 autoapi_generate_api_docs = True
 autoapi_add_toctree_entry = False
 autoapi_template_dir = "_templates"
+# autoapi_member_order = "groupwise"
+
+add_module_names = False
+
+
+def autoapi_skip_member(app, what, name, obj, skip, options):
+    if 'metaclass' in name:
+        return True
+    return None
+
+
+def setup(app):
+    app.connect('autoapi-skip-member', autoapi_skip_member)
+
 
 viewcode_enable_epub = True
 

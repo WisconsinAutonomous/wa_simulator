@@ -1,0 +1,9 @@
+{
+	"Name": "Sample Track",
+	"Type": "Track",
+	"Template": "Constant Width Track",
+
+	"Center Input File": "paths/sample_medium_loop.json",
+	"Width": 7.5
+
+}

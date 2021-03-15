@@ -11,10 +11,9 @@ in the LICENSE file at the top level of the repo
 from abc import abstractmethod  # Abstract Base Class
 
 # WA Simulator
-from wa_simulator.core import WAVector, WAQuaternion
+from wa_simulator.core import WA_GRAVITY, WAVector, WAQuaternion
 from wa_simulator.base import WABase
 from wa_simulator.utils import get_wa_data_file
-from wa_simulator.constants import WA_GRAVITY
 
 # Other imports
 import numpy as np
@@ -169,7 +168,7 @@ class WALinearKinematicBicycle(WAVehicle):
         # Simple state variables
         self._x = init_pos.x
         self._y = init_pos.y
-        self._yaw = init_rot.to_euler()[2]
+        self._yaw = init_rot.to_euler_yaw()
         self._v = init_pos_dt.length
         self._acc = 0.0
 

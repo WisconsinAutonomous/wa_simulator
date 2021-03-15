@@ -13,6 +13,7 @@ from abc import abstractmethod  # Abstract Base Class
 
 # WA Simulator
 from wa_simulator.core import WAVector
+from wa_simulator.utils import load_json, check_field, get_wa_data_file
 
 # Other imports
 import numpy as np
@@ -22,14 +23,47 @@ from scipy.interpolate import splprep, splev
 from scipy.spatial.distance import cdist
 
 
-def load_waypoints_from_csv(filename, **kwargs) -> np.ndarray:
+def create_path_from_json(filename: str) -> 'WAPath':
+    """Creates a WAPath object from json
+
+    json file options:
+
+    * Waypoints Input File (str, required): A csv file describing the path waypoints. Loaded using :meth:`~load_waypoints_from_csv`.
+
+    * Additional keyworded arguments necessary for the path template
+
+    Args:
+        filename (str): The json specification that describes the path
+    """
+
+    j = load_json(filename)
+
+    # Validate the json file
+    check_field(j, 'Type', value='Path')
+    check_field(j, 'Template', allowed_values=['WASplinePath'])
+    check_field(j, 'Waypoints Input File', field_type=str)
+
+    # Grab the waypoints
+    waypoints_file = get_wa_data_file(j['Waypoints Input File'])
+    waypoints = load_waypoints_from_csv(waypoints_file, delimiter=",")
+
+    excluded_keys = ['Type', 'Template', 'Waypoints Input File']
+    kwargs = {x: j[x] for x in j if x not in excluded_keys}
+
+    # Create the path
+    path = eval(j['Template'])(waypoints, **kwargs)
+
+    return path
+
+
+def load_waypoints_from_csv(filename: str, **kwargs) -> np.ndarray:
     r"""Get data points from a csv file.
 
-    Should be structured as "x,y,z\\nx,y,z...". See `NumPy.loadtxt <https://numpy.org/doc/stable/reference/generated/numpy.loadtxt.html>`_
+    Should be structured as "x,y,z\\nx,y,z...". See `NumPy.loadtxt < https: // numpy.org/doc/stable/reference/generated/numpy.loadtxt.html >`_
     for more info on arguments.
 
     Args:
-        filename (str): file to open and read data from
+        filename(str): file to open and read data from
 
     Returns:
         np.ndarray: an n x m array with each data point in each row
@@ -41,8 +75,8 @@ def calc_path_length_cummulative(x, y) -> np.ndarray:
     """Get the cummulative distance along a path provided the given x and y position values
 
     Args:
-        x (np.ndarray): x coordinates
-        y (np.ndarray): y coordinates
+        x(np.ndarray): x coordinates
+        y(np.ndarray): y coordinates
 
     Returns:
         np.ndarray: the cummulative distance along the path
@@ -54,10 +88,10 @@ def calc_path_curvature(dx, dy, ddx, ddy) -> np.ndarray:
     """Calculate the curvature of a path at each point
 
     Args:
-        dx (np.ndarray): first x derivative
-        dy (np.ndarray): first y derivative
-        ddx (np.ndarray): second x derivative
-        ddy (np.ndarray): second y derivative
+        dx(np.ndarray): first x derivative
+        dy(np.ndarray): first y derivative
+        ddx(np.ndarray): second x derivative
+        ddy(np.ndarray): second y derivative
 
     Returns:
         np.ndarray: the curvature at each point
@@ -66,9 +100,9 @@ def calc_path_curvature(dx, dy, ddx, ddy) -> np.ndarray:
 
 
 class WAPath:
-    """Base Path object. To be used to generate paths or trajectories for path planning and/or path following
+    """Base Path object. To be used to generate paths or trajectories for path planning and / or path following
 
-    All path objects *should* be implemented in a 3D coordinate space! This means, waypoints should be a list or np.ndarray of
+    All path objects * should * be implemented in a 3D coordinate space! This means, waypoints should be a list or np.ndarray of
     lists or np.ndarrays of size 3!
 
     Example:
@@ -80,18 +114,18 @@ class WAPath:
 
         # Simple 2D Path
         waypoints = [
-            [1,2,0],
-            [2,2,0],
-            [5,5,0],
+            [1, 2, 0],
+            [2, 2, 0],
+            [5, 5, 0],
         ]
         # Not actually allowed since WAPath is abstract (has abstract methods)
         path_2D = WAPath(waypoints)
 
         # Simple 3D Path
         waypoints = [
-            [1,2,1],
-            [2,2,2],
-            [5,5,1],
+            [1, 2, 1],
+            [2, 2, 2],
+            [5, 5, 1],
         ]
         # Not actually allowed since WAPath is abstract (has abstract methods)
         path_3D = WAPath(waypoints)
@@ -102,14 +136,14 @@ class WAPath:
         path_json = WAPath(waypoints)
 
     Args:
-        waypoints (np.ndarray): The waypoints that the path interpolates about or maintains
+        waypoints(np.ndarray): The waypoints that the path interpolates about or maintains
         **kwargs: Additional keyworded arguments.
 
     Raises:
         TypeError: the waypoints array type is not as expected
     """
 
-    def __init__(self, waypoints=None, **kwargs):
+    def __init__(self, waypoints, **kwargs):
         self._parameters = kwargs
 
         # Check points type and shape
@@ -127,13 +161,13 @@ class WAPath:
         self._points = waypoints
         self._d_points = None
 
-        self._is_closed = False if 'is_closed' not in kwargs else kwargs['is_closed']
+        self._is_closed = False if 'is_closed' not in kwargs else bool(kwargs['is_closed'])
 
     def get_points(self, der=0) -> np.ndarray:
         """Get the points for this path
 
         Args:
-            der (int): derivative to grab. Defaults to 0 (just the points).
+            der(int): derivative to grab. Defaults to 0 (just the points).
 
         Return:
             np.ndarray: The points array
@@ -179,12 +213,12 @@ class WAPath:
         """Calculate the closest point on the path from the passed position
 
         Args:
-            pos (WAVector): the position to find the closest point on the path to
-            return_idx (bool, optional): return the index of the point with respect to the self._points array
+            pos(WAVector): the position to find the closest point on the path to
+            return_idx(bool, optional): return the index of the point with respect to the self._points array
 
         Returns:
             WAVector: the closest point on the path
-            int (optional): the index of the point on the path
+            int(optional): the index of the point on the path
         """
         pass
 
@@ -194,7 +228,7 @@ class WAPath:
 
         Args:
             *args: Positional arguments that are passed directly to the plotter
-            show (bool, optional): show the plot window. Defaults to True.
+            show(bool, optional): show the plot window. Defaults to True.
             **kwargs: Keyworded arguments passed to the plotter
         """
         pass
@@ -204,10 +238,10 @@ class WASplinePath(WAPath):
     """Spline path implemented with SciPy's splprep and splev methods
 
     Args:
-        waypoints (np.ndarray): the waypoints to fit the spline to
-        num_points (int, optional): number of points to interpolate. Defaults to 100.
-        smoothness (float, optional): how fit to each point the spline should be. will hit all points by default. Defaults to 0.0.
-        is_closed (bool, optional): Is the path a closed loop. Defaults to True.
+        waypoints(np.ndarray): the waypoints to fit the spline to
+        num_points(int, optional): number of points to interpolate. Defaults to 100.
+        smoothness(float, optional): how fit to each point the spline should be. will hit all points by default. Defaults to 0.0.
+        is_closed(bool, optional): Is the path a closed loop. Defaults to True.
 
     Raises:
         TypeError: the waypoints array type is not as expected
@@ -258,7 +292,7 @@ class WASplinePath(WAPath):
         """Plot the path
 
         Args:
-            show (bool, optional): show the plot window. Defaults to True.
+            show(bool, optional): show the plot window. Defaults to True.
         """
         plt.plot(self._x, self._y, *args, **kwargs)
         if show:

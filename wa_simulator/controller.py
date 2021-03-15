@@ -13,8 +13,6 @@ from abc import ABC, abstractmethod  # Abstract Base Class
 # WA Simulator
 from wa_simulator.base import WABase
 from wa_simulator.visualization import WAMatplotlibVisualization
-from wa_simulator.inputs import WAVehicleInputs
-from wa_simulator.system import WASystem
 from wa_simulator.utils import check_type
 
 # Other imports
@@ -41,7 +39,7 @@ class WAController(WABase):
         braking (float): braking input.
     """
 
-    def __init__(self, system: WASystem, vehicle_inputs: 'WAVehicleInputs'):
+    def __init__(self, system: 'WASystem', vehicle_inputs: 'WAVehicleInputs'):
         self._system = system
         self._vehicle_inputs = vehicle_inputs
 
@@ -56,7 +54,7 @@ class WAController(WABase):
     def is_ok(self) -> bool:
         return True
 
-    def get_inputs(self) -> WAVehicleInputs:
+    def get_inputs(self) -> 'WAVehicleInputs':
         """Get the vehicle inputs
 
         Returns:
@@ -108,7 +106,7 @@ class _WAKeyboardController(WAController):
         vehicle_inputs (WAVehicleInputs): The vehicle inputs
     """
 
-    def __init__(self, system: WASystem, vehicle_inputs: WAVehicleInputs):
+    def __init__(self, system: 'WASystem', vehicle_inputs: 'WAVehicleInputs'):
         super().__init__(system, vehicle_inputs)
 
         self._steering_target = 0
@@ -285,7 +283,7 @@ try:
                 """Resets to normal terminal.  On Windows this is a no-op."""
                 termios.tcsetattr(self.fd, termios.TCSAFLUSH, self.old_term)
 
-        def __init__(self, system: WASystem, vehicle_inputs: WAVehicleInputs):
+        def __init__(self, system: 'WASystem', vehicle_inputs: 'WAVehicleInputs'):
             super().__init__(system, vehicle_inputs)
 
             self._key_getter = self._KeyGetter()
@@ -321,7 +319,7 @@ class WAMatplotlibController(_WAKeyboardController):
         vis (WAMatplotlibVisualization): The visualization that holds a matplotlib figure
     """
 
-    def __init__(self, system: WASystem, vehicle_inputs: WAVehicleInputs, vis: WAMatplotlibVisualization):
+    def __init__(self, system: 'WASystem', vehicle_inputs: 'WAVehicleInputs', vis: 'WAMatplotlibVisualization'):
         check_type(vis, WAMatplotlibVisualization, 'vis', 'WAMatplotlibController::__init__')
 
         super().__init__(system, vehicle_inputs)

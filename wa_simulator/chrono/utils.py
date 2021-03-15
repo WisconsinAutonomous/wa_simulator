@@ -10,10 +10,28 @@ in the LICENSE file at the top level of the repo
 
 # WA Simulator
 from wa_simulator.core import WAVector, WAQuaternion
-from wa_simulator.utils import check_field
+from wa_simulator.utils import check_field, DATA_DIRECTORY
 
 # Chrono specific imports
 import pychrono as chrono
+import pychrono.vehicle as veh
+
+# ----------------------
+# Data loading utilities
+# ----------------------
+
+import pathlib
+import contextlib
+
+# Set the chrono data directory to in-repo data directory
+CHRONO_DATA_DIRECTORY = str(pathlib.Path(DATA_DIRECTORY) / "chrono" / " ")[:-1]
+"""Directory containing the Chrono data files (json, meshes, etc.)"""
+CHRONO_VEH_DATA_DIRECTORY = str(pathlib.Path(DATA_DIRECTORY) / "chrono" / "vehicle" / " ")[:-1]
+"""Directory containing the Chrono::Vehicle data files (json, meshes, etc.)"""
+
+chrono.SetChronoDataPath(CHRONO_DATA_DIRECTORY)
+veh.SetDataPath(CHRONO_VEH_DATA_DIRECTORY)
+
 
 # ------------------
 # vector conversions

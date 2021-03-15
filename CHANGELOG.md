@@ -1,5 +1,22 @@
 # Change Log
 
+## [Unreleased] - 2021-03-14
+
+Made another push for additional API changes and additions
+
+### Added
+
+- WAEnvironment loader from json
+- WATrack loader from json
+- WAPath loader from json
+- WAEnvironment, WATrack and WAPath json files
+
+### Changed
+
+- Made updates to API reference page
+- Removed __add__, __sub__ and __mul__ from `WAQuaternion`
+- Moved `inputs.py` to `vehicle_inputs.py`
+
 ## [Unreleased] - 2021-03-13
 
 Made a large amount of API level changes and additions

@@ -11,7 +11,7 @@ in the LICENSE file at the top level of the repo
 # WA Simulator
 from wa_simulator.core import WAVector
 from wa_simulator.visualization import WAVisualization
-from wa_simulator.inputs import WAVehicleInputs
+from wa_simulator.vehicle_inputs import WAVehicleInputs
 
 # Chrono specific imports
 import pychrono as chrono
@@ -88,9 +88,10 @@ class WAChronoIrrlicht(WAVisualization):
         system (WAChronoSystem): holds information regarding the simulation and performs dynamic updates
         vehicle (WAChronoVehicle): vehicle that holds the Chrono vehicle
         vehicle_inputs (WAVehicleInputs): the vehicle inputs
+        path (WAPath, optional): A path to visualize. Defaults to None (doesn't visualize anything).
     """
 
-    def __init__(self, system: 'WAChronoSystem', vehicle: 'WAChronoVehicle', vehicle_inputs: 'WAVehicleInputs'):
+    def __init__(self, system: 'WAChronoSystem', vehicle: 'WAChronoVehicle', vehicle_inputs: 'WAVehicleInputs', path: 'WAPath' = None):
         self._render_steps = int(
             ceil(system.render_step_size / system.step_size))
 
@@ -117,6 +118,9 @@ class WAChronoIrrlicht(WAVisualization):
         self._app.SetTimestep(system.step_size)
 
         self._first = True
+
+        if path is not None:
+            self.visualize(path)
 
     def synchronize(self, time: float):
         """Synchronize the irrlicht app with the vehicle inputs at the passed time
@@ -164,5 +168,10 @@ class WAChronoIrrlicht(WAVisualization):
 
         self._first = False
 
-    def visualize(self, path: 'WAPath', *args, **kwargs):
-        draw_path_in_irrlicht(self._system, path)
+    def visualize(self, obj, *args, **kwargs):
+        from wa_simulator.path import WAPath
+
+        if isinstance(obj, WAPath):
+            draw_path_in_irrlicht(self._system, obj)
+
+        del WAPath
