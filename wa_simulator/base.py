@@ -25,7 +25,7 @@ class WABase(ABC):
 
     In the wa_simulator package, there are defined "components" that are *updatable*. An *updateable*
     component is most likely an entity that has dynamics and must manipulate or interact with the simulation.
-    Some examples of *updateable* components: vehicles, sensors, environments/scenes.
+    Some examples of *updateable* components: vehicles, sensors, environments/scenes, etc..
 
     All of these components should/must inherit from this base class. In that way, it forces the description
     of three methods: :meth:`~synchronize`, :meth:`~advance` and :meth:`~is_ok`. Furthermore, the
@@ -51,7 +51,7 @@ class WABase(ABC):
 
             def is_ok(self):
                 # Because this derives from WABase, the is_ok method can be initialized here 
-                # and doesn't have to be implemented in any derived classes(i.e. WACar)
+                # and doesn't have to be implemented in any derived classes (i.e. WACar)
                 pass
 
         class WACar(WAVehicle):

@@ -13,7 +13,7 @@ from abc import ABC, abstractmethod  # Abstract Base Class
 # WA Simulator
 from wa_simulator.base import WABase
 from wa_simulator.visualization import WAMatplotlibVisualization
-from wa_simulator.utils import check_type
+from wa_simulator.utils import _check_type
 
 # Other imports
 import sys
@@ -83,19 +83,6 @@ class WAController(WABase):
     steering = property(_get_steering, _set_steering)
     throttle = property(_get_throttle, _set_throttle)
     braking = property(_get_braking, _set_braking)
-
-
-class WASimpleController(WAController):
-    """Simple controller designed to never change the inputs
-
-    Can be used for situations where controlling the vehicle isn't actually necessary
-    """
-
-    def advance(self, step: float):
-        pass
-
-    def synchronize(self, time: float):
-        pass
 
 
 class _WAKeyboardController(WAController):
@@ -171,13 +158,13 @@ class _WAKeyboardController(WAController):
         while t < step:
             h = step - t
 
-            steering_deriv = self._steering_gain * (self._steering_target - self.steering)  # noqa
-            throttle_deriv = self._throttle_gain * (self._throttle_target - self.throttle)  # noqa
-            braking_deriv = self._braking_gain * (self._braking_target - self.braking)  # noqa
+            steering_deriv = self._steering_gain * (self._steering_target - self.steering)
+            throttle_deriv = self._throttle_gain * (self._throttle_target - self.throttle)
+            braking_deriv = self._braking_gain * (self._braking_target - self.braking)
 
-            self.steering += min(self._steering_delta, h * steering_deriv, key=abs)  # noqa
-            self.throttle += min(self._throttle_delta, h * throttle_deriv, key=abs)  # noqa
-            self.braking += min(self._braking_delta, h * braking_deriv, key=abs)  # noqa
+            self.steering += min(self._steering_delta, h * steering_deriv, key=abs)
+            self.throttle += min(self._throttle_delta, h * throttle_deriv, key=abs)
+            self.braking += min(self._braking_delta, h * braking_deriv, key=abs)
 
             t += h
 
@@ -197,115 +184,32 @@ class _WAKeyboardController(WAController):
         """
         allowed_keys = [0, 1, 2, 3]
 
+        # Mouse click
         if key == -1:
             return
-        elif key == 0:
-            self._throttle_target = np.clip(self._throttle_target + self._throttle_delta, 0.0, +1.0)  # noqa
+
+        # Up
+        if key == 0:
+            self._throttle_target = np.clip(self._throttle_target + self._throttle_delta, 0.0, +1.0)
             if self._throttle_target > 0:
-                self._braking_target = np.clip(self._braking_target - self._braking_delta * 3, 0.0, +1.0)  # noqa
+                self._braking_target = np.clip(self._braking_target - self._braking_delta * 3, 0.0, +1.0)
+        # Down
         elif key == 2:
-            self._throttle_target = np.clip(self._throttle_target - self._throttle_delta * 3, 0.0, +1.)  # noqa
+            self._throttle_target = np.clip(self._throttle_target - self._throttle_delta * 3, 0.0, +1.)
             if self._throttle_target <= 0:
-                self._braking_target = np.clip(self._braking_target + self._braking_delta, 0.0, +1.0)  # noqa
+                self._braking_target = np.clip(self._braking_target + self._braking_delta, 0.0, +1.0)
+
+        # Right
         elif key == 1:
-            self._steering_target = np.clip(self._steering_target + self._steering_delta, -1.0, +1.)  # noqa
+            self._steering_target = np.clip(self._steering_target + self._steering_delta, -1.0, +1.)
+
+        # Left
         elif key == 3:
-            self._steering_target = np.clip(self._steering_target - self._steering_delta, -1.0, +1.)  # noqa
+
+            self._steering_target = np.clip(self._steering_target - self._steering_delta, -1.0, +1.)
         else:
             raise ValueError(
                 f"Got key type of '{key}'. Was expecting one of the following: {', '.join(allowed_keys)}")
-
-
-try:
-    import termios
-    import tty
-    import atexit
-    from select import select
-
-    class WATerminalKeyboardController(_WAKeyboardController):
-        """Controls a vehicle via input from the terminal window.
-
-        Uses the KeyGetter object to grab input from the user in the terminal window.
-        Inherits from the _WAKeyboardController method
-
-        .. warning::
-            Currently only works on UNIX.
-
-        Args:
-            system (WASystem): The system used to manage the simulation
-            vehicle_inputs (WAVehicleInputs): The vehicle inputs
-        """
-
-        class _KeyGetter:
-            """Gets user input from the terminal.
-
-            Will look for different input from the command line. The terminal window
-            must be active for this to work.
-
-            """
-
-            def __init__(self):
-                # Save the terminal settings
-                self.fd = sys.stdin.fileno()
-                self.new_term = termios.tcgetattr(self.fd)
-                self.old_term = termios.tcgetattr(self.fd)
-
-                # New terminal setting unbuffered
-                self.new_term[3] = self.new_term[3] & ~termios.ICANON & ~termios.ECHO
-                termios.tcsetattr(self.fd, termios.TCSAFLUSH, self.new_term)
-
-                # Support normal-terminal reset at exit
-                atexit.register(self.set_normal_term)
-
-            def __call__(self):
-                """Checks the terminal window for a user input.
-
-                This method is called through key_getter_object(). Will check terminal
-                window for arrow keys. Will exit if any other key is pressed.
-
-                Returns:
-                    int: a value between [0,3] describing the arrow key pressed
-                """
-                dr, dw, de = select([sys.stdin], [], [], 0)
-                if dr == []:
-                    return -1
-
-                c = sys.stdin.read(3)[2]
-                vals = [65, 67, 66, 68]
-
-                if vals.count(ord(c)) == 0:
-                    self.set_normal_term()
-                    raise RuntimeError(f'"{ord(c)}" is not an arrow key.')
-
-                return vals.index(ord(c))
-
-            def set_normal_term(self):
-                """Resets to normal terminal.  On Windows this is a no-op."""
-                termios.tcsetattr(self.fd, termios.TCSAFLUSH, self.old_term)
-
-        def __init__(self, system: 'WASystem', vehicle_inputs: 'WAVehicleInputs'):
-            super().__init__(system, vehicle_inputs)
-
-            self._key_getter = self._KeyGetter()
-
-        def synchronize(self, time: float):
-            """Synchronize the controller at the specified time
-
-            Args:
-                    time (float): the time at which the controller should synchronize all depends to
-            """
-            self._key_check()
-
-        def _key_check(self):
-            """Get the key from the KeyGetter and update target values based on input."""
-            try:
-                key = self._key_getter()
-                self._update(key)
-            except Exception as e:
-                print(e)
-                return
-except:
-    pass
 
 
 class WAMatplotlibController(_WAKeyboardController):
@@ -320,7 +224,7 @@ class WAMatplotlibController(_WAKeyboardController):
     """
 
     def __init__(self, system: 'WASystem', vehicle_inputs: 'WAVehicleInputs', vis: 'WAMatplotlibVisualization'):
-        check_type(vis, WAMatplotlibVisualization, 'vis', 'WAMatplotlibController::__init__')
+        _check_type(vis, WAMatplotlibVisualization, 'vis', 'WAMatplotlibController::__init__')
 
         super().__init__(system, vehicle_inputs)
 

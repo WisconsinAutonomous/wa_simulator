@@ -10,7 +10,7 @@ in the LICENSE file at the top level of the repo
 
 # WA Simulator
 from wa_simulator.core import WAVector, WAQuaternion
-from wa_simulator.utils import check_field, DATA_DIRECTORY
+from wa_simulator.utils import _check_field, get_wa_data_directory
 
 # Chrono specific imports
 import pychrono as chrono
@@ -23,15 +23,130 @@ import pychrono.vehicle as veh
 import pathlib
 import contextlib
 
-# Set the chrono data directory to in-repo data directory
-CHRONO_DATA_DIRECTORY = str(pathlib.Path(DATA_DIRECTORY) / "chrono" / " ")[:-1]
-"""Directory containing the Chrono data files (json, meshes, etc.)"""
-CHRONO_VEH_DATA_DIRECTORY = str(pathlib.Path(DATA_DIRECTORY) / "chrono" / "vehicle" / " ")[:-1]
-"""Directory containing the Chrono::Vehicle data files (json, meshes, etc.)"""
 
-chrono.SetChronoDataPath(CHRONO_DATA_DIRECTORY)
-veh.SetDataPath(CHRONO_VEH_DATA_DIRECTORY)
+def _update_chrono_data_directories():
+    global _DATA_DIRECTORY, _CHRONO_DATA_DIRECTORY, _CHRONO_VEH_DATA_DIRECTORY
 
+    if not _OVERRIDE_CHRONO_DIRECTORIES and _DATA_DIRECTORY != get_wa_data_directory():
+        _DATA_DIRECTORY = get_wa_data_directory()
+
+        _CHRONO_DATA_DIRECTORY = str(pathlib.Path(_DATA_DIRECTORY) / "chrono" / " ")[:-1]
+        _CHRONO_VEH_DATA_DIRECTORY = str(pathlib.Path(_DATA_DIRECTORY) / "chrono" / "vehicle" / " ")[:-1]
+
+        # Update the chrono paths
+        chrono.SetChronoDataPath(_CHRONO_DATA_DIRECTORY)
+        veh.SetDataPath(_CHRONO_VEH_DATA_DIRECTORY)
+
+
+def set_chrono_directories_override(override: bool):
+    """Set the chrono data directories to have the passed override value.
+
+    Normally, it is assumed that the chrono data directories are located inside wherever :meth:`~get_wa_data_directory`
+    is set to. This method will change the override functionality to either continue to look in this location, or
+    allow the user to override this. To override the actual directories, use :meth:`~set_chrono_data_directory` and 
+    :meth:`~set_chrono_vehicle_data_directory`.
+
+    If set to True, the current paths will remain the same, but will not change without either setting them using the
+    setters or when the wa data directory is changed (which would be the case if set to False).
+
+    Args:
+        bool: Override if True, don't if False
+    """
+    global _OVERRIDE_CHRONO_DIRECTORIES
+
+    _OVERRIDE_CHRONO_DIRECTORIES = override
+
+
+def set_chrono_data_directory(path: str):
+    """Set the chrono data directory
+
+    Normally, it is assumed that the chrono data directory is located inside wherever :meth:`~get_wa_data_directory`
+    is set to. Using this method will override that functionality and statically assign the chrono data directory.
+    If you'd like to return to the overriding functionality, call :meth:`~set_chrono_data_directory_override`.
+
+    Args:
+        path (str): relative (or absolute) path where the data is stored
+    """
+    global _CHRONO_DATA_DIRECTORY, _OVERRIDE_CHRONO_DIRECTORIES
+
+    _CHRONO_DATA_DIRECTORY = path
+    _OVERRIDE_CHRONO_DIRECTORIES = True
+
+    chrono.SetChronoDataPath(_CHRONO_DATA_DIRECTORY)
+
+
+def set_chrono_vehicle_data_directory(path: str):
+    """Set the chrono vehicle data directory
+
+    Normally, it is assumed that the chrono vehicle data directory is located inside wherever :meth:`~get_wa_data_directory`
+    is set to. Using this method will override that functionality and statically assign the chrono vehicle data directory.
+    If you'd like to return to the overriding functionality, call :meth:`~set_chrono_directories_override`.
+
+    Args:
+        path (str): relative (or absolute) path where the data is stored
+    """
+    global _CHRONO_DATA_DIRECTORY, _OVERRIDE_CHRONO_DIRECTORIES
+
+    _CHRONO_DATA_DIRECTORY = path
+    _OVERRIDE_CHRONO_DIRECTORIES = True
+
+    veh.SetDataPath(_CHRONO_VEH_DATA_DIRECTORY)
+
+
+def get_chrono_data_file(filename: str) -> str:
+    """Get the absolute path for the filename passed relative to the :data:`~CHRONO_DATA_DIRECTORY`.
+
+    .. highlight:: python
+    .. code:: python
+
+        # Example Usage
+        from wa_simulator import get_chrono_data_file
+
+        # By default, the data directory will be set to '<installation path of wa_simulator>/data/chrono'
+        path = get_chrono_data_file('test.json')
+
+        print(path) # -> '<installation path of wa_simulator>/data/chrono/test.json'
+
+    Args:
+        filename (str): file relative to the data folder to get the absolute path for
+
+    Returns:
+        str: the absolute path of the file
+    """
+    _update_chrono_data_directories()
+    return str(pathlib.Path(_CHRONO_DATA_DIRECTORY) / filename)
+
+
+def get_chrono_vehicle_data_file(filename: str) -> str:
+    """Get the absolute path for the filename passed relative to the :data:`~CHRONO_VEH_DATA_DIRECTORY`.
+
+    .. highlight:: python
+    .. code:: python
+
+        # Example Usage
+        from wa_simulator import get_chrono_vehicle_data_file
+
+        # By default, the data directory will be set to '<installation path of wa_simulator>/data/chrono/vehicle'
+        path = get_chrono_vehicle_data_file('test.json')
+
+        print(path) # -> '<installation path of wa_simulator>/data/chrono/vehicle/test.json'
+
+    Args:
+        filename (str): file relative to the data folder to get the absolute path for
+
+    Returns:
+        str: the absolute path of the file
+    """
+    _update_chrono_data_directories()
+    return str(pathlib.Path(_CHRONO_VEH_DATA_DIRECTORY) / filename)
+
+
+# Initialze the chrono data directory to in-repo data directory
+_DATA_DIRECTORY = ""
+_CHRONO_DATA_DIRECTORY = ""
+_CHRONO_VEH_DATA_DIRECTORY = ""
+_OVERRIDE_CHRONO_DIRECTORIES = False
+_update_chrono_data_directories()
 
 # ------------------
 # vector conversions
@@ -89,8 +204,8 @@ def ChFrame_from_json(j: dict):
     """
 
     # Validate the json file
-    check_field(j, 'Position', field_type=list)
-    check_field(j, 'Rotation', field_type=list)
+    _check_field(j, 'Position', field_type=list)
+    _check_field(j, 'Rotation', field_type=list)
 
     # Do the conversion
     pos = j['Position']

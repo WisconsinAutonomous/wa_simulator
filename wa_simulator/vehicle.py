@@ -13,7 +13,7 @@ from abc import abstractmethod  # Abstract Base Class
 # WA Simulator
 from wa_simulator.core import WA_GRAVITY, WAVector, WAQuaternion
 from wa_simulator.base import WABase
-from wa_simulator.utils import get_wa_data_file
+from wa_simulator.utils import _load_json, _WAStaticAttribute, get_wa_data_file
 
 # Other imports
 import numpy as np
@@ -35,12 +35,7 @@ def load_properties_from_json(filename: str, prop: str) -> dict:
     Returns:
         dict: the property field extracted from the json file
     """
-    import json
-
-    full_filename = get_wa_data_file(filename)
-
-    with open(full_filename) as f:
-        j = json.load(f)
+    j = _load_json(filename)
 
     if prop not in j:
         raise ValueError(f"{prop} not found in json.")
@@ -160,7 +155,9 @@ class WALinearKinematicBicycle(WAVehicle):
     """
 
     # Global filenames for vehicle models
-    GO_KART_MODEL_FILE = "vehicles/GoKart/GoKart_KinematicBicycle.json"
+    _GO_KART_MODEL_FILE = "vehicles/GoKart/GoKart_KinematicBicycle.json"
+
+    GO_KART_MODEL_FILE = _WAStaticAttribute('_GO_KART_MODEL_FILE', get_wa_data_file)
 
     def __init__(self, system: 'WASystem', vehicle_inputs: 'WAVehicleInputs', filename: str, init_pos: WAVector = WAVector(), init_rot: WAQuaternion = WAQuaternion.from_z_rotation(0), init_pos_dt: WAVector = WAVector()):
         super().__init__(system, vehicle_inputs, filename)

@@ -36,7 +36,7 @@ release = wa_simulator.__version__
 extensions = [
     # "rinoh.frontend.sphinx",
     "sphinx.ext.napoleon",
-    "sphinx.ext.autodoc",
+    # "sphinx.ext.autodoc",
     "sphinx.ext.todo",
     "sphinx.ext.viewcode",
     "autoapi.extension",
@@ -48,7 +48,6 @@ autoapi_type = "python"
 autoapi_dirs = [".."]
 autoapi_options = [
     "members",
-    "undoc-members",
     "show-inheritance",
     "show-module-summary",
     "special-members",
@@ -58,11 +57,20 @@ autoapi_options = [
 autoapi_ignore = ["*_import*"]
 autoapi_keep_files = True
 autoapi_generate_api_docs = True
-autoapi_add_toctree_entry = False
+autoapi_add_toctree_entry = True
 autoapi_template_dir = "_templates"
 # autoapi_member_order = "groupwise"
 
 add_module_names = False
+
+# Napoleon
+napoleon_google_docstring = True
+napoleon_numpy_docstring = False
+napoleon_use_ivar = True
+napoleon_use_param = False
+napoleon_use_rtype = False
+napoleon_type_aliases = None
+napoleon_attr_annotations = True
 
 
 def autoapi_skip_member(app, what, name, obj, skip, options):

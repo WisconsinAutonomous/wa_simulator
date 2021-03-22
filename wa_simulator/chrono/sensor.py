@@ -9,10 +9,10 @@ in the LICENSE file at the top level of the repo
 """
 
 # WA Simulator
-from wa_simulator.utils import check_type, load_json, check_field, get_wa_data_file
+from wa_simulator.utils import _check_type, _load_json, _check_field, get_wa_data_file, _WAStaticAttribute
 from wa_simulator.sensor import WASensorManager, WASensor, load_sensor_from_json
 from wa_simulator.chrono.vehicle import WAChronoVehicle
-from wa_simulator.chrono.utils import ChVector_from_list, ChFrame_from_json
+from wa_simulator.chrono.utils import ChVector_from_list, ChFrame_from_json, get_chrono_data_file, WAVector_to_ChVector
 from wa_simulator.chrono.system import WAChronoSystem
 
 # Chrono specific imports
@@ -40,26 +40,26 @@ def load_chrono_sensor_scene_from_json(manager: "WAChronoSensorManager", filenam
     if missing_chrono_sensor:
         sens_import_error('load_chrono_sensor_scene_from_json')
 
-    j = load_json(filename)
+    j = _load_json(filename)
 
     # Validate the json file
-    check_field(j, 'Type', value='Sensor')
-    check_field(j, 'Template', value='Chrono Sensor Scene')
-    check_field(j, 'World', field_type=dict, optional=True)
-    check_field(j, 'Sensors', field_type=list, optional=True)
-    check_field(j, 'Objects', field_type=list, optional=True)
+    _check_field(j, 'Type', value='Sensor')
+    _check_field(j, 'Template', value='Chrono Sensor Scene')
+    _check_field(j, 'World', field_type=dict, optional=True)
+    _check_field(j, 'Sensors', field_type=list, optional=True)
+    _check_field(j, 'Objects', field_type=list, optional=True)
 
     if 'World' in j:
         w = j['World']
 
-        check_field(w, 'Point Lights', field_type=list)
+        _check_field(w, 'Point Lights', field_type=list)
 
         # Create the point lights
         # NOTE: Might be optional in the future
         for p in w['Point Lights']:
-            check_field(p, 'Position', field_type=list)
-            check_field(p, 'Color', field_type=list)
-            check_field(p, 'Maximum Range', field_type=float)
+            _check_field(p, 'Position', field_type=list)
+            _check_field(p, 'Color', field_type=list)
+            _check_field(p, 'Maximum Range', field_type=float)
 
             pos = ChVector_from_list(p['Position'], chrono.ChVectorF)
             color = ChVector_from_list(p['Color'], chrono.ChVectorF)
@@ -71,56 +71,34 @@ def load_chrono_sensor_scene_from_json(manager: "WAChronoSensorManager", filenam
         s = j['Sensors']
 
         for sensor in s:
-            new_sensor = load_chrono_sensor_from_json(sensor, manager._vehicle)
+            new_sensor = load_chrono_sensor_from_json(manager._system, sensor)
             manager.add_sensor(new_sensor)
 
-    if 'Objects' in j:
-        objects = j['Objects']
 
-        for o in objects:
-            check_field(o, 'Size', field_type=list)
-            check_field(o, 'Position', field_type=list)
-            check_field(o, 'Color', field_type=list, optional=True)
-            check_field(o, 'Texture', field_type=str, optional=True)
-
-            size = ChVector_from_list(o['Size'])
-            pos = ChVector_from_list(o['Position'])
-
-            box = chrono.ChBodyEasyBox(size.x, size.y, size.z, 1000, True, False)
-            box.SetPos(pos)
-            if 'Color' in o:
-                c = ChVector_from_list(o['Color'])
-                box.AddAsset(chrono.ChColorAsset(chrono.ChColor(c.x, c.y, c.z)))
-            if 'Texture' in o:
-                texture = chrono.ChVisualMaterial()
-                texture.SetKdTexture(get_wa_data_file(o['Texture']))
-                chrono.CastToChVisualization(box.GetAssets()[0]).material_list.append(texture)
-            box.SetBodyFixed(True)
-
-            manager.add_body(box)
-
-
-def load_chrono_sensor_from_json(vehicle: 'WAChronoVehicle', filename: str):
+def load_chrono_sensor_from_json(system: 'WAChronoSystem', filename: str, **kwargs) -> 'WAChronoSensor':
     """Load a chrono sensor from json
 
     If the passed json file isn't a chrono type, it will call the correct method.
 
     Args:
-        vehicle (WAChronoVehicle): The vehicle each sensor will be attached to
+        system (WAChronoSystem): The system for the simulation
         filename (str): The json specification file that describes the sensor
+
+    Returns:
+            WAChronoSensor: The created sensor
     """
     if missing_chrono_sensor:
         sens_import_error('load_chrono_sensor_from_json')
 
     # Check if the file can be found in the chrono portion of the data folder
     try:
-        j = load_json(chrono.GetChronoDataFile(filename))
+        j = _load_json(filename)
     except FileNotFoundError:
         # File is not chrono specific, try that now
-        j = load_json(get_wa_data_file(filename))
-        return load_sensor_from_json(vehicle, filename)
+        j = _load_json(get_wa_data_file(filename))
+        return load_sensor_from_json(system, filename, **kwargs)
 
-    return WAChronoSensor(vehicle, filename)
+    return WAChronoSensor(system, filename, **kwargs)
 
 
 class WAChronoSensorManager(WASensorManager):
@@ -133,18 +111,17 @@ class WAChronoSensorManager(WASensorManager):
     """
 
     # Global filenames for environment models
-    EGP_SENSOR_SCENE_FILE = chrono.GetChronoDataFile("sensors/scenes/ev_grand_prix.json")  # noqa
+    _EGP_SENSOR_SCENE_FILE = "sensors/scenes/ev_grand_prix.json"
 
-    def __init__(self, system: 'WAChronoSystem', vehicle: 'WAChronoVehicle', filename: str = None):
+    EGP_SENSOR_SCENE_FILE = _WAStaticAttribute('_EGP_SENSOR_SCENE_FILE', chrono.GetChronoDataFile)
+
+    def __init__(self, system: 'WAChronoSystem', filename: str = None):
         if missing_chrono_sensor:
             sens_import_error('WAChronoSensorManager.__init__')
 
-        check_type(system, WAChronoSystem, 'system', 'WAChronoSensorManager.__init__')  # noqa
-        check_type(vehicle, WAChronoVehicle, 'vehicle', 'WAChronoSensorManager.__init__')  # noqa
+        _check_type(system, WAChronoSystem, 'system', 'WAChronoSensorManager.__init__')  # noqa
 
-        super().__init__(system, vehicle)
-
-        self._bodies = []
+        super().__init__(system)
 
         self._manager = sens.ChSensorManager(system._system)
 
@@ -171,35 +148,57 @@ class WAChronoSensorManager(WASensorManager):
 
         super().advance(step)
 
-    def add_body(self, body):
-        """Adds a ChBody to the ChSystem. Saves them to be used later"""
-        self._system._system.Add(body)
-        self._bodies.append(body)
-
 
 class WAChronoSensor(WASensor):
-    """Derived Sensor class that is still abstract that essentially wraps a ChSensor"""
+    """Derived Sensor class that is still abstract that essentially wraps a ChSensor.
+
+    A ChSensor has to be attached to a body that's present in the Chrono world. That body can then be moved
+    which then moves the ChSensor. If a vehicle is passed, the sensor is automatically attached to the chassis
+    body with some offset. If a vehicle is not passed, a :class:`~WABody` must be passed and the sensor
+    will be attached to that object. If both are passed, an exception is raised.
+
+    If body is passed, it must have one attribute: position.
+
+    Args:
+        system (WAChronoSystem): The system for the simulation
+        filename (str): The json file that describes this sensor
+        vehicle (WAChronoVehicle, optional): The vehicle to attach to. If not passed, body must be passed.
+        body (WABody, optional): The body to attach to. If not passed, vehicle must be passed.
+    """
 
     # Global filenames for various sensors
-    MONO_CAM_SENSOR_FILE = "sensors/models/generic_monocamera.json"
-    LDMRS_LIDAR_SENSOR_FILE = "sensors/models/ldmrs.json"
+    _MONO_CAM_SENSOR_FILE = "sensors/models/generic_monocamera.json"
+    _LDMRS_LIDAR_SENSOR_FILE = "sensors/models/ldmrs.json"
 
-    def __init__(self, vehicle: 'WAChronoVehicle', filename: str):
+    MONO_CAM_SENSOR_FILE = _WAStaticAttribute('_MONO_CAM_SENSOR_FILE', get_chrono_data_file)
+    LDMRS_LIDAR_SENSOR_FILE = _WAStaticAttribute('_LDMRS_LIDAR_SENSOR_FILE', get_chrono_data_file)
+
+    def __init__(self, system: 'WAChronoSystem', filename: str, vehicle: 'WAChronoVehicle' = None, body: 'WABody' = None):
         if missing_chrono_sensor:
             sens_import_error('WAChronoSensor.__init__')
 
-        filename = chrono.GetChronoDataFile(filename)
-        j = load_json(filename)
+        super().__init__(vehicle, body)
+
+        j = _load_json(filename)
 
         # Validate the json file
-        check_field(j, 'Type', value='Sensor')
-        check_field(j, 'Template', allowed_values=['Camera', 'Lidar', 'IMU', 'GPS'])  # noqa
-        check_field(j, 'Offset Pose', field_type=dict)
+        _check_field(j, 'Type', value='Sensor')
+        _check_field(j, 'Template', allowed_values=['Camera', 'Lidar', 'IMU', 'GPS'])  # noqa
+        _check_field(j, 'Offset Pose', field_type=dict)
 
         offset_pose = ChFrame_from_json(j['Offset Pose'])
 
-        # Create the chrono sensor through the Sensor chrono class
-        self._sensor = sens.Sensor.CreateFromJSON(filename, vehicle._vehicle.GetChassisBody(), offset_pose)  # noqa
+        if vehicle is not None:
+            body = vehicle._vehicle.GetChassisBody()
+        else:
+            asset = body
+            body = chrono.ChBody()
+            body.SetPos(WAVector_to_ChVector(asset.position))
+            body.SetBodyFixed(True)
+            system._system.AddBody(body)
+
+            # Create the chrono sensor through the Sensor chrono class
+        self._sensor = sens.Sensor.CreateFromJSON(filename, body, offset_pose)  # noqa
 
     def synchronize(self, time):
         """Synchronize the sensor at the specified time

@@ -13,7 +13,7 @@ from abc import ABC, abstractmethod  # Abstract Base Class
 # WA Simulator
 from wa_simulator.base import WABase
 from wa_simulator.core import WA_EARTH_RADIUS, WA_PI, WAVector
-from wa_simulator.utils import load_json, check_field, check_field_allowed_values, get_wa_data_file
+from wa_simulator.utils import _load_json, _check_field, _check_field_allowed_values, _WAStaticAttribute, get_wa_data_file
 
 # Other Imports
 import json
@@ -29,37 +29,41 @@ def load_sensor_suite_from_json(manager: 'WASensorManager', filename: str):
         manager (WASensorManager): The sensor manager to store all created objects in
         filename (str): The json specification file that describes the sensor suite
     """
-    j = load_json(get_wa_data_file(filename))
+    j = _load_json(filename)
 
     # Validate the json file
-    check_field(j, 'Type', value='Sensor')
-    check_field(j, 'Template', value='Sensor Suite')
-    check_field(j, 'Sensors', field_type=list)
+    _check_field(j, 'Type', value='Sensor')
+    _check_field(j, 'Template', value='Sensor Suite')
+    _check_field(j, 'Sensors', field_type=list)
 
     # Load the sensors
     for sensor in j['Sensors']:
-        new_sensor = load_sensor_from_json(manager.vehicle, sensor)
+        new_sensor = load_sensor_from_json(sensor, manager._system)
         manager.add_sensor(new_sensor)
 
 
-def load_sensor_from_json(vehicle: 'WAVehicle', filename: str) -> 'WASensor':
+def load_sensor_from_json(system: 'WASystem', filename: str, **kwargs) -> 'WASensor':
     """Load a sensor from json
 
     Args:
-        vehicle (WAVehicle): The vehicle each sensor will be attached to
+        system (WASystem): The system for the simulation
         filename (str): The json specification file that describes the sensor
+        kwargs: Keyworded arguments. Must contain a 'vehicle' or 'body', not both.
+
+    Returns:
+        WASensor: The created sensor
     """
-    j = load_json(get_wa_data_file(filename))
+    j = _load_json(filename)
 
     # Validate the json file
-    check_field(j, 'Type', value='Sensor')
-    check_field(j, 'Template', allowed_values=['IMU', 'GPS'])
+    _check_field(j, 'Type', value='Sensor')
+    _check_field(j, 'Template', allowed_values=['IMU', 'GPS'])
 
     # Check the template and create a sensor based off what it is
     if j['Template'] == 'IMU':
-        sensor = WAIMUSensor(vehicle, filename)
+        sensor = WAIMUSensor(system, filename, **kwargs)
     elif j['Template'] == 'GPS':
-        sensor = WAGPSSensor(vehicle, filename)
+        sensor = WAGPSSensor(system, filename, **kwargs)
     else:
         raise TypeError(f"{j['Template']} is not an implemented sensor type")
 
@@ -71,15 +75,16 @@ class WASensorManager(WABase):
 
     Args:
         system (WASystem): The system for the simulation
-        filename (str): A json file to load a scene from. Defaults to None (does nothing).
+        filename (str, optional): A json file to load a scene from. Defaults to None (does nothing).
     """
 
     # Global filenames for sensor suites
-    EGP_SENSOR_SUITE_FILE = "sensors/suites/ev_grand_prix.json"
+    _EGP_SENSOR_SUITE_FILE = "sensors/suites/ev_grand_prix.json"
 
-    def __init__(self, system: 'WASystem', vehicle: 'WAVehicle', filename: str = None):
+    EGP_SENSOR_SUITE_FILE = _WAStaticAttribute('_EGP_SENSOR_SUITE_FILE', get_wa_data_file)
+
+    def __init__(self, system: 'WASystem', filename: str = None):
         self._system = system
-        self._vehicle = vehicle
 
         self._sensors = []
 
@@ -152,12 +157,12 @@ class WANormalDriftNoiseModel(WANoiseModel):
 
     def __init__(self, p: dict):
         # Validate properties
-        check_field(p, 'Noise Type', value='Normal Drift')
-        check_field(p, 'Update Rate', field_type=float)
-        check_field(p, 'Mean', field_type=list)
-        check_field(p, 'Standard Deviation', field_type=list)
-        check_field(p, 'Bias Drift', field_type=float)
-        check_field(p, 'Tau Drift', field_type=float)
+        _check_field(p, 'Noise Type', value='Normal Drift')
+        _check_field(p, 'Update Rate', field_type=float)
+        _check_field(p, 'Mean', field_type=list)
+        _check_field(p, 'Standard Deviation', field_type=list)
+        _check_field(p, 'Bias Drift', field_type=float)
+        _check_field(p, 'Tau Drift', field_type=float)
 
         self._load_properties(p)
 
@@ -208,9 +213,9 @@ class WANormalNoiseModel(WANoiseModel):
 
     def __init__(self, p: dict):
         # Validate properties
-        check_field(p, 'Noise Type', value='Normal')
-        check_field(p, 'Mean', field_type=list)
-        check_field(p, 'Standard Deviation', field_type=list)
+        _check_field(p, 'Noise Type', value='Normal')
+        _check_field(p, 'Mean', field_type=list)
+        _check_field(p, 'Standard Deviation', field_type=list)
 
         self._load_properties(p)
 
@@ -246,7 +251,23 @@ class WASensor(WABase):
     Sensor implementations are some what limited to the underlying backend for the simulation. If Chrono is used, 
     Physics Based Rendering (PBR) sensors are available through the ray tracing engine `OptiX <https://developer.nvidia.com/optix>`_ 
     and `Chrono::Sensor <https://api.projectchrono.org/group__sensor__sensors.html>`_.
+
+    Args:
+        vehicle (WAVehicle): The vehicle to attach to. If not passed, body must be passed.
+        body (WABody): The body to attach to. If not passed, vehicle must be passed.
     """
+
+    def __init__(self, vehicle: 'WAVehicle', body: 'WABody'):
+        if vehicle is not None and body is not None:
+            raise ValueError(f"'vehicle' and 'body' are both set, but this is not allowed. Please only pass one.")
+        elif vehicle is None and body is None:
+            raise ValueError(f"'vehicle' and 'body' are both not set. Please set one.")
+
+        if vehicle is not None:
+            pass
+        else:
+            if not hasattr(body, 'position') or not isinstance(body.position, WAVector):
+                raise ValueError(f"'body' must have a position attribute and it must be a 'WAVector'.")
 
     @abstractmethod
     def synchronize(self, time: float):
@@ -280,30 +301,39 @@ class WAIMUSensor(WASensor):
     description of the underyling implementation can be found in `these slides <https://stanford.edu/class/ee267/lectures/lecture9.pdf>`_.
 
     Args:
-        vehicle (WAVehicle): the vehicle that the state data will be extracted from
+        system (WASystem): The system for the simulation
         filename (str): a json specification file that describes an IMU sensor model
+        vehicle (WAVehicle, optional): The vehicle to attach to. If not passed, body must be passed.
+        body (WABody, optional): The body to attach to. If not passed, vehicle must be passed.
     """
 
     # Global filenames for imu sensors
-    SBG_IMU_SENSOR_FILE = "sensors/models/SBG_IMU.json"
+    _SBG_IMU_SENSOR_FILE = "sensors/models/SBG_IMU.json"
 
-    def __init__(self, vehicle: 'WAVehicle', filename: str):
+    SBG_IMU_SENSOR_FILE = _WAStaticAttribute('_SBG_IMU_SENSOR_FILE', get_wa_data_file)
+
+    def __init__(self, system: 'WASystem', filename: str, vehicle: 'WAVehicle' = None, body: 'WABody' = None):
+        super().__init__(vehicle, body)
+
+        if body is not None:
+            raise NotImplementedError("Setting 'body' is currently not supported. Please pass a vehicle instead")
+
         self._vehicle = vehicle
 
-        j = load_json(get_wa_data_file(filename))
+        j = _load_json(filename)
 
         # Validate the json file
-        check_field(j, 'Type', value='Sensor')
-        check_field(j, 'Template', value='IMU')
-        check_field(j, 'Properties', field_type=dict)
+        _check_field(j, 'Type', value='Sensor')
+        _check_field(j, 'Template', value='IMU')
+        _check_field(j, 'Properties', field_type=dict)
 
         p = j['Properties']
-        check_field(p, 'Update Rate', field_type=int)
-        check_field(p, 'Noise Model', field_type=dict, optional=True)
+        _check_field(p, 'Update Rate', field_type=int)
+        _check_field(p, 'Noise Model', field_type=dict, optional=True)
 
         if 'Noise Model' in p:
-            check_field(p['Noise Model'], 'Noise Type',
-                        allowed_values=["Normal", "Normal Drift"])
+            _check_field(p['Noise Model'], 'Noise Type',
+                         allowed_values=["Normal", "Normal Drift"])
 
         self._load_properties(p)
 
@@ -369,31 +399,40 @@ class WAGPSSensor(WASensor):
     precise. IMU's and GPS's are commonly "fused" together to achieve highly accurate and reliable position information.
 
     Args:
-        vehicle (WAVehicle): the vehicle that the state data will be extracted from
-        filename (str): a json specification file that describes an IMU sensor model
+        system (WASystem): The system for the simulation
+        filename (str): a json specification file that describes an GPS sensor model
+        vehicle (WAVehicle, optional): The vehicle to attach to. If not passed, body must be passed.
+        body (WABody, optional): The body to attach to. If not passed, vehicle must be passed.
     """
 
     # Global filenames for gps sensors
-    SBG_GPS_SENSOR_FILE = "sensors/models/SBG_GPS.json"
+    _SBG_GPS_SENSOR_FILE = "sensors/models/SBG_GPS.json"
 
-    def __init__(self, vehicle: 'WAVehicle', filename: str):
+    SBG_GPS_SENSOR_FILE = _WAStaticAttribute('_SBG_GPS_SENSOR_FILE', get_wa_data_file)
+
+    def __init__(self, system: 'WASystem', filename: str, vehicle: 'WAVehicle' = None, body: 'WABody' = None):
+        super().__init__(vehicle, body)
+
+        if body is not None:
+            raise NotImplementedError("Setting 'body' is currently not supported. Please pass a vehicle instead")
+
         self._vehicle = vehicle
 
-        j = load_json(get_wa_data_file(filename))
+        j = _load_json(filename)
 
         # Validate the json file
-        check_field(j, 'Type', value='Sensor')
-        check_field(j, 'Template', value='GPS')
-        check_field(j, 'Properties', field_type=dict)
+        _check_field(j, 'Type', value='Sensor')
+        _check_field(j, 'Template', value='GPS')
+        _check_field(j, 'Properties', field_type=dict)
 
         p = j['Properties']
-        check_field(p, 'Update Rate', field_type=int)
-        check_field(p, 'GPS Reference', field_type=list)
-        check_field(p, 'Noise Model', field_type=dict, optional=True)
+        _check_field(p, 'Update Rate', field_type=int)
+        _check_field(p, 'GPS Reference', field_type=list)
+        _check_field(p, 'Noise Model', field_type=dict, optional=True)
 
         if 'Noise Model' in p:
-            check_field(p['Noise Model'], 'Noise Type',
-                        allowed_values=["Normal", "Normal Drift"])
+            _check_field(p['Noise Model'], 'Noise Type',
+                         allowed_values=["Normal", "Normal Drift"])
 
         self._load_properties(p)
 

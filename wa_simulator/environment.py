@@ -14,10 +14,7 @@ from abc import abstractmethod  # Abstract Base Class
 from wa_simulator.base import WABase
 from wa_simulator.core import WAVector
 from wa_simulator.track import create_track_from_json
-from wa_simulator.utils import load_json, check_field, get_wa_data_file
-
-# Other imports
-from math import atan2
+from wa_simulator.utils import _load_json, _check_field, get_wa_data_file, _WAStaticAttribute
 
 
 def create_environment_from_json(filename: str) -> 'WAEnvironment':
@@ -40,15 +37,29 @@ def create_environment_from_json(filename: str) -> 'WAEnvironment':
         WAEnvironment: The created environment
     """
 
-    j = load_json(get_wa_data_file(filename))
+    j = _load_json(filename)
 
     # Validate the json file
-    check_field(j, 'Type', value='Environment')
-    check_field(j, 'Template', allowed_values=['WASimpleEnvironment'])
-    check_field(j, 'World', field_type=dict, optional=True)
-    check_field(j, 'Objects', field_type=list, optional=True)
+    _check_field(j, 'Type', value='Environment')
+    _check_field(j, 'Template', allowed_values=['WASimpleEnvironment'])
+    _check_field(j, 'World', field_type=dict, optional=True)
+    _check_field(j, 'Objects', field_type=list, optional=True)
 
     environment = eval(j['Template'])()
+
+    load_environment_from_json(environment, filename)
+
+    return environment
+
+
+def load_environment_from_json(environment: 'WAEnvironment', filename: str):
+    j = _load_json(filename)
+
+    # Validate the json file
+    _check_field(j, 'Type', value='Environment')
+    _check_field(j, 'Template')
+    _check_field(j, 'World', field_type=dict, optional=True)
+    _check_field(j, 'Objects', field_type=list, optional=True)
 
     if 'World' in j:
         w = j['World']
@@ -57,67 +68,39 @@ def create_environment_from_json(filename: str) -> 'WAEnvironment':
         objects = j['Objects']
 
         for o in objects:
-            check_field(o, 'Size', field_type=list)
-            check_field(o, 'Position', field_type=list, optional=True)
-            check_field(o, 'Color', field_type=list, optional=True)
+            _check_field(o, 'Size', field_type=list)
+            _check_field(o, 'Position', field_type=list, optional=True)
+            _check_field(o, 'Color', field_type=list, optional=True)
 
-            args = {}
-            args['size'] = WAVector(o['Size'])
-            args['position'] = WAVector(o['Position'])
+            kwargs = {}
+            kwargs['size'] = WAVector(o['Size'])
+            kwargs['position'] = WAVector(o['Position'])
 
             if 'Color' in o:
-                args['color'] = WAVector(o['Color'])
+                kwargs['color'] = WAVector(o['Color'])
 
-            environment.add_body(WABody(args))
+            if 'Texture' in o:
+                kwargs['texture'] = o['Texture']
+
+            if 'Name' in o:
+                kwargs['name'] = o['Name']
+
+            environment.add_asset(WABody(**kwargs))
 
     if 'Track' in j:
         t = j['Track']
 
         # Validate json
-        check_field(t, 'Track Input File', field_type=str)
-        check_field(t, 'Boundary Object', field_type=dict)
+        _check_field(t, 'Track Input File', field_type=str)
 
         track_file = t['Track Input File']
-        track = create_track_from_json(get_wa_data_file(track_file))
+        track = create_track_from_json(get_wa_data_file(track_file), environment)
 
-        o = t['Boundary Object']
-
-        # Validate json
-        check_field(o, 'Size', field_type=list)
-        check_field(o, 'Color', field_type=list, optional=True)
-
-        kwargs = {}
-        kwargs['size'] = WAVector(o['Size'])
-
-        if 'Color' in o:
-            kwargs['color'] = WAVector(o['Color'])
-
-        left_points = track.left.get_points()
-        left_d_points = track.left.get_points(der=1)
-        right_points = track.right.get_points()
-        right_d_points = track.right.get_points(der=1)
-
-        l = len(left_points)
-        n = 50
-        for i in range(0, l, 1 if l < n else int(l / n)):
-            lp = left_points[i]
-            ldp = left_d_points[i]
-            rp = right_points[i]
-            rdp = right_d_points[i]
-
-            kwargs['position'] = WAVector(lp)
-            kwargs['yaw'] = -atan2(ldp[1], ldp[0])
-            environment.add_body(WABody(**kwargs))
-
-            kwargs['position'] = WAVector(rp)
-            kwargs['yaw'] = -atan2(rdp[1], rdp[0])
-            environment.add_body(WABody(**kwargs))
-
-    return environment
+        environment.add_asset(track.center)
 
 
 class WABody:
-    """Base class for arbitrary objects in a simulation world
+    """Base class for arbitrary objects in a simulation world that can be visualized.
 
     .. highlight:: python
     .. code-block:: python
@@ -129,12 +112,12 @@ class WABody:
         size = WAVector()
         pos = WAVector()
 
-        body = WABody(pos=pos, size=size)
+        body= WABody(pos=pos, size=size)
         print(body.size, body.pos)
 
 
     Args:
-        **kwargs: Keyworded arguments that are stored as attributes in this object
+        **kwargs: Keyworded arguments that are stored as attributes in this object.
     """
 
     def __init__(self, **kwargs):
@@ -164,7 +147,8 @@ class WAEnvironment(WABase):
     """
 
     def __init__(self):
-        self._bodies = []
+        self._assets = list()
+        self._asset_dict = dict()
 
     @ abstractmethod
     def synchronize(self, time: float):
@@ -177,31 +161,59 @@ class WAEnvironment(WABase):
     def is_ok(self) -> bool:
         return True
 
-    def add_body(self, body: WABody):
-        """Add a body to the world
-
-        A body holds certain attributes that may be applicable in various simulations. This method
-        stores created bodies in the environment object
+    def create_body(self, **kwargs):
+        """Create a body and add it as an asset to the world. Adds the asset using :meth:`~add_asset`.
 
         Args:
-            body (WABody): The body to add
+            **kwargs: Keyworded arguments used to create the asset
         """
-        self._bodies.append(body)
+        self.add_asset(WABody(**kwargs))
 
-    def get_bodies(self) -> list:
-        """Returns the bodies that have been attached to this environment
+    def add_asset(self, asset: 'Any'):
+        """Add an asset to the world
+
+        A asset holds certain attributes that may be applicable in various simulations. This method
+        stores created assets in the environment object.
+
+        Args:
+            asset (Any): The asset to add.
+        """
+        self._assets.append(asset)
+        if hasattr(asset, 'name'):
+            self._asset_dict[asset.name] = asset
+
+    def get_assets(self) -> list:
+        """Returns the assets that have been attached to this environment.
 
         Returns:
-            list: A list of the bodies added through :meth:`~add_body`
+            list: A list of the assets added through :meth:`~add_asset`.
         """
-        return self._bodies
+        return self._assets
+
+    def get_asset(self, name: str) -> 'Any':
+        """Get the asset with the attached name
+
+        Args:
+            name (str): The name of the asset
+
+        Returns:
+            Any: The asset with that name
+
+        Raises:
+            KeyError: If the name is not found
+        """
+        if name not in self._asset_dict:
+            raise KeyError(f"Asset with name '{name}' was not found.")
+
+        return self._asset_dict[name]
 
 
 class WASimpleEnvironment(WAEnvironment):
     """Simple environment that doesn't have any assets within the world."""
 
-    EGP_ENV_MODEL_FILE = "environments/ev_grand_prix.json"
-    """evGrand Prix Environment Description"""
+    _EGP_ENV_MODEL_FILE = "environments/ev_grand_prix.json"
+
+    EGP_ENV_MODEL_FILE = _WAStaticAttribute('_EGP_ENV_MODEL_FILE', get_wa_data_file)
 
     def __init__(self):
         super().__init__()
@@ -212,7 +224,7 @@ class WASimpleEnvironment(WAEnvironment):
         Simple environment doesn't actually do anything for now.
 
         Args:
-            time (float): the time at which the enviornment should be synchronized to
+            time(float): the time at which the enviornment should be synchronized to
         """
         pass
 
@@ -222,6 +234,6 @@ class WASimpleEnvironment(WAEnvironment):
         Simple environment doesn't actually do anything for now.
 
         Args:
-            step (float): the time step at which the enviornment should be advanced
+            step(float): the time step at which the enviornment should be advanced
         """
         pass

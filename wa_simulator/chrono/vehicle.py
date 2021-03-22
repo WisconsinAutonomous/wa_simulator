@@ -11,8 +11,8 @@ in the LICENSE file at the top level of the repo
 # WA Simulator
 from wa_simulator.vehicle import WAVehicle
 from wa_simulator.core import WAVector, WAQuaternion
-from wa_simulator.utils import check_field, load_json
-from wa_simulator.chrono.utils import ChVector_to_WAVector, ChQuaternion_to_WAQuaternion, WAVector_to_ChVector, WAQuaternion_to_ChQuaternion
+from wa_simulator.utils import _check_field, _load_json, get_wa_data_file, _WAStaticAttribute
+from wa_simulator.chrono.utils import ChVector_to_WAVector, ChQuaternion_to_WAQuaternion, WAVector_to_ChVector, WAQuaternion_to_ChQuaternion, get_chrono_data_file, get_chrono_vehicle_data_file
 
 # Chrono specific imports
 import pychrono as chrono
@@ -31,16 +31,16 @@ def read_vehicle_model_file(filename: str) -> tuple:
     Returns:
         tuple: returns each json specification file for the vehicle, powertrain and tire
     """
-    j = load_json(veh.GetDataFile(filename))
+    j = _load_json(filename)
 
     # Validate json file
-    check_field(j, "Vehicle", field_type=dict)
-    check_field(j, "Powertrain", field_type=dict)
-    check_field(j, "Tire", field_type=dict)
+    _check_field(j, "Vehicle", field_type=dict)
+    _check_field(j, "Powertrain", field_type=dict)
+    _check_field(j, "Tire", field_type=dict)
 
-    check_field(j["Vehicle"], "Input File", field_type=str)
-    check_field(j["Powertrain"], "Input File", field_type=str)
-    check_field(j["Tire"], "Input File", field_type=str)
+    _check_field(j["Vehicle"], "Input File", field_type=str)
+    _check_field(j["Powertrain"], "Input File", field_type=str)
+    _check_field(j["Tire"], "Input File", field_type=str)
 
     # Extract the actual files
     vehicle_filename = veh.GetDataFile(j["Vehicle"]["Input File"])
@@ -65,11 +65,11 @@ def create_tire_from_json(tire_filename: str) -> veh.ChTire:
     Raises:
         TypeError: If the tire type is not recognized
     """
-    j = load_json(tire_filename)
+    j = _load_json(tire_filename)
 
     # Valide json file
-    check_field(j, "Type", value="Tire")
-    check_field(j, "Template", allowed_values=["TMeasyTire", "RigidTire"])
+    _check_field(j, "Type", value="Tire")
+    _check_field(j, "Template", allowed_values=["TMeasyTire", "RigidTire"])
 
     tire_type = j["Template"]
     if tire_type == "TMeasyTire":
@@ -93,18 +93,12 @@ class WAChronoVehicle(WAVehicle):
     """
 
     # Global filenames for vehicle models
-    GO_KART_MODEL_FILE = "GoKart/GoKart.json"
+    _GO_KART_MODEL_FILE = "GoKart/GoKart.json"
 
-    def __init__(
-        self,
-        system: 'WAChronoSystem',
-        vehicle_inputs: 'WAVehicleInputs',
-        env: 'WAEnvironment',
-        filename: str,
-        init_loc: WAVector = WAVector([0, 0, 0.5]),
-        init_rot: WAQuaternion = WAQuaternion([1, 0, 0, 0]),
-    ):
-        super().__init__(system, vehicle_inputs, "vehicles/GoKart/GoKart_KinematicBicycle.json")
+    GO_KART_MODEL_FILE = _WAStaticAttribute('_GO_KART_MODEL_FILE', get_chrono_vehicle_data_file)
+
+    def __init__(self, system: 'WAChronoSystem', vehicle_inputs: 'WAVehicleInputs', env: 'WAEnvironment', filename: str, init_loc: WAVector = WAVector([0, 0, 0.5]), init_rot: WAQuaternion = WAQuaternion([1, 0, 0, 0])):
+        super().__init__(system, vehicle_inputs, get_wa_data_file("vehicles/GoKart/GoKart_KinematicBicycle.json"))
 
         # Get the filenames
         vehicle_file, powertrain_file, tire_file = read_vehicle_model_file(filename)

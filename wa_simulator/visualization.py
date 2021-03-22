@@ -12,13 +12,17 @@ from abc import ABC, abstractmethod  # Abstract Base Class
 
 # WA Simulator
 from wa_simulator.base import WABase
+from wa_simulator.core import WA_PI, WAVector
 from wa_simulator.path import WAPath
+from wa_simulator.track import WATrack
 from wa_simulator.environment import WABody
 
 # Other imports
 from multiprocessing import Process, Pipe, Barrier, Queue, set_start_method
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+import matplotlib.collections as collections
 from matplotlib.animation import FuncAnimation
 from IPython.display import display, clear_output
 
@@ -45,14 +49,14 @@ class WAVisualization(WABase):
         pass
 
     @abstractmethod
-    def visualize(self, obj, *args, **kwargs):
+    def visualize(self, assets, *args, **kwargs):
         """Helper method that visualizes some object(s) in the chosen visualizer
 
         Different visualizations will visualize the object(s) in different ways. This is an abstract method,
         so it must be implemented.
 
         Args:
-            obj (Any): The object(s) to visualize
+            assets (list): The object(s) to visualize
             *args: Positional arguments that are specific to the underyling visualizer implementation
             **kwargs: Keyworded arguments that are specific to the underlying visualizer implementation
         """
@@ -327,9 +331,10 @@ class _MatplotlibPlotter(WABase):
             self.name = name
             self.value = value
 
-    def __init__(self, mat_vehicle: _MatplotlibVehicle, dashboard: _MatplotlibSimpleDashboard, static: bool = False, padding: float = 25, xlim: tuple = (-50, 50), ylim: tuple = (50, -50)):
+    def __init__(self, mat_vehicle: _MatplotlibVehicle, dashboard: _MatplotlibSimpleDashboard, opponent_mat_vehicles: list, static: bool = False, padding: float = 25, xlim: tuple = (-50, 50), ylim: tuple = (50, -50)):
         self._mat_vehicle = mat_vehicle
         self._dashboard = dashboard
+        self._opponent_mat_vehicles = opponent_mat_vehicles
 
         self._vehicle_inputs = None
         self._state = (0, 0, 0, 0)
@@ -359,6 +364,15 @@ class _MatplotlibPlotter(WABase):
         """
         self._vehicle_inputs = vehicle_inputs
 
+    def set_opponents(self, opponents: list):
+        """Set the opponents list
+
+        Args:
+            opponents (list): The list of opponents
+        """
+        self._opponents = opponents
+        self._opponent_states = [[(0, 0, 0, 0), opponent._vehicle_inputs] for opponent in opponents]
+
     def synchronize(self, time: float):
         # Save values for later
         self._time = time
@@ -369,6 +383,12 @@ class _MatplotlibPlotter(WABase):
         yaw = self._vehicle.get_rot().to_euler_yaw()
         v = self._vehicle.get_pos_dt().length
         self._state = (pos.x, pos.y, yaw, v)
+
+        for i, opponent in enumerate(self._opponents):
+            pos = opponent.get_pos()
+            yaw = opponent.get_rot().to_euler_yaw()
+            v = opponent.get_pos_dt().length
+            self._opponent_states[i][0] = (pos.x, pos.y, yaw, v)
 
     @abstractmethod
     def register_key_press_event(self, callback):
@@ -412,6 +432,8 @@ class _MatplotlibPlotter(WABase):
         # Initialize the plotters
         self._mat_vehicle.initialize(self._ax)
         self._dashboard.initialize(self._ax)
+        for o in self._opponent_mat_vehicles:
+            o.initialize(self._ax)
 
     def _update_axes(self, x, y):
         """Helper method to update the matplotlib axis plot.
@@ -443,8 +465,8 @@ class _MatplotlibSinglePlotter(_MatplotlibPlotter):
         **kwargs: keyworded arguments used for the base _MatplotlibPlotter class
     """
 
-    def __init__(self, mat_vehicle, dashboard, is_jupyter=False, **kwargs):
-        super().__init__(mat_vehicle, dashboard, **kwargs)
+    def __init__(self, mat_vehicle, dashboard, opponent_mat_vehicles, is_jupyter=False, **kwargs):
+        super().__init__(mat_vehicle, dashboard, opponent_mat_vehicles, **kwargs)
 
         self._initialize_plot()
 
@@ -464,6 +486,10 @@ class _MatplotlibSinglePlotter(_MatplotlibPlotter):
         if not self._static:
             self._update_axes(x, y)
 
+        for i, (state, vehicle_inputs) in enumerate(self._opponent_states):
+            x, y, yaw, v = state
+            self._opponent_mat_vehicles[i].update(x, y, yaw, vehicle_inputs.steering)
+
         # Update the plot
         if self._is_jupyter:
             display(self._fig)
@@ -479,7 +505,12 @@ class _MatplotlibSinglePlotter(_MatplotlibPlotter):
         self._events['key_press_event'] = callback
 
     def plot(self, *args, **kwargs):
-        self._ax.plot(*args, **kwargs)
+        if isinstance(args[0], patches.Patch):
+            self._ax.add_patch(args[0])
+        elif isinstance(args[0], collections.Collection):
+            self._ax.add_collection(args[0])
+        else:
+            self._ax.plot(*args, **kwargs)
 
     def _key_press(self, event):
         """Key press callback. Passes the event key (i.e. 'up' or 'a') to the callback registered through :meth:`~register_key_press_event`.
@@ -551,8 +582,8 @@ class _MatplotlibMultiPlotter(_MatplotlibPlotter):
             self.args = args
             self.kwargs = kwargs
 
-    def __init__(self, mat_vehicle, dashboard, asynchronous=False, **kwargs):
-        super().__init__(mat_vehicle, dashboard, **kwargs)
+    def __init__(self, mat_vehicle, dashboard, opponent_mat_vehicles, asynchronous=False, **kwargs):
+        super().__init__(mat_vehicle, dashboard, opponent_mat_vehicles, **kwargs)
 
         self._asynchronous = asynchronous
 
@@ -584,12 +615,17 @@ class _MatplotlibMultiPlotter(_MatplotlibPlotter):
                 self._events[event.name](event.value)
 
         # Send the state to the other process to visualize
-        state = self._SimulationState(self._state, self._vehicle_inputs, self._time)
-        if not self._queue._closed:
-            if self._asynchronous and self._queue.empty():
-                self._queue.put_nowait(state)
-            else:
-                self._queue.put(state)
+        def send(state):
+            if not self._queue._closed:
+                if self._asynchronous and self._queue.empty():
+                    self._queue.put_nowait(state)
+                else:
+                    self._queue.put(state)
+
+        states = [self._SimulationState(self._state, self._vehicle_inputs, self._time)]
+        for state, vehicle_inputs in self._opponent_states:
+            states.append(self._SimulationState(state, vehicle_inputs, self._time))
+        send(states)
 
     def run(self):
         """Multiprocess starter method. Will initialize matplotlib and setup FuncAnimation"""
@@ -617,7 +653,7 @@ class _MatplotlibMultiPlotter(_MatplotlibPlotter):
             i (int): window count
         """
         try:
-            state = self._queue.get(timeout=5 if i == 0 else 1)
+            state = self._queue.get(timeout=5 if i <= 2 else 1)
         except:
             plt.close(self._fig)
             return
@@ -630,11 +666,30 @@ class _MatplotlibMultiPlotter(_MatplotlibPlotter):
 
             if not self._static:
                 self._update_axes(x, y)
+        elif isinstance(state, list):
+            this_state = state[0]
+            (x, y, yaw, v), vehicle_inputs, time = this_state()
+
+            self._mat_vehicle.update(x, y, yaw, vehicle_inputs.steering)
+            self._dashboard.update(vehicle_inputs, time, v)
+
+            if not self._static:
+                self._update_axes(x, y)
+
+            for i, opponent in enumerate(state[1:]):
+                (x, y, yaw, v), vehicle_inputs, time = opponent()
+
+                self._opponent_mat_vehicles[i].update(x, y, yaw, vehicle_inputs.steering)
         elif isinstance(state, str):
             if state == 'key_press_event':
                 self._fig.canvas.mpl_connect('key_press_event', self._key_press)
         elif isinstance(state, self._PlotCall):
-            self._ax.plot(*state.args, **state.kwargs)
+            if isinstance(state.args[0], patches.Patch):
+                self._ax.add_patch(state.args[0])
+            elif isinstance(state.args[0], collections.Collection):
+                self._ax.add_collection(state.args[0])
+            else:
+                self._ax.plot(*state.args, **state.kwargs)
 
     def is_ok(self) -> bool:
         return self._p.is_alive()
@@ -702,16 +757,16 @@ class WAMatplotlibVisualization(WAVisualization):
         system (WASystem): system used to grab certain parameters of the simulation
         vehicle (WAVehicle): vehicle to render in the matplotlib plot window
         vehicle_inputs (WAVehicleInputs): the vehicle inputs
-        environment (WAEnvironment, optional): An environment with various world bodies to visualize. Defaults to None (doesn't visualize anything).
-        path (WAPath, optional): A path to visualize. Defaults to None (doesn't visualize anything).
+        environment (WAEnvironment, optional): An environment with various world assets to visualize. Defaults to None (doesn't visualize anything).
         plotter_type (str, optional): Type of plotter. "single" for single threaded, "multi" for multi threaded (fastest), "jupyter" if jupyter is used. Defaults to "single".
+        opponents (list, optional): List of other :class:`~WAVehicle`'s that represent opponents. Used for rendering.
         **kwargs: Additional arguments that are based to the underlying plotter implementation.
 
     Raises:
         ValueError: plotter_type isn't recognized
     """
 
-    def __init__(self, system: 'WASystem', vehicle: 'WAVehicle', vehicle_inputs: 'WAVehicleInputs', environment: 'WAEnvironment' = None, path: 'WAPath' = None, plotter_type: str = "single", **kwargs):
+    def __init__(self, system: 'WASystem', vehicle: 'WAVehicle', vehicle_inputs: 'WAVehicleInputs', environment: 'WAEnvironment' = None,  plotter_type: str = "single", opponents: list = [], **kwargs):
         self._system = system
         self._vehicle = vehicle
         self._vehicle_inputs = vehicle_inputs
@@ -719,31 +774,32 @@ class WAMatplotlibVisualization(WAVisualization):
         self._render_steps = int(np.ceil(system.render_step_size / system.step_size))  # noqa
 
         # Create the vehicle and dashboard
-        self._mat_vehicle = _MatplotlibVehicle(
-            self._vehicle.get_visual_properties())
-        self._dashboard = _MatplotlibSimpleDashboard()
+        mat_vehicle = _MatplotlibVehicle(self._vehicle.get_visual_properties())
+        dashboard = _MatplotlibSimpleDashboard()
+
+        opponent_mat_vehicles = []
+        for opponent in opponents:
+            opponent_mat_vehicles.append(_MatplotlibVehicle(opponent.get_visual_properties()))
 
         supported_plotters = ['multi', 'single', 'jupyter']
 
         # Create the underlying plotter
         if plotter_type == "multi":
-            self._plotter = _MatplotlibMultiPlotter(self._mat_vehicle, self._dashboard, **kwargs)
+            self._plotter = _MatplotlibMultiPlotter(mat_vehicle, dashboard, opponent_mat_vehicles, **kwargs)
         elif plotter_type == "single" or plotter_type == "jupyter":
             is_jupyter = plotter_type == 'jupyter'
             self._plotter = _MatplotlibSinglePlotter(
-                self._mat_vehicle, self._dashboard, is_jupyter=is_jupyter, **kwargs)
+                mat_vehicle, dashboard, opponent_mat_vehicles, is_jupyter=is_jupyter, **kwargs)
         else:
             raise ValueError(
                 f"Unknown plotter type: {plotter_type}. Must be one of the following: {', '.join(supported_plotters)}")
 
         self._plotter.set_vehicle(vehicle)
         self._plotter.set_vehicle_inputs(vehicle_inputs)
+        self._plotter.set_opponents(opponents)
 
         if environment is not None:
-            self.visualize(environment.get_bodies())
-
-        if path is not None:
-            self.visualize(path)
+            self.visualize(environment.get_assets())
 
     def synchronize(self, time: float):
         self._plotter.synchronize(time)
@@ -779,28 +835,37 @@ class WAMatplotlibVisualization(WAVisualization):
         """
         self._plotter.plot(*args, **kwargs)
 
-    def visualize(self, obj, *args, **kwargs):
+    def visualize(self, assets, *args, **kwargs):
+        if not isinstance(assets, list):
+            assets = [assets]
 
-        if isinstance(obj, WAPath):
-            points = obj.get_points()
-            self._plotter.plot(points[:, 0], points[:, 1], *args, **kwargs)
-        elif isinstance(obj, list):
-            if len([i for i in obj if not isinstance(i, WABody)]):
-                raise TypeError(f'List expected to have types of only {type(WABody)}.')
+        ptchs = []
 
-            xx = np.zeros((len(obj) * 2, 5), dtype=float)
-            yy = np.zeros((len(obj) * 2, 5), dtype=float)
+        for i, asset in enumerate(assets):
+            if isinstance(asset, WAPath):
+                points = asset.get_points()
+                self._plotter.plot(points[:, 0], points[:, 1], *args, **asset.get_vis_properties(), **kwargs)
+            elif isinstance(asset, WATrack):
+                def _plot(path):
+                    points = path.get_points()
+                    vis_properties = path.get_vis_properties()
+                    self._plotter.plot(points[:, 0], points[:, 1], *args, **vis_properties, **kwargs)
+                _plot(asset.left)
+                _plot(asset.right)
+                _plot(asset.center)
+            elif isinstance(asset, WABody):
+                if not hasattr(asset, 'size') or not hasattr(asset, 'position'):
+                    raise AttributeError("Body must have 'size', and 'position' fields")
 
-            last_size = None
+                position = asset.position
+                yaw = 0 if not hasattr(asset, 'yaw') else asset.yaw
+                size = asset.size / 2
+                color = WAVector([1, 0, 0]) if not hasattr(asset, 'color') else asset.color
 
-            for i, body in enumerate(obj):
-                if not hasattr(body, 'size') or not hasattr(body, 'position') or not hasattr(body, 'yaw'):
-                    raise AttributeError("Body must have 'size', 'position' and 'yaw' fields")
-
-                position = body.position
-                yaw = body.yaw
-                size = body.size / 2
-                color = WAVector([1, 0, 0]) if not hasattr(obj[0], 'color') else obj[0].color
+                # Can't really see white
+                edgecolor = color
+                if color == WAVector([1, 1, 1]):
+                    edgecolor = WAVector([0, 0, 0])
 
                 outline = np.array([[-size.y, size.y, size.y, -size.y, -size.y],
                                     [size.x, size.x, -size.x, -size.x, size.x],
@@ -808,7 +873,7 @@ class WAMatplotlibVisualization(WAVisualization):
 
                 outline = _transform(outline, position.x, position.y, yaw)
 
-                xx[i] = outline[0, :].flatten()
-                yy[i] = outline[1, :].flatten()
+                ptchs.append(patches.Polygon(outline[:2, :].T, facecolor=color, edgecolor=edgecolor, alpha=0.4))
 
-            self._plotter.plot(xx.T, yy.T, color=color)
+        if len(ptchs):
+            self._plotter.plot(collections.PatchCollection(ptchs, match_original=True))

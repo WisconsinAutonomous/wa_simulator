@@ -12,21 +12,37 @@ in the LICENSE file at the top level of the repo
 # WA Simulator
 from wa_simulator.path import WAPath, create_path_from_json
 from wa_simulator.core import WAVector
-from wa_simulator.utils import load_json, check_field, get_wa_data_file
+from wa_simulator.utils import _load_json, _check_field, get_wa_data_file
 
 # Other imports
 import numpy as np
 import matplotlib.pyplot as plt
 
 
-def create_track_from_json(filename: str) -> 'WATrack':
+def create_track_from_json(filename: str, environment: 'WAEnvironment' = None) -> 'WATrack':
     """Creates a WATrack object from a json specification file
 
     json file options:
 
-    * Centerline Input File (str, required): A json file describing the centerline. Loaded using :meth:`~create_path_from_json`
+    * Center Input File (``str``, required): A json file describing the centerline. Loaded using :meth:`~create_path_from_json`
 
-    * Width (float, required): The constant width between the left and right boundaries of the track.
+    * Width (``float``, required): The constant width between the left and right boundaries of the track.
+
+    * Visualization (``dict``, optional): Additional visualization properties.
+
+      * Center/Right/Left (``dict``, optional): The each paths visualization properties
+
+        * Color (``list``, optional): Visualization color.
+
+        * Object (``dict``, optional): An object that is placed along the path. Only parsed if ``environment`` is set.
+
+          * Size (``list``, optional): Size of the objects.
+
+          * Color (``list``, optional): Color of the objects.
+
+          * Color #1 (``list``, optional): Color of an alternating set of objects. Must come with Color #2 and without Color.
+
+          * Color #2 (``list``, optional): Color of an alternating set of objects. Must come with Color #1 and without Color.
 
     .. todo::
 
@@ -34,15 +50,20 @@ def create_track_from_json(filename: str) -> 'WATrack':
 
     Args:
         filename (str): The json specification that describes the track 
+        environment (WAEnvironment, optional): Adds objects to the environment, if present. Defaults to None (doesn't parse objects).
+
+    Returns:
+        WATrack: The created track
     """
 
-    j = load_json(filename)
+    j = _load_json(filename)
 
     # Validate the json file
-    check_field(j, 'Type', value='Track')
-    check_field(j, 'Template', allowed_values='Constant Width Track')
-    check_field(j, 'Center Input File', field_type=str)
-    check_field(j, 'Width', field_type=float)
+    _check_field(j, 'Type', value='Track')
+    _check_field(j, 'Template', allowed_values='Constant Width Track')
+    _check_field(j, 'Center Input File', field_type=str)
+    _check_field(j, 'Width', field_type=float)
+    _check_field(j, 'Visualization', field_type=dict, optional=True)
 
     # Create the centerline path
     center_file = get_wa_data_file(j['Center Input File'])
@@ -50,11 +71,69 @@ def create_track_from_json(filename: str) -> 'WATrack':
 
     width = j['Width']
 
-    # excluded_keys = ['Type', 'Template', 'Center File', 'Width']
-    # kwargs = {x: j[x] for x in j if x not in excluded_keys}
-
     # Create the track
     track = create_constant_width_track(center, width)
+
+    # Load the visualization, if present
+    if 'Visualization' in j:
+        v = j['Visualization']
+        _check_field(v, 'Center', field_type=dict, optional=True)
+        _check_field(v, 'Left', field_type=dict, optional=True)
+        _check_field(v, 'Right', field_type=dict, optional=True)
+
+        def _load_vis(path, path_name):
+            if path_name in v:
+                p = v[path_name]
+
+                _check_field(p, 'Color', field_type=list, optional=True)
+                _check_field(p, 'Object', field_type=dict, optional=True)
+
+                if 'Color' in p:
+                    path.get_vis_properties()['color'] = WAVector(p['Color'])
+
+                if 'Object' in p and environment is not None:
+                    o = p['Object']
+
+                    _check_field(o, 'Size', field_type=list)
+                    _check_field(o, 'Color', field_type=list, optional=True)
+
+                    kwargs = {}
+                    kwargs['size'] = WAVector(o['Size'])
+
+                    if 'Color' in o:
+                        kwargs['color'] = WAVector(o['Color'])
+
+                        if 'Color #1' in o or 'Color #2' in o:
+                            raise ValueError("'Color' cannot be used with 'Color #1' or 'Color #2'")
+                    elif 'Color #1' in o and 'Color #2' in o:
+                        kwargs['color1'] = WAVector(o['Color #1'])
+                        kwargs['color2'] = WAVector(o['Color #2'])
+                    elif 'Color #1' in o or 'Color #2' in o:
+                        raise ValueError("'Color #1' and 'Color #2' must be used together.")
+
+                    points = path.get_points()
+                    d_points = path.get_points(der=1)
+
+                    l = len(points)
+                    n = 50
+                    for e, i in enumerate(range(0, l, 1 if l < n else int(l / n))):
+                        p = points[i]
+                        dp = d_points[i]
+
+                        kwargs['position'] = WAVector(p)
+                        kwargs['yaw'] = -np.arctan2(dp[1], dp[0])
+
+                        if 'color1' in kwargs:
+                            if e % 2 == 0:
+                                kwargs['color'] = kwargs['color1']
+                            else:
+                                kwargs['color'] = kwargs['color2']
+
+                        environment.create_body(**kwargs)
+
+        _load_vis(track.center, 'Center')
+        _load_vis(track.right, 'Right')
+        _load_vis(track.left, 'Left')
 
     return track
 
@@ -63,8 +142,11 @@ def create_constant_width_track(center: WAPath, width: float) -> 'WATrack':
     """Generates a WAConstantWidthTrack given a centerline and a constant width. Simply "walks" along path and takes the normal from the center at a distance equal to width/2
 
     Args:
-        center(WAPath): The centerline of the track
-        width(float): The constant distance between the left and right boundaries(distance between centerline and a boundary is width/2)
+        center (WAPath): The centerline of the track
+        width (float): The constant distance between the left and right boundaries(distance between centerline and a boundary is width/2)
+
+    Returns:
+        WATrack: The created track
     """
     if center._d_points is None:
         raise ValueError(
@@ -104,7 +186,7 @@ def create_constant_width_track(center: WAPath, width: float) -> 'WATrack':
 class WATrack:
     """Base Track object. Basically holds three WAPaths: centerline and two boundaries. This class provides convenience functions so that it is easier to write various track related code
 
-    Does * not* inherit from WABase. This is a static component, so it does not need to update.
+    Does *not* inherit from WABase. This is a static component, so it does not need to update.
 
     Args:
         center(WAPath): The centerline of the track.
@@ -129,7 +211,7 @@ class WATrack:
     def inside_boundaries(self, point: WAVector) -> bool:
         """Check whether the passed point is within the track boundaries
 
-        *Implementation is explained `here < https: // stackoverflow.com/a/33155594 >`_*
+        Implementation is explained `here <https://stackoverflow.com/a/33155594>`_.
 
         Args:
             point(WAVector): point to check whether it's inside the track boundaries

@@ -17,19 +17,19 @@
 {% if visible_submodules %}
 {% set core = ['base', 'core', 'utils', 'path', 'track', 'vehicle_inputs', 'system'] %}
 
-.. .. toctree::
-.. 	:hidden:
-.. 	:titlesonly:
-.. 	:maxdepth: 3
-..
-.. 	{% for subpackage in visible_subpackages %}
-.. 	{{ subpackage.short_name }}/index.rst
-..
-.. 	{% endfor %}
-.. 	{% for submodule in visible_submodules %}
-.. 	{{ submodule.short_name }}/index.rst
-..
-.. 	{% endfor %}
+.. toctree::
+	:hidden:
+	:titlesonly:
+	:maxdepth: 3
+
+	{% for subpackage in visible_subpackages %}
+	{{ subpackage.short_name }}/index.rst
+
+	{% endfor %}
+	{% for submodule in visible_submodules %}
+	{{ submodule.short_name }}/index.rst
+
+	{% endfor %}
 
 Core
 ----
@@ -107,8 +107,8 @@ Components
 {% set visible_children = obj.children|selectattr("display")|rejectattr("imported")|list %}
 {% endif %}
 {% if visible_children %}
-{{ obj.type|title }} Contents
-{{ "-" * obj.type|length }}---------
+.. {{ obj.type|title }} Contents
+.. {{ "-" * obj.type|length }}---------
 
 {% set visible_classes = visible_children|selectattr("type", "equalto", "class")|list %}
 {% set visible_functions = visible_children|selectattr("type", "equalto", "function")|list %}
@@ -116,24 +116,31 @@ Components
 {% if "show-module-summary" in autoapi_options and (visible_classes or visible_functions or visible_attributes) %}
 {% block classes scoped %}
 {% if visible_classes %}
-Classes
-~~~~~~~
+
+.. raw:: html
+
+   <h2>Classes</h2>
 
 .. autoapisummary::
   :nosignatures:
 
 {% for klass in visible_classes %}
-   {{ klass.id }}
+  {{ klass.id }}
 {% endfor %}
 
+{% for obj_item in visible_children|selectattr("type", "equalto", "class")|list %}
+{{ obj_item.render()|indent(0) }}
+{% endfor %}
 
 {% endif %}
 {% endblock %}
 
 {% block functions scoped %}
 {% if visible_functions %}
-Functions
-~~~~~~~~~
+
+.. raw:: html
+
+   <h2>Methods</h2>
 
 .. autoapisummary::
   :nosignatures:
@@ -142,14 +149,19 @@ Functions
    {{ function.id }}
 {% endfor %}
 
+{% for obj_item in visible_children|selectattr("type", "equalto", "function")|list %}
+{{ obj_item.render()|indent(0) }}
+{% endfor %}
 
 {% endif %}
 {% endblock %}
 
 {% block attributes scoped %}
 {% if visible_attributes %}
-Attributes
-~~~~~~~~~~
+
+.. raw:: html
+
+   <h2>Attributes</h2>
 
 .. autoapisummary::
   :nosignatures:
@@ -159,19 +171,14 @@ Attributes
    :annotation: = {{ attribute.value }}
 {% endfor %}
 
+{% for obj_item in visible_children|selectattr("type", "equalto", "data")|list %}
+{{ obj_item.render()|indent(0) }}
+{% endfor %}
+
 
 {% endif %}
 {% endblock %}
 {% endif %}
-{% for obj_item in visible_children|selectattr("type", "equalto", "data")|list %}
-{{ obj_item.render()|indent(0) }}
-{% endfor %}
-{% for obj_item in visible_children|selectattr("type", "equalto", "class")|list %}
-{{ obj_item.render()|indent(0) }}
-{% endfor %}
-{% for obj_item in visible_children|selectattr("type", "equalto", "function")|list %}
-{{ obj_item.render()|indent(0) }}
-{% endfor %}
 {% endif %}
 {% endblock %}
 

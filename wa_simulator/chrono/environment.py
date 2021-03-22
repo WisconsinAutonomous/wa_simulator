@@ -9,8 +9,10 @@ in the LICENSE file at the top level of the repo
 """
 
 # WA Simulator
-from wa_simulator.utils import load_json, check_field
-from wa_simulator.environment import WAEnvironment
+from wa_simulator.core import WA_PI
+from wa_simulator.utils import _load_json, _check_field, _WAStaticAttribute, get_wa_data_file
+from wa_simulator.environment import WAEnvironment, load_environment_from_json, WABody
+from wa_simulator.chrono.utils import ChVector_to_WAVector, WAVector_to_ChVector, get_chrono_data_file
 
 # Chrono specific imports
 import pychrono as chrono
@@ -27,14 +29,14 @@ def load_chrono_terrain_from_json(system: 'WAChronoSystem', filename: str):
     Returns:
         ChTerrain: The loaded terrain
     """
-    j = load_json(chrono.GetChronoDataFile(filename))
+    j = _load_json(filename)
 
     # Validate the json file
-    check_field(j, 'Terrain', field_type=dict)
+    _check_field(j, 'Terrain', field_type=dict)
 
     t = j['Terrain']
-    check_field(t, 'Input File', field_type=str)
-    check_field(t, 'Texture', field_type=str, optional=True)
+    _check_field(t, 'Input File', field_type=str)
+    _check_field(t, 'Texture', field_type=str, optional=True)
 
     terrain = veh.RigidTerrain(system._system, chrono.GetChronoDataFile(t['Input File']))  # noqa
 
@@ -55,6 +57,41 @@ def load_chrono_terrain_from_json(system: 'WAChronoSystem', filename: str):
     return terrain
 
 
+def create_chrono_environment_from_json(system: 'WAChronoSystem', filename: str) -> 'WAChronoEnvironment':
+    """Loads and creates a WAChronoEnvironment from a json specification file
+
+    An environment handles data and assets present in the world. An environment json file
+    will hold that description, such as where obstacles are placed, the current weather,
+    the terrain/ground properties, etc.
+
+    See :meth:`~load_chrono_environment_from_json` for a larger support of environment properties.
+
+    .. todo::
+
+        Performance really dips with larger number of points
+
+    Args:
+        system (WASystem): the wa system that wraps a ChSystem
+        filename (str): The json specification file
+
+    Returns:
+        WAChronoEnvironment: The created environment
+    """
+    j = _load_json(filename)
+
+    # Validate the json file
+    _check_field(j, 'Type', value='Environment')
+    _check_field(j, 'Template', allowed_values=['WAChronoEnvironment'])
+    _check_field(j, 'World', field_type=dict, optional=True)
+    _check_field(j, 'Objects', field_type=list, optional=True)
+
+    environment = eval(j['Template'])(system, filename)
+
+    load_environment_from_json(environment, filename)
+
+    return environment
+
+
 class WAChronoEnvironment(WAEnvironment):
     """The environment wrapper that's responsible for holding Chrono assets and the terrain
 
@@ -66,9 +103,14 @@ class WAChronoEnvironment(WAEnvironment):
     """
 
     # Global filenames for environment models
-    EGP_ENV_MODEL_FILE = "environments/ev_grand_prix.json"
+    _EGP_ENV_MODEL_FILE = "environments/ev_grand_prix.json"
+
+    EGP_ENV_MODEL_FILE = _WAStaticAttribute('_EGP_ENV_MODEL_FILE', get_chrono_data_file)
 
     def __init__(self, system: 'WAChronoSystem', filename: str):
+        super().__init__()
+
+        self._system = system
         self._terrain = load_chrono_terrain_from_json(system, filename)
 
     def synchronize(self, time):
@@ -76,3 +118,40 @@ class WAChronoEnvironment(WAEnvironment):
 
     def advance(self, step):
         self._terrain.Advance(step)
+
+    def add_asset(self, asset: 'Any'):
+        if isinstance(asset, chrono.ChBody):
+            self._system._system.AddBody(asset)
+            return
+        if isinstance(asset, WABody):
+            if not hasattr(asset, 'size') or not hasattr(asset, 'position'):
+                raise AttributeError("Body must have 'size', and 'position' fields")
+
+            position = asset.position
+            yaw = 0 if not hasattr(asset, 'yaw') else asset.yaw
+            size = asset.size
+
+            box = chrono.ChBodyEasyBox(size.x, size.y, size.z, 1000, True, False)
+            box.SetBodyFixed(True)
+
+            box.SetPos(WAVector_to_ChVector(position))
+            box.SetRot(chrono.Q_from_AngZ(-yaw + WA_PI / 2))
+
+            if hasattr(asset, 'color'):
+                color = asset.color
+                box.AddAsset(chrono.ChColorAsset(chrono.ChColor(color.x, color.y, color.z)))
+
+                texture = chrono.ChVisualMaterial()
+                texture.SetDiffuseColor(chrono.ChVectorF(color.x, color.y, color.z))
+                chrono.CastToChVisualization(box.GetAssets()[0]).material_list.append(texture)
+
+            if hasattr(asset, 'texture'):
+                texture = chrono.ChVisualMaterial()
+                texture.SetKdTexture(get_wa_data_file(asset.texture))
+                chrono.CastToChVisualization(box.GetAssets()[0]).material_list.append(texture)
+
+            self._system._system.AddBody(box)
+
+            asset.chrono_body = box
+
+        super().add_asset(asset)

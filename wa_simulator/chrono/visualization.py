@@ -9,9 +9,12 @@ in the LICENSE file at the top level of the repo
 """
 
 # WA Simulator
-from wa_simulator.core import WAVector
-from wa_simulator.visualization import WAVisualization
+from wa_simulator.core import WAVector, WA_PI
+from wa_simulator.path import WAPath
+from wa_simulator.track import WATrack
+from wa_simulator.visualization import WAVisualization, WABody
 from wa_simulator.vehicle_inputs import WAVehicleInputs
+from wa_simulator.chrono.utils import ChVector_to_WAVector, WAVector_to_ChVector
 
 # Chrono specific imports
 import pychrono as chrono
@@ -88,10 +91,11 @@ class WAChronoIrrlicht(WAVisualization):
         system (WAChronoSystem): holds information regarding the simulation and performs dynamic updates
         vehicle (WAChronoVehicle): vehicle that holds the Chrono vehicle
         vehicle_inputs (WAVehicleInputs): the vehicle inputs
-        path (WAPath, optional): A path to visualize. Defaults to None (doesn't visualize anything).
+        environment (WAEnvironment, optional): An environment with various world assets to visualize. Defaults to None (doesn't visualize anything).
+        opponents (list, optional): Opponents present in the simulation. The camera will track :attr:`~vehicle` not any opponent.
     """
 
-    def __init__(self, system: 'WAChronoSystem', vehicle: 'WAChronoVehicle', vehicle_inputs: 'WAVehicleInputs', path: 'WAPath' = None):
+    def __init__(self, system: 'WAChronoSystem', vehicle: 'WAChronoVehicle', vehicle_inputs: 'WAVehicleInputs', environment: 'WAEnvironment' = None, opponents: list = []):
         self._render_steps = int(
             ceil(system.render_step_size / system.step_size))
 
@@ -119,8 +123,8 @@ class WAChronoIrrlicht(WAVisualization):
 
         self._first = True
 
-        if path is not None:
-            self.visualize(path)
+        if environment is not None:
+            self.visualize(environment.get_assets())
 
     def synchronize(self, time: float):
         """Synchronize the irrlicht app with the vehicle inputs at the passed time
@@ -168,10 +172,11 @@ class WAChronoIrrlicht(WAVisualization):
 
         self._first = False
 
-    def visualize(self, obj, *args, **kwargs):
-        from wa_simulator.path import WAPath
-
-        if isinstance(obj, WAPath):
-            draw_path_in_irrlicht(self._system, obj)
-
-        del WAPath
+    def visualize(self, assets, *args, **kwargs):
+        for i, asset in enumerate(assets):
+            if isinstance(asset, WAPath):
+                draw_path_in_irrlicht(self._system, asset)
+            elif isinstance(asset, WATrack):
+                draw_path_in_irrlicht(self._system, asset.center)
+                draw_path_in_irrlicht(self._system, asset.left)
+                draw_path_in_irrlicht(self._system, asset.right)

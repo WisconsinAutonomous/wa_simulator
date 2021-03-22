@@ -13,7 +13,7 @@ from abc import abstractmethod  # Abstract Base Class
 
 # WA Simulator
 from wa_simulator.core import WAVector
-from wa_simulator.utils import load_json, check_field, get_wa_data_file
+from wa_simulator.utils import _load_json, _check_field, get_wa_data_file
 
 # Other imports
 import numpy as np
@@ -36,12 +36,12 @@ def create_path_from_json(filename: str) -> 'WAPath':
         filename (str): The json specification that describes the path
     """
 
-    j = load_json(filename)
+    j = _load_json(filename)
 
     # Validate the json file
-    check_field(j, 'Type', value='Path')
-    check_field(j, 'Template', allowed_values=['WASplinePath'])
-    check_field(j, 'Waypoints Input File', field_type=str)
+    _check_field(j, 'Type', value='Path')
+    _check_field(j, 'Template', allowed_values=['WASplinePath'])
+    _check_field(j, 'Waypoints Input File', field_type=str)
 
     # Grab the waypoints
     waypoints_file = get_wa_data_file(j['Waypoints Input File'])
@@ -162,6 +162,7 @@ class WAPath:
         self._d_points = None
 
         self._is_closed = False if 'is_closed' not in kwargs else bool(kwargs['is_closed'])
+        self._vis_properties = dict() if 'vis_properties' not in kwargs else kwargs['vis_properties']
 
     def get_points(self, der=0) -> np.ndarray:
         """Get the points for this path
@@ -207,6 +208,34 @@ class WAPath:
             dict: The saved parameteres
         """
         return self._parameters
+
+    def set_vis_properties(self, vis_properties: dict):
+        """Set the visual properties for this path.
+
+        The visual properties are used in :meth:`~plot`.
+
+        Args:
+            vis_properties (dict): The visual properties to apply to this path.
+
+        Raises:
+            TypeError: If ``vis_properties`` is not a ``dict``
+        """
+        if not isinstance(vis_properties, dict):
+            raise TypeError(f"'vis_properties' was expected to be a {type(dict)}, but was {type(vis_properties)}.")
+
+        self._vis_properties = vis_properties
+
+    def get_vis_properties(self) -> dict:
+        """Get the visual properties.
+
+        Python will return a reference since it is not a primitive type. This means that if you change any values
+        in the returned properties dictionary, it will also change the instance held by this class. This can be an
+        alternative method to the :meth:`~set_vis_properties`.
+
+        Returns:
+            dict: The visual properties
+        """
+        return self._vis_properties
 
     @ abstractmethod
     def calc_closest_point(self, pos: WAVector, return_idx: bool = False) -> WAVector:
@@ -288,13 +317,16 @@ class WASplinePath(WAPath):
             return pos, idx
         return pos
 
-    def plot(self, *args, show=True, **kwargs):
-        """Plot the path
+    def plot(self, *args, show=True, ignore_vis_properties=False, **kwargs):
+        """Plot the path in matplotlib.
 
         Args:
+            args: Positional arguments passed directly to matplotlib
             show(bool, optional): show the plot window. Defaults to True.
+            ignore_vis_properties (bool, optional): If True, ignore the visual properties set through :meth:`~set_vis_properties`. If False, dict passed to :meth:`~set_vis_properties` will be passed as keyworded argements to matplotlib.
+            kwargs: Keyworded arguments passed directly to matplotlib.
         """
-        plt.plot(self._x, self._y, *args, **kwargs)
+        plt.plot(self._x, self._y, *args, **self._vis_properties, **kwargs)
         if show:
             plt.show()
 

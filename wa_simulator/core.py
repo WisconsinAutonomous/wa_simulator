@@ -151,6 +151,9 @@ class WAQuaternion(Quaternion):
         v2 = q5 * v
         print(~q5 * v2) # -> [0., 1., 0.]
 
+        # Grab the yaw
+        print(q3.to_euler_yaw()) # -> 1.57
+
     Please refer to the Pyrr documentation for a more detailed explaination of |Quaternion|_.
 
     .. |Quaternion| replace:: :code:`pyrr.Quaternion`
@@ -166,7 +169,7 @@ class WAQuaternion(Quaternion):
             return super().__new__(cls, value, float)
 
     def to_euler_roll(self) -> float:
-        """Converts this quaternion to euler angles and returns the roll value (see `here <https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles>`_
+        """Converts this quaternion to euler angles and returns the roll value (see `here <https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles>`_).
 
         Returns:
             float: roll
@@ -178,7 +181,7 @@ class WAQuaternion(Quaternion):
         return roll
 
     def to_euler_pitch(self) -> float:
-        """Converts this quaternion to euler angles and returns the pitch value (see `here <https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles>`_
+        """Converts this quaternion to euler angles and returns the pitch value (see `here <https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles>`_)
 
         Returns:
             float: pitch
@@ -189,7 +192,7 @@ class WAQuaternion(Quaternion):
         return pitch
 
     def to_euler_yaw(self) -> float:
-        """Converts this quaternion to euler angles and returns the yaw value (see `here <https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles>`_
+        """Converts this quaternion to euler angles and returns the yaw value (see `here <https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles>`_)
 
         Returns:
             float: yaw
@@ -201,7 +204,7 @@ class WAQuaternion(Quaternion):
         return yaw
 
     def to_euler(self) -> tuple:
-        """Converts this quaternion to euler angles (see `here <https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles>`_
+        """Converts this quaternion to euler angles (see `here <https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles>`_)
 
         Returns:
             tuple: (roll, pitch, yaw)
@@ -258,11 +261,10 @@ class WAArgumentParser(argparse.ArgumentParser):
 
         This function, unless specified in :code:`skip_defaults`, will add the following arguments:
 
-        * -s,--sim_step_size: Simulation step size
-        * -rs,--render_step_size: Rendering step size
-        * -iv,--irrlicht: Use irrlicht visualization
-        * -mv,--matplotlib: Use matplotlib visualization
-        * -r,--record: Record the simulation to a csv
+        * -s, - -sim_step_size: Simulation step size
+        * -rs, - -render_step_size: Rendering step size
+        * -iv, - -irrlicht: Use irrlicht visualization
+        * -mv, - -matplotlib: Use matplotlib visualization
 
         Args:
             skip_defaults (list, optional): The default arguments to skip.
