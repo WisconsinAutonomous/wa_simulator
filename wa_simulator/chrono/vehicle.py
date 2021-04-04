@@ -69,13 +69,15 @@ def create_tire_from_json(tire_filename: str) -> veh.ChTire:
 
     # Valide json file
     _check_field(j, "Type", value="Tire")
-    _check_field(j, "Template", allowed_values=["TMeasyTire", "RigidTire"])
+    _check_field(j, "Template", allowed_values=["TMeasyTire", "RigidTire", "Pac02Tire"])
 
     tire_type = j["Template"]
     if tire_type == "TMeasyTire":
         return veh.TMeasyTire(tire_filename)
     elif tire_type == "RigidTire":
         return veh.RigidTire(tire_filename)
+    elif tire_type == "Pac02Tire":
+        return veh.Pac02Tire(tire_filename)
     else:
         raise TypeError(f"'{tire_type} not a recognized tire type")
 
@@ -112,10 +114,10 @@ class WAChronoVehicle(WAVehicle):
         vehicle.Initialize(chrono.ChCoordsysD(init_loc, init_rot))
 
         # Set the visualization components for the vehicle
-        vehicle.SetChassisVisualizationType(veh.VisualizationType_PRIMITIVES)
+        vehicle.SetChassisVisualizationType(veh.VisualizationType_MESH)
         vehicle.SetSuspensionVisualizationType(veh.VisualizationType_NONE)
         vehicle.SetSteeringVisualizationType(veh.VisualizationType_NONE)
-        vehicle.SetWheelVisualizationType(veh.VisualizationType_NONE)
+        vehicle.SetWheelVisualizationType(veh.VisualizationType_MESH)
 
         # Create the powertrain
         # Assumes a SimplePowertrain

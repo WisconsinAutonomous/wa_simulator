@@ -97,7 +97,7 @@ class WASimulationManager(WABase):
         for comp in self._components:
             if not comp.is_ok():
                 return False
-        return True
+        return self._system.is_ok()
 
     def run(self):
         """Helper method that runs a simulation loop. 

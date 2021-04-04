@@ -1,0 +1,20 @@
+{
+	"Name": "evGrand Prix Sensor Scene",
+	"Type": "Sensor",
+	"Template": "Chrono Sensor Scene",
+  
+	"World": {
+		"Point Lights": [
+			{
+				"Position": [50.0, 50.0, 100.0],
+				"Color": [1.0, 1.0, 1.0],
+				"Maximum Range": 5000.0
+			},
+			{
+				"Position": [-50.0, -50.0, 100.0],
+				"Color": [1.0, 1.0, 1.0],
+				"Maximum Range": 5000.0
+			}
+		]
+	}
+}

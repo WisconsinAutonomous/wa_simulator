@@ -44,6 +44,8 @@ def create_track_from_json(filename: str, environment: 'WAEnvironment' = None) -
 
           * Color #2 (``list``, optional): Color of an alternating set of objects. Must come with Color #1 and without Color.
 
+          * Mode (``str``, optional): The mode for the object placement along the path. Options include 'Solid', 'Dashed' (3[m] separation) and 'Spread' (6[m] separation).
+
     .. todo::
 
         Add a variable width loader
@@ -96,6 +98,7 @@ def create_track_from_json(filename: str, environment: 'WAEnvironment' = None) -
 
                     _check_field(o, 'Size', field_type=list)
                     _check_field(o, 'Color', field_type=list, optional=True)
+                    _check_field(o, 'Mode', field_type=str, optional=True)
 
                     kwargs = {}
                     kwargs['size'] = WAVector(o['Size'])
@@ -111,11 +114,30 @@ def create_track_from_json(filename: str, environment: 'WAEnvironment' = None) -
                     elif 'Color #1' in o or 'Color #2' in o:
                         raise ValueError("'Color #1' and 'Color #2' must be used together.")
 
+                    s = path.calc_length_cummulative()[-1]
+                    size = WAVector(o['Size'])
+                    if 'Mode' in o:
+                        m = o['Mode']
+
+                        if m == 'Continuous':
+                            n = s / size.y
+                        elif m == 'Dashed':
+                            n = s / 3  # Spaced as dashed center lines are (3[m] apart)
+                        elif m == 'Spread':
+                            n = s / 6
+                        else:
+                            raise ValueError(f"'{m}' is not a supported road marker type")
+                    else:
+                        # Defaults to continuous
+                        n = s / size.y
+
                     points = path.get_points()
                     d_points = path.get_points(der=1)
 
+                    s = path.calc_length_cummulative()[-1]
+                    size = WAVector(o['Size'])
+
                     l = len(points)
-                    n = 50
                     for e, i in enumerate(range(0, l, 1 if l < n else int(l / n))):
                         p = points[i]
                         dp = d_points[i]

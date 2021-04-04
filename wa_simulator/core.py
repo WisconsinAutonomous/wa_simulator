@@ -229,8 +229,9 @@ class WAArgumentParser(argparse.ArgumentParser):
         # Example
         from wa_simulator import WAArgumentParser
 
-        # Instantiate the parser and a custom argument
-        parser = wa.WAArgumentParser(use_sim_defaults=True, skip_defaults=["irrlicht"])
+        # Instantiate the parser and custom arguments
+        parser = wa.WAArgumentParser(use_sim_defaults=True)
+        parser.add_argument("-mv", "--matplotlib", action="store_true", help="Use matplotlib to visualize", default=False)
         parser.add_argument("-q", "--quiet", action="store_true", help="Silence any terminal output", default=False)
 
         # Parse the command line inputs
@@ -254,7 +255,7 @@ class WAArgumentParser(argparse.ArgumentParser):
         if use_sim_defaults:
             self.add_default_sim_arguments(skip_defaults)
 
-    def add_default_sim_arguments(self, skip_defaults=[]):
+    def add_default_sim_arguments(self, skip_defaults: list = []):
         """Helper function to add predefined default arguments that can be used for most vehicle related simulations
 
         Set :code:`use_sim_defaults` in :code:`__init__` to :code:`True` to have this be called automatically.
@@ -263,12 +264,10 @@ class WAArgumentParser(argparse.ArgumentParser):
 
         * -s, - -sim_step_size: Simulation step size
         * -rs, - -render_step_size: Rendering step size
-        * -iv, - -irrlicht: Use irrlicht visualization
-        * -mv, - -matplotlib: Use matplotlib visualization
+        * -e, - -end_time: Simulation end time
 
         Args:
             skip_defaults (list, optional): The default arguments to skip.
-
         """
 
         def no_skip(s): return s not in skip_defaults
@@ -278,7 +277,7 @@ class WAArgumentParser(argparse.ArgumentParser):
                 "-s",
                 "--sim_step_size",
                 type=float,
-                help="Simulation Step Size",
+                help="Simulation Step Size [s]",
                 default=3e-3,
                 dest="step_size",
             )
@@ -292,22 +291,13 @@ class WAArgumentParser(argparse.ArgumentParser):
                 default=1 / 10.0,
             )
 
-        if no_skip('iv') and no_skip('irrlicht'):
+        if no_skip('e') and no_skip('end_time'):
             self.add_argument(
-                "-iv",
-                "--irrlicht",
-                action="store_true",
-                help="Use Irrlicht to Visualize",
-                default=False,
-            )
-
-        if no_skip('mv') and no_skip('matplotlib'):
-            self.add_argument(
-                "-mv",
-                "--matplotlib",
-                action="store_true",
-                help="Use Matplotlib to Visualize",
-                default=False,
+                "-e",
+                "--end_time",
+                type=float,
+                help="Simulation End Time [s]",
+                default=120,
             )
 
         # if no_skip('r') and no_skip('record'):

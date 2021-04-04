@@ -1,0 +1,33 @@
+{
+	"Name": "Sample Track",
+	"Type": "Track",
+	"Template": "Constant Width Track",
+
+	"Center Input File": "paths/sample_medium_loop.json",
+	"Width": 10.0,
+
+	"Visualization": {
+		"Center": {
+			"Color": [0, 0, 0]
+		},
+		"Right": {
+			"Color": [1, 0, 0],
+			"Object": {
+				"Size": [0.2, 1.5, 0.01],
+				"Color": [1, 1, 1],
+				"Mode": "Spread"
+			}
+		},
+		"Left":{
+			"Color": [1, 0, 0],
+			"Object": {
+				"Size": [0.2, 1.5, 0.01],
+				"Color": [1, 1, 1],
+				"Mode": "Dashed"
+			}
+		}
+	}
+}
+
+
+

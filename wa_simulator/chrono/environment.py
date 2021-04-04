@@ -57,41 +57,6 @@ def load_chrono_terrain_from_json(system: 'WAChronoSystem', filename: str):
     return terrain
 
 
-def create_chrono_environment_from_json(system: 'WAChronoSystem', filename: str) -> 'WAChronoEnvironment':
-    """Loads and creates a WAChronoEnvironment from a json specification file
-
-    An environment handles data and assets present in the world. An environment json file
-    will hold that description, such as where obstacles are placed, the current weather,
-    the terrain/ground properties, etc.
-
-    See :meth:`~load_chrono_environment_from_json` for a larger support of environment properties.
-
-    .. todo::
-
-        Performance really dips with larger number of points
-
-    Args:
-        system (WASystem): the wa system that wraps a ChSystem
-        filename (str): The json specification file
-
-    Returns:
-        WAChronoEnvironment: The created environment
-    """
-    j = _load_json(filename)
-
-    # Validate the json file
-    _check_field(j, 'Type', value='Environment')
-    _check_field(j, 'Template', allowed_values=['WAChronoEnvironment'])
-    _check_field(j, 'World', field_type=dict, optional=True)
-    _check_field(j, 'Objects', field_type=list, optional=True)
-
-    environment = eval(j['Template'])(system, filename)
-
-    load_environment_from_json(environment, filename)
-
-    return environment
-
-
 class WAChronoEnvironment(WAEnvironment):
     """The environment wrapper that's responsible for holding Chrono assets and the terrain
 
@@ -113,11 +78,16 @@ class WAChronoEnvironment(WAEnvironment):
         self._system = system
         self._terrain = load_chrono_terrain_from_json(system, filename)
 
+        load_environment_from_json(self, filename)
+
     def synchronize(self, time):
         self._terrain.Synchronize(time)
 
     def advance(self, step):
         self._terrain.Advance(step)
+
+        for asset in self._updating_assets:
+            asset.chrono_body.SetPos(WAVector_to_ChVector(asset.position))
 
     def add_asset(self, asset: 'Any'):
         if isinstance(asset, chrono.ChBody):
@@ -131,27 +101,37 @@ class WAChronoEnvironment(WAEnvironment):
             yaw = 0 if not hasattr(asset, 'yaw') else asset.yaw
             size = asset.size
 
-            box = chrono.ChBodyEasyBox(size.x, size.y, size.z, 1000, True, False)
-            box.SetBodyFixed(True)
+            body_type = 'box'
+            if hasattr(asset, 'body_type'):
+                body_type = asset.body_type
 
-            box.SetPos(WAVector_to_ChVector(position))
-            box.SetRot(chrono.Q_from_AngZ(-yaw + WA_PI / 2))
+            if body_type == 'sphere':
+                body = chrono.ChBodyEasySphere(size.length, 1000, True, False)
+                body.SetBodyFixed(True)
+            elif body_type == 'box':
+                body = chrono.ChBodyEasyBox(size.x, size.y, size.z, 1000, True, False)
+                body.SetBodyFixed(True)
+            else:
+                raise ValueError(f"'{asset.body_type}' not a supported body type.")
+
+            body.SetPos(WAVector_to_ChVector(position))
+            body.SetRot(chrono.Q_from_AngZ(-yaw + WA_PI / 2))
 
             if hasattr(asset, 'color'):
                 color = asset.color
-                box.AddAsset(chrono.ChColorAsset(chrono.ChColor(color.x, color.y, color.z)))
+                body.AddAsset(chrono.ChColorAsset(chrono.ChColor(color.x, color.y, color.z)))
 
                 texture = chrono.ChVisualMaterial()
                 texture.SetDiffuseColor(chrono.ChVectorF(color.x, color.y, color.z))
-                chrono.CastToChVisualization(box.GetAssets()[0]).material_list.append(texture)
+                chrono.CastToChVisualization(body.GetAssets()[0]).material_list.append(texture)
 
             if hasattr(asset, 'texture'):
                 texture = chrono.ChVisualMaterial()
                 texture.SetKdTexture(get_wa_data_file(asset.texture))
-                chrono.CastToChVisualization(box.GetAssets()[0]).material_list.append(texture)
+                chrono.CastToChVisualization(body.GetAssets()[0]).material_list.append(texture)
 
-            self._system._system.AddBody(box)
+            self._system._system.AddBody(body)
 
-            asset.chrono_body = box
+            asset.chrono_body = body
 
         super().add_asset(asset)

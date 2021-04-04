@@ -1,0 +1,10 @@
+{
+	"Name": "evGrand Prix Sensor Suite",
+	"Type": "Sensor",
+	"Template": "Sensor Suite",
+
+	"Sensors": [
+		"sensors/models/SBG_IMU.json",
+		"sensors/models/SBG_GPS.json"
+	]
+}

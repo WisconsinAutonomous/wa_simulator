@@ -1,0 +1,47 @@
+{
+  "Name": "GoKart Vehicle",
+  "Type": "Vehicle",
+  "Template": "WheeledVehicle",
+
+  "Chassis": {
+    "Input File": "GoKart/chassis/GoKart_Chassis.json"
+  },
+
+  "Axles": [
+    {
+      "Suspension Input File": "GoKart/suspension/GoKart_DoubleWishbone.json",
+      "Suspension Location": [ 1.388, 0, 0.25 ],
+      "Steering Index": 0,
+      "Left Wheel Input File": "GoKart/wheel/GoKart_Wheel.json",
+      "Right Wheel Input File": "GoKart/wheel/GoKart_Wheel.json",
+      "Left Brake Input File": "GoKart/brake/GoKart_BrakeSimple.json",
+      "Right Brake Input File": "GoKart/brake/GoKart_BrakeSimple.json"
+    },
+
+    {
+      "Suspension Input File": "GoKart/suspension/GoKart_DoubleWishbone.json",
+      "Suspension Location": [ -1.388, 0, 0.125 ],
+      "Left Wheel Input File": "GoKart/wheel/GoKart_Wheel.json",
+      "Right Wheel Input File": "GoKart/wheel/GoKart_Wheel.json",
+      "Left Brake Input File": "GoKart/brake/GoKart_BrakeSimple.json",
+      "Right Brake Input File": "GoKart/brake/GoKart_BrakeSimple.json"
+    }
+  ],
+
+  "Steering Subsystems": [
+    {
+      "Input File": "GoKart/steering/GoKart_RackPinion.json",
+      "Location": [ 1.2, 0, 0.14 ],
+      "Orientation": [ 1, 0, 0, 0 ]
+    }
+  ],
+
+  "Wheelbase": 2.776,
+  "Minimum Turning Radius": 7.6,
+  "Maximum Steering Angle": 25.0,
+
+  "Driveline": {
+    "Input File": "GoKart/driveline/GoKart_Driveline2WD.json",
+    "Suspension Indexes": [ 1 ]
+  }
+}

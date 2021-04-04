@@ -1,0 +1,16 @@
+{
+	"Name": "evGrand Prix Track",
+	"Type": "Environment",
+	"Template": "WAChronoEnvironment",
+  
+	"Terrain": {
+	  "Input File": "environments/terrains/RigidPlane.json",
+		"Texture": "environments/terrains/concrete.jpg"
+	},
+
+	"Track": {
+		"Track Input File": "tracks/sample_medium_loop.json"
+	}
+
+}
+  

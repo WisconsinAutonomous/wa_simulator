@@ -55,7 +55,7 @@ autoapi_options = [
     # "inherited-members"  # Doesn't work with viewcode extension
 ]
 autoapi_ignore = ["*_import*"]
-autoapi_keep_files = True
+autoapi_keep_files = False
 autoapi_generate_api_docs = True
 autoapi_add_toctree_entry = True
 autoapi_template_dir = "_templates"

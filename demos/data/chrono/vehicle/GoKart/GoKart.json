@@ -1,0 +1,51 @@
+{
+	"Name": "Go Kart Model",
+  
+	"Vehicle": {
+	  "Input File": "GoKart/vehicle/GoKart_Vehicle.json"
+	},
+
+	"Powertrain": {
+		"Input File": "Generic/powertrain/SimplePowertrain.json"
+	},
+
+	"Tire": {
+		"Input File": "GoKart/tire/GoKart_TMeasyTire.json"
+	},
+  
+	"Vehicle Properties": {
+		"Wheelbase": 2,
+		"Mass": 2000,
+
+		"Gear Ratio": 0.35,
+		"Effective Radius": 0.3,
+		"Inertia": 10,
+
+		"Aerodynamic Coefficient": 1.36,
+		"Friction Coefficient": 0.01,
+
+		"C": 10000,
+		"Max Force": 5000,
+
+		"Torque Coefficients": [400, 0.1, -0.0002],
+
+		"Steering": [-1.0, 1.0],
+		"Throttle": [0, 1.0],
+		"Braking": [0, 1.0]
+	},
+
+	"Visualization Properties": {
+		"Tire Distance to Front": 1.25,
+		"Tire Distance to Rear": 0.75,
+
+		"Body Distance to Front": 2.0,
+		"Body Distance to Rear": 1.5,
+
+		"Body Width": 1.5,
+		"Body Length": 3.75,
+		"Tire Width": 0.2,
+		"Tire Diameter": 0.4,
+		"Track Width": 0.55
+	}
+  }
+  

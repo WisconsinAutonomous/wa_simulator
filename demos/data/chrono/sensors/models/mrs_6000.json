@@ -1,0 +1,38 @@
+{
+  "Name": "MRS 6000 Lidar",
+  "Type": "Sensor",
+  "Template": "Lidar",
+
+  "Properties": {
+    "Update Rate": 30,
+    "Width": 1000,
+    "Height": 200,
+    "Horizontal Field of View": 1.5,
+    "Max Vertical Angle": 0.13,
+    "Min Vertical Angle": -0.13,
+    "Max Distance": 100.0,
+    "Lag": 0.01,
+    "Collection Time": 0
+  },
+
+  "Filters":
+  [
+    {
+      "Filter": "ChFilterPCfromDepth"
+    },
+    {
+      "Filter": "ChFilterXYZIAccess"
+    },
+    {
+      "Filter": "ChFilterVisualizePointCloud",
+      "Width": 800,
+      "Height": 800,
+      "Zoom": 1.3
+    }
+  ],
+
+	"Offset Pose": {
+		"Position": [0.0, 0.0, 0.75],
+		"Rotation": [1, 0, 0, 0]
+	}
+}
