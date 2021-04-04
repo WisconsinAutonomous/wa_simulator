@@ -3,604 +3,107 @@
 
 .. py:module:: wa_simulator.controller
 
-.. autoapi-nested-parse::
-
-   Wisconsin Autonomous - https://www.wisconsinautonomous.org
-
-   Copyright (c) 2021 wisconsinautonomous.org
-   All rights reserved.
-
-   Use of this source code is governed by a BSD-style license that can be found
-   in the LICENSE file at the top level of the repo
+.. Module Contents
+.. ---------------
 
 
+.. raw:: html
 
-Module Contents
----------------
-
-Classes
-~~~~~~~
+   <h2>Classes</h2>
 
 .. autoapisummary::
+  :nosignatures:
 
-   wa_simulator.controller.WAController
-   wa_simulator.controller.WASimpleController
-   wa_simulator.controller.WATerminalKeyboardController
-   wa_simulator.controller.WAMultipleControllers
-   wa_simulator.controller.WAPIDController
-   wa_simulator.controller.WAPIDLateralController
-   wa_simulator.controller.WAPIDLongitudinalController
-   wa_simulator.controller.WAMatplotlibController
+  wa_simulator.controller.WAController
+  wa_simulator.controller.WAMatplotlibController
 
+.. py:class:: WAController(system: WASystem, vehicle_inputs: WAVehicleInputs)
 
-
-.. py:class:: WAController(system)
-
-   Bases: :class:`abc.ABC`
+   Bases: :class:`wa_simulator.base.WABase`
 
    Base class for a controller
 
-   Controllers are responsible for outputing a steering, throttle and braking value.
+   Controllers are responsible for outputting a steering, throttle and braking value.
    This is done because in real life, those are the inputs our cars will have. The
    derived controller's (i.e. the new class that inherits from this class)
    responsibility is to take inputs from the simulation and return these values
    through the get_inputs method.
 
-   :param system: The system used to manage the simulation
-   :type system: ChSystem
+   :Parameters: * **system** (*WASystem*) -- The system used to manage the simulation
+                * **vehicle_inputs** (*WAVehicleInputs*) -- The vehicle inputs
 
-   .. attribute:: inputs
+   :ivar steering: steering input.
+   :vartype steering: float
+   :ivar throttle: throttle input.
+   :vartype throttle: float
+   :ivar braking: braking input.
 
-      Inputs to the vehicle model
+   :vartype braking: float
 
-      :type: WAVehicleInputs
-
-   .. attribute:: steering
-      
-
-      
-
-   .. attribute:: throttle
-      
-
-      
-
-   .. attribute:: braking
-      
-
-      
-
-   .. method:: synchronize(self, time)
+   .. method:: synchronize(self, time: float)
       :abstractmethod:
 
-      Synchronize the controller at the specified time
+      Update the state of this component at the current time.
 
-      Function is primarily as a semantic separation between different functionality.
-      Most of the time, all controller logic can be placed in the Advance method. ROS would
-      be a good example of an element that would publish in the Synchronize method and have
-      other logic in the Advance method.
+      The primary reason to decouple the update method into two separate calls (i.e. :meth:`~synchronize` and :meth:`~advance`)
+      is to provide flexibility to the user and is essentially semantic. In most simple cases, a user will only need one of the two.
+      Furthermore, can only use :meth:`~advance` if they prefer and just update their own :code:`time` variable. Given the unknown use cases
+      for the simulator at the time of writing, it was chosen to provide two different methods with similar functionality as to allow
+      the user to choose their desired implementation, rather than the writers of this package.
 
-      :param time: the time at which the controller should synchronize all depends to
-      :type time: double
+      As opposed to :meth:`~advance`, this method gets the current time of the simulation. As menthioned earlier,
+      :meth:`~advance` and a user defined `time` variable could be used to instead to hold the current state of the simulation. However,
+      to aid in generality of the package, this method is provided to simply provide the current time of the simulation to the user in a decoupled
+      manner from the :meth:`~advance` method.
+
+      :Parameters: **time** (*float*) -- The current time to synchronize to
 
 
-   .. method:: advance(self, step)
+   .. method:: advance(self, step: float)
       :abstractmethod:
 
-      Advance the controller by the specified step
+      Advance the state of this component by the specified time step.
 
-      :param step: the time step at which the controller should be advanced
-      :type step: double
+      The primary reason to decouple the update method into two separate calls (i.e. :meth:`~synchronize` and :meth:`~advance`)
+      is to provide flexibility to the user and is essentially semantic. In most simple cases, a user will only need one of the two.
+      Furthermore, can only use :meth:`~advance` if they prefer and just update their own :code:`time` variable. Given the unknown use cases
+      for the simulator at the time of writing, it was chosen to provide two different methods with similar functionality as to allow
+      the user to choose their desired implementation, rather than the writers of this package.
+
+      :Parameters: **step** (*float*) -- The step size to advance this component by
 
 
-   .. method:: get_inputs(self)
+   .. method:: is_ok(self) -> bool
+
+      Check whether this component is still alive.
+
+      Depending the type of component, a specific element may "fail". For example, when
+      a visualization is used that presents a GUI/window, if the user closes that display,
+      this would be considered a component death. Therefore, :meth:`~is_ok` should then return
+      False.
+
+      :returns: *bool* -- True if still alive, false otherwise
+
+
+   .. method:: get_inputs(self) -> 'WAVehicleInputs'
 
       Get the vehicle inputs
 
-      :returns: The input class
-      :rtype: WAVehicleInputs
+      :returns: *WAVehicleInputs* -- The input class
 
 
 
-.. py:class:: WASimpleController(system)
-
-   Bases: :class:`wa_simulator.controller.WAController`
-
-   Simple controller designed to never change the inputs
-
-   Can be used for situations where controlling the vehicle isn't actually necessary
-
-   .. method:: advance(self, step)
-
-      Advance the controller by the specified step
-
-      :param step: the time step at which the controller should be advanced
-      :type step: double
-
-
-   .. method:: synchronize(self, time)
-
-      Synchronize the controller at the specified time
-
-      Function is primarily as a semantic separation between different functionality.
-      Most of the time, all controller logic can be placed in the Advance method. ROS would
-      be a good example of an element that would publish in the Synchronize method and have
-      other logic in the Advance method.
-
-      :param time: the time at which the controller should synchronize all depends to
-      :type time: double
-
-
-
-.. py:class:: WATerminalKeyboardController(system)
-
-   Bases: :class:`wa_simulator.controller._WAKeyboardController`
-
-   Controls a vehicle via input from the terminal window.
-
-   Uses the KeyGetter object to grab input from the user in the terminal window.
-   Inherits from the _WAKeyboardController method
-
-   :param system: The system used to manage the simulation
-   :type system: ChSystem
-
-   .. attribute:: key_getter
-
-      The object used to grab input from the terminal
-
-      :type: KeyGetter
-
-   .. py:class:: KeyGetter
-
-      Gets user input from the terminal.
-
-      Will look for different input from the command line. The terminal window
-      must be active for this to work.
-
-      TODO: Fairly confident this only works on UNIX.
-
-      .. attribute:: fd
-
-         Integer file descriptor.
-
-         :type: STDIN_FILENO
-
-      .. attribute:: new_term
-
-         tty attributes for the fd. Setting terminal settings.
-
-         :type: list
-
-      .. attribute:: old_term
-
-         tty attributes for the fd. Restoring terminal settings.
-
-         :type: list
-
-      .. method:: __call__(self)
-
-         Checks the terminal window for a user input.
-
-         This method is called through key_getter_object(). Will check terminal
-         window for arrow keys. Will exit if any other key is pressed.
-
-         :returns: a value between [0,3] describing the arrow key pressed
-         :rtype: int
-
-
-      .. method:: set_normal_term(self)
-
-         Resets to normal terminal.  On Windows this is a no-op.
-
-
-
-   .. method:: key_check(self)
-
-      Get the key from the KeyGetter and update target values based on input.
-
-
-   .. method:: synchronize(self, time)
-
-      Synchronize the controller at the specified time
-
-      Calls KeyCheck
-
-      :param time: the time at which the controller should synchronize all depends to
-      :type time: double
-
-
-
-.. py:class:: WAMultipleControllers(controllers)
-
-   Bases: :class:`wa_simulator.controller.WAController`
-
-   Wrapper class for multiple controllers. Allows multiple controllers to be used.
-
-   The input values for the model are grabbed from the first controller in the list.
-
-   :param controllers: List of controllers.
-   :type controllers: list
-
-   .. method:: synchronize(self, time)
-
-      Synchronize each controller at the specified time
-
-      :param time: the time at which the controller should synchronize all modules
-      :type time: double
-
-
-   .. method:: advance(self, step)
-
-      Advance the state of each managed controller
-
-      :param step: the time step at which the controller should be advanced
-      :type step: double
-
-
-   .. method:: get_inputs(self)
-
-      Get the vehicle inputs
-
-      Overrides base class method. Will just grab the first controllers inputs.
-
-      :returns: The input class
-
-
-
-.. py:class:: WAPIDController(system, vehicle, path, lat_controller=None, long_controller=None)
-
-   Bases: :class:`wa_simulator.controller.WAController`
-
-   PID Controller that contains a lateral and longitudinal controller
-
-   Uses the lateral controller for steering and longitudinal controller throttle/braking
-
-   :param system: The system used to manage the simulation
-   :type system: ChSystem
-   :param vehicle: The vehicle to grab the state from
-   :type vehicle: WAVehicle
-   :param path: The path to follow
-   :type path: WAPath
-   :param lat_controller: Lateral controller for steering. Defaults to None.
-   :type lat_controller: WAPIDLateralController, optional
-   :param long_controller: Longitudinal controller for throttle/braking. Defaults to None.
-   :type long_controller: WAPIDLongitudinalController, optional
-
-   .. attribute:: vehicle
-
-      The vehicle to grab the state from
-
-      :type: WAVehicle
-
-   .. attribute:: path
-
-      The path to follow
-
-      :type: WAPath
-
-   .. attribute:: lat_controller
-
-      Lateral controller for steering
-
-      :type: WAPIDLateralController
-
-   .. attribute:: long_controller
-
-      Longitudinal controller for throttle/braking
-
-      :type: WAPIDLongitudinalController
-
-   .. method:: set_delta(self, steering_delta, throttle_delta, braking_delta)
-
-      Set the delta values
-
-      :param steering_delta: max steering delta
-      :type steering_delta: float
-      :param throttle_delta: max throttle delta
-      :type throttle_delta: float
-      :param braking_delta: max braking delta
-      :type braking_delta: float
-
-
-   .. method:: set_gains(self, steering_gain, throttle_gain, braking_gain)
-
-      Set the gain values
-
-      :param steering_gain: steering gain
-      :type steering_gain: float
-      :param throttle_gain: throttle gain
-      :type throttle_gain: float
-      :param braking_gain: braking gain
-      :type braking_gain: float
-
-
-   .. method:: synchronize(self, time)
-
-      Synchronize each controller at the specified time
-
-      :param time: the time at which the controller should synchronize all modules
-      :type time: double
-
-
-   .. method:: advance(self, step)
-
-      Advance the state of each controller
-
-      :param step: the time step at which the controller should be advanced
-      :type step: double
-
-
-   .. method:: get_inputs(self)
-
-      Get the vehicle inputs
-
-      Overrides base class method. Grabs the steering from the lateral controller and the
-      throttle and braking from the longitudinal controller
-
-      :returns: The input class
-      :rtype: WAVehicleInputs
-
-
-
-.. py:class:: WAPIDLateralController(system, vehicle, path)
-
-   Bases: :class:`wa_simulator.controller.WAController`
-
-   Lateral (steering) controller which minimizes error using a PID
-
-   :param system: The system used to manage the simulation
-   :type system: ChSystem
-   :param vehicle: the vehicle who has dynamics
-   :type vehicle: WAVehicle
-   :param path: the path the vehicle is attempting to follow
-   :type path: WAPath
-
-   .. attribute:: vehicle
-
-      the vehicle who has dynamics
-
-      :type: WAVehicle
-
-   .. attribute:: path
-
-      the path the vehicle is attempting to follow
-
-      :type: WAPath
-
-   .. attribute:: Kp
-
-      proportional gain
-
-      :type: double
-
-   .. attribute:: Ki
-
-      integral gain
-
-      :type: double
-
-   .. attribute:: Kd
-
-      derivative gain
-
-      :type: double
-
-   .. attribute:: dist
-
-      lookahead distance
-
-      :type: double
-
-   .. attribute:: target
-
-      point on the path that is attempting to reach
-
-      :type: double
-
-   .. attribute:: sentinel
-
-      some point a dist directly in front of the vehicle
-
-      :type: double
-
-   .. attribute:: err
-
-      overall error
-
-      :type: double
-
-   .. attribute:: errd
-
-      derivative error (not accumulated)
-
-      :type: double
-
-   .. attribute:: erri
-
-      integral error accumulated over time
-
-      :type: double
-
-   .. method:: set_gains(self, Kp, Ki, Kd)
-
-      Set the gains
-
-      :param Kp: new proportional gain
-      :type Kp: double
-      :param Ki: new integral gain
-      :type Ki: double
-      :param Kd: new derivative gain
-      :type Kd: double
-
-
-   .. method:: set_lookahead_distance(self, dist)
-
-      Set the lookahead distance
-
-      :param dist: new lookahead distance
-      :type dist: double
-
-
-   .. method:: synchronize(self, time)
-
-      Synchronize the controller at the passed time
-
-      Doesn't actually do anything.
-
-      :param time: the time to synchronize the controller to
-      :type time: double
-
-
-   .. method:: advance(self, step)
-
-      Advance the state of the controller by step
-
-      :param step: step size to update the controller by
-      :type step: double
-
-
-   .. method:: calc_sign(self, x, y)
-
-      Calculate the sign of the angle between the projections of the sentinel vector
-      and the target vector (with origin at vehicle location).
-
-      :param x: x position
-      :type x: float
-      :param y: y position
-      :type y: float
-
-      :returns: the sign indicating direction of the state and the sentinel on the path (-1 for left or 1 for right)
-      :rtype: int
-
-
-
-.. py:class:: WAPIDLongitudinalController(system, vehicle)
-
-   Bases: :class:`wa_simulator.controller.WAController`
-
-   Longitudinal (throttle, braking) controller which minimizes error using a PID
-
-   :param system: The system used to manage the simulation
-   :type system: ChSystem
-   :param vehicle: the vehicle who has dynamics
-   :type vehicle: WAVehicle
-
-   .. attribute:: vehicle
-
-      the vehicle who has dynamics
-
-      :type: WAVehicle
-
-   .. attribute:: Kp
-
-      proportional gain
-
-      :type: double
-
-   .. attribute:: Ki
-
-      integral gain
-
-      :type: double
-
-   .. attribute:: Kd
-
-      derivative gain
-
-      :type: double
-
-   .. attribute:: err
-
-      overall error
-
-      :type: double
-
-   .. attribute:: errd
-
-      derivative error (not accumulated)
-
-      :type: double
-
-   .. attribute:: erri
-
-      integral error accumulated over time
-
-      :type: double
-
-   .. attribute:: speed
-
-      the current speed
-
-      :type: double
-
-   .. attribute:: target_speed
-
-      the target speed
-
-      :type: double
-
-   .. attribute:: throttle_threshold
-
-      throttle position at which vehicle is moving too fast and the step size should decrease
-
-      :type: double
-
-   .. method:: set_gains(self, Kp, Ki, Kd)
-
-      Set the gains
-
-      :param Kp: new proportional gain
-      :type Kp: double
-      :param Ki: new integral gain
-      :type Ki: double
-      :param Kd: new derivative gain
-      :type Kd: double
-
-
-   .. method:: set_target_speed(self, speed)
-
-      Set the target speed for the controller
-
-      :param speed: the new target speed
-      :type speed: double
-
-
-   .. method:: synchronize(self, time)
-
-      Synchronize the controller at the passed time
-
-      Doesn't actually do anything.
-
-      :param time: the time to synchronize the controller to
-      :type time: double
-
-
-   .. method:: advance(self, step)
-
-      Advance the state of the controller by step
-
-      :param step: step size to update the controller by
-      :type step: double
-
-
-
-.. py:class:: WAMatplotlibController(system, vis)
+.. py:class:: WAMatplotlibController(system: WASystem, vehicle_inputs: WAVehicleInputs, vis: WAMatplotlibVisualization)
 
    Bases: :class:`wa_simulator.controller._WAKeyboardController`
 
    Controls a vehicle via keyboard input from a matplotlib figure
 
-       Will asynchronously change inputs based on user input to the matplotlib window.
+   Will asynchronously change inputs based on user input to the matplotlib window.
 
-       Args:
-           system (ChSystem): The system used to manage the simulation
-           vis (WAMatplotlibVisualization): The visualization that holds a matplotlib figure
-
-   .. attribute:: vis
-
-      The visualization that holds a matplotlib figure
-
-      :type: WAMatplotlibVisualization
+   :Parameters: * **system** (*WASystem*) -- The system used to manage the simulation
+                * **vehicle_inputs** (*WAVehicleInputs*) -- The vehicle inputs
+                * **vis** (*WAMatplotlibVisualization*) -- The visualization that holds a matplotlib figure
 
    .. method:: synchronize(self, time)
 
@@ -608,11 +111,23 @@ Classes
 
       Doesn't do anything since this controller is completely asynchronous
 
-      :param time: the time at which the controller should synchronize all depends to
-      :type time: double
-
-
-   .. method:: key_press(self, value)
+      :Parameters: **time** (*float*) -- the time at which the controller should synchronize all depends to
 
 
 
+
+
+
+
+.. .. .. autoapi-nested-parse::
+..
+..    Wisconsin Autonomous - https://www.wisconsinautonomous.org
+
+   Copyright (c) 2021 wisconsinautonomous.org
+   All rights reserved.
+
+   Use of this source code is governed by a BSD-style license that can be found
+   in the LICENSE file at the top level of the repo
+
+..
+.. 

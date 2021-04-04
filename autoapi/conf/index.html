@@ -1,10 +1,11 @@
 <!doctype html>
 <html class="no-js">
   <head><meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
     <link rel="shortcut icon" href="../../_static/wa-dark-favicon.png"/><meta name="generator" content="sphinx-3.4.2, furo 2020.12.30.beta24"/>
-        <title>conf - Wisconsin Autonomous Simulator 0.0.10 documentation</title>
+        <title>conf - Wisconsin Autonomous Simulator 1.0.3 documentation</title>
       <link rel="stylesheet" href="../../_static/styles/furo.css?digest=33d2fc4f3f180ec1ffc6524e273e21d7d58cbe49">
     <link rel="stylesheet" href="../../_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../../_static/pygments_dark.css">
@@ -103,10 +104,10 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">Wisconsin Autonomous Simulator 0.0.10 documentation</div></a>
+      <a href="../../index.html"><div class="brand">Wisconsin Autonomous Simulator 1.0.3 documentation</div></a>
     </div>
     <div class="header-right">
-      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
     </div>
@@ -137,6 +138,7 @@
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label for="toctree-checkbox-2"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorials/custom-controller.html">Creating a Custom Controller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/writing-a-json.html">Writing a JSON Specification File</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../wa_simulator/index.html">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label for="toctree-checkbox-3"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
@@ -145,31 +147,29 @@
 <li class="toctree-l3"><a class="reference internal" href="../wa_simulator/chrono/environment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.environment</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../wa_simulator/chrono/sensor/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.sensor</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../wa_simulator/chrono/system/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.system</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../wa_simulator/chrono/terrain/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.terrain</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../wa_simulator/chrono/utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.utils</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../wa_simulator/chrono/vehicle/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.vehicle</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../wa_simulator/chrono/visualization/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.visualization</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../wa_simulator/constants/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.constants</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../wa_simulator/base/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.base</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../wa_simulator/controller/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.controller</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../wa_simulator/core/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.core</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../wa_simulator/environment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.environment</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../wa_simulator/inputs/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.inputs</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../wa_simulator/path/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.path</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../wa_simulator/sensor/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.sensor</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../wa_simulator/simulation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.simulation</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../wa_simulator/system/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.system</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../wa_simulator/terrain/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.terrain</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../wa_simulator/track/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.track</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../wa_simulator/utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.utils</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../wa_simulator/vehicle/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.vehicle</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../wa_simulator/vehicle_inputs/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.vehicle_inputs</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../wa_simulator/visualization/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.visualization</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
 </ul>
-<p class="caption"><span class="caption-text">External Links</span></p>
+<p><span class="caption-text">External Links</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference external" href="https://pypi.org/project/wa-simulator/">PyPI</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/WisconsinAutonomous/wa_simulator">Github</a></li>
@@ -184,99 +184,12 @@
   <main class="main">
     <div class="content">
       <article role="main">
-        <label class="toc-overlay-icon toc-content-icon" for="__toc">
+        <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
           <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
         </label>
-        <div class="section" id="module-conf">
+        <section id="module-conf">
 <span id="conf"></span><h1><a class="reference internal" href="#module-conf" title="conf"><code class="xref py py-mod docutils literal notranslate"><span class="pre">conf</span></code></a><a class="headerlink" href="#module-conf" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="module-contents">
-<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
-<dl class="py data">
-<dt id="conf.root_path">
-<code class="sig-prename descclassname">conf.</code><code class="sig-name descname">root_path</code><a class="headerlink" href="#conf.root_path" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-<dl class="py data">
-<dt id="conf.project">
-<code class="sig-prename descclassname">conf.</code><code class="sig-name descname">project</code><em class="property"> = Wisconsin Autonomous Simulator</em><a class="headerlink" href="#conf.project" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-<dl class="py data">
-<dt id="conf.copyright">
-<code class="sig-prename descclassname">conf.</code><code class="sig-name descname">copyright</code><a class="headerlink" href="#conf.copyright" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-<dl class="py data">
-<dt id="conf.author">
-<code class="sig-prename descclassname">conf.</code><code class="sig-name descname">author</code><em class="property"> = Wisconsin Autonomous</em><a class="headerlink" href="#conf.author" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-<dl class="py data">
-<dt id="conf.release">
-<code class="sig-prename descclassname">conf.</code><code class="sig-name descname">release</code><a class="headerlink" href="#conf.release" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-<dl class="py data">
-<dt id="conf.extensions">
-<code class="sig-prename descclassname">conf.</code><code class="sig-name descname">extensions</code><em class="property"> = ['rinoh.frontend.sphinx', 'sphinx.ext.napoleon', 'sphinx.ext.autodoc', 'autoapi.extension', 'sphinx.ext.githubpages', 'myst_parser']</em><a class="headerlink" href="#conf.extensions" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-<dl class="py data">
-<dt id="conf.autoapi_type">
-<code class="sig-prename descclassname">conf.</code><code class="sig-name descname">autoapi_type</code><em class="property"> = python</em><a class="headerlink" href="#conf.autoapi_type" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-<dl class="py data">
-<dt id="conf.autoapi_dirs">
-<code class="sig-prename descclassname">conf.</code><code class="sig-name descname">autoapi_dirs</code><em class="property"> = ['..']</em><a class="headerlink" href="#conf.autoapi_dirs" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-<dl class="py data">
-<dt id="conf.autoapi_options">
-<code class="sig-prename descclassname">conf.</code><code class="sig-name descname">autoapi_options</code><em class="property"> = ['members', 'undoc-members', 'show-inheritance', 'show-module-summary', 'special-members', 'imported-members']</em><a class="headerlink" href="#conf.autoapi_options" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-<dl class="py data">
-<dt id="conf.autoapi_ignore">
-<code class="sig-prename descclassname">conf.</code><code class="sig-name descname">autoapi_ignore</code><em class="property"> = ['*_import*']</em><a class="headerlink" href="#conf.autoapi_ignore" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-<dl class="py data">
-<dt id="conf.autoapi_generate_api_docs">
-<code class="sig-prename descclassname">conf.</code><code class="sig-name descname">autoapi_generate_api_docs</code><em class="property"> = True</em><a class="headerlink" href="#conf.autoapi_generate_api_docs" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-<dl class="py data">
-<dt id="conf.autoapi_add_toctree_entry">
-<code class="sig-prename descclassname">conf.</code><code class="sig-name descname">autoapi_add_toctree_entry</code><em class="property"> = False</em><a class="headerlink" href="#conf.autoapi_add_toctree_entry" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-<dl class="py data">
-<dt id="conf.autoapi_template_dir">
-<code class="sig-prename descclassname">conf.</code><code class="sig-name descname">autoapi_template_dir</code><em class="property"> = _templates</em><a class="headerlink" href="#conf.autoapi_template_dir" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-<dl class="py data">
-<dt id="conf.templates_path">
-<code class="sig-prename descclassname">conf.</code><code class="sig-name descname">templates_path</code><em class="property"> = ['_templates']</em><a class="headerlink" href="#conf.templates_path" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-<dl class="py data">
-<dt id="conf.exclude_patterns">
-<code class="sig-prename descclassname">conf.</code><code class="sig-name descname">exclude_patterns</code><em class="property"> = []</em><a class="headerlink" href="#conf.exclude_patterns" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-<dl class="py data">
-<dt id="conf.pygments_style">
-<code class="sig-prename descclassname">conf.</code><code class="sig-name descname">pygments_style</code><em class="property"> = friendly</em><a class="headerlink" href="#conf.pygments_style" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-<dl class="py data">
-<dt id="conf.html_theme">
-<code class="sig-prename descclassname">conf.</code><code class="sig-name descname">html_theme</code><em class="property"> = furo</em><a class="headerlink" href="#conf.html_theme" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-<dl class="py data">
-<dt id="conf.html_favicon">
-<code class="sig-prename descclassname">conf.</code><code class="sig-name descname">html_favicon</code><em class="property"> = _static/wa-dark-favicon.png</em><a class="headerlink" href="#conf.html_favicon" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-<dl class="py data">
-<dt id="conf.html_theme_options">
-<code class="sig-prename descclassname">conf.</code><code class="sig-name descname">html_theme_options</code><a class="headerlink" href="#conf.html_theme_options" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-<dl class="py data">
-<dt id="conf.html_static_path">
-<code class="sig-prename descclassname">conf.</code><code class="sig-name descname">html_static_path</code><em class="property"> = ['_static']</em><a class="headerlink" href="#conf.html_static_path" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-<dl class="py data">
-<dt id="conf.html_css_files">
-<code class="sig-prename descclassname">conf.</code><code class="sig-name descname">html_css_files</code><em class="property"> = ['css/custom.css']</em><a class="headerlink" href="#conf.html_css_files" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-</div>
-</div>
+</section>
 
       </article>
       <footer>
@@ -302,50 +215,8 @@
         
       </footer>
     </div>
-    <aside class="toc-drawer">
+    <aside class="toc-drawer no-toc">
       
-      
-      <div class="toc-sticky toc-scroll">
-        <div class="toc-title-container">
-          <span class="toc-title">
-            Contents
-          </span>
-        </div>
-        <div class="toc-tree-container">
-          <div class="toc-tree">
-            <ul>
-<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">conf</span></code></a><ul>
-<li><a class="reference internal" href="#module-contents">Module Contents</a><ul>
-<li><a class="reference internal" href="#conf.root_path">root_path</a></li>
-<li><a class="reference internal" href="#conf.project">project</a></li>
-<li><a class="reference internal" href="#conf.copyright">copyright</a></li>
-<li><a class="reference internal" href="#conf.author">author</a></li>
-<li><a class="reference internal" href="#conf.release">release</a></li>
-<li><a class="reference internal" href="#conf.extensions">extensions</a></li>
-<li><a class="reference internal" href="#conf.autoapi_type">autoapi_type</a></li>
-<li><a class="reference internal" href="#conf.autoapi_dirs">autoapi_dirs</a></li>
-<li><a class="reference internal" href="#conf.autoapi_options">autoapi_options</a></li>
-<li><a class="reference internal" href="#conf.autoapi_ignore">autoapi_ignore</a></li>
-<li><a class="reference internal" href="#conf.autoapi_generate_api_docs">autoapi_generate_api_docs</a></li>
-<li><a class="reference internal" href="#conf.autoapi_add_toctree_entry">autoapi_add_toctree_entry</a></li>
-<li><a class="reference internal" href="#conf.autoapi_template_dir">autoapi_template_dir</a></li>
-<li><a class="reference internal" href="#conf.templates_path">templates_path</a></li>
-<li><a class="reference internal" href="#conf.exclude_patterns">exclude_patterns</a></li>
-<li><a class="reference internal" href="#conf.pygments_style">pygments_style</a></li>
-<li><a class="reference internal" href="#conf.html_theme">html_theme</a></li>
-<li><a class="reference internal" href="#conf.html_favicon">html_favicon</a></li>
-<li><a class="reference internal" href="#conf.html_theme_options">html_theme_options</a></li>
-<li><a class="reference internal" href="#conf.html_static_path">html_static_path</a></li>
-<li><a class="reference internal" href="#conf.html_css_files">html_css_files</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-          </div>
-        </div>
-      </div>
       
       
     </aside>

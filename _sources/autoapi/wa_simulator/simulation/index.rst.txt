@@ -3,9 +3,145 @@
 
 .. py:module:: wa_simulator.simulation
 
-.. autoapi-nested-parse::
+.. Module Contents
+.. ---------------
 
-   Wisconsin Autonomous - https://www.wisconsinautonomous.org
+
+.. raw:: html
+
+   <h2>Classes</h2>
+
+.. autoapisummary::
+  :nosignatures:
+
+  wa_simulator.simulation.WASimulationManager
+
+.. py:class:: WASimulationManager(system: WASystem, *args, record: bool = False, output_filename: str = '')
+
+   Bases: :class:`wa_simulator.base.WABase`
+
+   A manager for a simulation. Advances and synchronizes simulation modules.
+
+   The simulation manager is used primarily for cleaning up demo and runner files.
+   Typically, users do not want to have all update methods(synchronize / advance) in their actual demo file, as that would convalute the
+   demo and make things more complicated. This class aims to simplify these scenarios
+   buy wrapping update related method calls not necessarily relevant to the user.
+
+   This class constructor (the :code:`__init__` method) has two actual arguments: :code:`*args` and :code:`**kwargs`.
+   These two arguments have special attributes not relevant in other languages, so for more
+   information on those, please see `this reference <https://www.digitalocean.com/community/tutorials/how-to-use-args-and-kwargs-in-python-3>`_.
+
+   Although not techincally an error, this class should not be inherited from.
+
+   :Parameters: * **system** (*WASystem*) -- the system that has meta properties such as time and render step size
+                * **\*args** -- Positional arguments made up of WABase classes. An exception will be thrown if the components are not WABase level classes
+                * **record** (*boolean*) -- Log simulation data as a csv?
+                * **output_filename** (*str*) -- Only used if record is true. If record is true and this is empty, an exception will be raised.
+
+   :raises ValueError: If any one of the positional arguments does not derive from WABase (`see classes that do <google.com>`_).
+   :raises ValueError: If record is true but output_filename is empty.
+
+   .. todo::
+       - Add link to all WABase classes
+
+   Examples:
+
+   .. highlight:: python
+   .. code-block:: python
+
+       import wa_simulator as wa
+
+       ... # Initialization of subcomponents
+
+       # Ex 1.
+       manager = wa.WASimulationManager(
+           vehicle, visualization, system, controller, environment)
+
+       # Ex 2.
+       manager = wa.WASimulationManager(sensor_manager, system, environment)
+
+       # Ex 3.
+       # WARNING: Recording is not currently supported
+       manager = wa.WASimulationManager(vehicle, visualization, system, controller,
+                                    environment, sensor_manager, record=True, output_filename="example.csv")
+
+   .. method:: synchronize(self, time: float)
+
+      Update the state of this component at the current time.
+
+      The primary reason to decouple the update method into two separate calls (i.e. :meth:`~synchronize` and :meth:`~advance`)
+      is to provide flexibility to the user and is essentially semantic. In most simple cases, a user will only need one of the two.
+      Furthermore, can only use :meth:`~advance` if they prefer and just update their own :code:`time` variable. Given the unknown use cases
+      for the simulator at the time of writing, it was chosen to provide two different methods with similar functionality as to allow
+      the user to choose their desired implementation, rather than the writers of this package.
+
+      As opposed to :meth:`~advance`, this method gets the current time of the simulation. As menthioned earlier,
+      :meth:`~advance` and a user defined `time` variable could be used to instead to hold the current state of the simulation. However,
+      to aid in generality of the package, this method is provided to simply provide the current time of the simulation to the user in a decoupled
+      manner from the :meth:`~advance` method.
+
+      :Parameters: **time** (*float*) -- The current time to synchronize to
+
+
+   .. method:: advance(self, step: float)
+
+      Advance the state of this component by the specified time step.
+
+      The primary reason to decouple the update method into two separate calls (i.e. :meth:`~synchronize` and :meth:`~advance`)
+      is to provide flexibility to the user and is essentially semantic. In most simple cases, a user will only need one of the two.
+      Furthermore, can only use :meth:`~advance` if they prefer and just update their own :code:`time` variable. Given the unknown use cases
+      for the simulator at the time of writing, it was chosen to provide two different methods with similar functionality as to allow
+      the user to choose their desired implementation, rather than the writers of this package.
+
+      :Parameters: **step** (*float*) -- The step size to advance this component by
+
+
+   .. method:: is_ok(self) -> bool
+
+      Check whether this component is still alive.
+
+      Depending the type of component, a specific element may "fail". For example, when
+      a visualization is used that presents a GUI/window, if the user closes that display,
+      this would be considered a component death. Therefore, :meth:`~is_ok` should then return
+      False.
+
+      :returns: *bool* -- True if still alive, false otherwise
+
+
+   .. method:: run(self)
+
+      Helper method that runs a simulation loop.
+
+      It's recommended to just use :meth:`~synchronize` and :meth:`~advance` to remain explicit in intent,
+      but this method can also be used to update states of components. Basically, this method will just
+      call the :meth:`~synchronize` and :meth:`~advance` functions in a :code:`while` loop until any components
+      fail.
+
+
+   .. method:: record(self)
+
+      Perform a record step for each component active in the simulation.
+
+      .. warning::
+          Currently not implemented
+
+
+   .. method:: set_record(self, record: bool = True, output_filename: str = '')
+
+      Specify whether the simulation should be recorded.
+
+      :Parameters: * **record** (*bool*) -- record the simulation?
+                   * **output_filename** (*str*) -- the csv filename to save data to. If record is true and this is empty, an exception will be raised
+
+
+
+
+
+
+
+.. .. .. autoapi-nested-parse::
+..
+..    Wisconsin Autonomous - https://www.wisconsinautonomous.org
 
    Copyright (c) 2021 wisconsinautonomous.org
    All rights reserved.
@@ -13,69 +149,5 @@
    Use of this source code is governed by a BSD-style license that can be found
    in the LICENSE file at the top level of the repo
 
-
-
-Module Contents
----------------
-
-Classes
-~~~~~~~
-
-.. autoapisummary::
-
-   wa_simulator.simulation.WASimulation
-
-
-
-.. py:class:: WASimulation(system, environment, vehicle, visualization, controller, sensor_manager=None, record_filename=None)
-
-   Bases: :class:`abc.ABC`
-
-   Helper class that provides a standard way to create an ABC using
-   inheritance.
-
-   .. method:: record(self, filename)
-
-      Save simulation state. Only saves the vehicle simple state
-
-      :param filename: file to append info to
-      :type filename: str
-
-
-   .. method:: synchronize(self, time)
-
-      Synchronize each simulation module.
-
-      Will pass information between simulation modules
-
-      :param time: the time to synchronize the simulation to
-      :type time: double
-
-
-   .. method:: advance(self, step)
-
-      Advance each simulation module.
-
-      :param step: the step size to update each module by
-      :type step: double
-
-
-   .. method:: run(self)
-
-      Run the simulation
-
-      Can be used to clear up main functions.
-
-
-   .. method:: is_ok(self)
-
-      Verifies the simulation is running as expected.
-
-      Checks the visualization if it's still active. Should probably check other
-      modules for any errors.
-
-      :returns: Whether the simulation running as expected
-      :rtype: bool
-
-
-
+..
+.. 

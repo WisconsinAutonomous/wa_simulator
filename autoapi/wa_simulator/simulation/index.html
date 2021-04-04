@@ -1,10 +1,11 @@
 <!doctype html>
 <html class="no-js">
   <head><meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="wa_simulator.system" href="../system/index.html" /><link rel="prev" title="wa_simulator.sensor" href="../sensor/index.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="wa_simulator.system" href="../system/index.html" /><link rel="prev" title="wa_simulator.sensor" href="../sensor/index.html" />
 
     <link rel="shortcut icon" href="../../../_static/wa-dark-favicon.png"/><meta name="generator" content="sphinx-3.4.2, furo 2020.12.30.beta24"/>
-        <title>wa_simulator.simulation - Wisconsin Autonomous Simulator 0.0.10 documentation</title>
+        <title>wa_simulator.simulation - Wisconsin Autonomous Simulator 1.0.3 documentation</title>
       <link rel="stylesheet" href="../../../_static/styles/furo.css?digest=33d2fc4f3f180ec1ffc6524e273e21d7d58cbe49">
     <link rel="stylesheet" href="../../../_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../../../_static/pygments_dark.css">
@@ -103,7 +104,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../index.html"><div class="brand">Wisconsin Autonomous Simulator 0.0.10 documentation</div></a>
+      <a href="../../../index.html"><div class="brand">Wisconsin Autonomous Simulator 1.0.3 documentation</div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon" for="__toc">
@@ -137,6 +138,7 @@
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label for="toctree-checkbox-2"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/custom-controller.html">Creating a Custom Controller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/writing-a-json.html">Writing a JSON Specification File</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current has-children"><a class="reference internal" href="../index.html">API Reference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label for="toctree-checkbox-3"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
@@ -145,31 +147,29 @@
 <li class="toctree-l3"><a class="reference internal" href="../chrono/environment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.environment</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../chrono/sensor/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.sensor</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../chrono/system/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.system</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../chrono/terrain/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.terrain</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../chrono/utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.utils</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../chrono/vehicle/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.vehicle</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../chrono/visualization/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.visualization</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../constants/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.constants</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../base/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.base</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../controller/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.controller</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../core/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.core</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../environment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.environment</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../inputs/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.inputs</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../path/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.path</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../sensor/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.sensor</span></code></a></li>
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.simulation</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../system/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.system</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../terrain/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.terrain</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../track/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.track</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.utils</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../vehicle/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.vehicle</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vehicle_inputs/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.vehicle_inputs</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../visualization/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.visualization</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
 </ul>
-<p class="caption"><span class="caption-text">External Links</span></p>
+<p><span class="caption-text">External Links</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference external" href="https://pypi.org/project/wa-simulator/">PyPI</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/WisconsinAutonomous/wa_simulator">Github</a></li>
@@ -187,90 +187,153 @@
         <label class="toc-overlay-icon toc-content-icon" for="__toc">
           <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
         </label>
-        <div class="section" id="module-wa_simulator.simulation">
+        <section id="module-wa_simulator.simulation">
 <span id="wa-simulator-simulation"></span><h1><a class="reference internal" href="#module-wa_simulator.simulation" title="wa_simulator.simulation"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.simulation</span></code></a><a class="headerlink" href="#module-wa_simulator.simulation" title="Permalink to this headline">¶</a></h1>
-<p>Wisconsin Autonomous - <a class="reference external" href="https://www.wisconsinautonomous.org">https://www.wisconsinautonomous.org</a></p>
-<p>Copyright (c) 2021 wisconsinautonomous.org
-All rights reserved.</p>
-<p>Use of this source code is governed by a BSD-style license that can be found
-in the LICENSE file at the top level of the repo</p>
-<div class="section" id="module-contents">
-<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="classes">
-<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h3>
-<div class="table-wrapper"><table class="longtable docutils align-default">
+<h2>Classes</h2><div class="table-wrapper"><table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%"/>
 <col style="width: 90%"/>
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#wa_simulator.simulation.WASimulation" title="wa_simulator.simulation.WASimulation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WASimulation</span></code></a></p></td>
-<td><p>Helper class that provides a standard way to create an ABC using</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#wa_simulator.simulation.WASimulationManager" title="wa_simulator.simulation.WASimulationManager"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WASimulationManager</span></code></a></p></td>
+<td><p>A manager for a simulation. Advances and synchronizes simulation modules.</p></td>
 </tr>
 </tbody>
 </table></div>
 <dl class="py class">
-<dt id="wa_simulator.simulation.WASimulation">
-<em class="property">class </em><code class="sig-prename descclassname">wa_simulator.simulation.</code><code class="sig-name descname">WASimulation</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">system</span></em>, <em class="sig-param"><span class="n">environment</span></em>, <em class="sig-param"><span class="n">vehicle</span></em>, <em class="sig-param"><span class="n">visualization</span></em>, <em class="sig-param"><span class="n">controller</span></em>, <em class="sig-param"><span class="n">sensor_manager</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">record_filename</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.simulation.WASimulation" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
-<p>Helper class that provides a standard way to create an ABC using
-inheritance.</p>
-<dl class="py method">
-<dt id="wa_simulator.simulation.WASimulation.record">
-<code class="sig-name descname">record</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">filename</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.simulation.WASimulation.record" title="Permalink to this definition">¶</a></dt>
-<dd><p>Save simulation state. Only saves the vehicle simple state</p>
+<dt id="wa_simulator.simulation.WASimulationManager">
+<em class="property">class </em><code class="sig-name descname">WASimulationManager</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">system</span><span class="p">:</span> <span class="n">WASystem</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="n">record</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">output_filename</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/wa_simulator/simulation.html#WASimulationManager"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.simulation.WASimulationManager" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../base/index.html#wa_simulator.base.WABase" title="wa_simulator.base.WABase"><code class="xref py py-class docutils literal notranslate"><span class="pre">wa_simulator.base.WABase</span></code></a></p>
+<p>A manager for a simulation. Advances and synchronizes simulation modules.</p>
+<p>The simulation manager is used primarily for cleaning up demo and runner files.
+Typically, users do not want to have all update methods(synchronize / advance) in their actual demo file, as that would convalute the
+demo and make things more complicated. This class aims to simplify these scenarios
+buy wrapping update related method calls not necessarily relevant to the user.</p>
+<p>This class constructor (the <code class="code docutils literal notranslate"><span class="pre">__init__</span></code> method) has two actual arguments: <code class="code docutils literal notranslate"><span class="pre">*args</span></code> and <code class="code docutils literal notranslate"><span class="pre">**kwargs</span></code>.
+These two arguments have special attributes not relevant in other languages, so for more
+information on those, please see <a class="reference external" href="https://www.digitalocean.com/community/tutorials/how-to-use-args-and-kwargs-in-python-3">this reference</a>.</p>
+<p>Although not techincally an error, this class should not be inherited from.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>filename</strong> (<em>str</em>) – file to append info to</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>system</strong> (<em>WASystem</em>) – the system that has meta properties such as time and render step size</p></li>
+<li><p><strong>*args</strong> – Positional arguments made up of WABase classes. An exception will be thrown if the components are not WABase level classes</p></li>
+<li><p><strong>record</strong> (<em>boolean</em>) – Log simulation data as a csv?</p></li>
+<li><p><strong>output_filename</strong> (<em>str</em>) – Only used if record is true. If record is true and this is empty, an exception will be raised.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>ValueError</strong> – If any one of the positional arguments does not derive from WABase (<a class="reference external" href="google.com">see classes that do</a>).</p></li>
+<li><p><strong>ValueError</strong> – If record is true but output_filename is empty.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition-todo admonition" id="id1">
+<p class="admonition-title">Todo</p>
+<ul class="simple">
+<li><p>Add link to all WABase classes</p></li>
+</ul>
+</div>
+<p>Examples:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">wa_simulator</span> <span class="kn">as</span> <span class="nn">wa</span>
+
+<span class="o">...</span> <span class="c1"># Initialization of subcomponents</span>
+
+<span class="c1"># Ex 1.</span>
+<span class="n">manager</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">WASimulationManager</span><span class="p">(</span>
+    <span class="n">vehicle</span><span class="p">,</span> <span class="n">visualization</span><span class="p">,</span> <span class="n">system</span><span class="p">,</span> <span class="n">controller</span><span class="p">,</span> <span class="n">environment</span><span class="p">)</span>
+
+<span class="c1"># Ex 2.</span>
+<span class="n">manager</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">WASimulationManager</span><span class="p">(</span><span class="n">sensor_manager</span><span class="p">,</span> <span class="n">system</span><span class="p">,</span> <span class="n">environment</span><span class="p">)</span>
+
+<span class="c1"># Ex 3.</span>
+<span class="c1"># WARNING: Recording is not currently supported</span>
+<span class="n">manager</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">WASimulationManager</span><span class="p">(</span><span class="n">vehicle</span><span class="p">,</span> <span class="n">visualization</span><span class="p">,</span> <span class="n">system</span><span class="p">,</span> <span class="n">controller</span><span class="p">,</span>
+                             <span class="n">environment</span><span class="p">,</span> <span class="n">sensor_manager</span><span class="p">,</span> <span class="n">record</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">output_filename</span><span class="o">=</span><span class="s2">"example.csv"</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt id="wa_simulator.simulation.WASimulationManager.synchronize">
+<code class="sig-name descname">synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">time</span><span class="p">:</span> <span class="n">float</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/wa_simulator/simulation.html#WASimulationManager.synchronize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.simulation.WASimulationManager.synchronize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the state of this component at the current time.</p>
+<p>The primary reason to decouple the update method into two separate calls (i.e. <a class="reference internal" href="#wa_simulator.simulation.WASimulationManager.synchronize" title="wa_simulator.simulation.WASimulationManager.synchronize"><code class="xref py py-meth docutils literal notranslate"><span class="pre">synchronize()</span></code></a> and <a class="reference internal" href="#wa_simulator.simulation.WASimulationManager.advance" title="wa_simulator.simulation.WASimulationManager.advance"><code class="xref py py-meth docutils literal notranslate"><span class="pre">advance()</span></code></a>)
+is to provide flexibility to the user and is essentially semantic. In most simple cases, a user will only need one of the two.
+Furthermore, can only use <a class="reference internal" href="#wa_simulator.simulation.WASimulationManager.advance" title="wa_simulator.simulation.WASimulationManager.advance"><code class="xref py py-meth docutils literal notranslate"><span class="pre">advance()</span></code></a> if they prefer and just update their own <code class="code docutils literal notranslate"><span class="pre">time</span></code> variable. Given the unknown use cases
+for the simulator at the time of writing, it was chosen to provide two different methods with similar functionality as to allow
+the user to choose their desired implementation, rather than the writers of this package.</p>
+<p>As opposed to <a class="reference internal" href="#wa_simulator.simulation.WASimulationManager.advance" title="wa_simulator.simulation.WASimulationManager.advance"><code class="xref py py-meth docutils literal notranslate"><span class="pre">advance()</span></code></a>, this method gets the current time of the simulation. As menthioned earlier,
+<a class="reference internal" href="#wa_simulator.simulation.WASimulationManager.advance" title="wa_simulator.simulation.WASimulationManager.advance"><code class="xref py py-meth docutils literal notranslate"><span class="pre">advance()</span></code></a> and a user defined <cite>time</cite> variable could be used to instead to hold the current state of the simulation. However,
+to aid in generality of the package, this method is provided to simply provide the current time of the simulation to the user in a decoupled
+manner from the <a class="reference internal" href="#wa_simulator.simulation.WASimulationManager.advance" title="wa_simulator.simulation.WASimulationManager.advance"><code class="xref py py-meth docutils literal notranslate"><span class="pre">advance()</span></code></a> method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>time</strong> (<em>float</em>) – The current time to synchronize to</p>
 </dd>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="wa_simulator.simulation.WASimulation.synchronize">
-<code class="sig-name descname">synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">time</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.simulation.WASimulation.synchronize" title="Permalink to this definition">¶</a></dt>
-<dd><p>Synchronize each simulation module.</p>
-<p>Will pass information between simulation modules</p>
+<dt id="wa_simulator.simulation.WASimulationManager.advance">
+<code class="sig-name descname">advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">step</span><span class="p">:</span> <span class="n">float</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/wa_simulator/simulation.html#WASimulationManager.advance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.simulation.WASimulationManager.advance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Advance the state of this component by the specified time step.</p>
+<p>The primary reason to decouple the update method into two separate calls (i.e. <a class="reference internal" href="#wa_simulator.simulation.WASimulationManager.synchronize" title="wa_simulator.simulation.WASimulationManager.synchronize"><code class="xref py py-meth docutils literal notranslate"><span class="pre">synchronize()</span></code></a> and <a class="reference internal" href="#wa_simulator.simulation.WASimulationManager.advance" title="wa_simulator.simulation.WASimulationManager.advance"><code class="xref py py-meth docutils literal notranslate"><span class="pre">advance()</span></code></a>)
+is to provide flexibility to the user and is essentially semantic. In most simple cases, a user will only need one of the two.
+Furthermore, can only use <a class="reference internal" href="#wa_simulator.simulation.WASimulationManager.advance" title="wa_simulator.simulation.WASimulationManager.advance"><code class="xref py py-meth docutils literal notranslate"><span class="pre">advance()</span></code></a> if they prefer and just update their own <code class="code docutils literal notranslate"><span class="pre">time</span></code> variable. Given the unknown use cases
+for the simulator at the time of writing, it was chosen to provide two different methods with similar functionality as to allow
+the user to choose their desired implementation, rather than the writers of this package.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>time</strong> (<em>double</em>) – the time to synchronize the simulation to</p>
+<dd class="field-odd"><p><strong>step</strong> (<em>float</em>) – The step size to advance this component by</p>
 </dd>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="wa_simulator.simulation.WASimulation.advance">
-<code class="sig-name descname">advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.simulation.WASimulation.advance" title="Permalink to this definition">¶</a></dt>
-<dd><p>Advance each simulation module.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>step</strong> (<em>double</em>) – the step size to update each module by</p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py method">
-<dt id="wa_simulator.simulation.WASimulation.run">
-<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.simulation.WASimulation.run" title="Permalink to this definition">¶</a></dt>
-<dd><p>Run the simulation</p>
-<p>Can be used to clear up main functions.</p>
-</dd></dl>
-<dl class="py method">
-<dt id="wa_simulator.simulation.WASimulation.is_ok">
-<code class="sig-name descname">is_ok</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.simulation.WASimulation.is_ok" title="Permalink to this definition">¶</a></dt>
-<dd><p>Verifies the simulation is running as expected.</p>
-<p>Checks the visualization if it’s still active. Should probably check other
-modules for any errors.</p>
+<dt id="wa_simulator.simulation.WASimulationManager.is_ok">
+<code class="sig-name descname">is_ok</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span> → bool<a class="reference internal" href="../../../_modules/wa_simulator/simulation.html#WASimulationManager.is_ok"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.simulation.WASimulationManager.is_ok" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check whether this component is still alive.</p>
+<p>Depending the type of component, a specific element may “fail”. For example, when
+a visualization is used that presents a GUI/window, if the user closes that display,
+this would be considered a component death. Therefore, <a class="reference internal" href="#wa_simulator.simulation.WASimulationManager.is_ok" title="wa_simulator.simulation.WASimulationManager.is_ok"><code class="xref py py-meth docutils literal notranslate"><span class="pre">is_ok()</span></code></a> should then return
+False.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>Whether the simulation running as expected</p>
+<dd class="field-odd"><p><em>bool</em> – True if still alive, false otherwise</p>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>bool</p>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.simulation.WASimulationManager.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/wa_simulator/simulation.html#WASimulationManager.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.simulation.WASimulationManager.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper method that runs a simulation loop.</p>
+<p>It’s recommended to just use <a class="reference internal" href="#wa_simulator.simulation.WASimulationManager.synchronize" title="wa_simulator.simulation.WASimulationManager.synchronize"><code class="xref py py-meth docutils literal notranslate"><span class="pre">synchronize()</span></code></a> and <a class="reference internal" href="#wa_simulator.simulation.WASimulationManager.advance" title="wa_simulator.simulation.WASimulationManager.advance"><code class="xref py py-meth docutils literal notranslate"><span class="pre">advance()</span></code></a> to remain explicit in intent,
+but this method can also be used to update states of components. Basically, this method will just
+call the <a class="reference internal" href="#wa_simulator.simulation.WASimulationManager.synchronize" title="wa_simulator.simulation.WASimulationManager.synchronize"><code class="xref py py-meth docutils literal notranslate"><span class="pre">synchronize()</span></code></a> and <a class="reference internal" href="#wa_simulator.simulation.WASimulationManager.advance" title="wa_simulator.simulation.WASimulationManager.advance"><code class="xref py py-meth docutils literal notranslate"><span class="pre">advance()</span></code></a> functions in a <code class="code docutils literal notranslate"><span class="pre">while</span></code> loop until any components
+fail.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.simulation.WASimulationManager.record">
+<code class="sig-name descname">record</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/wa_simulator/simulation.html#WASimulationManager.record"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.simulation.WASimulationManager.record" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform a record step for each component active in the simulation.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Currently not implemented</p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.simulation.WASimulationManager.set_record">
+<code class="sig-name descname">set_record</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">record</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">output_filename</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/wa_simulator/simulation.html#WASimulationManager.set_record"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.simulation.WASimulationManager.set_record" title="Permalink to this definition">¶</a></dt>
+<dd><p>Specify whether the simulation should be recorded.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>record</strong> (<em>bool</em>) – record the simulation?</p></li>
+<li><p><strong>output_filename</strong> (<em>str</em>) – the csv filename to save data to. If record is true and this is empty, an exception will be raised</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
 </dd></dl>
-</div>
-</div>
-</div>
+</section>
 
       </article>
       <footer>
@@ -327,18 +390,13 @@ modules for any errors.</p>
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.simulation</span></code></a><ul>
-<li><a class="reference internal" href="#module-contents">Module Contents</a><ul>
-<li><a class="reference internal" href="#classes">Classes</a><ul>
-<li><a class="reference internal" href="#wa_simulator.simulation.WASimulation">WASimulation</a><ul>
-<li><a class="reference internal" href="#wa_simulator.simulation.WASimulation.record">record</a></li>
-<li><a class="reference internal" href="#wa_simulator.simulation.WASimulation.synchronize">synchronize</a></li>
-<li><a class="reference internal" href="#wa_simulator.simulation.WASimulation.advance">advance</a></li>
-<li><a class="reference internal" href="#wa_simulator.simulation.WASimulation.run">run</a></li>
-<li><a class="reference internal" href="#wa_simulator.simulation.WASimulation.is_ok">is_ok</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li><a class="reference internal" href="#wa_simulator.simulation.WASimulationManager">WASimulationManager</a><ul>
+<li><a class="reference internal" href="#wa_simulator.simulation.WASimulationManager.synchronize">synchronize</a></li>
+<li><a class="reference internal" href="#wa_simulator.simulation.WASimulationManager.advance">advance</a></li>
+<li><a class="reference internal" href="#wa_simulator.simulation.WASimulationManager.is_ok">is_ok</a></li>
+<li><a class="reference internal" href="#wa_simulator.simulation.WASimulationManager.run">run</a></li>
+<li><a class="reference internal" href="#wa_simulator.simulation.WASimulationManager.record">record</a></li>
+<li><a class="reference internal" href="#wa_simulator.simulation.WASimulationManager.set_record">set_record</a></li>
 </ul>
 </li>
 </ul>

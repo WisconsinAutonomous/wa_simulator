@@ -1,10 +1,11 @@
 <!doctype html>
 <html class="no-js">
   <head><meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="wa_simulator.simulation" href="../simulation/index.html" /><link rel="prev" title="wa_simulator.path" href="../path/index.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="wa_simulator.simulation" href="../simulation/index.html" /><link rel="prev" title="wa_simulator.path" href="../path/index.html" />
 
     <link rel="shortcut icon" href="../../../_static/wa-dark-favicon.png"/><meta name="generator" content="sphinx-3.4.2, furo 2020.12.30.beta24"/>
-        <title>wa_simulator.sensor - Wisconsin Autonomous Simulator 0.0.10 documentation</title>
+        <title>wa_simulator.sensor - Wisconsin Autonomous Simulator 1.0.3 documentation</title>
       <link rel="stylesheet" href="../../../_static/styles/furo.css?digest=33d2fc4f3f180ec1ffc6524e273e21d7d58cbe49">
     <link rel="stylesheet" href="../../../_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../../../_static/pygments_dark.css">
@@ -103,7 +104,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../index.html"><div class="brand">Wisconsin Autonomous Simulator 0.0.10 documentation</div></a>
+      <a href="../../../index.html"><div class="brand">Wisconsin Autonomous Simulator 1.0.3 documentation</div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon" for="__toc">
@@ -137,6 +138,7 @@
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label for="toctree-checkbox-2"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/custom-controller.html">Creating a Custom Controller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/writing-a-json.html">Writing a JSON Specification File</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current has-children"><a class="reference internal" href="../index.html">API Reference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label for="toctree-checkbox-3"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
@@ -145,31 +147,29 @@
 <li class="toctree-l3"><a class="reference internal" href="../chrono/environment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.environment</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../chrono/sensor/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.sensor</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../chrono/system/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.system</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../chrono/terrain/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.terrain</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../chrono/utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.utils</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../chrono/vehicle/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.vehicle</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../chrono/visualization/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.visualization</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../constants/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.constants</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../base/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.base</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../controller/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.controller</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../core/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.core</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../environment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.environment</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../inputs/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.inputs</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../path/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.path</span></code></a></li>
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.sensor</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../simulation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.simulation</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../system/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.system</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../terrain/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.terrain</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../track/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.track</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.utils</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../vehicle/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.vehicle</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vehicle_inputs/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.vehicle_inputs</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../visualization/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.visualization</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
 </ul>
-<p class="caption"><span class="caption-text">External Links</span></p>
+<p><span class="caption-text">External Links</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference external" href="https://pypi.org/project/wa-simulator/">PyPI</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/WisconsinAutonomous/wa_simulator">Github</a></li>
@@ -187,18 +187,9 @@
         <label class="toc-overlay-icon toc-content-icon" for="__toc">
           <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
         </label>
-        <div class="section" id="module-wa_simulator.sensor">
+        <section id="module-wa_simulator.sensor">
 <span id="wa-simulator-sensor"></span><h1><a class="reference internal" href="#module-wa_simulator.sensor" title="wa_simulator.sensor"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.sensor</span></code></a><a class="headerlink" href="#module-wa_simulator.sensor" title="Permalink to this headline">¶</a></h1>
-<p>Wisconsin Autonomous - <a class="reference external" href="https://www.wisconsinautonomous.org">https://www.wisconsinautonomous.org</a></p>
-<p>Copyright (c) 2021 wisconsinautonomous.org
-All rights reserved.</p>
-<p>Use of this source code is governed by a BSD-style license that can be found
-in the LICENSE file at the top level of the repo</p>
-<div class="section" id="module-contents">
-<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="classes">
-<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h3>
-<div class="table-wrapper"><table class="longtable docutils align-default">
+<h2>Classes</h2><div class="table-wrapper"><table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%"/>
 <col style="width: 90%"/>
@@ -230,104 +221,28 @@ in the LICENSE file at the top level of the repo</p>
 </tr>
 </tbody>
 </table></div>
-</div>
-<div class="section" id="functions">
-<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
-<div class="table-wrapper"><table class="longtable docutils align-default">
-<colgroup>
-<col style="width: 10%"/>
-<col style="width: 90%"/>
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#wa_simulator.sensor.load_sensor_suite_from_json" title="wa_simulator.sensor.load_sensor_suite_from_json"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_sensor_suite_from_json</span></code></a>(filename: str, manager: WASensorManager)</p></td>
-<td><p>Load a sensor suite from json</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#wa_simulator.sensor.load_sensor_from_json" title="wa_simulator.sensor.load_sensor_from_json"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_sensor_from_json</span></code></a>(filename: str, vehicle: WAVehicle)</p></td>
-<td><p>Load a sensor from json</p></td>
-</tr>
-</tbody>
-</table></div>
-<dl class="py function">
-<dt id="wa_simulator.sensor.load_sensor_suite_from_json">
-<code class="sig-prename descclassname">wa_simulator.sensor.</code><code class="sig-name descname">load_sensor_suite_from_json</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">manager</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#wa_simulator.sensor.WASensorManager" title="wa_simulator.sensor.WASensorManager">WASensorManager</a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.sensor.load_sensor_suite_from_json" title="Permalink to this definition">¶</a></dt>
-<dd><p>Load a sensor suite from json</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>filename</strong> (<em>str</em>) – The json specification file that describes the sensor suite</p></li>
-<li><p><strong>manager</strong> (<a class="reference internal" href="#wa_simulator.sensor.WASensorManager" title="wa_simulator.sensor.WASensorManager"><em>WASensorManager</em></a>) – The sensor manager to store all created objects in</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py function">
-<dt id="wa_simulator.sensor.load_sensor_from_json">
-<code class="sig-prename descclassname">wa_simulator.sensor.</code><code class="sig-name descname">load_sensor_from_json</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">vehicle</span><span class="p">:</span> <span class="n">WAVehicle</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.sensor.load_sensor_from_json" title="Permalink to this definition">¶</a></dt>
-<dd><p>Load a sensor from json</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>filename</strong> (<em>str</em>) – The json specification file that describes the sensor</p></li>
-<li><p><strong>vehicle</strong> (<a class="reference internal" href="../vehicle/index.html#wa_simulator.vehicle.WAVehicle" title="wa_simulator.vehicle.WAVehicle"><em>WAVehicle</em></a>) – The vehicle each sensor will be attached to</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
 <dl class="py class">
 <dt id="wa_simulator.sensor.WASensorManager">
-<em class="property">class </em><code class="sig-prename descclassname">wa_simulator.sensor.</code><code class="sig-name descname">WASensorManager</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">system</span><span class="p">:</span> <span class="n">WASystem</span></em>, <em class="sig-param"><span class="n">vehicle</span><span class="p">:</span> <span class="n">WAVehicle</span></em>, <em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.sensor.WASensorManager" title="Permalink to this definition">¶</a></dt>
-<dd><p>Base class that manages sensors.</p>
+<em class="property">class </em><code class="sig-name descname">WASensorManager</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">system</span><span class="p">:</span> <span class="n">WASystem</span></em>, <em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/wa_simulator/sensor.html#WASensorManager"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.sensor.WASensorManager" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../base/index.html#wa_simulator.base.WABase" title="wa_simulator.base.WABase"><code class="xref py py-class docutils literal notranslate"><span class="pre">wa_simulator.base.WABase</span></code></a></p>
+<p>Base class that manages sensors.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>system</strong> (<a class="reference internal" href="../system/index.html#wa_simulator.system.WASystem" title="wa_simulator.system.WASystem"><em>WASystem</em></a>) – The system for the simulation</p></li>
-<li><p><strong>filename</strong> (<em>str</em>) – A json file to load a scene from. Defaults to None (does nothing).</p></li>
+<li><p><strong>system</strong> (<em>WASystem</em>) – The system for the simulation</p></li>
+<li><p><strong>filename</strong> (<em>str, optional</em>) – A json file to load a scene from. Defaults to None (does nothing).</p></li>
 </ul>
 </dd>
 </dl>
-<dl class="py attribute">
-<dt id="wa_simulator.sensor.WASensorManager.system">
-<code class="sig-name descname">system</code><a class="headerlink" href="#wa_simulator.sensor.WASensorManager.system" title="Permalink to this definition">¶</a></dt>
-<dd><p>The system for the simulation</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="../system/index.html#wa_simulator.system.WASystem" title="wa_simulator.system.WASystem">WASystem</a></p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py attribute">
-<dt id="wa_simulator.sensor.WASensorManager.vehicle">
-<code class="sig-name descname">vehicle</code><a class="headerlink" href="#wa_simulator.sensor.WASensorManager.vehicle" title="Permalink to this definition">¶</a></dt>
-<dd><p>The vehicle each sensor will be attached to</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="../vehicle/index.html#wa_simulator.vehicle.WAVehicle" title="wa_simulator.vehicle.WAVehicle">WAVehicle</a></p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py attribute">
-<dt id="wa_simulator.sensor.WASensorManager.sensors">
-<code class="sig-name descname">sensors</code><a class="headerlink" href="#wa_simulator.sensor.WASensorManager.sensors" title="Permalink to this definition">¶</a></dt>
-<dd><p>List of the attached sensors</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>list</p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py attribute">
-<dt id="wa_simulator.sensor.WASensorManager.EGP_SENSOR_SUITE_FILE">
-<code class="sig-name descname">EGP_SENSOR_SUITE_FILE</code><em class="property"> = sensors/suites/ev_grand_prix.json</em><a class="headerlink" href="#wa_simulator.sensor.WASensorManager.EGP_SENSOR_SUITE_FILE" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
 <dl class="py method">
 <dt id="wa_simulator.sensor.WASensorManager.add_sensor">
-<code class="sig-name descname">add_sensor</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">sensor</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#wa_simulator.sensor.WASensor" title="wa_simulator.sensor.WASensor">WASensor</a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.sensor.WASensorManager.add_sensor" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">add_sensor</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">sensor</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#wa_simulator.sensor.WASensor" title="wa_simulator.sensor.WASensor">WASensor</a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/wa_simulator/sensor.html#WASensorManager.add_sensor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.sensor.WASensorManager.add_sensor" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add a sensor to the sensor manager</p>
 </dd></dl>
 <dl class="py method">
 <dt id="wa_simulator.sensor.WASensorManager.synchronize">
-<code class="sig-name descname">synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">time</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.sensor.WASensorManager.synchronize" title="Permalink to this definition">¶</a></dt>
-<dd><p>Synchronize the sensor at the specified time</p>
+<code class="sig-name descname">synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">time</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/wa_simulator/sensor.html#WASensorManager.synchronize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.sensor.WASensorManager.synchronize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Synchronize each sensor at the specified time</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>time</strong> (<em>float</em>) – the time at which the sensors are synchronized to</p>
@@ -336,25 +251,39 @@ in the LICENSE file at the top level of the repo</p>
 </dd></dl>
 <dl class="py method">
 <dt id="wa_simulator.sensor.WASensorManager.advance">
-<code class="sig-name descname">advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.sensor.WASensorManager.advance" title="Permalink to this definition">¶</a></dt>
-<dd><p>Advance the state of the sensor by the specified time step</p>
+<code class="sig-name descname">advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/wa_simulator/sensor.html#WASensorManager.advance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.sensor.WASensorManager.advance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Advance the state of each sensor by the specified time step</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>step</strong> (<em>float</em>) – the step to update the sensor by</p>
 </dd>
 </dl>
 </dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.sensor.WASensorManager.is_ok">
+<code class="sig-name descname">is_ok</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span> → bool<a class="reference internal" href="../../../_modules/wa_simulator/sensor.html#WASensorManager.is_ok"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.sensor.WASensorManager.is_ok" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check whether this component is still alive.</p>
+<p>Depending the type of component, a specific element may “fail”. For example, when
+a visualization is used that presents a GUI/window, if the user closes that display,
+this would be considered a component death. Therefore, <a class="reference internal" href="#wa_simulator.sensor.WASensorManager.is_ok" title="wa_simulator.sensor.WASensorManager.is_ok"><code class="xref py py-meth docutils literal notranslate"><span class="pre">is_ok()</span></code></a> should then return
+False.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><em>bool</em> – True if still alive, false otherwise</p>
+</dd>
+</dl>
+</dd></dl>
 </dd></dl>
 <dl class="py class">
 <dt id="wa_simulator.sensor.WANoiseModel">
-<em class="property">class </em><code class="sig-prename descclassname">wa_simulator.sensor.</code><code class="sig-name descname">WANoiseModel</code><a class="headerlink" href="#wa_simulator.sensor.WANoiseModel" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-name descname">WANoiseModel</code><a class="reference internal" href="../../../_modules/wa_simulator/sensor.html#WANoiseModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.sensor.WANoiseModel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
 <p>Base class for a noise model</p>
 <p>Very similar to ChNoiseModel (<a class="reference external" href="https://github.com/projectchrono/chrono/blob/feature/sensor/src/chrono_sensor/ChNoiseModel.h">https://github.com/projectchrono/chrono/blob/feature/sensor/src/chrono_sensor/ChNoiseModel.h</a>)
 Made because ChSensor currently _requires_ OptiX (NVIDIA proprietary software)</p>
 <dl class="py method">
 <dt id="wa_simulator.sensor.WANoiseModel.add_noise">
-<em class="property">abstract </em><code class="sig-name descname">add_noise</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">list</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.sensor.WANoiseModel.add_noise" title="Permalink to this definition">¶</a></dt>
+<em class="property">abstract </em><code class="sig-name descname">add_noise</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">list</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/wa_simulator/sensor.html#WANoiseModel.add_noise"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.sensor.WANoiseModel.add_noise" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add noise to the data</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -365,18 +294,18 @@ Made because ChSensor currently _requires_ OptiX (NVIDIA proprietary software)</
 </dd></dl>
 <dl class="py class">
 <dt id="wa_simulator.sensor.WANoNoiseModel">
-<em class="property">class </em><code class="sig-prename descclassname">wa_simulator.sensor.</code><code class="sig-name descname">WANoNoiseModel</code><a class="headerlink" href="#wa_simulator.sensor.WANoNoiseModel" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-name descname">WANoNoiseModel</code><a class="reference internal" href="../../../_modules/wa_simulator/sensor.html#WANoNoiseModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.sensor.WANoNoiseModel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#wa_simulator.sensor.WANoiseModel" title="wa_simulator.sensor.WANoiseModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">wa_simulator.sensor.WANoiseModel</span></code></a></p>
 <p>Derived noise model. Does nothing</p>
 <dl class="py method">
 <dt id="wa_simulator.sensor.WANoNoiseModel.add_noise">
-<code class="sig-name descname">add_noise</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">list</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.sensor.WANoNoiseModel.add_noise" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">add_noise</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">list</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/wa_simulator/sensor.html#WANoNoiseModel.add_noise"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.sensor.WANoNoiseModel.add_noise" title="Permalink to this definition">¶</a></dt>
 <dd><p>Do nothing</p>
 </dd></dl>
 </dd></dl>
 <dl class="py class">
 <dt id="wa_simulator.sensor.WANormalDriftNoiseModel">
-<em class="property">class </em><code class="sig-prename descclassname">wa_simulator.sensor.</code><code class="sig-name descname">WANormalDriftNoiseModel</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">p</span><span class="p">:</span> <span class="n">dict</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.sensor.WANormalDriftNoiseModel" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-name descname">WANormalDriftNoiseModel</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">p</span><span class="p">:</span> <span class="n">dict</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/wa_simulator/sensor.html#WANormalDriftNoiseModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.sensor.WANormalDriftNoiseModel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#wa_simulator.sensor.WANoiseModel" title="wa_simulator.sensor.WANoiseModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">wa_simulator.sensor.WANoiseModel</span></code></a></p>
 <p>Derived noise model. Gaussian drifting noise with noncorrelated equal distributions</p>
 <p>Very similar to ChNormalDriftModel (<a class="reference external" href="https://github.com/projectchrono/chrono/blob/feature/sensor/src/chrono_sensor/ChNoiseModel.h">https://github.com/projectchrono/chrono/blob/feature/sensor/src/chrono_sensor/ChNoiseModel.h</a>)
@@ -388,7 +317,7 @@ Made because ChSensor currently _requires_ OptiX (NVIDIA proprietary software)</
 </dl>
 <dl class="py method">
 <dt id="wa_simulator.sensor.WANormalDriftNoiseModel.add_noise">
-<code class="sig-name descname">add_noise</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">list</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.sensor.WANormalDriftNoiseModel.add_noise" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">add_noise</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">list</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/wa_simulator/sensor.html#WANormalDriftNoiseModel.add_noise"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.sensor.WANormalDriftNoiseModel.add_noise" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add noise to the data</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -399,7 +328,7 @@ Made because ChSensor currently _requires_ OptiX (NVIDIA proprietary software)</
 </dd></dl>
 <dl class="py class">
 <dt id="wa_simulator.sensor.WANormalNoiseModel">
-<em class="property">class </em><code class="sig-prename descclassname">wa_simulator.sensor.</code><code class="sig-name descname">WANormalNoiseModel</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">p</span><span class="p">:</span> <span class="n">dict</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.sensor.WANormalNoiseModel" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-name descname">WANormalNoiseModel</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">p</span><span class="p">:</span> <span class="n">dict</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/wa_simulator/sensor.html#WANormalNoiseModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.sensor.WANormalNoiseModel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#wa_simulator.sensor.WANoiseModel" title="wa_simulator.sensor.WANoiseModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">wa_simulator.sensor.WANoiseModel</span></code></a></p>
 <p>Derived noise model. Gaussian drifting noise with noncorrelated equal distributions</p>
 <p>Very similar to ChNormalModel (<a class="reference external" href="https://github.com/projectchrono/chrono/blob/feature/sensor/src/chrono_sensor/ChNoiseModel.h">https://github.com/projectchrono/chrono/blob/feature/sensor/src/chrono_sensor/ChNoiseModel.h</a>)
@@ -411,7 +340,7 @@ Made because ChSensor currently _requires_ OptiX (NVIDIA proprietary software)</
 </dl>
 <dl class="py method">
 <dt id="wa_simulator.sensor.WANormalNoiseModel.add_noise">
-<code class="sig-name descname">add_noise</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">list</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.sensor.WANormalNoiseModel.add_noise" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">add_noise</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">list</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/wa_simulator/sensor.html#WANormalNoiseModel.add_noise"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.sensor.WANormalNoiseModel.add_noise" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add noise to the data</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -422,55 +351,102 @@ Made because ChSensor currently _requires_ OptiX (NVIDIA proprietary software)</
 </dd></dl>
 <dl class="py class">
 <dt id="wa_simulator.sensor.WASensor">
-<em class="property">class </em><code class="sig-prename descclassname">wa_simulator.sensor.</code><code class="sig-name descname">WASensor</code><a class="headerlink" href="#wa_simulator.sensor.WASensor" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
+<em class="property">class </em><code class="sig-name descname">WASensor</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">vehicle</span><span class="p">:</span> <span class="n">WAVehicle</span></em>, <em class="sig-param"><span class="n">body</span><span class="p">:</span> <span class="n">WABody</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/wa_simulator/sensor.html#WASensor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.sensor.WASensor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../base/index.html#wa_simulator.base.WABase" title="wa_simulator.base.WABase"><code class="xref py py-class docutils literal notranslate"><span class="pre">wa_simulator.base.WABase</span></code></a></p>
 <p>Base class for a sensor</p>
-<dl class="py method">
-<dt id="wa_simulator.sensor.WASensor.synchronize">
-<em class="property">abstract </em><code class="sig-name descname">synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">time</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.sensor.WASensor.synchronize" title="Permalink to this definition">¶</a></dt>
-<dd><p>Synchronize the sensor at the specified time</p>
+<p>For the WASimulator, a sensor is a component that produces some sensor data. Each sensor is managed by a <a class="reference internal" href="#wa_simulator.sensor.WASensorManager" title="wa_simulator.sensor.WASensorManager"><code class="xref py py-class docutils literal notranslate"><span class="pre">WASensorManager</span></code></a>
+and will typically provide information for a vehicle or the surroundings. Common sensors used in autonomous vehicle
+applications: GPS, IMU, Camera, LiDAR.</p>
+<p>Sensor implementations are some what limited to the underlying backend for the simulation. If Chrono is used,
+Physics Based Rendering (PBR) sensors are available through the ray tracing engine <a class="reference external" href="https://developer.nvidia.com/optix">OptiX</a>
+and <a class="reference external" href="https://api.projectchrono.org/group__sensor__sensors.html">Chrono::Sensor</a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>time</strong> (<em>float</em>) – the time at which the sensors are synchronized to</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>vehicle</strong> (<em>WAVehicle</em>) – The vehicle to attach to. If not passed, body must be passed.</p></li>
+<li><p><strong>body</strong> (<em>WABody</em>) – The body to attach to. If not passed, vehicle must be passed.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="wa_simulator.sensor.WASensor.synchronize">
+<em class="property">abstract </em><code class="sig-name descname">synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">time</span><span class="p">:</span> <span class="n">float</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/wa_simulator/sensor.html#WASensor.synchronize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.sensor.WASensor.synchronize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the state of this component at the current time.</p>
+<p>The primary reason to decouple the update method into two separate calls (i.e. <a class="reference internal" href="#wa_simulator.sensor.WASensor.synchronize" title="wa_simulator.sensor.WASensor.synchronize"><code class="xref py py-meth docutils literal notranslate"><span class="pre">synchronize()</span></code></a> and <a class="reference internal" href="#wa_simulator.sensor.WASensor.advance" title="wa_simulator.sensor.WASensor.advance"><code class="xref py py-meth docutils literal notranslate"><span class="pre">advance()</span></code></a>)
+is to provide flexibility to the user and is essentially semantic. In most simple cases, a user will only need one of the two.
+Furthermore, can only use <a class="reference internal" href="#wa_simulator.sensor.WASensor.advance" title="wa_simulator.sensor.WASensor.advance"><code class="xref py py-meth docutils literal notranslate"><span class="pre">advance()</span></code></a> if they prefer and just update their own <code class="code docutils literal notranslate"><span class="pre">time</span></code> variable. Given the unknown use cases
+for the simulator at the time of writing, it was chosen to provide two different methods with similar functionality as to allow
+the user to choose their desired implementation, rather than the writers of this package.</p>
+<p>As opposed to <a class="reference internal" href="#wa_simulator.sensor.WASensor.advance" title="wa_simulator.sensor.WASensor.advance"><code class="xref py py-meth docutils literal notranslate"><span class="pre">advance()</span></code></a>, this method gets the current time of the simulation. As menthioned earlier,
+<a class="reference internal" href="#wa_simulator.sensor.WASensor.advance" title="wa_simulator.sensor.WASensor.advance"><code class="xref py py-meth docutils literal notranslate"><span class="pre">advance()</span></code></a> and a user defined <cite>time</cite> variable could be used to instead to hold the current state of the simulation. However,
+to aid in generality of the package, this method is provided to simply provide the current time of the simulation to the user in a decoupled
+manner from the <a class="reference internal" href="#wa_simulator.sensor.WASensor.advance" title="wa_simulator.sensor.WASensor.advance"><code class="xref py py-meth docutils literal notranslate"><span class="pre">advance()</span></code></a> method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>time</strong> (<em>float</em>) – The current time to synchronize to</p>
 </dd>
 </dl>
 </dd></dl>
 <dl class="py method">
 <dt id="wa_simulator.sensor.WASensor.advance">
-<em class="property">abstract </em><code class="sig-name descname">advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.sensor.WASensor.advance" title="Permalink to this definition">¶</a></dt>
-<dd><p>Advance the state of the sensor by the specified time step</p>
+<em class="property">abstract </em><code class="sig-name descname">advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">step</span><span class="p">:</span> <span class="n">float</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/wa_simulator/sensor.html#WASensor.advance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.sensor.WASensor.advance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Advance the state of this component by the specified time step.</p>
+<p>The primary reason to decouple the update method into two separate calls (i.e. <a class="reference internal" href="#wa_simulator.sensor.WASensor.synchronize" title="wa_simulator.sensor.WASensor.synchronize"><code class="xref py py-meth docutils literal notranslate"><span class="pre">synchronize()</span></code></a> and <a class="reference internal" href="#wa_simulator.sensor.WASensor.advance" title="wa_simulator.sensor.WASensor.advance"><code class="xref py py-meth docutils literal notranslate"><span class="pre">advance()</span></code></a>)
+is to provide flexibility to the user and is essentially semantic. In most simple cases, a user will only need one of the two.
+Furthermore, can only use <a class="reference internal" href="#wa_simulator.sensor.WASensor.advance" title="wa_simulator.sensor.WASensor.advance"><code class="xref py py-meth docutils literal notranslate"><span class="pre">advance()</span></code></a> if they prefer and just update their own <code class="code docutils literal notranslate"><span class="pre">time</span></code> variable. Given the unknown use cases
+for the simulator at the time of writing, it was chosen to provide two different methods with similar functionality as to allow
+the user to choose their desired implementation, rather than the writers of this package.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>step</strong> (<em>float</em>) – the step to update the sensor by</p>
+<dd class="field-odd"><p><strong>step</strong> (<em>float</em>) – The step size to advance this component by</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.sensor.WASensor.is_ok">
+<code class="sig-name descname">is_ok</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span> → bool<a class="reference internal" href="../../../_modules/wa_simulator/sensor.html#WASensor.is_ok"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.sensor.WASensor.is_ok" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check whether this component is still alive.</p>
+<p>Depending the type of component, a specific element may “fail”. For example, when
+a visualization is used that presents a GUI/window, if the user closes that display,
+this would be considered a component death. Therefore, <a class="reference internal" href="#wa_simulator.sensor.WASensor.is_ok" title="wa_simulator.sensor.WASensor.is_ok"><code class="xref py py-meth docutils literal notranslate"><span class="pre">is_ok()</span></code></a> should then return
+False.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><em>bool</em> – True if still alive, false otherwise</p>
 </dd>
 </dl>
 </dd></dl>
 <dl class="py method">
 <dt id="wa_simulator.sensor.WASensor.get_data">
-<em class="property">abstract </em><code class="sig-name descname">get_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.sensor.WASensor.get_data" title="Permalink to this definition">¶</a></dt>
+<em class="property">abstract </em><code class="sig-name descname">get_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/wa_simulator/sensor.html#WASensor.get_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.sensor.WASensor.get_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the sensor data</p>
+<p>Return types may vary. See the respective sensor for specifics.</p>
 </dd></dl>
 </dd></dl>
 <dl class="py class">
 <dt id="wa_simulator.sensor.WAIMUSensor">
-<em class="property">class </em><code class="sig-prename descclassname">wa_simulator.sensor.</code><code class="sig-name descname">WAIMUSensor</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">vehicle</span><span class="p">:</span> <span class="n">WAVehicle</span></em>, <em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.sensor.WAIMUSensor" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-name descname">WAIMUSensor</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">system</span><span class="p">:</span> <span class="n">WASystem</span></em>, <em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">vehicle</span><span class="p">:</span> <span class="n">WAVehicle</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">body</span><span class="p">:</span> <span class="n">WABody</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/wa_simulator/sensor.html#WAIMUSensor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.sensor.WAIMUSensor" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#wa_simulator.sensor.WASensor" title="wa_simulator.sensor.WASensor"><code class="xref py py-class docutils literal notranslate"><span class="pre">wa_simulator.sensor.WASensor</span></code></a></p>
 <p>Derived sensor class that implements an IMU model</p>
+<p>IMU stands for Inertial Measurement Unit. They come in all shapes and sizes. Typically, an IMU is used to
+measure position and orientation of whatever it is attached to. To do this, it is actually made up of more sensors,
+which when combined, produce a localizable reading. Common sub-sensors include Gyroscopes, Accelerometers, Altimeters and
+Magnetometer.</p>
+<p>This implementation combines three sensors to produce the expected output: Gyroscope, Accelerometer and Magnetometer. A good
+description of the underyling implementation can be found in <a class="reference external" href="https://stanford.edu/class/ee267/lectures/lecture9.pdf">these slides</a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>vehicle</strong> (<a class="reference internal" href="../vehicle/index.html#wa_simulator.vehicle.WAVehicle" title="wa_simulator.vehicle.WAVehicle"><em>WAVehicle</em></a>) – the vehicle that the state data will be extracted from</p></li>
+<li><p><strong>system</strong> (<em>WASystem</em>) – The system for the simulation</p></li>
 <li><p><strong>filename</strong> (<em>str</em>) – a json specification file that describes an IMU sensor model</p></li>
+<li><p><strong>vehicle</strong> (<em>WAVehicle, optional</em>) – The vehicle to attach to. If not passed, body must be passed.</p></li>
+<li><p><strong>body</strong> (<em>WABody, optional</em>) – The body to attach to. If not passed, vehicle must be passed.</p></li>
 </ul>
 </dd>
 </dl>
-<dl class="py attribute">
-<dt id="wa_simulator.sensor.WAIMUSensor.SBG_IMU_SENSOR_FILE">
-<code class="sig-name descname">SBG_IMU_SENSOR_FILE</code><em class="property"> = sensors/models/SBG_IMU.json</em><a class="headerlink" href="#wa_simulator.sensor.WAIMUSensor.SBG_IMU_SENSOR_FILE" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
 <dl class="py method">
 <dt id="wa_simulator.sensor.WAIMUSensor.synchronize">
-<code class="sig-name descname">synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">time</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.sensor.WAIMUSensor.synchronize" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">time</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/wa_simulator/sensor.html#WAIMUSensor.synchronize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.sensor.WAIMUSensor.synchronize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Synchronize the sensor at the specified time</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -480,7 +456,7 @@ Made because ChSensor currently _requires_ OptiX (NVIDIA proprietary software)</
 </dd></dl>
 <dl class="py method">
 <dt id="wa_simulator.sensor.WAIMUSensor.advance">
-<code class="sig-name descname">advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.sensor.WAIMUSensor.advance" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/wa_simulator/sensor.html#WAIMUSensor.advance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.sensor.WAIMUSensor.advance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Advance the state of the sensor by the specified time step</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -490,38 +466,36 @@ Made because ChSensor currently _requires_ OptiX (NVIDIA proprietary software)</
 </dd></dl>
 <dl class="py method">
 <dt id="wa_simulator.sensor.WAIMUSensor.get_data">
-<code class="sig-name descname">get_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.sensor.WAIMUSensor.get_data" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/wa_simulator/sensor.html#WAIMUSensor.get_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.sensor.WAIMUSensor.get_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the sensor data</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>Tuple in the form of (acceleration, angular_velocity, orientation)</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>(<a class="reference internal" href="../core/index.html#wa_simulator.core.WAVector" title="wa_simulator.core.WAVector">WAVector</a>, <a class="reference internal" href="../core/index.html#wa_simulator.core.WAVector" title="wa_simulator.core.WAVector">WAVector</a>, <a class="reference internal" href="../core/index.html#wa_simulator.core.WAQuaternion" title="wa_simulator.core.WAQuaternion">WAQuaternion</a>)</p>
+<dd class="field-odd"><p><em>(WAVector, WAQuaternion, WAQuaternion)</em> – Tuple in the form of (acceleration, angular_velocity, orientation)</p>
 </dd>
 </dl>
 </dd></dl>
 </dd></dl>
 <dl class="py class">
 <dt id="wa_simulator.sensor.WAGPSSensor">
-<em class="property">class </em><code class="sig-prename descclassname">wa_simulator.sensor.</code><code class="sig-name descname">WAGPSSensor</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">vehicle</span><span class="p">:</span> <span class="n">WAVehicle</span></em>, <em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.sensor.WAGPSSensor" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-name descname">WAGPSSensor</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">system</span><span class="p">:</span> <span class="n">WASystem</span></em>, <em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">vehicle</span><span class="p">:</span> <span class="n">WAVehicle</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">body</span><span class="p">:</span> <span class="n">WABody</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/wa_simulator/sensor.html#WAGPSSensor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.sensor.WAGPSSensor" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#wa_simulator.sensor.WASensor" title="wa_simulator.sensor.WASensor"><code class="xref py py-class docutils literal notranslate"><span class="pre">wa_simulator.sensor.WASensor</span></code></a></p>
 <p>Derived sensor class that implements an GPS model</p>
+<p>GPS stands for Global Positioning System. GPS’s are everyday sensors you can find in your computer, watch, phone, etc.
+They essentially ping satilites orbiting earth for positional information. This information, in real life, is not very
+precise. IMU’s and GPS’s are commonly “fused” together to achieve highly accurate and reliable position information.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>vehicle</strong> (<a class="reference internal" href="../vehicle/index.html#wa_simulator.vehicle.WAVehicle" title="wa_simulator.vehicle.WAVehicle"><em>WAVehicle</em></a>) – the vehicle that the state data will be extracted from</p></li>
-<li><p><strong>filename</strong> (<em>str</em>) – a json specification file that describes an IMU sensor model</p></li>
+<li><p><strong>system</strong> (<em>WASystem</em>) – The system for the simulation</p></li>
+<li><p><strong>filename</strong> (<em>str</em>) – a json specification file that describes an GPS sensor model</p></li>
+<li><p><strong>vehicle</strong> (<em>WAVehicle, optional</em>) – The vehicle to attach to. If not passed, body must be passed.</p></li>
+<li><p><strong>body</strong> (<em>WABody, optional</em>) – The body to attach to. If not passed, vehicle must be passed.</p></li>
 </ul>
 </dd>
 </dl>
-<dl class="py attribute">
-<dt id="wa_simulator.sensor.WAGPSSensor.SBG_GPS_SENSOR_FILE">
-<code class="sig-name descname">SBG_GPS_SENSOR_FILE</code><em class="property"> = sensors/models/SBG_GPS.json</em><a class="headerlink" href="#wa_simulator.sensor.WAGPSSensor.SBG_GPS_SENSOR_FILE" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
 <dl class="py method">
 <dt id="wa_simulator.sensor.WAGPSSensor.synchronize">
-<code class="sig-name descname">synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">time</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.sensor.WAGPSSensor.synchronize" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">time</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/wa_simulator/sensor.html#WAGPSSensor.synchronize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.sensor.WAGPSSensor.synchronize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Synchronize the sensor at the specified time</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -531,7 +505,7 @@ Made because ChSensor currently _requires_ OptiX (NVIDIA proprietary software)</
 </dd></dl>
 <dl class="py method">
 <dt id="wa_simulator.sensor.WAGPSSensor.advance">
-<code class="sig-name descname">advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.sensor.WAGPSSensor.advance" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/wa_simulator/sensor.html#WAGPSSensor.advance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.sensor.WAGPSSensor.advance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Advance the state of the sensor by the specified time step</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -541,59 +515,93 @@ Made because ChSensor currently _requires_ OptiX (NVIDIA proprietary software)</
 </dd></dl>
 <dl class="py method">
 <dt id="wa_simulator.sensor.WAGPSSensor.get_data">
-<code class="sig-name descname">get_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.sensor.WAGPSSensor.get_data" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/wa_simulator/sensor.html#WAGPSSensor.get_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.sensor.WAGPSSensor.get_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the sensor data</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>The coordinate location of the vehicle in the form of [longitude, latitude, altitude]</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="../core/index.html#wa_simulator.core.WAVector" title="wa_simulator.core.WAVector">WAVector</a></p>
+<dd class="field-odd"><p><em>WAVector</em> – The coordinate location of the vehicle in the form of [longitude, latitude, altitude]</p>
 </dd>
 </dl>
 </dd></dl>
 <dl class="py method">
 <dt id="wa_simulator.sensor.WAGPSSensor.cartesian_to_gps">
-<em class="property">static </em><code class="sig-name descname">cartesian_to_gps</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">coords</span><span class="p">:</span> <span class="n">WAVector</span></em>, <em class="sig-param"><span class="n">ref</span><span class="p">:</span> <span class="n">WAVector</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.sensor.WAGPSSensor.cartesian_to_gps" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">cartesian_to_gps</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">coords</span><span class="p">:</span> <span class="n">WAVector</span></em>, <em class="sig-param"><span class="n">ref</span><span class="p">:</span> <span class="n">WAVector</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/wa_simulator/sensor.html#WAGPSSensor.cartesian_to_gps"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.sensor.WAGPSSensor.cartesian_to_gps" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert a point from cartesian to gps</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>coords</strong> (<a class="reference internal" href="../core/index.html#wa_simulator.core.WAVector" title="wa_simulator.core.WAVector"><em>WAVector</em></a>) – The coordinate to convert</p></li>
-<li><p><strong>ref</strong> (<a class="reference internal" href="../core/index.html#wa_simulator.core.WAVector" title="wa_simulator.core.WAVector"><em>WAVector</em></a>) – The “origin” or reference point</p></li>
+<li><p><strong>coords</strong> (<em>WAVector</em>) – The coordinate to convert</p></li>
+<li><p><strong>ref</strong> (<em>WAVector</em>) – The “origin” or reference point</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The coordinate in the form of[longitude, latitude, altitude]</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="../core/index.html#wa_simulator.core.WAVector" title="wa_simulator.core.WAVector">WAVector</a></p>
+<dd class="field-even"><p><em>WAVector</em> – The coordinate in the form of[longitude, latitude, altitude]</p>
 </dd>
 </dl>
 </dd></dl>
 <dl class="py method">
 <dt id="wa_simulator.sensor.WAGPSSensor.gps_to_cartesian">
-<em class="property">static </em><code class="sig-name descname">gps_to_cartesian</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">coords</span><span class="p">:</span> <span class="n">WAVector</span></em>, <em class="sig-param"><span class="n">ref</span><span class="p">:</span> <span class="n">WAVector</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.sensor.WAGPSSensor.gps_to_cartesian" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">gps_to_cartesian</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">coords</span><span class="p">:</span> <span class="n">WAVector</span></em>, <em class="sig-param"><span class="n">ref</span><span class="p">:</span> <span class="n">WAVector</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/wa_simulator/sensor.html#WAGPSSensor.gps_to_cartesian"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.sensor.WAGPSSensor.gps_to_cartesian" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert a gps coordinate to cartesian given some reference</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>coords</strong> (<a class="reference internal" href="../core/index.html#wa_simulator.core.WAVector" title="wa_simulator.core.WAVector"><em>WAVector</em></a>) – The coordinate to convert</p></li>
-<li><p><strong>ref</strong> (<a class="reference internal" href="../core/index.html#wa_simulator.core.WAVector" title="wa_simulator.core.WAVector"><em>WAVector</em></a>) – The “origin” or reference point</p></li>
+<li><p><strong>coords</strong> (<em>WAVector</em>) – The coordinate to convert</p></li>
+<li><p><strong>ref</strong> (<em>WAVector</em>) – The “origin” or reference point</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The x, y, z point in cartesian</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="../core/index.html#wa_simulator.core.WAVector" title="wa_simulator.core.WAVector">WAVector</a></p>
+<dd class="field-even"><p><em>WAVector</em> – The x, y, z point in cartesian</p>
 </dd>
 </dl>
 </dd></dl>
 </dd></dl>
-</div>
-</div>
-</div>
+<h2>Methods</h2><div class="table-wrapper"><table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%"/>
+<col style="width: 90%"/>
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#wa_simulator.sensor.load_sensor_suite_from_json" title="wa_simulator.sensor.load_sensor_suite_from_json"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_sensor_suite_from_json</span></code></a></p></td>
+<td><p>Load a sensor suite from json</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#wa_simulator.sensor.load_sensor_from_json" title="wa_simulator.sensor.load_sensor_from_json"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_sensor_from_json</span></code></a></p></td>
+<td><p>Load a sensor from json</p></td>
+</tr>
+</tbody>
+</table></div>
+<dl class="py function">
+<dt id="wa_simulator.sensor.load_sensor_suite_from_json">
+<code class="sig-name descname">load_sensor_suite_from_json</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">manager</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#wa_simulator.sensor.WASensorManager" title="wa_simulator.sensor.WASensorManager">WASensorManager</a></span></em>, <em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/wa_simulator/sensor.html#load_sensor_suite_from_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.sensor.load_sensor_suite_from_json" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load a sensor suite from json</p>
+<p>Each loaded sensor will be added to the manager</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>manager</strong> (<em>WASensorManager</em>) – The sensor manager to store all created objects in</p></li>
+<li><p><strong>filename</strong> (<em>str</em>) – The json specification file that describes the sensor suite</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py function">
+<dt id="wa_simulator.sensor.load_sensor_from_json">
+<code class="sig-name descname">load_sensor_from_json</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">system</span><span class="p">:</span> <span class="n">WASystem</span></em>, <em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> → <a class="reference internal" href="#wa_simulator.sensor.WASensor" title="wa_simulator.sensor.WASensor">WASensor</a><a class="reference internal" href="../../../_modules/wa_simulator/sensor.html#load_sensor_from_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.sensor.load_sensor_from_json" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load a sensor from json</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>system</strong> (<em>WASystem</em>) – The system for the simulation</p></li>
+<li><p><strong>filename</strong> (<em>str</em>) – The json specification file that describes the sensor</p></li>
+<li><p><strong>kwargs</strong> – Keyworded arguments. Must contain a ‘vehicle’ or ‘body’, not both.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><em>WASensor</em> – The created sensor</p>
+</dd>
+</dl>
+</dd></dl>
+</section>
 
       </article>
       <footer>
@@ -650,19 +658,11 @@ Made because ChSensor currently _requires_ OptiX (NVIDIA proprietary software)</
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.sensor</span></code></a><ul>
-<li><a class="reference internal" href="#module-contents">Module Contents</a><ul>
-<li><a class="reference internal" href="#classes">Classes</a></li>
-<li><a class="reference internal" href="#functions">Functions</a><ul>
-<li><a class="reference internal" href="#wa_simulator.sensor.load_sensor_suite_from_json">load_sensor_suite_from_json</a></li>
-<li><a class="reference internal" href="#wa_simulator.sensor.load_sensor_from_json">load_sensor_from_json</a></li>
 <li><a class="reference internal" href="#wa_simulator.sensor.WASensorManager">WASensorManager</a><ul>
-<li><a class="reference internal" href="#wa_simulator.sensor.WASensorManager.system">system</a></li>
-<li><a class="reference internal" href="#wa_simulator.sensor.WASensorManager.vehicle">vehicle</a></li>
-<li><a class="reference internal" href="#wa_simulator.sensor.WASensorManager.sensors">sensors</a></li>
-<li><a class="reference internal" href="#wa_simulator.sensor.WASensorManager.EGP_SENSOR_SUITE_FILE">EGP_SENSOR_SUITE_FILE</a></li>
 <li><a class="reference internal" href="#wa_simulator.sensor.WASensorManager.add_sensor">add_sensor</a></li>
 <li><a class="reference internal" href="#wa_simulator.sensor.WASensorManager.synchronize">synchronize</a></li>
 <li><a class="reference internal" href="#wa_simulator.sensor.WASensorManager.advance">advance</a></li>
+<li><a class="reference internal" href="#wa_simulator.sensor.WASensorManager.is_ok">is_ok</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#wa_simulator.sensor.WANoiseModel">WANoiseModel</a><ul>
@@ -684,18 +684,17 @@ Made because ChSensor currently _requires_ OptiX (NVIDIA proprietary software)</
 <li><a class="reference internal" href="#wa_simulator.sensor.WASensor">WASensor</a><ul>
 <li><a class="reference internal" href="#wa_simulator.sensor.WASensor.synchronize">synchronize</a></li>
 <li><a class="reference internal" href="#wa_simulator.sensor.WASensor.advance">advance</a></li>
+<li><a class="reference internal" href="#wa_simulator.sensor.WASensor.is_ok">is_ok</a></li>
 <li><a class="reference internal" href="#wa_simulator.sensor.WASensor.get_data">get_data</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#wa_simulator.sensor.WAIMUSensor">WAIMUSensor</a><ul>
-<li><a class="reference internal" href="#wa_simulator.sensor.WAIMUSensor.SBG_IMU_SENSOR_FILE">SBG_IMU_SENSOR_FILE</a></li>
 <li><a class="reference internal" href="#wa_simulator.sensor.WAIMUSensor.synchronize">synchronize</a></li>
 <li><a class="reference internal" href="#wa_simulator.sensor.WAIMUSensor.advance">advance</a></li>
 <li><a class="reference internal" href="#wa_simulator.sensor.WAIMUSensor.get_data">get_data</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#wa_simulator.sensor.WAGPSSensor">WAGPSSensor</a><ul>
-<li><a class="reference internal" href="#wa_simulator.sensor.WAGPSSensor.SBG_GPS_SENSOR_FILE">SBG_GPS_SENSOR_FILE</a></li>
 <li><a class="reference internal" href="#wa_simulator.sensor.WAGPSSensor.synchronize">synchronize</a></li>
 <li><a class="reference internal" href="#wa_simulator.sensor.WAGPSSensor.advance">advance</a></li>
 <li><a class="reference internal" href="#wa_simulator.sensor.WAGPSSensor.get_data">get_data</a></li>
@@ -703,10 +702,8 @@ Made because ChSensor currently _requires_ OptiX (NVIDIA proprietary software)</
 <li><a class="reference internal" href="#wa_simulator.sensor.WAGPSSensor.gps_to_cartesian">gps_to_cartesian</a></li>
 </ul>
 </li>
-</ul>
-</li>
-</ul>
-</li>
+<li><a class="reference internal" href="#wa_simulator.sensor.load_sensor_suite_from_json">load_sensor_suite_from_json</a></li>
+<li><a class="reference internal" href="#wa_simulator.sensor.load_sensor_from_json">load_sensor_from_json</a></li>
 </ul>
 </li>
 </ul>

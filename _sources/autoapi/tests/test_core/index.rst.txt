@@ -3,32 +3,21 @@
 
 .. py:module:: tests.test_core
 
-.. autoapi-nested-parse::
-
-   Wisconsin Autonomous - https://www.wisconsinautonomous.org
-
-   Copyright (c) 2021 wisconsinautonomous.org
-   All rights reserved.
-
-   Use of this source code is governed by a BSD-style license that can be found
-   in the LICENSE file at the top level of the repo
+.. Module Contents
+.. ---------------
 
 
+.. raw:: html
 
-Module Contents
----------------
-
-Classes
-~~~~~~~
+   <h2>Classes</h2>
 
 .. autoapisummary::
+  :nosignatures:
 
-   tests.test_core.TestWASimulator
-   tests.test_core.TestWAVector
-   tests.test_core.TestWAQuaternion
-   tests.test_core.TestWAArgumentParser
-
-
+  tests.test_core.TestWASimulator
+  tests.test_core.TestWAVector
+  tests.test_core.TestWAQuaternion
+  tests.test_core.TestWAArgumentParser
 
 .. py:class:: TestWASimulator(methodName='runTest')
 
@@ -100,41 +89,6 @@ Classes
 
    Tests methods related to WAQuaternion's
 
-   .. method:: test_add(self)
-
-      Tests simple addition of two WAQuaternion's
-
-
-   .. method:: test_add2(self)
-
-      Tests simple addition of two WAQuaternion's
-
-
-   .. method:: test_add3(self)
-
-      Tests adding a constant to a WAQuaternion
-
-
-   .. method:: test_sub(self)
-
-      Tests simple subtraction of two WAQuaternion
-
-
-   .. method:: test_sub2(self)
-
-      Tests subtracting a constant to a WAQuaternion
-
-
-   .. method:: test_mul(self)
-
-      Tests multiplying a quaternion by a constant
-
-
-   .. method:: test_mul2(self)
-
-      Tests multiplcation (additive rotation) of two WAQuaternion's
-
-
    .. method:: test_length(self)
 
       Tests the length method of a WAQuaternion
@@ -158,3 +112,19 @@ Classes
 
 
 
+
+
+
+
+.. .. .. autoapi-nested-parse::
+..
+..    Wisconsin Autonomous - https://www.wisconsinautonomous.org
+
+   Copyright (c) 2021 wisconsinautonomous.org
+   All rights reserved.
+
+   Use of this source code is governed by a BSD-style license that can be found
+   in the LICENSE file at the top level of the repo
+
+..
+.. 

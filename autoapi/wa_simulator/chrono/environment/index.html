@@ -1,10 +1,11 @@
 <!doctype html>
 <html class="no-js">
   <head><meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="../../../../genindex.html" /><link rel="search" title="Search" href="../../../../search.html" /><link rel="next" title="wa_simulator.chrono.sensor" href="../sensor/index.html" /><link rel="prev" title="wa_simulator.chrono.controller" href="../controller/index.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="../../../../genindex.html" /><link rel="search" title="Search" href="../../../../search.html" /><link rel="next" title="wa_simulator.chrono.sensor" href="../sensor/index.html" /><link rel="prev" title="wa_simulator.chrono.controller" href="../controller/index.html" />
 
     <link rel="shortcut icon" href="../../../../_static/wa-dark-favicon.png"/><meta name="generator" content="sphinx-3.4.2, furo 2020.12.30.beta24"/>
-        <title>wa_simulator.chrono.environment - Wisconsin Autonomous Simulator 0.0.10 documentation</title>
+        <title>wa_simulator.chrono.environment - Wisconsin Autonomous Simulator 1.0.3 documentation</title>
       <link rel="stylesheet" href="../../../../_static/styles/furo.css?digest=33d2fc4f3f180ec1ffc6524e273e21d7d58cbe49">
     <link rel="stylesheet" href="../../../../_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../../../../_static/pygments_dark.css">
@@ -103,7 +104,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../../index.html"><div class="brand">Wisconsin Autonomous Simulator 0.0.10 documentation</div></a>
+      <a href="../../../../index.html"><div class="brand">Wisconsin Autonomous Simulator 1.0.3 documentation</div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon" for="__toc">
@@ -137,6 +138,7 @@
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label for="toctree-checkbox-2"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/custom-controller.html">Creating a Custom Controller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/writing-a-json.html">Writing a JSON Specification File</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current has-children"><a class="reference internal" href="../../index.html">API Reference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label for="toctree-checkbox-3"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
@@ -145,31 +147,29 @@
 <li class="toctree-l3 current current-page"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.environment</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../sensor/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.sensor</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../system/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.system</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../terrain/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.terrain</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.utils</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../vehicle/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.vehicle</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../visualization/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.visualization</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../constants/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.constants</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../base/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.base</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../controller/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.controller</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../core/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.core</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../environment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.environment</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../inputs/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.inputs</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../path/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.path</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../sensor/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.sensor</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../simulation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.simulation</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../system/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.system</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../terrain/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.terrain</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../track/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.track</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.utils</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../vehicle/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.vehicle</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../vehicle_inputs/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.vehicle_inputs</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../visualization/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.visualization</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../contributing.html">Contributing</a></li>
 </ul>
-<p class="caption"><span class="caption-text">External Links</span></p>
+<p><span class="caption-text">External Links</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference external" href="https://pypi.org/project/wa-simulator/">PyPI</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/WisconsinAutonomous/wa_simulator">Github</a></li>
@@ -187,18 +187,9 @@
         <label class="toc-overlay-icon toc-content-icon" for="__toc">
           <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
         </label>
-        <div class="section" id="module-wa_simulator.chrono.environment">
+        <section id="module-wa_simulator.chrono.environment">
 <span id="wa-simulator-chrono-environment"></span><h1><a class="reference internal" href="#module-wa_simulator.chrono.environment" title="wa_simulator.chrono.environment"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.environment</span></code></a><a class="headerlink" href="#module-wa_simulator.chrono.environment" title="Permalink to this headline">¶</a></h1>
-<p>Wisconsin Autonomous - <a class="reference external" href="https://www.wisconsinautonomous.org">https://www.wisconsinautonomous.org</a></p>
-<p>Copyright (c) 2021 wisconsinautonomous.org
-All rights reserved.</p>
-<p>Use of this source code is governed by a BSD-style license that can be found
-in the LICENSE file at the top level of the repo</p>
-<div class="section" id="module-contents">
-<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="classes">
-<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h3>
-<div class="table-wrapper"><table class="longtable docutils align-default">
+<h2>Classes</h2><div class="table-wrapper"><table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%"/>
 <col style="width: 90%"/>
@@ -211,61 +202,93 @@ in the LICENSE file at the top level of the repo</p>
 </table></div>
 <dl class="py class">
 <dt id="wa_simulator.chrono.environment.WAChronoEnvironment">
-<em class="property">class </em><code class="sig-prename descclassname">wa_simulator.chrono.environment.</code><code class="sig-name descname">WAChronoEnvironment</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em>, <em class="sig-param"><span class="n">system</span></em>, <em class="sig-param"><span class="n">terrain</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.chrono.environment.WAChronoEnvironment" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-name descname">WAChronoEnvironment</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">system</span><span class="p">:</span> <span class="n">WAChronoSystem</span></em>, <em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/wa_simulator/chrono/environment.html#WAChronoEnvironment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.chrono.environment.WAChronoEnvironment" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="../../environment/index.html#wa_simulator.environment.WAEnvironment" title="wa_simulator.environment.WAEnvironment"><code class="xref py py-class docutils literal notranslate"><span class="pre">wa_simulator.environment.WAEnvironment</span></code></a></p>
 <p>The environment wrapper that’s responsible for holding Chrono assets and the terrain</p>
 <p>TODO: Add assets from file</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
+<li><p><strong>system</strong> (<em>WASystem</em>) – the wa system that wraps a ChSystem</p></li>
 <li><p><strong>filename</strong> (<em>str</em>) – the json specification file describing the environment</p></li>
-<li><p><strong>system</strong> (<a class="reference internal" href="../../system/index.html#wa_simulator.system.WASystem" title="wa_simulator.system.WASystem"><em>WASystem</em></a>) – the wa system that wraps a ChSystem</p></li>
-<li><p><strong>terrain</strong> (<em>ChTerrain</em><em>, </em><em>optional</em>) – a chrono terrain. Will create one if not passed. Defaults to None.</p></li>
 </ul>
 </dd>
 </dl>
-<dl class="py attribute">
-<dt id="wa_simulator.chrono.environment.WAChronoEnvironment.terrain">
-<code class="sig-name descname">terrain</code><a class="headerlink" href="#wa_simulator.chrono.environment.WAChronoEnvironment.terrain" title="Permalink to this definition">¶</a></dt>
-<dd><p>the wrapper for the chrono terrain</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="../terrain/index.html#wa_simulator.chrono.terrain.WAChronoTerrain" title="wa_simulator.chrono.terrain.WAChronoTerrain">WAChronoTerrain</a></p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py attribute">
-<dt id="wa_simulator.chrono.environment.WAChronoEnvironment.EGP_ENV_MODEL_FILE">
-<code class="sig-name descname">EGP_ENV_MODEL_FILE</code><em class="property"> = environments/ev_grand_prix.json</em><a class="headerlink" href="#wa_simulator.chrono.environment.WAChronoEnvironment.EGP_ENV_MODEL_FILE" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-<dl class="py attribute">
-<dt id="wa_simulator.chrono.environment.WAChronoEnvironment.IAC_ENV_MODEL_FILE">
-<code class="sig-name descname">IAC_ENV_MODEL_FILE</code><em class="property"> = environments/iac.json</em><a class="headerlink" href="#wa_simulator.chrono.environment.WAChronoEnvironment.IAC_ENV_MODEL_FILE" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
 <dl class="py method">
 <dt id="wa_simulator.chrono.environment.WAChronoEnvironment.synchronize">
-<code class="sig-name descname">synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">time</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.chrono.environment.WAChronoEnvironment.synchronize" title="Permalink to this definition">¶</a></dt>
-<dd><p>Synchronize the environment. Will just synchronize the terrain</p>
+<code class="sig-name descname">synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">time</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/wa_simulator/chrono/environment.html#WAChronoEnvironment.synchronize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.chrono.environment.WAChronoEnvironment.synchronize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the state of this component at the current time.</p>
+<p>The primary reason to decouple the update method into two separate calls (i.e. <a class="reference internal" href="#wa_simulator.chrono.environment.WAChronoEnvironment.synchronize" title="wa_simulator.chrono.environment.WAChronoEnvironment.synchronize"><code class="xref py py-meth docutils literal notranslate"><span class="pre">synchronize()</span></code></a> and <a class="reference internal" href="#wa_simulator.chrono.environment.WAChronoEnvironment.advance" title="wa_simulator.chrono.environment.WAChronoEnvironment.advance"><code class="xref py py-meth docutils literal notranslate"><span class="pre">advance()</span></code></a>)
+is to provide flexibility to the user and is essentially semantic. In most simple cases, a user will only need one of the two.
+Furthermore, can only use <a class="reference internal" href="#wa_simulator.chrono.environment.WAChronoEnvironment.advance" title="wa_simulator.chrono.environment.WAChronoEnvironment.advance"><code class="xref py py-meth docutils literal notranslate"><span class="pre">advance()</span></code></a> if they prefer and just update their own <code class="code docutils literal notranslate"><span class="pre">time</span></code> variable. Given the unknown use cases
+for the simulator at the time of writing, it was chosen to provide two different methods with similar functionality as to allow
+the user to choose their desired implementation, rather than the writers of this package.</p>
+<p>As opposed to <a class="reference internal" href="#wa_simulator.chrono.environment.WAChronoEnvironment.advance" title="wa_simulator.chrono.environment.WAChronoEnvironment.advance"><code class="xref py py-meth docutils literal notranslate"><span class="pre">advance()</span></code></a>, this method gets the current time of the simulation. As menthioned earlier,
+<a class="reference internal" href="#wa_simulator.chrono.environment.WAChronoEnvironment.advance" title="wa_simulator.chrono.environment.WAChronoEnvironment.advance"><code class="xref py py-meth docutils literal notranslate"><span class="pre">advance()</span></code></a> and a user defined <cite>time</cite> variable could be used to instead to hold the current state of the simulation. However,
+to aid in generality of the package, this method is provided to simply provide the current time of the simulation to the user in a decoupled
+manner from the <a class="reference internal" href="#wa_simulator.chrono.environment.WAChronoEnvironment.advance" title="wa_simulator.chrono.environment.WAChronoEnvironment.advance"><code class="xref py py-meth docutils literal notranslate"><span class="pre">advance()</span></code></a> method.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>time</strong> (<em>[</em><em>type</em><em>]</em>) – [description]</p>
+<dd class="field-odd"><p><strong>time</strong> (<em>float</em>) – The current time to synchronize to</p>
 </dd>
 </dl>
 </dd></dl>
 <dl class="py method">
 <dt id="wa_simulator.chrono.environment.WAChronoEnvironment.advance">
-<code class="sig-name descname">advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.chrono.environment.WAChronoEnvironment.advance" title="Permalink to this definition">¶</a></dt>
-<dd><p>Advance the environment by the step size. Will just advance the terrain.</p>
+<code class="sig-name descname">advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/wa_simulator/chrono/environment.html#WAChronoEnvironment.advance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.chrono.environment.WAChronoEnvironment.advance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Advance the state of this component by the specified time step.</p>
+<p>The primary reason to decouple the update method into two separate calls (i.e. <a class="reference internal" href="#wa_simulator.chrono.environment.WAChronoEnvironment.synchronize" title="wa_simulator.chrono.environment.WAChronoEnvironment.synchronize"><code class="xref py py-meth docutils literal notranslate"><span class="pre">synchronize()</span></code></a> and <a class="reference internal" href="#wa_simulator.chrono.environment.WAChronoEnvironment.advance" title="wa_simulator.chrono.environment.WAChronoEnvironment.advance"><code class="xref py py-meth docutils literal notranslate"><span class="pre">advance()</span></code></a>)
+is to provide flexibility to the user and is essentially semantic. In most simple cases, a user will only need one of the two.
+Furthermore, can only use <a class="reference internal" href="#wa_simulator.chrono.environment.WAChronoEnvironment.advance" title="wa_simulator.chrono.environment.WAChronoEnvironment.advance"><code class="xref py py-meth docutils literal notranslate"><span class="pre">advance()</span></code></a> if they prefer and just update their own <code class="code docutils literal notranslate"><span class="pre">time</span></code> variable. Given the unknown use cases
+for the simulator at the time of writing, it was chosen to provide two different methods with similar functionality as to allow
+the user to choose their desired implementation, rather than the writers of this package.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>step</strong> (<em>double</em>) – the step size to update the environment by</p>
+<dd class="field-odd"><p><strong>step</strong> (<em>float</em>) – The step size to advance this component by</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.chrono.environment.WAChronoEnvironment.add_asset">
+<code class="sig-name descname">add_asset</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">asset</span><span class="p">:</span> <span class="n">Any</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/wa_simulator/chrono/environment.html#WAChronoEnvironment.add_asset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.chrono.environment.WAChronoEnvironment.add_asset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add an asset to the world</p>
+<p>A asset holds certain attributes that may be applicable in various simulations. This method
+stores created assets in the environment object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>asset</strong> (<em>Any</em>) – The asset to add.</p>
 </dd>
 </dl>
 </dd></dl>
 </dd></dl>
-</div>
-</div>
-</div>
+<h2>Methods</h2><div class="table-wrapper"><table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%"/>
+<col style="width: 90%"/>
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#wa_simulator.chrono.environment.load_chrono_terrain_from_json" title="wa_simulator.chrono.environment.load_chrono_terrain_from_json"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_chrono_terrain_from_json</span></code></a></p></td>
+<td><p>Load a ChTerrain from a json specification file</p></td>
+</tr>
+</tbody>
+</table></div>
+<dl class="py function">
+<dt id="wa_simulator.chrono.environment.load_chrono_terrain_from_json">
+<code class="sig-name descname">load_chrono_terrain_from_json</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">system</span><span class="p">:</span> <span class="n">WAChronoSystem</span></em>, <em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/wa_simulator/chrono/environment.html#load_chrono_terrain_from_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.chrono.environment.load_chrono_terrain_from_json" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load a ChTerrain from a json specification file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> (<em>str</em>) – the relative path to a terrain json file</p></li>
+<li><p><strong>system</strong> (<em>WAChronoSystem</em>) – the chrono system used to handle the terrain</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><em>ChTerrain</em> – The loaded terrain</p>
+</dd>
+</dl>
+</dd></dl>
+</section>
 
       </article>
       <footer>
@@ -322,20 +345,13 @@ in the LICENSE file at the top level of the repo</p>
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.environment</span></code></a><ul>
-<li><a class="reference internal" href="#module-contents">Module Contents</a><ul>
-<li><a class="reference internal" href="#classes">Classes</a><ul>
 <li><a class="reference internal" href="#wa_simulator.chrono.environment.WAChronoEnvironment">WAChronoEnvironment</a><ul>
-<li><a class="reference internal" href="#wa_simulator.chrono.environment.WAChronoEnvironment.terrain">terrain</a></li>
-<li><a class="reference internal" href="#wa_simulator.chrono.environment.WAChronoEnvironment.EGP_ENV_MODEL_FILE">EGP_ENV_MODEL_FILE</a></li>
-<li><a class="reference internal" href="#wa_simulator.chrono.environment.WAChronoEnvironment.IAC_ENV_MODEL_FILE">IAC_ENV_MODEL_FILE</a></li>
 <li><a class="reference internal" href="#wa_simulator.chrono.environment.WAChronoEnvironment.synchronize">synchronize</a></li>
 <li><a class="reference internal" href="#wa_simulator.chrono.environment.WAChronoEnvironment.advance">advance</a></li>
+<li><a class="reference internal" href="#wa_simulator.chrono.environment.WAChronoEnvironment.add_asset">add_asset</a></li>
 </ul>
 </li>
-</ul>
-</li>
-</ul>
-</li>
+<li><a class="reference internal" href="#wa_simulator.chrono.environment.load_chrono_terrain_from_json">load_chrono_terrain_from_json</a></li>
 </ul>
 </li>
 </ul>

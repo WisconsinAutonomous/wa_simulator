@@ -1,0 +1,9 @@
+:orphan:
+
+:mod:`demo_chrono_opponent`
+===========================
+
+.. py:module:: demo_chrono_opponent
+
+
+.. 

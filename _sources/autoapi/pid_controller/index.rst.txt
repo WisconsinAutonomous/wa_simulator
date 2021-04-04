@@ -1,0 +1,199 @@
+:orphan:
+
+:mod:`pid_controller`
+=====================
+
+.. py:module:: pid_controller
+
+.. Module Contents
+.. ---------------
+
+
+.. raw:: html
+
+   <h2>Classes</h2>
+
+.. autoapisummary::
+  :nosignatures:
+
+  pid_controller.PIDController
+  pid_controller.PIDLateralController
+  pid_controller.PIDLongitudinalController
+
+.. py:class:: PIDController(system: wa.WASystem, vehicle: wa.WAVehicle, vehicle_inputs: wa.WAVehicleInputs, path: wa.WAPath, lat_controller: PIDLateralController = None, long_controller: PIDLongitudinalController = None)
+
+   Bases: :class:`wa_simulator.WAController`
+
+   PID Controller that contains a lateral and longitudinal controller
+
+   Uses the lateral controller for steering and longitudinal controller throttle/braking
+
+   :Parameters: * **system** (*WASystem*) -- The system used to manage the simulation
+                * **vehicle** (*WAVehicle*) -- The vehicle to grab the state from
+                * **vehicle_inputs** (*WAVehicleInputs*) -- The vehicle inputs
+                * **path** (*WAPath*) -- The path to follow
+                * **lat_controller** (*PIDLateralController, optional*) -- Lateral controller for steering. Defaults to None. Will create one if not passed.
+                * **long_controller** (*PIDLongitudinalController, optional*) -- Longitudinal controller for throttle/braking. Defaults to None. Will create one if not passed.
+
+   .. method:: set_delta(self, steering_delta: float, throttle_delta: float, braking_delta: float)
+
+      Set the delta values
+
+      In this controller, delta values are the maximum change in steering/throttle/braking that can occur in a single
+      update. For example, if the vehicle is not moving and the underyling longitudinal controller wanted to have the vehicle
+      go pedal-to-the-metal, instead of going from 0% throttle to 100%, it will go from 0% to (1. / throttle_delta / 100)%. This
+      means if the throttle_delta was 0.01, then the throttle would be placed at 10%. Same principle is true for braking and
+      steering values during the update.
+
+      :Parameters: * **steering_delta** (*float*) -- max steering delta
+                   * **throttle_delta** (*float*) -- max throttle delta
+                   * **braking_delta** (*float*) -- max braking delta
+
+
+   .. method:: set_gains(self, steering_gain: float, throttle_gain: float, braking_gain: float)
+
+      Set the gain values
+
+      The gains are multiplied to each "derivative" calculated during each time step. This controller works
+      by using the target input value provided by the underlying lateral and longitudinal controllers and
+      "stepping" towards that value in increments. See :meth:`~set_delta` to understand the `delta` values.
+      On each step, the difference between the target and current values are multiplied by the gain. This is
+      because the difference may be very small or very large, so a high/low gain can offset this and provide
+      better results.
+
+      :Parameters: * **steering_gain** (*float*) -- steering gain
+                   * **throttle_gain** (*float*) -- throttle gain
+                   * **braking_gain** (*float*) -- braking gain
+
+
+   .. method:: get_long_controller(self) -> 'PIDLongitudinalController'
+
+      Get the underyling longitudinal controller
+
+      :returns: *PIDLongitudinalController* -- The underyling longitudinal (speed/throttle) controller
+
+
+   .. method:: synchronize(self, time: float)
+
+      Synchronize the lateral and longitudinal controllers at the specified time
+
+      :Parameters: **time** (*float*) -- the time at which the controller should synchronize all modules
+
+
+   .. method:: advance(self, step: float)
+
+      Advance the state of the lateral and longitudinal controllers
+
+      :Parameters: **step** (*float*) -- the time step at which the controller should be advanced
+
+
+   .. method:: get_target_pos(self) -> wa.WAVector
+
+      Get the position of the target point of the lateral controller
+
+      :returns: *WAVector* -- The position of the target point
+
+
+   .. method:: get_sentinel_pos(self) -> wa.WAVector
+
+      Get the position of the sentinel point of the lateral controller
+
+      :returns: *WAVector* -- The position of the sentinel point
+
+
+
+.. py:class:: PIDLateralController(system: wa.WASystem, vehicle: wa.WAVehicle, vehicle_inputs: wa.WAVehicleInputs, path: wa.WAPath)
+
+   Bases: :class:`wa_simulator.WAController`
+
+   Lateral (steering) controller which minimizes error using a PID
+
+   :Parameters: * **system** (*WASystem*) -- The system used to manage the simulation
+                * **vehicle** (*WAVehicle*) -- the vehicle who has dynamics
+                * **vehicle_inputs** (*WAVehicleInputs*) -- The vehicle inputs
+                * **path** (*WAPath*) -- the path the vehicle is attempting to follow
+
+   .. method:: set_gains(self, Kp: float, Ki: float, Kd: float)
+
+      Set the gains
+
+      :Parameters: * **Kp** (*float*) -- new proportional gain
+                   * **Ki** (*float*) -- new integral gain
+                   * **Kd** (*float*) -- new derivative gain
+
+
+   .. method:: set_lookahead_distance(self, dist: float)
+
+      Set the lookahead distance
+
+      To track the path, this controller aims for a lookahead point at the specified distance
+      directly infront of the vehicle. That way, the tracking will be much smoother.
+
+      :Parameters: **dist** (*float*) -- new lookahead distance
+
+
+   .. method:: synchronize(self, time: float)
+
+      Synchronize the controller at the passed time
+
+      Doesn't actually do anything.
+
+      :Parameters: **time** (*float*) -- the time to synchronize the controller to
+
+
+   .. method:: advance(self, step: float)
+
+      Advance the state of the controller by step
+
+      :Parameters: **step** (*float*) -- step size to update the controller by
+
+
+
+.. py:class:: PIDLongitudinalController(system: wa.WASystem, vehicle: wa.WAVehicle, vehicle_inputs: wa.WAVehicleInputs)
+
+   Bases: :class:`wa_simulator.WAController`
+
+   Longitudinal (throttle, braking) controller which minimizes error using a PID
+
+   :Parameters: * **system** (*WASystem*) -- The system used to manage the simulation
+                * **vehicle_inputs** (*WAVehicleInputs*) -- The vehicle inputs
+                * **vehicle** (*WAVehicle*) -- the vehicle who has dynamics
+
+   .. method:: set_gains(self, Kp: float, Ki: float, Kd: float)
+
+      Set the gains
+
+      :Parameters: * **Kp** (*float*) -- new proportional gain
+                   * **Ki** (*float*) -- new integral gain
+                   * **Kd** (*float*) -- new derivative gain
+
+
+   .. method:: set_target_speed(self, speed: float)
+
+      Set the target speed for the controller
+
+      :Parameters: **speed** (*float*) -- the new target speed
+
+
+   .. method:: synchronize(self, time: float)
+
+      Synchronize the controller at the passed time
+
+      Doesn't actually do anything.
+
+      :Parameters: **time** (*float*) -- the time to synchronize the controller to
+
+
+   .. method:: advance(self, step)
+
+      Advance the state of the controller by step
+
+      :Parameters: **step** (*float*) -- step size to update the controller by
+
+
+
+
+
+
+
+.. 

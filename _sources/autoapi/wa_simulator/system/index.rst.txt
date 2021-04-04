@@ -3,33 +3,20 @@
 
 .. py:module:: wa_simulator.system
 
-.. autoapi-nested-parse::
-
-   Wisconsin Autonomous - https://www.wisconsinautonomous.org
-
-   Copyright (c) 2021 wisconsinautonomous.org
-   All rights reserved.
-
-   Use of this source code is governed by a BSD-style license that can be found
-   in the LICENSE file at the top level of the repo
+.. Module Contents
+.. ---------------
 
 
+.. raw:: html
 
-Module Contents
----------------
-
-Classes
-~~~~~~~
+   <h2>Classes</h2>
 
 .. autoapisummary::
+  :nosignatures:
 
-   wa_simulator.system.WASystem
+  wa_simulator.system.WASystem
 
-
-
-.. py:class:: WASystem(step_size, render_step_size=0.02)
-
-   Bases: :class:`abc.ABC`
+.. py:class:: WASystem(step_size: float = 0.05, render_step_size: float = 0.02, end_time: float = 120, args: argparse.Namespace = None)
 
    Used to manage simulation parameters and can be used to update simulation dynamics
 
@@ -37,34 +24,40 @@ Classes
    module classes to handle passing various attributes. Could be responsible for updating
    module dynamics depending on the underlying models.
 
-   :param step_size: the step size for the simulation
-   :type step_size: double
-   :param render_step_size: Render step size. Defaults to 2e-2.
-   :type render_step_size: double, optional
+   To instantiate a WASystem, you can either pass in various parameters directly, i.e. ``WASystem(step_size, render_step_size, ...)``
+   or pass a ``argparse.Namespace`` in directly. This object is what is returned from :meth:`~WAArgumentParser.parse_args`.
 
-   .. attribute:: step_number
+   .. highlight:: python
+   .. code:: python
 
-      Counter of the Advance function
+       # Usage
+       from wa_simulator import WAArgumentParser, WASystem
 
-      :type: int
+       # Passing values directly to the system
+       system = WASystem(step_size=1e-3, render_step_size=2e-3, end_time=20)
 
-   .. attribute:: step_size
+       # Or using WAArgumentParser
+       parser = WAArgumentParser(use_sim_defaults=True)
+       args = parser.parse_args()
 
-      the step size for the simulation
+       system = WASystem(args=args)
 
-      :type: double
+   :Parameters: * **step_size** (*float, optional*) -- the step size for the simulation. Defaults to 5e-2.
+                * **render_step_size** (*float, optional*) -- Render step size. Defaults to 2e-2.
+                * **end_time** (*float, optional*) -- the end time for the simulation. Defaults to 120 seconds.
+                * **args** (*argparse.Namespace, optional*) -- the output namespace from argparse (see explanation above)
 
-   .. attribute:: render_step_size
+   :ivar step_number: Counter of the Advance function
+   :vartype step_number: int
+   :ivar step_size: the step size for the simulation
+   :vartype step_size: float
+   :ivar render_step_size: the render step size
+   :vartype render_step_size: float
+   :ivar end_time: the end time for the simulation
+   :vartype end_time: float
+   :ivar time: stores the time from the simulation
 
-      the render step size
-
-      :type: double
-
-   .. attribute:: time
-
-      stores the time from the simulation
-
-      :type: double
+   :vartype time: float
 
    .. method:: advance(self)
 
@@ -73,20 +66,27 @@ Classes
       Will update the time and increment the step number
 
 
-   .. method:: get_sim_time(self)
+   .. method:: is_ok(self) -> bool
 
-      Get the simulation time
+      Check whether the system is still running correctly.
 
-      :returns: the simulation time
-      :rtype: double
-
-
-   .. method:: get_step_number(self)
-
-      Get the step number
-
-      :returns: the step number
-      :rtype: int
+      Simply verifies the end time for the simulation hasn't been reached
 
 
 
+
+
+
+
+.. .. .. autoapi-nested-parse::
+..
+..    Wisconsin Autonomous - https://www.wisconsinautonomous.org
+
+   Copyright (c) 2021 wisconsinautonomous.org
+   All rights reserved.
+
+   Use of this source code is governed by a BSD-style license that can be found
+   in the LICENSE file at the top level of the repo
+
+..
+.. 

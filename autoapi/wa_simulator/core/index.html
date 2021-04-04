@@ -1,10 +1,11 @@
 <!doctype html>
 <html class="no-js">
   <head><meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="wa_simulator.environment" href="../environment/index.html" /><link rel="prev" title="wa_simulator.controller" href="../controller/index.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="wa_simulator.environment" href="../environment/index.html" /><link rel="prev" title="wa_simulator.controller" href="../controller/index.html" />
 
     <link rel="shortcut icon" href="../../../_static/wa-dark-favicon.png"/><meta name="generator" content="sphinx-3.4.2, furo 2020.12.30.beta24"/>
-        <title>wa_simulator.core - Wisconsin Autonomous Simulator 0.0.10 documentation</title>
+        <title>wa_simulator.core - Wisconsin Autonomous Simulator 1.0.3 documentation</title>
       <link rel="stylesheet" href="../../../_static/styles/furo.css?digest=33d2fc4f3f180ec1ffc6524e273e21d7d58cbe49">
     <link rel="stylesheet" href="../../../_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../../../_static/pygments_dark.css">
@@ -103,7 +104,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../index.html"><div class="brand">Wisconsin Autonomous Simulator 0.0.10 documentation</div></a>
+      <a href="../../../index.html"><div class="brand">Wisconsin Autonomous Simulator 1.0.3 documentation</div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon" for="__toc">
@@ -137,6 +138,7 @@
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label for="toctree-checkbox-2"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/custom-controller.html">Creating a Custom Controller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/writing-a-json.html">Writing a JSON Specification File</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current has-children"><a class="reference internal" href="../index.html">API Reference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label for="toctree-checkbox-3"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
@@ -145,31 +147,29 @@
 <li class="toctree-l3"><a class="reference internal" href="../chrono/environment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.environment</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../chrono/sensor/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.sensor</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../chrono/system/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.system</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../chrono/terrain/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.terrain</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../chrono/utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.utils</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../chrono/vehicle/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.vehicle</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../chrono/visualization/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.visualization</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../constants/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.constants</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../base/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.base</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../controller/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.controller</span></code></a></li>
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.core</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../environment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.environment</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../inputs/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.inputs</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../path/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.path</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../sensor/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.sensor</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../simulation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.simulation</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../system/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.system</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../terrain/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.terrain</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../track/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.track</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.utils</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../vehicle/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.vehicle</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vehicle_inputs/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.vehicle_inputs</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../visualization/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.visualization</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
 </ul>
-<p class="caption"><span class="caption-text">External Links</span></p>
+<p><span class="caption-text">External Links</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference external" href="https://pypi.org/project/wa-simulator/">PyPI</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/WisconsinAutonomous/wa_simulator">Github</a></li>
@@ -187,28 +187,19 @@
         <label class="toc-overlay-icon toc-content-icon" for="__toc">
           <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
         </label>
-        <div class="section" id="module-wa_simulator.core">
+        <section id="module-wa_simulator.core">
 <span id="wa-simulator-core"></span><h1><a class="reference internal" href="#module-wa_simulator.core" title="wa_simulator.core"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.core</span></code></a><a class="headerlink" href="#module-wa_simulator.core" title="Permalink to this headline">¶</a></h1>
-<p>Wisconsin Autonomous - <a class="reference external" href="https://www.wisconsinautonomous.org">https://www.wisconsinautonomous.org</a></p>
-<p>Copyright (c) 2021 wisconsinautonomous.org
-All rights reserved.</p>
-<p>Use of this source code is governed by a BSD-style license that can be found
-in the LICENSE file at the top level of the repo</p>
-<div class="section" id="module-contents">
-<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="classes">
-<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h3>
-<div class="table-wrapper"><table class="longtable docutils align-default">
+<h2>Classes</h2><div class="table-wrapper"><table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%"/>
 <col style="width: 90%"/>
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#wa_simulator.core.WAVector" title="wa_simulator.core.WAVector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WAVector</span></code></a></p></td>
-<td><p></p></td>
+<td><p>Vector object that contains x,y,z values</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#wa_simulator.core.WAQuaternion" title="wa_simulator.core.WAQuaternion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WAQuaternion</span></code></a></p></td>
-<td><p></p></td>
+<td><p>Quaternion object that contains x,y,z,w values</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#wa_simulator.core.WAArgumentParser" title="wa_simulator.core.WAArgumentParser"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WAArgumentParser</span></code></a></p></td>
 <td><p>Argument parser wrapper.</p></td>
@@ -217,66 +208,233 @@ in the LICENSE file at the top level of the repo</p>
 </table></div>
 <dl class="py class">
 <dt id="wa_simulator.core.WAVector">
-<em class="property">class </em><code class="sig-prename descclassname">wa_simulator.core.</code><code class="sig-name descname">WAVector</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">shape</span></em>, <em class="sig-param"><span class="n">dtype</span><span class="o">=</span><span class="default_value">float</span></em>, <em class="sig-param"><span class="n">buffer</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">offset</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">strides</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">order</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.core.WAVector" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-name descname">WAVector</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">shape</span></em>, <em class="sig-param"><span class="n">dtype</span><span class="o">=</span><span class="default_value">float</span></em>, <em class="sig-param"><span class="n">buffer</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">offset</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">strides</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">order</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/wa_simulator/core.html#WAVector"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.core.WAVector" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyrr.Vector3</span></code></p>
+<p>Vector object that contains x,y,z values</p>
+<p>This vector inherits directly from <a class="reference external" href="https://pyrr.readthedocs.io/en/latest/oo_api_vector.html#module-pyrr.objects.vector3"><code class="code docutils literal notranslate"><span class="pre">pyrr.Vector3</span></code></a>, which is in the <a class="reference external" href="https://pyrr.readthedocs.io/en/latest/index.html">Pyrr</a> package.
+The only purpose to having this class at all is purely semantic; most other classes in this simulator are prefixed with
+<cite>WA</cite>, so it was desired to the same with this class. No additional functionality is added.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Example uses</span>
+
+<span class="kn">from</span> <span class="nn">wa_simulator</span> <span class="kn">import</span> <span class="n">WAVector</span>
+
+<span class="c1"># Simple instantiation</span>
+<span class="n">v1</span> <span class="o">=</span> <span class="n">WAVector</span><span class="p">()</span>
+<span class="n">v2</span> <span class="o">=</span> <span class="n">WAVector</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+<span class="k">print</span><span class="p">(</span><span class="n">v1</span><span class="p">)</span> <span class="c1"># -&gt; [0., 0., 0.]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">v2</span><span class="p">)</span> <span class="c1"># -&gt; [2., 1., 4.]</span>
+
+<span class="c1"># Grab values</span>
+<span class="k">print</span><span class="p">(</span><span class="n">v1</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="c1"># -&gt; 0.0</span>
+<span class="k">print</span><span class="p">(</span><span class="n">v2</span><span class="o">.</span><span class="n">z</span><span class="p">)</span> <span class="c1"># -&gt; 4.0</span>
+<span class="k">print</span><span class="p">(</span><span class="n">v2</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="c1"># -&gt; 1.0</span>
+
+<span class="c1"># Simple math</span>
+<span class="n">v3</span> <span class="o">=</span> <span class="n">WAVector</span><span class="p">([</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">])</span>
+<span class="k">print</span><span class="p">(</span><span class="n">v2</span> <span class="o">+</span> <span class="n">v3</span><span class="p">)</span> <span class="c1"># -&gt; [3., 2., 5.]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">v2</span> <span class="o">-</span> <span class="n">v3</span><span class="p">)</span> <span class="c1"># -&gt; [1., 0., 3.]</span>
+
+<span class="c1"># Dot product</span>
+<span class="k">print</span><span class="p">(</span><span class="n">v2</span> <span class="o">*</span> <span class="n">v3</span><span class="p">)</span> <span class="c1"># -&gt; 7.0</span>
+
+<span class="c1"># Cross product</span>
+<span class="k">print</span><span class="p">(</span><span class="n">v2</span> <span class="o">^</span> <span class="n">v3</span><span class="p">)</span> <span class="c1"># -&gt; [-3., 2., 1.]</span>
+
+<span class="c1"># Get the length</span>
+<span class="k">print</span><span class="p">(</span><span class="n">v3</span><span class="o">.</span><span class="n">length</span><span class="p">)</span> <span class="c1"># -&gt; 1.732</span>
+
+<span class="c1"># Normalize a vector</span>
+<span class="n">v3</span><span class="o">.</span><span class="n">normalize</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="n">v3</span><span class="p">)</span> <span class="c1"># -&gt; [.5773, .5773, .5773]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">v3</span><span class="o">.</span><span class="n">length</span><span class="p">)</span> <span class="c1"># -&gt; 1.</span>
+</pre></div>
+</div>
+<p>Please refer to the Pyrr documentation for a more detailed explaination of <a class="reference external" href="https://pyrr.readthedocs.io/en/latest/oo_api_vector.html#module-pyrr.objects.vector3"><code class="code docutils literal notranslate"><span class="pre">pyrr.Vector3</span></code></a>.</p>
 </dd></dl>
 <dl class="py class">
 <dt id="wa_simulator.core.WAQuaternion">
-<em class="property">class </em><code class="sig-prename descclassname">wa_simulator.core.</code><code class="sig-name descname">WAQuaternion</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">shape</span></em>, <em class="sig-param"><span class="n">dtype</span><span class="o">=</span><span class="default_value">float</span></em>, <em class="sig-param"><span class="n">buffer</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">offset</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">strides</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">order</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.core.WAQuaternion" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-name descname">WAQuaternion</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">shape</span></em>, <em class="sig-param"><span class="n">dtype</span><span class="o">=</span><span class="default_value">float</span></em>, <em class="sig-param"><span class="n">buffer</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">offset</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">strides</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">order</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/wa_simulator/core.html#WAQuaternion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.core.WAQuaternion" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyrr.Quaternion</span></code></p>
+<p>Quaternion object that contains x,y,z,w values</p>
+<p>This quaternion class inherits directly from <a class="reference external" href="https://pyrr.readthedocs.io/en/latest/oo_api_quaternion.html#id1"><code class="code docutils literal notranslate"><span class="pre">pyrr.Quaternion</span></code></a>, which is in the <a class="reference external" href="https://pyrr.readthedocs.io/en/latest/index.html">Pyrr</a> package.
+The only purpose to having this class at all is purely semantic; most other classes in this simulator are prefixed with
+<cite>WA</cite>, so it was desired to the same with this class. Minimal additional functionality is added.</p>
+<p>Quaternions are rather uncommon outside of the robotics community, so a short explanation about their purpose is provided here.
+For additional information, please refer to
+<a class="reference external" href="https://www.allaboutcircuits.com/technical-articles/dont-get-lost-in-deep-space-understanding-quaternions/">this</a>
+and <a class="reference external" href="https://en.wikipedia.org/wiki/Quaternion">this</a>.</p>
+<p>Quaternions are essentially mathematical operators that rotate and scale vectors. In 2D dimensional space, it’s fairly likely
+you’ve used complex numbers to rotate vectors. For example, you may know that if you multiply a vector by the complex
+number <code class="code docutils literal notranslate"><span class="pre">i</span></code>, you will rotate that vector by 90 degrees. Furthermore, in 2D, to rotate any vector, you need two values: one real
+and one complex. This is, in a way, very similar to quaternions. In essence,
+to provide the ability to rotate a vector in any desired way, you actually need four values. This is a bit counterintuitive,
+but the reasoning is outside the scope of this description (see <a class="reference external" href="https://www.youtube.com/watch?v=3BR8tK-LuB0">this video</a>
+if you’re interested). As opposed to a rotation vector in 2D, the 3D rotation vector, a quaternion, has one real and three complex
+values. These complex values, of which you’ve probably seen before, are named i, j and k. The real value is commonly refered to
+as w. To now rotate a 3D vector in any direction, a quaternion and it’s conjugate (the original quaternion but with the opposite
+rotation) is applied. Quaternion’s rotations can be accumulated by simply “crossing” their values.</p>
+<p>Many have heard or used <a class="reference external" href="https://en.wikipedia.org/wiki/Euler_angles">Euler angles</a> instead. These are far more intuitive
+than quaternions, but are prone to “bugs”, like <a class="reference external" href="https://en.wikipedia.org/wiki/Gimbal_lock">gimbal lock</a>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Example uses</span>
+
+<span class="kn">from</span> <span class="nn">wa_simulator</span> <span class="kn">import</span> <span class="n">WAQuaternion</span><span class="p">,</span> <span class="n">WAVector</span><span class="p">,</span> <span class="n">WA_PI</span>
+
+<span class="c1"># Simple instantiation</span>
+<span class="n">q1</span> <span class="o">=</span> <span class="n">WAQuaternion</span><span class="p">()</span>
+<span class="n">q2</span> <span class="o">=</span> <span class="n">WAQuaternion</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">q3</span> <span class="o">=</span> <span class="n">WAQuaternion</span><span class="o">.</span><span class="n">from_z_rotation</span><span class="p">(</span><span class="n">WA_PI</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">q1</span><span class="p">)</span> <span class="c1"># -&gt; [0., 0., 0., 1.]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">q2</span><span class="p">)</span> <span class="c1"># -&gt; [2., 1., 4., 1.]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">q3</span><span class="p">)</span> <span class="c1"># -&gt; [0., 0., 0.70711, 0.70711]</span>
+
+<span class="c1"># Grab values</span>
+<span class="k">print</span><span class="p">(</span><span class="n">q1</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="c1"># -&gt; 0.0</span>
+<span class="k">print</span><span class="p">(</span><span class="n">q2</span><span class="o">.</span><span class="n">z</span><span class="p">)</span> <span class="c1"># -&gt; 4.0</span>
+<span class="k">print</span><span class="p">(</span><span class="n">q3</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="c1"># -&gt; 0.70711</span>
+
+<span class="c1"># Accumulating quaternion rotations</span>
+<span class="n">q4</span> <span class="o">=</span> <span class="n">WAQuaternion</span><span class="o">.</span><span class="n">from_x_rotation</span><span class="p">(</span><span class="n">WA_PI</span><span class="p">)</span>
+<span class="n">q5</span> <span class="o">=</span> <span class="n">q3</span> <span class="o">*</span> <span class="n">q4</span> <span class="c1"># represents 90 degree rotation about the z, then 180 degree about the x</span>
+<span class="k">print</span><span class="p">(</span><span class="n">q5</span><span class="p">)</span> <span class="c1"># -&gt; [0.70711, 0.70711, 0., 0.]</span>
+
+<span class="c1"># Rotate a vector</span>
+<span class="n">v</span> <span class="o">=</span> <span class="n">WAVector</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="k">print</span><span class="p">(</span><span class="n">q5</span> <span class="o">*</span> <span class="n">v</span><span class="p">)</span> <span class="c1"># -&gt; [1., 0., 0.]</span>
+
+<span class="c1"># Undo a rotation</span>
+<span class="n">v2</span> <span class="o">=</span> <span class="n">q5</span> <span class="o">*</span> <span class="n">v</span>
+<span class="k">print</span><span class="p">(</span><span class="o">~</span><span class="n">q5</span> <span class="o">*</span> <span class="n">v2</span><span class="p">)</span> <span class="c1"># -&gt; [0., 1., 0.]</span>
+
+<span class="c1"># Grab the yaw</span>
+<span class="k">print</span><span class="p">(</span><span class="n">q3</span><span class="o">.</span><span class="n">to_euler_yaw</span><span class="p">())</span> <span class="c1"># -&gt; 1.57</span>
+</pre></div>
+</div>
+<p>Please refer to the Pyrr documentation for a more detailed explaination of <a class="reference external" href="https://pyrr.readthedocs.io/en/latest/oo_api_quaternion.html#id1"><code class="code docutils literal notranslate"><span class="pre">pyrr.Quaternion</span></code></a>.</p>
 <dl class="py method">
-<dt id="wa_simulator.core.WAQuaternion.__add__">
-<code class="sig-name descname">__add__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">other</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.core.WAQuaternion.__add__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Adds two quaternions or a constant</p>
+<dt id="wa_simulator.core.WAQuaternion.to_euler_roll">
+<code class="sig-name descname">to_euler_roll</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span> → float<a class="reference internal" href="../../../_modules/wa_simulator/core.html#WAQuaternion.to_euler_roll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.core.WAQuaternion.to_euler_roll" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts this quaternion to euler angles and returns the roll value (see <a class="reference external" href="https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles">here</a>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><em>float</em> – roll</p>
+</dd>
+</dl>
 </dd></dl>
 <dl class="py method">
-<dt id="wa_simulator.core.WAQuaternion.__sub__">
-<code class="sig-name descname">__sub__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">other</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.core.WAQuaternion.__sub__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Subs two quaternions or a constant</p>
+<dt id="wa_simulator.core.WAQuaternion.to_euler_pitch">
+<code class="sig-name descname">to_euler_pitch</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span> → float<a class="reference internal" href="../../../_modules/wa_simulator/core.html#WAQuaternion.to_euler_pitch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.core.WAQuaternion.to_euler_pitch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts this quaternion to euler angles and returns the pitch value (see <a class="reference external" href="https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles">here</a>)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><em>float</em> – pitch</p>
+</dd>
+</dl>
 </dd></dl>
 <dl class="py method">
-<dt id="wa_simulator.core.WAQuaternion.__mul__">
-<code class="sig-name descname">__mul__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">other</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.core.WAQuaternion.__mul__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Multiplies by a constant</p>
+<dt id="wa_simulator.core.WAQuaternion.to_euler_yaw">
+<code class="sig-name descname">to_euler_yaw</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span> → float<a class="reference internal" href="../../../_modules/wa_simulator/core.html#WAQuaternion.to_euler_yaw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.core.WAQuaternion.to_euler_yaw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts this quaternion to euler angles and returns the yaw value (see <a class="reference external" href="https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles">here</a>)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><em>float</em> – yaw</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.core.WAQuaternion.to_euler">
+<code class="sig-name descname">to_euler</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span> → tuple<a class="reference internal" href="../../../_modules/wa_simulator/core.html#WAQuaternion.to_euler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.core.WAQuaternion.to_euler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts this quaternion to euler angles (see <a class="reference external" href="https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles">here</a>)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><em>tuple</em> – (roll, pitch, yaw)</p>
+</dd>
+</dl>
 </dd></dl>
 </dd></dl>
 <dl class="py class">
 <dt id="wa_simulator.core.WAArgumentParser">
-<em class="property">class </em><code class="sig-prename descclassname">wa_simulator.core.</code><code class="sig-name descname">WAArgumentParser</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">use_sim_defaults</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">skip_defaults</span><span class="p">:</span> <span class="n">list</span> <span class="o">=</span> <span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">description</span><span class="o">=</span><span class="default_value">'Wisconsin Autonomous Simulator'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.core.WAArgumentParser" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-name descname">WAArgumentParser</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">use_sim_defaults</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">skip_defaults</span><span class="p">:</span> <span class="n">list</span> <span class="o">=</span> <span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">description</span><span class="o">=</span><span class="default_value">'Wisconsin Autonomous Simulator'</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/wa_simulator/core.html#WAArgumentParser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.core.WAArgumentParser" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">argparse.ArgumentParser</span></code></p>
 <p>Argument parser wrapper.</p>
 <p>Has handy default arguments method</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Example</span>
+<span class="kn">from</span> <span class="nn">wa_simulator</span> <span class="kn">import</span> <span class="n">WAArgumentParser</span>
+
+<span class="c1"># Instantiate the parser and custom arguments</span>
+<span class="n">parser</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">WAArgumentParser</span><span class="p">(</span><span class="n">use_sim_defaults</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">"-mv"</span><span class="p">,</span> <span class="s2">"--matplotlib"</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">"store_true"</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">"Use matplotlib to visualize"</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">"-q"</span><span class="p">,</span> <span class="s2">"--quiet"</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">"store_true"</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">"Silence any terminal output"</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="c1"># Parse the command line inputs</span>
+<span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+
+<span class="c1"># Grab the parsed options</span>
+<span class="n">step_size</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">step_size</span> <span class="c1"># from default options</span>
+<span class="n">render_step_size</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">render_step_size</span> <span class="c1"># from default options</span>
+<span class="n">use_matplotlib</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">matplotlib</span> <span class="c1"># from default options</span>
+<span class="n">is_quiet</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">quiet</span>
+</pre></div>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>use_sim_defaults</strong> (<em>bool</em><em>, </em><em>optional</em>) – Use the default arguments (can add more). Defaults to True.</p></li>
-<li><p><strong>skip_defaults</strong> (<em>list</em><em>, </em><em>optional</em>) – The default arguments to skip.</p></li>
-<li><p><strong>description</strong> (<em>str</em><em>, </em><em>optional</em>) – Description used to describe the simulation. Printed by the help menu. Defaults to (“Wisconsin Autonomous Simulator”).</p></li>
+<li><p><strong>use_sim_defaults</strong> (<em>bool, optional</em>) – Use the default arguments (can add more). Defaults to True.</p></li>
+<li><p><strong>skip_defaults</strong> (<em>list, optional</em>) – The default arguments to skip.</p></li>
+<li><p><strong>description</strong> (<em>str, optional</em>) – Description used to describe the simulation. Printed by the help menu. Defaults to (“Wisconsin Autonomous Simulator”).</p></li>
 </ul>
 </dd>
 </dl>
 <dl class="py method">
 <dt id="wa_simulator.core.WAArgumentParser.add_default_sim_arguments">
-<code class="sig-name descname">add_default_sim_arguments</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">skip_defaults</span><span class="o">=</span><span class="default_value">[]</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.core.WAArgumentParser.add_default_sim_arguments" title="Permalink to this definition">¶</a></dt>
-<dd><p>Adds default arguments for most simulations</p>
+<code class="sig-name descname">add_default_sim_arguments</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">skip_defaults</span><span class="p">:</span> <span class="n">list</span> <span class="o">=</span> <span class="default_value">[]</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/wa_simulator/core.html#WAArgumentParser.add_default_sim_arguments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.core.WAArgumentParser.add_default_sim_arguments" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper function to add predefined default arguments that can be used for most vehicle related simulations</p>
+<p>Set <code class="code docutils literal notranslate"><span class="pre">use_sim_defaults</span></code> in <code class="code docutils literal notranslate"><span class="pre">__init__</span></code> to <code class="code docutils literal notranslate"><span class="pre">True</span></code> to have this be called automatically.</p>
+<p>This function, unless specified in <code class="code docutils literal notranslate"><span class="pre">skip_defaults</span></code>, will add the following arguments:</p>
+<ul class="simple">
+<li><p>-s, - -sim_step_size: Simulation step size</p></li>
+<li><p>-rs, - -render_step_size: Rendering step size</p></li>
+<li><p>-e, - -end_time: Simulation end time</p></li>
+</ul>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>skip_defaults</strong> (<em>list</em><em>, </em><em>optional</em>) – The default arguments to skip.</p>
-</dd>
-</dl>
-<dl class="simple">
-<dt>Includes:</dt><dd><p>-s,–sim_step_size: Simulation step size
--rs,–render_step_size: Rendering step size
--iv,–irrlicht: Use irrlicht visualization
--mv,–matplotlib: Use matplotlib visualization
--r,–record: Record the simulation to a csv</p>
+<dd class="field-odd"><p><strong>skip_defaults</strong> (<em>list, optional</em>) – The default arguments to skip.</p>
 </dd>
 </dl>
 </dd></dl>
 </dd></dl>
-</div>
-</div>
-</div>
+<h2>Attributes</h2><div class="table-wrapper"><table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%"/>
+<col style="width: 90%"/>
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#wa_simulator.core.WA_GRAVITY" title="wa_simulator.core.WA_GRAVITY"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WA_GRAVITY</span></code></a></p></td>
+<td><p>Gravitational constant (m/s^2)</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#wa_simulator.core.WA_EARTH_RADIUS" title="wa_simulator.core.WA_EARTH_RADIUS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WA_EARTH_RADIUS</span></code></a></p></td>
+<td><p>Radius of the earth (m)</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#wa_simulator.core.WA_PI" title="wa_simulator.core.WA_PI"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WA_PI</span></code></a></p></td>
+<td><p>PI</p></td>
+</tr>
+</tbody>
+</table></div>
+<dl class="py data">
+<dt id="wa_simulator.core.WA_GRAVITY">
+<code class="sig-name descname">WA_GRAVITY</code><em class="property"> = 9.81</em><a class="reference internal" href="../../../_modules/wa_simulator/core.html#WA_GRAVITY"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.core.WA_GRAVITY" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gravitational constant (m/s^2)</p>
+</dd></dl>
+<dl class="py data">
+<dt id="wa_simulator.core.WA_EARTH_RADIUS">
+<code class="sig-name descname">WA_EARTH_RADIUS</code><em class="property"> = 6371000.0</em><a class="reference internal" href="../../../_modules/wa_simulator/core.html#WA_EARTH_RADIUS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.core.WA_EARTH_RADIUS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Radius of the earth (m)</p>
+</dd></dl>
+<dl class="py data">
+<dt id="wa_simulator.core.WA_PI">
+<code class="sig-name descname">WA_PI</code><em class="property"> = 3.141592653589793</em><a class="reference internal" href="../../../_modules/wa_simulator/core.html#WA_PI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.core.WA_PI" title="Permalink to this definition">¶</a></dt>
+<dd><p>PI</p>
+</dd></dl>
+</section>
 
       </article>
       <footer>
@@ -333,23 +491,21 @@ in the LICENSE file at the top level of the repo</p>
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.core</span></code></a><ul>
-<li><a class="reference internal" href="#module-contents">Module Contents</a><ul>
-<li><a class="reference internal" href="#classes">Classes</a><ul>
 <li><a class="reference internal" href="#wa_simulator.core.WAVector">WAVector</a></li>
 <li><a class="reference internal" href="#wa_simulator.core.WAQuaternion">WAQuaternion</a><ul>
-<li><a class="reference internal" href="#wa_simulator.core.WAQuaternion.__add__">__add__</a></li>
-<li><a class="reference internal" href="#wa_simulator.core.WAQuaternion.__sub__">__sub__</a></li>
-<li><a class="reference internal" href="#wa_simulator.core.WAQuaternion.__mul__">__mul__</a></li>
+<li><a class="reference internal" href="#wa_simulator.core.WAQuaternion.to_euler_roll">to_euler_roll</a></li>
+<li><a class="reference internal" href="#wa_simulator.core.WAQuaternion.to_euler_pitch">to_euler_pitch</a></li>
+<li><a class="reference internal" href="#wa_simulator.core.WAQuaternion.to_euler_yaw">to_euler_yaw</a></li>
+<li><a class="reference internal" href="#wa_simulator.core.WAQuaternion.to_euler">to_euler</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#wa_simulator.core.WAArgumentParser">WAArgumentParser</a><ul>
 <li><a class="reference internal" href="#wa_simulator.core.WAArgumentParser.add_default_sim_arguments">add_default_sim_arguments</a></li>
 </ul>
 </li>
-</ul>
-</li>
-</ul>
-</li>
+<li><a class="reference internal" href="#wa_simulator.core.WA_GRAVITY">WA_GRAVITY</a></li>
+<li><a class="reference internal" href="#wa_simulator.core.WA_EARTH_RADIUS">WA_EARTH_RADIUS</a></li>
+<li><a class="reference internal" href="#wa_simulator.core.WA_PI">WA_PI</a></li>
 </ul>
 </li>
 </ul>

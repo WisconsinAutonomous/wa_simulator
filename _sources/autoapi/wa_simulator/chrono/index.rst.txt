@@ -3,53 +3,91 @@
 
 .. py:module:: wa_simulator.chrono
 
-.. autoapi-nested-parse::
 
-   Requires the `PyChrono <https://projectchrono.org/pychrono/>`_ library.
-
-
-
-Submodules
-----------
 .. toctree::
-   :titlesonly:
-   :maxdepth: 1
+	:hidden:
+	:titlesonly:
+	:maxdepth: 3
 
-   controller/index.rst
-   environment/index.rst
-   sensor/index.rst
-   system/index.rst
-   terrain/index.rst
-   utils/index.rst
-   vehicle/index.rst
-   visualization/index.rst
+	controller/index.rst
+
+	environment/index.rst
+
+	sensor/index.rst
+
+	system/index.rst
+
+	utils/index.rst
+
+	vehicle/index.rst
+
+	visualization/index.rst
 
 
-Package Contents
-----------------
+Core
+----
+- :mod:`wa_simulator.chrono`
 
-.. data:: __version__
-   
+  - `System <system/index.html>`_
+  - `Utils <utils/index.html>`_
 
-   
+.. raw::
+  </br>
+
+
+
+
+Components
+----------
+
+- :mod:`wa_simulator.chrono`
+
+  - `Controller <controller/index.html>`_
+  - `Environment <environment/index.html>`_
+  - `Sensor <sensor/index.html>`_
+  - `Vehicle <vehicle/index.html>`_
+  - `Visualization <visualization/index.html>`_
+
+.. raw::
+  </br>
+
+
+.. Package Contents
+.. ----------------
+
+
+
+
+.. raw:: html
+
+   <h2>Attributes</h2>
+
+.. autoapisummary::
+  :nosignatures:
+
+   wa_simulator.chrono.__author__ 
+   :annotation: = Wisconsin Autonomous (wisconsinautonomous@studentorg.wisc.edu)
+   wa_simulator.chrono.__license__ 
+   :annotation: = BSD3
 
 .. data:: __author__
    :annotation: = Wisconsin Autonomous (wisconsinautonomous@studentorg.wisc.edu)
 
-   
+   Wisconsin Autonomous (wisconsinautonomous@studentorg.wisc.edu)
+
 
 .. data:: __license__
    :annotation: = BSD3
 
-   
+   BSD3
 
-.. data:: CHRONO_DATA_DIRECTORY
-   
 
-   
 
-.. data:: CHRONO_VEH_DATA_DIRECTORY
-   
 
-   
 
+.. .. .. autoapi-nested-parse::
+..
+..    Requires the `PyChrono <https://projectchrono.org/pychrono/>`_ library.
+
+..
+.. 

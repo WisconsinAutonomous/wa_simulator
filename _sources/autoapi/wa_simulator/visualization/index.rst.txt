@@ -3,9 +3,217 @@
 
 .. py:module:: wa_simulator.visualization
 
-.. autoapi-nested-parse::
+.. Module Contents
+.. ---------------
 
-   Wisconsin Autonomous - https://www.wisconsinautonomous.org
+
+.. raw:: html
+
+   <h2>Classes</h2>
+
+.. autoapisummary::
+  :nosignatures:
+
+  wa_simulator.visualization.WAVisualization
+  wa_simulator.visualization.WAMatplotlibVisualization
+
+.. py:class:: WAVisualization
+
+   Bases: :class:`wa_simulator.base.WABase`
+
+   Base class to be used for visualization of the simulation world.
+
+   Inherits from WABase, so this class and any derived classes can be seen as components. Derived classes
+   can/should use various world attributes to visualize the simulation. `Matplotlib <https://matplotlib.org/>`_ and
+   `irrlicht <http://irrlicht.sourceforge.net/>`_ are two example visualizations that, depending on the simulation
+   configuration, users may select. Additional visualizations may be implemented, as well.
+
+   .. method:: synchronize(self, time: float)
+      :abstractmethod:
+
+      Update the state of this component at the current time.
+
+      The primary reason to decouple the update method into two separate calls (i.e. :meth:`~synchronize` and :meth:`~advance`)
+      is to provide flexibility to the user and is essentially semantic. In most simple cases, a user will only need one of the two.
+      Furthermore, can only use :meth:`~advance` if they prefer and just update their own :code:`time` variable. Given the unknown use cases
+      for the simulator at the time of writing, it was chosen to provide two different methods with similar functionality as to allow
+      the user to choose their desired implementation, rather than the writers of this package.
+
+      As opposed to :meth:`~advance`, this method gets the current time of the simulation. As menthioned earlier,
+      :meth:`~advance` and a user defined `time` variable could be used to instead to hold the current state of the simulation. However,
+      to aid in generality of the package, this method is provided to simply provide the current time of the simulation to the user in a decoupled
+      manner from the :meth:`~advance` method.
+
+      :Parameters: **time** (*float*) -- The current time to synchronize to
+
+
+   .. method:: advance(self, step: float)
+      :abstractmethod:
+
+      Advance the state of this component by the specified time step.
+
+      The primary reason to decouple the update method into two separate calls (i.e. :meth:`~synchronize` and :meth:`~advance`)
+      is to provide flexibility to the user and is essentially semantic. In most simple cases, a user will only need one of the two.
+      Furthermore, can only use :meth:`~advance` if they prefer and just update their own :code:`time` variable. Given the unknown use cases
+      for the simulator at the time of writing, it was chosen to provide two different methods with similar functionality as to allow
+      the user to choose their desired implementation, rather than the writers of this package.
+
+      :Parameters: **step** (*float*) -- The step size to advance this component by
+
+
+   .. method:: is_ok(self) -> bool
+      :abstractmethod:
+
+      Check whether this component is still alive.
+
+      Depending the type of component, a specific element may "fail". For example, when
+      a visualization is used that presents a GUI/window, if the user closes that display,
+      this would be considered a component death. Therefore, :meth:`~is_ok` should then return
+      False.
+
+      :returns: *bool* -- True if still alive, false otherwise
+
+
+   .. method:: visualize(self, assets, *args, **kwargs)
+      :abstractmethod:
+
+      Helper method that visualizes some object(s) in the chosen visualizer
+
+      Different visualizations will visualize the object(s) in different ways. This is an abstract method,
+      so it must be implemented.
+
+      :Parameters: * **assets** (*list*) -- The object(s) to visualize
+                   * **\*args** -- Positional arguments that are specific to the underyling visualizer implementation
+                   * **\*\*kwargs** -- Keyworded arguments that are specific to the underlying visualizer implementation
+
+
+
+.. py:class:: WAMatplotlibVisualization(system: WASystem, vehicle: WAVehicle, vehicle_inputs: WAVehicleInputs, environment: WAEnvironment = None, plotter_type: str = 'single', opponents: list = [], record: bool = False, record_folder: str = 'OUTPUT/', **kwargs)
+
+   Bases: :class:`wa_simulator.visualization.WAVisualization`
+
+   Matplotlib visualizer of the simulator world and the vehicle
+
+   Plotter requires a vehicle and should be used for vehicle simulations where a 2d world representation is adequate. Furthermore,
+   for vehicle models that aren't implemented through Chrono, this is the only implemented visualization for users.
+
+   There are three types of matplotlib plotters currently implemented: "single", "multi" and "jupyter". Each has a different purpose with the same
+   goal (to visualize the simulation).
+
+   * single:
+
+     * Uses a single thread where visualization updates are done sequentially with other simulation components.
+
+     * *Worse performance than multi*.
+
+   * multi:
+
+     * Uses two threads where visualization updates are placed on a separate threads and updates are asynchronous. State information of the environment and vehicle are passed to the plotter on each update, but updates of the visuals are done at a fixed rate(10 [Hz]).
+
+     * *Better performance than single*.
+
+   * jupyter:
+
+     * Supports visualization of a matplotlib window in a `jupyter notebook <https://jupyter.org/>`_.
+
+     * *Performance is very poor*. *Do not use outside of jupyter*.
+
+   :Parameters: * **system** (*WASystem*) -- system used to grab certain parameters of the simulation
+                * **vehicle** (*WAVehicle*) -- vehicle to render in the matplotlib plot window
+                * **vehicle_inputs** (*WAVehicleInputs*) -- the vehicle inputs
+                * **environment** (*WAEnvironment, optional*) -- An environment with various world assets to visualize. Defaults to None (doesn't visualize anything).
+                * **plotter_type** (*str, optional*) -- Type of plotter. "single" for single threaded, "multi" for multi threaded (fastest), "jupyter" if jupyter is used. Defaults to "single".
+                * **opponents** (*list, optional*) -- List of other :class:`~WAVehicle`'s that represent opponents. Used for rendering.
+                * **record** (*bool, optional*) -- If set to true, images will be saved under record_filename. Defaults to False (doesn't save images).
+                * **record_folder** (*str, optional*) -- The folder to save images to. Defaults to "OUTPUT/".
+                * **\*\*kwargs** -- Additional arguments that are based to the underlying plotter implementation.
+
+   :raises ValueError: plotter_type isn't recognized
+
+   .. method:: synchronize(self, time: float)
+
+      Update the state of this component at the current time.
+
+      The primary reason to decouple the update method into two separate calls (i.e. :meth:`~synchronize` and :meth:`~advance`)
+      is to provide flexibility to the user and is essentially semantic. In most simple cases, a user will only need one of the two.
+      Furthermore, can only use :meth:`~advance` if they prefer and just update their own :code:`time` variable. Given the unknown use cases
+      for the simulator at the time of writing, it was chosen to provide two different methods with similar functionality as to allow
+      the user to choose their desired implementation, rather than the writers of this package.
+
+      As opposed to :meth:`~advance`, this method gets the current time of the simulation. As menthioned earlier,
+      :meth:`~advance` and a user defined `time` variable could be used to instead to hold the current state of the simulation. However,
+      to aid in generality of the package, this method is provided to simply provide the current time of the simulation to the user in a decoupled
+      manner from the :meth:`~advance` method.
+
+      :Parameters: **time** (*float*) -- The current time to synchronize to
+
+
+   .. method:: advance(self, step: float)
+
+      Advance the state of this component by the specified time step.
+
+      The primary reason to decouple the update method into two separate calls (i.e. :meth:`~synchronize` and :meth:`~advance`)
+      is to provide flexibility to the user and is essentially semantic. In most simple cases, a user will only need one of the two.
+      Furthermore, can only use :meth:`~advance` if they prefer and just update their own :code:`time` variable. Given the unknown use cases
+      for the simulator at the time of writing, it was chosen to provide two different methods with similar functionality as to allow
+      the user to choose their desired implementation, rather than the writers of this package.
+
+      :Parameters: **step** (*float*) -- The step size to advance this component by
+
+
+   .. method:: is_ok(self) -> bool
+
+      Check whether this component is still alive.
+
+      Depending the type of component, a specific element may "fail". For example, when
+      a visualization is used that presents a GUI/window, if the user closes that display,
+      this would be considered a component death. Therefore, :meth:`~is_ok` should then return
+      False.
+
+      :returns: *bool* -- True if still alive, false otherwise
+
+
+   .. method:: register_key_press_event(self, callback)
+
+      Register a key press callback with the matplotlib visualization
+
+      :Parameters: **callback** (*function*) -- the callback to invoke when a key is pressed
+
+
+   .. method:: plot(self, *args, **kwargs)
+
+      Pass plot info to the underyling plotter
+
+      In some cases, additional information will want to be plotted in the plotter window. For example, in a vehicle simulation where
+      a controller is attempting to follow a path, that path may want to be visualized in the matplotlib window. This method faciliates
+      that functionality.
+
+      See the `matplotlib docs <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html>`_ to see additional *args and **kwargs arguments.
+
+      :Parameters: * **\*args** -- positional arguments that are passed to the underyling plotter (and subsequently to matplotlib)
+                   * **\*\*kwargs** -- keyworded arguments that are passed to the underyling plotter (and subsequently to matplotlib)
+
+
+   .. method:: visualize(self, assets, *args, **kwargs)
+
+      Helper method that visualizes some object(s) in the chosen visualizer
+
+      Different visualizations will visualize the object(s) in different ways. This is an abstract method,
+      so it must be implemented.
+
+      :Parameters: * **assets** (*list*) -- The object(s) to visualize
+                   * **\*args** -- Positional arguments that are specific to the underyling visualizer implementation
+                   * **\*\*kwargs** -- Keyworded arguments that are specific to the underlying visualizer implementation
+
+
+
+
+
+
+
+.. .. .. autoapi-nested-parse::
+..
+..    Wisconsin Autonomous - https://www.wisconsinautonomous.org
 
    Copyright (c) 2021 wisconsinautonomous.org
    All rights reserved.
@@ -13,188 +221,5 @@
    Use of this source code is governed by a BSD-style license that can be found
    in the LICENSE file at the top level of the repo
 
-
-
-Module Contents
----------------
-
-Classes
-~~~~~~~
-
-.. autoapisummary::
-
-   wa_simulator.visualization.WAVisualization
-   wa_simulator.visualization.WAMultipleVisualizations
-   wa_simulator.visualization.WAMatplotlibVisualization
-
-
-
-.. py:class:: WAVisualization
-
-   Bases: :class:`abc.ABC`
-
-   Base class to be used for visualization of the simulation world.
-
-   Derived classes will use various world attributes to visualize the simulation
-
-   .. method:: synchronize(self, time, vehicle_inputs)
-      :abstractmethod:
-
-      Synchronize the visualization at the specified time with the passed vehicle inputs
-
-      :param time: time to synchronize the visualization to
-      :type time: double
-      :param vehicle_inputs: inputs to the vehicle. Can be helpful for visualization (debug) purposes.
-      :type vehicle_inputs: WAVehicleInputs
-
-
-   .. method:: advance(self, step)
-      :abstractmethod:
-
-      Advance the state of the visualization by the specified step
-
-      :param step: step size to update the visualization by
-      :type step: double
-
-
-   .. method:: is_ok(self)
-      :abstractmethod:
-
-      Verifies the visualization is running properly.
-
-      :returns: Whether the visualization is running correctly.
-      :rtype: bool
-
-
-
-.. py:class:: WAMultipleVisualizations(visualizations)
-
-   Bases: :class:`wa_simulator.visualization.WAVisualization`
-
-   Wrapper class for multiple visualizations. Allows multiple visualizations to be used.
-
-   :param visualizations: List of visualizations.
-   :type visualizations: list
-
-   .. method:: synchronize(self, time, vehicle_inputs)
-
-      Synchronize each visualization at the specified time
-
-      :param time: the time at which the visualization should synchronize all modules
-      :type time: double
-      :param vehicle_inputs: vehicle inputs
-      :type vehicle_inputs: WAVehicleInputs
-
-
-   .. method:: advance(self, step)
-
-      Advance the state of each managed visualization
-
-      :param step: the time step at which the visualization should be advanced
-      :type step: double
-
-
-   .. method:: is_ok(self)
-
-      Verifies the visualization is running properly.
-
-      :returns: Whether the visualization is running correctly.
-      :rtype: bool
-
-
-
-.. py:class:: WAMatplotlibVisualization(vehicle, system, plotter_type='single', **kwargs)
-
-   Bases: :class:`wa_simulator.visualization.WAVisualization`
-
-   Matplotlib visualizer of the simulator world and the vehicle
-
-   :param vehicle: vehicle to render in the matplotlib plot window
-   :type vehicle: WAVehicle
-   :param system: system used to grab certain parameters of the simulation
-   :type system: WASystem
-   :param plotter_type: Type of plotter. "single" for single threaded, "multi" for multi threaded (fastest), "jupyter" if jupyter is used. Defaults to "single".
-   :type plotter_type: str, optional
-
-   .. attribute:: render_steps
-
-      steps between which the visualization should update
-
-      :type: int
-
-   .. attribute:: vehicle
-
-      vehicle to render in the matplotlib plot window
-
-      :type: WAVehicle
-
-   .. attribute:: system
-
-      system used to grab certain parameters of the simulation
-
-      :type: WASystem
-
-   .. attribute:: mat_vehicle
-
-      a wrapper class used to create a visual representation of the vehicle in matplotlib
-
-      :type: _MatplotlibVehicle
-
-   .. attribute:: dashboard
-
-      a wrapper class used to create a visual dashboard on the matplotlib window
-
-      :type: _MatplotlibSimpleDashboard
-
-   .. attribute:: plotter
-
-      a wrapper class that handles matplotlib visualization and possible single/multi threading
-
-      :type: _MatplotlibPlotter
-
-   :raises ValueError: plotter_type isn't recognized
-
-   .. method:: synchronize(self, time, vehicle_inputs)
-
-      Synchronize the vehicle inputs to the values in this visualization
-
-      Will just set class members
-
-      :param time: time at which to update the vehicle to
-      :type time: double
-      :param vehicle_inputs: vehicle inputs
-      :type vehicle_inputs: WAVehicleInputs
-
-
-   .. method:: advance(self, step)
-
-      Advance the state of the visualization by the specified step
-
-      Will only call update if the scene should be rendered given the render step
-
-      :param step: step size to update the visualization by
-      :type step: double
-
-
-   .. method:: is_ok(self)
-
-      Checks if the rendering process is still alive
-
-      :returns: whether the simulation is still alive
-      :rtype: bool
-
-
-   .. method:: register_key_press_event(self, callback)
-
-      Register a key press callback with the matplotlib visualization
-
-      :param callback: the callback to invoke when a key is pressed
-      :type callback: function
-
-
-   .. method:: plot(self, *args, **kwargs)
-
-      Pass plot info to the underyling plotter
-
-
-
+..
+.. 

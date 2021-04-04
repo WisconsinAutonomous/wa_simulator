@@ -3,54 +3,171 @@
 
 .. py:module:: wa_simulator.core
 
-.. autoapi-nested-parse::
-
-   Wisconsin Autonomous - https://www.wisconsinautonomous.org
-
-   Copyright (c) 2021 wisconsinautonomous.org
-   All rights reserved.
-
-   Use of this source code is governed by a BSD-style license that can be found
-   in the LICENSE file at the top level of the repo
+.. Module Contents
+.. ---------------
 
 
+.. raw:: html
 
-Module Contents
----------------
-
-Classes
-~~~~~~~
+   <h2>Classes</h2>
 
 .. autoapisummary::
+  :nosignatures:
 
-   wa_simulator.core.WAVector
-   wa_simulator.core.WAQuaternion
-   wa_simulator.core.WAArgumentParser
-
-
+  wa_simulator.core.WAVector
+  wa_simulator.core.WAQuaternion
+  wa_simulator.core.WAArgumentParser
 
 .. py:class:: WAVector(shape, dtype=float, buffer=None, offset=0, strides=None, order=None)
 
    Bases: :class:`pyrr.Vector3`
+
+   Vector object that contains x,y,z values
+
+   This vector inherits directly from |Vector3|_, which is in the `Pyrr <https://pyrr.readthedocs.io/en/latest/index.html>`_ package.
+   The only purpose to having this class at all is purely semantic; most other classes in this simulator are prefixed with
+   `WA`, so it was desired to the same with this class. No additional functionality is added.
+
+   .. highlight:: python
+   .. code-block:: python
+
+       # Example uses
+
+       from wa_simulator import WAVector
+
+       # Simple instantiation
+       v1 = WAVector()
+       v2 = WAVector([2, 1, 4])
+       print(v1) # -> [0., 0., 0.]
+       print(v2) # -> [2., 1., 4.]
+
+       # Grab values
+       print(v1.x) # -> 0.0
+       print(v2.z) # -> 4.0
+       print(v2[1]) # -> 1.0
+
+       # Simple math
+       v3 = WAVector([1., 1., 1.])
+       print(v2 + v3) # -> [3., 2., 5.]
+       print(v2 - v3) # -> [1., 0., 3.]
+
+       # Dot product
+       print(v2 * v3) # -> 7.0
+
+       # Cross product
+       print(v2 ^ v3) # -> [-3., 2., 1.]
+
+       # Get the length
+       print(v3.length) # -> 1.732
+
+       # Normalize a vector
+       v3.normalize()
+       print(v3) # -> [.5773, .5773, .5773]
+       print(v3.length) # -> 1.
+
+
+   Please refer to the Pyrr documentation for a more detailed explaination of |Vector3|_.
+
+   .. |Vector3| replace:: :code:`pyrr.Vector3`
+   .. _Vector3: https://pyrr.readthedocs.io/en/latest/oo_api_vector.html#module-pyrr.objects.vector3
 
 
 .. py:class:: WAQuaternion(shape, dtype=float, buffer=None, offset=0, strides=None, order=None)
 
    Bases: :class:`pyrr.Quaternion`
 
-   .. method:: __add__(self, other)
+   Quaternion object that contains x,y,z,w values
 
-      Adds two quaternions or a constant
+   This quaternion class inherits directly from |Quaternion|_, which is in the `Pyrr <https://pyrr.readthedocs.io/en/latest/index.html>`_ package.
+   The only purpose to having this class at all is purely semantic; most other classes in this simulator are prefixed with
+   `WA`, so it was desired to the same with this class. Minimal additional functionality is added.
+
+   Quaternions are rather uncommon outside of the robotics community, so a short explanation about their purpose is provided here.
+   For additional information, please refer to
+   `this <https://www.allaboutcircuits.com/technical-articles/dont-get-lost-in-deep-space-understanding-quaternions/>`_
+   and `this <https://en.wikipedia.org/wiki/Quaternion>`_.
+
+   Quaternions are essentially mathematical operators that rotate and scale vectors. In 2D dimensional space, it's fairly likely
+   you've used complex numbers to rotate vectors. For example, you may know that if you multiply a vector by the complex
+   number :code:`i`, you will rotate that vector by 90 degrees. Furthermore, in 2D, to rotate any vector, you need two values: one real
+   and one complex. This is, in a way, very similar to quaternions. In essence,
+   to provide the ability to rotate a vector in any desired way, you actually need four values. This is a bit counterintuitive,
+   but the reasoning is outside the scope of this description (see `this video <https://www.youtube.com/watch?v=3BR8tK-LuB0>`_
+   if you're interested). As opposed to a rotation vector in 2D, the 3D rotation vector, a quaternion, has one real and three complex
+   values. These complex values, of which you've probably seen before, are named i, j and k. The real value is commonly refered to
+   as w. To now rotate a 3D vector in any direction, a quaternion and it's conjugate (the original quaternion but with the opposite
+   rotation) is applied. Quaternion's rotations can be accumulated by simply "crossing" their values.
+
+   Many have heard or used `Euler angles <https://en.wikipedia.org/wiki/Euler_angles>`_ instead. These are far more intuitive
+   than quaternions, but are prone to "bugs", like `gimbal lock <https://en.wikipedia.org/wiki/Gimbal_lock>`_.
+
+   .. highlight:: python
+   .. code-block:: python
+
+       # Example uses
+
+       from wa_simulator import WAQuaternion, WAVector, WA_PI
+
+       # Simple instantiation
+       q1 = WAQuaternion()
+       q2 = WAQuaternion([2, 1, 4, 1])
+       q3 = WAQuaternion.from_z_rotation(WA_PI / 2)
+       print(q1) # -> [0., 0., 0., 1.]
+       print(q2) # -> [2., 1., 4., 1.]
+       print(q3) # -> [0., 0., 0.70711, 0.70711]
+
+       # Grab values
+       print(q1.x) # -> 0.0
+       print(q2.z) # -> 4.0
+       print(q3[2]) # -> 0.70711
+
+       # Accumulating quaternion rotations
+       q4 = WAQuaternion.from_x_rotation(WA_PI)
+       q5 = q3 * q4 # represents 90 degree rotation about the z, then 180 degree about the x
+       print(q5) # -> [0.70711, 0.70711, 0., 0.]
+
+       # Rotate a vector
+       v = WAVector([0, 1, 0])
+       print(q5 * v) # -> [1., 0., 0.]
+
+       # Undo a rotation
+       v2 = q5 * v
+       print(~q5 * v2) # -> [0., 1., 0.]
+
+       # Grab the yaw
+       print(q3.to_euler_yaw()) # -> 1.57
+
+   Please refer to the Pyrr documentation for a more detailed explaination of |Quaternion|_.
+
+   .. |Quaternion| replace:: :code:`pyrr.Quaternion`
+   .. _Quaternion: https://pyrr.readthedocs.io/en/latest/oo_api_quaternion.html#id1
+
+   .. method:: to_euler_roll(self) -> float
+
+      Converts this quaternion to euler angles and returns the roll value (see `here <https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles>`_).
+
+      :returns: *float* -- roll
 
 
-   .. method:: __sub__(self, other)
+   .. method:: to_euler_pitch(self) -> float
 
-      Subs two quaternions or a constant
+      Converts this quaternion to euler angles and returns the pitch value (see `here <https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles>`_)
+
+      :returns: *float* -- pitch
 
 
-   .. method:: __mul__(self, other)
+   .. method:: to_euler_yaw(self) -> float
 
-      Multiplies by a constant
+      Converts this quaternion to euler angles and returns the yaw value (see `here <https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles>`_)
+
+      :returns: *float* -- yaw
+
+
+   .. method:: to_euler(self) -> tuple
+
+      Converts this quaternion to euler angles (see `here <https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles>`_)
+
+      :returns: *tuple* -- (roll, pitch, yaw)
 
 
 
@@ -62,26 +179,94 @@ Classes
 
    Has handy default arguments method
 
-   :param use_sim_defaults: Use the default arguments (can add more). Defaults to True.
-   :type use_sim_defaults: bool, optional
-   :param skip_defaults: The default arguments to skip.
-   :type skip_defaults: list, optional
-   :param description: Description used to describe the simulation. Printed by the help menu. Defaults to ("Wisconsin Autonomous Simulator").
-   :type description: str, optional
+   .. highlight:: python
+   .. code-block:: python
 
-   .. method:: add_default_sim_arguments(self, skip_defaults=[])
+       # Example
+       from wa_simulator import WAArgumentParser
 
-      Adds default arguments for most simulations
+       # Instantiate the parser and custom arguments
+       parser = wa.WAArgumentParser(use_sim_defaults=True)
+       parser.add_argument("-mv", "--matplotlib", action="store_true", help="Use matplotlib to visualize", default=False)
+       parser.add_argument("-q", "--quiet", action="store_true", help="Silence any terminal output", default=False)
 
-      :param skip_defaults: The default arguments to skip.
-      :type skip_defaults: list, optional
+       # Parse the command line inputs
+       args = parser.parse_args()
 
-      Includes:
-          -s,--sim_step_size: Simulation step size
-          -rs,--render_step_size: Rendering step size
-          -iv,--irrlicht: Use irrlicht visualization
-          -mv,--matplotlib: Use matplotlib visualization
-          -r,--record: Record the simulation to a csv
+       # Grab the parsed options
+       step_size = args.step_size # from default options
+       render_step_size = args.render_step_size # from default options
+       use_matplotlib = args.matplotlib # from default options
+       is_quiet = args.quiet
+
+   :Parameters: * **use_sim_defaults** (*bool, optional*) -- Use the default arguments (can add more). Defaults to True.
+                * **skip_defaults** (*list, optional*) -- The default arguments to skip.
+                * **description** (*str, optional*) -- Description used to describe the simulation. Printed by the help menu. Defaults to ("Wisconsin Autonomous Simulator").
+
+   .. method:: add_default_sim_arguments(self, skip_defaults: list = [])
+
+      Helper function to add predefined default arguments that can be used for most vehicle related simulations
+
+      Set :code:`use_sim_defaults` in :code:`__init__` to :code:`True` to have this be called automatically.
+
+      This function, unless specified in :code:`skip_defaults`, will add the following arguments:
+
+      * -s, - -sim_step_size: Simulation step size
+      * -rs, - -render_step_size: Rendering step size
+      * -e, - -end_time: Simulation end time
+
+      :Parameters: **skip_defaults** (*list, optional*) -- The default arguments to skip.
 
 
 
+
+
+
+
+.. raw:: html
+
+   <h2>Attributes</h2>
+
+.. autoapisummary::
+  :nosignatures:
+
+   wa_simulator.core.WA_GRAVITY 
+   :annotation: = 9.81
+   wa_simulator.core.WA_EARTH_RADIUS 
+   :annotation: = 6371000.0
+   wa_simulator.core.WA_PI 
+   :annotation: = 3.141592653589793
+
+.. data:: WA_GRAVITY
+   :annotation: = 9.81
+
+   Gravitational constant (m/s^2)
+
+
+.. data:: WA_EARTH_RADIUS
+   :annotation: = 6371000.0
+
+   Radius of the earth (m)
+
+
+.. data:: WA_PI
+   :annotation: = 3.141592653589793
+
+   PI
+
+
+
+
+
+.. .. .. autoapi-nested-parse::
+..
+..    Wisconsin Autonomous - https://www.wisconsinautonomous.org
+
+   Copyright (c) 2021 wisconsinautonomous.org
+   All rights reserved.
+
+   Use of this source code is governed by a BSD-style license that can be found
+   in the LICENSE file at the top level of the repo
+
+..
+.. 

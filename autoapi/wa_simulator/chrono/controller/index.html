@@ -1,10 +1,11 @@
 <!doctype html>
 <html class="no-js">
   <head><meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="../../../../genindex.html" /><link rel="search" title="Search" href="../../../../search.html" /><link rel="next" title="wa_simulator.chrono.environment" href="../environment/index.html" /><link rel="prev" title="wa_simulator.chrono" href="../index.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="../../../../genindex.html" /><link rel="search" title="Search" href="../../../../search.html" /><link rel="next" title="wa_simulator.chrono.environment" href="../environment/index.html" /><link rel="prev" title="wa_simulator.chrono" href="../index.html" />
 
     <link rel="shortcut icon" href="../../../../_static/wa-dark-favicon.png"/><meta name="generator" content="sphinx-3.4.2, furo 2020.12.30.beta24"/>
-        <title>wa_simulator.chrono.controller - Wisconsin Autonomous Simulator 0.0.10 documentation</title>
+        <title>wa_simulator.chrono.controller - Wisconsin Autonomous Simulator 1.0.3 documentation</title>
       <link rel="stylesheet" href="../../../../_static/styles/furo.css?digest=33d2fc4f3f180ec1ffc6524e273e21d7d58cbe49">
     <link rel="stylesheet" href="../../../../_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../../../../_static/pygments_dark.css">
@@ -103,7 +104,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../../index.html"><div class="brand">Wisconsin Autonomous Simulator 0.0.10 documentation</div></a>
+      <a href="../../../../index.html"><div class="brand">Wisconsin Autonomous Simulator 1.0.3 documentation</div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon" for="__toc">
@@ -137,6 +138,7 @@
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label for="toctree-checkbox-2"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/custom-controller.html">Creating a Custom Controller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/writing-a-json.html">Writing a JSON Specification File</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current has-children"><a class="reference internal" href="../../index.html">API Reference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label for="toctree-checkbox-3"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
@@ -145,31 +147,29 @@
 <li class="toctree-l3"><a class="reference internal" href="../environment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.environment</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../sensor/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.sensor</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../system/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.system</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../terrain/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.terrain</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.utils</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../vehicle/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.vehicle</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../visualization/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.visualization</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../constants/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.constants</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../base/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.base</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../controller/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.controller</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../core/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.core</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../environment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.environment</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../inputs/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.inputs</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../path/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.path</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../sensor/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.sensor</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../simulation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.simulation</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../system/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.system</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../terrain/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.terrain</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../track/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.track</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.utils</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../vehicle/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.vehicle</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../vehicle_inputs/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.vehicle_inputs</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../visualization/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.visualization</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../contributing.html">Contributing</a></li>
 </ul>
-<p class="caption"><span class="caption-text">External Links</span></p>
+<p><span class="caption-text">External Links</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference external" href="https://pypi.org/project/wa-simulator/">PyPI</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/WisconsinAutonomous/wa_simulator">Github</a></li>
@@ -187,18 +187,9 @@
         <label class="toc-overlay-icon toc-content-icon" for="__toc">
           <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
         </label>
-        <div class="section" id="module-wa_simulator.chrono.controller">
+        <section id="module-wa_simulator.chrono.controller">
 <span id="wa-simulator-chrono-controller"></span><h1><a class="reference internal" href="#module-wa_simulator.chrono.controller" title="wa_simulator.chrono.controller"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.controller</span></code></a><a class="headerlink" href="#module-wa_simulator.chrono.controller" title="Permalink to this headline">¶</a></h1>
-<p>Wisconsin Autonomous - <a class="reference external" href="https://www.wisconsinautonomous.org">https://www.wisconsinautonomous.org</a></p>
-<p>Copyright (c) 2021 wisconsinautonomous.org
-All rights reserved.</p>
-<p>Use of this source code is governed by a BSD-style license that can be found
-in the LICENSE file at the top level of the repo</p>
-<div class="section" id="module-contents">
-<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="classes">
-<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h3>
-<div class="table-wrapper"><table class="longtable docutils align-default">
+<h2>Classes</h2><div class="table-wrapper"><table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%"/>
 <col style="width: 90%"/>
@@ -211,7 +202,7 @@ in the LICENSE file at the top level of the repo</p>
 </table></div>
 <dl class="py class">
 <dt id="wa_simulator.chrono.controller.WAIrrlichtController">
-<em class="property">class </em><code class="sig-prename descclassname">wa_simulator.chrono.controller.</code><code class="sig-name descname">WAIrrlichtController</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">system</span></em>, <em class="sig-param"><span class="n">visualization</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.chrono.controller.WAIrrlichtController" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-name descname">WAIrrlichtController</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">system</span></em>, <em class="sig-param"><span class="n">vehicle_inputs</span></em>, <em class="sig-param"><span class="n">visualization</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/wa_simulator/chrono/controller.html#WAIrrlichtController"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.chrono.controller.WAIrrlichtController" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="../../controller/index.html#wa_simulator.controller.WAController" title="wa_simulator.controller.WAController"><code class="xref py py-class docutils literal notranslate"><span class="pre">wa_simulator.controller.WAController</span></code></a></p>
 <p>Wrapper for a ChIrrGuiDriver.</p>
 <p>Uses the keyboard in the irrlicht window to control the car. Window must be active
@@ -219,14 +210,15 @@ to work. Currently not supported on Mac when the anaconda build is used</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
+<li><p><strong>system</strong> (<em>WASystem</em>) – The system used to manage the simulation</p></li>
+<li><p><strong>vehicle_inputs</strong> (<em>WAVehicleInputs</em>) – The vehicle inputs</p></li>
 <li><p><strong>visualization</strong> (<em>WAIrrlichtVisualization</em>) – the irrlicht visualization</p></li>
-<li><p><strong>system</strong> (<a class="reference internal" href="../../system/index.html#wa_simulator.system.WASystem" title="wa_simulator.system.WASystem"><em>WASystem</em></a>) – the system</p></li>
 </ul>
 </dd>
 </dl>
 <dl class="py method">
 <dt id="wa_simulator.chrono.controller.WAIrrlichtController.synchronize">
-<code class="sig-name descname">synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">time</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.chrono.controller.WAIrrlichtController.synchronize" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">time</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/wa_simulator/chrono/controller.html#WAIrrlichtController.synchronize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.chrono.controller.WAIrrlichtController.synchronize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Synchronize the irrlicht driver at the specified time</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -236,7 +228,7 @@ to work. Currently not supported on Mac when the anaconda build is used</p>
 </dd></dl>
 <dl class="py method">
 <dt id="wa_simulator.chrono.controller.WAIrrlichtController.advance">
-<code class="sig-name descname">advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.chrono.controller.WAIrrlichtController.advance" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/wa_simulator/chrono/controller.html#WAIrrlichtController.advance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.chrono.controller.WAIrrlichtController.advance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Advance the irrlicht driver by the specified step</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -246,7 +238,7 @@ to work. Currently not supported on Mac when the anaconda build is used</p>
 </dd></dl>
 <dl class="py method">
 <dt id="wa_simulator.chrono.controller.WAIrrlichtController.get_inputs">
-<code class="sig-name descname">get_inputs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.chrono.controller.WAIrrlichtController.get_inputs" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_inputs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/wa_simulator/chrono/controller.html#WAIrrlichtController.get_inputs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.chrono.controller.WAIrrlichtController.get_inputs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the vehicle inputs</p>
 <p>Overrides base class method. Converts a veh.DriverInputs to a WAVehicleInputs</p>
 <dl class="field-list simple">
@@ -256,9 +248,7 @@ to work. Currently not supported on Mac when the anaconda build is used</p>
 </dl>
 </dd></dl>
 </dd></dl>
-</div>
-</div>
-</div>
+</section>
 
       </article>
       <footer>
@@ -315,16 +305,10 @@ to work. Currently not supported on Mac when the anaconda build is used</p>
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.controller</span></code></a><ul>
-<li><a class="reference internal" href="#module-contents">Module Contents</a><ul>
-<li><a class="reference internal" href="#classes">Classes</a><ul>
 <li><a class="reference internal" href="#wa_simulator.chrono.controller.WAIrrlichtController">WAIrrlichtController</a><ul>
 <li><a class="reference internal" href="#wa_simulator.chrono.controller.WAIrrlichtController.synchronize">synchronize</a></li>
 <li><a class="reference internal" href="#wa_simulator.chrono.controller.WAIrrlichtController.advance">advance</a></li>
 <li><a class="reference internal" href="#wa_simulator.chrono.controller.WAIrrlichtController.get_inputs">get_inputs</a></li>
-</ul>
-</li>
-</ul>
-</li>
 </ul>
 </li>
 </ul>

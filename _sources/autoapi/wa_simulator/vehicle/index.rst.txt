@@ -3,9 +3,257 @@
 
 .. py:module:: wa_simulator.vehicle
 
-.. autoapi-nested-parse::
+.. Module Contents
+.. ---------------
 
-   Wisconsin Autonomous - https://www.wisconsinautonomous.org
+
+.. raw:: html
+
+   <h2>Classes</h2>
+
+.. autoapisummary::
+  :nosignatures:
+
+  wa_simulator.vehicle.WAVehicle
+  wa_simulator.vehicle.WALinearKinematicBicycle
+
+.. py:class:: WAVehicle(system: WASystem, vehicle_inputs: WAVehicleInputs, filename=None)
+
+   Bases: :class:`wa_simulator.base.WABase`
+
+   Base class for a WAVehicle.
+
+   To implement a new vehicle model, override this class. A WAVehicle should interact
+   with the terrain/assets/world and take three inputs: steering, throttle, braking.
+
+   :Parameters: * **system** (*WASystem*) -- the system used to run the simulation
+                * **vehicle_inputs** (*WAVehicleInputs*) -- The vehicle inputs
+                * **filename** (*str, optional*) -- Filename to be used for visualization properties
+
+   .. method:: get_visual_properties(self) -> dict
+
+      Get visual properties for visualizing the vehicle
+
+      .. todo::
+          Define the visual properties required
+
+      :returns: *dict* -- the visual properties
+
+
+   .. method:: synchronize(self, time: float)
+      :abstractmethod:
+
+      Update the state of this component at the current time.
+
+      The primary reason to decouple the update method into two separate calls (i.e. :meth:`~synchronize` and :meth:`~advance`)
+      is to provide flexibility to the user and is essentially semantic. In most simple cases, a user will only need one of the two.
+      Furthermore, can only use :meth:`~advance` if they prefer and just update their own :code:`time` variable. Given the unknown use cases
+      for the simulator at the time of writing, it was chosen to provide two different methods with similar functionality as to allow
+      the user to choose their desired implementation, rather than the writers of this package.
+
+      As opposed to :meth:`~advance`, this method gets the current time of the simulation. As menthioned earlier,
+      :meth:`~advance` and a user defined `time` variable could be used to instead to hold the current state of the simulation. However,
+      to aid in generality of the package, this method is provided to simply provide the current time of the simulation to the user in a decoupled
+      manner from the :meth:`~advance` method.
+
+      :Parameters: **time** (*float*) -- The current time to synchronize to
+
+
+   .. method:: advance(self, step: float)
+      :abstractmethod:
+
+      Advance the state of this component by the specified time step.
+
+      The primary reason to decouple the update method into two separate calls (i.e. :meth:`~synchronize` and :meth:`~advance`)
+      is to provide flexibility to the user and is essentially semantic. In most simple cases, a user will only need one of the two.
+      Furthermore, can only use :meth:`~advance` if they prefer and just update their own :code:`time` variable. Given the unknown use cases
+      for the simulator at the time of writing, it was chosen to provide two different methods with similar functionality as to allow
+      the user to choose their desired implementation, rather than the writers of this package.
+
+      :Parameters: **step** (*float*) -- The step size to advance this component by
+
+
+   .. method:: is_ok(self) -> bool
+
+      Check whether this component is still alive.
+
+      Depending the type of component, a specific element may "fail". For example, when
+      a visualization is used that presents a GUI/window, if the user closes that display,
+      this would be considered a component death. Therefore, :meth:`~is_ok` should then return
+      False.
+
+      :returns: *bool* -- True if still alive, false otherwise
+
+
+   .. method:: get_pos(self) -> WAVector
+      :abstractmethod:
+
+      Get the center of mass (COM) position of the vehicle.
+
+      :returns: *WAVector* -- the position of the vehicle
+
+
+   .. method:: get_rot(self) -> WAQuaternion
+      :abstractmethod:
+
+      Get the rotation about the center of mass (COM) of the vehicle
+
+      :returns: *WAQuaternion* -- the vehicles orientation
+
+
+   .. method:: get_pos_dt(self) -> WAVector
+      :abstractmethod:
+
+      Get the instantaneous velocity of the vehicle
+
+      :returns: *WAVector* -- The velocity where X is forward, Z is up and Y is left (ISO standard)
+
+
+   .. method:: get_rot_dt(self) -> WAQuaternion
+      :abstractmethod:
+
+      Get the angular velocity of the vehicle
+
+      :returns: *WAQuaternion* -- The angular velocity
+
+
+   .. method:: get_pos_dtdt(self) -> WAVector
+      :abstractmethod:
+
+      Get the acceleration of the vehicle
+
+      :returns: *WAVector* -- The acceleration where X is forward, Z is up and Y is left (ISO standard)
+
+
+   .. method:: get_rot_dtdt(self) -> WAQuaternion
+      :abstractmethod:
+
+      Get the angular acceleration of the vehicle
+
+      :returns: *WAQuaternion* -- The angular acceleration
+
+
+
+.. py:class:: WALinearKinematicBicycle(system: WASystem, vehicle_inputs: WAVehicleInputs, filename: str, init_pos: WAVector = WAVector(), init_rot: WAQuaternion = WAQuaternion.from_z_rotation(0), init_pos_dt: WAVector = WAVector())
+
+   Bases: :class:`wa_simulator.vehicle.WAVehicle`
+
+   A linear, kinematic bicycle model
+
+   :Parameters: * **system** (*WASystem*) -- the system used to run the simulation
+                * **vehicle_inputs** (*WAVehicleInputs*) -- The vehicle inputs
+                * **filename** (*str*) -- json specification file used to describe the parameters for the vehicle
+                * **init_pos** (*WAVector*) -- initial position
+                * **init_rot** (*WAQuaternion*) -- initial rotation
+                * **init_pos_dt** (*WAVector*) -- initial velocity
+
+   .. method:: synchronize(self, time)
+
+      Update the state of this component at the current time.
+
+      The primary reason to decouple the update method into two separate calls (i.e. :meth:`~synchronize` and :meth:`~advance`)
+      is to provide flexibility to the user and is essentially semantic. In most simple cases, a user will only need one of the two.
+      Furthermore, can only use :meth:`~advance` if they prefer and just update their own :code:`time` variable. Given the unknown use cases
+      for the simulator at the time of writing, it was chosen to provide two different methods with similar functionality as to allow
+      the user to choose their desired implementation, rather than the writers of this package.
+
+      As opposed to :meth:`~advance`, this method gets the current time of the simulation. As menthioned earlier,
+      :meth:`~advance` and a user defined `time` variable could be used to instead to hold the current state of the simulation. However,
+      to aid in generality of the package, this method is provided to simply provide the current time of the simulation to the user in a decoupled
+      manner from the :meth:`~advance` method.
+
+      :Parameters: **time** (*float*) -- The current time to synchronize to
+
+
+   .. method:: advance(self, step)
+
+      Advance the state of this component by the specified time step.
+
+      The primary reason to decouple the update method into two separate calls (i.e. :meth:`~synchronize` and :meth:`~advance`)
+      is to provide flexibility to the user and is essentially semantic. In most simple cases, a user will only need one of the two.
+      Furthermore, can only use :meth:`~advance` if they prefer and just update their own :code:`time` variable. Given the unknown use cases
+      for the simulator at the time of writing, it was chosen to provide two different methods with similar functionality as to allow
+      the user to choose their desired implementation, rather than the writers of this package.
+
+      :Parameters: **step** (*float*) -- The step size to advance this component by
+
+
+   .. method:: get_pos(self) -> WAVector
+
+      Get the center of mass (COM) position of the vehicle.
+
+      :returns: *WAVector* -- the position of the vehicle
+
+
+   .. method:: get_rot(self) -> WAQuaternion
+
+      Get the rotation about the center of mass (COM) of the vehicle
+
+      :returns: *WAQuaternion* -- the vehicles orientation
+
+
+   .. method:: get_pos_dt(self) -> WAVector
+
+      Get the instantaneous velocity of the vehicle
+
+      :returns: *WAVector* -- The velocity where X is forward, Z is up and Y is left (ISO standard)
+
+
+   .. method:: get_rot_dt(self) -> WAQuaternion
+
+      Get the angular velocity of the vehicle
+
+      :returns: *WAQuaternion* -- The angular velocity
+
+
+   .. method:: get_pos_dtdt(self) -> WAVector
+
+      Get the acceleration of the vehicle
+
+      :returns: *WAVector* -- The acceleration where X is forward, Z is up and Y is left (ISO standard)
+
+
+   .. method:: get_rot_dtdt(self) -> WAQuaternion
+
+      Get the angular acceleration of the vehicle
+
+      :returns: *WAQuaternion* -- The angular acceleration
+
+
+
+
+
+
+.. raw:: html
+
+   <h2>Methods</h2>
+
+.. autoapisummary::
+  :nosignatures:
+
+   wa_simulator.vehicle.load_properties_from_json
+
+.. function:: load_properties_from_json(filename: str, prop: str) -> dict
+
+   Load a specified property from a json specification file
+
+   Will load a json file and extract the passed property field for use
+   by the underyling vehicle object
+
+   :Parameters: * **filename** (*str*) -- the filename location within the set WA data folder for the json file
+                * **property** (*str*) -- the property to get. Ex: "Vehicle Properties"
+
+   :raises ValueError: The property field isn't found
+
+   :returns: *dict* -- the property field extracted from the json file
+
+
+
+
+
+.. .. .. autoapi-nested-parse::
+..
+..    Wisconsin Autonomous - https://www.wisconsinautonomous.org
 
    Copyright (c) 2021 wisconsinautonomous.org
    All rights reserved.
@@ -13,281 +261,5 @@
    Use of this source code is governed by a BSD-style license that can be found
    in the LICENSE file at the top level of the repo
 
-
-
-Module Contents
----------------
-
-Classes
-~~~~~~~
-
-.. autoapisummary::
-
-   wa_simulator.vehicle.WAVehicle
-   wa_simulator.vehicle.WALinearKinematicBicycle
-
-
-
-Functions
-~~~~~~~~~
-
-.. autoapisummary::
-
-   wa_simulator.vehicle.load_properties_from_json
-
-
-.. function:: load_properties_from_json(filename, prop)
-
-   Load a specified property from a json specification file
-
-   Will load a json file and extract the passed property field for use
-   by the underyling vehicle object
-
-   :param filename: the filename location within the set WA data folder for the json file
-   :type filename: str
-   :param property: the property to get. Ex: "Vehicle Properties"
-   :type property: str
-
-   :raises ValueError: The property field isn't found
-
-   :returns: the property field extracted from the json file
-   :rtype: dict
-
-
-.. py:class:: WAVehicle(filename=None)
-
-   Bases: :class:`abc.ABC`
-
-   Base class for a WAVehicle.
-
-   To implement a new vehicle model, override this class. A WAVehicle should interact
-   with the terrain/assets/world and take three inputs: steering, throttle, braking.
-
-   :param filename: Filename to be used for visualization properties
-   :type filename: str, optional
-
-   .. attribute:: vis_properties
-
-      Visual properties used for visualization of the vehicle.
-
-      :type: dict
-
-   .. method:: synchronize(self, time, vehicle_inputs)
-      :abstractmethod:
-
-      Synchronize the vehicle at the specified time and driver inputs
-
-      :param time: the time at which the synchronize the vehicle to
-      :type time: double
-      :param vehicle_inputs: Inputs for the underyling dynamics
-      :type vehicle_inputs: WAVehicleInputs
-
-
-   .. method:: advance(self, step)
-      :abstractmethod:
-
-      Advance the vehicle by the specified step
-
-      :param step: how much to advance the vehicle by
-      :type step: double
-
-
-   .. method:: get_simple_state(self)
-      :abstractmethod:
-
-      Get a simple state representation of the vehicle.
-
-      Must return a tuple with the following values:
-          (x position, y position, yaw about the Z, speed)
-
-
-
-.. py:class:: WALinearKinematicBicycle(filename, x=0, y=0, yaw=0, v=0)
-
-   Bases: :class:`wa_simulator.vehicle.WAVehicle`
-
-   A linear, kinematic bicycle model
-
-   :param filename: json specification file used to describe the parameters for the vehicle
-   :type filename: str
-   :param x: x position of the vehicle. Defaults to 0.
-   :type x: double, optional
-   :param y: y position of the vehicle. Defaults to 0.
-   :type y: double, optional
-   :param yaw: angle about the Z. Defaults to 0.
-   :type yaw: double, optional
-   :param v: speed of the vehicle. Defaults to 0.
-   :type v: double, optional
-
-   .. attribute:: x
-
-      x position of the vehicle
-
-      :type: double
-
-   .. attribute:: y
-
-      y position of the vehicle
-
-      :type: double
-
-   .. attribute:: yaw
-
-      angle about the Z
-
-      :type: double
-
-   .. attribute:: v
-
-      speed of the vehicle
-
-      :type: double
-
-   .. attribute:: omega
-
-      wheel angular velocity
-
-      :type: double
-
-   .. attribute:: omega_dot
-
-      wheel angular acceleration
-
-      :type: double
-
-   .. attribute:: mass
-
-      vehicle mass
-
-      :type: double
-
-   .. attribute:: a
-
-      2nd order torque coefficients
-
-      :type: list
-
-   .. attribute:: GR
-
-      gear ratio
-
-      :type: double
-
-   .. attribute:: r_eff
-
-      Effective radius at which the vehicle can turn
-
-      :type: double
-
-   .. attribute:: J_e
-
-      Inertia of the vehicle
-
-      :type: double
-
-   .. attribute:: c_a
-
-      Aerodynamic coefficient
-
-      :type: double
-
-   .. attribute:: c_rl
-
-      Friction coefficient
-
-      :type: double
-
-   .. attribute:: c
-
-      Tire force
-
-      :type: double
-
-   .. attribute:: F_max
-
-      Max force imposed at the wheel
-
-      :type: double
-
-   .. attribute:: L
-
-      Vehicle wheelbase (distance between front and back axles)
-
-      :type: double
-
-   .. attribute:: min_steering
-
-      Minimum steering value allowed
-
-      :type: double
-
-   .. attribute:: max_steering
-
-      Maximum steering value allowed
-
-      :type: double
-
-   .. attribute:: min_throttle
-
-      Minimum throttle value allowed
-
-      :type: double
-
-   .. attribute:: max_throttle
-
-      Maximum throttle value allowed
-
-      :type: double
-
-   .. attribute:: min_braking
-
-      Minimum braking value allowed
-
-      :type: double
-
-   .. attribute:: max_braking
-
-      Maximum braking value allowed
-
-      :type: double
-
-   .. attribute:: GO_KART_MODEL_FILE
-      :annotation: = vehicles/GoKart/GoKart_KinematicBicycle.json
-
-      
-
-   .. attribute:: IAC_VEH_MODEL_FILE
-      :annotation: = vehicles/IAC/IAC_KinematicBicycle.json
-
-      
-
-   .. method:: initialize(self, vp)
-
-
-   .. method:: synchronize(self, time, vehicle_inputs)
-
-      Synchronize the vehicle inputs to the values in this model
-
-      :param time: time at which to update the vehicle to
-      :type time: double
-      :param vehicle_inputs: vehicle inputs
-      :type vehicle_inputs: WAVehicleInputs
-
-
-   .. method:: advance(self, step)
-
-      Perform a dynamics update
-
-      :param step: time step to update the vehicle by
-      :type step: double
-
-
-   .. method:: get_simple_state(self)
-
-      Get a simple state representation of the vehicle.
-
-      :returns: (x position, y position, yaw about the Z, speed)
-      :rtype: tuple
-
-
-
+..
+.. 

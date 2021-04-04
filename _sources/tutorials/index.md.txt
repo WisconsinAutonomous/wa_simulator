@@ -4,8 +4,9 @@ Please refer to some select tutorials to help understand how to use the Wisconsi
 
 ```{toctree}
 :maxdepth: 1
+:glob:
 
-custom-controller
+*
 
 ```
 

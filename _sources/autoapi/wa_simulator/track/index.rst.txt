@@ -3,9 +3,127 @@
 
 .. py:module:: wa_simulator.track
 
-.. autoapi-nested-parse::
+.. Module Contents
+.. ---------------
 
-   Wisconsin Autonomous - https://www.wisconsinautonomous.org
+
+.. raw:: html
+
+   <h2>Classes</h2>
+
+.. autoapisummary::
+  :nosignatures:
+
+  wa_simulator.track.WATrack
+
+.. py:class:: WATrack(center: WAPath, left: WAPath, right: WAPath, **kwargs)
+
+   Base Track object. Basically holds three WAPaths: centerline and two boundaries. This class provides convenience functions so that it is easier to write various track related code
+
+   Does *not* inherit from WABase. This is a static component, so it does not need to update.
+
+   :Parameters: * **center** (*WAPath*) -- The centerline of the track.
+                * **left** (*WAPath*) -- The "left" side boundary. Side is determined by orientation from the centerline by index.
+                * **right** (*WAPath*) -- The "right" side boundary. Side is determined by orientation from the centerline by index.
+                * **kwargs** -- Extra parameters that are used for the track
+
+   :ivar center: The centerline of the track.
+   :vartype center: WAPath
+   :ivar left: The "left" side boundary. Side is determined by orientation from the centerline by index.
+   :vartype left: WAPath
+   :ivar right: The "right" side boundary. Side is determined by orientation from the centerline by index.
+
+   :vartype right: WAPath
+
+   .. method:: inside_boundaries(self, point: WAVector) -> bool
+
+      Check whether the passed point is within the track boundaries
+
+      Implementation is explained `here <https://stackoverflow.com/a/33155594>`_.
+
+      :Parameters: **point** (*WAVector*) -- point to check whether it's inside the track boundaries
+
+      :returns: *bool* -- is the point inside the boundaries?
+
+
+   .. method:: plot(self, show=True, center_args: dict = {}, left_args: dict = {}, right_args: dict = {})
+
+      Plot the path. Most likely plotter is matplotlib, but technically anything can be used.
+
+      :Parameters: * **show** (*bool*) -- Immediately show the plot? Defaults to True.
+                   * **center_args** (*dict*) -- Keyworded parameters passed to the center plot method
+                   * **left_args** (*dict*) -- Keyworded parameters passed to the left plot method
+                   * **right_args** (*dict*) -- Keyworded parameters passed to the right plot method
+
+
+
+
+
+
+.. raw:: html
+
+   <h2>Methods</h2>
+
+.. autoapisummary::
+  :nosignatures:
+
+   wa_simulator.track.create_track_from_json
+   wa_simulator.track.create_constant_width_track
+
+.. function:: create_track_from_json(filename: str, environment: WAEnvironment = None) -> 'WATrack'
+
+   Creates a WATrack object from a json specification file
+
+   json file options:
+
+   * Center Input File (``str``, required): A json file describing the centerline. Loaded using :meth:`~create_path_from_json`
+
+   * Width (``float``, required): The constant width between the left and right boundaries of the track.
+
+   * Visualization (``dict``, optional): Additional visualization properties.
+
+     * Center/Right/Left (``dict``, optional): The each paths visualization properties
+
+       * Color (``list``, optional): Visualization color.
+
+       * Object (``dict``, optional): An object that is placed along the path. Only parsed if ``environment`` is set.
+
+         * Size (``list``, optional): Size of the objects.
+
+         * Color (``list``, optional): Color of the objects.
+
+         * Color #1 (``list``, optional): Color of an alternating set of objects. Must come with Color #2 and without Color.
+
+         * Color #2 (``list``, optional): Color of an alternating set of objects. Must come with Color #1 and without Color.
+
+         * Mode (``str``, optional): The mode for the object placement along the path. Options include 'Solid', 'Dashed' (3[m] separation) and 'Spread' (6[m] separation).
+
+   .. todo::
+
+       Add a variable width loader
+
+   :Parameters: * **filename** (*str*) -- The json specification that describes the track
+                * **environment** (*WAEnvironment, optional*) -- Adds objects to the environment, if present. Defaults to None (doesn't parse objects).
+
+   :returns: *WATrack* -- The created track
+
+
+.. function:: create_constant_width_track(center: WAPath, width: float) -> 'WATrack'
+
+   Generates a WAConstantWidthTrack given a centerline and a constant width. Simply "walks" along path and takes the normal from the center at a distance equal to width/2
+
+   :Parameters: * **center** (*WAPath*) -- The centerline of the track
+                * **width** (*float*) -- The constant distance between the left and right boundaries(distance between centerline and a boundary is width/2)
+
+   :returns: *WATrack* -- The created track
+
+
+
+
+
+.. .. .. autoapi-nested-parse::
+..
+..    Wisconsin Autonomous - https://www.wisconsinautonomous.org
 
    Copyright (c) 2021 wisconsinautonomous.org
    All rights reserved.
@@ -13,79 +131,5 @@
    Use of this source code is governed by a BSD-style license that can be found
    in the LICENSE file at the top level of the repo
 
-
-
-Module Contents
----------------
-
-Classes
-~~~~~~~
-
-.. autoapisummary::
-
-   wa_simulator.track.WATrack
-
-
-
-Functions
-~~~~~~~~~
-
-.. autoapisummary::
-
-   wa_simulator.track.create_constant_width_track
-
-
-.. function:: create_constant_width_track(center: WAPath, width: float)
-
-   Generates a WAConstantWidthTrack given a centerline and a constant width. Simply "walks" along path and takes the normal from the center at a distance equal to width/2
-
-   :param center: The centerline of the track
-   :type center: WAPath
-   :param width: The constant distance between the left and right boundaries (distance between centerline and a boundary is width/2)
-   :type width: float
-
-
-.. py:class:: WATrack(center: WAPath, left: WAPath, right: WAPath, extras: dict = {})
-
-   Base Track object. Basically holds three WAPaths: centerline and two boundaries. This class provides convenience functions so that it is easier to write various track related code
-
-   :param center: The centerline of the track.
-   :type center: WAPath
-   :param left: The "left" side boundary. Side is determined by orientation from the centerline by index.
-   :type left: WAPath
-   :param right: The "right" side boundary. Side is determined by orientation from the centerline by index.
-   :type right: WAPath
-   :param extras: Extra parameters that are used for the track
-   :type extras: dict
-
-   .. attribute:: center
-
-      The centerline of the track.
-
-      :type: WAPath
-
-   .. attribute:: left
-
-      The "left" side boundary. Side is determined by orientation from the centerline by index.
-
-      :type: WAPath
-
-   .. attribute:: right
-
-      The "right" side boundary. Side is determined by orientation from the centerline by index.
-
-      :type: WAPath
-
-   .. method:: inside_boundaries(self, point: WAVector)
-
-      Check whether the passed point is within the track boundaries
-
-      https://stackoverflow.com/a/33155594
-
-
-   .. method:: plot(self)
-
-      Plot the path. Most likely plotter is matplotlib, but technically anything can be used.
-
-
-
+..
+.. 

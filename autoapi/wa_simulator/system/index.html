@@ -1,10 +1,11 @@
 <!doctype html>
 <html class="no-js">
   <head><meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="wa_simulator.terrain" href="../terrain/index.html" /><link rel="prev" title="wa_simulator.simulation" href="../simulation/index.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="wa_simulator.track" href="../track/index.html" /><link rel="prev" title="wa_simulator.simulation" href="../simulation/index.html" />
 
     <link rel="shortcut icon" href="../../../_static/wa-dark-favicon.png"/><meta name="generator" content="sphinx-3.4.2, furo 2020.12.30.beta24"/>
-        <title>wa_simulator.system - Wisconsin Autonomous Simulator 0.0.10 documentation</title>
+        <title>wa_simulator.system - Wisconsin Autonomous Simulator 1.0.3 documentation</title>
       <link rel="stylesheet" href="../../../_static/styles/furo.css?digest=33d2fc4f3f180ec1ffc6524e273e21d7d58cbe49">
     <link rel="stylesheet" href="../../../_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../../../_static/pygments_dark.css">
@@ -103,7 +104,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../index.html"><div class="brand">Wisconsin Autonomous Simulator 0.0.10 documentation</div></a>
+      <a href="../../../index.html"><div class="brand">Wisconsin Autonomous Simulator 1.0.3 documentation</div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon" for="__toc">
@@ -137,6 +138,7 @@
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label for="toctree-checkbox-2"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/custom-controller.html">Creating a Custom Controller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/writing-a-json.html">Writing a JSON Specification File</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current has-children"><a class="reference internal" href="../index.html">API Reference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label for="toctree-checkbox-3"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
@@ -145,31 +147,29 @@
 <li class="toctree-l3"><a class="reference internal" href="../chrono/environment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.environment</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../chrono/sensor/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.sensor</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../chrono/system/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.system</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../chrono/terrain/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.terrain</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../chrono/utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.utils</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../chrono/vehicle/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.vehicle</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../chrono/visualization/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.visualization</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../constants/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.constants</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../base/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.base</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../controller/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.controller</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../core/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.core</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../environment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.environment</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../inputs/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.inputs</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../path/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.path</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../sensor/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.sensor</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../simulation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.simulation</span></code></a></li>
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.system</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../terrain/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.terrain</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../track/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.track</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.utils</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../vehicle/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.vehicle</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vehicle_inputs/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.vehicle_inputs</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../visualization/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.visualization</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
 </ul>
-<p class="caption"><span class="caption-text">External Links</span></p>
+<p><span class="caption-text">External Links</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference external" href="https://pypi.org/project/wa-simulator/">PyPI</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/WisconsinAutonomous/wa_simulator">Github</a></li>
@@ -187,18 +187,9 @@
         <label class="toc-overlay-icon toc-content-icon" for="__toc">
           <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
         </label>
-        <div class="section" id="module-wa_simulator.system">
+        <section id="module-wa_simulator.system">
 <span id="wa-simulator-system"></span><h1><a class="reference internal" href="#module-wa_simulator.system" title="wa_simulator.system"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.system</span></code></a><a class="headerlink" href="#module-wa_simulator.system" title="Permalink to this headline">¶</a></h1>
-<p>Wisconsin Autonomous - <a class="reference external" href="https://www.wisconsinautonomous.org">https://www.wisconsinautonomous.org</a></p>
-<p>Copyright (c) 2021 wisconsinautonomous.org
-All rights reserved.</p>
-<p>Use of this source code is governed by a BSD-style license that can be found
-in the LICENSE file at the top level of the repo</p>
-<div class="section" id="module-contents">
-<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="classes">
-<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h3>
-<div class="table-wrapper"><table class="longtable docutils align-default">
+<h2>Classes</h2><div class="table-wrapper"><table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%"/>
 <col style="width: 90%"/>
@@ -211,107 +202,70 @@ in the LICENSE file at the top level of the repo</p>
 </table></div>
 <dl class="py class">
 <dt id="wa_simulator.system.WASystem">
-<em class="property">class </em><code class="sig-prename descclassname">wa_simulator.system.</code><code class="sig-name descname">WASystem</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">step_size</span></em>, <em class="sig-param"><span class="n">render_step_size</span><span class="o">=</span><span class="default_value">0.02</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.system.WASystem" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
-<p>Used to manage simulation parameters and can be used to update simulation dynamics</p>
+<em class="property">class </em><code class="sig-name descname">WASystem</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">step_size</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.05</span></em>, <em class="sig-param"><span class="n">render_step_size</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.02</span></em>, <em class="sig-param"><span class="n">end_time</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">120</span></em>, <em class="sig-param"><span class="n">args</span><span class="p">:</span> <span class="n">argparse.Namespace</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/wa_simulator/system.html#WASystem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.system.WASystem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Used to manage simulation parameters and can be used to update simulation dynamics</p>
 <p>A system is used for organizational purposes almost exclusively. It is passed to other
 module classes to handle passing various attributes. Could be responsible for updating
 module dynamics depending on the underlying models.</p>
+<p>To instantiate a WASystem, you can either pass in various parameters directly, i.e. <code class="docutils literal notranslate"><span class="pre">WASystem(step_size,</span> <span class="pre">render_step_size,</span> <span class="pre">...)</span></code>
+or pass a <code class="docutils literal notranslate"><span class="pre">argparse.Namespace</span></code> in directly. This object is what is returned from <code class="xref py py-meth docutils literal notranslate"><span class="pre">parse_args()</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Usage</span>
+<span class="kn">from</span> <span class="nn">wa_simulator</span> <span class="kn">import</span> <span class="n">WAArgumentParser</span><span class="p">,</span> <span class="n">WASystem</span>
+
+<span class="c1"># Passing values directly to the system</span>
+<span class="n">system</span> <span class="o">=</span> <span class="n">WASystem</span><span class="p">(</span><span class="n">step_size</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">render_step_size</span><span class="o">=</span><span class="mf">2e-3</span><span class="p">,</span> <span class="n">end_time</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
+<span class="c1"># Or using WAArgumentParser</span>
+<span class="n">parser</span> <span class="o">=</span> <span class="n">WAArgumentParser</span><span class="p">(</span><span class="n">use_sim_defaults</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+
+<span class="n">system</span> <span class="o">=</span> <span class="n">WASystem</span><span class="p">(</span><span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">)</span>
+</pre></div>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>step_size</strong> (<em>double</em>) – the step size for the simulation</p></li>
-<li><p><strong>render_step_size</strong> (<em>double</em><em>, </em><em>optional</em>) – Render step size. Defaults to 2e-2.</p></li>
+<li><p><strong>step_size</strong> (<em>float, optional</em>) – the step size for the simulation. Defaults to 5e-2.</p></li>
+<li><p><strong>render_step_size</strong> (<em>float, optional</em>) – Render step size. Defaults to 2e-2.</p></li>
+<li><p><strong>end_time</strong> (<em>float, optional</em>) – the end time for the simulation. Defaults to 120 seconds.</p></li>
+<li><p><strong>args</strong> (<em>argparse.Namespace, optional</em>) – the output namespace from argparse (see explanation above)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Variables</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>step_number</strong> (<em>int</em>) – Counter of the Advance function</p></li>
+<li><p><strong>step_size</strong> (<em>float</em>) – the step size for the simulation</p></li>
+<li><p><strong>render_step_size</strong> (<em>float</em>) – the render step size</p></li>
+<li><p><strong>end_time</strong> (<em>float</em>) – the end time for the simulation</p></li>
+<li><p><strong>time</strong> (<em>float</em>) – stores the time from the simulation</p></li>
 </ul>
 </dd>
 </dl>
-<dl class="py attribute">
-<dt id="wa_simulator.system.WASystem.step_number">
-<code class="sig-name descname">step_number</code><a class="headerlink" href="#wa_simulator.system.WASystem.step_number" title="Permalink to this definition">¶</a></dt>
-<dd><p>Counter of the Advance function</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py attribute">
-<dt id="wa_simulator.system.WASystem.step_size">
-<code class="sig-name descname">step_size</code><a class="headerlink" href="#wa_simulator.system.WASystem.step_size" title="Permalink to this definition">¶</a></dt>
-<dd><p>the step size for the simulation</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>double</p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py attribute">
-<dt id="wa_simulator.system.WASystem.render_step_size">
-<code class="sig-name descname">render_step_size</code><a class="headerlink" href="#wa_simulator.system.WASystem.render_step_size" title="Permalink to this definition">¶</a></dt>
-<dd><p>the render step size</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>double</p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py attribute">
-<dt id="wa_simulator.system.WASystem.time">
-<code class="sig-name descname">time</code><a class="headerlink" href="#wa_simulator.system.WASystem.time" title="Permalink to this definition">¶</a></dt>
-<dd><p>stores the time from the simulation</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>double</p>
-</dd>
-</dl>
-</dd></dl>
 <dl class="py method">
 <dt id="wa_simulator.system.WASystem.advance">
-<code class="sig-name descname">advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.system.WASystem.advance" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/wa_simulator/system.html#WASystem.advance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.system.WASystem.advance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Advance the system</p>
 <p>Will update the time and increment the step number</p>
 </dd></dl>
 <dl class="py method">
-<dt id="wa_simulator.system.WASystem.get_sim_time">
-<code class="sig-name descname">get_sim_time</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.system.WASystem.get_sim_time" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the simulation time</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>the simulation time</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>double</p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py method">
-<dt id="wa_simulator.system.WASystem.get_step_number">
-<code class="sig-name descname">get_step_number</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.system.WASystem.get_step_number" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the step number</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>the step number</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>int</p>
-</dd>
-</dl>
+<dt id="wa_simulator.system.WASystem.is_ok">
+<code class="sig-name descname">is_ok</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span> → bool<a class="reference internal" href="../../../_modules/wa_simulator/system.html#WASystem.is_ok"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.system.WASystem.is_ok" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check whether the system is still running correctly.</p>
+<p>Simply verifies the end time for the simulation hasn’t been reached</p>
 </dd></dl>
 </dd></dl>
-</div>
-</div>
-</div>
+</section>
 
       </article>
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="../terrain/index.html">
+          <a class="next-page" href="../track/index.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.terrain</span></code></div>
+                <div class="title"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.track</span></code></div>
               </div>
               <svg><use href="#svg-arrow-right"></use></svg>
             </a>
@@ -357,20 +311,9 @@ module dynamics depending on the underlying models.</p>
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.system</span></code></a><ul>
-<li><a class="reference internal" href="#module-contents">Module Contents</a><ul>
-<li><a class="reference internal" href="#classes">Classes</a><ul>
 <li><a class="reference internal" href="#wa_simulator.system.WASystem">WASystem</a><ul>
-<li><a class="reference internal" href="#wa_simulator.system.WASystem.step_number">step_number</a></li>
-<li><a class="reference internal" href="#wa_simulator.system.WASystem.step_size">step_size</a></li>
-<li><a class="reference internal" href="#wa_simulator.system.WASystem.render_step_size">render_step_size</a></li>
-<li><a class="reference internal" href="#wa_simulator.system.WASystem.time">time</a></li>
 <li><a class="reference internal" href="#wa_simulator.system.WASystem.advance">advance</a></li>
-<li><a class="reference internal" href="#wa_simulator.system.WASystem.get_sim_time">get_sim_time</a></li>
-<li><a class="reference internal" href="#wa_simulator.system.WASystem.get_step_number">get_step_number</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li><a class="reference internal" href="#wa_simulator.system.WASystem.is_ok">is_ok</a></li>
 </ul>
 </li>
 </ul>

@@ -1,0 +1,81 @@
+:mod:`tests.test_utils`
+=======================
+
+.. py:module:: tests.test_utils
+
+.. Module Contents
+.. ---------------
+
+
+.. raw:: html
+
+   <h2>Classes</h2>
+
+.. autoapisummary::
+  :nosignatures:
+
+  tests.test_utils.TestWAUtils
+
+.. py:class:: TestWAUtils(methodName='runTest')
+
+   Bases: :class:`unittest.TestCase`
+
+   Tests various package level things
+
+   .. method:: test_data_directory(self)
+
+      Tests the global get_wa_data_directory() variable
+
+
+   .. method:: test_get_wa_data_file(self)
+
+      Tests the get_wa_data_file method
+
+
+   .. method:: test_set_wa_data_directory(self)
+
+      Tests the set_wa_data_directory method
+
+
+   .. method:: test_set_wa_data_directory_temp(self)
+
+      Tests the set_wa_data_diretory_temp method
+
+
+   .. method:: test_check_type(self)
+
+      Tests the check_type method
+
+
+   .. method:: test_load_json(self)
+
+      Tests the load_json method
+
+
+   .. method:: test_check_field(self)
+
+      Tests the check_field method
+
+
+   .. method:: test_check_field_allowed_values(self)
+
+      Tests the check_field_allowed_values method
+
+
+
+
+
+
+
+.. .. .. autoapi-nested-parse::
+..
+..    Wisconsin Autonomous - https://www.wisconsinautonomous.org
+
+   Copyright (c) 2021 wisconsinautonomous.org
+   All rights reserved.
+
+   Use of this source code is governed by a BSD-style license that can be found
+   in the LICENSE file at the top level of the repo
+
+..
+.. 

@@ -3,9 +3,193 @@
 
 .. py:module:: wa_simulator.environment
 
-.. autoapi-nested-parse::
+.. Module Contents
+.. ---------------
 
-   Wisconsin Autonomous - https://www.wisconsinautonomous.org
+
+.. raw:: html
+
+   <h2>Classes</h2>
+
+.. autoapisummary::
+  :nosignatures:
+
+  wa_simulator.environment.WABody
+  wa_simulator.environment.WAEnvironment
+  wa_simulator.environment.WASimpleEnvironment
+
+.. py:class:: WABody(**kwargs)
+
+   Base class for arbitrary objects in a simulation world that can be visualized.
+
+   .. highlight:: python
+   .. code-block:: python
+
+       # Example usage
+
+       from wa_simulator import WABody, WAVector
+
+       size = WAVector()
+       pos = WAVector()
+
+       body= WABody(pos=pos, size=size)
+       print(body.size, body.pos)
+
+
+   :Parameters: **\*\*kwargs** -- Keyworded arguments that are stored as attributes in this object.
+
+   .. method:: getattr(self, attr: str)
+
+      Gets the passed attr if present and returns it, returns None if it's not present
+
+      :Parameters: **attr** (*str*) -- The attr to get and return
+
+      :returns: *Any* -- Returns either None if attr is not present or the actual attribute
+
+
+   .. method:: __getstate__(self)
+
+      Return only the pickleable objects
+
+
+
+.. py:class:: WAEnvironment
+
+   Bases: :class:`wa_simulator.base.WABase`
+
+   Base class for the environment object.
+
+   The environment object is responsible for handling data or assets within the world.
+   Assets may be obstacles, miscellaneous objects, other vehicles or weather.
+
+   .. method:: synchronize(self, time: float)
+      :abstractmethod:
+
+      Update the state of this component at the current time.
+
+      The primary reason to decouple the update method into two separate calls (i.e. :meth:`~synchronize` and :meth:`~advance`)
+      is to provide flexibility to the user and is essentially semantic. In most simple cases, a user will only need one of the two.
+      Furthermore, can only use :meth:`~advance` if they prefer and just update their own :code:`time` variable. Given the unknown use cases
+      for the simulator at the time of writing, it was chosen to provide two different methods with similar functionality as to allow
+      the user to choose their desired implementation, rather than the writers of this package.
+
+      As opposed to :meth:`~advance`, this method gets the current time of the simulation. As menthioned earlier,
+      :meth:`~advance` and a user defined `time` variable could be used to instead to hold the current state of the simulation. However,
+      to aid in generality of the package, this method is provided to simply provide the current time of the simulation to the user in a decoupled
+      manner from the :meth:`~advance` method.
+
+      :Parameters: **time** (*float*) -- The current time to synchronize to
+
+
+   .. method:: advance(self, step: float)
+      :abstractmethod:
+
+      Advance the state of this component by the specified time step.
+
+      The primary reason to decouple the update method into two separate calls (i.e. :meth:`~synchronize` and :meth:`~advance`)
+      is to provide flexibility to the user and is essentially semantic. In most simple cases, a user will only need one of the two.
+      Furthermore, can only use :meth:`~advance` if they prefer and just update their own :code:`time` variable. Given the unknown use cases
+      for the simulator at the time of writing, it was chosen to provide two different methods with similar functionality as to allow
+      the user to choose their desired implementation, rather than the writers of this package.
+
+      :Parameters: **step** (*float*) -- The step size to advance this component by
+
+
+   .. method:: is_ok(self) -> bool
+
+      Check whether this component is still alive.
+
+      Depending the type of component, a specific element may "fail". For example, when
+      a visualization is used that presents a GUI/window, if the user closes that display,
+      this would be considered a component death. Therefore, :meth:`~is_ok` should then return
+      False.
+
+      :returns: *bool* -- True if still alive, false otherwise
+
+
+   .. method:: create_body(self, **kwargs) -> WABody
+
+      Create a body and add it as an asset to the world. Adds the asset using :meth:`~add_asset`.
+
+      :Parameters: **\*\*kwargs** -- Keyworded arguments used to create the asset
+
+      :returns: *WABody* -- The created body
+
+
+   .. method:: add_asset(self, asset: Any)
+
+      Add an asset to the world
+
+      A asset holds certain attributes that may be applicable in various simulations. This method
+      stores created assets in the environment object.
+
+      :Parameters: **asset** (*Any*) -- The asset to add.
+
+
+   .. method:: get_assets(self) -> list
+
+      Returns the assets that have been attached to this environment.
+
+      :returns: *list* -- A list of the assets added through :meth:`~add_asset`.
+
+
+   .. method:: get_asset(self, name: str) -> 'Any'
+
+      Get the asset with the attached name
+
+      :Parameters: **name** (*str*) -- The name of the asset
+
+      :returns: *Any* -- The asset with that name
+
+      :raises KeyError: If the name is not found
+
+
+   .. method:: get_updating_assets(self) -> list
+
+      Get the list of updating assets
+
+      Updating assets are assets that have an 'update' member variable set to true. Visualizations then update the position of these objects
+      throughout the sim.
+
+      :returns: *list* -- the list of updating assets
+
+
+
+.. py:class:: WASimpleEnvironment(system: WASystem, filename: str)
+
+   Bases: :class:`wa_simulator.environment.WAEnvironment`
+
+   Simple environment.
+
+   :Parameters: * **system** (*WASystem*) -- The system used to handle simulation meta data
+                * **filename** (*str*) -- The json specification file used to generate the terrain
+
+   .. method:: synchronize(self, time: float)
+
+      Synchronize the environment with the rest of the world at the specified time
+
+      Simple environment doesn't actually do anything for now.
+
+      :Parameters: **time** (*float*) -- the time at which the enviornment should be synchronized to
+
+
+   .. method:: advance(self, step: float)
+
+      Advance the state of the environment
+
+      Simple environment doesn't actually do anything for now.
+
+      :Parameters: **step** (*float*) -- the time step at which the enviornment should be advanced
+
+
+
+
+
+
+
+.. .. .. autoapi-nested-parse::
+..
+..    Wisconsin Autonomous - https://www.wisconsinautonomous.org
 
    Copyright (c) 2021 wisconsinautonomous.org
    All rights reserved.
@@ -13,90 +197,5 @@
    Use of this source code is governed by a BSD-style license that can be found
    in the LICENSE file at the top level of the repo
 
-
-
-Module Contents
----------------
-
-Classes
-~~~~~~~
-
-.. autoapisummary::
-
-   wa_simulator.environment.WAEnvironment
-   wa_simulator.environment.WASimpleEnvironment
-
-
-
-.. py:class:: WAEnvironment
-
-   Bases: :class:`abc.ABC`
-
-   Base class for the environment object.
-
-   The environment object is responsible for handling data or assets within the world.
-
-   .. method:: synchronize(self, time)
-      :abstractmethod:
-
-      Synchronize the environment at the specified time
-
-      Function is primarily as a semantic separation between different functionality.
-      Most of the time, all environment logic can be placed in the Advance method.
-
-      :param time: the time at which the environment should synchronize all depends to
-      :type time: double
-
-
-   .. method:: advance(self, step)
-      :abstractmethod:
-
-      Advance the environment by the specified step
-
-      :param step: the time step at which the environment should be advanced
-      :type step: double
-
-
-
-.. py:class:: WASimpleEnvironment(filename, sys)
-
-   Bases: :class:`wa_simulator.environment.WAEnvironment`
-
-   Simple environment that doesn't have any assets within the world.
-
-   :param filename: filename
-   :type filename: str
-   :param sys: system
-   :type sys: WASystem
-
-   .. attribute:: EGP_ENV_MODEL_FILE
-      :annotation: = environments/ev_grand_prix.json
-
-      
-
-   .. attribute:: IAC_ENV_MODEL_FILE
-      :annotation: = environments/iac.json
-
-      
-
-   .. method:: synchronize(self, time)
-
-      Synchronize the environment with the rest of the world at the specified time
-
-      Doesn't actually do anything.
-
-      :param time: the time at which the enviornment should be synchronized to
-      :type time: double
-
-
-   .. method:: advance(self, step)
-
-      Advance the state of the environment
-
-      Doesn't actually do anything.
-
-      :param step: the time step at which the enviornment should be advanced
-      :type step: double
-
-
-
+..
+.. 

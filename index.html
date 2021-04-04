@@ -1,10 +1,11 @@
 <!doctype html>
 <html class="no-js">
   <head><meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Background" href="background.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Background" href="background.html" />
 
     <link rel="shortcut icon" href="_static/wa-dark-favicon.png"/><meta name="generator" content="sphinx-3.4.2, furo 2020.12.30.beta24"/>
-        <title>Home - Wisconsin Autonomous Simulator 0.0.10 documentation</title>
+        <title>Home - Wisconsin Autonomous Simulator 1.0.3 documentation</title>
       <link rel="stylesheet" href="_static/styles/furo.css?digest=33d2fc4f3f180ec1ffc6524e273e21d7d58cbe49">
     <link rel="stylesheet" href="_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="_static/pygments_dark.css">
@@ -103,7 +104,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="#"><div class="brand">Wisconsin Autonomous Simulator 0.0.10 documentation</div></a>
+      <a href="#"><div class="brand">Wisconsin Autonomous Simulator 1.0.3 documentation</div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon" for="__toc">
@@ -137,6 +138,7 @@
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label for="toctree-checkbox-2"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="tutorials/custom-controller.html">Creating a Custom Controller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/writing-a-json.html">Writing a JSON Specification File</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="autoapi/wa_simulator/index.html">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label for="toctree-checkbox-3"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
@@ -145,31 +147,29 @@
 <li class="toctree-l3"><a class="reference internal" href="autoapi/wa_simulator/chrono/environment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.environment</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="autoapi/wa_simulator/chrono/sensor/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.sensor</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="autoapi/wa_simulator/chrono/system/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.system</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="autoapi/wa_simulator/chrono/terrain/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.terrain</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="autoapi/wa_simulator/chrono/utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.utils</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="autoapi/wa_simulator/chrono/vehicle/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.vehicle</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="autoapi/wa_simulator/chrono/visualization/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.visualization</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="autoapi/wa_simulator/constants/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.constants</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/wa_simulator/base/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.base</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="autoapi/wa_simulator/controller/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.controller</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="autoapi/wa_simulator/core/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.core</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="autoapi/wa_simulator/environment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.environment</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="autoapi/wa_simulator/inputs/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.inputs</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="autoapi/wa_simulator/path/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.path</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="autoapi/wa_simulator/sensor/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.sensor</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="autoapi/wa_simulator/simulation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.simulation</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="autoapi/wa_simulator/system/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.system</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="autoapi/wa_simulator/terrain/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.terrain</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="autoapi/wa_simulator/track/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.track</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="autoapi/wa_simulator/utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.utils</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="autoapi/wa_simulator/vehicle/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.vehicle</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/wa_simulator/vehicle_inputs/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.vehicle_inputs</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="autoapi/wa_simulator/visualization/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.visualization</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 </ul>
-<p class="caption"><span class="caption-text">External Links</span></p>
+<p><span class="caption-text">External Links</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference external" href="https://pypi.org/project/wa-simulator/">PyPI</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/WisconsinAutonomous/wa_simulator">Github</a></li>
@@ -187,17 +187,17 @@
         <label class="toc-overlay-icon toc-content-icon" for="__toc">
           <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
         </label>
-        <div class="section" id="wa-vehicle-simulator">
+        <section id="wa-vehicle-simulator">
 <h1>WA Vehicle Simulator<a class="headerlink" href="#wa-vehicle-simulator" title="Permalink to this headline">¶</a></h1>
 <p>The WA Simulator is a powerful, multi-platform, lightweight and <em>user-friendly</em> simulation platform for testing algorithms intended for autonomous robot or vehicle applications.
 This project is under active development by <a class="reference external" href="https://wisconsinautonomous.org/">Wisconsin Autonomous</a>, a student organization at the University of Wisconsin - Madison.</p>
-<div class="section" id="usage">
+<section id="usage">
 <h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
 <p>The WA Simulator is a lightweight tool meant to facilitate algorithm development. As a result, the majority of the actual vehicle dynamics is hidden behind the wa_simulator API. All you need to do is import the module and instantiate the classes.</p>
-<div class="section" id="default-usage">
+<section id="default-usage">
 <h3>Default Usage<a class="headerlink" href="#default-usage" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import the wa_simulator</span>
-<span class="kn">import</span> <span class="nn">wa_simulator</span> <span class="k">as</span> <span class="nn">wa</span>
+<span class="kn">import</span> <span class="nn">wa_simulator</span> <span class="kn">as</span> <span class="nn">wa</span>
 
 <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
     <span class="c1"># Create the system</span>
@@ -228,12 +228,12 @@ This project is under active development by <a class="reference external" href="
     <span class="n">main</span><span class="p">()</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="with-chrono">
+</section>
+<section id="with-chrono">
 <h3>With Chrono<a class="headerlink" href="#with-chrono" title="Permalink to this headline">¶</a></h3>
 <p>Using Chrono is as simple as changing a few file names and importing the chrono version of the simulator. Even though <code class="docutils literal notranslate"><span class="pre">wa_simulator.chrono</span></code> is the new import, all default <code class="docutils literal notranslate"><span class="pre">wa_simulator</span></code> classes are still accessible as seen above. <a class="reference external" href="https://wisconsinautonomous.github.io/wa_simulator/background.html#ProjectChrono">Background about Chrono can be found here</a>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import the wa_simulator</span>
-<span class="kn">import</span> <span class="nn">wa_simulator.chrono</span> <span class="k">as</span> <span class="nn">wa</span>
+<span class="kn">import</span> <span class="nn">wa_simulator.chrono</span> <span class="kn">as</span> <span class="nn">wa</span>
 
 <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
     <span class="c1"># Create the system</span>
@@ -264,9 +264,9 @@ This project is under active development by <a class="reference external" href="
     <span class="n">main</span><span class="p">()</span>
 </pre></div>
 </div>
-</div>
-</div>
-<div class="section" id="documentation">
+</section>
+</section>
+<section id="documentation">
 <h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p><a class="reference external" href="https://wisconsinautonomous.github.io/wa_simulator/index.html">Home</a></p></li>
@@ -276,30 +276,30 @@ This project is under active development by <a class="reference external" href="
 <li><p><a class="reference external" href="https://pypi.org/project/wa-simulator/">PyPI</a></p></li>
 <li><p><a class="reference external" href="https://github.com/WisconsinAutonomous/wa_simulator">Github</a></p></li>
 </ul>
-</div>
-<div class="section" id="license">
+</section>
+<section id="license">
 <h2>License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">wa_simulator</span></code> is made available under the BSD-3 License. For more details, see <a class="reference external" href="https://github.com/WisconsinAutonomous/wa_simulator/blob/develop/LICENSE">LICENSE</a>.</p>
-</div>
-<div class="section" id="support">
+</section>
+<section id="support">
 <h2>Support<a class="headerlink" href="#support" title="Permalink to this headline">¶</a></h2>
 <p>Contact <a class="reference external" href="mailto:aryoung5%40wisc.edu">Aaron Young</a> for any questions or concerns regarding the contents of this repository.</p>
-</div>
-<div class="section" id="see-also">
+</section>
+<section id="see-also">
 <h2>See Also<a class="headerlink" href="#see-also" title="Permalink to this headline">¶</a></h2>
 <p>Stay up to date with our technical info by following our <a class="reference external" href="https://www.wisconsinautonomous.org/blog">blog</a>.</p>
 <p>Follow us on <a class="reference external" href="https://www.facebook.com/wisconsinautonomous/">Facebook</a>, <a class="reference external" href="https://www.instagram.com/wisconsinautonomous/">Instagram</a>, and <a class="reference external" href="https://www.linkedin.com/company/wisconsin-autonomous/about/">LinkedIn</a>!</p>
 <div class="toctree-wrapper compound">
 </div>
 <div class="toctree-wrapper compound">
-<p class="caption"><span class="caption-text">External Links</span></p>
+<p><span class="caption-text">External Links</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference external" href="https://pypi.org/project/wa-simulator/">PyPI</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/WisconsinAutonomous/wa_simulator">Github</a></li>
 </ul>
 </div>
-</div>
-</div>
+</section>
+</section>
 
       </article>
       <footer>

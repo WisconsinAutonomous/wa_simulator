@@ -3,9 +3,151 @@
 
 .. py:module:: wa_simulator.chrono.vehicle
 
-.. autoapi-nested-parse::
+.. Module Contents
+.. ---------------
 
-   Wisconsin Autonomous - https://www.wisconsinautonomous.org
+
+.. raw:: html
+
+   <h2>Classes</h2>
+
+.. autoapisummary::
+  :nosignatures:
+
+  wa_simulator.chrono.vehicle.WAChronoVehicle
+
+.. py:class:: WAChronoVehicle(system: WAChronoSystem, vehicle_inputs: WAVehicleInputs, env: WAEnvironment, filename: str, init_loc: WAVector = WAVector([0, 0, 0.5]), init_rot: WAQuaternion = WAQuaternion([1, 0, 0, 0]))
+
+   Bases: :class:`wa_simulator.vehicle.WAVehicle`
+
+   Chrono vehicle wrapper
+
+   :Parameters: * **system** (*WAChronoSystem*) -- the system used to run the simulation
+                * **env** (*WAEnvironment*) -- the environment with a terrain
+                * **vehicle_inputs** (*WAVehicleInputs*) -- the vehicle inputs
+                * **filename** (*str*) -- json file specification file
+                * **init_loc** (*WAVector, optional*) -- the inital location of the vehicle. Defaults to WAVector([0, 0, 0.5]).
+                * **init_rot** (*WAQuaternion, optional*) -- the initial orientation of the vehicle. Defaults to WAQuaternion([1, 0, 0, 0]).
+
+   .. method:: synchronize(self, time: float)
+
+      Update the state of this component at the current time.
+
+      The primary reason to decouple the update method into two separate calls (i.e. :meth:`~synchronize` and :meth:`~advance`)
+      is to provide flexibility to the user and is essentially semantic. In most simple cases, a user will only need one of the two.
+      Furthermore, can only use :meth:`~advance` if they prefer and just update their own :code:`time` variable. Given the unknown use cases
+      for the simulator at the time of writing, it was chosen to provide two different methods with similar functionality as to allow
+      the user to choose their desired implementation, rather than the writers of this package.
+
+      As opposed to :meth:`~advance`, this method gets the current time of the simulation. As menthioned earlier,
+      :meth:`~advance` and a user defined `time` variable could be used to instead to hold the current state of the simulation. However,
+      to aid in generality of the package, this method is provided to simply provide the current time of the simulation to the user in a decoupled
+      manner from the :meth:`~advance` method.
+
+      :Parameters: **time** (*float*) -- The current time to synchronize to
+
+
+   .. method:: advance(self, step: float)
+
+      Advance the state of this component by the specified time step.
+
+      The primary reason to decouple the update method into two separate calls (i.e. :meth:`~synchronize` and :meth:`~advance`)
+      is to provide flexibility to the user and is essentially semantic. In most simple cases, a user will only need one of the two.
+      Furthermore, can only use :meth:`~advance` if they prefer and just update their own :code:`time` variable. Given the unknown use cases
+      for the simulator at the time of writing, it was chosen to provide two different methods with similar functionality as to allow
+      the user to choose their desired implementation, rather than the writers of this package.
+
+      :Parameters: **step** (*float*) -- The step size to advance this component by
+
+
+   .. method:: get_pos(self) -> WAVector
+
+      Get the center of mass (COM) position of the vehicle.
+
+      :returns: *WAVector* -- the position of the vehicle
+
+
+   .. method:: get_rot(self) -> WAQuaternion
+
+      Get the rotation about the center of mass (COM) of the vehicle
+
+      :returns: *WAQuaternion* -- the vehicles orientation
+
+
+   .. method:: get_pos_dt(self) -> WAVector
+
+      Get the instantaneous velocity of the vehicle
+
+      :returns: *WAVector* -- The velocity where X is forward, Z is up and Y is left (ISO standard)
+
+
+   .. method:: get_rot_dt(self) -> WAQuaternion
+
+      Get the angular velocity of the vehicle
+
+      :returns: *WAQuaternion* -- The angular velocity
+
+
+   .. method:: get_pos_dtdt(self) -> WAVector
+
+      Get the acceleration of the vehicle
+
+      :returns: *WAVector* -- The acceleration where X is forward, Z is up and Y is left (ISO standard)
+
+
+   .. method:: get_rot_dtdt(self) -> WAQuaternion
+
+      Get the angular acceleration of the vehicle
+
+      :returns: *WAQuaternion* -- The angular acceleration
+
+
+
+
+
+
+.. raw:: html
+
+   <h2>Methods</h2>
+
+.. autoapisummary::
+  :nosignatures:
+
+   wa_simulator.chrono.vehicle.read_vehicle_model_file
+   wa_simulator.chrono.vehicle.create_tire_from_json
+
+.. function:: read_vehicle_model_file(filename: str) -> tuple
+
+   Read a json specification file to get additional file names to be loaded into ChVehicle classes
+
+   Will find the vehicle, powertrain and tire input files. The input files are other json files that are
+   readable by the Chrono simulator to be used to create bodies attached to the vehicle.
+
+   :Parameters: **filename** (*str*) -- the json specification file with Vehicle, Powertrain and Tire input models
+
+   :returns: *tuple* -- returns each json specification file for the vehicle, powertrain and tire
+
+
+.. function:: create_tire_from_json(tire_filename: str) -> veh.ChTire
+
+   Creates a ChTire from a tire file
+
+   .. info:
+       Currently, only TMeasyTires and RigidTires are supported
+
+   :Parameters: **tire_filename** (*str*) -- the tire json specification file
+
+   :returns: *ChTire* -- the created tire
+
+   :raises TypeError: If the tire type is not recognized
+
+
+
+
+
+.. .. .. autoapi-nested-parse::
+..
+..    Wisconsin Autonomous - https://www.wisconsinautonomous.org
 
    Copyright (c) 2021 wisconsinautonomous.org
    All rights reserved.
@@ -13,114 +155,5 @@
    Use of this source code is governed by a BSD-style license that can be found
    in the LICENSE file at the top level of the repo
 
-
-
-Module Contents
----------------
-
-Classes
-~~~~~~~
-
-.. autoapisummary::
-
-   wa_simulator.chrono.vehicle.WAChronoVehicle
-
-
-
-Functions
-~~~~~~~~~
-
-.. autoapisummary::
-
-   wa_simulator.chrono.vehicle.read_vehicle_model_file
-   wa_simulator.chrono.vehicle.create_tire_from_json
-
-
-.. function:: read_vehicle_model_file(filename)
-
-   Read a json specification file to get additional file names to be loaded into ChVehicle classes
-
-   :param filename: the json specification file with Vehicle, Powertrain and Tire input models
-   :type filename: str
-
-   :returns: returns each json specification file for the vehicle, powertrain and tire
-   :rtype: tuple
-
-
-.. function:: create_tire_from_json(tire_filename)
-
-   Creates a tire from a tire file
-
-   :param tire_filename: the tire json specification file
-   :type tire_filename: str
-
-   :returns: the created tire
-   :rtype: ChTire
-
-
-.. py:class:: WAChronoVehicle(filename, system, env, initLoc=chrono.ChVectorD(0, 0, 0.5), initRot=chrono.ChQuaternionD(1, 0, 0, 0))
-
-   Bases: :class:`wa_simulator.vehicle.WAVehicle`
-
-   Chrono vehicle wrapper
-
-   :param filename: json file specification file
-   :type filename: str
-   :param system: the system used to run the simulation
-   :type system: WAChronoSystem
-   :param env: the environment with a terrain
-   :type env: WAEnvironment
-   :param initLoc: the inital location of the vehicle. Defaults to chrono.ChVectorD(0, 0, 0.5).
-   :type initLoc: chrono.ChVectorD, optional
-   :param initRot: the initial orientation of the vehicle. Defaults to chrono.ChQuaternionD(1, 0, 0, 0).
-   :type initRot: chrono.ChQuaternionD, optional
-
-   .. attribute:: vehicle
-
-      a chrono vehicle that this class essentially wraps
-
-      :type: ChVehicle
-
-   .. attribute:: terrain
-
-      a terrain that the vehicle interacts with
-
-      :type: ChTerrain
-
-   .. attribute:: GO_KART_MODEL_FILE
-      :annotation: = GoKart/GoKart.json
-
-      
-
-   .. attribute:: IAC_VEH_MODEL_FILE
-      :annotation: = IAC/IAC.json
-
-      
-
-   .. method:: advance(self, step)
-
-      Perform a dynamics update
-
-      :param step: time step to update the vehicle by
-      :type step: double
-
-
-   .. method:: synchronize(self, time, vehicle_inputs)
-
-      Synchronize the vehicle with the vehicle inputs at the passed time
-
-      :param time: time to synchronize the simulation to
-      :type time: double
-      :param vehicle_inputs: the vehicle inputs
-      :type vehicle_inputs: WAVehicleInputs
-
-
-   .. method:: get_simple_state(self)
-
-      Get a simple state representation of the vehicle.
-
-      :returns: (x position, y position, yaw about the Z, speed)
-      :rtype: tuple
-
-
-
+..
+.. 

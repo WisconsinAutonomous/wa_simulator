@@ -1,0 +1,529 @@
+<!doctype html>
+<html class="no-js">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
+
+    <link rel="shortcut icon" href="../../_static/wa-dark-favicon.png"/><meta name="generator" content="sphinx-3.4.2, furo 2020.12.30.beta24"/>
+        <title>wa_simulator.vehicle - Wisconsin Autonomous Simulator 1.0.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/styles/furo.css?digest=33d2fc4f3f180ec1ffc6524e273e21d7d58cbe49">
+    <link rel="stylesheet" href="../../_static/pygments.css">
+    <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../../_static/pygments_dark.css">
+    
+
+
+<style>
+  :root {
+    --color-code-background: #f0f0f0;
+  --color-code-foreground: black;
+  
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+  }
+
+  /* For allowing end-user-specific overrides */
+  .override-light {
+    --color-code-background: #f0f0f0;
+  --color-code-foreground: black;
+  
+  }
+  .override-dark {
+    --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+  }
+</style><link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css" />
+    <link rel="stylesheet" href="../../_static/styles/furo-extensions.css?digest=26485485040e7aaf717c13fd0188a5ad2c2deb60">
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script defer="defer" src="../../_static/jquery.js"></script>
+    <script defer="defer" src="../../_static/underscore.js"></script>
+    <script defer="defer" src="../../_static/doctools.js"></script>
+    <script defer src="../../_static/scripts/main.js?digest=e931d09b2a40c1bb82b542effe772014573baf67"></script></head>
+  <body dir="">
+    
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+      stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z"/>
+      <line x1="4" y1="6" x2="20" y2="6" />
+      <line x1="10" y1="12" x2="20" y2="12" />
+      <line x1="6" y1="18" x2="20" y2="18" />
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+      class="feather feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+      class="feather feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
+
+<div class="announcement">
+  <aside class="announcement-content">
+     
+        <a style="text-decoration: none; color: white;" 
+           href="https://wisconsinautonomous.org">
+           <img src="https://github.com/WisconsinAutonomous/wa-resources/blob/master/Images/wa-dark.png?raw=true" 
+                style="vertical-align: middle; display: inline; padding-right: 7.5px; height: 20px;"/>
+           Checkout our website!
+        </a>
+     
+  </aside>
+</div>
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../index.html"><div class="brand">Wisconsin Autonomous Simulator 1.0.3 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="../../_static/wa-light.png" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../../_static/wa-dark.png" alt="Dark Logo"/>
+  </div>
+  
+  
+</a><form class="sidebar-search-container" method="get" action="../../search.html">
+  <input class="sidebar-search" placeholder=Search name="q">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../background.html">Background</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../installation/index.html">Installation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label for="toctree-checkbox-1"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../installation/unix.html">Unix Installation Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../installation/windows.html">Windows Installation Guide</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label for="toctree-checkbox-2"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/custom-controller.html">Creating a Custom Controller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/writing-a-json.html">Writing a JSON Specification File</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../autoapi/wa_simulator/index.html">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label for="toctree-checkbox-3"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../autoapi/wa_simulator/chrono/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label for="toctree-checkbox-4"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../autoapi/wa_simulator/chrono/controller/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.controller</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../autoapi/wa_simulator/chrono/environment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.environment</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../autoapi/wa_simulator/chrono/sensor/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.sensor</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../autoapi/wa_simulator/chrono/system/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.system</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../autoapi/wa_simulator/chrono/utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.utils</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../autoapi/wa_simulator/chrono/vehicle/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.vehicle</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../autoapi/wa_simulator/chrono/visualization/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.visualization</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/wa_simulator/base/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.base</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/wa_simulator/controller/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.controller</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/wa_simulator/core/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.core</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/wa_simulator/environment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.environment</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/wa_simulator/path/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.path</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/wa_simulator/sensor/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.sensor</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/wa_simulator/simulation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.simulation</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/wa_simulator/system/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.system</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/wa_simulator/track/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.track</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/wa_simulator/utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.utils</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/wa_simulator/vehicle/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.vehicle</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/wa_simulator/vehicle_inputs/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.vehicle_inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/wa_simulator/visualization/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.visualization</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
+</ul>
+<p><span class="caption-text">External Links</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://pypi.org/project/wa-simulator/">PyPI</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/WisconsinAutonomous/wa_simulator">Github</a></li>
+</ul>
+
+</div>
+</div>
+      </div>
+      
+    </div>
+  </aside>
+  <main class="main">
+    <div class="content">
+      <article role="main">
+        <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+        </label>
+        <h1>Source code for wa_simulator.vehicle</h1><div class="highlight"><pre>
+<span></span><span class="sd">"""</span>
+<span class="sd">Wisconsin Autonomous - https://www.wisconsinautonomous.org</span>
+
+<span class="sd">Copyright (c) 2021 wisconsinautonomous.org</span>
+<span class="sd">All rights reserved.</span>
+
+<span class="sd">Use of this source code is governed by a BSD-style license that can be found</span>
+<span class="sd">in the LICENSE file at the top level of the repo</span>
+<span class="sd">"""</span>
+
+<span class="kn">from</span> <span class="nn">abc</span> <span class="k">import</span> <span class="n">abstractmethod</span>  <span class="c1"># Abstract Base Class</span>
+
+<span class="c1"># WA Simulator</span>
+<span class="kn">from</span> <span class="nn">wa_simulator.core</span> <span class="k">import</span> <span class="n">WA_GRAVITY</span><span class="p">,</span> <span class="n">WAVector</span><span class="p">,</span> <span class="n">WAQuaternion</span>
+<span class="kn">from</span> <span class="nn">wa_simulator.base</span> <span class="k">import</span> <span class="n">WABase</span>
+<span class="kn">from</span> <span class="nn">wa_simulator.utils</span> <span class="k">import</span> <span class="n">_load_json</span><span class="p">,</span> <span class="n">_WAStaticAttribute</span><span class="p">,</span> <span class="n">get_wa_data_file</span>
+
+<span class="c1"># Other imports</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+
+<div class="viewcode-block" id="load_properties_from_json"><a class="viewcode-back" href="../../autoapi/wa_simulator/vehicle/index.html#wa_simulator.vehicle.load_properties_from_json">[docs]</a><span class="k">def</span> <span class="nf">load_properties_from_json</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">prop</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+    <span class="sd">"""Load a specified property from a json specification file</span>
+
+<span class="sd">    Will load a json file and extract the passed property field for use</span>
+<span class="sd">    by the underyling vehicle object</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        filename (str): the filename location within the set WA data folder for the json file</span>
+<span class="sd">        property (str): the property to get. Ex: "Vehicle Properties"</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: The property field isn't found</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dict: the property field extracted from the json file</span>
+<span class="sd">    """</span>
+    <span class="n">j</span> <span class="o">=</span> <span class="n">_load_json</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">prop</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">j</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s2">"</span><span class="si">{prop}</span><span class="s2"> not found in json."</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">j</span><span class="p">[</span><span class="n">prop</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="WAVehicle"><a class="viewcode-back" href="../../autoapi/wa_simulator/vehicle/index.html#wa_simulator.vehicle.WAVehicle">[docs]</a><span class="k">class</span> <span class="nc">WAVehicle</span><span class="p">(</span><span class="n">WABase</span><span class="p">):</span>
+    <span class="sd">"""Base class for a WAVehicle.</span>
+
+<span class="sd">    To implement a new vehicle model, override this class. A WAVehicle should interact</span>
+<span class="sd">    with the terrain/assets/world and take three inputs: steering, throttle, braking.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        system (WASystem): the system used to run the simulation</span>
+<span class="sd">        vehicle_inputs (WAVehicleInputs): The vehicle inputs</span>
+<span class="sd">        filename (str, optional): Filename to be used for visualization properties</span>
+<span class="sd">    """</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">system</span><span class="p">:</span> <span class="s1">'WASystem'</span><span class="p">,</span> <span class="n">vehicle_inputs</span><span class="p">:</span> <span class="s1">'WAVehicleInputs'</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_system</span> <span class="o">=</span> <span class="n">system</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_vehicle_inputs</span> <span class="o">=</span> <span class="n">vehicle_inputs</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_vis_properties</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="nb">dict</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">filename</span> <span class="ow">is</span> <span class="kc">None</span>
+            <span class="k">else</span> <span class="n">load_properties_from_json</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">"Visualization Properties"</span><span class="p">)</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="WAVehicle.get_visual_properties"><a class="viewcode-back" href="../../autoapi/wa_simulator/vehicle/index.html#wa_simulator.vehicle.WAVehicle.get_visual_properties">[docs]</a>    <span class="k">def</span> <span class="nf">get_visual_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="sd">"""Get visual properties for visualizing the vehicle</span>
+
+<span class="sd">        .. todo::</span>
+<span class="sd">            Define the visual properties required</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: the visual properties</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vis_properties</span></div>
+
+    <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="WAVehicle.synchronize"><a class="viewcode-back" href="../../autoapi/wa_simulator/vehicle/index.html#wa_simulator.vehicle.WAVehicle.synchronize">[docs]</a>    <span class="k">def</span> <span class="nf">synchronize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+
+    <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="WAVehicle.advance"><a class="viewcode-back" href="../../autoapi/wa_simulator/vehicle/index.html#wa_simulator.vehicle.WAVehicle.advance">[docs]</a>    <span class="k">def</span> <span class="nf">advance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">step</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="WAVehicle.is_ok"><a class="viewcode-back" href="../../autoapi/wa_simulator/vehicle/index.html#wa_simulator.vehicle.WAVehicle.is_ok">[docs]</a>    <span class="k">def</span> <span class="nf">is_ok</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+    <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="WAVehicle.get_pos"><a class="viewcode-back" href="../../autoapi/wa_simulator/vehicle/index.html#wa_simulator.vehicle.WAVehicle.get_pos">[docs]</a>    <span class="k">def</span> <span class="nf">get_pos</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WAVector</span><span class="p">:</span>
+        <span class="sd">"""Get the center of mass (COM) position of the vehicle.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            WAVector: the position of the vehicle</span>
+<span class="sd">        """</span>
+        <span class="k">pass</span></div>
+
+    <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="WAVehicle.get_rot"><a class="viewcode-back" href="../../autoapi/wa_simulator/vehicle/index.html#wa_simulator.vehicle.WAVehicle.get_rot">[docs]</a>    <span class="k">def</span> <span class="nf">get_rot</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WAQuaternion</span><span class="p">:</span>
+        <span class="sd">"""Get the rotation about the center of mass (COM) of the vehicle</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            WAQuaternion: the vehicles orientation</span>
+<span class="sd">        """</span>
+        <span class="k">pass</span></div>
+
+    <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="WAVehicle.get_pos_dt"><a class="viewcode-back" href="../../autoapi/wa_simulator/vehicle/index.html#wa_simulator.vehicle.WAVehicle.get_pos_dt">[docs]</a>    <span class="k">def</span> <span class="nf">get_pos_dt</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WAVector</span><span class="p">:</span>
+        <span class="sd">"""Get the instantaneous velocity of the vehicle</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            WAVector: The velocity where X is forward, Z is up and Y is left (ISO standard)</span>
+<span class="sd">        """</span>
+        <span class="k">pass</span></div>
+
+    <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="WAVehicle.get_rot_dt"><a class="viewcode-back" href="../../autoapi/wa_simulator/vehicle/index.html#wa_simulator.vehicle.WAVehicle.get_rot_dt">[docs]</a>    <span class="k">def</span> <span class="nf">get_rot_dt</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WAQuaternion</span><span class="p">:</span>
+        <span class="sd">"""Get the angular velocity of the vehicle</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            WAQuaternion: The angular velocity</span>
+<span class="sd">        """</span>
+        <span class="k">pass</span></div>
+
+    <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="WAVehicle.get_pos_dtdt"><a class="viewcode-back" href="../../autoapi/wa_simulator/vehicle/index.html#wa_simulator.vehicle.WAVehicle.get_pos_dtdt">[docs]</a>    <span class="k">def</span> <span class="nf">get_pos_dtdt</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WAVector</span><span class="p">:</span>
+        <span class="sd">"""Get the acceleration of the vehicle</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            WAVector: The acceleration where X is forward, Z is up and Y is left (ISO standard)</span>
+<span class="sd">        """</span>
+        <span class="k">pass</span></div>
+
+    <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="WAVehicle.get_rot_dtdt"><a class="viewcode-back" href="../../autoapi/wa_simulator/vehicle/index.html#wa_simulator.vehicle.WAVehicle.get_rot_dtdt">[docs]</a>    <span class="k">def</span> <span class="nf">get_rot_dtdt</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WAQuaternion</span><span class="p">:</span>
+        <span class="sd">"""Get the angular acceleration of the vehicle</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            WAQuaternion: The angular acceleration</span>
+<span class="sd">        """</span>
+        <span class="k">pass</span></div></div>
+
+
+<div class="viewcode-block" id="WALinearKinematicBicycle"><a class="viewcode-back" href="../../autoapi/wa_simulator/vehicle/index.html#wa_simulator.vehicle.WALinearKinematicBicycle">[docs]</a><span class="k">class</span> <span class="nc">WALinearKinematicBicycle</span><span class="p">(</span><span class="n">WAVehicle</span><span class="p">):</span>
+    <span class="sd">"""A linear, kinematic bicycle model</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        system (WASystem): the system used to run the simulation</span>
+<span class="sd">        vehicle_inputs (WAVehicleInputs): The vehicle inputs</span>
+<span class="sd">        filename (str): json specification file used to describe the parameters for the vehicle</span>
+<span class="sd">        init_pos (WAVector): initial position</span>
+<span class="sd">        init_rot (WAQuaternion): initial rotation</span>
+<span class="sd">        init_pos_dt (WAVector): initial velocity</span>
+<span class="sd">    """</span>
+
+    <span class="c1"># Global filenames for vehicle models</span>
+    <span class="n">_GO_KART_MODEL_FILE</span> <span class="o">=</span> <span class="s2">"vehicles/GoKart/GoKart_KinematicBicycle.json"</span>
+
+    <span class="n">GO_KART_MODEL_FILE</span> <span class="o">=</span> <span class="n">_WAStaticAttribute</span><span class="p">(</span><span class="s1">'_GO_KART_MODEL_FILE'</span><span class="p">,</span> <span class="n">get_wa_data_file</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">system</span><span class="p">:</span> <span class="s1">'WASystem'</span><span class="p">,</span> <span class="n">vehicle_inputs</span><span class="p">:</span> <span class="s1">'WAVehicleInputs'</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">init_pos</span><span class="p">:</span> <span class="n">WAVector</span> <span class="o">=</span> <span class="n">WAVector</span><span class="p">(),</span> <span class="n">init_rot</span><span class="p">:</span> <span class="n">WAQuaternion</span> <span class="o">=</span> <span class="n">WAQuaternion</span><span class="o">.</span><span class="n">from_z_rotation</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">init_pos_dt</span><span class="p">:</span> <span class="n">WAVector</span> <span class="o">=</span> <span class="n">WAVector</span><span class="p">()):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">system</span><span class="p">,</span> <span class="n">vehicle_inputs</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+
+        <span class="c1"># Simple state variables</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_x</span> <span class="o">=</span> <span class="n">init_pos</span><span class="o">.</span><span class="n">x</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_y</span> <span class="o">=</span> <span class="n">init_pos</span><span class="o">.</span><span class="n">y</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_yaw</span> <span class="o">=</span> <span class="n">init_rot</span><span class="o">.</span><span class="n">to_euler_yaw</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_v</span> <span class="o">=</span> <span class="n">init_pos_dt</span><span class="o">.</span><span class="n">length</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_acc</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+        <span class="c1"># Wheel angular velocity</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_omega</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_omega_dot</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_yaw_dt</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_yaw_dtdt</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_last_yaw</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+        <span class="n">properties</span> <span class="o">=</span> <span class="n">load_properties_from_json</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">"Vehicle Properties"</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_initialize</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vp</span><span class="p">):</span>
+        <span class="sd">"""Initialize the vehicle parameters</span>
+
+<span class="sd">        Expected properties:</span>
+<span class="sd">            "Wheelbase" (float): distance between the front and back tire</span>
+<span class="sd">            "Mass" (float): mass of the vehicle</span>
+<span class="sd">            "Gear Ratio" (float): gear ratio of the simulated powertrain</span>
+<span class="sd">            "Effective Radius" (float): </span>
+<span class="sd">            "Inertia" (float): Effective inertia for the vehicle</span>
+<span class="sd">            "Aerodynamic Coefficient" (float):</span>
+<span class="sd">            "Friction Coefficient" (float):</span>
+<span class="sd">            "C" (float)</span>
+<span class="sd">            "Max Force" (float)</span>
+<span class="sd">            "Torque Coefficients" (list)</span>
+<span class="sd">            "Steering" ([min, max]): Min and max throttle values</span>
+<span class="sd">            "Throttle" ([min, max]): Min and max throttle values</span>
+<span class="sd">            "Braking" ([min, max]): Min and max braking values</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            vp (dict): Vehicle preoperties (see above for expected keys)</span>
+<span class="sd">        """</span>
+
+        <span class="c1"># Initialize vehicle properties</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_mass</span> <span class="o">=</span> <span class="n">vp</span><span class="p">[</span><span class="s2">"Mass"</span><span class="p">]</span>
+
+        <span class="c1"># Torque coefficients</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_a</span> <span class="o">=</span> <span class="n">vp</span><span class="p">[</span><span class="s2">"Torque Coefficients"</span><span class="p">]</span>
+
+        <span class="c1"># Gear ratio, effective radius and inertia</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_GR</span> <span class="o">=</span> <span class="n">vp</span><span class="p">[</span><span class="s2">"Gear Ratio"</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_r_eff</span> <span class="o">=</span> <span class="n">vp</span><span class="p">[</span><span class="s2">"Effective Radius"</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_J_e</span> <span class="o">=</span> <span class="n">vp</span><span class="p">[</span><span class="s2">"Inertia"</span><span class="p">]</span>
+
+        <span class="c1"># Aerodynamic and friction coefficients</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_c_a</span> <span class="o">=</span> <span class="n">vp</span><span class="p">[</span><span class="s2">"Aerodynamic Coefficient"</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_c_rl</span> <span class="o">=</span> <span class="n">vp</span><span class="p">[</span><span class="s2">"Friction Coefficient"</span><span class="p">]</span>
+
+        <span class="c1"># Tire forces</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_c</span> <span class="o">=</span> <span class="n">vp</span><span class="p">[</span><span class="s2">"C"</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_F_max</span> <span class="o">=</span> <span class="n">vp</span><span class="p">[</span><span class="s2">"Max Force"</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_L</span> <span class="o">=</span> <span class="n">vp</span><span class="p">[</span><span class="s2">"Wheelbase"</span><span class="p">]</span>
+        <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_min_steering</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_max_steering</span><span class="p">)</span> <span class="o">=</span> <span class="n">vp</span><span class="p">[</span><span class="s2">"Steering"</span><span class="p">]</span>
+        <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_min_throttle</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_max_throttle</span><span class="p">)</span> <span class="o">=</span> <span class="n">vp</span><span class="p">[</span><span class="s2">"Throttle"</span><span class="p">]</span>
+        <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_min_braking</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_max_braking</span><span class="p">)</span> <span class="o">=</span> <span class="n">vp</span><span class="p">[</span><span class="s2">"Braking"</span><span class="p">]</span>
+
+<div class="viewcode-block" id="WALinearKinematicBicycle.synchronize"><a class="viewcode-back" href="../../autoapi/wa_simulator/vehicle/index.html#wa_simulator.vehicle.WALinearKinematicBicycle.synchronize">[docs]</a>    <span class="k">def</span> <span class="nf">synchronize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="p">):</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vehicle_inputs</span><span class="o">.</span><span class="n">steering</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vehicle_inputs</span><span class="o">.</span><span class="n">throttle</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vehicle_inputs</span><span class="o">.</span><span class="n">braking</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_steering</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_min_steering</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_max_steering</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_throttle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_min_throttle</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_max_throttle</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_braking</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_min_braking</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_max_braking</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_braking</span> <span class="o">&gt;</span> <span class="mf">1e-1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_throttle</span> <span class="o">=</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">_braking</span></div>
+
+<div class="viewcode-block" id="WALinearKinematicBicycle.advance"><a class="viewcode-back" href="../../autoapi/wa_simulator/vehicle/index.html#wa_simulator.vehicle.WALinearKinematicBicycle.advance">[docs]</a>    <span class="k">def</span> <span class="nf">advance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">step</span><span class="p">):</span>
+        <span class="c1"># TODO: COMMENT!</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_v</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_throttle</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">F_x</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">F_load</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">T_e</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_v</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="c1"># Remove possibity of divide by zero error</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_v</span> <span class="o">=</span> <span class="mf">1e-8</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_omega</span> <span class="o">=</span> <span class="mf">1e-8</span>
+
+            <span class="c1"># Update engine and tire forces</span>
+            <span class="n">F_aero</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_c_a</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_v</span> <span class="o">**</span> <span class="mi">2</span>
+            <span class="n">R_x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_c_rl</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_v</span>
+            <span class="n">F_g</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mass</span> <span class="o">*</span> <span class="n">WA_GRAVITY</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">F_load</span> <span class="o">=</span> <span class="n">F_aero</span> <span class="o">+</span> <span class="n">R_x</span> <span class="o">+</span> <span class="n">F_g</span>
+            <span class="n">T_e</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_throttle</span> <span class="o">*</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_omega</span> <span class="o">+</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_a</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_omega</span> <span class="o">**</span> <span class="mi">2</span>
+            <span class="p">)</span>
+            <span class="n">omega_w</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_GR</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_omega</span>  <span class="c1"># Wheel angular velocity</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="p">(</span><span class="n">omega_w</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_r_eff</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_v</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">_v</span>  <span class="c1"># slip ratio</span>
+            <span class="n">cs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_c</span> <span class="o">*</span> <span class="n">s</span>
+
+            <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">F_x</span> <span class="o">=</span> <span class="n">cs</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">F_x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_F_max</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_throttle</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_v</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">F_x</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">F_x</span> <span class="o">=</span> <span class="o">-</span><span class="nb">abs</span><span class="p">(</span><span class="n">F_x</span><span class="p">)</span>
+
+        <span class="c1"># Update state information</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_x</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_v</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_yaw</span><span class="p">)</span> <span class="o">*</span> <span class="n">step</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_v</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_yaw</span><span class="p">)</span> <span class="o">*</span> <span class="n">step</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_yaw</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_v</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">_L</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_steering</span><span class="p">)</span> <span class="o">*</span> <span class="n">step</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_v</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_acc</span> <span class="o">*</span> <span class="n">step</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_acc</span> <span class="o">=</span> <span class="p">(</span><span class="n">F_x</span> <span class="o">-</span> <span class="n">F_load</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mass</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_omega</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_omega_dot</span> <span class="o">*</span> <span class="n">step</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_omega_dot</span> <span class="o">=</span> <span class="p">(</span><span class="n">T_e</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_GR</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_r_eff</span> <span class="o">*</span> <span class="n">F_load</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">_J_e</span>
+
+        <span class="n">v_epsilon</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_v</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">0.1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_yaw_dt</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_last_yaw</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_yaw</span><span class="p">)</span> <span class="o">/</span> <span class="n">step</span> <span class="k">if</span> <span class="n">v_epsilon</span> <span class="k">else</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_yaw_dtdt</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_last_yaw</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_yaw</span><span class="p">)</span> <span class="o">/</span> <span class="n">step</span> <span class="k">if</span> <span class="n">v_epsilon</span> <span class="k">else</span> <span class="mi">0</span>  <span class="c1"># noqa</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_last_yaw</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_yaw</span></div>
+
+<div class="viewcode-block" id="WALinearKinematicBicycle.get_pos"><a class="viewcode-back" href="../../autoapi/wa_simulator/vehicle/index.html#wa_simulator.vehicle.WALinearKinematicBicycle.get_pos">[docs]</a>    <span class="k">def</span> <span class="nf">get_pos</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WAVector</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">WAVector</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_y</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="WALinearKinematicBicycle.get_rot"><a class="viewcode-back" href="../../autoapi/wa_simulator/vehicle/index.html#wa_simulator.vehicle.WALinearKinematicBicycle.get_rot">[docs]</a>    <span class="k">def</span> <span class="nf">get_rot</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WAQuaternion</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">WAQuaternion</span><span class="o">.</span><span class="n">from_z_rotation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_yaw</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="WALinearKinematicBicycle.get_pos_dt"><a class="viewcode-back" href="../../autoapi/wa_simulator/vehicle/index.html#wa_simulator.vehicle.WALinearKinematicBicycle.get_pos_dt">[docs]</a>    <span class="k">def</span> <span class="nf">get_pos_dt</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WAVector</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">WAVector</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_v</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_yaw</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_v</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_yaw</span><span class="p">),</span> <span class="mf">0.0</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="WALinearKinematicBicycle.get_rot_dt"><a class="viewcode-back" href="../../autoapi/wa_simulator/vehicle/index.html#wa_simulator.vehicle.WALinearKinematicBicycle.get_rot_dt">[docs]</a>    <span class="k">def</span> <span class="nf">get_rot_dt</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WAQuaternion</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">WAQuaternion</span><span class="o">.</span><span class="n">from_z_rotation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_yaw_dt</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="WALinearKinematicBicycle.get_pos_dtdt"><a class="viewcode-back" href="../../autoapi/wa_simulator/vehicle/index.html#wa_simulator.vehicle.WALinearKinematicBicycle.get_pos_dtdt">[docs]</a>    <span class="k">def</span> <span class="nf">get_pos_dtdt</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WAVector</span><span class="p">:</span>
+        <span class="n">angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_steering</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_min_steering</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_max_steering</span><span class="p">]))</span>  <span class="c1"># noqa</span>
+        <span class="n">angle</span> <span class="o">=</span> <span class="n">angle</span> <span class="k">if</span> <span class="n">angle</span> <span class="o">!=</span> <span class="mi">0</span> <span class="k">else</span> <span class="mf">1e-3</span>
+        <span class="n">tr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_L</span> <span class="o">/</span> <span class="n">angle</span>
+        <span class="n">tr</span> <span class="o">=</span> <span class="n">tr</span> <span class="k">if</span> <span class="n">tr</span> <span class="o">!=</span> <span class="mi">0</span> <span class="k">else</span> <span class="mf">1e-3</span>
+        <span class="k">return</span> <span class="n">WAVector</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_acc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_v</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="n">tr</span><span class="p">,</span> <span class="n">WA_GRAVITY</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="WALinearKinematicBicycle.get_rot_dtdt"><a class="viewcode-back" href="../../autoapi/wa_simulator/vehicle/index.html#wa_simulator.vehicle.WALinearKinematicBicycle.get_rot_dtdt">[docs]</a>    <span class="k">def</span> <span class="nf">get_rot_dtdt</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WAQuaternion</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">WAQuaternion</span><span class="o">.</span><span class="n">from_z_rotation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_yaw_dtdt</span><span class="p">)</span></div></div>
+</pre></div>
+      </article>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+
+        <div class="related-information">
+              Copyright &#169; 2021, Wisconsin Autonomous
+            |
+            Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
+              and
+              <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+              <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </main>
+</div>
+  </body>
+</html>

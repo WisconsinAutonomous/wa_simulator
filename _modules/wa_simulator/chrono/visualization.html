@@ -1,0 +1,488 @@
+<!doctype html>
+<html class="no-js">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
+
+    <link rel="shortcut icon" href="../../../_static/wa-dark-favicon.png"/><meta name="generator" content="sphinx-3.4.2, furo 2020.12.30.beta24"/>
+        <title>wa_simulator.chrono.visualization - Wisconsin Autonomous Simulator 1.0.3 documentation</title>
+      <link rel="stylesheet" href="../../../_static/styles/furo.css?digest=33d2fc4f3f180ec1ffc6524e273e21d7d58cbe49">
+    <link rel="stylesheet" href="../../../_static/pygments.css">
+    <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../../../_static/pygments_dark.css">
+    
+
+
+<style>
+  :root {
+    --color-code-background: #f0f0f0;
+  --color-code-foreground: black;
+  
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+  }
+
+  /* For allowing end-user-specific overrides */
+  .override-light {
+    --color-code-background: #f0f0f0;
+  --color-code-foreground: black;
+  
+  }
+  .override-dark {
+    --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+  }
+</style><link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css" />
+    <link rel="stylesheet" href="../../../_static/styles/furo-extensions.css?digest=26485485040e7aaf717c13fd0188a5ad2c2deb60">
+    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script defer="defer" src="../../../_static/jquery.js"></script>
+    <script defer="defer" src="../../../_static/underscore.js"></script>
+    <script defer="defer" src="../../../_static/doctools.js"></script>
+    <script defer src="../../../_static/scripts/main.js?digest=e931d09b2a40c1bb82b542effe772014573baf67"></script></head>
+  <body dir="">
+    
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+      stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z"/>
+      <line x1="4" y1="6" x2="20" y2="6" />
+      <line x1="10" y1="12" x2="20" y2="12" />
+      <line x1="6" y1="18" x2="20" y2="18" />
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+      class="feather feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+      class="feather feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
+
+<div class="announcement">
+  <aside class="announcement-content">
+     
+        <a style="text-decoration: none; color: white;" 
+           href="https://wisconsinautonomous.org">
+           <img src="https://github.com/WisconsinAutonomous/wa-resources/blob/master/Images/wa-dark.png?raw=true" 
+                style="vertical-align: middle; display: inline; padding-right: 7.5px; height: 20px;"/>
+           Checkout our website!
+        </a>
+     
+  </aside>
+</div>
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../../index.html"><div class="brand">Wisconsin Autonomous Simulator 1.0.3 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="../../../_static/wa-light.png" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../../../_static/wa-dark.png" alt="Dark Logo"/>
+  </div>
+  
+  
+</a><form class="sidebar-search-container" method="get" action="../../../search.html">
+  <input class="sidebar-search" placeholder=Search name="q">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../background.html">Background</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../installation/index.html">Installation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label for="toctree-checkbox-1"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation/unix.html">Unix Installation Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation/windows.html">Windows Installation Guide</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label for="toctree-checkbox-2"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/custom-controller.html">Creating a Custom Controller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/writing-a-json.html">Writing a JSON Specification File</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../autoapi/wa_simulator/index.html">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label for="toctree-checkbox-3"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../autoapi/wa_simulator/chrono/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label for="toctree-checkbox-4"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../autoapi/wa_simulator/chrono/controller/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.controller</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../autoapi/wa_simulator/chrono/environment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.environment</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../autoapi/wa_simulator/chrono/sensor/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.sensor</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../autoapi/wa_simulator/chrono/system/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.system</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../autoapi/wa_simulator/chrono/utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.utils</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../autoapi/wa_simulator/chrono/vehicle/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.vehicle</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../autoapi/wa_simulator/chrono/visualization/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.visualization</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../autoapi/wa_simulator/base/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.base</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../autoapi/wa_simulator/controller/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.controller</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../autoapi/wa_simulator/core/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.core</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../autoapi/wa_simulator/environment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.environment</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../autoapi/wa_simulator/path/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.path</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../autoapi/wa_simulator/sensor/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.sensor</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../autoapi/wa_simulator/simulation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.simulation</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../autoapi/wa_simulator/system/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.system</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../autoapi/wa_simulator/track/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.track</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../autoapi/wa_simulator/utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.utils</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../autoapi/wa_simulator/vehicle/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.vehicle</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../autoapi/wa_simulator/vehicle_inputs/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.vehicle_inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../autoapi/wa_simulator/visualization/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.visualization</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
+</ul>
+<p><span class="caption-text">External Links</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://pypi.org/project/wa-simulator/">PyPI</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/WisconsinAutonomous/wa_simulator">Github</a></li>
+</ul>
+
+</div>
+</div>
+      </div>
+      
+    </div>
+  </aside>
+  <main class="main">
+    <div class="content">
+      <article role="main">
+        <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+        </label>
+        <h1>Source code for wa_simulator.chrono.visualization</h1><div class="highlight"><pre>
+<span></span><span class="sd">"""</span>
+<span class="sd">Wisconsin Autonomous - https://www.wisconsinautonomous.org</span>
+
+<span class="sd">Copyright (c) 2021 wisconsinautonomous.org</span>
+<span class="sd">All rights reserved.</span>
+
+<span class="sd">Use of this source code is governed by a BSD-style license that can be found</span>
+<span class="sd">in the LICENSE file at the top level of the repo</span>
+<span class="sd">"""</span>
+
+<span class="c1"># WA Simulator</span>
+<span class="kn">from</span> <span class="nn">wa_simulator.core</span> <span class="k">import</span> <span class="n">WAVector</span><span class="p">,</span> <span class="n">WA_PI</span>
+<span class="kn">from</span> <span class="nn">wa_simulator.utils</span> <span class="k">import</span> <span class="n">get_wa_data_file</span>
+<span class="kn">from</span> <span class="nn">wa_simulator.path</span> <span class="k">import</span> <span class="n">WAPath</span>
+<span class="kn">from</span> <span class="nn">wa_simulator.track</span> <span class="k">import</span> <span class="n">WATrack</span>
+<span class="kn">from</span> <span class="nn">wa_simulator.visualization</span> <span class="k">import</span> <span class="n">WAVisualization</span><span class="p">,</span> <span class="n">WABody</span>
+<span class="kn">from</span> <span class="nn">wa_simulator.vehicle_inputs</span> <span class="k">import</span> <span class="n">WAVehicleInputs</span>
+<span class="kn">from</span> <span class="nn">wa_simulator.chrono.utils</span> <span class="k">import</span> <span class="n">ChVector_to_WAVector</span><span class="p">,</span> <span class="n">WAVector_to_ChVector</span>
+
+<span class="c1"># Chrono specific imports</span>
+<span class="kn">import</span> <span class="nn">pychrono</span> <span class="k">as</span> <span class="nn">chrono</span>
+<span class="kn">import</span> <span class="nn">pychrono.vehicle</span> <span class="k">as</span> <span class="nn">veh</span>
+<span class="kn">import</span> <span class="nn">pychrono.irrlicht</span> <span class="k">as</span> <span class="nn">irr</span>
+
+<span class="c1"># Other imports</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="k">import</span> <span class="n">ceil</span>
+
+
+<div class="viewcode-block" id="draw_path_in_irrlicht"><a class="viewcode-back" href="../../../autoapi/wa_simulator/chrono/visualization/index.html#wa_simulator.chrono.visualization.draw_path_in_irrlicht">[docs]</a><span class="k">def</span> <span class="nf">draw_path_in_irrlicht</span><span class="p">(</span><span class="n">system</span><span class="p">:</span> <span class="s1">'WAChronoSystem'</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="s1">'WAPath'</span><span class="p">):</span>
+    <span class="sd">"""Draw a WAPath representation as a ChBezierCurve in irrlicht</span>
+
+<span class="sd">    Basically just copies over the path's points into something viewable for Chrono</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        system (WAChronoSystem): system that manages the simulation</span>
+<span class="sd">        path (WAPath): WA path object to visualize in irrlicht</span>
+<span class="sd">    """</span>
+    <span class="n">points</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">get_points</span><span class="p">()</span>
+    <span class="n">ch_points</span> <span class="o">=</span> <span class="n">chrono</span><span class="o">.</span><span class="n">vector_ChVectorD</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">points</span><span class="p">:</span>
+        <span class="n">ch_points</span><span class="o">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">chrono</span><span class="o">.</span><span class="n">ChVectorD</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+    <span class="n">curve</span> <span class="o">=</span> <span class="n">chrono</span><span class="o">.</span><span class="n">ChBezierCurve</span><span class="p">(</span><span class="n">ch_points</span><span class="p">)</span>
+
+    <span class="n">road</span> <span class="o">=</span> <span class="n">system</span><span class="o">.</span><span class="n">_system</span><span class="o">.</span><span class="n">NewBody</span><span class="p">()</span>
+    <span class="n">road</span><span class="o">.</span><span class="n">SetBodyFixed</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">system</span><span class="o">.</span><span class="n">_system</span><span class="o">.</span><span class="n">AddBody</span><span class="p">(</span><span class="n">road</span><span class="p">)</span>
+
+    <span class="n">num_points</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+    <span class="n">path_asset</span> <span class="o">=</span> <span class="n">chrono</span><span class="o">.</span><span class="n">ChLineShape</span><span class="p">()</span>
+    <span class="n">path_asset</span><span class="o">.</span><span class="n">SetLineGeometry</span><span class="p">(</span><span class="n">chrono</span><span class="o">.</span><span class="n">ChLineBezier</span><span class="p">(</span><span class="n">curve</span><span class="p">))</span>
+    <span class="n">path_asset</span><span class="o">.</span><span class="n">SetColor</span><span class="p">(</span><span class="n">chrono</span><span class="o">.</span><span class="n">ChColor</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+    <span class="n">path_asset</span><span class="o">.</span><span class="n">SetNumRenderPoints</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">num_points</span><span class="p">,</span> <span class="mi">400</span><span class="p">))</span>
+    <span class="n">road</span><span class="o">.</span><span class="n">AddAsset</span><span class="p">(</span><span class="n">path_asset</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="create_sphere_in_chrono"><a class="viewcode-back" href="../../../autoapi/wa_simulator/chrono/visualization/index.html#wa_simulator.chrono.visualization.create_sphere_in_chrono">[docs]</a><span class="k">def</span> <span class="nf">create_sphere_in_chrono</span><span class="p">(</span><span class="n">system</span><span class="p">:</span> <span class="s1">'WAChronoSystem'</span><span class="p">,</span> <span class="n">rgb</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="n">chrono</span><span class="o">.</span><span class="n">ChBodyEasySphere</span><span class="p">:</span>
+    <span class="sd">"""Create and add a sphere to the chrono world </span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        system (WASystem): the system that manages the simulation</span>
+<span class="sd">        rgb (tuple, optional): (red, green, blue). Defaults to (1, 0, 0) or red.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        chrono.ChBodyEasySphere: the sphere that was created</span>
+<span class="sd">    """</span>
+    <span class="n">sphere</span> <span class="o">=</span> <span class="n">chrono</span><span class="o">.</span><span class="n">ChBodyEasySphere</span><span class="p">(</span><span class="mf">0.25</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="n">sphere</span><span class="o">.</span><span class="n">SetBodyFixed</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">sphere</span><span class="o">.</span><span class="n">AddAsset</span><span class="p">(</span><span class="n">chrono</span><span class="o">.</span><span class="n">ChColorAsset</span><span class="p">(</span><span class="o">*</span><span class="n">rgb</span><span class="p">))</span>
+
+    <span class="n">texture</span> <span class="o">=</span> <span class="n">chrono</span><span class="o">.</span><span class="n">ChVisualMaterial</span><span class="p">()</span>
+    <span class="n">texture</span><span class="o">.</span><span class="n">SetDiffuseColor</span><span class="p">(</span><span class="n">chrono</span><span class="o">.</span><span class="n">ChVectorF</span><span class="p">(</span><span class="o">*</span><span class="n">rgb</span><span class="p">))</span>
+    <span class="n">chrono</span><span class="o">.</span><span class="n">CastToChVisualization</span><span class="p">(</span><span class="n">sphere</span><span class="o">.</span><span class="n">GetAssets</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">material_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">texture</span><span class="p">)</span>
+
+    <span class="n">system</span><span class="o">.</span><span class="n">_system</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">sphere</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">sphere</span></div>
+
+
+<div class="viewcode-block" id="update_position_of_sphere"><a class="viewcode-back" href="../../../autoapi/wa_simulator/chrono/visualization/index.html#wa_simulator.chrono.visualization.update_position_of_sphere">[docs]</a><span class="k">def</span> <span class="nf">update_position_of_sphere</span><span class="p">(</span><span class="n">sphere</span><span class="p">:</span> <span class="n">chrono</span><span class="o">.</span><span class="n">ChBodyEasySphere</span><span class="p">,</span> <span class="n">pos</span><span class="p">:</span> <span class="n">WAVector</span><span class="p">):</span>
+    <span class="sd">"""Update the position of a sphere being visualized in irrlicht</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        sphere (chrono.ChBodyEasySphere): the sphere to change the position of</span>
+<span class="sd">        pos (WAVector): the new position</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">WAVector</span><span class="p">):</span>
+        <span class="n">pos</span> <span class="o">=</span> <span class="n">WAVector</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
+
+    <span class="n">sphere</span><span class="o">.</span><span class="n">SetPos</span><span class="p">(</span><span class="n">chrono</span><span class="o">.</span><span class="n">ChVectorD</span><span class="p">(</span><span class="n">pos</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">pos</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="WAChronoIrrlicht"><a class="viewcode-back" href="../../../autoapi/wa_simulator/chrono/visualization/index.html#wa_simulator.chrono.visualization.WAChronoIrrlicht">[docs]</a><span class="k">class</span> <span class="nc">WAChronoIrrlicht</span><span class="p">(</span><span class="n">WAVisualization</span><span class="p">):</span>
+    <span class="sd">"""Chrono irrlicht visualization wrapper. Sets default values for a Vehicle irr app</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        system (WAChronoSystem): holds information regarding the simulation and performs dynamic updates</span>
+<span class="sd">        vehicle (WAChronoVehicle): vehicle that holds the Chrono vehicle</span>
+<span class="sd">        vehicle_inputs (WAVehicleInputs): the vehicle inputs</span>
+<span class="sd">        environment (WAEnvironment, optional): An environment with various world assets to visualize. Defaults to None (doesn't visualize anything).</span>
+<span class="sd">        opponents (list, optional): Opponents present in the simulation. The camera will track :attr:`~vehicle` not any opponent.</span>
+<span class="sd">        record (bool, optional): If set to true, images will be saved under record_filename. Defaults to False (doesn't save images).</span>
+<span class="sd">        record_folder (str, optional): The folder to save images to. Defaults to "OUTPUT/".</span>
+<span class="sd">        should_bind (bool, optional): After `all` assets have been added to the environment, irrlicht needs to "bind" and add the assets to the 3D rendered world. This can be done either on instantiation (True) or on the first update (False). Defaults to True.</span>
+<span class="sd">    """</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">system</span><span class="p">:</span> <span class="s1">'WAChronoSystem'</span><span class="p">,</span> <span class="n">vehicle</span><span class="p">:</span> <span class="s1">'WAChronoVehicle'</span><span class="p">,</span> <span class="n">vehicle_inputs</span><span class="p">:</span> <span class="s1">'WAVehicleInputs'</span><span class="p">,</span> <span class="n">environment</span><span class="p">:</span> <span class="s1">'WAEnvironment'</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">opponents</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">record</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">record_folder</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"OUTPUT/"</span><span class="p">,</span> <span class="n">should_bind</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_render_steps</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span>
+            <span class="n">ceil</span><span class="p">(</span><span class="n">system</span><span class="o">.</span><span class="n">render_step_size</span> <span class="o">/</span> <span class="n">system</span><span class="o">.</span><span class="n">step_size</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_system</span> <span class="o">=</span> <span class="n">system</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_vehicle_inputs</span> <span class="o">=</span> <span class="n">vehicle_inputs</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_record</span> <span class="o">=</span> <span class="n">record</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_record_folder</span> <span class="o">=</span> <span class="n">record_folder</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_save_number</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_app</span> <span class="o">=</span> <span class="n">veh</span><span class="o">.</span><span class="n">ChVehicleIrrApp</span><span class="p">(</span><span class="n">vehicle</span><span class="o">.</span><span class="n">_vehicle</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_app</span><span class="o">.</span><span class="n">SetHUDLocation</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_app</span><span class="o">.</span><span class="n">SetSkyBox</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_app</span><span class="o">.</span><span class="n">AddTypicalLogo</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_app</span><span class="o">.</span><span class="n">AddTypicalLights</span><span class="p">(</span>
+            <span class="n">irr</span><span class="o">.</span><span class="n">vector3df</span><span class="p">(</span><span class="o">-</span><span class="mf">150.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">150.0</span><span class="p">,</span> <span class="mf">200.0</span><span class="p">),</span>
+            <span class="n">irr</span><span class="o">.</span><span class="n">vector3df</span><span class="p">(</span><span class="o">-</span><span class="mf">150.0</span><span class="p">,</span> <span class="mf">150.0</span><span class="p">,</span> <span class="mf">200.0</span><span class="p">),</span>
+            <span class="mi">100</span><span class="p">,</span>
+            <span class="mi">100</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_app</span><span class="o">.</span><span class="n">AddTypicalLights</span><span class="p">(</span>
+            <span class="n">irr</span><span class="o">.</span><span class="n">vector3df</span><span class="p">(</span><span class="mf">150.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">150.0</span><span class="p">,</span> <span class="mf">200.0</span><span class="p">),</span>
+            <span class="n">irr</span><span class="o">.</span><span class="n">vector3df</span><span class="p">(</span><span class="mf">150.0</span><span class="p">,</span> <span class="mf">150.0</span><span class="p">,</span> <span class="mf">200.0</span><span class="p">),</span>
+            <span class="mi">100</span><span class="p">,</span>
+            <span class="mi">100</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_app</span><span class="o">.</span><span class="n">SetChaseCamera</span><span class="p">(</span><span class="n">chrono</span><span class="o">.</span><span class="n">ChVectorD</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.75</span><span class="p">),</span> <span class="mf">6.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_app</span><span class="o">.</span><span class="n">SetTimestep</span><span class="p">(</span><span class="n">system</span><span class="o">.</span><span class="n">step_size</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_first</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="n">should_bind</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bind</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">environment</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">visualize</span><span class="p">(</span><span class="n">environment</span><span class="o">.</span><span class="n">get_assets</span><span class="p">())</span>
+
+<div class="viewcode-block" id="WAChronoIrrlicht.synchronize"><a class="viewcode-back" href="../../../autoapi/wa_simulator/chrono/visualization/index.html#wa_simulator.chrono.visualization.WAChronoIrrlicht.synchronize">[docs]</a>    <span class="k">def</span> <span class="nf">synchronize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="sd">"""Synchronize the irrlicht app with the vehicle inputs at the passed time</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            time (double): time to synchronize the simulation to</span>
+<span class="sd">        """</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">veh</span><span class="o">.</span><span class="n">Inputs</span><span class="p">()</span>
+        <span class="n">d</span><span class="o">.</span><span class="n">m_steering</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vehicle_inputs</span><span class="o">.</span><span class="n">steering</span>
+        <span class="n">d</span><span class="o">.</span><span class="n">m_throttle</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vehicle_inputs</span><span class="o">.</span><span class="n">throttle</span>
+        <span class="n">d</span><span class="o">.</span><span class="n">m_braking</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vehicle_inputs</span><span class="o">.</span><span class="n">braking</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_app</span><span class="o">.</span><span class="n">Synchronize</span><span class="p">(</span><span class="s2">""</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="WAChronoIrrlicht.advance"><a class="viewcode-back" href="../../../autoapi/wa_simulator/chrono/visualization/index.html#wa_simulator.chrono.visualization.WAChronoIrrlicht.advance">[docs]</a>    <span class="k">def</span> <span class="nf">advance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">step</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="sd">"""Advance the state of the visualization by the specified step</span>
+
+<span class="sd">        Will update the render only if the simulation step is a multiple of render steps</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            step (double): step size to update the visualization by</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_first</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bind</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_system</span><span class="o">.</span><span class="n">step_number</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_render_steps</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_app</span><span class="o">.</span><span class="n">BeginScene</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">irr</span><span class="o">.</span><span class="n">SColor</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">140</span><span class="p">,</span> <span class="mi">161</span><span class="p">,</span> <span class="mi">192</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_app</span><span class="o">.</span><span class="n">DrawAll</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_app</span><span class="o">.</span><span class="n">EndScene</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_record</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_app</span><span class="o">.</span><span class="n">WriteImageToFile</span><span class="p">(</span><span class="n">f</span><span class="s2">"</span><span class="si">{self._record_folder}{self._save_number}</span><span class="s2">.png"</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_save_number</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_app</span><span class="o">.</span><span class="n">Advance</span><span class="p">(</span><span class="n">step</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="WAChronoIrrlicht.is_ok"><a class="viewcode-back" href="../../../autoapi/wa_simulator/chrono/visualization/index.html#wa_simulator.chrono.visualization.WAChronoIrrlicht.is_ok">[docs]</a>    <span class="k">def</span> <span class="nf">is_ok</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">"""Checks if the irrlicht rending window is still alive</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: whether the simulation is still alive</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_app</span><span class="o">.</span><span class="n">GetDevice</span><span class="p">()</span><span class="o">.</span><span class="n">run</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="WAChronoIrrlicht.bind"><a class="viewcode-back" href="../../../autoapi/wa_simulator/chrono/visualization/index.html#wa_simulator.chrono.visualization.WAChronoIrrlicht.bind">[docs]</a>    <span class="k">def</span> <span class="nf">bind</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">"""Call AssetBindAll and AssetUpdateAll."""</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_app</span><span class="o">.</span><span class="n">AssetBindAll</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_app</span><span class="o">.</span><span class="n">AssetUpdateAll</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_first</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="WAChronoIrrlicht.visualize"><a class="viewcode-back" href="../../../autoapi/wa_simulator/chrono/visualization/index.html#wa_simulator.chrono.visualization.WAChronoIrrlicht.visualize">[docs]</a>    <span class="k">def</span> <span class="nf">visualize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">assets</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">asset</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">assets</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">asset</span><span class="p">,</span> <span class="n">WAPath</span><span class="p">):</span>
+                <span class="n">draw_path_in_irrlicht</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_system</span><span class="p">,</span> <span class="n">asset</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">asset</span><span class="p">,</span> <span class="n">WATrack</span><span class="p">):</span>
+                <span class="n">draw_path_in_irrlicht</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_system</span><span class="p">,</span> <span class="n">asset</span><span class="o">.</span><span class="n">center</span><span class="p">)</span>
+                <span class="n">draw_path_in_irrlicht</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_system</span><span class="p">,</span> <span class="n">asset</span><span class="o">.</span><span class="n">left</span><span class="p">)</span>
+                <span class="n">draw_path_in_irrlicht</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_system</span><span class="p">,</span> <span class="n">asset</span><span class="o">.</span><span class="n">right</span><span class="p">)</span></div></div>
+
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">wa_simulator.chrono.sensor</span> <span class="k">import</span> <span class="n">WAChronoSensorManager</span>
+
+    <span class="kn">import</span> <span class="nn">pychrono.sensor</span> <span class="k">as</span> <span class="nn">sens</span>
+
+<div class="viewcode-block" id="WAChronoSensorVisualization"><a class="viewcode-back" href="../../../autoapi/wa_simulator/chrono/visualization/index.html#wa_simulator.chrono.visualization.WAChronoSensorVisualization">[docs]</a>    <span class="k">class</span> <span class="nc">WAChronoSensorVisualization</span><span class="p">(</span><span class="n">WAVisualization</span><span class="p">):</span>
+        <span class="sd">"""Chrono sensor visualization wrapper. Sets default values for a camera sensor</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            system (WAChronoSystem): holds information regarding the simulation and performs dynamic updates</span>
+<span class="sd">            vehicle (WAChronoVehicle): vehicle that holds the Chrono vehicle</span>
+<span class="sd">            vehicle_inputs (WAVehicleInputs): the vehicle inputs</span>
+<span class="sd">            environment (WAEnvironment, optional): An environment with various world assets to visualize. Defaults to None (doesn't visualize anything).</span>
+<span class="sd">            opponents (list, optional): Opponents present in the simulation. The camera will track :attr:`~vehicle` not any opponent.</span>
+<span class="sd">            record (bool, optional): If set to true, images will be saved under record_filename. Defaults to False (doesn't save images).</span>
+<span class="sd">            record_folder (str, optional): The folder to save images to. Defaults to "OUTPUT/".</span>
+<span class="sd">        """</span>
+
+        <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">system</span><span class="p">:</span> <span class="s1">'WAChronoSystem'</span><span class="p">,</span> <span class="n">vehicle</span><span class="p">:</span> <span class="s1">'WAChronoVehicle'</span><span class="p">,</span> <span class="n">vehicle_inputs</span><span class="p">:</span> <span class="s1">'WAVehicleInputs'</span><span class="p">,</span> <span class="n">environment</span><span class="p">:</span> <span class="s1">'WAEnvironment'</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">opponents</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">record</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">record_folder</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"OUTPUT/"</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_render_steps</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span>
+                <span class="n">ceil</span><span class="p">(</span><span class="n">system</span><span class="o">.</span><span class="n">render_step_size</span> <span class="o">/</span> <span class="n">system</span><span class="o">.</span><span class="n">step_size</span><span class="p">))</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_system</span> <span class="o">=</span> <span class="n">system</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_vehicle_inputs</span> <span class="o">=</span> <span class="n">vehicle_inputs</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_record</span> <span class="o">=</span> <span class="n">record</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_record_folder</span> <span class="o">=</span> <span class="n">record_folder</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_manager</span> <span class="o">=</span> <span class="n">WAChronoSensorManager</span><span class="p">(</span><span class="n">system</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_manager</span><span class="o">.</span><span class="n">_manager</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">AddPointLight</span><span class="p">(</span><span class="n">chrono</span><span class="o">.</span><span class="n">ChVectorF</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="n">chrono</span><span class="o">.</span><span class="n">ChVectorF</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">5000</span><span class="p">)</span>
+
+            <span class="n">update_rate</span> <span class="o">=</span> <span class="mf">30.</span>
+            <span class="n">offset_pose</span> <span class="o">=</span> <span class="n">chrono</span><span class="o">.</span><span class="n">ChFrameD</span><span class="p">(</span><span class="n">chrono</span><span class="o">.</span><span class="n">ChVectorD</span><span class="p">(</span><span class="o">-</span><span class="mi">8</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+            <span class="n">image_width</span> <span class="o">=</span> <span class="mi">1280</span>
+            <span class="n">image_height</span> <span class="o">=</span> <span class="mi">720</span>
+            <span class="n">fov</span> <span class="o">=</span> <span class="mf">1.408</span>
+            <span class="n">cam</span> <span class="o">=</span> <span class="n">sens</span><span class="o">.</span><span class="n">ChCameraSensor</span><span class="p">(</span>
+                <span class="n">vehicle</span><span class="o">.</span><span class="n">_vehicle</span><span class="o">.</span><span class="n">GetChassisBody</span><span class="p">(),</span>              <span class="c1"># body camera is attached to</span>
+                <span class="n">update_rate</span><span class="p">,</span>            <span class="c1"># update rate in Hz</span>
+                <span class="n">offset_pose</span><span class="p">,</span>            <span class="c1"># offset pose</span>
+                <span class="n">image_width</span><span class="p">,</span>            <span class="c1"># image width</span>
+                <span class="n">image_height</span><span class="p">,</span>           <span class="c1"># image height</span>
+                <span class="n">fov</span>                    <span class="c1"># camera's horizontal field of view</span>
+            <span class="p">)</span>
+
+            <span class="n">cam</span><span class="o">.</span><span class="n">PushFilter</span><span class="p">(</span><span class="n">sens</span><span class="o">.</span><span class="n">ChFilterVisualize</span><span class="p">(</span><span class="n">image_width</span><span class="p">,</span> <span class="n">image_height</span><span class="p">))</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_record</span><span class="p">:</span>
+                <span class="n">cam</span><span class="o">.</span><span class="n">PushFilter</span><span class="p">(</span><span class="n">sens</span><span class="o">.</span><span class="n">ChFilterSave</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_record_folder</span><span class="p">))</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_manager</span><span class="o">.</span><span class="n">_manager</span><span class="o">.</span><span class="n">AddSensor</span><span class="p">(</span><span class="n">cam</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">environment</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">visualize</span><span class="p">(</span><span class="n">environment</span><span class="o">.</span><span class="n">get_assets</span><span class="p">())</span>
+
+<div class="viewcode-block" id="WAChronoSensorVisualization.synchronize"><a class="viewcode-back" href="../../../autoapi/wa_simulator/chrono/visualization/index.html#wa_simulator.chrono.visualization.WAChronoSensorVisualization.synchronize">[docs]</a>        <span class="k">def</span> <span class="nf">synchronize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_manager</span><span class="o">.</span><span class="n">synchronize</span><span class="p">(</span><span class="n">time</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="WAChronoSensorVisualization.advance"><a class="viewcode-back" href="../../../autoapi/wa_simulator/chrono/visualization/index.html#wa_simulator.chrono.visualization.WAChronoSensorVisualization.advance">[docs]</a>        <span class="k">def</span> <span class="nf">advance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">step</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_manager</span><span class="o">.</span><span class="n">advance</span><span class="p">(</span><span class="n">step</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="WAChronoSensorVisualization.is_ok"><a class="viewcode-back" href="../../../autoapi/wa_simulator/chrono/visualization/index.html#wa_simulator.chrono.visualization.WAChronoSensorVisualization.is_ok">[docs]</a>        <span class="k">def</span> <span class="nf">is_ok</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="WAChronoSensorVisualization.visualize"><a class="viewcode-back" href="../../../autoapi/wa_simulator/chrono/visualization/index.html#wa_simulator.chrono.visualization.WAChronoSensorVisualization.visualize">[docs]</a>        <span class="k">def</span> <span class="nf">visualize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">assets</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="k">pass</span></div></div>
+<span class="k">except</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+      </article>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+
+        <div class="related-information">
+              Copyright &#169; 2021, Wisconsin Autonomous
+            |
+            Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
+              and
+              <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+              <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </main>
+</div>
+  </body>
+</html>

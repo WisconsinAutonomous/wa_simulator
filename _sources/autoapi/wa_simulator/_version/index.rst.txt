@@ -6,11 +6,4 @@
 .. py:module:: wa_simulator._version
 
 
-Module Contents
----------------
-
-.. data:: __version__
-   :annotation: = 0.0.10
-
-   
-
+.. 

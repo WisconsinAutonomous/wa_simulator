@@ -3,97 +3,34 @@
 
 .. py:module:: wa_simulator.sensor
 
-.. autoapi-nested-parse::
-
-   Wisconsin Autonomous - https://www.wisconsinautonomous.org
-
-   Copyright (c) 2021 wisconsinautonomous.org
-   All rights reserved.
-
-   Use of this source code is governed by a BSD-style license that can be found
-   in the LICENSE file at the top level of the repo
+.. Module Contents
+.. ---------------
 
 
+.. raw:: html
 
-Module Contents
----------------
-
-Classes
-~~~~~~~
+   <h2>Classes</h2>
 
 .. autoapisummary::
+  :nosignatures:
 
-   wa_simulator.sensor.WASensorManager
-   wa_simulator.sensor.WANoiseModel
-   wa_simulator.sensor.WANoNoiseModel
-   wa_simulator.sensor.WANormalDriftNoiseModel
-   wa_simulator.sensor.WANormalNoiseModel
-   wa_simulator.sensor.WASensor
-   wa_simulator.sensor.WAIMUSensor
-   wa_simulator.sensor.WAGPSSensor
+  wa_simulator.sensor.WASensorManager
+  wa_simulator.sensor.WANoiseModel
+  wa_simulator.sensor.WANoNoiseModel
+  wa_simulator.sensor.WANormalDriftNoiseModel
+  wa_simulator.sensor.WANormalNoiseModel
+  wa_simulator.sensor.WASensor
+  wa_simulator.sensor.WAIMUSensor
+  wa_simulator.sensor.WAGPSSensor
 
+.. py:class:: WASensorManager(system: WASystem, filename: str = None)
 
-
-Functions
-~~~~~~~~~
-
-.. autoapisummary::
-
-   wa_simulator.sensor.load_sensor_suite_from_json
-   wa_simulator.sensor.load_sensor_from_json
-
-
-.. function:: load_sensor_suite_from_json(filename: str, manager: WASensorManager)
-
-   Load a sensor suite from json
-
-   :param filename: The json specification file that describes the sensor suite
-   :type filename: str
-   :param manager: The sensor manager to store all created objects in
-   :type manager: WASensorManager
-
-
-.. function:: load_sensor_from_json(filename: str, vehicle: WAVehicle)
-
-   Load a sensor from json
-
-   :param filename: The json specification file that describes the sensor
-   :type filename: str
-   :param vehicle: The vehicle each sensor will be attached to
-   :type vehicle: WAVehicle
-
-
-.. py:class:: WASensorManager(system: WASystem, vehicle: WAVehicle, filename: str = None)
+   Bases: :class:`wa_simulator.base.WABase`
 
    Base class that manages sensors.
 
-   :param system: The system for the simulation
-   :type system: WASystem
-   :param filename: A json file to load a scene from. Defaults to None (does nothing).
-   :type filename: str
-
-   .. attribute:: system
-
-      The system for the simulation
-
-      :type: WASystem
-
-   .. attribute:: vehicle
-
-      The vehicle each sensor will be attached to
-
-      :type: WAVehicle
-
-   .. attribute:: sensors
-
-      List of the attached sensors
-
-      :type: list
-
-   .. attribute:: EGP_SENSOR_SUITE_FILE
-      :annotation: = sensors/suites/ev_grand_prix.json
-
-      
+   :Parameters: * **system** (*WASystem*) -- The system for the simulation
+                * **filename** (*str, optional*) -- A json file to load a scene from. Defaults to None (does nothing).
 
    .. method:: add_sensor(self, sensor: WASensor)
 
@@ -102,18 +39,28 @@ Functions
 
    .. method:: synchronize(self, time)
 
-      Synchronize the sensor at the specified time
+      Synchronize each sensor at the specified time
 
-      :param time: the time at which the sensors are synchronized to
-      :type time: float
+      :Parameters: **time** (*float*) -- the time at which the sensors are synchronized to
 
 
    .. method:: advance(self, step)
 
-      Advance the state of the sensor by the specified time step
+      Advance the state of each sensor by the specified time step
 
-      :param step: the step to update the sensor by
-      :type step: float
+      :Parameters: **step** (*float*) -- the step to update the sensor by
+
+
+   .. method:: is_ok(self) -> bool
+
+      Check whether this component is still alive.
+
+      Depending the type of component, a specific element may "fail". For example, when
+      a visualization is used that presents a GUI/window, if the user closes that display,
+      this would be considered a component death. Therefore, :meth:`~is_ok` should then return
+      False.
+
+      :returns: *bool* -- True if still alive, false otherwise
 
 
 
@@ -131,8 +78,7 @@ Functions
 
       Add noise to the data
 
-      :param data: The data to add noise to
-      :type data: list
+      :Parameters: **data** (*list*) -- The data to add noise to
 
 
 
@@ -157,15 +103,13 @@ Functions
    Very similar to ChNormalDriftModel (https://github.com/projectchrono/chrono/blob/feature/sensor/src/chrono_sensor/ChNoiseModel.h)
    Made because ChSensor currently _requires_ OptiX (NVIDIA proprietary software)
 
-   :param p: Model properties/parameters taken from a json specification file
-   :type p: dict
+   :Parameters: **p** (*dict*) -- Model properties/parameters taken from a json specification file
 
    .. method:: add_noise(self, data: list)
 
       Add noise to the data
 
-      :param data: The data to add noise to
-      :type data: list
+      :Parameters: **data** (*list*) -- The data to add noise to
 
 
 
@@ -178,40 +122,76 @@ Functions
    Very similar to ChNormalModel (https://github.com/projectchrono/chrono/blob/feature/sensor/src/chrono_sensor/ChNoiseModel.h)
    Made because ChSensor currently _requires_ OptiX (NVIDIA proprietary software)
 
-   :param p: Model properties/parameters taken from a json specification file
-   :type p: dict
+   :Parameters: **p** (*dict*) -- Model properties/parameters taken from a json specification file
 
    .. method:: add_noise(self, data: list)
 
       Add noise to the data
 
-      :param data: The data to add noise to
-      :type data: list
+      :Parameters: **data** (*list*) -- The data to add noise to
 
 
 
-.. py:class:: WASensor
+.. py:class:: WASensor(vehicle: WAVehicle, body: WABody)
 
-   Bases: :class:`abc.ABC`
+   Bases: :class:`wa_simulator.base.WABase`
 
    Base class for a sensor
 
-   .. method:: synchronize(self, time)
+   For the WASimulator, a sensor is a component that produces some sensor data. Each sensor is managed by a :class:`~WASensorManager`
+   and will typically provide information for a vehicle or the surroundings. Common sensors used in autonomous vehicle
+   applications: GPS, IMU, Camera, LiDAR.
+
+   Sensor implementations are some what limited to the underlying backend for the simulation. If Chrono is used,
+   Physics Based Rendering (PBR) sensors are available through the ray tracing engine `OptiX <https://developer.nvidia.com/optix>`_
+   and `Chrono::Sensor <https://api.projectchrono.org/group__sensor__sensors.html>`_.
+
+   :Parameters: * **vehicle** (*WAVehicle*) -- The vehicle to attach to. If not passed, body must be passed.
+                * **body** (*WABody*) -- The body to attach to. If not passed, vehicle must be passed.
+
+   .. method:: synchronize(self, time: float)
       :abstractmethod:
 
-      Synchronize the sensor at the specified time
+      Update the state of this component at the current time.
 
-      :param time: the time at which the sensors are synchronized to
-      :type time: float
+      The primary reason to decouple the update method into two separate calls (i.e. :meth:`~synchronize` and :meth:`~advance`)
+      is to provide flexibility to the user and is essentially semantic. In most simple cases, a user will only need one of the two.
+      Furthermore, can only use :meth:`~advance` if they prefer and just update their own :code:`time` variable. Given the unknown use cases
+      for the simulator at the time of writing, it was chosen to provide two different methods with similar functionality as to allow
+      the user to choose their desired implementation, rather than the writers of this package.
+
+      As opposed to :meth:`~advance`, this method gets the current time of the simulation. As menthioned earlier,
+      :meth:`~advance` and a user defined `time` variable could be used to instead to hold the current state of the simulation. However,
+      to aid in generality of the package, this method is provided to simply provide the current time of the simulation to the user in a decoupled
+      manner from the :meth:`~advance` method.
+
+      :Parameters: **time** (*float*) -- The current time to synchronize to
 
 
-   .. method:: advance(self, step)
+   .. method:: advance(self, step: float)
       :abstractmethod:
 
-      Advance the state of the sensor by the specified time step
+      Advance the state of this component by the specified time step.
 
-      :param step: the step to update the sensor by
-      :type step: float
+      The primary reason to decouple the update method into two separate calls (i.e. :meth:`~synchronize` and :meth:`~advance`)
+      is to provide flexibility to the user and is essentially semantic. In most simple cases, a user will only need one of the two.
+      Furthermore, can only use :meth:`~advance` if they prefer and just update their own :code:`time` variable. Given the unknown use cases
+      for the simulator at the time of writing, it was chosen to provide two different methods with similar functionality as to allow
+      the user to choose their desired implementation, rather than the writers of this package.
+
+      :Parameters: **step** (*float*) -- The step size to advance this component by
+
+
+   .. method:: is_ok(self) -> bool
+
+      Check whether this component is still alive.
+
+      Depending the type of component, a specific element may "fail". For example, when
+      a visualization is used that presents a GUI/window, if the user closes that display,
+      this would be considered a component death. Therefore, :meth:`~is_ok` should then return
+      False.
+
+      :returns: *bool* -- True if still alive, false otherwise
 
 
    .. method:: get_data(self)
@@ -219,87 +199,85 @@ Functions
 
       Get the sensor data
 
+      Return types may vary. See the respective sensor for specifics.
 
 
-.. py:class:: WAIMUSensor(vehicle: WAVehicle, filename: str)
+
+.. py:class:: WAIMUSensor(system: WASystem, filename: str, vehicle: WAVehicle = None, body: WABody = None)
 
    Bases: :class:`wa_simulator.sensor.WASensor`
 
    Derived sensor class that implements an IMU model
 
-   :param vehicle: the vehicle that the state data will be extracted from
-   :type vehicle: WAVehicle
-   :param filename: a json specification file that describes an IMU sensor model
-   :type filename: str
+   IMU stands for Inertial Measurement Unit. They come in all shapes and sizes. Typically, an IMU is used to
+   measure position and orientation of whatever it is attached to. To do this, it is actually made up of more sensors,
+   which when combined, produce a localizable reading. Common sub-sensors include Gyroscopes, Accelerometers, Altimeters and
+   Magnetometer.
 
-   .. attribute:: SBG_IMU_SENSOR_FILE
-      :annotation: = sensors/models/SBG_IMU.json
+   This implementation combines three sensors to produce the expected output: Gyroscope, Accelerometer and Magnetometer. A good
+   description of the underyling implementation can be found in `these slides <https://stanford.edu/class/ee267/lectures/lecture9.pdf>`_.
 
-      
+   :Parameters: * **system** (*WASystem*) -- The system for the simulation
+                * **filename** (*str*) -- a json specification file that describes an IMU sensor model
+                * **vehicle** (*WAVehicle, optional*) -- The vehicle to attach to. If not passed, body must be passed.
+                * **body** (*WABody, optional*) -- The body to attach to. If not passed, vehicle must be passed.
 
    .. method:: synchronize(self, time)
 
       Synchronize the sensor at the specified time
 
-      :param time: the time at which the sensors are synchronized to
-      :type time: float
+      :Parameters: **time** (*float*) -- the time at which the sensors are synchronized to
 
 
    .. method:: advance(self, step)
 
       Advance the state of the sensor by the specified time step
 
-      :param step: the step to update the sensor by
-      :type step: float
+      :Parameters: **step** (*float*) -- the step to update the sensor by
 
 
    .. method:: get_data(self)
 
       Get the sensor data
 
-      :returns: Tuple in the form of (acceleration, angular_velocity, orientation)
-      :rtype: (WAVector, WAVector, WAQuaternion)
+      :returns: *(WAVector, WAQuaternion, WAQuaternion)* -- Tuple in the form of (acceleration, angular_velocity, orientation)
 
 
 
-.. py:class:: WAGPSSensor(vehicle: WAVehicle, filename: str)
+.. py:class:: WAGPSSensor(system: WASystem, filename: str, vehicle: WAVehicle = None, body: WABody = None)
 
    Bases: :class:`wa_simulator.sensor.WASensor`
 
    Derived sensor class that implements an GPS model
 
-   :param vehicle: the vehicle that the state data will be extracted from
-   :type vehicle: WAVehicle
-   :param filename: a json specification file that describes an IMU sensor model
-   :type filename: str
+   GPS stands for Global Positioning System. GPS's are everyday sensors you can find in your computer, watch, phone, etc.
+   They essentially ping satilites orbiting earth for positional information. This information, in real life, is not very
+   precise. IMU's and GPS's are commonly "fused" together to achieve highly accurate and reliable position information.
 
-   .. attribute:: SBG_GPS_SENSOR_FILE
-      :annotation: = sensors/models/SBG_GPS.json
-
-      
+   :Parameters: * **system** (*WASystem*) -- The system for the simulation
+                * **filename** (*str*) -- a json specification file that describes an GPS sensor model
+                * **vehicle** (*WAVehicle, optional*) -- The vehicle to attach to. If not passed, body must be passed.
+                * **body** (*WABody, optional*) -- The body to attach to. If not passed, vehicle must be passed.
 
    .. method:: synchronize(self, time)
 
       Synchronize the sensor at the specified time
 
-      :param time: the time at which the sensors are synchronized to
-      :type time: float
+      :Parameters: **time** (*float*) -- the time at which the sensors are synchronized to
 
 
    .. method:: advance(self, step)
 
       Advance the state of the sensor by the specified time step
 
-      :param step: the step to update the sensor by
-      :type step: float
+      :Parameters: **step** (*float*) -- the step to update the sensor by
 
 
    .. method:: get_data(self)
 
       Get the sensor data
 
-      :returns: The coordinate location of the vehicle in the form of [longitude, latitude, altitude]
-      :rtype: WAVector
+      :returns: *WAVector* -- The coordinate location of the vehicle in the form of [longitude, latitude, altitude]
 
 
    .. method:: cartesian_to_gps(coords: WAVector, ref: WAVector)
@@ -307,13 +285,10 @@ Functions
 
       Convert a point from cartesian to gps
 
-      :param coords: The coordinate to convert
-      :type coords: WAVector
-      :param ref: The "origin" or reference point
-      :type ref: WAVector
+      :Parameters: * **coords** (*WAVector*) -- The coordinate to convert
+                   * **ref** (*WAVector*) -- The "origin" or reference point
 
-      :returns: The coordinate in the form of[longitude, latitude, altitude]
-      :rtype: WAVector
+      :returns: *WAVector* -- The coordinate in the form of[longitude, latitude, altitude]
 
 
    .. method:: gps_to_cartesian(coords: WAVector, ref: WAVector)
@@ -321,13 +296,59 @@ Functions
 
       Convert a gps coordinate to cartesian given some reference
 
-      :param coords: The coordinate to convert
-      :type coords: WAVector
-      :param ref: The "origin" or reference point
-      :type ref: WAVector
+      :Parameters: * **coords** (*WAVector*) -- The coordinate to convert
+                   * **ref** (*WAVector*) -- The "origin" or reference point
 
-      :returns: The x, y, z point in cartesian
-      :rtype: WAVector
+      :returns: *WAVector* -- The x, y, z point in cartesian
 
 
 
+
+
+
+.. raw:: html
+
+   <h2>Methods</h2>
+
+.. autoapisummary::
+  :nosignatures:
+
+   wa_simulator.sensor.load_sensor_suite_from_json
+   wa_simulator.sensor.load_sensor_from_json
+
+.. function:: load_sensor_suite_from_json(manager: WASensorManager, filename: str)
+
+   Load a sensor suite from json
+
+   Each loaded sensor will be added to the manager
+
+   :Parameters: * **manager** (*WASensorManager*) -- The sensor manager to store all created objects in
+                * **filename** (*str*) -- The json specification file that describes the sensor suite
+
+
+.. function:: load_sensor_from_json(system: WASystem, filename: str, **kwargs) -> 'WASensor'
+
+   Load a sensor from json
+
+   :Parameters: * **system** (*WASystem*) -- The system for the simulation
+                * **filename** (*str*) -- The json specification file that describes the sensor
+                * **kwargs** -- Keyworded arguments. Must contain a 'vehicle' or 'body', not both.
+
+   :returns: *WASensor* -- The created sensor
+
+
+
+
+
+.. .. .. autoapi-nested-parse::
+..
+..    Wisconsin Autonomous - https://www.wisconsinautonomous.org
+
+   Copyright (c) 2021 wisconsinautonomous.org
+   All rights reserved.
+
+   Use of this source code is governed by a BSD-style license that can be found
+   in the LICENSE file at the top level of the repo
+
+..
+.. 

@@ -1,55 +1,146 @@
+:orphan:
+
 API Reference
 ===================
 
 .. py:module:: wa_simulator
 
 
-Subpackages
------------
 .. toctree::
-   :titlesonly:
-   :maxdepth: 3
+	:hidden:
+	:titlesonly:
+	:maxdepth: 3
 
-   chrono/index.rst
+	chrono/index.rst
+
+	base/index.rst
+
+	controller/index.rst
+
+	core/index.rst
+
+	environment/index.rst
+
+	path/index.rst
+
+	sensor/index.rst
+
+	simulation/index.rst
+
+	system/index.rst
+
+	track/index.rst
+
+	utils/index.rst
+
+	vehicle/index.rst
+
+	vehicle_inputs/index.rst
+
+	visualization/index.rst
 
 
-Submodules
+Core
+----
+- :mod:`wa_simulator`
+
+  - `Base <base/index.html>`_
+  - `Core <core/index.html>`_
+  - `Path <path/index.html>`_
+  - `System <system/index.html>`_
+  - `Track <track/index.html>`_
+  - `Utils <utils/index.html>`_
+  - `VehicleInputs <vehicle_inputs/index.html>`_
+
+.. raw::
+  </br>
+
+
+- :mod:`wa_simulator.chrono`
+
+
+
+
+
+  - `System <system/index.html>`_
+
+
+  - `Utils <utils/index.html>`_
+
+
+
+
+
+
+
+Components
 ----------
-.. toctree::
-   :titlesonly:
-   :maxdepth: 1
 
-   constants/index.rst
-   controller/index.rst
-   core/index.rst
-   environment/index.rst
-   inputs/index.rst
-   path/index.rst
-   sensor/index.rst
-   simulation/index.rst
-   system/index.rst
-   terrain/index.rst
-   track/index.rst
-   utils/index.rst
-   vehicle/index.rst
-   visualization/index.rst
+- :mod:`wa_simulator`
+
+  - `Controller <controller/index.html>`_
+  - `Environment <environment/index.html>`_
+  - `Sensor <sensor/index.html>`_
+  - `Simulation <simulation/index.html>`_
+  - `Vehicle <vehicle/index.html>`_
+  - `Visualization <visualization/index.html>`_
+
+.. raw::
+  </br>
 
 
-Package Contents
-----------------
+- :mod:`wa_simulator.chrono`
+
+
+  - `Controller <controller/index.html>`_
+
+
+  - `Environment <environment/index.html>`_
+
+
+  - `Sensor <sensor/index.html>`_
+
+
+
+
+  - `Vehicle <vehicle/index.html>`_
+
+
+  - `Visualization <visualization/index.html>`_
+
+
+
+.. Package Contents
+.. ----------------
+
+
+
+
+.. raw:: html
+
+   <h2>Attributes</h2>
+
+.. autoapisummary::
+  :nosignatures:
+
+   wa_simulator.__author__ 
+   :annotation: = Wisconsin Autonomous (wisconsinautonomous@studentorg.wisc.edu)
+   wa_simulator.__license__ 
+   :annotation: = BSD3
 
 .. data:: __author__
    :annotation: = Wisconsin Autonomous (wisconsinautonomous@studentorg.wisc.edu)
 
-   
+   Wisconsin Autonomous (wisconsinautonomous@studentorg.wisc.edu)
+
 
 .. data:: __license__
    :annotation: = BSD3
 
-   
+   BSD3
 
-.. data:: __version__
-   
 
-   
 
+
+
+.. 

@@ -3,35 +3,13 @@
 
 .. py:module:: setup
 
-.. autoapi-nested-parse::
 
-   A setuptools based setup module.
+.. .. .. autoapi-nested-parse::
+..
+..    A setuptools based setup module.
    See:
    https://packaging.python.org/guides/distributing-packages-using-setuptools/
    https://github.com/pypa/sampleproject
 
-
-
-Module Contents
----------------
-
-
-Functions
-~~~~~~~~~
-
-.. autoapisummary::
-
-   setup.read
-   setup.get_package_data
-   setup.get_version
-
-
-.. function:: read(fname)
-
-
-.. function:: get_package_data(directory, rm='wa_simulator/')
-
-
-.. function:: get_version()
-
-
+..
+.. 

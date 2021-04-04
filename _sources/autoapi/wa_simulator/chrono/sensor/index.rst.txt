@@ -3,108 +3,29 @@
 
 .. py:module:: wa_simulator.chrono.sensor
 
-.. autoapi-nested-parse::
-
-   Wisconsin Autonomous - https://www.wisconsinautonomous.org
-
-   Copyright (c) 2021 wisconsinautonomous.org
-   All rights reserved.
-
-   Use of this source code is governed by a BSD-style license that can be found
-   in the LICENSE file at the top level of the repo
+.. Module Contents
+.. ---------------
 
 
+.. raw:: html
 
-Module Contents
----------------
-
-Classes
-~~~~~~~
+   <h2>Classes</h2>
 
 .. autoapisummary::
+  :nosignatures:
 
-   wa_simulator.chrono.sensor.WAChronoSensorManager
-   wa_simulator.chrono.sensor.WAChronoSensor
+  wa_simulator.chrono.sensor.WAChronoSensorManager
+  wa_simulator.chrono.sensor.WAChronoSensor
 
-
-
-Functions
-~~~~~~~~~
-
-.. autoapisummary::
-
-   wa_simulator.chrono.sensor.load_chrono_sensor_scene_from_json
-   wa_simulator.chrono.sensor.load_chrono_sensor_from_json
-
-
-.. data:: missing_chrono_sensor
-   :annotation: = False
-
-   
-
-.. function:: load_chrono_sensor_scene_from_json(filename: str, manager: WAChronoSensorManager)
-
-   Load a chrono sensor scene from a json specification file. A scene may consist of "World" attributes (i.e. lights) or sensors
-
-   :param filename: The json specification file describing the scene
-   :type filename: str
-   :param manager: The sensor manager to edit the scene of
-   :type manager: WASensorManager
-
-
-.. function:: load_chrono_sensor_from_json(filename: str, vehicle: WAChronoVehicle)
-
-   Load a chrono sensor from json
-
-   If the passed json file isn't a chrono type, it will call the correct method.
-
-   :param filename: The json specification file that describes the sensor
-   :type filename: str
-   :param vehicle: The vehicle each sensor will be attached to
-   :type vehicle: WAChronoVehicle
-
-
-.. py:class:: WAChronoSensorManager(system: WAChronoSystem, vehicle: WAChronoVehicle, filename: str = None)
+.. py:class:: WAChronoSensorManager(system: WAChronoSystem, filename: str = None)
 
    Bases: :class:`wa_simulator.sensor.WASensorManager`
 
    Derived SensorManager class that essentially wraps a ChSensorManager. Used to maintain sensors.
 
-   :param system: The system for the simulation
-   :type system: WAChronoSystem
-   :param vehicle: The vehicle each sensor is attached to
-   :type vehicle: WAVehicle
-   :param filename: A json file to load a scene from. Defaults to None (does nothing).
-   :type filename: str
-
-   .. attribute:: manager
-
-      The chrono sensor manager that actually performs the updates of the chrono objects
-
-      :type: ChSensorManager
-
-   .. attribute:: system
-
-      The system for the simulation
-
-      :type: WAChronoSystem
-
-   .. attribute:: vehicle
-
-      The vehicle each sensor is attached to
-
-      :type: WAChronoVehicle
-
-   .. attribute:: filename
-
-      A json file to load a scene from. Defaults to None (does nothing).
-
-      :type: str
-
-   .. attribute:: EGP_SENSOR_SCENE_FILE
-      
-
-      
+   :Parameters: * **system** (*WAChronoSystem*) -- The system for the simulation
+                * **vehicle** (*WAVehicle*) -- The vehicle each sensor is attached to
+                * **filename** (*str*) -- A json file to load a scene from. Defaults to None (does nothing).
 
    .. method:: add_sensor(self, sensor: WAChronoSensor)
 
@@ -115,54 +36,95 @@ Functions
 
       Advance the state of the sensor by the specified time step
 
-      :param step: the step to update the sensor by
-      :type step: float
-
-
-   .. method:: add_body(self, body)
-
-      Adds a ChBody to the ChSystem. Saves them to be used later
+      :Parameters: **step** (*float*) -- the step to update the sensor by
 
 
 
-.. py:class:: WAChronoSensor(vehicle: WAChronoVehicle, filename: str)
+.. py:class:: WAChronoSensor(system: WAChronoSystem, filename: str, vehicle: WAChronoVehicle = None, body: WABody = None)
 
    Bases: :class:`wa_simulator.sensor.WASensor`
 
-   Derived Sensor class that is still abstract that essentially wraps a ChSensor
+   Derived Sensor class that is still abstract that essentially wraps a ChSensor.
 
-   .. attribute:: MONO_CAM_SENSOR_FILE
-      :annotation: = sensors/models/generic_monocamera.json
+   A ChSensor has to be attached to a body that's present in the Chrono world. That body can then be moved
+   which then moves the ChSensor. If a vehicle is passed, the sensor is automatically attached to the chassis
+   body with some offset. If a vehicle is not passed, a :class:`~WABody` must be passed and the sensor
+   will be attached to that object. If both are passed, an exception is raised.
 
-      
+   If body is passed, it must have one attribute: position.
 
-   .. attribute:: LDMRS_LIDAR_SENSOR_FILE
-      :annotation: = sensors/models/ldmrs.json
-
-      
+   :Parameters: * **system** (*WAChronoSystem*) -- The system for the simulation
+                * **filename** (*str*) -- The json file that describes this sensor
+                * **vehicle** (*WAChronoVehicle, optional*) -- The vehicle to attach to. If not passed, body must be passed.
+                * **body** (*WABody, optional*) -- The body to attach to. If not passed, vehicle must be passed.
 
    .. method:: synchronize(self, time)
 
       Synchronize the sensor at the specified time
 
-      :param time: the time at which the sensors are synchronized to
-      :type time: float
+      :Parameters: **time** (*float*) -- the time at which the sensors are synchronized to
 
 
    .. method:: advance(self, step)
 
       Advance the state of the sensor by the specified time step
 
-      :param step: the step to update the sensor by
-      :type step: float
+      :Parameters: **step** (*float*) -- the step to update the sensor by
 
 
    .. method:: get_data(self)
 
       Get the sensor data
 
-      :returns: The sensor data. Type depends on the actual sensor
-      :rtype: np.ndarray
+      :returns: *np.ndarray* -- The sensor data. Type depends on the actual sensor
 
 
 
+
+
+
+.. raw:: html
+
+   <h2>Methods</h2>
+
+.. autoapisummary::
+  :nosignatures:
+
+   wa_simulator.chrono.sensor.load_chrono_sensor_scene_from_json
+   wa_simulator.chrono.sensor.load_chrono_sensor_from_json
+
+.. function:: load_chrono_sensor_scene_from_json(manager: WAChronoSensorManager, filename: str)
+
+   Load a chrono sensor scene from a json specification file. A scene may consist of "World" attributes (i.e. lights) or sensors
+
+   :Parameters: * **manager** (*WASensorManager*) -- The sensor manager to edit the scene of
+                * **filename** (*str*) -- The json specification file describing the scene
+
+
+.. function:: load_chrono_sensor_from_json(system: WAChronoSystem, filename: str, **kwargs) -> 'WAChronoSensor'
+
+   Load a chrono sensor from json
+
+   If the passed json file isn't a chrono type, it will call the correct method.
+
+   :Parameters: * **system** (*WAChronoSystem*) -- The system for the simulation
+                * **filename** (*str*) -- The json specification file that describes the sensor
+
+   :returns: *WAChronoSensor* -- The created sensor
+
+
+
+
+
+.. .. .. autoapi-nested-parse::
+..
+..    Wisconsin Autonomous - https://www.wisconsinautonomous.org
+
+   Copyright (c) 2021 wisconsinautonomous.org
+   All rights reserved.
+
+   Use of this source code is governed by a BSD-style license that can be found
+   in the LICENSE file at the top level of the repo
+
+..
+.. 

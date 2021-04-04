@@ -1,0 +1,1173 @@
+<!doctype html>
+<html class="no-js">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
+
+    <link rel="shortcut icon" href="../../_static/wa-dark-favicon.png"/><meta name="generator" content="sphinx-3.4.2, furo 2020.12.30.beta24"/>
+        <title>wa_simulator.visualization - Wisconsin Autonomous Simulator 1.0.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/styles/furo.css?digest=33d2fc4f3f180ec1ffc6524e273e21d7d58cbe49">
+    <link rel="stylesheet" href="../../_static/pygments.css">
+    <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../../_static/pygments_dark.css">
+    
+
+
+<style>
+  :root {
+    --color-code-background: #f0f0f0;
+  --color-code-foreground: black;
+  
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+  }
+
+  /* For allowing end-user-specific overrides */
+  .override-light {
+    --color-code-background: #f0f0f0;
+  --color-code-foreground: black;
+  
+  }
+  .override-dark {
+    --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+  }
+</style><link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css" />
+    <link rel="stylesheet" href="../../_static/styles/furo-extensions.css?digest=26485485040e7aaf717c13fd0188a5ad2c2deb60">
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script defer="defer" src="../../_static/jquery.js"></script>
+    <script defer="defer" src="../../_static/underscore.js"></script>
+    <script defer="defer" src="../../_static/doctools.js"></script>
+    <script defer src="../../_static/scripts/main.js?digest=e931d09b2a40c1bb82b542effe772014573baf67"></script></head>
+  <body dir="">
+    
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+      stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z"/>
+      <line x1="4" y1="6" x2="20" y2="6" />
+      <line x1="10" y1="12" x2="20" y2="12" />
+      <line x1="6" y1="18" x2="20" y2="18" />
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+      class="feather feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+      class="feather feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
+
+<div class="announcement">
+  <aside class="announcement-content">
+     
+        <a style="text-decoration: none; color: white;" 
+           href="https://wisconsinautonomous.org">
+           <img src="https://github.com/WisconsinAutonomous/wa-resources/blob/master/Images/wa-dark.png?raw=true" 
+                style="vertical-align: middle; display: inline; padding-right: 7.5px; height: 20px;"/>
+           Checkout our website!
+        </a>
+     
+  </aside>
+</div>
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../index.html"><div class="brand">Wisconsin Autonomous Simulator 1.0.3 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="../../_static/wa-light.png" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../../_static/wa-dark.png" alt="Dark Logo"/>
+  </div>
+  
+  
+</a><form class="sidebar-search-container" method="get" action="../../search.html">
+  <input class="sidebar-search" placeholder=Search name="q">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../background.html">Background</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../installation/index.html">Installation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label for="toctree-checkbox-1"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../installation/unix.html">Unix Installation Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../installation/windows.html">Windows Installation Guide</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label for="toctree-checkbox-2"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/custom-controller.html">Creating a Custom Controller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/writing-a-json.html">Writing a JSON Specification File</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../autoapi/wa_simulator/index.html">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label for="toctree-checkbox-3"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../autoapi/wa_simulator/chrono/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label for="toctree-checkbox-4"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../autoapi/wa_simulator/chrono/controller/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.controller</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../autoapi/wa_simulator/chrono/environment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.environment</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../autoapi/wa_simulator/chrono/sensor/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.sensor</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../autoapi/wa_simulator/chrono/system/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.system</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../autoapi/wa_simulator/chrono/utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.utils</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../autoapi/wa_simulator/chrono/vehicle/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.vehicle</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../autoapi/wa_simulator/chrono/visualization/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.visualization</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/wa_simulator/base/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.base</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/wa_simulator/controller/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.controller</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/wa_simulator/core/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.core</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/wa_simulator/environment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.environment</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/wa_simulator/path/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.path</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/wa_simulator/sensor/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.sensor</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/wa_simulator/simulation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.simulation</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/wa_simulator/system/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.system</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/wa_simulator/track/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.track</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/wa_simulator/utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.utils</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/wa_simulator/vehicle/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.vehicle</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/wa_simulator/vehicle_inputs/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.vehicle_inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/wa_simulator/visualization/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.visualization</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
+</ul>
+<p><span class="caption-text">External Links</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://pypi.org/project/wa-simulator/">PyPI</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/WisconsinAutonomous/wa_simulator">Github</a></li>
+</ul>
+
+</div>
+</div>
+      </div>
+      
+    </div>
+  </aside>
+  <main class="main">
+    <div class="content">
+      <article role="main">
+        <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+        </label>
+        <h1>Source code for wa_simulator.visualization</h1><div class="highlight"><pre>
+<span></span><span class="sd">"""</span>
+<span class="sd">Wisconsin Autonomous - https://www.wisconsinautonomous.org</span>
+
+<span class="sd">Copyright (c) 2021 wisconsinautonomous.org</span>
+<span class="sd">All rights reserved.</span>
+
+<span class="sd">Use of this source code is governed by a BSD-style license that can be found</span>
+<span class="sd">in the LICENSE file at the top level of the repo</span>
+<span class="sd">"""</span>
+
+<span class="kn">from</span> <span class="nn">abc</span> <span class="k">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>  <span class="c1"># Abstract Base Class</span>
+
+<span class="c1"># WA Simulator</span>
+<span class="kn">from</span> <span class="nn">wa_simulator.base</span> <span class="k">import</span> <span class="n">WABase</span>
+<span class="kn">from</span> <span class="nn">wa_simulator.core</span> <span class="k">import</span> <span class="n">WA_PI</span><span class="p">,</span> <span class="n">WAVector</span>
+<span class="kn">from</span> <span class="nn">wa_simulator.path</span> <span class="k">import</span> <span class="n">WAPath</span>
+<span class="kn">from</span> <span class="nn">wa_simulator.track</span> <span class="k">import</span> <span class="n">WATrack</span>
+<span class="kn">from</span> <span class="nn">wa_simulator.environment</span> <span class="k">import</span> <span class="n">WABody</span>
+
+<span class="c1"># Other imports</span>
+<span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="k">import</span> <span class="n">Process</span><span class="p">,</span> <span class="n">Pipe</span><span class="p">,</span> <span class="n">Barrier</span><span class="p">,</span> <span class="n">Queue</span><span class="p">,</span> <span class="n">set_start_method</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">matplotlib.patches</span> <span class="k">import</span> <span class="n">Polygon</span><span class="p">,</span> <span class="n">Patch</span>
+<span class="kn">import</span> <span class="nn">matplotlib.collections</span> <span class="k">as</span> <span class="nn">collections</span>
+<span class="kn">from</span> <span class="nn">matplotlib.animation</span> <span class="k">import</span> <span class="n">FuncAnimation</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="k">import</span> <span class="n">display</span><span class="p">,</span> <span class="n">clear_output</span>
+
+
+<div class="viewcode-block" id="WAVisualization"><a class="viewcode-back" href="../../autoapi/wa_simulator/visualization/index.html#wa_simulator.visualization.WAVisualization">[docs]</a><span class="k">class</span> <span class="nc">WAVisualization</span><span class="p">(</span><span class="n">WABase</span><span class="p">):</span>
+    <span class="sd">"""Base class to be used for visualization of the simulation world.</span>
+
+<span class="sd">    Inherits from WABase, so this class and any derived classes can be seen as components. Derived classes</span>
+<span class="sd">    can/should use various world attributes to visualize the simulation. `Matplotlib &lt;https://matplotlib.org/&gt;`_ and</span>
+<span class="sd">    `irrlicht &lt;http://irrlicht.sourceforge.net/&gt;`_ are two example visualizations that, depending on the simulation</span>
+<span class="sd">    configuration, users may select. Additional visualizations may be implemented, as well.</span>
+<span class="sd">    """</span>
+
+    <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="WAVisualization.synchronize"><a class="viewcode-back" href="../../autoapi/wa_simulator/visualization/index.html#wa_simulator.visualization.WAVisualization.synchronize">[docs]</a>    <span class="k">def</span> <span class="nf">synchronize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+
+    <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="WAVisualization.advance"><a class="viewcode-back" href="../../autoapi/wa_simulator/visualization/index.html#wa_simulator.visualization.WAVisualization.advance">[docs]</a>    <span class="k">def</span> <span class="nf">advance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">step</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+
+    <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="WAVisualization.is_ok"><a class="viewcode-back" href="../../autoapi/wa_simulator/visualization/index.html#wa_simulator.visualization.WAVisualization.is_ok">[docs]</a>    <span class="k">def</span> <span class="nf">is_ok</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">pass</span></div>
+
+    <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="WAVisualization.visualize"><a class="viewcode-back" href="../../autoapi/wa_simulator/visualization/index.html#wa_simulator.visualization.WAVisualization.visualize">[docs]</a>    <span class="k">def</span> <span class="nf">visualize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">assets</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">"""Helper method that visualizes some object(s) in the chosen visualizer</span>
+
+<span class="sd">        Different visualizations will visualize the object(s) in different ways. This is an abstract method,</span>
+<span class="sd">        so it must be implemented.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            assets (list): The object(s) to visualize</span>
+<span class="sd">            *args: Positional arguments that are specific to the underyling visualizer implementation</span>
+<span class="sd">            **kwargs: Keyworded arguments that are specific to the underlying visualizer implementation</span>
+<span class="sd">        """</span>
+        <span class="k">pass</span></div></div>
+
+<span class="c1"># -------------------------</span>
+<span class="c1"># Matplotlib helper classes</span>
+<span class="c1"># -------------------------</span>
+
+
+<span class="k">def</span> <span class="nf">_transform</span><span class="p">(</span><span class="n">entity</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">yaw</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">x_offset</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">y_offset</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+    <span class="sd">"""Helper function to transfrom a numpy entity by the specified values</span>
+
+<span class="sd">    There are two transformations that occur. First is considered "static". A simple transformation matrix is constructed where</span>
+<span class="sd">    the array is rotated by some yaw about the z and a translation from (0,0). A second transformation matrix is then dotted to</span>
+<span class="sd">    "add" another transform that will account for the previous transformations. This second transformation is used for wheels which</span>
+<span class="sd">    have the same rotation and position as the chassis, but also are offset and rotated by some value depending on the steering</span>
+<span class="sd">    angle and the position of the tire relative to the COM.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">       entity (np.ndarray): The numpy array to transform</span>
+<span class="sd">       x (float): The static x translation (offset will be applied post rotation)</span>
+<span class="sd">       y (float): The static y translation (offset will be applied post rotation)</span>
+<span class="sd">       yaw (float): The static rotation (alpha applied post this rotation)</span>
+<span class="sd">       alpha (float): The steering angle rotation applied in the second matrix</span>
+<span class="sd">       x_offset (float): The offset translation in the x direction applied in the second matrix</span>
+<span class="sd">       y_offset (float): The offset translation in the y direction applied in the second matrix</span>
+<span class="sd">    """</span>
+    <span class="n">T</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="p">[[</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">yaw</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">yaw</span><span class="p">),</span> <span class="n">x</span><span class="p">],</span>
+         <span class="p">[</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">yaw</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">yaw</span><span class="p">),</span> <span class="n">y</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
+    <span class="p">)</span>
+    <span class="n">T</span> <span class="o">=</span> <span class="n">T</span> <span class="o">@</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">alpha</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">alpha</span><span class="p">),</span> <span class="n">x_offset</span><span class="p">],</span>
+            <span class="p">[</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">alpha</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">alpha</span><span class="p">),</span> <span class="n">y_offset</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">T</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">_MatplotlibVehicle</span><span class="p">:</span>
+    <span class="sd">"""Plotter class for a matplotlib vehicle</span>
+
+<span class="sd">    Required visualization properties (keys present in the :code:`properties` dictionary):</span>
+<span class="sd">        "Tire Distance To Front" (float): Offset distance between the COM and the front axle</span>
+<span class="sd">        "Tire Distance To Rear" (float): Offset distance between the COM and the rear axle</span>
+<span class="sd">        "Body Distance To Front" (float): Offset distance between the COM and the front bumper</span>
+<span class="sd">        "Body Distance To Rear" (float): Offset distance between the COM and the rear bumper</span>
+<span class="sd">        "Body Width" (float): Width of the chassis</span>
+<span class="sd">        "Tire Width" (float): Tread width of each tire</span>
+<span class="sd">        "Tire Diameter" (float): Diameter of each tire (in a 2D visualization, will just be length)</span>
+<span class="sd">        "Track Width" (float): Distance between the wheels on either side of the vehicle</span>
+
+
+<span class="sd">    Args:</span>
+<span class="sd">        properties (dict): The properties associated with the vehicle representation. See above for required keys.</span>
+<span class="sd">    """</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="n">body_Lf</span> <span class="o">=</span> <span class="n">properties</span><span class="p">[</span><span class="s2">"Body Distance to Front"</span><span class="p">]</span>
+        <span class="n">body_Lr</span> <span class="o">=</span> <span class="n">properties</span><span class="p">[</span><span class="s2">"Body Distance to Rear"</span><span class="p">]</span>
+        <span class="n">body_width</span> <span class="o">=</span> <span class="n">properties</span><span class="p">[</span><span class="s2">"Body Width"</span><span class="p">]</span>
+        <span class="n">tire_width</span> <span class="o">=</span> <span class="n">properties</span><span class="p">[</span><span class="s2">"Tire Width"</span><span class="p">]</span>
+        <span class="n">tire_diameter</span> <span class="o">=</span> <span class="n">properties</span><span class="p">[</span><span class="s2">"Tire Diameter"</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_Lf</span> <span class="o">=</span> <span class="n">properties</span><span class="p">[</span><span class="s2">"Tire Distance to Front"</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_Lr</span> <span class="o">=</span> <span class="n">properties</span><span class="p">[</span><span class="s2">"Tire Distance to Rear"</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_track_width</span> <span class="o">=</span> <span class="n">properties</span><span class="p">[</span><span class="s2">"Track Width"</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_wheelbase</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_Lf</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_Lr</span>
+
+        <span class="c1"># Visualization shapes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_outline</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="p">[</span><span class="o">-</span><span class="n">body_Lr</span><span class="p">,</span> <span class="n">body_Lf</span><span class="p">,</span> <span class="n">body_Lf</span><span class="p">,</span> <span class="o">-</span><span class="n">body_Lr</span><span class="p">,</span> <span class="o">-</span><span class="n">body_Lr</span><span class="p">],</span>
+                <span class="p">[</span>
+                    <span class="n">body_width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+                    <span class="n">body_width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+                    <span class="o">-</span><span class="n">body_width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+                    <span class="o">-</span><span class="n">body_width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+                    <span class="n">body_width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+                <span class="p">],</span>
+                <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+
+        <span class="n">wheel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="p">[</span>
+                    <span class="n">tire_diameter</span><span class="p">,</span>
+                    <span class="o">-</span><span class="n">tire_diameter</span><span class="p">,</span>
+                    <span class="o">-</span><span class="n">tire_diameter</span><span class="p">,</span>
+                    <span class="n">tire_diameter</span><span class="p">,</span>
+                    <span class="n">tire_diameter</span><span class="p">,</span>
+                <span class="p">],</span>
+                <span class="p">[</span><span class="o">-</span><span class="n">tire_width</span><span class="p">,</span> <span class="o">-</span><span class="n">tire_width</span><span class="p">,</span> <span class="n">tire_width</span><span class="p">,</span> <span class="n">tire_width</span><span class="p">,</span> <span class="o">-</span><span class="n">tire_width</span><span class="p">],</span>
+                <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_rr_wheel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">wheel</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_rl_wheel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">wheel</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_rl_wheel</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fr_wheel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">wheel</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fl_wheel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">wheel</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fl_wheel</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span>
+
+    <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">cabcolor</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"-k"</span><span class="p">,</span> <span class="n">wheelcolor</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"-k"</span><span class="p">):</span>
+        <span class="sd">"""Initialize the plotting window for the matplotlib vehicle</span>
+
+<span class="sd">        Will save matplotlib returned objects to be used for plotting later.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            ax (matplotlib.axes): the axes to plot the vehicle on</span>
+<span class="sd">            cabcolor (str): The cab color in matplotlib readable format. Defaults to solid black.</span>
+<span class="sd">            wheelcolor (str): The wheel color in matplotlib readable format. Defaults to solid black.</span>
+<span class="sd">        """</span>
+        <span class="n">cab</span><span class="p">,</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_outline</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:])</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_outline</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:])</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span>
+            <span class="n">cabcolor</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">fr</span><span class="p">,</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_fr_wheel</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:])</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_fr_wheel</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:])</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span>
+            <span class="n">wheelcolor</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">rr</span><span class="p">,</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_rr_wheel</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:])</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_rr_wheel</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:])</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span>
+            <span class="n">wheelcolor</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">fl</span><span class="p">,</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_fl_wheel</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:])</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_fl_wheel</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:])</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span>
+            <span class="n">wheelcolor</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">rl</span><span class="p">,</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_rl_wheel</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:])</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_rl_wheel</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:])</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span>
+            <span class="n">wheelcolor</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="c1"># TODO: Do these variables go out of scope? Are variables copied?</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_mat_vehicle</span> <span class="o">=</span> <span class="p">(</span><span class="n">cab</span><span class="p">,</span> <span class="n">fr</span><span class="p">,</span> <span class="n">rr</span><span class="p">,</span> <span class="n">fl</span><span class="p">,</span> <span class="n">rl</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">yaw</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">steering</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="sd">"""Update the state of the matplotlib representation of the vehicle</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x (float): x position of the vehicle</span>
+<span class="sd">            y (float): y position of the vehicle</span>
+<span class="sd">            yaw (float): yaw rotation of the vehicle about the z (up)</span>
+<span class="sd">            steering (float): steering angle of the vehicle</span>
+<span class="sd">        """</span>
+
+        <span class="c1"># TODO: I think irrlicht is backwards, so flip plotting so steering and visuals match</span>
+        <span class="n">yaw</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="n">steering</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span>
+
+        <span class="c1"># Update the position of each entity</span>
+        <span class="c1"># All updates are copies of the original array, so each update is basically a fresh update</span>
+        <span class="n">fr_wheel</span> <span class="o">=</span> <span class="n">_transform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_fr_wheel</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">yaw</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">steering</span><span class="p">,</span> <span class="n">x_offset</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_Lf</span><span class="p">,</span> <span class="n">y_offset</span><span class="o">=-</span><span class="bp">self</span><span class="o">.</span><span class="n">_track_width</span><span class="p">)</span>
+        <span class="n">fl_wheel</span> <span class="o">=</span> <span class="n">_transform</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_fl_wheel</span><span class="p">,</span>
+            <span class="n">x</span><span class="p">,</span>
+            <span class="n">y</span><span class="p">,</span>
+            <span class="n">yaw</span><span class="p">,</span>
+            <span class="n">alpha</span><span class="o">=</span><span class="n">steering</span><span class="p">,</span>
+            <span class="n">x_offset</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_Lf</span><span class="p">,</span>
+            <span class="n">y_offset</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_track_width</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">rr_wheel</span> <span class="o">=</span> <span class="n">_transform</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_rr_wheel</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">yaw</span><span class="p">,</span> <span class="n">x_offset</span><span class="o">=-</span><span class="bp">self</span><span class="o">.</span><span class="n">_Lr</span><span class="p">,</span> <span class="n">y_offset</span><span class="o">=-</span><span class="bp">self</span><span class="o">.</span><span class="n">_track_width</span>
+        <span class="p">)</span>
+        <span class="n">rl_wheel</span> <span class="o">=</span> <span class="n">_transform</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_rl_wheel</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">yaw</span><span class="p">,</span> <span class="n">x_offset</span><span class="o">=-</span><span class="bp">self</span><span class="o">.</span><span class="n">_Lr</span><span class="p">,</span> <span class="n">y_offset</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_track_width</span>
+        <span class="p">)</span>
+        <span class="n">outline</span> <span class="o">=</span> <span class="n">_transform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_outline</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">yaw</span><span class="p">)</span>
+
+        <span class="p">(</span><span class="n">cab</span><span class="p">,</span> <span class="n">fr</span><span class="p">,</span> <span class="n">rr</span><span class="p">,</span> <span class="n">fl</span><span class="p">,</span> <span class="n">rl</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mat_vehicle</span>
+
+        <span class="n">cab</span><span class="o">.</span><span class="n">set_ydata</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">outline</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:])</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
+        <span class="n">cab</span><span class="o">.</span><span class="n">set_xdata</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">outline</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:])</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
+        <span class="n">fr</span><span class="o">.</span><span class="n">set_ydata</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">fr_wheel</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:])</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
+        <span class="n">fr</span><span class="o">.</span><span class="n">set_xdata</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">fr_wheel</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:])</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
+        <span class="n">rr</span><span class="o">.</span><span class="n">set_ydata</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">rr_wheel</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:])</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
+        <span class="n">rr</span><span class="o">.</span><span class="n">set_xdata</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">rr_wheel</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:])</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
+        <span class="n">fl</span><span class="o">.</span><span class="n">set_ydata</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">fl_wheel</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:])</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
+        <span class="n">fl</span><span class="o">.</span><span class="n">set_xdata</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">fl_wheel</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:])</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
+        <span class="n">rl</span><span class="o">.</span><span class="n">set_ydata</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">rl_wheel</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:])</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
+        <span class="n">rl</span><span class="o">.</span><span class="n">set_xdata</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">rl_wheel</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:])</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
+
+
+<span class="k">class</span> <span class="nc">_MatplotlibSimpleDashboard</span><span class="p">:</span>
+    <span class="sd">"""Simple dashboard with selected information that will be displayed within a matplotlib plot window</span>
+
+<span class="sd">    TODO: Can we make this a base class and have multiple dashboards (i.e. just make this configurable)</span>
+<span class="sd">    """</span>
+
+    <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">):</span>
+        <span class="sd">"""Initialize the annotation</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            ax (matplotlib.axes): The axes to place the annotation on</span>
+<span class="sd">        """</span>
+
+        <span class="n">bbox_props</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">boxstyle</span><span class="o">=</span><span class="s2">"round"</span><span class="p">,</span> <span class="n">fc</span><span class="o">=</span><span class="s2">"w"</span><span class="p">,</span> <span class="n">ec</span><span class="o">=</span><span class="s2">"0.5"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_annotation</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span>
+            <span class="s2">""</span><span class="p">,</span>
+            <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="mf">0.97</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">),</span>
+            <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span>
+            <span class="n">xycoords</span><span class="o">=</span><span class="p">(</span><span class="s2">"axes fraction"</span><span class="p">,</span> <span class="s2">"figure fraction"</span><span class="p">),</span>
+            <span class="n">textcoords</span><span class="o">=</span><span class="s2">"offset points"</span><span class="p">,</span>
+            <span class="n">size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+            <span class="n">ha</span><span class="o">=</span><span class="s2">"right"</span><span class="p">,</span>
+            <span class="n">va</span><span class="o">=</span><span class="s2">"bottom"</span><span class="p">,</span>
+            <span class="n">bbox</span><span class="o">=</span><span class="n">bbox_props</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vehicle_inputs</span><span class="p">:</span> <span class="s1">'WAVehicleInputs'</span><span class="p">,</span> <span class="n">time</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">speed</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="sd">"""Update the dashboard</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            vehicle_inputs (WAVehicleInputs): The inputs for the vehicle. Visualized in the simple annotation.</span>
+<span class="sd">            time (float): The current time of the simulation</span>
+<span class="sd">            speed (float): The instantaneous speed of the vehicle</span>
+<span class="sd">        """</span>
+
+        <span class="n">text</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">f</span><span class="s2">"Time :: </span><span class="si">{time:.2f}</span><span class="se">\n</span><span class="s2">"</span>
+            <span class="n">f</span><span class="s2">"Steering :: </span><span class="si">{vehicle_inputs.steering:.2f}</span><span class="se">\n</span><span class="s2">"</span>
+            <span class="n">f</span><span class="s2">"Throttle :: </span><span class="si">{vehicle_inputs.throttle:.2f}</span><span class="se">\n</span><span class="s2">"</span>
+            <span class="n">f</span><span class="s2">"Braking :: </span><span class="si">{vehicle_inputs.braking:.2f}</span><span class="se">\n</span><span class="s2">"</span>
+            <span class="n">f</span><span class="s2">"Speed :: </span><span class="si">{speed:.2f}</span><span class="s2">"</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_annotation</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">_MatplotlibBody</span><span class="p">:</span>
+    <span class="sd">"""Simple body class for updateable assets</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        body (WABody): the body to visualize</span>
+<span class="sd">    """</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_body</span> <span class="o">=</span> <span class="n">body</span>
+
+    <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">):</span>
+        <span class="sd">"""Initialize the body representation</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            ax (matplotlib.axes): The axes to place the annotation on</span>
+<span class="sd">        """</span>
+        <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_body</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">"""Update the body"""</span>
+        <span class="k">pass</span>
+
+
+<span class="k">class</span> <span class="nc">_MatplotlibBodyList</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bodies</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bodies</span> <span class="o">=</span> <span class="n">bodies</span>
+
+
+<span class="k">class</span> <span class="nc">_MatplotlibPlotter</span><span class="p">(</span><span class="n">WABase</span><span class="p">):</span>
+    <span class="sd">"""Base class for matplotlib visualization</span>
+
+<span class="sd">    Provides base implementation to be used for all subsequent implementors.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        mat_vehicle (_MatplotlibVehicle): The matplotlib vehicle representation</span>
+<span class="sd">        dashboard (_MatplotlibSimpleDashboard): The dashboard that displays information related to the vehicle state</span>
+<span class="sd">        record (bool): If set to true, images will be saved under record_filename.</span>
+<span class="sd">        record_folder (str): The folder to save images to.</span>
+<span class="sd">        static (bool): if desireable, the matplotlib window can update its axes to "follow" the vehicle. Default is False (follows the vehicle)</span>
+<span class="sd">        padding (float): Padding between the vehicle's COM and the border of the plot window. Default is 25</span>
+<span class="sd">        xlim (tuple): x axis limits that are used if static is set to True</span>
+<span class="sd">        ylim (tuple): y axis limits that are used if static is set to True</span>
+<span class="sd">    """</span>
+
+    <span class="k">class</span> <span class="nc">_Event</span><span class="p">:</span>
+        <span class="sd">"""Event object that maintains the name of the event and the returned value.</span>
+
+<span class="sd">        In matplotlib, callbacks have a name and typically a few class attributes available.</span>
+<span class="sd">        In this simulator, we only need to pass around the values we want.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name (str): The name of the event</span>
+<span class="sd">            value (any): The value associated with the event</span>
+
+<span class="sd">        Attributes:</span>
+<span class="sd">            name (str): The name of the event</span>
+<span class="sd">            value (any): The value associated with the event</span>
+<span class="sd">        """</span>
+
+        <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mat_vehicle</span><span class="p">:</span> <span class="n">_MatplotlibVehicle</span><span class="p">,</span> <span class="n">dashboard</span><span class="p">:</span> <span class="n">_MatplotlibSimpleDashboard</span><span class="p">,</span> <span class="n">opponent_mat_vehicles</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">record</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">record_folder</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">static</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">padding</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">25</span><span class="p">,</span> <span class="n">xlim</span><span class="p">:</span> <span class="nb">tuple</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span> <span class="n">ylim</span><span class="p">:</span> <span class="nb">tuple</span> <span class="o">=</span> <span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="o">-</span><span class="mi">50</span><span class="p">)):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_mat_vehicle</span> <span class="o">=</span> <span class="n">mat_vehicle</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_dashboard</span> <span class="o">=</span> <span class="n">dashboard</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_opponent_mat_vehicles</span> <span class="o">=</span> <span class="n">opponent_mat_vehicles</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_record</span> <span class="o">=</span> <span class="n">record</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_record_folder</span> <span class="o">=</span> <span class="n">record_folder</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_record</span><span class="p">:</span>
+            <span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_save_number</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_vehicle_inputs</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_state</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_time</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_static</span> <span class="o">=</span> <span class="n">static</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_padding</span> <span class="o">=</span> <span class="n">padding</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_xlim</span> <span class="o">=</span> <span class="n">xlim</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ylim</span> <span class="o">=</span> <span class="n">ylim</span>
+
+        <span class="c1"># Asynchronous Matplotlib events</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_events</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">set_vehicle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vehicle</span><span class="p">:</span> <span class="s1">'WAVehicle'</span><span class="p">):</span>
+        <span class="sd">"""Set the vehicle object</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            vehicle (WAVehicle): The vehicle</span>
+<span class="sd">        """</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_vehicle</span> <span class="o">=</span> <span class="n">vehicle</span>
+
+    <span class="k">def</span> <span class="nf">set_vehicle_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vehicle_inputs</span><span class="p">:</span> <span class="s1">'WAVehicleInputs'</span><span class="p">):</span>
+        <span class="sd">"""Set the vehicle inputs object</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            vehicle_inputs (WAVehicleInputs): The vehicle inputs</span>
+<span class="sd">        """</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_vehicle_inputs</span> <span class="o">=</span> <span class="n">vehicle_inputs</span>
+
+    <span class="k">def</span> <span class="nf">set_opponents</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">opponents</span><span class="p">:</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="sd">"""Set the opponents list</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            opponents (list): The list of opponents</span>
+<span class="sd">        """</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_opponents</span> <span class="o">=</span> <span class="n">opponents</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_opponent_states</span> <span class="o">=</span> <span class="p">[[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">opponent</span><span class="o">.</span><span class="n">_vehicle_inputs</span><span class="p">]</span> <span class="k">for</span> <span class="n">opponent</span> <span class="ow">in</span> <span class="n">opponents</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">synchronize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="c1"># Save values for later</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_time</span> <span class="o">=</span> <span class="n">time</span>
+
+    <span class="k">def</span> <span class="nf">advance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">step</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="c1"># Update the state</span>
+        <span class="n">pos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vehicle</span><span class="o">.</span><span class="n">get_pos</span><span class="p">()</span>
+        <span class="n">yaw</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vehicle</span><span class="o">.</span><span class="n">get_rot</span><span class="p">()</span><span class="o">.</span><span class="n">to_euler_yaw</span><span class="p">()</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vehicle</span><span class="o">.</span><span class="n">get_pos_dt</span><span class="p">()</span><span class="o">.</span><span class="n">length</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_state</span> <span class="o">=</span> <span class="p">(</span><span class="n">pos</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">pos</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">yaw</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">opponent</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_opponents</span><span class="p">):</span>
+            <span class="n">pos</span> <span class="o">=</span> <span class="n">opponent</span><span class="o">.</span><span class="n">get_pos</span><span class="p">()</span>
+            <span class="n">yaw</span> <span class="o">=</span> <span class="n">opponent</span><span class="o">.</span><span class="n">get_rot</span><span class="p">()</span><span class="o">.</span><span class="n">to_euler_yaw</span><span class="p">()</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="n">opponent</span><span class="o">.</span><span class="n">get_pos_dt</span><span class="p">()</span><span class="o">.</span><span class="n">length</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_opponent_states</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">pos</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">pos</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">yaw</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_savefig</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">"""Save a figure from matplotlib"""</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_record</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_save_number</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="kn">import</span> <span class="nn">os</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_record_folder</span><span class="p">):</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_record_folder</span><span class="p">)</span>
+                <span class="k">del</span> <span class="n">os</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_record_folder</span> <span class="o">+</span> <span class="n">f</span><span class="s1">'</span><span class="si">{self._save_number}</span><span class="s1">.png'</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_save_number</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">register_key_press_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback</span><span class="p">):</span>
+        <span class="sd">"""Register callback with a key press event in the matplotlib window</span>
+
+<span class="sd">        # matplotlib.backend_bases.KeyEvent&gt;`_ provide an event</span>
+<span class="sd">        `Matplotlib KeyEvents &lt;https://matplotlib.org/stable/api/backend_bases_api.html</span>
+<span class="sd">        object with various attributes. In the case of controllers, we only really need the keypressed and not necessarily the location of anything.</span>
+
+<span class="sd">        .. todo::</span>
+<span class="sd">            Add support for more general callbacks (i.e. mouse)</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            callback (method(int)): A callable method that takes in an int (represents the key pressed)</span>
+<span class="sd">        """</span>
+        <span class="k">pass</span>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">"""Plot additional information within the matplotlib window</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            *args: positional arguments that are passed to the underyling plotter (and subsequently to matplotlib)</span>
+<span class="sd">            **kwargs: keyworded arguments that are passed to the underyling plotter (and subsequently to matplotlib)</span>
+<span class="sd">        """</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">_initialize_plot</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">"""Helper method that initializes a matplotlib plot and passes the axes to the vehicle and dashboard"""</span>
+
+        <span class="c1"># Initial plotting setup</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fig</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+
+        <span class="c1"># Plot styling</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_xlim</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_ylim</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s2">"equal"</span><span class="p">,</span> <span class="n">adjustable</span><span class="o">=</span><span class="s2">"box"</span><span class="p">)</span>
+
+        <span class="c1"># Initialize the plotters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_mat_vehicle</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ax</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_dashboard</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ax</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_opponent_mat_vehicles</span><span class="p">:</span>
+            <span class="n">o</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ax</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_update_axes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="sd">"""Helper method to update the matplotlib axis plot.</span>
+
+<span class="sd">        Moving vehicles commonly want to be "followed". This method will place the vehicle at the center of the window and adjust</span>
+<span class="sd">        the axes accordingly. The padding specified at initialization will be added.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x (float): x position of the vehicle</span>
+<span class="sd">            y (float): y position of the vehicle</span>
+<span class="sd">        """</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_padding</span><span class="p">,</span> <span class="n">x</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_padding</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">y</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_padding</span><span class="p">,</span> <span class="n">y</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_padding</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">_MatplotlibSinglePlotter</span><span class="p">(</span><span class="n">_MatplotlibPlotter</span><span class="p">):</span>
+    <span class="sd">"""Single process plotter for sequential visualization. Can be used in jupyter.</span>
+
+<span class="sd">    A single threaded plotter basically will update it's state `in order` with other components. This can be thought of</span>
+<span class="sd">    as the typical use case for matplotlib where :code:`plt.show()`/:code:`plt.pause()` comes directly after `plt.plot`.</span>
+
+<span class="sd">    For jupyter, we need to use IPython to basically create an image and display that image in the jupyter browser. This really sucks</span>
+<span class="sd">    cause it's super slow. TODO: Is there a faster way to do that?</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        mat_vehicle (_MatplotlibVehicle): The matplotlib vehicle representation</span>
+<span class="sd">        dashboard (_MatplotlibSimpleDashboard): The dashboard that displays information related to the vehicle state</span>
+<span class="sd">        is_jupyter (bool): should jupyter visualization be used (i.e. IPython display)?</span>
+<span class="sd">        record (bool, optional): If set to true, images will be saved under record_filename. Defaults to False (doesn't save images).</span>
+<span class="sd">        record_folder (str, optional): The folder to save images to. Defaults to "OUTPUT/".</span>
+<span class="sd">        **kwargs: keyworded arguments used for the base _MatplotlibPlotter class</span>
+<span class="sd">    """</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mat_vehicle</span><span class="p">,</span> <span class="n">dashboard</span><span class="p">,</span> <span class="n">opponent_mat_vehicles</span><span class="p">,</span> <span class="n">is_jupyter</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">record</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">record_folder</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"OUTPUT/"</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">mat_vehicle</span><span class="p">,</span> <span class="n">dashboard</span><span class="p">,</span> <span class="n">opponent_mat_vehicles</span><span class="p">,</span> <span class="n">record</span><span class="p">,</span> <span class="n">record_folder</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_initialize_plot</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_is_jupyter</span> <span class="o">=</span> <span class="n">is_jupyter</span>
+
+    <span class="k">def</span> <span class="nf">advance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">step</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">advance</span><span class="p">(</span><span class="n">step</span><span class="p">)</span>
+
+        <span class="c1"># Extract values</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">yaw</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state</span>
+
+        <span class="c1"># Update the simulation elements</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_mat_vehicle</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">yaw</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vehicle_inputs</span><span class="o">.</span><span class="n">steering</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_dashboard</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_vehicle_inputs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_time</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+
+        <span class="c1"># Update the axes to "follow" the vehicle</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_static</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_update_axes</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">vehicle_inputs</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_opponent_states</span><span class="p">):</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">yaw</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">state</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_opponent_mat_vehicles</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">yaw</span><span class="p">,</span> <span class="n">vehicle_inputs</span><span class="o">.</span><span class="n">steering</span><span class="p">)</span>
+
+        <span class="c1"># Update the plot</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_jupyter</span><span class="p">:</span>
+            <span class="n">display</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_fig</span><span class="p">)</span>
+            <span class="n">clear_output</span><span class="p">(</span><span class="n">wait</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">pause</span><span class="p">(</span><span class="mf">1e-9</span><span class="p">)</span>
+
+        <span class="c1"># Save (if desired)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_savefig</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">is_ok</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">plt</span><span class="o">.</span><span class="n">fignum_exists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_fig</span><span class="o">.</span><span class="n">number</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">register_key_press_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fig</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">mpl_connect</span><span class="p">(</span><span class="s1">'key_press_event'</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_key_press</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_events</span><span class="p">[</span><span class="s1">'key_press_event'</span><span class="p">]</span> <span class="o">=</span> <span class="n">callback</span>
+
+    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">Patch</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">collections</span><span class="o">.</span><span class="n">Collection</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ax</span><span class="o">.</span><span class="n">add_collection</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_key_press</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="sd">"""Key press callback. Passes the event key (i.e. 'up' or 'a') to the callback registered through :meth:`~register_key_press_event`.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            event (matplotlib.event): event with a name and key attribute</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_events</span><span class="p">:</span>
+            <span class="c1"># Call that event with the event key (is a string like 'up' or 'a')</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_events</span><span class="p">[</span><span class="n">event</span><span class="o">.</span><span class="n">name</span><span class="p">](</span><span class="n">event</span><span class="o">.</span><span class="n">key</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">_MatplotlibMultiPlotter</span><span class="p">(</span><span class="n">_MatplotlibPlotter</span><span class="p">):</span>
+    <span class="sd">"""Multi process plotter for sequential visualization. Significantly faster than the sequential :class:`~_MatplotlibSinglePlotter`.</span>
+
+<span class="sd">    A multi threaded plotter will basically update it's state at a fixed rate. All visualizations occur in a separate thread, so</span>
+<span class="sd">    a synchronized queue is used to pass information between threads. At the fixed rate, on an update, that information is grabbed from the front</span>
+<span class="sd">    of the queue. Stale information is always ignored so there is only ever 1 or 0 packets in the queue. A `asynchronous` constructor parameter</span>
+<span class="sd">    provides the configurability to either wait for state information to be used or continue and just throw out old state data. The</span>
+<span class="sd">    latter results in the simulation progressing significantly faster than the plotter, so it's not recommended.</span>
+
+<span class="sd">    Two communication methods are used. One is a queue and is used strictly for state information and the other is a Pipe and used for simulation</span>
+<span class="sd">    communication related items, such as keyboard callback registration.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        mat_vehicle (_MatplotlibVehicle): The matplotlib vehicle representation</span>
+<span class="sd">        dashboard (_MatplotlibSimpleDashboard): The dashboard that displays information related to the vehicle state</span>
+<span class="sd">        asynchronous (bool, optional): If true, the plotter will continue without waiting for the passed state information to be used. Defaults to synchronous.</span>
+<span class="sd">        record (bool, optional): If set to true, images will be saved under record_filename. Defaults to False (doesn't save images).</span>
+<span class="sd">        record_folder (str, optional): The folder to save images to. Defaults to "OUTPUT/".</span>
+<span class="sd">        **kwargs: keyworded arguments used for the base _MatplotlibPlotter class</span>
+<span class="sd">    """</span>
+
+    <span class="k">class</span> <span class="nc">_SimulationState</span><span class="p">:</span>
+        <span class="sd">"""Simulation state helper class that just holds various attributes for plotting</span>
+
+<span class="sd">        Pickable to pass between threads.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            state (tuple): holds (x,y,yaw,steering)</span>
+<span class="sd">            vehicle_inputs (WAVehicleInputs): the inputs to the vehicle</span>
+<span class="sd">            time (float): the current time of the simulation</span>
+
+<span class="sd">        Attributes:</span>
+<span class="sd">            state (tuple): holds (x,y,yaw,steering)</span>
+<span class="sd">            vehicle_inputs (WAVehicleInputs): the inputs to the vehicle</span>
+<span class="sd">            time (float): the current time of the simulation</span>
+<span class="sd">        """</span>
+
+        <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">,</span> <span class="n">vehicle_inputs</span><span class="p">:</span> <span class="s1">'WAVehicleInputs'</span><span class="p">,</span> <span class="n">time</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">state</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">vehicle_inputs</span> <span class="o">=</span> <span class="n">vehicle_inputs</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">time</span> <span class="o">=</span> <span class="n">time</span>
+
+        <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">vehicle_inputs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span>
+
+    <span class="k">class</span> <span class="nc">_PlotCall</span><span class="p">:</span>
+        <span class="sd">"""Pickable plot call that is passed to the plotter thread.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            *args: Positional arguments used in matplotlib.plot</span>
+<span class="sd">            **kwargs: Keyworded arguments used in matplotlib.plot</span>
+
+<span class="sd">        Attributes:</span>
+<span class="sd">            args: Positional arguments used in matplotlib.plot</span>
+<span class="sd">            kwargs: Keyworded arguments used in matplotlib.plot</span>
+<span class="sd">        """</span>
+
+        <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">args</span> <span class="o">=</span> <span class="n">args</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span> <span class="o">=</span> <span class="n">kwargs</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mat_vehicle</span><span class="p">:</span> <span class="s1">'_MatplotlibVehicle'</span><span class="p">,</span> <span class="n">dashboard</span><span class="p">:</span> <span class="s1">'_MatplotlibSimpleDashboard'</span><span class="p">,</span> <span class="n">opponent_mat_vehicles</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">asynchronous</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">record</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">record_folder</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"OUTPUT/"</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">mat_vehicle</span><span class="p">,</span> <span class="n">dashboard</span><span class="p">,</span> <span class="n">opponent_mat_vehicles</span><span class="p">,</span> <span class="n">record</span><span class="p">,</span> <span class="n">record_folder</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_asynchronous</span> <span class="o">=</span> <span class="n">asynchronous</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_events</span><span class="p">[</span><span class="s1">'close_event'</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_close</span>
+
+        <span class="c1"># Initialize multiprocessing objects</span>
+        <span class="k">if</span> <span class="n">plt</span><span class="o">.</span><span class="n">get_backend</span><span class="p">()</span> <span class="o">==</span> <span class="s2">"MacOSX"</span><span class="p">:</span>
+            <span class="n">set_start_method</span><span class="p">(</span><span class="s2">"spawn"</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># Communication pipelines between processes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_event_sender</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_event_receiver</span> <span class="o">=</span> <span class="n">Pipe</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_queue</span> <span class="o">=</span> <span class="n">Queue</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># Barrier that will wait for initialization to occur</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_barrier</span> <span class="o">=</span> <span class="n">Barrier</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_p</span> <span class="o">=</span> <span class="n">Process</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_p</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+        <span class="c1"># Wait for the matplotlib window to initialize</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_barrier</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">advance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">step</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">advance</span><span class="p">(</span><span class="n">step</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_event_receiver</span><span class="o">.</span><span class="n">poll</span><span class="p">():</span>
+            <span class="n">event</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_event_receiver</span><span class="o">.</span><span class="n">recv</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_events</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_events</span><span class="p">[</span><span class="n">event</span><span class="o">.</span><span class="n">name</span><span class="p">](</span><span class="n">event</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+
+        <span class="c1"># Send the state to the other process to visualize</span>
+        <span class="k">def</span> <span class="nf">send</span><span class="p">(</span><span class="n">state</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_queue</span><span class="o">.</span><span class="n">_closed</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_asynchronous</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_queue</span><span class="o">.</span><span class="n">empty</span><span class="p">():</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_queue</span><span class="o">.</span><span class="n">put_nowait</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_queue</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+
+        <span class="n">states</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_SimulationState</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vehicle_inputs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_time</span><span class="p">)]</span>
+        <span class="k">for</span> <span class="n">state</span><span class="p">,</span> <span class="n">vehicle_inputs</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_opponent_states</span><span class="p">:</span>
+            <span class="n">states</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_SimulationState</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">vehicle_inputs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_time</span><span class="p">))</span>
+        <span class="n">send</span><span class="p">(</span><span class="n">states</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">"""Multiprocess starter method. Will initialize matplotlib and setup FuncAnimation"""</span>
+
+        <span class="c1"># Initialize matplotlib</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_initialize_plot</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fig</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">mpl_connect</span><span class="p">(</span><span class="s1">'close_event'</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_handle_close</span><span class="p">)</span>
+
+        <span class="c1"># Initialize animation</span>
+        <span class="n">anim</span> <span class="o">=</span> <span class="n">FuncAnimation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_fig</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_update</span><span class="p">,</span> <span class="n">interval</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+        <span class="c1"># Synchronize with main process</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_barrier</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+        <span class="c1"># Flush the queue</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_queue</span><span class="o">.</span><span class="n">empty</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_queue</span><span class="o">.</span><span class="n">get_nowait</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="sd">"""Called at a specific interval by FuncAnimation. Will update matplotlib window</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            i (int): window count</span>
+<span class="sd">        """</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_queue</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">10</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="mi">2</span> <span class="k">else</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_fig</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_SimulationState</span><span class="p">):</span>
+            <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">yaw</span><span class="p">,</span> <span class="n">v</span><span class="p">),</span> <span class="n">vehicle_inputs</span><span class="p">,</span> <span class="n">time</span> <span class="o">=</span> <span class="n">state</span><span class="p">()</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_mat_vehicle</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">yaw</span><span class="p">,</span> <span class="n">vehicle_inputs</span><span class="o">.</span><span class="n">steering</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_dashboard</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">vehicle_inputs</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_static</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_update_axes</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="n">this_state</span> <span class="o">=</span> <span class="n">state</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">yaw</span><span class="p">,</span> <span class="n">v</span><span class="p">),</span> <span class="n">vehicle_inputs</span><span class="p">,</span> <span class="n">time</span> <span class="o">=</span> <span class="n">this_state</span><span class="p">()</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_mat_vehicle</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">yaw</span><span class="p">,</span> <span class="n">vehicle_inputs</span><span class="o">.</span><span class="n">steering</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_dashboard</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">vehicle_inputs</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_static</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_update_axes</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">opponent</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">state</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">yaw</span><span class="p">,</span> <span class="n">v</span><span class="p">),</span> <span class="n">vehicle_inputs</span><span class="p">,</span> <span class="n">time</span> <span class="o">=</span> <span class="n">opponent</span><span class="p">()</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">_opponent_mat_vehicles</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">yaw</span><span class="p">,</span> <span class="n">vehicle_inputs</span><span class="o">.</span><span class="n">steering</span><span class="p">)</span>
+
+            <span class="c1"># Save (if desired)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_savefig</span><span class="p">()</span>
+
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">state</span> <span class="o">==</span> <span class="s1">'key_press_event'</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_fig</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">mpl_connect</span><span class="p">(</span><span class="s1">'key_press_event'</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_key_press</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_PlotCall</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">Patch</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">collections</span><span class="o">.</span><span class="n">Collection</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_ax</span><span class="o">.</span><span class="n">add_collection</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">_MatplotlibBodyList</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">body</span> <span class="ow">in</span> <span class="n">state</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">bodies</span><span class="p">:</span>
+                    <span class="n">body</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ax</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">_ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">*</span><span class="n">state</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">state</span><span class="o">.</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">is_ok</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_p</span><span class="o">.</span><span class="n">is_alive</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_queue</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_PlotCall</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">register_key_press_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_queue</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s1">'key_press_event'</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_events</span><span class="p">[</span><span class="s1">'key_press_event'</span><span class="p">]</span> <span class="o">=</span> <span class="n">callback</span>
+
+    <span class="k">def</span> <span class="nf">_handle_close</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="sd">"""Callback from matplotlib when a plot is closed"""</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_event_sender</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_Event</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s1">'close_event'</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_key_press</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="sd">"""Key press callback. Passes the event key (i.e. 'up' or 'a') to the callback registered through :meth:`~register_key_press_event`.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            event (matplotlib.event): event with a name and key attribute</span>
+<span class="sd">        """</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_event_sender</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_Event</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">event</span><span class="o">.</span><span class="n">key</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_close</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="sd">"""Close callback"""</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_queue</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_event_receiver</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_event_sender</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_p</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">"""Destructor"""</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"p"</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_p</span><span class="o">.</span><span class="n">is_alive</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_p</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="WAMatplotlibVisualization"><a class="viewcode-back" href="../../autoapi/wa_simulator/visualization/index.html#wa_simulator.visualization.WAMatplotlibVisualization">[docs]</a><span class="k">class</span> <span class="nc">WAMatplotlibVisualization</span><span class="p">(</span><span class="n">WAVisualization</span><span class="p">):</span>
+    <span class="sd">"""Matplotlib visualizer of the simulator world and the vehicle</span>
+
+<span class="sd">    Plotter requires a vehicle and should be used for vehicle simulations where a 2d world representation is adequate. Furthermore,</span>
+<span class="sd">    for vehicle models that aren't implemented through Chrono, this is the only implemented visualization for users.</span>
+
+<span class="sd">    There are three types of matplotlib plotters currently implemented: "single", "multi" and "jupyter". Each has a different purpose with the same</span>
+<span class="sd">    goal (to visualize the simulation).</span>
+
+<span class="sd">    * single:</span>
+
+<span class="sd">      * Uses a single thread where visualization updates are done sequentially with other simulation components.</span>
+
+<span class="sd">      * *Worse performance than multi*.</span>
+
+<span class="sd">    * multi:</span>
+
+<span class="sd">      * Uses two threads where visualization updates are placed on a separate threads and updates are asynchronous. State information of the environment and vehicle are passed to the plotter on each update, but updates of the visuals are done at a fixed rate(10 [Hz]).</span>
+
+<span class="sd">      * *Better performance than single*.</span>
+
+<span class="sd">    * jupyter:</span>
+
+<span class="sd">      * Supports visualization of a matplotlib window in a `jupyter notebook &lt;https://jupyter.org/&gt;`_.</span>
+
+<span class="sd">      * *Performance is very poor*. *Do not use outside of jupyter*.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        system (WASystem): system used to grab certain parameters of the simulation</span>
+<span class="sd">        vehicle (WAVehicle): vehicle to render in the matplotlib plot window</span>
+<span class="sd">        vehicle_inputs (WAVehicleInputs): the vehicle inputs</span>
+<span class="sd">        environment (WAEnvironment, optional): An environment with various world assets to visualize. Defaults to None (doesn't visualize anything).</span>
+<span class="sd">        plotter_type (str, optional): Type of plotter. "single" for single threaded, "multi" for multi threaded (fastest), "jupyter" if jupyter is used. Defaults to "single".</span>
+<span class="sd">        opponents (list, optional): List of other :class:`~WAVehicle`'s that represent opponents. Used for rendering.</span>
+<span class="sd">        record (bool, optional): If set to true, images will be saved under record_filename. Defaults to False (doesn't save images).</span>
+<span class="sd">        record_folder (str, optional): The folder to save images to. Defaults to "OUTPUT/".</span>
+<span class="sd">        **kwargs: Additional arguments that are based to the underlying plotter implementation.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: plotter_type isn't recognized</span>
+<span class="sd">    """</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">system</span><span class="p">:</span> <span class="s1">'WASystem'</span><span class="p">,</span> <span class="n">vehicle</span><span class="p">:</span> <span class="s1">'WAVehicle'</span><span class="p">,</span> <span class="n">vehicle_inputs</span><span class="p">:</span> <span class="s1">'WAVehicleInputs'</span><span class="p">,</span> <span class="n">environment</span><span class="p">:</span> <span class="s1">'WAEnvironment'</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>  <span class="n">plotter_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"single"</span><span class="p">,</span> <span class="n">opponents</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">record</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">record_folder</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"OUTPUT/"</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_system</span> <span class="o">=</span> <span class="n">system</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_vehicle</span> <span class="o">=</span> <span class="n">vehicle</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_vehicle_inputs</span> <span class="o">=</span> <span class="n">vehicle_inputs</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_render_steps</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">system</span><span class="o">.</span><span class="n">render_step_size</span> <span class="o">/</span> <span class="n">system</span><span class="o">.</span><span class="n">step_size</span><span class="p">))</span>  <span class="c1"># noqa</span>
+
+        <span class="c1"># Create the vehicle and dashboard</span>
+        <span class="n">mat_vehicle</span> <span class="o">=</span> <span class="n">_MatplotlibVehicle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_vehicle</span><span class="o">.</span><span class="n">get_visual_properties</span><span class="p">())</span>
+        <span class="n">dashboard</span> <span class="o">=</span> <span class="n">_MatplotlibSimpleDashboard</span><span class="p">()</span>
+
+        <span class="n">opponent_mat_vehicles</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">opponent</span> <span class="ow">in</span> <span class="n">opponents</span><span class="p">:</span>
+            <span class="n">opponent_mat_vehicles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_MatplotlibVehicle</span><span class="p">(</span><span class="n">opponent</span><span class="o">.</span><span class="n">get_visual_properties</span><span class="p">()))</span>
+
+        <span class="n">supported_plotters</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'multi'</span><span class="p">,</span> <span class="s1">'single'</span><span class="p">,</span> <span class="s1">'jupyter'</span><span class="p">]</span>
+
+        <span class="c1"># Create the underlying plotter</span>
+        <span class="k">if</span> <span class="n">plotter_type</span> <span class="o">==</span> <span class="s2">"multi"</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_plotter</span> <span class="o">=</span> <span class="n">_MatplotlibMultiPlotter</span><span class="p">(</span>
+                <span class="n">mat_vehicle</span><span class="p">,</span> <span class="n">dashboard</span><span class="p">,</span> <span class="n">opponent_mat_vehicles</span><span class="p">,</span> <span class="n">record</span><span class="o">=</span><span class="n">record</span><span class="p">,</span> <span class="n">record_folder</span><span class="o">=</span><span class="n">record_folder</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">plotter_type</span> <span class="o">==</span> <span class="s2">"single"</span> <span class="ow">or</span> <span class="n">plotter_type</span> <span class="o">==</span> <span class="s2">"jupyter"</span><span class="p">:</span>
+            <span class="n">is_jupyter</span> <span class="o">=</span> <span class="n">plotter_type</span> <span class="o">==</span> <span class="s1">'jupyter'</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_plotter</span> <span class="o">=</span> <span class="n">_MatplotlibSinglePlotter</span><span class="p">(</span>
+                <span class="n">mat_vehicle</span><span class="p">,</span> <span class="n">dashboard</span><span class="p">,</span> <span class="n">opponent_mat_vehicles</span><span class="p">,</span> <span class="n">is_jupyter</span><span class="o">=</span><span class="n">is_jupyter</span><span class="p">,</span> <span class="n">record</span><span class="o">=</span><span class="n">record</span><span class="p">,</span> <span class="n">record_folder</span><span class="o">=</span><span class="n">record_folder</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="n">f</span><span class="s2">"Unknown plotter type: </span><span class="si">{plotter_type}</span><span class="s2">. Must be one of the following: {', '.join(supported_plotters)}"</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_plotter</span><span class="o">.</span><span class="n">set_vehicle</span><span class="p">(</span><span class="n">vehicle</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_plotter</span><span class="o">.</span><span class="n">set_vehicle_inputs</span><span class="p">(</span><span class="n">vehicle_inputs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_plotter</span><span class="o">.</span><span class="n">set_opponents</span><span class="p">(</span><span class="n">opponents</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">environment</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">visualize</span><span class="p">(</span><span class="n">environment</span><span class="o">.</span><span class="n">get_assets</span><span class="p">())</span>
+
+<div class="viewcode-block" id="WAMatplotlibVisualization.synchronize"><a class="viewcode-back" href="../../autoapi/wa_simulator/visualization/index.html#wa_simulator.visualization.WAMatplotlibVisualization.synchronize">[docs]</a>    <span class="k">def</span> <span class="nf">synchronize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_plotter</span><span class="o">.</span><span class="n">synchronize</span><span class="p">(</span><span class="n">time</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="WAMatplotlibVisualization.advance"><a class="viewcode-back" href="../../autoapi/wa_simulator/visualization/index.html#wa_simulator.visualization.WAMatplotlibVisualization.advance">[docs]</a>    <span class="k">def</span> <span class="nf">advance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">step</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_system</span><span class="o">.</span><span class="n">step_number</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_render_steps</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># Will only call advance at the rate specified by render_step_size in the passed system</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_plotter</span><span class="o">.</span><span class="n">advance</span><span class="p">(</span><span class="n">step</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="WAMatplotlibVisualization.is_ok"><a class="viewcode-back" href="../../autoapi/wa_simulator/visualization/index.html#wa_simulator.visualization.WAMatplotlibVisualization.is_ok">[docs]</a>    <span class="k">def</span> <span class="nf">is_ok</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_plotter</span><span class="o">.</span><span class="n">is_ok</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="WAMatplotlibVisualization.register_key_press_event"><a class="viewcode-back" href="../../autoapi/wa_simulator/visualization/index.html#wa_simulator.visualization.WAMatplotlibVisualization.register_key_press_event">[docs]</a>    <span class="k">def</span> <span class="nf">register_key_press_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback</span><span class="p">):</span>
+        <span class="sd">"""Register a key press callback with the matplotlib visualization</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            callback(function): the callback to invoke when a key is pressed</span>
+<span class="sd">        """</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_plotter</span><span class="o">.</span><span class="n">register_key_press_event</span><span class="p">(</span><span class="n">callback</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="WAMatplotlibVisualization.plot"><a class="viewcode-back" href="../../autoapi/wa_simulator/visualization/index.html#wa_simulator.visualization.WAMatplotlibVisualization.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">"""Pass plot info to the underyling plotter</span>
+
+<span class="sd">        In some cases, additional information will want to be plotted in the plotter window. For example, in a vehicle simulation where</span>
+<span class="sd">        a controller is attempting to follow a path, that path may want to be visualized in the matplotlib window. This method faciliates</span>
+<span class="sd">        that functionality.</span>
+
+<span class="sd">        See the `matplotlib docs &lt;https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html&gt;`_ to see additional *args and **kwargs arguments.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            *args: positional arguments that are passed to the underyling plotter (and subsequently to matplotlib)</span>
+<span class="sd">            **kwargs: keyworded arguments that are passed to the underyling plotter (and subsequently to matplotlib)</span>
+<span class="sd">        """</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_plotter</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="WAMatplotlibVisualization.visualize"><a class="viewcode-back" href="../../autoapi/wa_simulator/visualization/index.html#wa_simulator.visualization.WAMatplotlibVisualization.visualize">[docs]</a>    <span class="k">def</span> <span class="nf">visualize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">assets</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">assets</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="n">assets</span> <span class="o">=</span> <span class="p">[</span><span class="n">assets</span><span class="p">]</span>
+
+        <span class="n">patches</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">bodies</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">asset</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">assets</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">asset</span><span class="p">,</span> <span class="n">WAPath</span><span class="p">):</span>
+                <span class="n">points</span> <span class="o">=</span> <span class="n">asset</span><span class="o">.</span><span class="n">get_points</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_plotter</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">points</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">points</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">asset</span><span class="o">.</span><span class="n">get_vis_properties</span><span class="p">(),</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">asset</span><span class="p">,</span> <span class="n">WATrack</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">visualize</span><span class="p">(</span><span class="n">asset</span><span class="o">.</span><span class="n">left</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">visualize</span><span class="p">(</span><span class="n">asset</span><span class="o">.</span><span class="n">right</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">visualize</span><span class="p">(</span><span class="n">asset</span><span class="o">.</span><span class="n">center</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">asset</span><span class="p">,</span> <span class="n">WABody</span><span class="p">):</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">asset</span><span class="p">,</span> <span class="s1">'size'</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">asset</span><span class="p">,</span> <span class="s1">'position'</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">"Body must have 'size', and 'position' fields"</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">asset</span><span class="p">,</span> <span class="s1">'updates'</span><span class="p">)</span> <span class="ow">and</span> <span class="n">asset</span><span class="o">.</span><span class="n">updates</span><span class="p">:</span>
+                    <span class="c1"># bodies.append(_MatplotlibBody(asset))</span>
+                    <span class="nb">print</span><span class="p">(</span>
+                        <span class="s2">"WARNING: updateable WABody's are currently not supported for the WAMatplotlibVisualization. This will come in a future release."</span><span class="p">)</span>
+                    <span class="k">continue</span>
+
+                <span class="n">position</span> <span class="o">=</span> <span class="n">asset</span><span class="o">.</span><span class="n">position</span>
+                <span class="n">yaw</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">asset</span><span class="p">,</span> <span class="s1">'yaw'</span><span class="p">)</span> <span class="k">else</span> <span class="n">asset</span><span class="o">.</span><span class="n">yaw</span>
+                <span class="n">size</span> <span class="o">=</span> <span class="n">asset</span><span class="o">.</span><span class="n">size</span> <span class="o">/</span> <span class="mi">2</span>
+                <span class="n">color</span> <span class="o">=</span> <span class="n">WAVector</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">asset</span><span class="p">,</span> <span class="s1">'color'</span><span class="p">)</span> <span class="k">else</span> <span class="n">asset</span><span class="o">.</span><span class="n">color</span>
+
+                <span class="c1"># Can't really see white</span>
+                <span class="n">edgecolor</span> <span class="o">=</span> <span class="n">color</span>
+                <span class="k">if</span> <span class="n">color</span> <span class="o">==</span> <span class="n">WAVector</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]):</span>
+                    <span class="n">edgecolor</span> <span class="o">=</span> <span class="n">WAVector</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+
+                <span class="n">outline</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="o">-</span><span class="n">size</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">size</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">size</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">size</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">size</span><span class="o">.</span><span class="n">y</span><span class="p">],</span>
+                                    <span class="p">[</span><span class="n">size</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">size</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="o">-</span><span class="n">size</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="o">-</span><span class="n">size</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">size</span><span class="o">.</span><span class="n">x</span><span class="p">],</span>
+                                    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+
+                <span class="n">outline</span> <span class="o">=</span> <span class="n">_transform</span><span class="p">(</span><span class="n">outline</span><span class="p">,</span> <span class="n">position</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">position</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">yaw</span><span class="p">)</span>
+
+                <span class="n">patches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Polygon</span><span class="p">(</span><span class="n">outline</span><span class="p">[:</span><span class="mi">2</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="n">edgecolor</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">patches</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_plotter</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">collections</span><span class="o">.</span><span class="n">PatchCollection</span><span class="p">(</span><span class="n">patches</span><span class="p">,</span> <span class="n">match_original</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">bodies</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_plotter</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">_MatplotlibBodyList</span><span class="p">(</span><span class="n">bodies</span><span class="p">))</span></div></div>
+</pre></div>
+      </article>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+
+        <div class="related-information">
+              Copyright &#169; 2021, Wisconsin Autonomous
+            |
+            Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
+              and
+              <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+              <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </main>
+</div>
+  </body>
+</html>

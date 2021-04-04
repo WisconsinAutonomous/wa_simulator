@@ -3,31 +3,20 @@
 
 .. py:module:: wa_simulator.chrono.controller
 
-.. autoapi-nested-parse::
-
-   Wisconsin Autonomous - https://www.wisconsinautonomous.org
-
-   Copyright (c) 2021 wisconsinautonomous.org
-   All rights reserved.
-
-   Use of this source code is governed by a BSD-style license that can be found
-   in the LICENSE file at the top level of the repo
+.. Module Contents
+.. ---------------
 
 
+.. raw:: html
 
-Module Contents
----------------
-
-Classes
-~~~~~~~
+   <h2>Classes</h2>
 
 .. autoapisummary::
+  :nosignatures:
 
-   wa_simulator.chrono.controller.WAIrrlichtController
+  wa_simulator.chrono.controller.WAIrrlichtController
 
-
-
-.. py:class:: WAIrrlichtController(system, visualization)
+.. py:class:: WAIrrlichtController(system, vehicle_inputs, visualization)
 
    Bases: :class:`wa_simulator.controller.WAController`
 
@@ -36,25 +25,22 @@ Classes
    Uses the keyboard in the irrlicht window to control the car. Window must be active
    to work. Currently not supported on Mac when the anaconda build is used
 
-   :param visualization: the irrlicht visualization
-   :type visualization: WAIrrlichtVisualization
-   :param system: the system
-   :type system: WASystem
+   :Parameters: * **system** (*WASystem*) -- The system used to manage the simulation
+                * **vehicle_inputs** (*WAVehicleInputs*) -- The vehicle inputs
+                * **visualization** (*WAIrrlichtVisualization*) -- the irrlicht visualization
 
    .. method:: synchronize(self, time)
 
       Synchronize the irrlicht driver at the specified time
 
-      :param time: time to synchronize at
-      :type time: double
+      :Parameters: **time** (*double*) -- time to synchronize at
 
 
    .. method:: advance(self, step)
 
       Advance the irrlicht driver by the specified step
 
-      :param step: step to advance by
-      :type step: double
+      :Parameters: **step** (*double*) -- step to advance by
 
 
    .. method:: get_inputs(self)
@@ -67,3 +53,19 @@ Classes
 
 
 
+
+
+
+
+.. .. .. autoapi-nested-parse::
+..
+..    Wisconsin Autonomous - https://www.wisconsinautonomous.org
+
+   Copyright (c) 2021 wisconsinautonomous.org
+   All rights reserved.
+
+   Use of this source code is governed by a BSD-style license that can be found
+   in the LICENSE file at the top level of the repo
+
+..
+.. 

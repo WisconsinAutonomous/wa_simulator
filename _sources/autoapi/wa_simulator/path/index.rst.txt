@@ -3,9 +3,258 @@
 
 .. py:module:: wa_simulator.path
 
-.. autoapi-nested-parse::
+.. Module Contents
+.. ---------------
 
-   Wisconsin Autonomous - https://www.wisconsinautonomous.org
+
+.. raw:: html
+
+   <h2>Classes</h2>
+
+.. autoapisummary::
+  :nosignatures:
+
+  wa_simulator.path.WAPath
+  wa_simulator.path.WASplinePath
+
+.. py:class:: WAPath(waypoints, **kwargs)
+
+   Base Path object. To be used to generate paths or trajectories for path planning and / or path following
+
+   All path objects * should * be implemented in a 3D coordinate space! This means, waypoints should be a list or np.ndarray of
+   lists or np.ndarrays of size 3!
+
+   Example:
+
+   .. highlight:: python
+   .. code-block:: python
+
+       from wa_simulator.path import WAPath, load_waypoints_from_csv
+
+       # Simple 2D Path
+       waypoints = [
+           [1, 2, 0],
+           [2, 2, 0],
+           [5, 5, 0],
+       ]
+       # Not actually allowed since WAPath is abstract (has abstract methods)
+       path_2D = WAPath(waypoints)
+
+       # Simple 3D Path
+       waypoints = [
+           [1, 2, 1],
+           [2, 2, 2],
+           [5, 5, 1],
+       ]
+       # Not actually allowed since WAPath is abstract (has abstract methods)
+       path_3D = WAPath(waypoints)
+
+       # JSON loaded path
+       waypoints = load_waypoints_from_csv("path.csv")
+       # Not actually allowed since WAPath is abstract (has abstract methods)
+       path_json = WAPath(waypoints)
+
+   :Parameters: * **waypoints** (*np.ndarray*) -- The waypoints that the path interpolates about or maintains
+                * **\*\*kwargs** -- Additional keyworded arguments.
+
+   :raises TypeError: the waypoints array type is not as expected
+
+   .. method:: get_points(self, der=0) -> np.ndarray
+
+      Get the points for this path
+
+      :Parameters: **der** (*int*) -- derivative to grab. Defaults to 0 (just the points).
+
+      :returns: *np.ndarray* -- The points array
+
+      :raises ValueError: If der is not a supported value
+
+
+   .. method:: get_waypoints(self) -> np.ndarray
+
+      Get the waypoints for this path
+
+      :returns: *np.ndarray* -- The waypoints array
+
+
+   .. method:: is_closed(self) -> bool
+
+      Get whether the path is closed
+
+      :returns: *bool* -- Is the path closed?
+
+
+   .. method:: get_parameters(self) -> dict
+
+      Get the parameters passed in to the this function.
+
+      Track objects essentially copy other paths, so we want to keep the parameters for later
+
+      :returns: *dict* -- The saved parameteres
+
+
+   .. method:: set_vis_properties(self, vis_properties: dict)
+
+      Set the visual properties for this path.
+
+      The visual properties are used in :meth:`~plot`.
+
+      :Parameters: **vis_properties** (*dict*) -- The visual properties to apply to this path.
+
+      :raises TypeError: If ``vis_properties`` is not a ``dict``
+
+
+   .. method:: get_vis_properties(self) -> dict
+
+      Get the visual properties.
+
+      Python will return a reference since it is not a primitive type. This means that if you change any values
+      in the returned properties dictionary, it will also change the instance held by this class. This can be an
+      alternative method to the :meth:`~set_vis_properties`.
+
+      :returns: *dict* -- The visual properties
+
+
+   .. method:: calc_closest_point(self, pos: WAVector, return_idx: bool = False) -> WAVector
+      :abstractmethod:
+
+      Calculate the closest point on the path from the passed position
+
+      :Parameters: * **pos** (*WAVector*) -- the position to find the closest point on the path to
+                   * **return_idx** (*bool, optional*) -- return the index of the point with respect to the self._points array
+
+      :returns: *WAVector* -- the closest point on the path
+                int(optional): the index of the point on the path
+
+
+   .. method:: plot(self, *args, show: bool = True, **kwargs)
+      :abstractmethod:
+
+      Plot the path
+
+      :Parameters: * **\*args** -- Positional arguments that are passed directly to the plotter
+                   * **show** (*bool, optional*) -- show the plot window. Defaults to True.
+                   * **\*\*kwargs** -- Keyworded arguments passed to the plotter
+
+
+
+.. py:class:: WASplinePath(waypoints, **kwargs)
+
+   Bases: :class:`wa_simulator.path.WAPath`
+
+   Spline path implemented with SciPy's splprep and splev methods
+
+   :Parameters: * **waypoints** (*np.ndarray*) -- the waypoints to fit the spline to
+                * **num_points** (*int, optional*) -- number of points to interpolate. Defaults to 100.
+                * **smoothness** (*float, optional*) -- how fit to each point the spline should be. will hit all points by default. Defaults to 0.0.
+                * **is_closed** (*bool, optional*) -- Is the path a closed loop. Defaults to True.
+
+   :raises TypeError: the waypoints array type is not as expected
+
+   .. method:: calc_closest_point(self, pos: WAVector, return_idx: bool = False) -> (WAVector, int)
+
+      Calculate the closest point on the path from the passed position
+
+      :Parameters: * **pos** (*WAVector*) -- the position to find the closest point on the path to
+                   * **return_idx** (*bool, optional*) -- return the index of the point with respect to the self._points array
+
+      :returns: *WAVector* -- the closest point on the path
+                int(optional): the index of the point on the path
+
+
+   .. method:: plot(self, *args, show=True, ignore_vis_properties=False, **kwargs)
+
+      Plot the path in matplotlib.
+
+      :Parameters: * **args** -- Positional arguments passed directly to matplotlib
+                   * **show** (*bool, optional*) -- show the plot window. Defaults to True.
+                   * **ignore_vis_properties** (*bool, optional*) -- If True, ignore the visual properties set through :meth:`~set_vis_properties`. If False, dict passed to :meth:`~set_vis_properties` will be passed as keyworded argements to matplotlib.
+                   * **kwargs** -- Keyworded arguments passed directly to matplotlib.
+
+
+   .. method:: calc_length_cummulative(self) -> np.ndarray
+
+      Get the cummulative distance along the path
+
+      :returns: *np.ndarray* -- Cummulative distance along the path
+
+
+   .. method:: calc_curvature(self) -> np.ndarray
+
+      Get the curvature at each point on the path
+
+      :returns: *np.ndarray* -- Curvature at each point on the path
+
+
+
+
+
+
+.. raw:: html
+
+   <h2>Methods</h2>
+
+.. autoapisummary::
+  :nosignatures:
+
+   wa_simulator.path.create_path_from_json
+   wa_simulator.path.load_waypoints_from_csv
+   wa_simulator.path.calc_path_length_cummulative
+   wa_simulator.path.calc_path_curvature
+
+.. function:: create_path_from_json(filename: str) -> 'WAPath'
+
+   Creates a WAPath object from json
+
+   json file options:
+
+   * Waypoints Input File (str, required): A csv file describing the path waypoints. Loaded using :meth:`~load_waypoints_from_csv`.
+
+   * Additional keyworded arguments necessary for the path template
+
+   :Parameters: **filename** (*str*) -- The json specification that describes the path
+
+
+.. function:: load_waypoints_from_csv(filename: str, **kwargs) -> np.ndarray
+
+   Get data points from a csv file.
+
+   Should be structured as "x,y,z\\nx,y,z...". See `NumPy.loadtxt < https: // numpy.org/doc/stable/reference/generated/numpy.loadtxt.html >`_
+   for more info on arguments.
+
+   :Parameters: **filename** (*str*) -- file to open and read data from
+
+   :returns: *np.ndarray* -- an n x m array with each data point in each row
+
+
+.. function:: calc_path_length_cummulative(x, y) -> np.ndarray
+
+   Get the cummulative distance along a path provided the given x and y position values
+
+   :Parameters: * **x** (*np.ndarray*) -- x coordinates
+                * **y** (*np.ndarray*) -- y coordinates
+
+   :returns: *np.ndarray* -- the cummulative distance along the path
+
+
+.. function:: calc_path_curvature(dx, dy, ddx, ddy) -> np.ndarray
+
+   Calculate the curvature of a path at each point
+
+   :Parameters: * **dx** (*np.ndarray*) -- first x derivative
+                * **dy** (*np.ndarray*) -- first y derivative
+                * **ddx** (*np.ndarray*) -- second x derivative
+                * **ddy** (*np.ndarray*) -- second y derivative
+
+   :returns: *np.ndarray* -- the curvature at each point
+
+
+
+
+
+.. .. .. autoapi-nested-parse::
+..
+..    Wisconsin Autonomous - https://www.wisconsinautonomous.org
 
    Copyright (c) 2021 wisconsinautonomous.org
    All rights reserved.
@@ -13,215 +262,5 @@
    Use of this source code is governed by a BSD-style license that can be found
    in the LICENSE file at the top level of the repo
 
-
-
-Module Contents
----------------
-
-Classes
-~~~~~~~
-
-.. autoapisummary::
-
-   wa_simulator.path.WAPath
-   wa_simulator.path.WASplinePath
-
-
-
-Functions
-~~~~~~~~~
-
-.. autoapisummary::
-
-   wa_simulator.path.load_waypoints_from_csv
-   wa_simulator.path.calc_path_length_cummulative
-   wa_simulator.path.calc_path_curvature
-
-
-.. function:: load_waypoints_from_csv(filename, **kwargs)
-
-   Get data points from a csv file.
-
-       Should be structured as "x,y,z
-   x,y,z...". See NumPy.loadtxt for more info on arguments.
-
-       Args:
-           filename (str): file to open and read data from
-
-       Returns:
-           np.ndarray: a nxm array with each data point in each row
-
-
-.. function:: calc_path_length_cummulative(x, y)
-
-   Get the cummulative distance along a path provided the given x and y position values
-
-   :param x: x coordinates
-   :type x: np.ndarray
-   :param y: y coordinates
-   :type y: np.ndarray
-
-   :returns: the cummulative distance along the path
-   :rtype: np.ndarray
-
-
-.. function:: calc_path_curvature(dx, dy, ddx, ddy)
-
-   Calculate the curvature of a path at each point
-
-   :param dx: first x derivative
-   :type dx: np.ndarray
-   :param dy: first y derivative
-   :type dy: np.ndarray
-   :param ddx: second x derivative
-   :type ddx: np.ndarray
-   :param ddy: second y derivative
-   :type ddy: np.ndarray
-
-   :returns: the curvature at each point
-   :rtype: np.ndarray
-
-
-.. py:class:: WAPath(waypoints=None, parameters=WAPathParameters())
-
-   Base Path object. To be used to generate paths or trajectories for path planning and/or path following
-
-   .. attribute:: parameters
-
-      The parameters used to interpolate along the path
-
-      :type: WAPath.WAPathParameters
-
-   .. attribute:: waypoints
-
-      The waypoints that the path interpolates about or maintains
-
-      :type: np.ndarray
-
-   .. attribute:: points
-
-      The interpolated points (can be the waypoints)
-
-      :type: np.ndarray
-
-   .. py:class:: WAPathParameters
-
-      Holds the parameters for the interpolated path
-
-      .. attribute:: is_closed
-
-         Whether the path is a closed loop. Defaults to True.
-
-         :type: bool
-
-      .. attribute:: is_closed
-         :annotation: = True
-
-         
-
-
-   .. method:: calc_closest_point(self, pos)
-      :abstractmethod:
-
-      Calculate the closest point on the path from the passed position
-
-      :param pos: the position to find the closest point on the path to
-      :type pos: wa.WAVector
-
-      :returns: the closest point on the path
-      :rtype: wa.WAVector
-
-
-   .. method:: plot(self, *args, show=True, **kwargs)
-      :abstractmethod:
-
-      Plot the path
-
-      :param show: show the plot window. Defaults to True.
-      :type show: bool, optional
-
-
-
-.. py:class:: WASplinePath(waypoints, parameters=None, **kwargs)
-
-   Bases: :class:`wa_simulator.path.WAPath`
-
-   Spline path implemented with SciPy's splprep and splev methods
-
-   :param waypoints: the waypoints to fit the spline to
-   :type waypoints: np.ndarray
-   :param num_points: number of points to interpolate. Defaults to 100.
-   :type num_points: int, optional
-   :param smoothness: how fit to each point the spline should be. will hit all points by default. Defaults to 0.0.
-   :type smoothness: float, optional
-   :param is_closed: Is the path a closed loop. Defaults to True.
-   :type is_closed: bool, optional
-
-   :raises TypeError: the waypoints array type is not as expected
-
-   .. py:class:: WASplinePathParameters
-
-      Bases: :class:`wa_simulator.path.WAPath`
-
-      The parameters for a WASplinePath
-
-      .. attribute:: num_points
-
-         number of points to interpolate along the path. Defaults to 100.
-
-         :type: int
-
-      .. attribute:: smoothness
-
-         How close the path is to the waypoints. Defaults to 0.0 (goes through all the points).
-
-         :type: float
-
-      .. attribute:: num_points
-         :annotation: = 100
-
-         
-
-      .. attribute:: smoothness
-         :annotation: = 0.0
-
-         
-
-
-   .. method:: calc_closest_point(self, pos)
-
-      Calculate the closest point on the path from the passed position
-
-      :param pos: the position to find the closest point on the path to
-      :type pos: wa.WAVector
-
-      :returns: the closest point on the path
-                idx: the index of the point on the path
-      :rtype: wa.WAVector
-
-
-   .. method:: plot(self, *args, show=True, **kwargs)
-
-      Plot the path
-
-      :param show: show the plot window. Defaults to True.
-      :type show: bool, optional
-
-
-   .. method:: calc_length_cummulative(self)
-
-      Get the cummulative distance along the path
-
-      :returns: Cummulative distance along the path
-      :rtype: np.ndarray
-
-
-   .. method:: calc_curvature(self)
-
-      Get the curvature at each point on the path
-
-      :returns: Curvature at each point on the path
-      :rtype: np.ndarray
-
-
-
+..
+.. 

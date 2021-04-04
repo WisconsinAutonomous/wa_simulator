@@ -1,0 +1,55 @@
+:mod:`wa_simulator.vehicle_inputs`
+==================================
+
+.. py:module:: wa_simulator.vehicle_inputs
+
+.. Module Contents
+.. ---------------
+
+
+.. raw:: html
+
+   <h2>Classes</h2>
+
+.. autoapisummary::
+  :nosignatures:
+
+  wa_simulator.vehicle_inputs.WAVehicleInputs
+
+.. py:class:: WAVehicleInputs(steering: float = 0.0, throttle: float = 0.0, braking: float = 0.0)
+
+   Object used to hold the inputs to the vehicle model
+
+   The value ranges for the vehicle inputs may vary depending on the
+   used vehicle model (i.e. radians vs percentages). This class is not reponsible for
+   maintaining such properties, simply should be used for passing values around.
+
+   :Parameters: * **steering** (*float, optional*) -- steering input. Defaults to 0.0.
+                * **throttle** (*float, optional*) -- throttle input. Defaults to 0.0.
+                * **braking** (*float, optional*) -- braking input. Defaults to 0.0.
+
+   :ivar steering: steering input.
+   :vartype steering: float
+   :ivar throttle: throttle input.
+   :vartype throttle: float
+   :ivar braking: braking input.
+
+   :vartype braking: float
+
+
+
+
+
+
+.. .. .. autoapi-nested-parse::
+..
+..    Wisconsin Autonomous - https://www.wisconsinautonomous.org
+
+   Copyright (c) 2021 wisconsinautonomous.org
+   All rights reserved.
+
+   Use of this source code is governed by a BSD-style license that can be found
+   in the LICENSE file at the top level of the repo
+
+..
+.. 

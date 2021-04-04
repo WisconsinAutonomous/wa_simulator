@@ -3,31 +3,20 @@
 
 .. py:module:: wa_simulator.chrono.environment
 
-.. autoapi-nested-parse::
-
-   Wisconsin Autonomous - https://www.wisconsinautonomous.org
-
-   Copyright (c) 2021 wisconsinautonomous.org
-   All rights reserved.
-
-   Use of this source code is governed by a BSD-style license that can be found
-   in the LICENSE file at the top level of the repo
+.. Module Contents
+.. ---------------
 
 
+.. raw:: html
 
-Module Contents
----------------
-
-Classes
-~~~~~~~
+   <h2>Classes</h2>
 
 .. autoapisummary::
+  :nosignatures:
 
-   wa_simulator.chrono.environment.WAChronoEnvironment
+  wa_simulator.chrono.environment.WAChronoEnvironment
 
-
-
-.. py:class:: WAChronoEnvironment(filename, system, terrain=None)
+.. py:class:: WAChronoEnvironment(system: WAChronoSystem, filename: str)
 
    Bases: :class:`wa_simulator.environment.WAEnvironment`
 
@@ -35,43 +24,85 @@ Classes
 
    TODO: Add assets from file
 
-   :param filename: the json specification file describing the environment
-   :type filename: str
-   :param system: the wa system that wraps a ChSystem
-   :type system: WASystem
-   :param terrain: a chrono terrain. Will create one if not passed. Defaults to None.
-   :type terrain: ChTerrain, optional
-
-   .. attribute:: terrain
-
-      the wrapper for the chrono terrain
-
-      :type: WAChronoTerrain
-
-   .. attribute:: EGP_ENV_MODEL_FILE
-      :annotation: = environments/ev_grand_prix.json
-
-      
-
-   .. attribute:: IAC_ENV_MODEL_FILE
-      :annotation: = environments/iac.json
-
-      
+   :Parameters: * **system** (*WASystem*) -- the wa system that wraps a ChSystem
+                * **filename** (*str*) -- the json specification file describing the environment
 
    .. method:: synchronize(self, time)
 
-      Synchronize the environment. Will just synchronize the terrain
+      Update the state of this component at the current time.
 
-      :param time: [description]
-      :type time: [type]
+      The primary reason to decouple the update method into two separate calls (i.e. :meth:`~synchronize` and :meth:`~advance`)
+      is to provide flexibility to the user and is essentially semantic. In most simple cases, a user will only need one of the two.
+      Furthermore, can only use :meth:`~advance` if they prefer and just update their own :code:`time` variable. Given the unknown use cases
+      for the simulator at the time of writing, it was chosen to provide two different methods with similar functionality as to allow
+      the user to choose their desired implementation, rather than the writers of this package.
+
+      As opposed to :meth:`~advance`, this method gets the current time of the simulation. As menthioned earlier,
+      :meth:`~advance` and a user defined `time` variable could be used to instead to hold the current state of the simulation. However,
+      to aid in generality of the package, this method is provided to simply provide the current time of the simulation to the user in a decoupled
+      manner from the :meth:`~advance` method.
+
+      :Parameters: **time** (*float*) -- The current time to synchronize to
 
 
    .. method:: advance(self, step)
 
-      Advance the environment by the step size. Will just advance the terrain.
+      Advance the state of this component by the specified time step.
 
-      :param step: the step size to update the environment by
-      :type step: double
+      The primary reason to decouple the update method into two separate calls (i.e. :meth:`~synchronize` and :meth:`~advance`)
+      is to provide flexibility to the user and is essentially semantic. In most simple cases, a user will only need one of the two.
+      Furthermore, can only use :meth:`~advance` if they prefer and just update their own :code:`time` variable. Given the unknown use cases
+      for the simulator at the time of writing, it was chosen to provide two different methods with similar functionality as to allow
+      the user to choose their desired implementation, rather than the writers of this package.
+
+      :Parameters: **step** (*float*) -- The step size to advance this component by
+
+
+   .. method:: add_asset(self, asset: Any)
+
+      Add an asset to the world
+
+      A asset holds certain attributes that may be applicable in various simulations. This method
+      stores created assets in the environment object.
+
+      :Parameters: **asset** (*Any*) -- The asset to add.
 
 
 
+
+
+
+.. raw:: html
+
+   <h2>Methods</h2>
+
+.. autoapisummary::
+  :nosignatures:
+
+   wa_simulator.chrono.environment.load_chrono_terrain_from_json
+
+.. function:: load_chrono_terrain_from_json(system: WAChronoSystem, filename: str)
+
+   Load a ChTerrain from a json specification file
+
+   :Parameters: * **filename** (*str*) -- the relative path to a terrain json file
+                * **system** (*WAChronoSystem*) -- the chrono system used to handle the terrain
+
+   :returns: *ChTerrain* -- The loaded terrain
+
+
+
+
+
+.. .. .. autoapi-nested-parse::
+..
+..    Wisconsin Autonomous - https://www.wisconsinautonomous.org
+
+   Copyright (c) 2021 wisconsinautonomous.org
+   All rights reserved.
+
+   Use of this source code is governed by a BSD-style license that can be found
+   in the LICENSE file at the top level of the repo
+
+..
+.. 

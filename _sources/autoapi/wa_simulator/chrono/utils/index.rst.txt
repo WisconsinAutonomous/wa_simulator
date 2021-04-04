@@ -3,9 +3,158 @@
 
 .. py:module:: wa_simulator.chrono.utils
 
-.. autoapi-nested-parse::
+.. Module Contents
+.. ---------------
 
-   Wisconsin Autonomous - https://www.wisconsinautonomous.org
+
+
+.. raw:: html
+
+   <h2>Methods</h2>
+
+.. autoapisummary::
+  :nosignatures:
+
+   wa_simulator.chrono.utils.set_chrono_directories_override
+   wa_simulator.chrono.utils.set_chrono_data_directory
+   wa_simulator.chrono.utils.set_chrono_vehicle_data_directory
+   wa_simulator.chrono.utils.get_chrono_data_file
+   wa_simulator.chrono.utils.get_chrono_vehicle_data_file
+   wa_simulator.chrono.utils.ChVector_to_WAVector
+   wa_simulator.chrono.utils.WAVector_to_ChVector
+   wa_simulator.chrono.utils.ChQuaternion_to_WAQuaternion
+   wa_simulator.chrono.utils.WAQuaternion_to_ChQuaternion
+   wa_simulator.chrono.utils.ChFrame_from_json
+   wa_simulator.chrono.utils.ChVector_from_list
+
+.. function:: set_chrono_directories_override(override: bool)
+
+   Set the chrono data directories to have the passed override value.
+
+   Normally, it is assumed that the chrono data directories are located inside wherever :meth:`~get_wa_data_directory`
+   is set to. This method will change the override functionality to either continue to look in this location, or
+   allow the user to override this. To override the actual directories, use :meth:`~set_chrono_data_directory` and
+   :meth:`~set_chrono_vehicle_data_directory`.
+
+   If set to True, the current paths will remain the same, but will not change without either setting them using the
+   setters or when the wa data directory is changed (which would be the case if set to False).
+
+   :Parameters: **bool** -- Override if True, don't if False
+
+
+.. function:: set_chrono_data_directory(path: str)
+
+   Set the chrono data directory
+
+   Normally, it is assumed that the chrono data directory is located inside wherever :meth:`~get_wa_data_directory`
+   is set to. Using this method will override that functionality and statically assign the chrono data directory.
+   If you'd like to return to the overriding functionality, call :meth:`~set_chrono_data_directory_override`.
+
+   :Parameters: **path** (*str*) -- relative (or absolute) path where the data is stored
+
+
+.. function:: set_chrono_vehicle_data_directory(path: str)
+
+   Set the chrono vehicle data directory
+
+   Normally, it is assumed that the chrono vehicle data directory is located inside wherever :meth:`~get_wa_data_directory`
+   is set to. Using this method will override that functionality and statically assign the chrono vehicle data directory.
+   If you'd like to return to the overriding functionality, call :meth:`~set_chrono_directories_override`.
+
+   :Parameters: **path** (*str*) -- relative (or absolute) path where the data is stored
+
+
+.. function:: get_chrono_data_file(filename: str) -> str
+
+   Get the absolute path for the filename passed relative to the :data:`~CHRONO_DATA_DIRECTORY`.
+
+   .. highlight:: python
+   .. code:: python
+
+       # Example Usage
+       from wa_simulator import get_chrono_data_file
+
+       # By default, the data directory will be set to '<installation path of wa_simulator>/data/chrono'
+       path = get_chrono_data_file('test.json')
+
+       print(path) # -> '<installation path of wa_simulator>/data/chrono/test.json'
+
+   :Parameters: **filename** (*str*) -- file relative to the data folder to get the absolute path for
+
+   :returns: *str* -- the absolute path of the file
+
+
+.. function:: get_chrono_vehicle_data_file(filename: str) -> str
+
+   Get the absolute path for the filename passed relative to the :data:`~CHRONO_VEH_DATA_DIRECTORY`.
+
+   .. highlight:: python
+   .. code:: python
+
+       # Example Usage
+       from wa_simulator import get_chrono_vehicle_data_file
+
+       # By default, the data directory will be set to '<installation path of wa_simulator>/data/chrono/vehicle'
+       path = get_chrono_vehicle_data_file('test.json')
+
+       print(path) # -> '<installation path of wa_simulator>/data/chrono/vehicle/test.json'
+
+   :Parameters: **filename** (*str*) -- file relative to the data folder to get the absolute path for
+
+   :returns: *str* -- the absolute path of the file
+
+
+.. function:: ChVector_to_WAVector(vector: chrono.ChVectorD)
+
+   Converts a ChVector to a WAVector
+
+   :Parameters: **vector** (*ChVector*) -- The vector to convert
+
+
+.. function:: WAVector_to_ChVector(vector: WAVector)
+
+   Converts a WAVector to a ChVector
+
+   :Parameters: **vector** (*WAVector*) -- The vector to convert
+
+
+.. function:: ChQuaternion_to_WAQuaternion(quaternion: chrono.ChQuaternionD)
+
+   Converts a ChQuaternion to a WAQuaternion
+
+   :Parameters: **quaternion** (*ChQuaternion*) -- The quaternion to convert
+
+
+.. function:: WAQuaternion_to_ChQuaternion(quaternion: WAQuaternion)
+
+   Converts a WAQuaternion to a ChQuaternion
+
+   :Parameters: **quaternion** (*WAQuaternion*) -- The quaternion to convert
+
+
+.. function:: ChFrame_from_json(j: dict)
+
+   Creates a ChFrame from a json object.
+
+   :Parameters: **j** (*dict*) -- The json object that will be converted to a ChFrame
+
+   :returns: *ChFrameD* -- The frame created from the json object
+
+
+.. function:: ChVector_from_list(l: list, vector_type=chrono.ChVectorD)
+
+   Creates a ChVector from a list
+
+   :Parameters: * **l** (*list*) -- The list to convert to a ChVector
+                * **vector_type** (*Type*) -- The ChVector type to convert to
+
+
+
+
+
+.. .. .. autoapi-nested-parse::
+..
+..    Wisconsin Autonomous - https://www.wisconsinautonomous.org
 
    Copyright (c) 2021 wisconsinautonomous.org
    All rights reserved.
@@ -13,57 +162,5 @@
    Use of this source code is governed by a BSD-style license that can be found
    in the LICENSE file at the top level of the repo
 
-
-
-Module Contents
----------------
-
-
-Functions
-~~~~~~~~~
-
-.. autoapisummary::
-
-   wa_simulator.chrono.utils.ChVector_to_WAVector
-   wa_simulator.chrono.utils.ChQuaternion_to_WAQuaternion
-   wa_simulator.chrono.utils.ChFrame_from_json
-   wa_simulator.chrono.utils.ChVector_from_list
-
-
-.. function:: ChVector_to_WAVector(vector: chrono.ChVectorD)
-
-   Converts a ChVector to a WAVector
-
-   :param vector: The vector to convert
-   :type vector: ChVector
-
-
-.. function:: ChQuaternion_to_WAQuaternion(quaternion: chrono.ChQuaternionD)
-
-   Converts a ChQuaternion to a WAQuaternion
-
-   :param quaternion: The quaternion to convert
-   :type quaternion: ChQuaternion
-
-
-.. function:: ChFrame_from_json(j: dict)
-
-   Creates a ChFrame from a json object.
-
-   :param j: The json object that will be converted to a ChFrame
-   :type j: dict
-
-   :returns: The frame created from the json object
-   :rtype: ChFrameD
-
-
-.. function:: ChVector_from_list(l: list, vector_type=chrono.ChVectorD)
-
-   Creates a ChVector from a list
-
-   :param l: The list to convert to a ChVector
-   :type l: list
-   :param vector_type: The ChVector type to convert to
-   :type vector_type: Type
-
-
+..
+.. 

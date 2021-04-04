@@ -1,17 +1,49 @@
+:orphan:
+
 :mod:`tests`
 ============
 
 .. py:module:: tests
 
 
-Submodules
-----------
 .. toctree::
-   :titlesonly:
-   :maxdepth: 1
+	:hidden:
+	:titlesonly:
+	:maxdepth: 3
 
-   test_core/index.rst
-   test_track/index.rst
-   test_vehicle/index.rst
+	test_core/index.rst
+
+	test_track/index.rst
+
+	test_utils/index.rst
+
+	test_vehicle/index.rst
 
 
+Core
+----
+- :mod:`wa_simulator.chrono`
+
+
+.. raw::
+  </br>
+
+
+
+
+Components
+----------
+
+- :mod:`wa_simulator.chrono`
+
+  - `Test_core <test_core/index.html>`_
+  - `Test_track <test_track/index.html>`_
+  - `Test_utils <test_utils/index.html>`_
+  - `Test_vehicle <test_vehicle/index.html>`_
+
+.. raw::
+  </br>
+
+
+
+.. 

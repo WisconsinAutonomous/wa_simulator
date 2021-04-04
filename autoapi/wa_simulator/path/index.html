@@ -1,10 +1,11 @@
 <!doctype html>
 <html class="no-js">
   <head><meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="wa_simulator.sensor" href="../sensor/index.html" /><link rel="prev" title="wa_simulator.inputs" href="../inputs/index.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="wa_simulator.sensor" href="../sensor/index.html" /><link rel="prev" title="wa_simulator.environment" href="../environment/index.html" />
 
     <link rel="shortcut icon" href="../../../_static/wa-dark-favicon.png"/><meta name="generator" content="sphinx-3.4.2, furo 2020.12.30.beta24"/>
-        <title>wa_simulator.path - Wisconsin Autonomous Simulator 0.0.10 documentation</title>
+        <title>wa_simulator.path - Wisconsin Autonomous Simulator 1.0.3 documentation</title>
       <link rel="stylesheet" href="../../../_static/styles/furo.css?digest=33d2fc4f3f180ec1ffc6524e273e21d7d58cbe49">
     <link rel="stylesheet" href="../../../_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../../../_static/pygments_dark.css">
@@ -103,7 +104,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../index.html"><div class="brand">Wisconsin Autonomous Simulator 0.0.10 documentation</div></a>
+      <a href="../../../index.html"><div class="brand">Wisconsin Autonomous Simulator 1.0.3 documentation</div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon" for="__toc">
@@ -137,6 +138,7 @@
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label for="toctree-checkbox-2"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/custom-controller.html">Creating a Custom Controller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/writing-a-json.html">Writing a JSON Specification File</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current has-children"><a class="reference internal" href="../index.html">API Reference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label for="toctree-checkbox-3"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
@@ -145,31 +147,29 @@
 <li class="toctree-l3"><a class="reference internal" href="../chrono/environment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.environment</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../chrono/sensor/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.sensor</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../chrono/system/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.system</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../chrono/terrain/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.terrain</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../chrono/utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.utils</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../chrono/vehicle/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.vehicle</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../chrono/visualization/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.visualization</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../constants/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.constants</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../base/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.base</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../controller/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.controller</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../core/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.core</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../environment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.environment</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../inputs/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.inputs</span></code></a></li>
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.path</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../sensor/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.sensor</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../simulation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.simulation</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../system/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.system</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../terrain/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.terrain</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../track/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.track</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.utils</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../vehicle/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.vehicle</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vehicle_inputs/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.vehicle_inputs</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../visualization/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.visualization</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
 </ul>
-<p class="caption"><span class="caption-text">External Links</span></p>
+<p><span class="caption-text">External Links</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference external" href="https://pypi.org/project/wa-simulator/">PyPI</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/WisconsinAutonomous/wa_simulator">Github</a></li>
@@ -187,71 +187,296 @@
         <label class="toc-overlay-icon toc-content-icon" for="__toc">
           <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
         </label>
-        <div class="section" id="module-wa_simulator.path">
+        <section id="module-wa_simulator.path">
 <span id="wa-simulator-path"></span><h1><a class="reference internal" href="#module-wa_simulator.path" title="wa_simulator.path"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.path</span></code></a><a class="headerlink" href="#module-wa_simulator.path" title="Permalink to this headline">¶</a></h1>
-<p>Wisconsin Autonomous - <a class="reference external" href="https://www.wisconsinautonomous.org">https://www.wisconsinautonomous.org</a></p>
-<p>Copyright (c) 2021 wisconsinautonomous.org
-All rights reserved.</p>
-<p>Use of this source code is governed by a BSD-style license that can be found
-in the LICENSE file at the top level of the repo</p>
-<div class="section" id="module-contents">
-<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="classes">
-<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h3>
-<div class="table-wrapper"><table class="longtable docutils align-default">
+<h2>Classes</h2><div class="table-wrapper"><table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%"/>
 <col style="width: 90%"/>
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#wa_simulator.path.WAPath" title="wa_simulator.path.WAPath"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WAPath</span></code></a></p></td>
-<td><p>Base Path object. To be used to generate paths or trajectories for path planning and/or path following</p></td>
+<td><p>Base Path object. To be used to generate paths or trajectories for path planning and / or path following</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#wa_simulator.path.WASplinePath" title="wa_simulator.path.WASplinePath"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WASplinePath</span></code></a></p></td>
 <td><p>Spline path implemented with SciPy’s splprep and splev methods</p></td>
 </tr>
 </tbody>
 </table></div>
+<dl class="py class">
+<dt id="wa_simulator.path.WAPath">
+<em class="property">class </em><code class="sig-name descname">WAPath</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">waypoints</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/wa_simulator/path.html#WAPath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.path.WAPath" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base Path object. To be used to generate paths or trajectories for path planning and / or path following</p>
+<p>All path objects * should * be implemented in a 3D coordinate space! This means, waypoints should be a list or np.ndarray of
+lists or np.ndarrays of size 3!</p>
+<p>Example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">wa_simulator.path</span> <span class="kn">import</span> <span class="n">WAPath</span><span class="p">,</span> <span class="n">load_waypoints_from_csv</span>
+
+<span class="c1"># Simple 2D Path</span>
+<span class="n">waypoints</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+<span class="p">]</span>
+<span class="c1"># Not actually allowed since WAPath is abstract (has abstract methods)</span>
+<span class="n">path_2D</span> <span class="o">=</span> <span class="n">WAPath</span><span class="p">(</span><span class="n">waypoints</span><span class="p">)</span>
+
+<span class="c1"># Simple 3D Path</span>
+<span class="n">waypoints</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+<span class="p">]</span>
+<span class="c1"># Not actually allowed since WAPath is abstract (has abstract methods)</span>
+<span class="n">path_3D</span> <span class="o">=</span> <span class="n">WAPath</span><span class="p">(</span><span class="n">waypoints</span><span class="p">)</span>
+
+<span class="c1"># JSON loaded path</span>
+<span class="n">waypoints</span> <span class="o">=</span> <span class="n">load_waypoints_from_csv</span><span class="p">(</span><span class="s2">"path.csv"</span><span class="p">)</span>
+<span class="c1"># Not actually allowed since WAPath is abstract (has abstract methods)</span>
+<span class="n">path_json</span> <span class="o">=</span> <span class="n">WAPath</span><span class="p">(</span><span class="n">waypoints</span><span class="p">)</span>
+</pre></div>
 </div>
-<div class="section" id="functions">
-<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
-<div class="table-wrapper"><table class="longtable docutils align-default">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>waypoints</strong> (<em>np.ndarray</em>) – The waypoints that the path interpolates about or maintains</p></li>
+<li><p><strong>**kwargs</strong> – Additional keyworded arguments.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>TypeError</strong> – the waypoints array type is not as expected</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="wa_simulator.path.WAPath.get_points">
+<code class="sig-name descname">get_points</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">der</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span> → np.ndarray<a class="reference internal" href="../../../_modules/wa_simulator/path.html#WAPath.get_points"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.path.WAPath.get_points" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the points for this path</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>der</strong> (<em>int</em>) – derivative to grab. Defaults to 0 (just the points).</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><em>np.ndarray</em> – The points array</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – If der is not a supported value</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.path.WAPath.get_waypoints">
+<code class="sig-name descname">get_waypoints</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span> → np.ndarray<a class="reference internal" href="../../../_modules/wa_simulator/path.html#WAPath.get_waypoints"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.path.WAPath.get_waypoints" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the waypoints for this path</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><em>np.ndarray</em> – The waypoints array</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.path.WAPath.is_closed">
+<code class="sig-name descname">is_closed</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span> → bool<a class="reference internal" href="../../../_modules/wa_simulator/path.html#WAPath.is_closed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.path.WAPath.is_closed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get whether the path is closed</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><em>bool</em> – Is the path closed?</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.path.WAPath.get_parameters">
+<code class="sig-name descname">get_parameters</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span> → dict<a class="reference internal" href="../../../_modules/wa_simulator/path.html#WAPath.get_parameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.path.WAPath.get_parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the parameters passed in to the this function.</p>
+<p>Track objects essentially copy other paths, so we want to keep the parameters for later</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><em>dict</em> – The saved parameteres</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.path.WAPath.set_vis_properties">
+<code class="sig-name descname">set_vis_properties</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">vis_properties</span><span class="p">:</span> <span class="n">dict</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/wa_simulator/path.html#WAPath.set_vis_properties"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.path.WAPath.set_vis_properties" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the visual properties for this path.</p>
+<p>The visual properties are used in <a class="reference internal" href="#wa_simulator.path.WAPath.plot" title="wa_simulator.path.WAPath.plot"><code class="xref py py-meth docutils literal notranslate"><span class="pre">plot()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>vis_properties</strong> (<em>dict</em>) – The visual properties to apply to this path.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>TypeError</strong> – If <code class="docutils literal notranslate"><span class="pre">vis_properties</span></code> is not a <code class="docutils literal notranslate"><span class="pre">dict</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.path.WAPath.get_vis_properties">
+<code class="sig-name descname">get_vis_properties</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span> → dict<a class="reference internal" href="../../../_modules/wa_simulator/path.html#WAPath.get_vis_properties"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.path.WAPath.get_vis_properties" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the visual properties.</p>
+<p>Python will return a reference since it is not a primitive type. This means that if you change any values
+in the returned properties dictionary, it will also change the instance held by this class. This can be an
+alternative method to the <a class="reference internal" href="#wa_simulator.path.WAPath.set_vis_properties" title="wa_simulator.path.WAPath.set_vis_properties"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set_vis_properties()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><em>dict</em> – The visual properties</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.path.WAPath.calc_closest_point">
+<em class="property">abstract </em><code class="sig-name descname">calc_closest_point</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">pos</span><span class="p">:</span> <span class="n">WAVector</span></em>, <em class="sig-param"><span class="n">return_idx</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> → WAVector<a class="reference internal" href="../../../_modules/wa_simulator/path.html#WAPath.calc_closest_point"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.path.WAPath.calc_closest_point" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the closest point on the path from the passed position</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pos</strong> (<em>WAVector</em>) – the position to find the closest point on the path to</p></li>
+<li><p><strong>return_idx</strong> (<em>bool, optional</em>) – return the index of the point with respect to the self._points array</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><em>WAVector</em> – the closest point on the path
+int(optional): the index of the point on the path</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.path.WAPath.plot">
+<em class="property">abstract </em><code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="n">show</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/wa_simulator/path.html#WAPath.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.path.WAPath.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the path</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>*args</strong> – Positional arguments that are passed directly to the plotter</p></li>
+<li><p><strong>show</strong> (<em>bool, optional</em>) – show the plot window. Defaults to True.</p></li>
+<li><p><strong>**kwargs</strong> – Keyworded arguments passed to the plotter</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
+<dl class="py class">
+<dt id="wa_simulator.path.WASplinePath">
+<em class="property">class </em><code class="sig-name descname">WASplinePath</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">waypoints</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/wa_simulator/path.html#WASplinePath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.path.WASplinePath" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#wa_simulator.path.WAPath" title="wa_simulator.path.WAPath"><code class="xref py py-class docutils literal notranslate"><span class="pre">wa_simulator.path.WAPath</span></code></a></p>
+<p>Spline path implemented with SciPy’s splprep and splev methods</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>waypoints</strong> (<em>np.ndarray</em>) – the waypoints to fit the spline to</p></li>
+<li><p><strong>num_points</strong> (<em>int, optional</em>) – number of points to interpolate. Defaults to 100.</p></li>
+<li><p><strong>smoothness</strong> (<em>float, optional</em>) – how fit to each point the spline should be. will hit all points by default. Defaults to 0.0.</p></li>
+<li><p><strong>is_closed</strong> (<em>bool, optional</em>) – Is the path a closed loop. Defaults to True.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>TypeError</strong> – the waypoints array type is not as expected</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="wa_simulator.path.WASplinePath.calc_closest_point">
+<code class="sig-name descname">calc_closest_point</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">pos</span><span class="p">:</span> <span class="n">WAVector</span></em>, <em class="sig-param"><span class="n">return_idx</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/wa_simulator/path.html#WASplinePath.calc_closest_point"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.path.WASplinePath.calc_closest_point" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the closest point on the path from the passed position</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pos</strong> (<em>WAVector</em>) – the position to find the closest point on the path to</p></li>
+<li><p><strong>return_idx</strong> (<em>bool, optional</em>) – return the index of the point with respect to the self._points array</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><em>WAVector</em> – the closest point on the path
+int(optional): the index of the point on the path</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.path.WASplinePath.plot">
+<code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="n">show</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">ignore_vis_properties</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/wa_simulator/path.html#WASplinePath.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.path.WASplinePath.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the path in matplotlib.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>args</strong> – Positional arguments passed directly to matplotlib</p></li>
+<li><p><strong>show</strong> (<em>bool, optional</em>) – show the plot window. Defaults to True.</p></li>
+<li><p><strong>ignore_vis_properties</strong> (<em>bool, optional</em>) – If True, ignore the visual properties set through <code class="xref py py-meth docutils literal notranslate"><span class="pre">set_vis_properties()</span></code>. If False, dict passed to <code class="xref py py-meth docutils literal notranslate"><span class="pre">set_vis_properties()</span></code> will be passed as keyworded argements to matplotlib.</p></li>
+<li><p><strong>kwargs</strong> – Keyworded arguments passed directly to matplotlib.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.path.WASplinePath.calc_length_cummulative">
+<code class="sig-name descname">calc_length_cummulative</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span> → np.ndarray<a class="reference internal" href="../../../_modules/wa_simulator/path.html#WASplinePath.calc_length_cummulative"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.path.WASplinePath.calc_length_cummulative" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the cummulative distance along the path</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><em>np.ndarray</em> – Cummulative distance along the path</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.path.WASplinePath.calc_curvature">
+<code class="sig-name descname">calc_curvature</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span> → np.ndarray<a class="reference internal" href="../../../_modules/wa_simulator/path.html#WASplinePath.calc_curvature"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.path.WASplinePath.calc_curvature" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the curvature at each point on the path</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><em>np.ndarray</em> – Curvature at each point on the path</p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
+<h2>Methods</h2><div class="table-wrapper"><table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%"/>
 <col style="width: 90%"/>
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#wa_simulator.path.load_waypoints_from_csv" title="wa_simulator.path.load_waypoints_from_csv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_waypoints_from_csv</span></code></a>(filename, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#wa_simulator.path.create_path_from_json" title="wa_simulator.path.create_path_from_json"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_path_from_json</span></code></a></p></td>
+<td><p>Creates a WAPath object from json</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#wa_simulator.path.load_waypoints_from_csv" title="wa_simulator.path.load_waypoints_from_csv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_waypoints_from_csv</span></code></a></p></td>
 <td><p>Get data points from a csv file.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#wa_simulator.path.calc_path_length_cummulative" title="wa_simulator.path.calc_path_length_cummulative"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_path_length_cummulative</span></code></a>(x, y)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#wa_simulator.path.calc_path_length_cummulative" title="wa_simulator.path.calc_path_length_cummulative"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_path_length_cummulative</span></code></a></p></td>
 <td><p>Get the cummulative distance along a path provided the given x and y position values</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#wa_simulator.path.calc_path_curvature" title="wa_simulator.path.calc_path_curvature"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_path_curvature</span></code></a>(dx, dy, ddx, ddy)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#wa_simulator.path.calc_path_curvature" title="wa_simulator.path.calc_path_curvature"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_path_curvature</span></code></a></p></td>
 <td><p>Calculate the curvature of a path at each point</p></td>
 </tr>
 </tbody>
 </table></div>
 <dl class="py function">
-<dt id="wa_simulator.path.load_waypoints_from_csv">
-<code class="sig-prename descclassname">wa_simulator.path.</code><code class="sig-name descname">load_waypoints_from_csv</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.path.load_waypoints_from_csv" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get data points from a csv file.</p>
-<blockquote>
-<div><p>Should be structured as “x,y,z</p>
-</div></blockquote>
-<p>x,y,z…”. See NumPy.loadtxt for more info on arguments.</p>
-<blockquote>
-<div><dl class="simple">
-<dt>Args:</dt><dd><p>filename (str): file to open and read data from</p>
-</dd>
-<dt>Returns:</dt><dd><p>np.ndarray: a nxm array with each data point in each row</p>
+<dt id="wa_simulator.path.create_path_from_json">
+<code class="sig-name descname">create_path_from_json</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> → <a class="reference internal" href="#wa_simulator.path.WAPath" title="wa_simulator.path.WAPath">WAPath</a><a class="reference internal" href="../../../_modules/wa_simulator/path.html#create_path_from_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.path.create_path_from_json" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a WAPath object from json</p>
+<p>json file options:</p>
+<ul class="simple">
+<li><p>Waypoints Input File (str, required): A csv file describing the path waypoints. Loaded using <a class="reference internal" href="#wa_simulator.path.load_waypoints_from_csv" title="wa_simulator.path.load_waypoints_from_csv"><code class="xref py py-meth docutils literal notranslate"><span class="pre">load_waypoints_from_csv()</span></code></a>.</p></li>
+<li><p>Additional keyworded arguments necessary for the path template</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filename</strong> (<em>str</em>) – The json specification that describes the path</p>
 </dd>
 </dl>
-</div></blockquote>
+</dd></dl>
+<dl class="py function">
+<dt id="wa_simulator.path.load_waypoints_from_csv">
+<code class="sig-name descname">load_waypoints_from_csv</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> → np.ndarray<a class="reference internal" href="../../../_modules/wa_simulator/path.html#load_waypoints_from_csv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.path.load_waypoints_from_csv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get data points from a csv file.</p>
+<p>Should be structured as “x,y,z\nx,y,z…”. See <a href="#id1"><span class="problematic" id="id2">`NumPy.loadtxt &lt; https: // numpy.org/doc/stable/reference/generated/numpy.loadtxt.html &gt;`_</span></a>
+for more info on arguments.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filename</strong> (<em>str</em>) – file to open and read data from</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><em>np.ndarray</em> – an n x m array with each data point in each row</p>
+</dd>
+</dl>
 </dd></dl>
 <dl class="py function">
 <dt id="wa_simulator.path.calc_path_length_cummulative">
-<code class="sig-prename descclassname">wa_simulator.path.</code><code class="sig-name descname">calc_path_length_cummulative</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.path.calc_path_length_cummulative" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">calc_path_length_cummulative</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em><span class="sig-paren">)</span> → np.ndarray<a class="reference internal" href="../../../_modules/wa_simulator/path.html#calc_path_length_cummulative"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.path.calc_path_length_cummulative" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the cummulative distance along a path provided the given x and y position values</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -261,16 +486,13 @@ in the LICENSE file at the top level of the repo</p>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>the cummulative distance along the path</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>np.ndarray</p>
+<dd class="field-even"><p><em>np.ndarray</em> – the cummulative distance along the path</p>
 </dd>
 </dl>
 </dd></dl>
 <dl class="py function">
 <dt id="wa_simulator.path.calc_path_curvature">
-<code class="sig-prename descclassname">wa_simulator.path.</code><code class="sig-name descname">calc_path_curvature</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dx</span></em>, <em class="sig-param"><span class="n">dy</span></em>, <em class="sig-param"><span class="n">ddx</span></em>, <em class="sig-param"><span class="n">ddy</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.path.calc_path_curvature" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">calc_path_curvature</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dx</span></em>, <em class="sig-param"><span class="n">dy</span></em>, <em class="sig-param"><span class="n">ddx</span></em>, <em class="sig-param"><span class="n">ddy</span></em><span class="sig-paren">)</span> → np.ndarray<a class="reference internal" href="../../../_modules/wa_simulator/path.html#calc_path_curvature"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.path.calc_path_curvature" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the curvature of a path at each point</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -282,202 +504,11 @@ in the LICENSE file at the top level of the repo</p>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>the curvature at each point</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>np.ndarray</p>
+<dd class="field-even"><p><em>np.ndarray</em> – the curvature at each point</p>
 </dd>
 </dl>
 </dd></dl>
-<dl class="py class">
-<dt id="wa_simulator.path.WAPath">
-<em class="property">class </em><code class="sig-prename descclassname">wa_simulator.path.</code><code class="sig-name descname">WAPath</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">waypoints</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">parameters</span><span class="o">=</span><span class="default_value">WAPathParameters()</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.path.WAPath" title="Permalink to this definition">¶</a></dt>
-<dd><p>Base Path object. To be used to generate paths or trajectories for path planning and/or path following</p>
-<dl class="py attribute">
-<dt id="wa_simulator.path.WAPath.parameters">
-<code class="sig-name descname">parameters</code><a class="headerlink" href="#wa_simulator.path.WAPath.parameters" title="Permalink to this definition">¶</a></dt>
-<dd><p>The parameters used to interpolate along the path</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#wa_simulator.path.WAPath.WAPathParameters" title="wa_simulator.path.WAPath.WAPathParameters">WAPath.WAPathParameters</a></p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py attribute">
-<dt id="wa_simulator.path.WAPath.waypoints">
-<code class="sig-name descname">waypoints</code><a class="headerlink" href="#wa_simulator.path.WAPath.waypoints" title="Permalink to this definition">¶</a></dt>
-<dd><p>The waypoints that the path interpolates about or maintains</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>np.ndarray</p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py attribute">
-<dt id="wa_simulator.path.WAPath.points">
-<code class="sig-name descname">points</code><a class="headerlink" href="#wa_simulator.path.WAPath.points" title="Permalink to this definition">¶</a></dt>
-<dd><p>The interpolated points (can be the waypoints)</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>np.ndarray</p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py class">
-<dt id="wa_simulator.path.WAPath.WAPathParameters">
-<em class="property">class </em><code class="sig-name descname">WAPathParameters</code><a class="headerlink" href="#wa_simulator.path.WAPath.WAPathParameters" title="Permalink to this definition">¶</a></dt>
-<dd><p>Holds the parameters for the interpolated path</p>
-<dl class="py attribute">
-<dt id="wa_simulator.path.WAPath.WAPathParameters.is_closed">
-<code class="sig-name descname">is_closed</code><a class="headerlink" href="#wa_simulator.path.WAPath.WAPathParameters.is_closed" title="Permalink to this definition">¶</a></dt>
-<dd><p>Whether the path is a closed loop. Defaults to True.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>bool</p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py attribute">
-<dt id="id0">
-<code class="sig-name descname">is_closed</code><em class="property"> = True</em><a class="headerlink" href="#id0" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-</dd></dl>
-<dl class="py method">
-<dt id="wa_simulator.path.WAPath.calc_closest_point">
-<em class="property">abstract </em><code class="sig-name descname">calc_closest_point</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">pos</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.path.WAPath.calc_closest_point" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate the closest point on the path from the passed position</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>pos</strong> (<em>wa.WAVector</em>) – the position to find the closest point on the path to</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>the closest point on the path</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>wa.WAVector</p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py method">
-<dt id="wa_simulator.path.WAPath.plot">
-<em class="property">abstract </em><code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="n">show</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.path.WAPath.plot" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plot the path</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>show</strong> (<em>bool</em><em>, </em><em>optional</em>) – show the plot window. Defaults to True.</p>
-</dd>
-</dl>
-</dd></dl>
-</dd></dl>
-<dl class="py class">
-<dt id="wa_simulator.path.WASplinePath">
-<em class="property">class </em><code class="sig-prename descclassname">wa_simulator.path.</code><code class="sig-name descname">WASplinePath</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">waypoints</span></em>, <em class="sig-param"><span class="n">parameters</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.path.WASplinePath" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#wa_simulator.path.WAPath" title="wa_simulator.path.WAPath"><code class="xref py py-class docutils literal notranslate"><span class="pre">wa_simulator.path.WAPath</span></code></a></p>
-<p>Spline path implemented with SciPy’s splprep and splev methods</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>waypoints</strong> (<em>np.ndarray</em>) – the waypoints to fit the spline to</p></li>
-<li><p><strong>num_points</strong> (<em>int</em><em>, </em><em>optional</em>) – number of points to interpolate. Defaults to 100.</p></li>
-<li><p><strong>smoothness</strong> (<em>float</em><em>, </em><em>optional</em>) – how fit to each point the spline should be. will hit all points by default. Defaults to 0.0.</p></li>
-<li><p><strong>is_closed</strong> (<em>bool</em><em>, </em><em>optional</em>) – Is the path a closed loop. Defaults to True.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><strong>TypeError</strong> – the waypoints array type is not as expected</p>
-</dd>
-</dl>
-<dl class="py class">
-<dt id="wa_simulator.path.WASplinePath.WASplinePathParameters">
-<em class="property">class </em><code class="sig-name descname">WASplinePathParameters</code><a class="headerlink" href="#wa_simulator.path.WASplinePath.WASplinePathParameters" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#wa_simulator.path.WAPath" title="wa_simulator.path.WAPath"><code class="xref py py-class docutils literal notranslate"><span class="pre">wa_simulator.path.WAPath</span></code></a></p>
-<p>The parameters for a WASplinePath</p>
-<dl class="py attribute">
-<dt id="wa_simulator.path.WASplinePath.WASplinePathParameters.num_points">
-<code class="sig-name descname">num_points</code><a class="headerlink" href="#wa_simulator.path.WASplinePath.WASplinePathParameters.num_points" title="Permalink to this definition">¶</a></dt>
-<dd><p>number of points to interpolate along the path. Defaults to 100.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py attribute">
-<dt id="wa_simulator.path.WASplinePath.WASplinePathParameters.smoothness">
-<code class="sig-name descname">smoothness</code><a class="headerlink" href="#wa_simulator.path.WASplinePath.WASplinePathParameters.smoothness" title="Permalink to this definition">¶</a></dt>
-<dd><p>How close the path is to the waypoints. Defaults to 0.0 (goes through all the points).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>float</p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py attribute">
-<dt id="id1">
-<code class="sig-name descname">num_points</code><em class="property"> = 100</em><a class="headerlink" href="#id1" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-<dl class="py attribute">
-<dt id="id2">
-<code class="sig-name descname">smoothness</code><em class="property"> = 0.0</em><a class="headerlink" href="#id2" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-</dd></dl>
-<dl class="py method">
-<dt id="wa_simulator.path.WASplinePath.calc_closest_point">
-<code class="sig-name descname">calc_closest_point</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">pos</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.path.WASplinePath.calc_closest_point" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate the closest point on the path from the passed position</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>pos</strong> (<em>wa.WAVector</em>) – the position to find the closest point on the path to</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>the closest point on the path
-idx: the index of the point on the path</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>wa.WAVector</p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py method">
-<dt id="wa_simulator.path.WASplinePath.plot">
-<code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="n">show</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.path.WASplinePath.plot" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plot the path</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>show</strong> (<em>bool</em><em>, </em><em>optional</em>) – show the plot window. Defaults to True.</p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py method">
-<dt id="wa_simulator.path.WASplinePath.calc_length_cummulative">
-<code class="sig-name descname">calc_length_cummulative</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.path.WASplinePath.calc_length_cummulative" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the cummulative distance along the path</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>Cummulative distance along the path</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>np.ndarray</p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py method">
-<dt id="wa_simulator.path.WASplinePath.calc_curvature">
-<code class="sig-name descname">calc_curvature</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wa_simulator.path.WASplinePath.calc_curvature" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the curvature at each point on the path</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>Curvature at each point on the path</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>np.ndarray</p>
-</dd>
-</dl>
-</dd></dl>
-</dd></dl>
-</div>
-</div>
-</div>
+</section>
 
       </article>
       <footer>
@@ -492,14 +523,14 @@ idx: the index of the point on the path</p>
               </div>
               <svg><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="../inputs/index.html">
+          <a class="prev-page" href="../environment/index.html">
               <svg><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.inputs</span></code></div>
+                <div class="title"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.environment</span></code></div>
                 
               </div>
             </a>
@@ -534,43 +565,28 @@ idx: the index of the point on the path</p>
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.path</span></code></a><ul>
-<li><a class="reference internal" href="#module-contents">Module Contents</a><ul>
-<li><a class="reference internal" href="#classes">Classes</a></li>
-<li><a class="reference internal" href="#functions">Functions</a><ul>
-<li><a class="reference internal" href="#wa_simulator.path.load_waypoints_from_csv">load_waypoints_from_csv</a></li>
-<li><a class="reference internal" href="#wa_simulator.path.calc_path_length_cummulative">calc_path_length_cummulative</a></li>
-<li><a class="reference internal" href="#wa_simulator.path.calc_path_curvature">calc_path_curvature</a></li>
 <li><a class="reference internal" href="#wa_simulator.path.WAPath">WAPath</a><ul>
-<li><a class="reference internal" href="#wa_simulator.path.WAPath.parameters">parameters</a></li>
-<li><a class="reference internal" href="#wa_simulator.path.WAPath.waypoints">waypoints</a></li>
-<li><a class="reference internal" href="#wa_simulator.path.WAPath.points">points</a></li>
-<li><a class="reference internal" href="#wa_simulator.path.WAPath.WAPathParameters">WAPathParameters</a><ul>
-<li><a class="reference internal" href="#wa_simulator.path.WAPath.WAPathParameters.is_closed">is_closed</a></li>
-<li><a class="reference internal" href="#id0">is_closed</a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#wa_simulator.path.WAPath.get_points">get_points</a></li>
+<li><a class="reference internal" href="#wa_simulator.path.WAPath.get_waypoints">get_waypoints</a></li>
+<li><a class="reference internal" href="#wa_simulator.path.WAPath.is_closed">is_closed</a></li>
+<li><a class="reference internal" href="#wa_simulator.path.WAPath.get_parameters">get_parameters</a></li>
+<li><a class="reference internal" href="#wa_simulator.path.WAPath.set_vis_properties">set_vis_properties</a></li>
+<li><a class="reference internal" href="#wa_simulator.path.WAPath.get_vis_properties">get_vis_properties</a></li>
 <li><a class="reference internal" href="#wa_simulator.path.WAPath.calc_closest_point">calc_closest_point</a></li>
 <li><a class="reference internal" href="#wa_simulator.path.WAPath.plot">plot</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#wa_simulator.path.WASplinePath">WASplinePath</a><ul>
-<li><a class="reference internal" href="#wa_simulator.path.WASplinePath.WASplinePathParameters">WASplinePathParameters</a><ul>
-<li><a class="reference internal" href="#wa_simulator.path.WASplinePath.WASplinePathParameters.num_points">num_points</a></li>
-<li><a class="reference internal" href="#wa_simulator.path.WASplinePath.WASplinePathParameters.smoothness">smoothness</a></li>
-<li><a class="reference internal" href="#id1">num_points</a></li>
-<li><a class="reference internal" href="#id2">smoothness</a></li>
-</ul>
-</li>
 <li><a class="reference internal" href="#wa_simulator.path.WASplinePath.calc_closest_point">calc_closest_point</a></li>
 <li><a class="reference internal" href="#wa_simulator.path.WASplinePath.plot">plot</a></li>
 <li><a class="reference internal" href="#wa_simulator.path.WASplinePath.calc_length_cummulative">calc_length_cummulative</a></li>
 <li><a class="reference internal" href="#wa_simulator.path.WASplinePath.calc_curvature">calc_curvature</a></li>
 </ul>
 </li>
-</ul>
-</li>
-</ul>
-</li>
+<li><a class="reference internal" href="#wa_simulator.path.create_path_from_json">create_path_from_json</a></li>
+<li><a class="reference internal" href="#wa_simulator.path.load_waypoints_from_csv">load_waypoints_from_csv</a></li>
+<li><a class="reference internal" href="#wa_simulator.path.calc_path_length_cummulative">calc_path_length_cummulative</a></li>
+<li><a class="reference internal" href="#wa_simulator.path.calc_path_curvature">calc_path_curvature</a></li>
 </ul>
 </li>
 </ul>
