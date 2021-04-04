@@ -21,7 +21,7 @@ from wa_simulator.environment import WABody
 from multiprocessing import Process, Pipe, Barrier, Queue, set_start_method
 import numpy as np
 import matplotlib.pyplot as plt
-import matplotlib.patches as patches
+from matplotlib.patches import Polygon, Patch
 import matplotlib.collections as collections
 from matplotlib.animation import FuncAnimation
 from IPython.display import display, clear_output
@@ -298,6 +298,35 @@ class _MatplotlibSimpleDashboard:
         self._annotation.set_text(text)
 
 
+class _MatplotlibBody:
+    """Simple body class for updateable assets
+
+    Args:
+        body (WABody): the body to visualize
+    """
+
+    def __init__(self, body):
+        self._body = body
+
+    def initialize(self, ax):
+        """Initialize the body representation
+
+        Args:
+            ax (matplotlib.axes): The axes to place the annotation on
+        """
+        print(self._body.name)
+        pass
+
+    def update(self):
+        """Update the body"""
+        pass
+
+
+class _MatplotlibBodyList:
+    def __init__(self, bodies):
+        self.bodies = bodies
+
+
 class _MatplotlibPlotter(WABase):
     """Base class for matplotlib visualization
 
@@ -306,6 +335,8 @@ class _MatplotlibPlotter(WABase):
     Args:
         mat_vehicle (_MatplotlibVehicle): The matplotlib vehicle representation
         dashboard (_MatplotlibSimpleDashboard): The dashboard that displays information related to the vehicle state
+        record (bool): If set to true, images will be saved under record_filename.
+        record_folder (str): The folder to save images to.
         static (bool): if desireable, the matplotlib window can update its axes to "follow" the vehicle. Default is False (follows the vehicle)
         padding (float): Padding between the vehicle's COM and the border of the plot window. Default is 25
         xlim (tuple): x axis limits that are used if static is set to True
@@ -331,10 +362,18 @@ class _MatplotlibPlotter(WABase):
             self.name = name
             self.value = value
 
-    def __init__(self, mat_vehicle: _MatplotlibVehicle, dashboard: _MatplotlibSimpleDashboard, opponent_mat_vehicles: list, static: bool = False, padding: float = 25, xlim: tuple = (-50, 50), ylim: tuple = (50, -50)):
+    def __init__(self, mat_vehicle: _MatplotlibVehicle, dashboard: _MatplotlibSimpleDashboard, opponent_mat_vehicles: list, record: bool, record_folder: str, static: bool = False, padding: float = 25, xlim: tuple = (-50, 50), ylim: tuple = (50, -50)):
         self._mat_vehicle = mat_vehicle
         self._dashboard = dashboard
         self._opponent_mat_vehicles = opponent_mat_vehicles
+
+        self._record = record
+        self._record_folder = record_folder
+
+        if self._record:
+            exit(0)
+
+        self._save_number = 0
 
         self._vehicle_inputs = None
         self._state = (0, 0, 0, 0)
@@ -389,6 +428,20 @@ class _MatplotlibPlotter(WABase):
             yaw = opponent.get_rot().to_euler_yaw()
             v = opponent.get_pos_dt().length
             self._opponent_states[i][0] = (pos.x, pos.y, yaw, v)
+
+    def _savefig(self):
+        """Save a figure from matplotlib"""
+
+        if self._record:
+            if self._save_number == 0:
+                import os
+                if not os.path.exists(self._record_folder):
+                    os.makedirs(self._record_folder)
+                del os
+
+            self._fig.savefig(self._record_folder + f'{self._save_number}.png', dpi=200)
+
+            self._save_number += 1
 
     @abstractmethod
     def register_key_press_event(self, callback):
@@ -462,11 +515,13 @@ class _MatplotlibSinglePlotter(_MatplotlibPlotter):
         mat_vehicle (_MatplotlibVehicle): The matplotlib vehicle representation
         dashboard (_MatplotlibSimpleDashboard): The dashboard that displays information related to the vehicle state
         is_jupyter (bool): should jupyter visualization be used (i.e. IPython display)?
+        record (bool, optional): If set to true, images will be saved under record_filename. Defaults to False (doesn't save images).
+        record_folder (str, optional): The folder to save images to. Defaults to "OUTPUT/".
         **kwargs: keyworded arguments used for the base _MatplotlibPlotter class
     """
 
-    def __init__(self, mat_vehicle, dashboard, opponent_mat_vehicles, is_jupyter=False, **kwargs):
-        super().__init__(mat_vehicle, dashboard, opponent_mat_vehicles, **kwargs)
+    def __init__(self, mat_vehicle, dashboard, opponent_mat_vehicles, is_jupyter: bool = False, record: bool = False, record_folder: str = "OUTPUT/", **kwargs):
+        super().__init__(mat_vehicle, dashboard, opponent_mat_vehicles, record, record_folder, **kwargs)
 
         self._initialize_plot()
 
@@ -497,6 +552,9 @@ class _MatplotlibSinglePlotter(_MatplotlibPlotter):
         else:
             plt.pause(1e-9)
 
+        # Save (if desired)
+        self._savefig()
+
     def is_ok(self):
         return plt.fignum_exists(self._fig.number)
 
@@ -505,7 +563,7 @@ class _MatplotlibSinglePlotter(_MatplotlibPlotter):
         self._events['key_press_event'] = callback
 
     def plot(self, *args, **kwargs):
-        if isinstance(args[0], patches.Patch):
+        if isinstance(args[0], Patch):
             self._ax.add_patch(args[0])
         elif isinstance(args[0], collections.Collection):
             self._ax.add_collection(args[0])
@@ -538,7 +596,9 @@ class _MatplotlibMultiPlotter(_MatplotlibPlotter):
     Args:
         mat_vehicle (_MatplotlibVehicle): The matplotlib vehicle representation
         dashboard (_MatplotlibSimpleDashboard): The dashboard that displays information related to the vehicle state
-        asynchronous (bool): If true, the plotter will continue without waiting for the passed state information to be used. Defaults to synchronous.
+        asynchronous (bool, optional): If true, the plotter will continue without waiting for the passed state information to be used. Defaults to synchronous.
+        record (bool, optional): If set to true, images will be saved under record_filename. Defaults to False (doesn't save images).
+        record_folder (str, optional): The folder to save images to. Defaults to "OUTPUT/".
         **kwargs: keyworded arguments used for the base _MatplotlibPlotter class
     """
 
@@ -582,8 +642,8 @@ class _MatplotlibMultiPlotter(_MatplotlibPlotter):
             self.args = args
             self.kwargs = kwargs
 
-    def __init__(self, mat_vehicle, dashboard, opponent_mat_vehicles, asynchronous=False, **kwargs):
-        super().__init__(mat_vehicle, dashboard, opponent_mat_vehicles, **kwargs)
+    def __init__(self, mat_vehicle: '_MatplotlibVehicle', dashboard: '_MatplotlibSimpleDashboard', opponent_mat_vehicles: list, asynchronous: bool = False, record: bool = False, record_folder: str = "OUTPUT/", **kwargs):
+        super().__init__(mat_vehicle, dashboard, opponent_mat_vehicles, record, record_folder, **kwargs)
 
         self._asynchronous = asynchronous
 
@@ -653,7 +713,7 @@ class _MatplotlibMultiPlotter(_MatplotlibPlotter):
             i (int): window count
         """
         try:
-            state = self._queue.get(timeout=5 if i <= 2 else 1)
+            state = self._queue.get(timeout=10 if i <= 2 else 1)
         except:
             plt.close(self._fig)
             return
@@ -680,15 +740,23 @@ class _MatplotlibMultiPlotter(_MatplotlibPlotter):
                 (x, y, yaw, v), vehicle_inputs, time = opponent()
 
                 self._opponent_mat_vehicles[i].update(x, y, yaw, vehicle_inputs.steering)
+
+            # Save (if desired)
+            self._savefig()
+
         elif isinstance(state, str):
             if state == 'key_press_event':
                 self._fig.canvas.mpl_connect('key_press_event', self._key_press)
         elif isinstance(state, self._PlotCall):
-            if isinstance(state.args[0], patches.Patch):
+            if isinstance(state.args[0], Patch):
                 self._ax.add_patch(state.args[0])
             elif isinstance(state.args[0], collections.Collection):
                 self._ax.add_collection(state.args[0])
+            elif isinstance(state.args[0], _MatplotlibBodyList):
+                for body in state.args[0].bodies:
+                    body.initialize(self._ax)
             else:
+
                 self._ax.plot(*state.args, **state.kwargs)
 
     def is_ok(self) -> bool:
@@ -760,13 +828,15 @@ class WAMatplotlibVisualization(WAVisualization):
         environment (WAEnvironment, optional): An environment with various world assets to visualize. Defaults to None (doesn't visualize anything).
         plotter_type (str, optional): Type of plotter. "single" for single threaded, "multi" for multi threaded (fastest), "jupyter" if jupyter is used. Defaults to "single".
         opponents (list, optional): List of other :class:`~WAVehicle`'s that represent opponents. Used for rendering.
+        record (bool, optional): If set to true, images will be saved under record_filename. Defaults to False (doesn't save images).
+        record_folder (str, optional): The folder to save images to. Defaults to "OUTPUT/".
         **kwargs: Additional arguments that are based to the underlying plotter implementation.
 
     Raises:
         ValueError: plotter_type isn't recognized
     """
 
-    def __init__(self, system: 'WASystem', vehicle: 'WAVehicle', vehicle_inputs: 'WAVehicleInputs', environment: 'WAEnvironment' = None,  plotter_type: str = "single", opponents: list = [], **kwargs):
+    def __init__(self, system: 'WASystem', vehicle: 'WAVehicle', vehicle_inputs: 'WAVehicleInputs', environment: 'WAEnvironment' = None,  plotter_type: str = "single", opponents: list = [], record: bool = False, record_folder: str = "OUTPUT/", **kwargs):
         self._system = system
         self._vehicle = vehicle
         self._vehicle_inputs = vehicle_inputs
@@ -785,11 +855,12 @@ class WAMatplotlibVisualization(WAVisualization):
 
         # Create the underlying plotter
         if plotter_type == "multi":
-            self._plotter = _MatplotlibMultiPlotter(mat_vehicle, dashboard, opponent_mat_vehicles, **kwargs)
+            self._plotter = _MatplotlibMultiPlotter(
+                mat_vehicle, dashboard, opponent_mat_vehicles, record=record, record_folder=record_folder, **kwargs)
         elif plotter_type == "single" or plotter_type == "jupyter":
             is_jupyter = plotter_type == 'jupyter'
             self._plotter = _MatplotlibSinglePlotter(
-                mat_vehicle, dashboard, opponent_mat_vehicles, is_jupyter=is_jupyter, **kwargs)
+                mat_vehicle, dashboard, opponent_mat_vehicles, is_jupyter=is_jupyter, record=record, record_folder=record_folder, **kwargs)
         else:
             raise ValueError(
                 f"Unknown plotter type: {plotter_type}. Must be one of the following: {', '.join(supported_plotters)}")
@@ -839,23 +910,26 @@ class WAMatplotlibVisualization(WAVisualization):
         if not isinstance(assets, list):
             assets = [assets]
 
-        ptchs = []
+        patches = []
+        bodies = []
 
         for i, asset in enumerate(assets):
             if isinstance(asset, WAPath):
                 points = asset.get_points()
                 self._plotter.plot(points[:, 0], points[:, 1], *args, **asset.get_vis_properties(), **kwargs)
             elif isinstance(asset, WATrack):
-                def _plot(path):
-                    points = path.get_points()
-                    vis_properties = path.get_vis_properties()
-                    self._plotter.plot(points[:, 0], points[:, 1], *args, **vis_properties, **kwargs)
-                _plot(asset.left)
-                _plot(asset.right)
-                _plot(asset.center)
+                self.visualize(asset.left, *args, **kwargs)
+                self.visualize(asset.right, *args, **kwargs)
+                self.visualize(asset.center, *args, **kwargs)
             elif isinstance(asset, WABody):
                 if not hasattr(asset, 'size') or not hasattr(asset, 'position'):
                     raise AttributeError("Body must have 'size', and 'position' fields")
+
+                if hasattr(asset, 'updates') and asset.updates:
+                    # bodies.append(_MatplotlibBody(asset))
+                    print(
+                        "WARNING: updateable WABody's are currently not supported for the WAMatplotlibVisualization. This will come in a future release.")
+                    continue
 
                 position = asset.position
                 yaw = 0 if not hasattr(asset, 'yaw') else asset.yaw
@@ -873,7 +947,9 @@ class WAMatplotlibVisualization(WAVisualization):
 
                 outline = _transform(outline, position.x, position.y, yaw)
 
-                ptchs.append(patches.Polygon(outline[:2, :].T, facecolor=color, edgecolor=edgecolor, alpha=0.4))
+                patches.append(Polygon(outline[:2, :].T, facecolor=color, edgecolor=edgecolor, alpha=0.4))
 
-        if len(ptchs):
-            self._plotter.plot(collections.PatchCollection(ptchs, match_original=True))
+        if len(patches):
+            self._plotter.plot(collections.PatchCollection(patches, match_original=True))
+        if len(bodies):
+            self._plotter.plot(_MatplotlibBodyList(bodies))

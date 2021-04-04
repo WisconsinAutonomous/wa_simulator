@@ -18,19 +18,39 @@ import pychrono as chrono
 class WAChronoSystem(WASystem):
     """Chrono system wrapper.
 
-    Performs dynamics automatically
+    Calls an update for the Chrono dynamics each :meth:`~advance` step.
+
+    To instantiate a WAChronoSystem, you can either pass in various parameters directly, i.e. ``WAChronoSystem(step_size, render_step_size, ...)``
+    or pass a ``argparse.Namespace`` in directly. This object is what is returned from :meth:`~WAArgumentParser.parse_args`.
+
+    .. highlight:: python
+    .. code:: python
+
+        # Usage
+        from wa_simulator.chrono import WAArgumentParser, WAChronoSystem
+
+        # Passing values directly to the system
+        system = WAChronoSystem(step_size=1e-3, render_step_size=2e-3, end_time=20, contact_method="SMC")
+
+        # Or using WAArgumentParser
+        parser = WAArgumentParser(use_sim_defaults=True)
+        args = parser.parse_args()
+
+        system = WAChronoSystem(args=args)
 
     Args:
-        step_size (double): simulation step size
+        step_size (double): simulation step size. Defaults to 3e-3.
         render_step_size (double, optional): render step size. Defaults to 2e-2.
+        end_time (float, optional): the end time for the simulation. Defaults to 120 seconds.
+        args (argparse.Namespace, optional): the output namespace from argparse (see explanation above)
         contact_method (str, optional): the contact method to use (NSC or SMC). Defaults to "NSC".
 
     Raises:
         TypeError: verify the contact method is a string
     """
 
-    def __init__(self, step_size: float, render_step_size: float = 2e-2, contact_method: str = "NSC"):
-        super().__init__(step_size, render_step_size)
+    def __init__(self, step_size: float = 3e-3, render_step_size: float = 2e-2, end_time: float = 120, contact_method: str = "NSC", args: 'argparse.Namespace' = None):
+        super().__init__(step_size, render_step_size, end_time, args)
 
         if not isinstance(contact_method, str):
             raise TypeError("Contact method must be of type str")

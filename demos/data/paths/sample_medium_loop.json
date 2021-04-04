@@ -1,0 +1,11 @@
+{
+	"Name": "Sample Path",
+	"Type": "Path",
+	"Template": "WASplinePath",
+
+	"Waypoints Input File": "paths/sample_medium_loop.csv",
+
+	"is_closed": 1,
+	"num_points": 1000
+
+}

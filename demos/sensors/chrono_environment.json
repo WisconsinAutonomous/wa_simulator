@@ -1,0 +1,39 @@
+{
+	"Name": "Simple Chrono Environment",
+	"Type": "Environment",
+	"Template": "WAChronoEnvironment",
+  
+	"Terrain": {
+	  "Input File": "environments/terrains/RigidPlane.json",
+		"Texture": "environments/terrains/concrete.jpg"
+	},
+
+	"Objects": [
+			{
+				"Size": [0.5, 0.5, 5],
+				"Position": [10, -4, 1],
+				"Color": [1, 0, 0]
+			},
+			{
+				"Size": [0.5, 0.5, 5],
+				"Position": [10, -2, 1],
+				"Color": [1, 0, 0]
+			},
+			{
+				"Size": [0.5, 0.5, 5],
+				"Position": [10, 0, 1],
+				"Color": [1, 0, 0]
+			},
+			{
+				"Size": [0.5, 0.5, 5],
+				"Position": [10, 2, 1],
+				"Color": [1, 0, 0]
+			},
+			{
+				"Size": [0.5, 0.5, 5],
+				"Position": [10, 4, 1],
+				"Color": [1, 0, 0]
+			}
+		]
+}
+  

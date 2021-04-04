@@ -1,0 +1,30 @@
+{
+	"Name": "Generic camera sensor",
+	"Type": "Sensor",
+	"Template": "Camera",
+  
+	"Properties": {
+	  "Update Rate": 30,
+	  "Width": 1280,
+	  "Height": 720,
+	  "Horizontal Field of View": 1.408
+	},
+  
+	"Filters":
+	[
+	  {
+	  "Filter": "ChFilterVisualize",
+	  "Width": 1280,
+	  "Height": 720
+	  },
+	  {
+		"Filter": "ChFilterRGBA8Access"
+	  }
+	],
+
+	"Offset Pose": {
+		"Position": [-8.0, 0.0, 2.0],
+		"Rotation": [1.0, 0.0, 0.0, 0.0]
+	}
+}
+  

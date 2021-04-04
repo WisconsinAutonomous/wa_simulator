@@ -16,7 +16,7 @@ import pathlib
 import contextlib
 
 # Grab the data folder in the root of this repo
-_DATA_DIRECTORY = str(pathlib.Path(__file__).absolute().parent / "data")
+_DATA_DIRECTORY = str((pathlib.Path("..") / "data").resolve())
 
 
 def get_wa_data_file(filename: str) -> str:
@@ -75,7 +75,7 @@ def set_wa_data_directory(path: str):
     _DATA_DIRECTORY = str(pathlib.Path(path).resolve())
 
 
-@contextlib.contextmanager
+@ contextlib.contextmanager
 def set_wa_data_directory_temp(path: str):
     """Set wa data directory and yield the result.
 
@@ -103,14 +103,14 @@ def set_wa_data_directory_temp(path: str):
         with wa.set_wa_data_directory_temp(abs_path):
             print(get_wa_data_directory()) # -> '<current location of this file>'
 
-           path = create_path_from_json('local_file.json') 
+           path = create_path_from_json('local_file.json')
 
         # the data directory has been restored to its original value
         print(get_wa_data_directory()) # -> '<installation path of wa_simulator>/data'
 
        # The original data directory will now be reset, so 'global_file.json' should be in
        # the global data directory
-       path = create_path_from_json('global_file.json') 
+       path = create_path_from_json('global_file.json')
 
     Args:
         path (str): relative (or absolute) path where the data is stored

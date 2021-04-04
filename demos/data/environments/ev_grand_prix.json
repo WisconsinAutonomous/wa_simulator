@@ -1,0 +1,9 @@
+{
+	"Name": "evGrand Prix Track Environment",
+	"Type": "Environment",
+	"Template": "WASimpleEnvironment",
+
+	"Track": {
+		"Track Input File": "tracks/sample_medium_loop.json"
+	}
+}

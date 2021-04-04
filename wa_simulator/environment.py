@@ -16,40 +16,43 @@ from wa_simulator.core import WAVector
 from wa_simulator.track import create_track_from_json
 from wa_simulator.utils import _load_json, _check_field, get_wa_data_file, _WAStaticAttribute
 
+# Other imports
+import dill
 
-def create_environment_from_json(filename: str) -> 'WAEnvironment':
-    """Loads and creates a WAEnvironment from a json specification file
 
-    An environment handles data and assets present in the world. An environment json file
-    will hold that description, such as where obstacles are placed, the current weather,
-    the terrain/ground properties, etc.
-
-    See :meth:`~load_chrono_environment_from_json` for a larger support of environment properties.
-
-    .. todo::
-
-        Performance really dips with larger number of points
-
-    Args:
-        filename (str): The json specification file
-
-    Returns:
-        WAEnvironment: The created environment
-    """
-
-    j = _load_json(filename)
-
-    # Validate the json file
-    _check_field(j, 'Type', value='Environment')
-    _check_field(j, 'Template', allowed_values=['WASimpleEnvironment'])
-    _check_field(j, 'World', field_type=dict, optional=True)
-    _check_field(j, 'Objects', field_type=list, optional=True)
-
-    environment = eval(j['Template'])()
-
-    load_environment_from_json(environment, filename)
-
-    return environment
+# def create_environment_from_json(filename: str) -> 'WAEnvironment':
+#     """Loads and creates a WAEnvironment from a json specification file
+#
+#     An environment handles data and assets present in the world. An environment json file
+#     will hold that description, such as where obstacles are placed, the current weather,
+#     the terrain/ground properties, etc.
+#
+#     See :meth:`~load_chrono_environment_from_json` for a larger support of environment properties.
+#
+#     .. todo::
+#
+#         Performance really dips with larger number of points
+#
+#     Args:
+#         filename (str): The json specification file
+#
+#     Returns:
+#         WAEnvironment: The created environment
+#     """
+#
+#     j = _load_json(filename)
+#
+#     # Validate the json file
+#     _check_field(j, 'Type', value='Environment')
+#     _check_field(j, 'Template', allowed_values=['WASimpleEnvironment'])
+#     _check_field(j, 'World', field_type=dict, optional=True)
+#     _check_field(j, 'Objects', field_type=list, optional=True)
+#
+#     environment = eval(j['Template'])()
+#
+#     load_environment_from_json(environment, filename)
+#
+#     return environment
 
 
 def load_environment_from_json(environment: 'WAEnvironment', filename: str):
@@ -138,6 +141,11 @@ class WABody:
         except AttributeError:
             return None
 
+    def __getstate__(self):
+        """Return only the pickleable objects"""
+        attrs = {k: v for k, v in self.__dict__.items() if dill.pickles(v)}
+        return attrs
+
 
 class WAEnvironment(WABase):
     """Base class for the environment object.
@@ -149,6 +157,7 @@ class WAEnvironment(WABase):
     def __init__(self):
         self._assets = list()
         self._asset_dict = dict()
+        self._updating_assets = list()
 
     @ abstractmethod
     def synchronize(self, time: float):
@@ -161,13 +170,18 @@ class WAEnvironment(WABase):
     def is_ok(self) -> bool:
         return True
 
-    def create_body(self, **kwargs):
+    def create_body(self, **kwargs) -> WABody:
         """Create a body and add it as an asset to the world. Adds the asset using :meth:`~add_asset`.
 
         Args:
             **kwargs: Keyworded arguments used to create the asset
+
+        Returns:
+            WABody: The created body
         """
-        self.add_asset(WABody(**kwargs))
+        body = WABody(**kwargs)
+        self.add_asset(body)
+        return body
 
     def add_asset(self, asset: 'Any'):
         """Add an asset to the world
@@ -181,6 +195,8 @@ class WAEnvironment(WABase):
         self._assets.append(asset)
         if hasattr(asset, 'name'):
             self._asset_dict[asset.name] = asset
+        if hasattr(asset, 'updates') and asset.updates:
+            self._updating_assets.append(asset)
 
     def get_assets(self) -> list:
         """Returns the assets that have been attached to this environment.
@@ -207,16 +223,36 @@ class WAEnvironment(WABase):
 
         return self._asset_dict[name]
 
+    def get_updating_assets(self) -> list:
+        """Get the list of updating assets
+
+        Updating assets are assets that have an 'update' member variable set to true. Visualizations then update the position of these objects
+        throughout the sim.
+
+        Returns:
+            list: the list of updating assets
+        """
+        return self._updating_assets
+
 
 class WASimpleEnvironment(WAEnvironment):
-    """Simple environment that doesn't have any assets within the world."""
+    """Simple environment.
+
+    Args:
+        system (WASystem): The system used to handle simulation meta data
+        filename (str): The json specification file used to generate the terrain
+    """
 
     _EGP_ENV_MODEL_FILE = "environments/ev_grand_prix.json"
 
     EGP_ENV_MODEL_FILE = _WAStaticAttribute('_EGP_ENV_MODEL_FILE', get_wa_data_file)
 
-    def __init__(self):
+    def __init__(self, system: 'WASystem', filename: str):
         super().__init__()
+
+        self._system = system
+
+        load_environment_from_json(self, filename)
 
     def synchronize(self, time: float):
         """Synchronize the environment with the rest of the world at the specified time

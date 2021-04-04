@@ -10,6 +10,7 @@ in the LICENSE file at the top level of the repo
 
 # WA Simulator
 from wa_simulator.core import WAVector, WA_PI
+from wa_simulator.utils import get_wa_data_file
 from wa_simulator.path import WAPath
 from wa_simulator.track import WATrack
 from wa_simulator.visualization import WAVisualization, WABody
@@ -53,8 +54,8 @@ def draw_path_in_irrlicht(system: 'WAChronoSystem', path: 'WAPath'):
     road.AddAsset(path_asset)
 
 
-def create_sphere_in_irrlicht(system: 'WAChronoSystem', rgb=(1, 0, 0)) -> chrono.ChBodyEasySphere:
-    """Create and add a sphere to the irrlicht visualization
+def create_sphere_in_chrono(system: 'WAChronoSystem', rgb=(1, 0, 0)) -> chrono.ChBodyEasySphere:
+    """Create and add a sphere to the chrono world 
 
     Args:
         system (WASystem): the system that manages the simulation
@@ -66,6 +67,11 @@ def create_sphere_in_irrlicht(system: 'WAChronoSystem', rgb=(1, 0, 0)) -> chrono
     sphere = chrono.ChBodyEasySphere(0.25, 1000, True, False)
     sphere.SetBodyFixed(True)
     sphere.AddAsset(chrono.ChColorAsset(*rgb))
+
+    texture = chrono.ChVisualMaterial()
+    texture.SetDiffuseColor(chrono.ChVectorF(*rgb))
+    chrono.CastToChVisualization(sphere.GetAssets()[0]).material_list.append(texture)
+
     system._system.Add(sphere)
 
     return sphere
@@ -93,14 +99,21 @@ class WAChronoIrrlicht(WAVisualization):
         vehicle_inputs (WAVehicleInputs): the vehicle inputs
         environment (WAEnvironment, optional): An environment with various world assets to visualize. Defaults to None (doesn't visualize anything).
         opponents (list, optional): Opponents present in the simulation. The camera will track :attr:`~vehicle` not any opponent.
+        record (bool, optional): If set to true, images will be saved under record_filename. Defaults to False (doesn't save images).
+        record_folder (str, optional): The folder to save images to. Defaults to "OUTPUT/".
+        should_bind (bool, optional): After `all` assets have been added to the environment, irrlicht needs to "bind" and add the assets to the 3D rendered world. This can be done either on instantiation (True) or on the first update (False). Defaults to True.
     """
 
-    def __init__(self, system: 'WAChronoSystem', vehicle: 'WAChronoVehicle', vehicle_inputs: 'WAVehicleInputs', environment: 'WAEnvironment' = None, opponents: list = []):
+    def __init__(self, system: 'WAChronoSystem', vehicle: 'WAChronoVehicle', vehicle_inputs: 'WAVehicleInputs', environment: 'WAEnvironment' = None, opponents: list = [], record: bool = False, record_folder: str = "OUTPUT/", should_bind: bool = True):
         self._render_steps = int(
             ceil(system.render_step_size / system.step_size))
 
         self._system = system
         self._vehicle_inputs = vehicle_inputs
+
+        self._record = record
+        self._record_folder = record_folder
+        self._save_number = 0
 
         self._app = veh.ChVehicleIrrApp(vehicle._vehicle)
         self._app.SetHUDLocation(500, 20)
@@ -122,6 +135,8 @@ class WAChronoIrrlicht(WAVisualization):
         self._app.SetTimestep(system.step_size)
 
         self._first = True
+        if should_bind:
+            self.bind()
 
         if environment is not None:
             self.visualize(environment.get_assets())
@@ -155,6 +170,10 @@ class WAChronoIrrlicht(WAVisualization):
             self._app.DrawAll()
             self._app.EndScene()
 
+            if self._record:
+                self._app.WriteImageToFile(f"{self._record_folder}{self._save_number}.png")
+                self._save_number += 1
+
         self._app.Advance(step)
 
     def is_ok(self):
@@ -180,3 +199,72 @@ class WAChronoIrrlicht(WAVisualization):
                 draw_path_in_irrlicht(self._system, asset.center)
                 draw_path_in_irrlicht(self._system, asset.left)
                 draw_path_in_irrlicht(self._system, asset.right)
+
+
+try:
+    from wa_simulator.chrono.sensor import WAChronoSensorManager
+
+    import pychrono.sensor as sens
+
+    class WAChronoSensorVisualization(WAVisualization):
+        """Chrono sensor visualization wrapper. Sets default values for a camera sensor
+
+        Args:
+            system (WAChronoSystem): holds information regarding the simulation and performs dynamic updates
+            vehicle (WAChronoVehicle): vehicle that holds the Chrono vehicle
+            vehicle_inputs (WAVehicleInputs): the vehicle inputs
+            environment (WAEnvironment, optional): An environment with various world assets to visualize. Defaults to None (doesn't visualize anything).
+            opponents (list, optional): Opponents present in the simulation. The camera will track :attr:`~vehicle` not any opponent.
+            record (bool, optional): If set to true, images will be saved under record_filename. Defaults to False (doesn't save images).
+            record_folder (str, optional): The folder to save images to. Defaults to "OUTPUT/".
+        """
+
+        def __init__(self, system: 'WAChronoSystem', vehicle: 'WAChronoVehicle', vehicle_inputs: 'WAVehicleInputs', environment: 'WAEnvironment' = None, opponents: list = [], record: bool = False, record_folder: str = "OUTPUT/"):
+            self._render_steps = int(
+                ceil(system.render_step_size / system.step_size))
+
+            self._system = system
+            self._vehicle_inputs = vehicle_inputs
+
+            self._record = record
+            self._record_folder = record_folder
+
+            self._manager = WAChronoSensorManager(system)
+            self._manager._manager.scene.AddPointLight(chrono.ChVectorF(0, 0, 100), chrono.ChVectorF(2, 2, 2), 5000)
+
+            update_rate = 30.
+            offset_pose = chrono.ChFrameD(chrono.ChVectorD(-8, 0, 2))
+            image_width = 1280
+            image_height = 720
+            fov = 1.408
+            cam = sens.ChCameraSensor(
+                vehicle._vehicle.GetChassisBody(),              # body camera is attached to
+                update_rate,            # update rate in Hz
+                offset_pose,            # offset pose
+                image_width,            # image width
+                image_height,           # image height
+                fov                    # camera's horizontal field of view
+            )
+
+            cam.PushFilter(sens.ChFilterVisualize(image_width, image_height))
+            if self._record:
+                cam.PushFilter(sens.ChFilterSave(self._record_folder))
+
+            self._manager._manager.AddSensor(cam)
+
+            if environment is not None:
+                self.visualize(environment.get_assets())
+
+        def synchronize(self, time: float):
+            self._manager.synchronize(time)
+
+        def advance(self, step: float):
+            self._manager.advance(step)
+
+        def is_ok(self):
+            return True
+
+        def visualize(self, assets, *args, **kwargs):
+            pass
+except:
+    pass
