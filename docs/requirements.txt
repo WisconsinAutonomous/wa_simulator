@@ -8,3 +8,4 @@ scipy
 myst_parser==0.13.1
 wa_simulator
 ipython
+dill
