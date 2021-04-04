@@ -20,41 +20,6 @@ from wa_simulator.utils import _load_json, _check_field, get_wa_data_file, _WASt
 import dill
 
 
-# def create_environment_from_json(filename: str) -> 'WAEnvironment':
-#     """Loads and creates a WAEnvironment from a json specification file
-#
-#     An environment handles data and assets present in the world. An environment json file
-#     will hold that description, such as where obstacles are placed, the current weather,
-#     the terrain/ground properties, etc.
-#
-#     See :meth:`~load_chrono_environment_from_json` for a larger support of environment properties.
-#
-#     .. todo::
-#
-#         Performance really dips with larger number of points
-#
-#     Args:
-#         filename (str): The json specification file
-#
-#     Returns:
-#         WAEnvironment: The created environment
-#     """
-#
-#     j = _load_json(filename)
-#
-#     # Validate the json file
-#     _check_field(j, 'Type', value='Environment')
-#     _check_field(j, 'Template', allowed_values=['WASimpleEnvironment'])
-#     _check_field(j, 'World', field_type=dict, optional=True)
-#     _check_field(j, 'Objects', field_type=list, optional=True)
-#
-#     environment = eval(j['Template'])()
-#
-#     load_environment_from_json(environment, filename)
-#
-#     return environment
-
-
 def load_environment_from_json(environment: 'WAEnvironment', filename: str):
     j = _load_json(filename)
 

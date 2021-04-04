@@ -57,39 +57,6 @@ def load_chrono_terrain_from_json(system: 'WAChronoSystem', filename: str):
     return terrain
 
 
-# def create_chrono_environment_from_json(system: 'WAChronoSystem', filename: str) -> 'WAChronoEnvironment':
-#     """Loads and creates a WAChronoEnvironment from a json specification file
-#
-#     An environment handles data and assets present in the world. An environment json file
-#     will hold that description, such as where obstacles are placed, the current weather,
-#     the terrain/ground properties, etc.
-#
-#     See :meth:`~load_chrono_environment_from_json` for a larger support of environment properties.
-#
-#     .. todo::
-#
-#         Performance really dips with larger number of points
-#
-#     Args:
-#         system (WASystem): the wa system that wraps a ChSystem
-#         filename (str): The json specification file
-#
-#     Returns:
-#         WAChronoEnvironment: The created environment
-#     """
-#     j = _load_json(filename)
-#
-#     # Validate the json file
-#     _check_field(j, 'Type', value='Environment')
-#     _check_field(j, 'Template', allowed_values=['WAChronoEnvironment'])
-#     _check_field(j, 'World', field_type=dict, optional=True)
-#     _check_field(j, 'Objects', field_type=list, optional=True)
-#
-#     environment = eval(j['Template'])(system, filename)
-#
-#     return environment
-
-
 class WAChronoEnvironment(WAEnvironment):
     """The environment wrapper that's responsible for holding Chrono assets and the terrain
 
