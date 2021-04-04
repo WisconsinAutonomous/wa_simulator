@@ -32,7 +32,7 @@ def main():
     # Create a system
     # Systems describe simulation settings and can be used to
     # update dynamics
-    system = wa.WAChronoSystem(args.step_size, args.render_step_size)
+    system = wa.WAChronoSystem(args=args)
 
     # ---------------------
     # Create an environment
