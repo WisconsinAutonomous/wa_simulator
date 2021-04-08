@@ -64,7 +64,8 @@ setup(
         "numpy>=1.19.3",
         "scipy",
         "IPython",
-        "pyrr"
+        "pyrr",
+        "dill"
     ],
     project_urls={  # Optional
         "Homepage": "https://github.com/WisconsinAutonomous/wa_simulator/",
