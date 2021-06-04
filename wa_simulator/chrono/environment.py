@@ -50,9 +50,9 @@ def load_chrono_terrain_from_json(system: 'WAChronoSystem', filename: str):
         vis_mat.SetFresnelMin(0)
         vis_mat.SetFresnelMax(0.1)
 
-        patch_asset = terrain.GetPatches()[0].GetGroundBody().GetAssets()[0]
-        patch_visual_asset = chrono.CastToChVisualization(patch_asset)
-        patch_visual_asset.material_list.append(vis_mat)
+        # patch_asset = terrain.GetPatches()[0].GetGroundBody().GetAssetN(0)
+        # patch_visual_asset = chrono.CastToChVisualization(patch_asset)
+        # patch_visual_asset.material_list.append(vis_mat)
 
     return terrain
 
