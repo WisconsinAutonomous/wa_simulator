@@ -257,7 +257,9 @@ class WASensor(WABase):
         body (WABody): The body to attach to. If not passed, vehicle must be passed.
     """
 
-    def __init__(self, vehicle: 'WAVehicle', body: 'WABody'):
+    _running_id = 1
+
+    def __init__(self, vehicle: 'WAVehicle', body: 'WABody', external_id: str = None):
         if vehicle is not None and body is not None:
             raise ValueError(f"'vehicle' and 'body' are both set, but this is not allowed. Please only pass one.")
         elif vehicle is None and body is None:
@@ -268,6 +270,13 @@ class WASensor(WABase):
         else:
             if not hasattr(body, 'position') or not isinstance(body.position, WAVector):
                 raise ValueError(f"'body' must have a position attribute and it must be a 'WAVector'.")
+
+        # Set the external id
+        if(external_id is None):
+            self.external_id = f"sensor{WASensor._running_id}"
+            WASensor._running_id += 1
+        else:
+            self.external_id = external_id
 
     @abstractmethod
     def synchronize(self, time: float):

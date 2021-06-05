@@ -39,9 +39,19 @@ class WAController(WABase):
         braking (float): braking input.
     """
 
-    def __init__(self, system: 'WASystem', vehicle_inputs: 'WAVehicleInputs'):
+    # a static id to increment as new vehicles are created.
+    _running_id: int = 1
+
+    def __init__(self, system: 'WASystem', vehicle_inputs: 'WAVehicleInputs', external_id: str = None):
         self._system = system
         self._vehicle_inputs = vehicle_inputs
+
+        # Assign the external id
+        if(external_id is None):
+            self.external_id = f"controller{WAController._running_id}"
+            WAController._running_id += 1
+        else:
+            self.external_id = external_id
 
     @abstractmethod
     def synchronize(self, time: float):
@@ -245,3 +255,20 @@ class WAMatplotlibController(_WAKeyboardController):
     def _key_press(self, value):
         if value in self._input_dict.keys():
             self._update(self._input_dict[value])
+
+class WAExternalController(WAController):
+    """External controller. All logic is in the WASimulationManager.
+
+    Args:
+        system (WASystem): The system used to manage the simulation
+        vehicle_inputs (WAVehicleInputs): The vehicle inputs
+    """
+
+    def __init__(self, system: 'WASystem', vehicle_inputs: 'WAVehicleInputs'):
+        super().__init__(system, vehicle_inputs)
+
+    def synchronize(self, time: float):
+        pass
+
+    def advance(self, step: float):
+        pass

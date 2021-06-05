@@ -55,7 +55,10 @@ class WAVehicle(WABase):
         filename (str, optional): Filename to be used for visualization properties
     """
 
-    def __init__(self, system: 'WASystem', vehicle_inputs: 'WAVehicleInputs', filename=None):
+    # A static, incrementing id
+    _running_id = 1
+
+    def __init__(self, system: 'WASystem', vehicle_inputs: 'WAVehicleInputs', filename=None, external_id: str = None):
         self._system = system
         self._vehicle_inputs = vehicle_inputs
 
@@ -64,6 +67,13 @@ class WAVehicle(WABase):
             if filename is None
             else load_properties_from_json(filename, "Visualization Properties")
         )
+
+        # Save the id
+        if(external_id is None):
+            self.external_id = f"vehicle{WAVehicle._running_id}"
+            WAVehicle._running_id += 1
+        else:
+            self.external_id = external_id
 
     def get_visual_properties(self) -> dict:
         """Get visual properties for visualizing the vehicle
