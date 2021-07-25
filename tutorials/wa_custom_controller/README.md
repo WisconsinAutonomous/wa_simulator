@@ -43,9 +43,9 @@ class CustomCSVController(wa.WAController):
     def advance(self, step):
         pass
 
-		def is_ok(self):
-				# Will just always return true
-				return True
+	def is_ok(self):
+    	# Will just always return true
+		return True
 ```
 
 With the skeleton done, let's start implementing our classes. In the `__init__` function, we need to do a bit of house keeping. First, let's save the passed csv_file so we can edit it later. Also, we want to make sure the csv file is structured how we expect before reading it, so let's call a function to verify everything's correct and then read the file. The `__init__` function should now look like this:
@@ -260,7 +260,7 @@ def main():
     sim = wa.WASimulationManager(sys, veh, vis, ctr)
 
     # Run the simulation
-    sim.Run()
+    sim.run()
 
 
 # Will call the main function when 'python custom_controller_demo.py' is run
