@@ -34,18 +34,18 @@ import wa_simulator as wa
 class CustomCSVController(wa.WAController):
     """Simple controller that controls the car from data in a csv file"""
 
-		def __init__(self, sys, veh_inputs, csv_file):
-			pass
+    def __init__(self, sys, veh_inputs, csv_file):
+        pass
 
     def synchronize(self, time):
         pass
 
     def advance(self, step):
         pass
-
-		def is_ok(self):
-				# Will just always return true
-				return True
+    
+    def is_ok(self):
+        # Will just always return true
+        return True
 ```
 
 With the skeleton done, let's start implementing our classes. In the `__init__` function, we need to do a bit of house keeping. First, let's save the passed csv_file so we can edit it later. Also, we want to make sure the csv file is structured how we expect before reading it, so let's call a function to verify everything's correct and then read the file. The `__init__` function should now look like this:
@@ -53,13 +53,13 @@ With the skeleton done, let's start implementing our classes. In the `__init__` 
 ```python
 ...
 
-	def __init__(self, sys, veh_inputs, csv_file):
-		super().__init__(sys, veh_inputs) # Calls the WAController's constructor
+    def __init__(self, sys, veh_inputs, csv_file):
+        super().__init__(sys, veh_inputs) # Calls the WAController's constructor
 
-		self.csv_file = csv_file
+        self.csv_file = csv_file
 
-		# to be implemented next
-		self.ctlr_data = self.read_file(self.csv_file) 
+        # to be implemented next
+        self.ctlr_data = self.read_file(self.csv_file) 
 ...
 ```
 
@@ -218,6 +218,8 @@ class CustomCSVController(wa.WAController):
         return data
 
     def synchronize(self, time):
+        super().synchronize(time)
+
         # Check that there is still data left to read
         if len(self.ctlr_data) == 0:
             return
@@ -234,9 +236,9 @@ class CustomCSVController(wa.WAController):
     def advance(self, step):
         pass
 
-		def is_ok(self):
-				# Will just always return true
-				return True
+    def is_ok(self):
+        # Will just always return true
+        return True
 
 
 def main():
@@ -251,16 +253,16 @@ def main():
     veh = wa.WALinearKinematicBicycle(sys, veh_inputs, veh_filename)
 
     # Visualize the simulation using matplotlib
-    vis = wa.WAMatplotlibVisualization(sys, veh, veh_inputs)
+    vis = wa.WAMatplotlibVisualization(sys, veh, veh_inputs, plotter_type='multi')
 
     # Create our custom controller!
-    ctr = CustomCSVController(sys, 'controller_data.csv')
+    ctr = CustomCSVController(sys, veh_inputs, 'controller_data.csv')
 
     # Instantiate the simulation manager
     sim = wa.WASimulationManager(sys, veh, vis, ctr)
 
     # Run the simulation
-    sim.Run()
+    sim.run()
 
 
 # Will call the main function when 'python custom_controller_demo.py' is run
