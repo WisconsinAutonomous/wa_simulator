@@ -44,6 +44,8 @@
     <script defer="defer" src="_static/jquery.js"></script>
     <script defer="defer" src="_static/underscore.js"></script>
     <script defer="defer" src="_static/doctools.js"></script>
+    <script async="async" defer="defer" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script defer="defer" type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <script defer src="_static/scripts/main.js?digest=e931d09b2a40c1bb82b542effe772014573baf67"></script></head>
   <body dir="">
     
@@ -137,6 +139,7 @@
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label for="toctree-checkbox-2"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/centerline_path.html">Creating a Centerline Path Planner</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorials/custom-controller.html">Creating a Custom Controller</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorials/writing-a-json.html">Writing a JSON Specification File</a></li>
 </ul>
@@ -218,7 +221,7 @@
 </section>
 <section id="deploy-your-changes">
 <h3>Deploy your Changes<a class="headerlink" href="#deploy-your-changes" title="Permalink to this headline">¶</a></h3>
-<p><a class="reference external" href="https://github.com/features/actions">GitHub actions</a> are used to automatically build the site and <a class="reference external" href="https://pages.github.com/">GitHub pages</a> are used to host the static site. To update deployed content, you have to push to the <code class="docutils literal notranslate"><span class="pre">master</span></code> branch. This will automatically rebuild the site. Please ensure there are no errors in your code/documentation before doing so, as you may get an email from github if something bad happens.</p>
+<p><a class="reference external" href="https://github.com/features/actions">GitHub actions</a> are used to automatically build the site and <a class="reference external" href="https://pages.github.com/">GitHub pages</a> are used to host the static site. To update deployed content, you have to push to the <code class="docutils literal notranslate"><span class="pre">develop</span></code> branch and create a pull request on the <code class="docutils literal notranslate"><span class="pre">master</span></code> branch. Once the pull request is merged the site will rebuild with your changes. Please ensure there are no errors in your code/documentation before doing so, as you may get an email from github if something bad happens.</p>
 </section>
 </section>
 <section id="guidelines">
@@ -280,7 +283,7 @@
 </section>
 <section id="building-the-documentation">
 <h2>Building the Documentation<a class="headerlink" href="#building-the-documentation" title="Permalink to this headline">¶</a></h2>
-<p>There are multiple ways to build sphinx documentation. The easiest is using the <code class="docutils literal notranslate"><span class="pre">Makefile</span></code> or <code class="docutils literal notranslate"><span class="pre">make.bat</span></code> file provided directly in this repository. On Unix systems, once can run <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">html</span></code> to build the html pages. Then go to your browser, and open the <code class="docutils literal notranslate"><span class="pre">index.html</span></code> file located inside <code class="docutils literal notranslate"><span class="pre">docs/build/html/</span></code>.</p>
+<p>There are multiple ways to build sphinx documentation. The easiest is using the <code class="docutils literal notranslate"><span class="pre">Makefile</span></code> or <code class="docutils literal notranslate"><span class="pre">make.bat</span></code> file provided directly in this repository. First you need to install all the necessary dependencies by navigating to <code class="docutils literal notranslate"><span class="pre">wa_simulator/docs</span></code> and running <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-r</span> <span class="pre">requirements.txt</span></code>. Then you can run <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">html</span></code> to build the html pages. To view the build, go to your browser, and open the <code class="docutils literal notranslate"><span class="pre">index.html</span></code> file located inside <code class="docutils literal notranslate"><span class="pre">docs/build/html/</span></code>.</p>
 <p><code class="docutils literal notranslate"><span class="pre">sphinx-autobuild</span></code> is also extremely easy to use and will automatically build the html pages when a change is made. See their <a class="reference external" href="https://pypi.org/project/sphinx-autobuild/">PyPI page</a>.</p>
 </section>
 </section>

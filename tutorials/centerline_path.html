@@ -1,0 +1,527 @@
+<!doctype html>
+<html class="no-js">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Creating a Custom Controller" href="custom-controller.html" /><link rel="prev" title="Tutorials" href="index.html" />
+
+    <link rel="shortcut icon" href="../_static/wa-dark-favicon.png"/><meta name="generator" content="sphinx-3.4.2, furo 2020.12.30.beta24"/>
+        <title>Creating a Centerline Path Planner - Wisconsin Autonomous Simulator 1.0.5 documentation</title>
+      <link rel="stylesheet" href="../_static/styles/furo.css?digest=33d2fc4f3f180ec1ffc6524e273e21d7d58cbe49">
+    <link rel="stylesheet" href="../_static/pygments.css">
+    <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../_static/pygments_dark.css">
+    
+
+
+<style>
+  :root {
+    --color-code-background: #f0f0f0;
+  --color-code-foreground: black;
+  
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+  }
+
+  /* For allowing end-user-specific overrides */
+  .override-light {
+    --color-code-background: #f0f0f0;
+  --color-code-foreground: black;
+  
+  }
+  .override-dark {
+    --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+  }
+</style><link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" />
+    <link rel="stylesheet" href="../_static/styles/furo-extensions.css?digest=26485485040e7aaf717c13fd0188a5ad2c2deb60">
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script defer="defer" src="../_static/jquery.js"></script>
+    <script defer="defer" src="../_static/underscore.js"></script>
+    <script defer="defer" src="../_static/doctools.js"></script>
+    <script async="async" defer="defer" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script defer="defer" type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <script defer src="../_static/scripts/main.js?digest=e931d09b2a40c1bb82b542effe772014573baf67"></script></head>
+  <body dir="">
+    
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+      stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z"/>
+      <line x1="4" y1="6" x2="20" y2="6" />
+      <line x1="10" y1="12" x2="20" y2="12" />
+      <line x1="6" y1="18" x2="20" y2="18" />
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+      class="feather feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+      class="feather feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
+
+<div class="announcement">
+  <aside class="announcement-content">
+     
+        <a style="text-decoration: none; color: white;" 
+           href="https://wisconsinautonomous.org">
+           <img src="https://github.com/WisconsinAutonomous/wa-resources/blob/master/Images/wa-dark.png?raw=true" 
+                style="vertical-align: middle; display: inline; padding-right: 7.5px; height: 20px;"/>
+           Checkout our website!
+        </a>
+     
+  </aside>
+</div>
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">Wisconsin Autonomous Simulator 1.0.5 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="../_static/wa-light.png" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../_static/wa-dark.png" alt="Dark Logo"/>
+  </div>
+  
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html">
+  <input class="sidebar-search" placeholder=Search name="q">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../background.html">Background</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../installation/index.html">Installation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label for="toctree-checkbox-1"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../installation/unix.html">Unix Installation Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/windows.html">Windows Installation Guide</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">Tutorials</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label for="toctree-checkbox-2"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Creating a Centerline Path Planner</a></li>
+<li class="toctree-l2"><a class="reference internal" href="custom-controller.html">Creating a Custom Controller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="writing-a-json.html">Writing a JSON Specification File</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../autoapi/wa_simulator/index.html">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label for="toctree-checkbox-3"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../autoapi/wa_simulator/chrono/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label for="toctree-checkbox-4"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../autoapi/wa_simulator/chrono/controller/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.controller</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../autoapi/wa_simulator/chrono/environment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.environment</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../autoapi/wa_simulator/chrono/sensor/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.sensor</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../autoapi/wa_simulator/chrono/system/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.system</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../autoapi/wa_simulator/chrono/utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.utils</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../autoapi/wa_simulator/chrono/vehicle/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.vehicle</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../autoapi/wa_simulator/chrono/visualization/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.visualization</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../autoapi/wa_simulator/base/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.base</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../autoapi/wa_simulator/controller/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.controller</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../autoapi/wa_simulator/core/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.core</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../autoapi/wa_simulator/environment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.environment</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../autoapi/wa_simulator/path/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.path</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../autoapi/wa_simulator/sensor/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.sensor</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../autoapi/wa_simulator/simulation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.simulation</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../autoapi/wa_simulator/system/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.system</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../autoapi/wa_simulator/track/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.track</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../autoapi/wa_simulator/utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.utils</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../autoapi/wa_simulator/vehicle/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.vehicle</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../autoapi/wa_simulator/vehicle_inputs/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.vehicle_inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../autoapi/wa_simulator/visualization/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.visualization</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+</ul>
+<p><span class="caption-text">External Links</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://pypi.org/project/wa-simulator/">PyPI</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/WisconsinAutonomous/wa_simulator">Github</a></li>
+</ul>
+
+</div>
+</div>
+      </div>
+      
+    </div>
+  </aside>
+  <main class="main">
+    <div class="content">
+      <article role="main">
+        <label class="toc-overlay-icon toc-content-icon" for="__toc">
+          <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+        </label>
+        <section id="creating-a-centerline-path-planner">
+<h1>Creating a Centerline Path Planner<a class="headerlink" href="#creating-a-centerline-path-planner" title="Permalink to this headline">¶</a></h1>
+<p>In this tutorial, we will use WA Simulator components to generate a centerline path along a track.</p>
+<section id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Basic understanding of the command line</p></li>
+<li><p>Basic understanding of Python</p></li>
+<li><p>You have <code class="docutils literal notranslate"><span class="pre">wa_simulator</span></code> installed (<a class="reference external" href="https://wisconsinautonomous.github.io/wa_simulator/installation/index.html">resources for that</a>)</p></li>
+<li><p>You have cloned the <code class="docutils literal notranslate"><span class="pre">wa_internal</span></code> repository</p></li>
+</ul>
+<blockquote>
+<div><p>Note: This tutorial assumes you have installed the wa_simulator via Anaconda</p>
+</div></blockquote>
+</section>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">¶</a></h2>
+<p>Since <code class="docutils literal notranslate"><span class="pre">wa_simulator</span></code> is installed via <code class="docutils literal notranslate"><span class="pre">conda</span></code>, creating a path planner is as easy as creating a single file. That is what we’ll do in this tutorial.</p>
+<p>Please <code class="docutils literal notranslate"><span class="pre">cd</span></code> into a location where you would like to place these files. Create a directory called <code class="docutils literal notranslate"><span class="pre">centerline_path</span></code> with a file called <code class="docutils literal notranslate"><span class="pre">path_demo.py</span></code>. Your file structure should look like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>centerline_path
+└── path_demo.py
+</pre></div>
+</div>
+</section>
+<section id="set-up-path-demo-py">
+<h2>Set up path_demo.py<a class="headerlink" href="#set-up-path-demo-py" title="Permalink to this headline">¶</a></h2>
+<p>To begin, open <code class="docutils literal notranslate"><span class="pre">path_demo.py</span></code> in your favorite editor. I recommend <a class="reference external" href="https://atom.io/">Atom</a> or <a class="reference external" href="https://code.visualstudio.com/">Visual Studio Code</a>.</p>
+<p>We will need to import libraries <code class="docutils literal notranslate"><span class="pre">wa_simulator</span></code> and <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code> as well as set up the main function of demo_path.py.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">wa_simulator</span> <span class="kn">as</span> <span class="nn">wa</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+
+<span class="c1"># does nothing for now</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="k">pass</span>
+
+<span class="c1"># Will call the main function when 'python path_demo.py' is run</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="create-the-track">
+<h2>Create the Track<a class="headerlink" href="#create-the-track" title="Permalink to this headline">¶</a></h2>
+<p>Before we start working on our path planner, we need to set up a track to generate a path off of. WA Simulator provides functions which allow us to easily create a track using data from a csv file.</p>
+<p>In this example, we’re going to use <code class="docutils literal notranslate"><span class="pre">sample_medium_loop.csv</span></code> which is located in <code class="docutils literal notranslate"><span class="pre">wa_internal/data/paths</span></code></p>
+<blockquote>
+<div><p>Note: You may need to modify the arguments of <code class="docutils literal notranslate"><span class="pre">wa.set_wa_data_directory()</span></code> or <code class="docutils literal notranslate"><span class="pre">wa.get_wa_data_file()</span></code> depending on where the csv file is located relative to <code class="docutils literal notranslate"><span class="pre">path_demo.py</span></code>. In this example, we are running <code class="docutils literal notranslate"><span class="pre">path_demo.py</span></code> in <code class="docutils literal notranslate"><span class="pre">wa_interal/controls/centerline_path</span></code></p>
+</div></blockquote>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="c1"># Load data points from a csv file</span>
+    <span class="n">wa</span><span class="o">.</span><span class="n">set_wa_data_directory</span><span class="p">(</span><span class="s1">'../../data/'</span><span class="p">)</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">get_wa_data_file</span><span class="p">(</span><span class="s2">"paths/sample_medium_loop.csv"</span><span class="p">)</span>
+    <span class="n">waypoints</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">load_waypoints_from_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">","</span><span class="p">)</span>
+
+    <span class="c1"># Create a path using data points</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">WASplinePath</span><span class="p">(</span><span class="n">waypoints</span><span class="p">,</span> <span class="n">num_points</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">is_closed</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    
+    <span class="c1"># Create the track with a constant width</span>
+    <span class="n">track</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">create_constant_width_track</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">wa.create_constant_width_track()</span></code> give us a <code class="docutils literal notranslate"><span class="pre">WATrack</span></code> object which we will be able to use to generate a path. Note that we created this track using <code class="docutils literal notranslate"><span class="pre">path</span></code> as a centerline reference.</p>
+</section>
+<section id="set-up-getcenterlinepath-function">
+<h2>Set up getCenterlinePath() function<a class="headerlink" href="#set-up-getcenterlinepath-function" title="Permalink to this headline">¶</a></h2>
+<p>We now have a WATrack that we can find the centerline of. To do this, we “travel” along the track and find the points that lie halfway between the left and right boundaries of the track. In other words we find a list of midpoints between the left and right boundaries.</p>
+<p>Define a function called <code class="docutils literal notranslate"><span class="pre">getCenterlinePath()</span></code> which accepts <code class="docutils literal notranslate"><span class="pre">track</span></code> as an argument. Within this function, create an empty list called <code class="docutils literal notranslate"><span class="pre">midpoints</span></code>. We will populate this list as we go along the points on the track.</p>
+<p>To “travel” along the track, we use a for loop that iterates through the points on the tracks centerline.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">getCenterlinePath</span><span class="p">(</span><span class="n">track</span><span class="p">):</span>
+    <span class="n">midpoints</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># list of midpoints along track</span>
+
+    <span class="k">for</span> <span class="n">point</span> <span class="ow">in</span> <span class="n">track</span><span class="o">.</span><span class="n">center</span><span class="o">.</span><span class="n">get_points</span><span class="p">():</span>
+</pre></div>
+</div>
+<blockquote>
+<div><p>Note: Every <code class="docutils literal notranslate"><span class="pre">WATrack</span></code> object provides center, left, and right <code class="docutils literal notranslate"><span class="pre">WASplinePath</span></code>’s which are useful when planning a path like this. To give a proper introduction to path planning, we will disregard <code class="docutils literal notranslate"><span class="pre">track.center</span></code> and plan our own centerline path using <code class="docutils literal notranslate"><span class="pre">track.left</span></code> and <code class="docutils literal notranslate"><span class="pre">track.right</span></code></p>
+</div></blockquote>
+</section>
+<section id="build-list-of-midpoints">
+<h2>Build list of midpoints<a class="headerlink" href="#build-list-of-midpoints" title="Permalink to this headline">¶</a></h2>
+<p>To find the midpoints along the track, we will use the midpoint formula:</p>
+<p><span class="math notranslate nohighlight">\((x_{mid}, y_{mid}) = (\frac{x_1 + x_2}{2} , \frac{y_1 + y_2}{2}\)</span>)</p>
+<p>In our case <span class="math notranslate nohighlight">\((x_1, y_1)\)</span> is a point on the inner (right) boundary, and <span class="math notranslate nohighlight">\((x_2, y_2)\)</span> is a point on the outer (left) boundary. To get these points, we use <code class="docutils literal notranslate"><span class="pre">WASplinePath</span></code>’s <code class="docutils literal notranslate"><span class="pre">calc_closest_point()</span></code> function, which gives us the closest points on the left or right boundaries relative to where we are along the track.</p>
+<p>Once we have these points, we can use the midpoint formula to compute the x and y values of the midpoint between the closest points on the left and right boundaries. We then add this midpoint as a list of (x, y, z) values to our <code class="docutils literal notranslate"><span class="pre">midpoints</span></code> list.</p>
+<p>Finally we create a <code class="docutils literal notranslate"><span class="pre">WASplinePath</span></code> using this list of points. This is our centerline path that we will return back to <code class="docutils literal notranslate"><span class="pre">main()</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">getCenterlinePath</span><span class="p">(</span><span class="n">track</span><span class="p">):</span>
+
+    <span class="n">midpoints</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># list of midpoints along track</span>
+
+    <span class="k">for</span> <span class="n">point</span> <span class="ow">in</span> <span class="n">track</span><span class="o">.</span><span class="n">center</span><span class="o">.</span><span class="n">get_points</span><span class="p">():</span>
+
+        <span class="c1"># using calc_closest_point(), we can ensure the path is parallel to the track boundaries</span>
+        <span class="n">left_point</span> <span class="o">=</span> <span class="n">track</span><span class="o">.</span><span class="n">left</span><span class="o">.</span><span class="n">calc_closest_point</span><span class="p">(</span><span class="n">point</span><span class="p">)</span>
+        <span class="n">right_point</span> <span class="o">=</span> <span class="n">track</span><span class="o">.</span><span class="n">right</span><span class="o">.</span><span class="n">calc_closest_point</span><span class="p">(</span><span class="n">point</span><span class="p">)</span>
+
+        <span class="n">midpoint_x</span> <span class="o">=</span> <span class="p">(</span><span class="n">right_point</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">left_point</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="n">midpoint_y</span> <span class="o">=</span> <span class="p">(</span><span class="n">right_point</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">left_point</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span>
+
+        <span class="n">midpoints</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">midpoint_x</span><span class="p">,</span> <span class="n">midpoint_y</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+
+    <span class="n">path</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">WASplinePath</span><span class="p">(</span><span class="n">midpoints</span><span class="p">,</span> <span class="n">num_points</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">path</span>
+</pre></div>
+</div>
+</section>
+<section id="plot-results">
+<h2>Plot Results<a class="headerlink" href="#plot-results" title="Permalink to this headline">¶</a></h2>
+<p>Now that we’ve generated a path. We want to be able to plot it visually to see our results. We’ll accomplish this using the <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code> library that we imported earlier.</p>
+<blockquote>
+<div><p>Note: If you want to learn more about Matplotlib and how to use it, Matplotlib’s <a class="reference external" href="https://matplotlib.org/">website</a> has examples, tutorials, documentation, and other helpful resources.</p>
+</div></blockquote>
+<p>Adding on to our <code class="docutils literal notranslate"><span class="pre">main()</span></code> function. we will call <code class="docutils literal notranslate"><span class="pre">getCenterlinePath()</span></code> and store the returned <code class="docutils literal notranslate"><span class="pre">WASplinePath</span></code> in a variable called <code class="docutils literal notranslate"><span class="pre">path</span></code></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">path</span> <span class="o">=</span> <span class="n">getCenterlinePath</span><span class="p">(</span><span class="n">track</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now using <code class="docutils literal notranslate"><span class="pre">WASplinePath</span></code>’s <code class="docutils literal notranslate"><span class="pre">plot()</span></code> function. We plot our new <code class="docutils literal notranslate"><span class="pre">path</span></code> together with the tracks left and right boundaries.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">'equal'</span><span class="p">)</span> <span class="c1"># avoids image being stretched</span>
+<span class="n">path</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">"red"</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">track</span><span class="o">.</span><span class="n">left</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">"black"</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">track</span><span class="o">.</span><span class="n">right</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">"black"</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In the end your <code class="docutils literal notranslate"><span class="pre">main()</span></code> function should look something like this</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+
+    <span class="c1"># Load track data points from a csv file</span>
+    <span class="n">wa</span><span class="o">.</span><span class="n">set_wa_data_directory</span><span class="p">(</span><span class="s1">'../data/'</span><span class="p">)</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">get_wa_data_file</span><span class="p">(</span><span class="s2">"paths/sample_medium_loop.csv"</span><span class="p">)</span>
+    <span class="n">waypoints</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">load_waypoints_from_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">","</span><span class="p">)</span>
+
+    <span class="c1"># Create the path</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">WASplinePath</span><span class="p">(</span><span class="n">waypoints</span><span class="p">,</span> <span class="n">num_points</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">is_closed</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="c1"># Create the track with a constant width</span>
+    <span class="n">track</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">create_constant_width_track</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    
+    <span class="n">path</span> <span class="o">=</span> <span class="n">getCenterlinePath</span><span class="p">(</span><span class="n">track</span><span class="p">)</span>
+
+    <span class="c1"># Plot track boundaries with our new path</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">'equal'</span><span class="p">)</span>
+    <span class="n">path</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">"red"</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">track</span><span class="o">.</span><span class="n">left</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">"black"</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">track</span><span class="o">.</span><span class="n">right</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">"black"</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="putting-it-all-together">
+<h2>Putting it all together<a class="headerlink" href="#putting-it-all-together" title="Permalink to this headline">¶</a></h2>
+<p>Your <code class="docutils literal notranslate"><span class="pre">path_demo.py</span></code> should look like this:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">wa_simulator</span> <span class="kn">as</span> <span class="nn">wa</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+
+    <span class="c1"># Load track data points from a csv file</span>
+    <span class="n">wa</span><span class="o">.</span><span class="n">set_wa_data_directory</span><span class="p">(</span><span class="s1">'../data/'</span><span class="p">)</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">get_wa_data_file</span><span class="p">(</span><span class="s2">"paths/sample_medium_loop.csv"</span><span class="p">)</span>
+    <span class="n">waypoints</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">load_waypoints_from_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">","</span><span class="p">)</span>
+
+    <span class="c1"># Create the path</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">WASplinePath</span><span class="p">(</span><span class="n">waypoints</span><span class="p">,</span> <span class="n">num_points</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">is_closed</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="c1"># Create the track with a constant width</span>
+    <span class="n">track</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">create_constant_width_track</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    
+    <span class="n">path</span> <span class="o">=</span> <span class="n">getCenterlinePath</span><span class="p">(</span><span class="n">track</span><span class="p">)</span>
+
+    <span class="c1"># Plot track boundaries with our new path</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">'equal'</span><span class="p">)</span>
+    <span class="n">path</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">"red"</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">track</span><span class="o">.</span><span class="n">left</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">"black"</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">track</span><span class="o">.</span><span class="n">right</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">"black"</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">getCenterlinePath</span><span class="p">(</span><span class="n">track</span><span class="p">):</span>
+
+    <span class="n">midpoints</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># list of midpoints along track</span>
+
+    <span class="k">for</span> <span class="n">point</span> <span class="ow">in</span> <span class="n">track</span><span class="o">.</span><span class="n">center</span><span class="o">.</span><span class="n">get_points</span><span class="p">():</span>
+
+        <span class="c1"># using calc_closest_point(), we can ensure the path is parallel to the track boundaries</span>
+        <span class="n">left_point</span> <span class="o">=</span> <span class="n">track</span><span class="o">.</span><span class="n">left</span><span class="o">.</span><span class="n">calc_closest_point</span><span class="p">(</span><span class="n">point</span><span class="p">)</span>
+        <span class="n">right_point</span> <span class="o">=</span> <span class="n">track</span><span class="o">.</span><span class="n">right</span><span class="o">.</span><span class="n">calc_closest_point</span><span class="p">(</span><span class="n">point</span><span class="p">)</span>
+
+        <span class="n">midpoint_x</span> <span class="o">=</span> <span class="p">(</span><span class="n">right_point</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">left_point</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="n">midpoint_y</span> <span class="o">=</span> <span class="p">(</span><span class="n">right_point</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">left_point</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span>
+
+        <span class="n">midpoints</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">midpoint_x</span><span class="p">,</span> <span class="n">midpoint_y</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+
+    <span class="n">path</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">WASplinePath</span><span class="p">(</span><span class="n">midpoints</span><span class="p">,</span> <span class="n">num_points</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">path</span>
+
+
+<span class="c1"># Will call the main function when 'python path_demo.py' is run</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>To run the demo, run</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">path_demo</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<p>You can also find the <a class="reference external" href="https://github.com/WisconsinAutonomous/wa_simulator/blob/master/tutorials/centerline_path/path_demo.py">code in our GitHub repo</a></p>
+<p>A matplotlib window should pop up showing the track boundaries with a red centerline path!</p>
+<p>You should now have a good understanding of how to plan a path globally in <code class="docutils literal notranslate"><span class="pre">wa_simulator</span></code>. Feel free to edit this demo or add your own logic! Happy Coding!</p>
+</section>
+<section id="extra-implementing-alpha">
+<h2>Extra - Implementing Alpha<a class="headerlink" href="#extra-implementing-alpha" title="Permalink to this headline">¶</a></h2>
+<p>We can modify our formula in slightly to “shift” the path towards the left or right side.</p>
+<p>In <code class="docutils literal notranslate"><span class="pre">getCenterlinePath()</span></code>, define a new variable <code class="docutils literal notranslate"><span class="pre">alpha</span></code> and set it to 0.5. After that, modify the <code class="docutils literal notranslate"><span class="pre">midpoint_x</span></code> and <code class="docutils literal notranslate"><span class="pre">midpoint_y</span></code> assignments to look like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.5</span>
+
+<span class="n">midpoint_x</span> <span class="o">=</span> <span class="n">right_point</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">alpha</span> <span class="o">*</span> <span class="p">(</span><span class="n">left_point</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">right_point</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">midpoint_y</span> <span class="o">=</span> <span class="n">right_point</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">alpha</span> <span class="o">*</span> <span class="p">(</span><span class="n">left_point</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">right_point</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">alpha</span></code> variable determines how far from the boundaries the path will lie. It can be set to any value from 0 to 1. A lower value will bring the path closer to the inner (right) boundary. A higher value will bring the path closer to the outer (left) boundary.</p>
+<p>Your function should now look like this</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">getCenterlinePath</span><span class="p">(</span><span class="n">track</span><span class="p">):</span>
+
+    <span class="n">midpoints</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># list of midpoints along track</span>
+
+    <span class="k">for</span> <span class="n">point</span> <span class="ow">in</span> <span class="n">track</span><span class="o">.</span><span class="n">center</span><span class="o">.</span><span class="n">get_points</span><span class="p">():</span>
+
+        <span class="c1"># using calc_closest_point(), we can ensure the path is parallel to the track boundaries</span>
+        <span class="n">left_point</span> <span class="o">=</span> <span class="n">track</span><span class="o">.</span><span class="n">left</span><span class="o">.</span><span class="n">calc_closest_point</span><span class="p">(</span><span class="n">point</span><span class="p">)</span>
+        <span class="n">right_point</span> <span class="o">=</span> <span class="n">track</span><span class="o">.</span><span class="n">right</span><span class="o">.</span><span class="n">calc_closest_point</span><span class="p">(</span><span class="n">point</span><span class="p">)</span>
+
+        <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.5</span>
+
+        <span class="n">midpoint_x</span> <span class="o">=</span> <span class="n">right_point</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">alpha</span> <span class="o">*</span> <span class="p">(</span><span class="n">left_point</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">right_point</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">midpoint_y</span> <span class="o">=</span> <span class="n">right_point</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">alpha</span> <span class="o">*</span> <span class="p">(</span><span class="n">left_point</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">right_point</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="n">midpoints</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">midpoint_x</span><span class="p">,</span> <span class="n">midpoint_y</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+
+    <span class="n">path</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">WASplinePath</span><span class="p">(</span><span class="n">midpoints</span><span class="p">,</span> <span class="n">num_points</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">path</span>
+</pre></div>
+</div>
+<p>An alpha value of 0.5 means that the path will fall exactly in the middle of the left and right boundaries. Therefore running this code should give you a centerline path. However, if you change <code class="docutils literal notranslate"><span class="pre">alpha</span></code> to different values between 0 and 1 you will see the path shift to one side or another. Try changing <code class="docutils literal notranslate"><span class="pre">alpha</span></code> to 0.2 or 0.8 and run the code to see how it changes.</p>
+<p>Some more complex path planning algorithms incorporate an alpha value like this which changes as you go along the path. A formula computes what the alpha value should be at each point along the path, producing a more efficient path.</p>
+</section>
+<section id="support">
+<h2>Support<a class="headerlink" href="#support" title="Permalink to this headline">¶</a></h2>
+<p>Contact <a class="reference external" href="mailto:aryoung5%40wisc.edu">Aaron Young</a> for any questions or concerns regarding the contents of this repository.</p>
+</section>
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Permalink to this headline">¶</a></h2>
+<p>Follow us on <a class="reference external" href="https://www.facebook.com/wisconsinautonomous/">Facebook</a>, <a class="reference external" href="https://www.instagram.com/wisconsinautonomous/">Instagram</a>, and <a class="reference external" href="https://www.linkedin.com/company/wisconsin-autonomous/about/">LinkedIn</a>!</p>
+</section>
+</section>
+
+      </article>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="custom-controller.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Creating a Custom Controller</div>
+              </div>
+              <svg><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="index.html">
+              <svg><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Tutorials</div>
+                
+              </div>
+            </a>
+        </div>
+
+        <div class="related-information">
+              Copyright &#169; 2021, Wisconsin Autonomous
+            |
+            Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
+              and
+              <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+              <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
+            |
+            <a class="muted-link" href="../_sources/tutorials/centerline_path.md.txt"
+               rel="nofollow">
+              Show Source
+            </a>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            Contents
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Creating a Centerline Path Planner</a><ul>
+<li><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
+<li><a class="reference internal" href="#setup">Setup</a></li>
+<li><a class="reference internal" href="#set-up-path-demo-py">Set up path_demo.py</a></li>
+<li><a class="reference internal" href="#create-the-track">Create the Track</a></li>
+<li><a class="reference internal" href="#set-up-getcenterlinepath-function">Set up getCenterlinePath() function</a></li>
+<li><a class="reference internal" href="#build-list-of-midpoints">Build list of midpoints</a></li>
+<li><a class="reference internal" href="#plot-results">Plot Results</a></li>
+<li><a class="reference internal" href="#putting-it-all-together">Putting it all together</a></li>
+<li><a class="reference internal" href="#extra-implementing-alpha">Extra - Implementing Alpha</a></li>
+<li><a class="reference internal" href="#support">Support</a></li>
+<li><a class="reference internal" href="#see-also">See Also</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </main>
+</div>
+  </body>
+</html>
