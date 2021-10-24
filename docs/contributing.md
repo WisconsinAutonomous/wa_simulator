@@ -31,7 +31,7 @@ You should now be able to edit the source and have those changes be reflected in
 
 ### Deploy your Changes
 
-[GitHub actions](https://github.com/features/actions) are used to automatically build the site and [GitHub pages](https://pages.github.com/) are used to host the static site. To update deployed content, you have to push to the `master` branch. This will automatically rebuild the site. Please ensure there are no errors in your code/documentation before doing so, as you may get an email from github if something bad happens.
+[GitHub actions](https://github.com/features/actions) are used to automatically build the site and [GitHub pages](https://pages.github.com/) are used to host the static site. To update deployed content, you have to push to the `develop` branch and create a pull request on the `master` branch. Once the pull request is merged the site will rebuild with your changes. Please ensure there are no errors in your code/documentation before doing so, as you may get an email from github if something bad happens.
 
 ## Guidelines
 
@@ -96,6 +96,6 @@ Markdown files are converted to reStructuredText by `myst_parser` which is used 
 
 ## Building the Documentation
 
-There are multiple ways to build sphinx documentation. The easiest is using the `Makefile` or `make.bat` file provided directly in this repository. On Unix systems, once can run `make html` to build the html pages. Then go to your browser, and open the `index.html` file located inside `docs/build/html/`.
+There are multiple ways to build sphinx documentation. The easiest is using the `Makefile` or `make.bat` file provided directly in this repository. First you need to install all the necessary dependencies by navigating to `wa_simulator/docs` and running `pip install -r requirements.txt`. Then you can run `make html` to build the html pages. To view the build, go to your browser, and open the `index.html` file located inside `docs/build/html/`.
 
 `sphinx-autobuild` is also extremely easy to use and will automatically build the html pages when a change is made. See their [PyPI page](https://pypi.org/project/sphinx-autobuild/).
