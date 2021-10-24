@@ -42,7 +42,7 @@ class CustomCSVController(wa.WAController):
 
     def advance(self, step):
         pass
-    
+
     def is_ok(self):
         # Will just always return true
         return True
@@ -276,7 +276,7 @@ To run the demo, run:
 python custom_controller_demo.py
 ```
 
-You can also find the [code in our github repo](https://github.com/WisconsinAutonomous/wa_simulator/tree/develop/demos/python/tutorial/wa_custom_controller).
+You can also find the [code in our github repo](https://github.com/WisconsinAutonomous/wa_simulator/blob/master/tutorials/wa_custom_controller/custom_controller_demo.py).
 
 A matplotlib window should pop up and the vehicle should move as we expect!
 
@@ -289,8 +289,6 @@ You should now have a good understanding of how a controller is made in `wa_simu
 Contact [Aaron Young](mailto:aryoung5@wisc.edu) for any questions or concerns regarding the contents of this repository.
 
 ## See Also
-
-Stay up to date with our technical info by following our [blog](https://www.wisconsinautonomous.org/blog).
 
 Follow us on [Facebook](https://www.facebook.com/wisconsinautonomous/), [Instagram](https://www.instagram.com/wisconsinautonomous/), and [LinkedIn](https://www.linkedin.com/company/wisconsin-autonomous/about/)!
 
