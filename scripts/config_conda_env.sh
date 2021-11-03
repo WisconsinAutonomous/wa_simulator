@@ -93,6 +93,8 @@ if [[ "$os" == "Darwin" ]]; then
 			echo "Installing Anaconda. May take a few minutes"
 			wait 1
 			brew install --cask anaconda
+			[ -f /usr/local/anaconda3/bin/conda ] && /usr/local/anaconda3/bin/conda init 
+			[ -f /usr/local/anaconda3/bin/conda ] && export PATH=$PATH:/usr/local/anaconda3/bin/
 		else
 			exit_error "conda command not found."
 		fi
