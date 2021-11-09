@@ -27,7 +27,7 @@ def load_properties_from_json(filename: str, prop: str) -> dict:
 
     Args:
         filename (str): the filename location within the set WA data folder for the json file
-        property (str): the property to get. Ex: "Vehicle Properties"
+        prop (str): the property to get. Ex: "Vehicle Properties"
 
     Raises:
         ValueError: The property field isn't found
@@ -157,7 +157,8 @@ class WALinearKinematicBicycle(WAVehicle):
     # Global filenames for vehicle models
     _GO_KART_MODEL_FILE = "vehicles/GoKart/GoKart_KinematicBicycle.json"
 
-    GO_KART_MODEL_FILE = _WAStaticAttribute('_GO_KART_MODEL_FILE', get_wa_data_file)
+    GO_KART_MODEL_FILE = _WAStaticAttribute(
+        '_GO_KART_MODEL_FILE', get_wa_data_file)
 
     def __init__(self, system: 'WASystem', vehicle_inputs: 'WAVehicleInputs', filename: str, init_pos: WAVector = WAVector(), init_rot: WAQuaternion = WAQuaternion.from_z_rotation(0), init_pos_dt: WAVector = WAVector()):
         super().__init__(system, vehicle_inputs, filename)

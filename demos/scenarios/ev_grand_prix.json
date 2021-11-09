@@ -1,0 +1,20 @@
+{
+    "Name": "evGrand Prix Track Scenario",
+    "Type": "Scenario",
+    "Template": "WAScenarioManager",
+
+    "Description": "Simple scnerio with ego vehicle placed at the beginning of a path",
+
+    "Vehicle": {
+        "Type": "wa_simulator.vehicle.WALinearKinematicBicycle",
+        "Input File": "GO_KART_MODEL_FILE",
+        "Initial Position": [49.8, 132.9, 0.5]
+    },
+
+    "Visualization": {
+        "Type": "WAMatplotlibVisualization",
+        "Arguments": {
+            "plotter_type": "multi"
+        }
+    }
+}
