@@ -245,3 +245,25 @@ class WAMatplotlibController(_WAKeyboardController):
     def _key_press(self, value):
         if value in self._input_dict.keys():
             self._update(self._input_dict[value])
+
+class WAROS2Controller(system, vehicle_inputs):
+    """Controller that communicates with a ROS2 control stack
+
+    Raises:
+        ImportError: Will be raised if ROS 2 is not found on the system.
+    """
+
+	def __init__(self, system: 'WASystem', vehicle_inputs: 'WAVehicleInputs'):
+        super().__init__(system, vehicle_inputs)
+		
+        # Check if ROS 2 is installed
+        try:
+            import rclpy
+        except ImportError:
+            raise ImportError("ROS 2 was not found on the system.")
+
+    def synchronize(self, time: float):
+        pass
+
+    def advance(self, step: float):
+        pass
