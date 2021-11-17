@@ -1,4 +1,4 @@
-FROM continuumio/miniconda3
+FROM ubuntu:20.04
 
 LABEL maintainer="Wisconsin Autonomous <wisconsinautonomous@studentorg.wisc.edu"
 
@@ -9,7 +9,7 @@ RUN sed -i 's|deb http://.*ubuntu.com.* \(focal.*\)|deb mirror://mirrors.ubuntu.
 RUN apt update && apt upgrade -y
 
 # Install some packages
-RUN apt install -y tmux vim ssh git git-lfs zsh python3-pip gxmessage
+RUN apt install -y tmux vim ssh git git-lfs zsh python3-pip gxmessage wget
 
 # Various arguments and user settings
 ARG USERSHELL
