@@ -12,6 +12,7 @@ from abc import ABC, abstractmethod  # Abstract Base Class
 
 # WA Simulator
 from wa_simulator.base import WABase
+from wa_simulator.bridge import WABridge
 
 
 class WASimulationManager(WABase):
@@ -25,6 +26,9 @@ class WASimulationManager(WABase):
     This class constructor (the :code:`__init__` method) has two actual arguments: :code:`*args` and :code:`**kwargs`.
     These two arguments have special attributes not relevant in other languages, so for more
     information on those, please see `this reference <https://www.digitalocean.com/community/tutorials/how-to-use-args-and-kwargs-in-python-3>`_.
+
+    If any of the components passed in are of type :class:`~WABridge`, the simulation manager will first wait until the bridge establishes a 
+    connection with it's client. The simulation will then be allowed to progress once this has been completed.
 
     Although not techincally an error, this class should not be inherited from.
 
@@ -67,6 +71,7 @@ class WASimulationManager(WABase):
         self._system = system
 
         self._components = []
+        self._bridges = []
         for i, comp in enumerate(args):
             if comp is None:
                 continue
@@ -79,7 +84,15 @@ class WASimulationManager(WABase):
                 raise TypeError(
                     f'Argument in position {i} is of type {type(WASimulationManager)}. This is not allowed')
 
+            # Save the bridges for connection purposes
+            if isinstance(comp, WABridge):
+                self._bridges.append(comp)
+
             self._components.append(comp)
+
+        # Make sure all the bridges connect first
+        for bridge in self._bridges:
+            bridge.connect()
 
         self.set_record(record, output_filename)
 

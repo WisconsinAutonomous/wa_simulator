@@ -158,13 +158,19 @@ class _WAKeyboardController(WAController):
         while t < step:
             h = step - t
 
-            steering_deriv = self._steering_gain * (self._steering_target - self.steering)
-            throttle_deriv = self._throttle_gain * (self._throttle_target - self.throttle)
-            braking_deriv = self._braking_gain * (self._braking_target - self.braking)
+            steering_deriv = self._steering_gain * \
+                (self._steering_target - self.steering)
+            throttle_deriv = self._throttle_gain * \
+                (self._throttle_target - self.throttle)
+            braking_deriv = self._braking_gain * \
+                (self._braking_target - self.braking)
 
-            self.steering += min(self._steering_delta, h * steering_deriv, key=abs)
-            self.throttle += min(self._throttle_delta, h * throttle_deriv, key=abs)
-            self.braking += min(self._braking_delta, h * braking_deriv, key=abs)
+            self.steering += min(self._steering_delta,
+                                 h * steering_deriv, key=abs)
+            self.throttle += min(self._throttle_delta,
+                                 h * throttle_deriv, key=abs)
+            self.braking += min(self._braking_delta, h *
+                                braking_deriv, key=abs)
 
             t += h
 
@@ -190,23 +196,29 @@ class _WAKeyboardController(WAController):
 
         # Up
         if key == 0:
-            self._throttle_target = np.clip(self._throttle_target + self._throttle_delta, 0.0, +1.0)
+            self._throttle_target = np.clip(
+                self._throttle_target + self._throttle_delta, 0.0, +1.0)
             if self._throttle_target > 0:
-                self._braking_target = np.clip(self._braking_target - self._braking_delta * 3, 0.0, +1.0)
+                self._braking_target = np.clip(
+                    self._braking_target - self._braking_delta * 3, 0.0, +1.0)
         # Down
         elif key == 2:
-            self._throttle_target = np.clip(self._throttle_target - self._throttle_delta * 3, 0.0, +1.)
+            self._throttle_target = np.clip(
+                self._throttle_target - self._throttle_delta * 3, 0.0, +1.)
             if self._throttle_target <= 0:
-                self._braking_target = np.clip(self._braking_target + self._braking_delta, 0.0, +1.0)
+                self._braking_target = np.clip(
+                    self._braking_target + self._braking_delta, 0.0, +1.0)
 
         # Right
         elif key == 1:
-            self._steering_target = np.clip(self._steering_target + self._steering_delta, -1.0, +1.)
+            self._steering_target = np.clip(
+                self._steering_target + self._steering_delta, -1.0, +1.)
 
         # Left
         elif key == 3:
 
-            self._steering_target = np.clip(self._steering_target - self._steering_delta, -1.0, +1.)
+            self._steering_target = np.clip(
+                self._steering_target - self._steering_delta, -1.0, +1.)
         else:
             raise ValueError(
                 f"Got key type of '{key}'. Was expecting one of the following: {', '.join(allowed_keys)}")
@@ -224,7 +236,8 @@ class WAMatplotlibController(_WAKeyboardController):
     """
 
     def __init__(self, system: 'WASystem', vehicle_inputs: 'WAVehicleInputs', vis: 'WAMatplotlibVisualization'):
-        _check_type(vis, WAMatplotlibVisualization, 'vis', 'WAMatplotlibController::__init__')
+        _check_type(vis, WAMatplotlibVisualization, 'vis',
+                    'WAMatplotlibController::__init__')
 
         super().__init__(system, vehicle_inputs)
 
@@ -245,3 +258,26 @@ class WAMatplotlibController(_WAKeyboardController):
     def _key_press(self, value):
         if value in self._input_dict.keys():
             self._update(self._input_dict[value])
+
+
+class WAROS2Controller(WAController):
+    """Controller that communicates with a ROS2 control stack
+
+    Raises:
+        ImportError: Will be raised if ROS 2 is not found on the system.
+    """
+
+    def __init__(self, system: 'WASystem', vehicle_inputs: 'WAVehicleInputs'):
+        super().__init__(system, vehicle_inputs)
+
+        # Check if ROS 2 is installed
+        try:
+            import rclpy
+        except ImportError:
+            raise ImportError("ROS 2 was not found on the system.")
+
+    def synchronize(self, time: float):
+        pass
+
+    def advance(self, step: float):
+        pass

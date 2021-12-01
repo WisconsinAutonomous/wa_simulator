@@ -169,6 +169,10 @@ class WALinearKinematicBicycle(WAVehicle):
         self._v = init_pos_dt.length
         self._acc = 0.0
 
+        self._steering = 0
+        self._throttle = 0
+        self._braking = 0
+
         # Wheel angular velocity
         self._omega = 0.0
         self._omega_dot = 0.0

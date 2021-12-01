@@ -51,6 +51,11 @@ setup(
     long_description_content_type="text/markdown",  # Optional (see note above)
     packages=find_packages(),
     package_data={"wa_simulator": get_package_data("wa_simulator/data")},
+    entry_points={
+        "console_scripts": [
+            "wasim = wa_simulator._entrypoint.wasim:main",
+        ],
+    },
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Topic :: Software Development",
@@ -65,7 +70,9 @@ setup(
         "scipy",
         "IPython",
         "pyrr",
-        "dill"
+        "dill",
+        "docker",
+        "pyyaml",
     ],
     project_urls={  # Optional
         "Homepage": "https://github.com/WisconsinAutonomous/wa_simulator/",

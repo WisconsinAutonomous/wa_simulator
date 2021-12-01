@@ -1,0 +1,18 @@
+version: "3.9"
+services:
+  wasim-dev:
+    hostname: 'wasim-dev'
+    image: wiscauto/wa_simulator:develop
+    build:
+      context: ./
+      dockerfile: ./docker/dev.dockerfile
+      network: host
+    working_dir: /root/
+  wasim-prod:
+    hostname: 'wasim-prod'
+    image: wiscauto/wa_simulator:latest
+    build:
+      context: ./
+      dockerfile: ./docker/dev.dockerfile
+      network: host
+    working_dir: /root/
