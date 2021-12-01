@@ -1,4 +1,4 @@
-# Simple bicycle model demo
+# Simple demo to showcase how to communicate with an external entity using message passing
 # Meant to demonstrate the WA Simulator API
 # -----------------------------------------
 
@@ -7,9 +7,9 @@ import wa_simulator as wa
 
 # Command line arguments
 parser = wa.WAArgumentParser(use_sim_defaults=True)
-parser.add_argument("-mv", "--matplotlib", action="store_true", help="Use matplotlib to visualize", default=False)
 args = parser.parse_args()
 
+# wa.set_wa_data_directory('/root/data/')
 
 def main():
     # ---------------
@@ -31,22 +31,29 @@ def main():
 
     # ----------------------
     # Create a visualization
-    # Will use matplotlib for visualization
     visualization = None
-    if args.matplotlib:
-        visualization = wa.WAMatplotlibVisualization(system, vehicle, vehicle_inputs, plotter_type="multi")
-    else:
-        print("No visualization selected. To visualize using matplotlib, please pass -mv or --matplotlib as a command line argument.")
+    # visualization = wa.WAMatplotlibVisualization(system, vehicle, vehicle_inputs, plotter_type="single")
 
     # -------------------
     # Create a controller
-    # The controller for this demo is a ROS2 controller, meaning it will communicate with ROS2
-    controller = wa.WAROS2Controller(system, vehicle_inputs)
+    # Will be an interactive controller where the arrow can be used to control the car
+    # Must run it from the terminal
+    controller = None
+    if visualization is not None:
+        controller = wa.WAMatplotlibController(system, vehicle_inputs, visualization)
+
+    # -----------------
+    # Create the bridge
+    # The bridge is responsible for sending the data out of the simulation to an external stack
+    # Will send out vehicle state information, and receive vehicle_inputs to control the car
+    bridge = wa.WABridge(system, hostname="0.0.0.0")
+    bridge.add_sender("vehicle", vehicle)
+    bridge.add_receiver("vehicle_inputs", vehicle_inputs)
 
     # --------------------------
-    # Create a simuation wrapper
+    # Create a simulation wrapper
     # Will be responsible for actually running the simulation
-    sim_manager = wa.WASimulationManager(system, vehicle, visualization, controller)
+    sim_manager = wa.WASimulationManager(system, vehicle, visualization, controller, bridge)
 
     # ---------------
     # Simulation loop
@@ -56,7 +63,6 @@ def main():
 
         sim_manager.synchronize(time)
         sim_manager.advance(step_size)
-
 
 if __name__ == "__main__":
     main()

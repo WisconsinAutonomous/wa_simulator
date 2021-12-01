@@ -1,0 +1,13 @@
+# To use:
+# Server: wasim docker start demo_bridge.yaml demo_bridge_server.py
+# Client: python demo_bridge_client.py
+containers:
+  wasim:
+    image: wiscauto/wa_simulator:develop
+    volumes:
+      - host: "../data"
+        container: "/root/data"
+        is_relative_to_yaml_file: True
+    ports:
+      5555:
+        - 5555

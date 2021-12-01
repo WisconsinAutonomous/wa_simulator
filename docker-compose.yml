@@ -2,17 +2,17 @@ version: "3.9"
 services:
   wasim-dev:
     hostname: 'wasim-dev'
+    image: wiscauto/wa_simulator:develop
     build:
       context: ./
       dockerfile: ./docker/dev.dockerfile
-      args:
-        USERSHELL: zsh  # can be overridden with --build-arg on the command line
       network: host
-    volumes:
-      - .:/root/wa_simulator
-      - ~/.ssh/:/root/.ssh/           # Non-functioning in windows
-      - ~/.gitconfig:/root/.gitconfig # Non-functioning in windows
-    tty: true
     working_dir: /root/
-    environment:
-      DISPLAY: "host.docker.internal:0" 
+  wasim-prod:
+    hostname: 'wasim-prod'
+    image: wiscauto/wa_simulator:latest
+    build:
+      context: ./
+      dockerfile: ./docker/dev.dockerfile
+      network: host
+    working_dir: /root/
