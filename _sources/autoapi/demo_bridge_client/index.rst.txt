@@ -1,0 +1,35 @@
+:orphan:
+
+:mod:`demo_bridge_client`
+=========================
+
+.. py:module:: demo_bridge_client
+
+.. Module Contents
+.. ---------------
+
+
+
+.. raw:: html
+
+   <h2>Methods</h2>
+
+.. autoapisummary::
+  :nosignatures:
+
+   demo_bridge_client.vehicle_parser
+
+.. function:: vehicle_parser(element: list, message: dict)
+
+   Custom parser method to populate a position list
+
+   Will be called everytime a vehicle message is received
+
+   :Parameters: * **element** (*list*) -- The reference to the list object that can be updated
+                * **message** (*dict*) -- The received message
+
+
+
+
+
+.. 

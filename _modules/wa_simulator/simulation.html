@@ -155,6 +155,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../autoapi/wa_simulator/base/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.base</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/wa_simulator/bridge/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.bridge</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../autoapi/wa_simulator/controller/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.controller</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../autoapi/wa_simulator/core/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.core</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../autoapi/wa_simulator/environment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.environment</span></code></a></li>
@@ -204,6 +205,7 @@
 
 <span class="c1"># WA Simulator</span>
 <span class="kn">from</span> <span class="nn">wa_simulator.base</span> <span class="k">import</span> <span class="n">WABase</span>
+<span class="kn">from</span> <span class="nn">wa_simulator.bridge</span> <span class="k">import</span> <span class="n">WABridge</span>
 
 
 <div class="viewcode-block" id="WASimulationManager"><a class="viewcode-back" href="../../autoapi/wa_simulator/simulation/index.html#wa_simulator.simulation.WASimulationManager">[docs]</a><span class="k">class</span> <span class="nc">WASimulationManager</span><span class="p">(</span><span class="n">WABase</span><span class="p">):</span>
@@ -217,6 +219,9 @@
 <span class="sd">    This class constructor (the :code:`__init__` method) has two actual arguments: :code:`*args` and :code:`**kwargs`.</span>
 <span class="sd">    These two arguments have special attributes not relevant in other languages, so for more</span>
 <span class="sd">    information on those, please see `this reference &lt;https://www.digitalocean.com/community/tutorials/how-to-use-args-and-kwargs-in-python-3&gt;`_.</span>
+
+<span class="sd">    If any of the components passed in are of type :class:`~WABridge`, the simulation manager will first wait until the bridge establishes a </span>
+<span class="sd">    connection with it's client. The simulation will then be allowed to progress once this has been completed.</span>
 
 <span class="sd">    Although not techincally an error, this class should not be inherited from.</span>
 
@@ -259,6 +264,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_system</span> <span class="o">=</span> <span class="n">system</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_components</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_bridges</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">comp</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">comp</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">continue</span>
@@ -271,7 +277,15 @@
                 <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
                     <span class="n">f</span><span class="s1">'Argument in position </span><span class="si">{i}</span><span class="s1"> is of type {type(WASimulationManager)}. This is not allowed'</span><span class="p">)</span>
 
+            <span class="c1"># Save the bridges for connection purposes</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">comp</span><span class="p">,</span> <span class="n">WABridge</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_bridges</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span>
+
             <span class="bp">self</span><span class="o">.</span><span class="n">_components</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span>
+
+        <span class="c1"># Make sure all the bridges connect first</span>
+        <span class="k">for</span> <span class="n">bridge</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bridges</span><span class="p">:</span>
+            <span class="n">bridge</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">set_record</span><span class="p">(</span><span class="n">record</span><span class="p">,</span> <span class="n">output_filename</span><span class="p">)</span>
 

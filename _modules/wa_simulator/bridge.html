@@ -1,0 +1,564 @@
+<!doctype html>
+<html class="no-js">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
+
+    <link rel="shortcut icon" href="../../_static/wa-dark-favicon.png"/><meta name="generator" content="sphinx-3.4.2, furo 2020.12.30.beta24"/>
+        <title>wa_simulator.bridge - Wisconsin Autonomous Simulator 1.0.5 documentation</title>
+      <link rel="stylesheet" href="../../_static/styles/furo.css?digest=33d2fc4f3f180ec1ffc6524e273e21d7d58cbe49">
+    <link rel="stylesheet" href="../../_static/pygments.css">
+    <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../../_static/pygments_dark.css">
+    
+
+
+<style>
+  :root {
+    --color-code-background: #f0f0f0;
+  --color-code-foreground: black;
+  
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+  }
+
+  /* For allowing end-user-specific overrides */
+  .override-light {
+    --color-code-background: #f0f0f0;
+  --color-code-foreground: black;
+  
+  }
+  .override-dark {
+    --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+  }
+</style><link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css" />
+    <link rel="stylesheet" href="../../_static/styles/furo-extensions.css?digest=26485485040e7aaf717c13fd0188a5ad2c2deb60">
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script defer="defer" src="../../_static/jquery.js"></script>
+    <script defer="defer" src="../../_static/underscore.js"></script>
+    <script defer="defer" src="../../_static/doctools.js"></script>
+    <script async="async" defer="defer" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script defer="defer" type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <script defer src="../../_static/scripts/main.js?digest=e931d09b2a40c1bb82b542effe772014573baf67"></script></head>
+  <body dir="">
+    
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+      stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z"/>
+      <line x1="4" y1="6" x2="20" y2="6" />
+      <line x1="10" y1="12" x2="20" y2="12" />
+      <line x1="6" y1="18" x2="20" y2="18" />
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+      class="feather feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+      class="feather feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
+
+<div class="announcement">
+  <aside class="announcement-content">
+     
+        <a style="text-decoration: none; color: white;" 
+           href="https://wisconsinautonomous.org">
+           <img src="https://github.com/WisconsinAutonomous/wa-resources/blob/master/Images/wa-dark.png?raw=true" 
+                style="vertical-align: middle; display: inline; padding-right: 7.5px; height: 20px;"/>
+           Checkout our website!
+        </a>
+     
+  </aside>
+</div>
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../index.html"><div class="brand">Wisconsin Autonomous Simulator 1.0.5 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="../../_static/wa-light.png" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../../_static/wa-dark.png" alt="Dark Logo"/>
+  </div>
+  
+  
+</a><form class="sidebar-search-container" method="get" action="../../search.html">
+  <input class="sidebar-search" placeholder=Search name="q">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../background.html">Background</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../installation/index.html">Installation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label for="toctree-checkbox-1"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../installation/unix.html">Unix Installation Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../installation/windows.html">Windows Installation Guide</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label for="toctree-checkbox-2"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/centerline_path.html">Creating a Centerline Path Planner</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/custom-controller.html">Creating a Custom Controller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/writing-a-json.html">Writing a JSON Specification File</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../autoapi/wa_simulator/index.html">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label for="toctree-checkbox-3"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../autoapi/wa_simulator/chrono/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label for="toctree-checkbox-4"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../autoapi/wa_simulator/chrono/controller/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.controller</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../autoapi/wa_simulator/chrono/environment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.environment</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../autoapi/wa_simulator/chrono/sensor/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.sensor</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../autoapi/wa_simulator/chrono/system/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.system</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../autoapi/wa_simulator/chrono/utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.utils</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../autoapi/wa_simulator/chrono/vehicle/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.vehicle</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../autoapi/wa_simulator/chrono/visualization/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.visualization</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/wa_simulator/base/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.base</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/wa_simulator/bridge/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.bridge</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/wa_simulator/controller/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.controller</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/wa_simulator/core/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.core</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/wa_simulator/environment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.environment</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/wa_simulator/path/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.path</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/wa_simulator/sensor/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.sensor</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/wa_simulator/simulation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.simulation</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/wa_simulator/system/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.system</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/wa_simulator/track/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.track</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/wa_simulator/utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.utils</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/wa_simulator/vehicle/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.vehicle</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/wa_simulator/vehicle_inputs/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.vehicle_inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/wa_simulator/visualization/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.visualization</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
+</ul>
+<p><span class="caption-text">External Links</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://pypi.org/project/wa-simulator/">PyPI</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/WisconsinAutonomous/wa_simulator">Github</a></li>
+</ul>
+
+</div>
+</div>
+      </div>
+      
+    </div>
+  </aside>
+  <main class="main">
+    <div class="content">
+      <article role="main">
+        <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+        </label>
+        <h1>Source code for wa_simulator.bridge</h1><div class="highlight"><pre>
+<span></span><span class="sd">"""</span>
+<span class="sd">Wisconsin Autonomous - https://www.wisconsinautonomous.org</span>
+
+<span class="sd">Copyright (c) 2021 wisconsinautonomous.org</span>
+<span class="sd">All rights reserved.</span>
+
+<span class="sd">Use of this source code is governed by a BSD-style license that can be found</span>
+<span class="sd">in the LICENSE file at the top level of the repo</span>
+<span class="sd">"""</span>
+
+<span class="c1"># WA Simulator</span>
+<span class="kn">from</span> <span class="nn">wa_simulator.base</span> <span class="k">import</span> <span class="n">WABase</span>
+<span class="kn">from</span> <span class="nn">wa_simulator.utils</span> <span class="k">import</span> <span class="n">_check_type</span>
+
+<span class="c1"># External Imports</span>
+<span class="kn">import</span> <span class="nn">multiprocessing.connection</span> <span class="k">as</span> <span class="nn">mp</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Any</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+
+
+<div class="viewcode-block" id="WABridge"><a class="viewcode-back" href="../../autoapi/wa_simulator/bridge/index.html#wa_simulator.bridge.WABridge">[docs]</a><span class="k">class</span> <span class="nc">WABridge</span><span class="p">(</span><span class="n">WABase</span><span class="p">):</span>
+    <span class="sd">"""Base class for a bridge interface between the simulator and an external entity</span>
+
+<span class="sd">    There are many applications where it's desired that `wa_simulator` communicates with external entities.</span>
+<span class="sd">    For example, `Robot Operating System or ROS &lt;https://www.ros.org/&gt;_` is a popular tool for writing</span>
+<span class="sd">    robotic control code. Simulation is a very valuable tool for testing, so being able to communicate</span>
+<span class="sd">    with these external control stacks is an important feature.</span>
+
+<span class="sd">    For each external entity that wants to be connected to, a new bridge object must be created. The `multiprocessing.connection` library</span>
+<span class="sd">    will be used and it's `Listener &lt;https://docs.python.org/3/library/multiprocessing.html#multiprocessing.connection.Listener&gt;_` class.</span>
+<span class="sd">    The messages will be sent as dictionaries of data and messages to be sent at each timestep will be accumulated to be sent as one large message.</span>
+
+<span class="sd">    Message types are dynamic in types, form and structure; however, there are a few rules that must be abided by. First, sender names must be unique. The</span>
+<span class="sd">    name will be used as the message identifier in the dictionary. Second, the structure of the message types will be infered, if possible. Otherwise, they must be</span>
+<span class="sd">    explicitely provided in the calling method when adding the sender.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        system (WASystem): The system used to manage the simulation</span>
+<span class="sd">        hostname (str): The hostname of the client entity</span>
+<span class="sd">        port (int): The port to attach to</span>
+<span class="sd">        use_ack (bool): Specify whether to use an acknowledgement when sending a message to ensure the client got the message. Defaults to True.</span>
+<span class="sd">        is_synchronous(bool): Specify whether the sender and receivers are in synchronous mode. If yes, on each step, a message will be sent and received. If not, will not wait for a message to be received.</span>
+<span class="sd">        ignore_unknown_messages (bool): If a message is received with an unknown name (not registered with :meth:`~add_receiver`), ignore it. Defaults to True. If False, will raise an error.</span>
+<span class="sd">    """</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">system</span><span class="p">:</span> <span class="s1">'WASystem'</span><span class="p">,</span> <span class="n">hostname</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">'localhost'</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5555</span><span class="p">,</span> <span class="n">server</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">use_ack</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">is_synchronous</span> <span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">ignore_unknown_messages</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_system</span> <span class="o">=</span> <span class="n">system</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_hostname</span> <span class="o">=</span> <span class="n">hostname</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_port</span> <span class="o">=</span> <span class="n">port</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_address</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_hostname</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_port</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_server</span> <span class="o">=</span> <span class="n">server</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_use_ack</span> <span class="o">=</span> <span class="n">use_ack</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_is_synchronous</span> <span class="o">=</span> <span class="n">is_synchronous</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_timeout</span> <span class="o">=</span> <span class="mi">2</span> <span class="c1"># Default timeout is 2 seconds</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ignore_unknown_messages</span> <span class="o">=</span> <span class="n">ignore_unknown_messages</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_senders</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">WABase</span><span class="p">,</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">WABase</span><span class="p">],</span> <span class="nb">dict</span><span class="p">]]]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_senders</span><span class="p">[</span><span class="s2">"system"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_system</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_message_generators</span><span class="p">[</span><span class="s1">'WASystem'</span><span class="p">])</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_receivers</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Any</span><span class="p">],</span> <span class="nb">dict</span><span class="p">]]]</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="WABridge.connect"><a class="viewcode-back" href="../../autoapi/wa_simulator/bridge/index.html#wa_simulator.bridge.WABridge.connect">[docs]</a>    <span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">"""Method that connects with the external entity.</span>
+
+<span class="sd">        Typically called by :class:`~WASimulationManager`, but okay to call outside. Will only connect to one client at</span>
+<span class="sd">        the hostname and port provided to the constructor.</span>
+
+<span class="sd">        If this bridge is a server, a ``multiprocessing.Connection.Listener`` object is used. Otherwise, a ``multiprocessing.Connection.Client`` object is used.</span>
+<span class="sd">        See the `Listener &lt;https://docs.python.org/3/library/multiprocessing.html#multiprocessing.connection.Listener&gt;_` </span>
+<span class="sd">        or `Client &lt;https://docs.python.org/3/library/multiprocessing.html#multiprocessing.connection.Client&gt;_` docs to see possible errors that may be raised.</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_server</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_listener</span> <span class="o">=</span> <span class="n">mp</span><span class="o">.</span><span class="n">Listener</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_address</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_listener</span><span class="o">.</span><span class="n">accept</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span> <span class="o">=</span> <span class="n">mp</span><span class="o">.</span><span class="n">Client</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_address</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="WABridge.add_sender"><a class="viewcode-back" href="../../autoapi/wa_simulator/bridge/index.html#wa_simulator.bridge.WABridge.add_sender">[docs]</a>    <span class="k">def</span> <span class="nf">add_sender</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">component</span><span class="p">:</span> <span class="n">WABase</span><span class="p">,</span> <span class="n">message_generator</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">WABase</span><span class="p">],</span> <span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">"""Adds a sender component that has outgoing messages</span>
+
+<span class="sd">        To actually send data from the simulation to the external client, this method (or it's derivatives) must be called</span>
+<span class="sd">        to explicitly tell the bridge what information to send. </span>
+
+<span class="sd">        The format of the outgoing message is inferred, unless ``message_generator`` is not ``None``. If the message structure cannot</span>
+<span class="sd">        be inferred and ``message_generator`` is ``None``, a ``RuntimeError`` will be raised.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name (str): The unique message name/identifier (think ROS topic)</span>
+<span class="sd">            component (WABase): The :class:`~WABase` component the message data will be generated from</span>
+<span class="sd">            message_generator (Callable[[WABase], dict]): A custom method that generates a dict message to be sent from the specified component</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: if ``name`` is not unique (there is already a message identifier with that name)</span>
+<span class="sd">            RuntimeError: If the message structure cannot be inferred and a message generator method is not provided</span>
+<span class="sd">        """</span>
+
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_senders</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="n">f</span><span class="s2">"Sender must have a unique name. </span><span class="si">{name}</span><span class="s2"> already exists."</span><span class="p">)</span>
+
+        <span class="n">_class_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_base_name</span><span class="p">(</span><span class="n">component</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">_class_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_class_name</span> <span class="o">=</span> <span class="n">component</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
+        <span class="k">if</span> <span class="n">_class_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_message_generators</span> <span class="ow">and</span> <span class="n">message_generator</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="n">f</span><span class="s2">"The outgoing message structure cannot be inferred for '</span><span class="si">{_class_name}</span><span class="s2">' and a message generator method was not provided."</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">message_generator</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">message_generator</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_message_generators</span><span class="p">[</span><span class="n">_class_name</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_senders</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">component</span><span class="p">,</span> <span class="n">message_generator</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="WABridge.add_receiver"><a class="viewcode-back" href="../../autoapi/wa_simulator/bridge/index.html#wa_simulator.bridge.WABridge.add_receiver">[docs]</a>    <span class="k">def</span> <span class="nf">add_receiver</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">element</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">message_parser</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Any</span><span class="p">,</span> <span class="nb">dict</span><span class="p">],</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">"""Adds a receiver element that has incoming messages</span>
+
+<span class="sd">        The ``name`` need not be unique from any senders in the class, only from other receivers.</span>
+
+<span class="sd">        "element" is used instead of "component" because the element doesn't necessarily need to be a WABase derived class.</span>
+
+<span class="sd">        On each synchronization step, the receiver message parse method will be called. To have the listener be polled for messages,</span>
+<span class="sd">        a single receiver must be added. Further, for the receiver parser to be called, the name attached to the message and the receiver</span>
+<span class="sd">        added here must match. If there is no match, the message will be ignored (unless ``ignore_unknown_messages`` is set to fault in</span>
+<span class="sd">        the constructor).</span>
+
+<span class="sd">        The format of the incoming message is inferred, unless ``message_parser`` is not ``None``. If the message structure cannot</span>
+<span class="sd">        be inferred and ``message_parser`` is ``None``, a ``RuntimeError`` will be raised.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name (str): The unique message name/identifier (think ROS topic)</span>
+<span class="sd">            element (Any): The element the message data will be used to populate or change. Should be an object so it's passed by reference.</span>
+<span class="sd">            message_parser (Callable[[Any, dict], Any]): A custom method that parses the received messag</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: if ``name`` is not unique (there is already a message identifier with that name)</span>
+<span class="sd">            RuntimeError: If the message structure cannot be inferred and a message parser method is not provided</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_receivers</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="n">f</span><span class="s2">"Receiver must have a unique name. </span><span class="si">{name}</span><span class="s2"> already exists."</span><span class="p">)</span>
+
+        <span class="n">_class_name</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
+        <span class="k">if</span> <span class="n">_class_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_message_parsers</span> <span class="ow">and</span> <span class="n">message_parser</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="n">f</span><span class="s2">"The incoming message structure cannot be inferred for '</span><span class="si">{_class_name}</span><span class="s2">' and a message parser method was not provided."</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">message_parser</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">message_parser</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_message_parsers</span><span class="p">[</span><span class="n">_class_name</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_receivers</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">message_parser</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="WABridge.synchronize"><a class="viewcode-back" href="../../autoapi/wa_simulator/bridge/index.html#wa_simulator.bridge.WABridge.synchronize">[docs]</a>    <span class="k">def</span> <span class="nf">synchronize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="sd">"""Synchronizes with the external entity</span>
+
+<span class="sd">        Will accumulate the messages to be sent and then send them. And then will receive any messages</span>
+<span class="sd">        from receivers.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            RuntimeError: If an acknowledgement is not received from the client after data is sent or it is corrupt.</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_server</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_receive</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_send</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="WABridge.advance"><a class="viewcode-back" href="../../autoapi/wa_simulator/bridge/index.html#wa_simulator.bridge.WABridge.advance">[docs]</a>    <span class="k">def</span> <span class="nf">advance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">step</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="sd">"""Advance the state of the bridge</span>
+
+<span class="sd">        Will receive any messages from the client, if there are registered receivers.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            RuntimeError: Received an unknown message (only if ignore_unknown_messages is False)</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_server</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_send</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_receive</span><span class="p">()</span></div>
+
+    <span class="k">def</span> <span class="nf">_send</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">"Bridge was not been connected to client. Please call connect!"</span><span class="p">)</span>
+
+        <span class="c1"># Send messages</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="p">(</span><span class="n">component</span><span class="p">,</span> <span class="n">message_generator</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_senders</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">message</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">name</span><span class="p">:</span> <span class="n">message_generator</span><span class="p">(</span><span class="n">component</span><span class="p">)})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_use_ack</span><span class="p">:</span>
+            <span class="c1"># Receive an acknowledgement that we got the message</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span><span class="o">.</span><span class="n">poll</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_timeout</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                    <span class="s2">"Failed to receive acknowledgement from client."</span><span class="p">)</span>
+            <span class="n">ack</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span><span class="o">.</span><span class="n">recv</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">ack</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">"Acknowledgement is corrupted."</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">_receive</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Receive messages</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_receivers</span><span class="p">):</span>
+            <span class="c1"># If in synchronous mode, throw an error if we don't receive a message</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_synchronous</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span><span class="o">.</span><span class="n">poll</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_timeout</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">"Failed to receive acknowledgement from client."</span><span class="p">)</span>
+
+            <span class="c1"># If not in synchronous mode, make sure we have received a message</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_synchronous</span> <span class="ow">or</span> <span class="p">(</span><span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_synchronous</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span><span class="o">.</span><span class="n">poll</span><span class="p">()):</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span><span class="o">.</span><span class="n">recv</span><span class="p">()</span>
+                <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">message</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_receivers</span><span class="p">:</span>
+                        <span class="n">element</span><span class="p">,</span> <span class="n">message_parser</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_receivers</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+                        <span class="n">message_parser</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
+                    <span class="k">elif</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ignore_unknown_messages</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                            <span class="s2">"Received unknown message. Choosing not to ignore."</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_use_ack</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<div class="viewcode-block" id="WABridge.is_ok"><a class="viewcode-back" href="../../autoapi/wa_simulator/bridge/index.html#wa_simulator.bridge.WABridge.is_ok">[docs]</a>    <span class="k">def</span> <span class="nf">is_ok</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="WABridge.set_timeout"><a class="viewcode-back" href="../../autoapi/wa_simulator/bridge/index.html#wa_simulator.bridge.WABridge.set_timeout">[docs]</a>    <span class="k">def</span> <span class="nf">set_timeout</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="sd">"""Set the timeout for the acknowledgement</span>
+
+<span class="sd">        If acknowledgements are utilized, the timeout value is used to determine how long to wait before throwing an error that an ack was never received. This </span>
+<span class="sd">        method provides the ability to set this value.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            timeout (bool): The new timeout value</span>
+<span class="sd">        """</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_timeout</span> <span class="o">=</span> <span class="n">timeout</span></div>
+
+    <span class="k">def</span> <span class="nf">_get_base_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">component</span><span class="p">):</span>
+        <span class="sd">"""</span>
+<span class="sd">        Attempts to grab the base class immediately following WABase.</span>
+<span class="sd">        Like we want WAVehicle rather than WALinearKinematicVehicle</span>
+<span class="sd">        NOTE: did not test throughly</span>
+<span class="sd">        """</span>
+        <span class="n">mro</span> <span class="o">=</span> <span class="n">component</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__mro__</span>  <span class="c1"># method resolution</span>
+        <span class="n">l</span> <span class="o">=</span> <span class="n">mro</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">mro</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">l</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'WABase'</span> <span class="ow">and</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">WABase</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">c</span><span class="o">.</span><span class="vm">__name__</span>
+            <span class="n">l</span> <span class="o">=</span> <span class="n">c</span>
+
+    <span class="c1"># -----------------------------</span>
+    <span class="c1"># Inferrable message generators</span>
+    <span class="c1"># -----------------------------</span>
+    <span class="n">_message_generators</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">WABase</span><span class="p">],</span> <span class="nb">dict</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">def</span> <span class="nf">_message_generator_WASystem</span><span class="p">(</span><span class="n">component</span><span class="p">:</span> <span class="s1">'WASystem'</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"WASystem"</span><span class="p">,</span>
+            <span class="s2">"data"</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">"time"</span><span class="p">:</span> <span class="n">component</span><span class="o">.</span><span class="n">time</span><span class="p">,</span>
+                    <span class="s2">"step_number"</span><span class="p">:</span> <span class="n">component</span><span class="o">.</span><span class="n">step_number</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="n">_message_generators</span><span class="p">[</span><span class="s1">'WASystem'</span><span class="p">]</span> <span class="o">=</span> <span class="n">_message_generator_WASystem</span>
+
+    <span class="k">def</span> <span class="nf">_message_generator_WAVehicle</span><span class="p">(</span><span class="n">component</span><span class="p">:</span> <span class="s1">'WAVehicle'</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"WAVehicle"</span><span class="p">,</span>
+            <span class="s2">"data"</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">"position"</span><span class="p">:</span> <span class="n">component</span><span class="o">.</span><span class="n">get_pos</span><span class="p">(),</span>
+                    <span class="s2">"rotation"</span><span class="p">:</span> <span class="n">component</span><span class="o">.</span><span class="n">get_rot</span><span class="p">(),</span>
+                    <span class="s2">"linear_velocity"</span><span class="p">:</span> <span class="n">component</span><span class="o">.</span><span class="n">get_pos_dt</span><span class="p">(),</span>
+                    <span class="s2">"angular_velocity"</span><span class="p">:</span> <span class="n">component</span><span class="o">.</span><span class="n">get_rot_dt</span><span class="p">(),</span>
+                    <span class="s2">"linear_acceleration"</span><span class="p">:</span> <span class="n">component</span><span class="o">.</span><span class="n">get_pos_dtdt</span><span class="p">(),</span>
+                    <span class="s2">"angular_acceleration"</span><span class="p">:</span> <span class="n">component</span><span class="o">.</span><span class="n">get_rot_dtdt</span><span class="p">(),</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="n">_message_generators</span><span class="p">[</span><span class="s1">'WAVehicle'</span><span class="p">]</span> <span class="o">=</span> <span class="n">_message_generator_WAVehicle</span>
+
+    <span class="k">def</span> <span class="nf">_message_generator_WAIMUSensor</span><span class="p">(</span><span class="n">component</span><span class="p">:</span> <span class="s1">'WAIMUSensor'</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">component</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">data</span><span class="p">:</span>
+            <span class="c1"># The sensor may not have any data available, so it may return None</span>
+            <span class="c1"># If that's the case, return an empty dict</span>
+            <span class="k">return</span> <span class="p">{}</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"WAIMUSensor"</span><span class="p">,</span>
+            <span class="s2">"data"</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">"linear_acceleration"</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                <span class="s2">"angular_velocity"</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                <span class="s2">"orientation"</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="n">_message_generators</span><span class="p">[</span><span class="s1">'WAIMUSensor'</span><span class="p">]</span> <span class="o">=</span> <span class="n">_message_generator_WAIMUSensor</span>
+
+    <span class="k">def</span> <span class="nf">_message_generator_WAGPSSensor</span><span class="p">(</span><span class="n">component</span><span class="p">:</span> <span class="s1">'WAGPSSensor'</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">component</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">data</span><span class="p">:</span>
+            <span class="c1"># The sensor may not have any data available, so it may return None</span>
+            <span class="c1"># If that's the case, return an empty dict</span>
+            <span class="k">return</span> <span class="p">{}</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"WAGPSSensor"</span><span class="p">,</span>
+            <span class="s2">"data"</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">"latitude"</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                <span class="s2">"longitude"</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                <span class="s2">"altitude"</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="n">_message_generators</span><span class="p">[</span><span class="s1">'WAGPSSensor'</span><span class="p">]</span> <span class="o">=</span> <span class="n">_message_generator_WAGPSSensor</span>
+
+    <span class="k">def</span> <span class="nf">_message_generator_WAVehicleInputs</span><span class="p">(</span><span class="n">component</span><span class="p">:</span> <span class="s1">'WAVehicleInputs'</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"WAVehicleInputs"</span><span class="p">,</span>
+            <span class="s2">"data"</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">"steering"</span><span class="p">:</span> <span class="n">component</span><span class="o">.</span><span class="n">steering</span><span class="p">,</span>
+                <span class="s2">"throttle"</span><span class="p">:</span> <span class="n">component</span><span class="o">.</span><span class="n">throttle</span><span class="p">,</span>
+                <span class="s2">"braking"</span><span class="p">:</span> <span class="n">component</span><span class="o">.</span><span class="n">braking</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="n">_message_generators</span><span class="p">[</span><span class="s1">'WAVehicleInputs'</span><span class="p">]</span> <span class="o">=</span> <span class="n">_message_generator_WAVehicleInputs</span>
+
+    <span class="c1"># --------------------------</span>
+    <span class="c1"># Inferrable message parsers</span>
+    <span class="c1"># --------------------------</span>
+    <span class="n">_message_parsers</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Any</span><span class="p">,</span> <span class="nb">dict</span><span class="p">],</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">def</span> <span class="nf">_message_parser_WAVehicleInputs</span><span class="p">(</span><span class="n">element</span><span class="p">:</span> <span class="s1">'WAVehicleInputs'</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+        <span class="n">element</span><span class="o">.</span><span class="n">steering</span> <span class="o">=</span> <span class="n">message</span><span class="p">[</span><span class="s2">"data"</span><span class="p">][</span><span class="s2">"steering"</span><span class="p">]</span>
+        <span class="n">element</span><span class="o">.</span><span class="n">throttle</span> <span class="o">=</span> <span class="n">message</span><span class="p">[</span><span class="s2">"data"</span><span class="p">][</span><span class="s2">"throttle"</span><span class="p">]</span>
+        <span class="n">element</span><span class="o">.</span><span class="n">braking</span> <span class="o">=</span> <span class="n">message</span><span class="p">[</span><span class="s2">"data"</span><span class="p">][</span><span class="s2">"braking"</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">element</span>
+    <span class="n">_message_parsers</span><span class="p">[</span><span class="s1">'WAVehicleInputs'</span><span class="p">]</span> <span class="o">=</span> <span class="n">_message_parser_WAVehicleInputs</span>
+
+    <span class="k">def</span> <span class="nf">_message_parser_dict</span><span class="p">(</span><span class="n">element</span><span class="p">:</span> <span class="s1">'dict'</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+        <span class="n">element</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">element</span>
+    <span class="n">_message_parsers</span><span class="p">[</span><span class="s1">'dict'</span><span class="p">]</span> <span class="o">=</span> <span class="n">_message_parser_dict</span></div>
+</pre></div>
+      </article>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+
+        <div class="related-information">
+              Copyright &#169; 2021, Wisconsin Autonomous
+            |
+            Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
+              and
+              <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+              <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </main>
+</div>
+  </body>
+</html>

@@ -2,7 +2,7 @@
 <html class="no-js">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="wa_simulator.core" href="../core/index.html" /><link rel="prev" title="wa_simulator.base" href="../base/index.html" />
+<link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="wa_simulator.core" href="../core/index.html" /><link rel="prev" title="wa_simulator.bridge" href="../bridge/index.html" />
 
     <link rel="shortcut icon" href="../../../_static/wa-dark-favicon.png"/><meta name="generator" content="sphinx-3.4.2, furo 2020.12.30.beta24"/>
         <title>wa_simulator.controller - Wisconsin Autonomous Simulator 1.0.5 documentation</title>
@@ -156,6 +156,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../base/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.base</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../bridge/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.bridge</span></code></a></li>
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.controller</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../core/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.core</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../environment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.environment</span></code></a></li>
@@ -203,6 +204,9 @@
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#wa_simulator.controller.WAMatplotlibController" title="wa_simulator.controller.WAMatplotlibController"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WAMatplotlibController</span></code></a></p></td>
 <td><p>Controls a vehicle via keyboard input from a matplotlib figure</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#wa_simulator.controller.WAROS2Controller" title="wa_simulator.controller.WAROS2Controller"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WAROS2Controller</span></code></a></p></td>
+<td><p>Controller that communicates with a ROS2 control stack</p></td>
 </tr>
 </tbody>
 </table></div>
@@ -317,6 +321,51 @@ False.</p>
 </dl>
 </dd></dl>
 </dd></dl>
+<dl class="py class">
+<dt id="wa_simulator.controller.WAROS2Controller">
+<em class="property">class </em><code class="sig-name descname">WAROS2Controller</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">system</span><span class="p">:</span> <span class="n">WASystem</span></em>, <em class="sig-param"><span class="n">vehicle_inputs</span><span class="p">:</span> <span class="n">WAVehicleInputs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/wa_simulator/controller.html#WAROS2Controller"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.controller.WAROS2Controller" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#wa_simulator.controller.WAController" title="wa_simulator.controller.WAController"><code class="xref py py-class docutils literal notranslate"><span class="pre">wa_simulator.controller.WAController</span></code></a></p>
+<p>Controller that communicates with a ROS2 control stack</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>ImportError</strong> – Will be raised if ROS 2 is not found on the system.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="wa_simulator.controller.WAROS2Controller.synchronize">
+<code class="sig-name descname">synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">time</span><span class="p">:</span> <span class="n">float</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/wa_simulator/controller.html#WAROS2Controller.synchronize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.controller.WAROS2Controller.synchronize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the state of this component at the current time.</p>
+<p>The primary reason to decouple the update method into two separate calls (i.e. <a class="reference internal" href="#wa_simulator.controller.WAROS2Controller.synchronize" title="wa_simulator.controller.WAROS2Controller.synchronize"><code class="xref py py-meth docutils literal notranslate"><span class="pre">synchronize()</span></code></a> and <a class="reference internal" href="#wa_simulator.controller.WAROS2Controller.advance" title="wa_simulator.controller.WAROS2Controller.advance"><code class="xref py py-meth docutils literal notranslate"><span class="pre">advance()</span></code></a>)
+is to provide flexibility to the user and is essentially semantic. In most simple cases, a user will only need one of the two.
+Furthermore, can only use <a class="reference internal" href="#wa_simulator.controller.WAROS2Controller.advance" title="wa_simulator.controller.WAROS2Controller.advance"><code class="xref py py-meth docutils literal notranslate"><span class="pre">advance()</span></code></a> if they prefer and just update their own <code class="code docutils literal notranslate"><span class="pre">time</span></code> variable. Given the unknown use cases
+for the simulator at the time of writing, it was chosen to provide two different methods with similar functionality as to allow
+the user to choose their desired implementation, rather than the writers of this package.</p>
+<p>As opposed to <a class="reference internal" href="#wa_simulator.controller.WAROS2Controller.advance" title="wa_simulator.controller.WAROS2Controller.advance"><code class="xref py py-meth docutils literal notranslate"><span class="pre">advance()</span></code></a>, this method gets the current time of the simulation. As menthioned earlier,
+<a class="reference internal" href="#wa_simulator.controller.WAROS2Controller.advance" title="wa_simulator.controller.WAROS2Controller.advance"><code class="xref py py-meth docutils literal notranslate"><span class="pre">advance()</span></code></a> and a user defined <cite>time</cite> variable could be used to instead to hold the current state of the simulation. However,
+to aid in generality of the package, this method is provided to simply provide the current time of the simulation to the user in a decoupled
+manner from the <a class="reference internal" href="#wa_simulator.controller.WAROS2Controller.advance" title="wa_simulator.controller.WAROS2Controller.advance"><code class="xref py py-meth docutils literal notranslate"><span class="pre">advance()</span></code></a> method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>time</strong> (<em>float</em>) – The current time to synchronize to</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.controller.WAROS2Controller.advance">
+<code class="sig-name descname">advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">step</span><span class="p">:</span> <span class="n">float</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/wa_simulator/controller.html#WAROS2Controller.advance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.controller.WAROS2Controller.advance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Advance the state of this component by the specified time step.</p>
+<p>The primary reason to decouple the update method into two separate calls (i.e. <a class="reference internal" href="#wa_simulator.controller.WAROS2Controller.synchronize" title="wa_simulator.controller.WAROS2Controller.synchronize"><code class="xref py py-meth docutils literal notranslate"><span class="pre">synchronize()</span></code></a> and <a class="reference internal" href="#wa_simulator.controller.WAROS2Controller.advance" title="wa_simulator.controller.WAROS2Controller.advance"><code class="xref py py-meth docutils literal notranslate"><span class="pre">advance()</span></code></a>)
+is to provide flexibility to the user and is essentially semantic. In most simple cases, a user will only need one of the two.
+Furthermore, can only use <a class="reference internal" href="#wa_simulator.controller.WAROS2Controller.advance" title="wa_simulator.controller.WAROS2Controller.advance"><code class="xref py py-meth docutils literal notranslate"><span class="pre">advance()</span></code></a> if they prefer and just update their own <code class="code docutils literal notranslate"><span class="pre">time</span></code> variable. Given the unknown use cases
+for the simulator at the time of writing, it was chosen to provide two different methods with similar functionality as to allow
+the user to choose their desired implementation, rather than the writers of this package.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>step</strong> (<em>float</em>) – The step size to advance this component by</p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
 </section>
 
       </article>
@@ -332,14 +381,14 @@ False.</p>
               </div>
               <svg><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="../base/index.html">
+          <a class="prev-page" href="../bridge/index.html">
               <svg><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.base</span></code></div>
+                <div class="title"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.bridge</span></code></div>
                 
               </div>
             </a>
@@ -383,6 +432,11 @@ False.</p>
 </li>
 <li><a class="reference internal" href="#wa_simulator.controller.WAMatplotlibController">WAMatplotlibController</a><ul>
 <li><a class="reference internal" href="#wa_simulator.controller.WAMatplotlibController.synchronize">synchronize</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAROS2Controller">WAROS2Controller</a><ul>
+<li><a class="reference internal" href="#wa_simulator.controller.WAROS2Controller.synchronize">synchronize</a></li>
+<li><a class="reference internal" href="#wa_simulator.controller.WAROS2Controller.advance">advance</a></li>
 </ul>
 </li>
 </ul>

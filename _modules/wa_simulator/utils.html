@@ -155,6 +155,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../autoapi/wa_simulator/base/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.base</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/wa_simulator/bridge/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.bridge</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../autoapi/wa_simulator/controller/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.controller</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../autoapi/wa_simulator/core/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.core</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../autoapi/wa_simulator/environment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.environment</span></code></a></li>
@@ -204,6 +205,7 @@
 <span class="c1"># Data loading utilities</span>
 <span class="c1"># ----------------------</span>
 
+<span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">pathlib</span>
 <span class="kn">import</span> <span class="nn">contextlib</span>
 
@@ -314,6 +316,70 @@
     <span class="k">yield</span>
     <span class="n">_DATA_DIRECTORY</span> <span class="o">=</span> <span class="n">_OLD_DATA_DIRECTORY</span></div>
 
+<span class="k">def</span> <span class="nf">_file_exists</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">throw_error</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="sd">"""</span>
+<span class="sd">    Check if the passed filename is an actual file</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        filename (str): The filename to check</span>
+<span class="sd">        throw_error (bool): If True, will throw an error if the file doesn't exist. Defaults to False.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        bool: True if the file exists, false otherwise</span>
+
+<span class="sd">    Throws:</span>
+<span class="sd">        FileNotFoundError: If filename is not a file and throw_error is set to true    </span>
+<span class="sd">    """</span>
+    <span class="n">is_file</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span><span class="o">.</span><span class="n">is_file</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">throw_error</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">is_file</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="n">f</span><span class="s2">"</span><span class="si">{filename}</span><span class="s2"> is not a file."</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">is_file</span>
+
+
+<span class="k">def</span> <span class="nf">_get_filetype</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">"""</span>
+<span class="sd">    Get the filetype using the magic library.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        filename (str): The filename to check</span>
+<span class="sd">        kwargs (dict): Additional keyed parameters to the `from_file` method</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: The file type. See libmagic documentation for supported types.</span>
+<span class="sd">    """</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">import</span> <span class="nn">magic</span>
+    <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">fatal</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+        <span class="n">exit</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">magic</span><span class="o">.</span><span class="n">from_file</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_get_file_extension</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">"""</span>
+<span class="sd">    Get the extension for a file</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        filename (str): The file to get the extension for</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: The file extension</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span><span class="o">.</span><span class="n">suffix</span>
+
+
+<span class="k">def</span> <span class="nf">_read_text</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">"""</span>
+<span class="sd">    Read a file and return the text inside that file as a string</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        filename (str): The file to read</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: The text inside filename</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span><span class="o">.</span><span class="n">read_text</span><span class="p">()</span>
+
 <span class="c1"># -----------------------</span>
 <span class="c1"># Type checking utilities</span>
 <span class="c1"># -----------------------</span>
@@ -385,10 +451,12 @@
         <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="n">f</span><span class="s2">"_check_field: '</span><span class="si">{field}</span><span class="s2">' is not in the passed json"</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">j</span><span class="p">[</span><span class="n">field</span><span class="p">]</span> <span class="o">!=</span> <span class="n">value</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s2">"_check_field: was expecting '</span><span class="si">{value}</span><span class="s2">' for '</span><span class="si">{field}</span><span class="s2">', but got '</span><span class="si">{j[field]}</span><span class="s2">'."</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="n">f</span><span class="s2">"_check_field: was expecting '</span><span class="si">{value}</span><span class="s2">' for '</span><span class="si">{field}</span><span class="s2">', but got '</span><span class="si">{j[field]}</span><span class="s2">'."</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">field_type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">j</span><span class="p">[</span><span class="n">field</span><span class="p">],</span> <span class="n">field_type</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">f</span><span class="s2">"_check_field: was expecting '</span><span class="si">{field}</span><span class="s2">' to be '</span><span class="si">{field_type}</span><span class="s2">', but was '{type(j[field])}'."</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="n">f</span><span class="s2">"_check_field: was expecting '</span><span class="si">{field}</span><span class="s2">' to be '</span><span class="si">{field_type}</span><span class="s2">', but was '{type(j[field])}'."</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">allowed_values</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">_check_field_allowed_values</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">allowed_values</span><span class="p">)</span>
@@ -411,7 +479,156 @@
     <span class="c1"># Make sure each value is present in the allowed_values list</span>
     <span class="c1"># Ignore dicts cause those are objects, allow parsing of those separately</span>
     <span class="k">if</span> <span class="n">j</span><span class="p">[</span><span class="n">field</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">allowed_values</span> <span class="ow">and</span> <span class="n">j</span><span class="p">[</span><span class="n">field</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">dict</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s2">"_check_field_allowed_values: '</span><span class="si">{j[field]}</span><span class="s2">' is not an allowed value"</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="n">f</span><span class="s2">"_check_field_allowed_values: '</span><span class="si">{j[field]}</span><span class="s2">' is not an allowed value"</span><span class="p">)</span>
+
+<span class="c1"># ------------------</span>
+<span class="c1"># Data Logging Utils</span>
+<span class="c1"># ------------------</span>
+
+
+<span class="c1"># Create logger</span>
+<span class="n">LOGGER</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="c1"># Create a handler with the desired format</span>
+<span class="n">DEFAULT_LOGGING_FORMAT</span> <span class="o">=</span> <span class="s1">'</span><span class="si">%(levelname)-8s</span><span class="s1"> :: </span><span class="si">%(module)s</span><span class="s1">.</span><span class="si">%(funcName)-10s</span><span class="s1"> :: </span><span class="si">%(message)s</span><span class="s1">'</span>
+<span class="n">CONSOLE_HANDLER</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">StreamHandler</span><span class="p">()</span>
+<span class="n">CONSOLE_HANDLER</span><span class="o">.</span><span class="n">setFormatter</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="p">(</span><span class="n">fmt</span><span class="o">=</span><span class="n">DEFAULT_LOGGING_FORMAT</span><span class="p">))</span>
+
+<span class="c1"># Set default logging levels</span>
+<span class="n">DEFAULT_LOGGING_LEVEL</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span>
+<span class="n">CONSOLE_HANDLER</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">)</span>
+<span class="n">LOGGER</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">DEFAULT_LOGGING_LEVEL</span><span class="p">)</span>
+
+<span class="c1"># Add the handler to the logger</span>
+<span class="n">LOGGER</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">CONSOLE_HANDLER</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="set_verbosity"><a class="viewcode-back" href="../../autoapi/wa_simulator/utils/index.html#wa_simulator.utils.set_verbosity">[docs]</a><span class="k">def</span> <span class="nf">set_verbosity</span><span class="p">(</span><span class="n">verbosity</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Set the verbosity level for the logger.</span>
+<span class="sd">    Default verbosity is WARNING. ``verbosity`` should be a value</span>
+<span class="sd">    greater than 0 and less than 2 that represents how many levels below WARNING is desired.</span>
+<span class="sd">    For instance, if ``verbosity`` is 1, the new level will be INFO because</span>
+<span class="sd">    that is one below WARNING. If ``verbosity`` is 2, the new level is DEBUG.</span>
+<span class="sd">    DEBUG and INFO are currently the only two implemented</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        verbosity (int): A value between 0 and 2 that represents the number of levels below WARNING that should be used when logging.</span>
+<span class="sd">    """</span>
+
+    <span class="k">if</span> <span class="n">verbosity</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">verbosity</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="n">f</span><span class="s2">"Verbosity should be greater than 0 and less than 2. Got </span><span class="si">{verbosity}</span><span class="s2">."</span><span class="p">)</span>
+
+    <span class="n">level</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span> <span class="o">-</span> <span class="n">verbosity</span> <span class="o">*</span> <span class="mi">10</span>
+    <span class="n">LOGGER</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">level</span><span class="p">)</span>
+    <span class="n">CONSOLE_HANDLER</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">level</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">"Verbosity has been set to {logging.getLevelName(level)}"</span><span class="p">)</span></div>
+
+<span class="c1"># -----------</span>
+<span class="c1"># YAML Parser</span>
+<span class="c1"># -----------</span>
+
+<span class="c1"># External library imports</span>
+<span class="kn">import</span> <span class="nn">yaml</span>
+
+<span class="k">class</span> <span class="nc">YAMLParser</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+        <span class="c1"># Do some checks first</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_filename</span> <span class="o">=</span> <span class="n">filename</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">_file_exists</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">return</span>
+
+        <span class="c1"># Load in the file</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s2">"Reading </span><span class="si">{filename}</span><span class="s2"> as yaml..."</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s2">"Read </span><span class="si">{filename}</span><span class="s2"> as yaml."</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">contains</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">"""</span>
+<span class="sd">        Checks whether the yaml file contains a certain nested attribute</span>
+
+<span class="sd">        Ex:</span>
+<span class="sd">            ```test.yml</span>
+<span class="sd">            test:</span>
+<span class="sd">                one: red</span>
+<span class="sd">                two: blue</span>
+<span class="sd">                three: green</span>
+<span class="sd">            ```</span>
+
+<span class="sd">            parser = YAMLParser('test.yml')</span>
+<span class="sd">            parser.contains('test', 'one')          // true</span>
+<span class="sd">            parser.contains('test', 'four')         // false</span>
+<span class="sd">            parser.contains('test', 'one', 'red')   // false; only will search keys</span>
+<span class="sd">           </span>
+<span class="sd">        Args:</span>
+<span class="sd">            *args: A list of arguments to search in the file</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: Whether the nested attributes are contained in the file</span>
+<span class="sd">        """</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s2">"Checking if </span><span class="si">{self._filename}</span><span class="s2"> contains nested attributes: </span><span class="si">{args}</span><span class="s2">..."</span><span class="p">)</span>
+
+        <span class="n">_contains</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">temp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span>
+        <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">arg</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">temp</span><span class="p">:</span>
+                <span class="n">_contains</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s2">"</span><span class="si">{self._filename}</span><span class="s2"> does not contain nested attributes: </span><span class="si">{args}</span><span class="s2">."</span><span class="p">)</span>
+                <span class="k">break</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[</span><span class="n">arg</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">_contains</span>
+
+    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">throw_error</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">'Any'</span><span class="p">:</span>
+        <span class="sd">"""</span>
+<span class="sd">        Grabs the attribute at the nested location provided by args</span>
+
+<span class="sd">        Ex:</span>
+<span class="sd">            ```test.yml</span>
+<span class="sd">            test:</span>
+<span class="sd">                one: red</span>
+<span class="sd">                two: blue</span>
+<span class="sd">                three: green</span>
+<span class="sd">            ```</span>
+
+<span class="sd">            parser = YAMLParser('test.yml')</span>
+<span class="sd">            paresr.get('test', 'one')               // red </span>
+<span class="sd">            paresr.get('test', 'green', 'test')     // test</span>
+<span class="sd">            paresr.get('test', 'green')             // raises AttributeError</span>
+<span class="sd">           </span>
+<span class="sd">        Args:</span>
+<span class="sd">            *args: A list of arguments to search in the file</span>
+<span class="sd">            default (Any): The default value if the nested attribute isn't found</span>
+<span class="sd">            throw_error (bool): Throw an error if default is None and the attribute isn't found. Defaults to True.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Any: The value at the nested attributes</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            KeyError: If the nested attributes don't actually point to a value (i.e. contains(args) == False)</span>
+<span class="sd">        """</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s2">"Getting nested attributes from </span><span class="si">{self._filename}</span><span class="s2">: </span><span class="si">{args}</span><span class="s2">..."</span><span class="p">)</span>
+
+        <span class="n">temp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span>
+        <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">arg</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">temp</span><span class="p">:</span>
+                <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s2">"</span><span class="si">{self._filename}</span><span class="s2"> does not contain nested attributes: </span><span class="si">{args}</span><span class="s2">."</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">default</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s2">"Using default: </span><span class="si">{default}</span><span class="s2">."</span><span class="p">)</span>
+                <span class="n">temp</span> <span class="o">=</span> <span class="n">default</span>
+                <span class="k">break</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[</span><span class="n">arg</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">temp</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">throw_error</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="n">f</span><span class="s2">"Default is not set and the nested attribute was not found: </span><span class="si">{args}</span><span class="s2">."</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">temp</span> 
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">)</span>
 
 <span class="c1"># ---------------------</span>
 <span class="c1"># Private class helpers</span>

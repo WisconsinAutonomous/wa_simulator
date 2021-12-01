@@ -156,6 +156,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../base/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.base</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../bridge/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.bridge</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../controller/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.controller</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../core/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.core</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../environment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.environment</span></code></a></li>
@@ -215,6 +216,8 @@ buy wrapping update related method calls not necessarily relevant to the user.</
 <p>This class constructor (the <code class="code docutils literal notranslate"><span class="pre">__init__</span></code> method) has two actual arguments: <code class="code docutils literal notranslate"><span class="pre">*args</span></code> and <code class="code docutils literal notranslate"><span class="pre">**kwargs</span></code>.
 These two arguments have special attributes not relevant in other languages, so for more
 information on those, please see <a class="reference external" href="https://www.digitalocean.com/community/tutorials/how-to-use-args-and-kwargs-in-python-3">this reference</a>.</p>
+<p>If any of the components passed in are of type <code class="xref py py-class docutils literal notranslate"><span class="pre">WABridge</span></code>, the simulation manager will first wait until the bridge establishes a
+connection with it’s client. The simulation will then be allowed to progress once this has been completed.</p>
 <p>Although not techincally an error, this class should not be inherited from.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>

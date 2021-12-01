@@ -31,6 +31,9 @@
    These two arguments have special attributes not relevant in other languages, so for more
    information on those, please see `this reference <https://www.digitalocean.com/community/tutorials/how-to-use-args-and-kwargs-in-python-3>`_.
 
+   If any of the components passed in are of type :class:`~WABridge`, the simulation manager will first wait until the bridge establishes a
+   connection with it's client. The simulation will then be allowed to progress once this has been completed.
+
    Although not techincally an error, this class should not be inherited from.
 
    :Parameters: * **system** (*WASystem*) -- the system that has meta properties such as time and render step size

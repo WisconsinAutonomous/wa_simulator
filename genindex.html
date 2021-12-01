@@ -154,6 +154,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="autoapi/wa_simulator/base/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.base</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/wa_simulator/bridge/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.bridge</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="autoapi/wa_simulator/controller/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.controller</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="autoapi/wa_simulator/core/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.core</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="autoapi/wa_simulator/environment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.environment</span></code></a></li>
@@ -241,6 +242,10 @@
           <li><a href="autoapi/wa_simulator/sensor/index.html#wa_simulator.sensor.WANormalNoiseModel.add_noise">(WANormalNoiseModel method)</a>
 </li>
         </ul></li>
+        <li><a href="autoapi/wa_simulator/bridge/index.html#wa_simulator.bridge.WABridge.add_receiver">add_receiver() (WABridge method)</a>
+</li>
+        <li><a href="autoapi/wa_simulator/bridge/index.html#wa_simulator.bridge.WABridge.add_sender">add_sender() (WABridge method)</a>
+</li>
         <li><a href="autoapi/wa_simulator/chrono/sensor/index.html#wa_simulator.chrono.sensor.WAChronoSensorManager.add_sensor">add_sensor() (WAChronoSensorManager method)</a>
 
         <ul>
@@ -255,6 +260,8 @@
           <li><a href="autoapi/pid_controller/index.html#pid_controller.PIDLongitudinalController.advance">(PIDLongitudinalController method)</a>
 </li>
           <li><a href="autoapi/wa_simulator/base/index.html#wa_simulator.base.WABase.advance">(WABase method)</a>
+</li>
+          <li><a href="autoapi/wa_simulator/bridge/index.html#wa_simulator.bridge.WABridge.advance">(WABridge method)</a>
 </li>
           <li><a href="autoapi/wa_simulator/chrono/environment/index.html#wa_simulator.chrono.environment.WAChronoEnvironment.advance">(WAChronoEnvironment method)</a>
 </li>
@@ -283,6 +290,8 @@
           <li><a href="autoapi/wa_simulator/vehicle/index.html#wa_simulator.vehicle.WALinearKinematicBicycle.advance">(WALinearKinematicBicycle method)</a>
 </li>
           <li><a href="autoapi/wa_simulator/visualization/index.html#wa_simulator.visualization.WAMatplotlibVisualization.advance">(WAMatplotlibVisualization method)</a>
+</li>
+          <li><a href="autoapi/wa_simulator/controller/index.html#wa_simulator.controller.WAROS2Controller.advance">(WAROS2Controller method)</a>
 </li>
           <li><a href="autoapi/wa_simulator/sensor/index.html#wa_simulator.sensor.WASensor.advance">(WASensor method)</a>
 </li>
@@ -350,6 +359,8 @@
           <li><a href="autoapi/conf/index.html#module-conf">module</a>
 </li>
         </ul></li>
+        <li><a href="autoapi/wa_simulator/bridge/index.html#wa_simulator.bridge.WABridge.connect">connect() (WABridge method)</a>
+</li>
         <li><a href="autoapi/wa_simulator/environment/index.html#wa_simulator.environment.WAEnvironment.create_body">create_body() (WAEnvironment method)</a>
 </li>
         <li><a href="autoapi/wa_simulator/track/index.html#wa_simulator.track.create_constant_width_track">create_constant_width_track() (in module wa_simulator.track)</a>
@@ -408,14 +419,28 @@
 </li>
         </ul></li>
         <li>
+    demo_bridge_client
+
+        <ul>
+          <li><a href="autoapi/demo_bridge_client/index.html#module-demo_bridge_client">module</a>
+</li>
+        </ul></li>
+        <li>
+    demo_bridge_server
+
+        <ul>
+          <li><a href="autoapi/demo_bridge_server/index.html#module-demo_bridge_server">module</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li>
     demo_chrono_opponent
 
         <ul>
           <li><a href="autoapi/demo_chrono_opponent/index.html#module-demo_chrono_opponent">module</a>
 </li>
         </ul></li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li>
     demo_chrono_pid
 
@@ -576,6 +601,8 @@
         <li><a href="autoapi/wa_simulator/base/index.html#wa_simulator.base.WABase.is_ok">is_ok() (WABase method)</a>
 
         <ul>
+          <li><a href="autoapi/wa_simulator/bridge/index.html#wa_simulator.bridge.WABridge.is_ok">(WABridge method)</a>
+</li>
           <li><a href="autoapi/wa_simulator/chrono/visualization/index.html#wa_simulator.chrono.visualization.WAChronoIrrlicht.is_ok">(WAChronoIrrlicht method)</a>
 </li>
           <li><a href="autoapi/wa_simulator/chrono/visualization/index.html#wa_simulator.chrono.visualization.WAChronoSensorVisualization.is_ok">(WAChronoSensorVisualization method)</a>
@@ -647,6 +674,10 @@
 </li>
           <li><a href="autoapi/demo_bicycle_simple/index.html#module-demo_bicycle_simple">demo_bicycle_simple</a>
 </li>
+          <li><a href="autoapi/demo_bridge_client/index.html#module-demo_bridge_client">demo_bridge_client</a>
+</li>
+          <li><a href="autoapi/demo_bridge_server/index.html#module-demo_bridge_server">demo_bridge_server</a>
+</li>
           <li><a href="autoapi/demo_chrono_opponent/index.html#module-demo_chrono_opponent">demo_chrono_opponent</a>
 </li>
           <li><a href="autoapi/demo_chrono_pid/index.html#module-demo_chrono_pid">demo_chrono_pid</a>
@@ -677,9 +708,17 @@
 </li>
           <li><a href="autoapi/wa_simulator/index.html#module-wa_simulator">wa_simulator</a>
 </li>
+          <li><a href="autoapi/wa_simulator/_entrypoint/index.html#module-wa_simulator._entrypoint">wa_simulator._entrypoint</a>
+</li>
+          <li><a href="autoapi/wa_simulator/_entrypoint/docker/index.html#module-wa_simulator._entrypoint.docker">wa_simulator._entrypoint.docker</a>
+</li>
+          <li><a href="autoapi/wa_simulator/_entrypoint/wasim/index.html#module-wa_simulator._entrypoint.wasim">wa_simulator._entrypoint.wasim</a>
+</li>
           <li><a href="autoapi/wa_simulator/_version/index.html#module-wa_simulator._version">wa_simulator._version</a>
 </li>
           <li><a href="autoapi/wa_simulator/base/index.html#module-wa_simulator.base">wa_simulator.base</a>
+</li>
+          <li><a href="autoapi/wa_simulator/bridge/index.html#module-wa_simulator.bridge">wa_simulator.bridge</a>
 </li>
           <li><a href="autoapi/wa_simulator/chrono/index.html#module-wa_simulator.chrono">wa_simulator.chrono</a>
 </li>
@@ -810,6 +849,10 @@
 </li>
         <li><a href="autoapi/pid_controller/index.html#pid_controller.PIDLongitudinalController.set_target_speed">set_target_speed() (PIDLongitudinalController method)</a>
 </li>
+        <li><a href="autoapi/wa_simulator/bridge/index.html#wa_simulator.bridge.WABridge.set_timeout">set_timeout() (WABridge method)</a>
+</li>
+        <li><a href="autoapi/wa_simulator/utils/index.html#wa_simulator.utils.set_verbosity">set_verbosity() (in module wa_simulator.utils)</a>
+</li>
         <li><a href="autoapi/wa_simulator/path/index.html#wa_simulator.path.WAPath.set_vis_properties">set_vis_properties() (WAPath method)</a>
 </li>
         <li><a href="autoapi/wa_simulator/utils/index.html#wa_simulator.utils.set_wa_data_directory">set_wa_data_directory() (in module wa_simulator.utils)</a>
@@ -831,6 +874,8 @@
           <li><a href="autoapi/pid_controller/index.html#pid_controller.PIDLongitudinalController.synchronize">(PIDLongitudinalController method)</a>
 </li>
           <li><a href="autoapi/wa_simulator/base/index.html#wa_simulator.base.WABase.synchronize">(WABase method)</a>
+</li>
+          <li><a href="autoapi/wa_simulator/bridge/index.html#wa_simulator.bridge.WABridge.synchronize">(WABridge method)</a>
 </li>
           <li><a href="autoapi/wa_simulator/chrono/environment/index.html#wa_simulator.chrono.environment.WAChronoEnvironment.synchronize">(WAChronoEnvironment method)</a>
 </li>
@@ -857,6 +902,8 @@
           <li><a href="autoapi/wa_simulator/controller/index.html#wa_simulator.controller.WAMatplotlibController.synchronize">(WAMatplotlibController method)</a>
 </li>
           <li><a href="autoapi/wa_simulator/visualization/index.html#wa_simulator.visualization.WAMatplotlibVisualization.synchronize">(WAMatplotlibVisualization method)</a>
+</li>
+          <li><a href="autoapi/wa_simulator/controller/index.html#wa_simulator.controller.WAROS2Controller.synchronize">(WAROS2Controller method)</a>
 </li>
           <li><a href="autoapi/wa_simulator/sensor/index.html#wa_simulator.sensor.WASensor.synchronize">(WASensor method)</a>
 </li>
@@ -1002,6 +1049,8 @@
   <h2>V</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/demo_bridge_client/index.html#demo_bridge_client.vehicle_parser">vehicle_parser() (in module demo_bridge_client)</a>
+</li>
         <li><a href="autoapi/wa_simulator/chrono/visualization/index.html#wa_simulator.chrono.visualization.WAChronoIrrlicht.visualize">visualize() (WAChronoIrrlicht method)</a>
 
         <ul>
@@ -1034,6 +1083,27 @@
 </li>
         </ul></li>
         <li>
+    wa_simulator._entrypoint
+
+        <ul>
+          <li><a href="autoapi/wa_simulator/_entrypoint/index.html#module-wa_simulator._entrypoint">module</a>
+</li>
+        </ul></li>
+        <li>
+    wa_simulator._entrypoint.docker
+
+        <ul>
+          <li><a href="autoapi/wa_simulator/_entrypoint/docker/index.html#module-wa_simulator._entrypoint.docker">module</a>
+</li>
+        </ul></li>
+        <li>
+    wa_simulator._entrypoint.wasim
+
+        <ul>
+          <li><a href="autoapi/wa_simulator/_entrypoint/wasim/index.html#module-wa_simulator._entrypoint.wasim">module</a>
+</li>
+        </ul></li>
+        <li>
     wa_simulator._version
 
         <ul>
@@ -1045,6 +1115,13 @@
 
         <ul>
           <li><a href="autoapi/wa_simulator/base/index.html#module-wa_simulator.base">module</a>
+</li>
+        </ul></li>
+        <li>
+    wa_simulator.bridge
+
+        <ul>
+          <li><a href="autoapi/wa_simulator/bridge/index.html#module-wa_simulator.bridge">module</a>
 </li>
         </ul></li>
         <li>
@@ -1159,6 +1236,8 @@
           <li><a href="autoapi/wa_simulator/track/index.html#module-wa_simulator.track">module</a>
 </li>
         </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
         <li>
     wa_simulator.utils
 
@@ -1166,8 +1245,6 @@
           <li><a href="autoapi/wa_simulator/utils/index.html#module-wa_simulator.utils">module</a>
 </li>
         </ul></li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li>
     wa_simulator.vehicle
 
@@ -1194,6 +1271,8 @@
         <li><a href="autoapi/wa_simulator/base/index.html#wa_simulator.base.WABase">WABase (class in wa_simulator.base)</a>
 </li>
         <li><a href="autoapi/wa_simulator/environment/index.html#wa_simulator.environment.WABody">WABody (class in wa_simulator.environment)</a>
+</li>
+        <li><a href="autoapi/wa_simulator/bridge/index.html#wa_simulator.bridge.WABridge">WABridge (class in wa_simulator.bridge)</a>
 </li>
         <li><a href="autoapi/wa_simulator/chrono/environment/index.html#wa_simulator.chrono.environment.WAChronoEnvironment">WAChronoEnvironment (class in wa_simulator.chrono.environment)</a>
 </li>
@@ -1238,6 +1317,8 @@
         <li><a href="autoapi/wa_simulator/core/index.html#wa_simulator.core.WAQuaternion">WAQuaternion (class in wa_simulator.core)</a>
 </li>
         <li><a href="autoapi/wa_simulator/chrono/utils/index.html#wa_simulator.chrono.utils.WAQuaternion_to_ChQuaternion">WAQuaternion_to_ChQuaternion() (in module wa_simulator.chrono.utils)</a>
+</li>
+        <li><a href="autoapi/wa_simulator/controller/index.html#wa_simulator.controller.WAROS2Controller">WAROS2Controller (class in wa_simulator.controller)</a>
 </li>
         <li><a href="autoapi/wa_simulator/sensor/index.html#wa_simulator.sensor.WASensor">WASensor (class in wa_simulator.sensor)</a>
 </li>

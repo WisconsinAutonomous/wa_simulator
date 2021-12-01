@@ -16,6 +16,7 @@
 
   wa_simulator.controller.WAController
   wa_simulator.controller.WAMatplotlibController
+  wa_simulator.controller.WAROS2Controller
 
 .. py:class:: WAController(system: WASystem, vehicle_inputs: WAVehicleInputs)
 
@@ -112,6 +113,46 @@
       Doesn't do anything since this controller is completely asynchronous
 
       :Parameters: **time** (*float*) -- the time at which the controller should synchronize all depends to
+
+
+
+.. py:class:: WAROS2Controller(system: WASystem, vehicle_inputs: WAVehicleInputs)
+
+   Bases: :class:`wa_simulator.controller.WAController`
+
+   Controller that communicates with a ROS2 control stack
+
+   :raises ImportError: Will be raised if ROS 2 is not found on the system.
+
+   .. method:: synchronize(self, time: float)
+
+      Update the state of this component at the current time.
+
+      The primary reason to decouple the update method into two separate calls (i.e. :meth:`~synchronize` and :meth:`~advance`)
+      is to provide flexibility to the user and is essentially semantic. In most simple cases, a user will only need one of the two.
+      Furthermore, can only use :meth:`~advance` if they prefer and just update their own :code:`time` variable. Given the unknown use cases
+      for the simulator at the time of writing, it was chosen to provide two different methods with similar functionality as to allow
+      the user to choose their desired implementation, rather than the writers of this package.
+
+      As opposed to :meth:`~advance`, this method gets the current time of the simulation. As menthioned earlier,
+      :meth:`~advance` and a user defined `time` variable could be used to instead to hold the current state of the simulation. However,
+      to aid in generality of the package, this method is provided to simply provide the current time of the simulation to the user in a decoupled
+      manner from the :meth:`~advance` method.
+
+      :Parameters: **time** (*float*) -- The current time to synchronize to
+
+
+   .. method:: advance(self, step: float)
+
+      Advance the state of this component by the specified time step.
+
+      The primary reason to decouple the update method into two separate calls (i.e. :meth:`~synchronize` and :meth:`~advance`)
+      is to provide flexibility to the user and is essentially semantic. In most simple cases, a user will only need one of the two.
+      Furthermore, can only use :meth:`~advance` if they prefer and just update their own :code:`time` variable. Given the unknown use cases
+      for the simulator at the time of writing, it was chosen to provide two different methods with similar functionality as to allow
+      the user to choose their desired implementation, rather than the writers of this package.
+
+      :Parameters: **step** (*float*) -- The step size to advance this component by
 
 
 

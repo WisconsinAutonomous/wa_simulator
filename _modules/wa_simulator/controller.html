@@ -155,6 +155,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../autoapi/wa_simulator/base/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.base</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/wa_simulator/bridge/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.bridge</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../autoapi/wa_simulator/controller/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.controller</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../autoapi/wa_simulator/core/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.core</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../autoapi/wa_simulator/environment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.environment</span></code></a></li>
@@ -350,13 +351,19 @@
         <span class="k">while</span> <span class="n">t</span> <span class="o">&lt;</span> <span class="n">step</span><span class="p">:</span>
             <span class="n">h</span> <span class="o">=</span> <span class="n">step</span> <span class="o">-</span> <span class="n">t</span>
 
-            <span class="n">steering_deriv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_steering_gain</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_steering_target</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">steering</span><span class="p">)</span>
-            <span class="n">throttle_deriv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_throttle_gain</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_throttle_target</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">throttle</span><span class="p">)</span>
-            <span class="n">braking_deriv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_braking_gain</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_braking_target</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">braking</span><span class="p">)</span>
+            <span class="n">steering_deriv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_steering_gain</span> <span class="o">*</span> \
+                <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_steering_target</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">steering</span><span class="p">)</span>
+            <span class="n">throttle_deriv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_throttle_gain</span> <span class="o">*</span> \
+                <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_throttle_target</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">throttle</span><span class="p">)</span>
+            <span class="n">braking_deriv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_braking_gain</span> <span class="o">*</span> \
+                <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_braking_target</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">braking</span><span class="p">)</span>
 
-            <span class="bp">self</span><span class="o">.</span><span class="n">steering</span> <span class="o">+=</span> <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_steering_delta</span><span class="p">,</span> <span class="n">h</span> <span class="o">*</span> <span class="n">steering_deriv</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="nb">abs</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">throttle</span> <span class="o">+=</span> <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_throttle_delta</span><span class="p">,</span> <span class="n">h</span> <span class="o">*</span> <span class="n">throttle_deriv</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="nb">abs</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">braking</span> <span class="o">+=</span> <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_braking_delta</span><span class="p">,</span> <span class="n">h</span> <span class="o">*</span> <span class="n">braking_deriv</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="nb">abs</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">steering</span> <span class="o">+=</span> <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_steering_delta</span><span class="p">,</span>
+                                 <span class="n">h</span> <span class="o">*</span> <span class="n">steering_deriv</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="nb">abs</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">throttle</span> <span class="o">+=</span> <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_throttle_delta</span><span class="p">,</span>
+                                 <span class="n">h</span> <span class="o">*</span> <span class="n">throttle_deriv</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="nb">abs</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">braking</span> <span class="o">+=</span> <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_braking_delta</span><span class="p">,</span> <span class="n">h</span> <span class="o">*</span>
+                                <span class="n">braking_deriv</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="nb">abs</span><span class="p">)</span>
 
             <span class="n">t</span> <span class="o">+=</span> <span class="n">h</span>
 
@@ -382,23 +389,29 @@
 
         <span class="c1"># Up</span>
         <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_throttle_target</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_throttle_target</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_throttle_delta</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">+</span><span class="mf">1.0</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_throttle_target</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_throttle_target</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_throttle_delta</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">+</span><span class="mf">1.0</span><span class="p">)</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_throttle_target</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_braking_target</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_braking_target</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_braking_delta</span> <span class="o">*</span> <span class="mi">3</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">+</span><span class="mf">1.0</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_braking_target</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_braking_target</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_braking_delta</span> <span class="o">*</span> <span class="mi">3</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">+</span><span class="mf">1.0</span><span class="p">)</span>
         <span class="c1"># Down</span>
         <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_throttle_target</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_throttle_target</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_throttle_delta</span> <span class="o">*</span> <span class="mi">3</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">+</span><span class="mf">1.</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_throttle_target</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_throttle_target</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_throttle_delta</span> <span class="o">*</span> <span class="mi">3</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">+</span><span class="mf">1.</span><span class="p">)</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_throttle_target</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_braking_target</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_braking_target</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_braking_delta</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">+</span><span class="mf">1.0</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_braking_target</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_braking_target</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_braking_delta</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">+</span><span class="mf">1.0</span><span class="p">)</span>
 
         <span class="c1"># Right</span>
         <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_steering_target</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_steering_target</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_steering_delta</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">+</span><span class="mf">1.</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_steering_target</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_steering_target</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_steering_delta</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">+</span><span class="mf">1.</span><span class="p">)</span>
 
         <span class="c1"># Left</span>
         <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
 
-            <span class="bp">self</span><span class="o">.</span><span class="n">_steering_target</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_steering_target</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_steering_delta</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">+</span><span class="mf">1.</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_steering_target</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_steering_target</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_steering_delta</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">+</span><span class="mf">1.</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="n">f</span><span class="s2">"Got key type of '</span><span class="si">{key}</span><span class="s2">'. Was expecting one of the following: {', '.join(allowed_keys)}"</span><span class="p">)</span>
@@ -416,7 +429,8 @@
 <span class="sd">    """</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">system</span><span class="p">:</span> <span class="s1">'WASystem'</span><span class="p">,</span> <span class="n">vehicle_inputs</span><span class="p">:</span> <span class="s1">'WAVehicleInputs'</span><span class="p">,</span> <span class="n">vis</span><span class="p">:</span> <span class="s1">'WAMatplotlibVisualization'</span><span class="p">):</span>
-        <span class="n">_check_type</span><span class="p">(</span><span class="n">vis</span><span class="p">,</span> <span class="n">WAMatplotlibVisualization</span><span class="p">,</span> <span class="s1">'vis'</span><span class="p">,</span> <span class="s1">'WAMatplotlibController::__init__'</span><span class="p">)</span>
+        <span class="n">_check_type</span><span class="p">(</span><span class="n">vis</span><span class="p">,</span> <span class="n">WAMatplotlibVisualization</span><span class="p">,</span> <span class="s1">'vis'</span><span class="p">,</span>
+                    <span class="s1">'WAMatplotlibController::__init__'</span><span class="p">)</span>
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">system</span><span class="p">,</span> <span class="n">vehicle_inputs</span><span class="p">)</span>
 
@@ -437,6 +451,29 @@
     <span class="k">def</span> <span class="nf">_key_press</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_input_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_input_dict</span><span class="p">[</span><span class="n">value</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="WAROS2Controller"><a class="viewcode-back" href="../../autoapi/wa_simulator/controller/index.html#wa_simulator.controller.WAROS2Controller">[docs]</a><span class="k">class</span> <span class="nc">WAROS2Controller</span><span class="p">(</span><span class="n">WAController</span><span class="p">):</span>
+    <span class="sd">"""Controller that communicates with a ROS2 control stack</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ImportError: Will be raised if ROS 2 is not found on the system.</span>
+<span class="sd">    """</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">system</span><span class="p">:</span> <span class="s1">'WASystem'</span><span class="p">,</span> <span class="n">vehicle_inputs</span><span class="p">:</span> <span class="s1">'WAVehicleInputs'</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">system</span><span class="p">,</span> <span class="n">vehicle_inputs</span><span class="p">)</span>
+
+        <span class="c1"># Check if ROS 2 is installed</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">import</span> <span class="nn">rclpy</span>
+        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s2">"ROS 2 was not found on the system."</span><span class="p">)</span>
+
+<div class="viewcode-block" id="WAROS2Controller.synchronize"><a class="viewcode-back" href="../../autoapi/wa_simulator/controller/index.html#wa_simulator.controller.WAROS2Controller.synchronize">[docs]</a>    <span class="k">def</span> <span class="nf">synchronize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="WAROS2Controller.advance"><a class="viewcode-back" href="../../autoapi/wa_simulator/controller/index.html#wa_simulator.controller.WAROS2Controller.advance">[docs]</a>    <span class="k">def</span> <span class="nf">advance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">step</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="k">pass</span></div></div>
 </pre></div>
       </article>
       <footer>
