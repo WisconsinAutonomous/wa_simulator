@@ -465,7 +465,7 @@ class WAGPSSensor(WASensor):
         Args:
             time (float): the time at which the sensors are synchronized to
         """
-        self._noise_model.add_noise(self._pos)
+        pass
 
     def advance(self, step):
         """Advance the state of the sensor by the specified time step
@@ -474,6 +474,7 @@ class WAGPSSensor(WASensor):
             step (float): the step to update the sensor by
         """
         self._pos = self._vehicle.get_pos()
+        self._noise_model.add_noise(self._pos)
         self._coord = WAGPSSensor.cartesian_to_gps(self._pos, self._reference)
 
     def get_data(self):

@@ -70,7 +70,8 @@ class WAChronoEnvironment(WAEnvironment):
     # Global filenames for environment models
     _EGP_ENV_MODEL_FILE = "environments/ev_grand_prix.json"
 
-    EGP_ENV_MODEL_FILE = _WAStaticAttribute('_EGP_ENV_MODEL_FILE', get_chrono_data_file)
+    EGP_ENV_MODEL_FILE = _WAStaticAttribute(
+        '_EGP_ENV_MODEL_FILE', get_chrono_data_file)
 
     def __init__(self, system: 'WAChronoSystem', filename: str):
         super().__init__()
@@ -95,7 +96,8 @@ class WAChronoEnvironment(WAEnvironment):
             return
         if isinstance(asset, WABody):
             if not hasattr(asset, 'size') or not hasattr(asset, 'position'):
-                raise AttributeError("Body must have 'size', and 'position' fields")
+                raise AttributeError(
+                    "Body must have 'size', and 'position' fields")
 
             position = asset.position
             yaw = 0 if not hasattr(asset, 'yaw') else asset.yaw
@@ -109,26 +111,32 @@ class WAChronoEnvironment(WAEnvironment):
                 body = chrono.ChBodyEasySphere(size.length, 1000, True, False)
                 body.SetBodyFixed(True)
             elif body_type == 'box':
-                body = chrono.ChBodyEasyBox(size.x, size.y, size.z, 1000, True, False)
+                body = chrono.ChBodyEasyBox(
+                    size.x, size.y, size.z, 1000, True, False)
                 body.SetBodyFixed(True)
             else:
-                raise ValueError(f"'{asset.body_type}' not a supported body type.")
+                raise ValueError(
+                    f"'{asset.body_type}' not a supported body type.")
 
             body.SetPos(WAVector_to_ChVector(position))
             body.SetRot(chrono.Q_from_AngZ(-yaw + WA_PI / 2))
 
             if hasattr(asset, 'color'):
                 color = asset.color
-                body.AddAsset(chrono.ChColorAsset(chrono.ChColor(color.x, color.y, color.z)))
+                body.AddAsset(chrono.ChColorAsset(
+                    chrono.ChColor(color.x, color.y, color.z)))
 
                 texture = chrono.ChVisualMaterial()
-                texture.SetDiffuseColor(chrono.ChVectorF(color.x, color.y, color.z))
-                chrono.CastToChVisualization(body.GetAssets()[0]).material_list.append(texture)
+                texture.SetDiffuseColor(
+                    chrono.ChVectorF(color.x, color.y, color.z))
+                chrono.CastToChVisualization(
+                    body.GetAssets()[0]).material_list.append(texture)
 
             if hasattr(asset, 'texture'):
                 texture = chrono.ChVisualMaterial()
                 texture.SetKdTexture(get_wa_data_file(asset.texture))
-                chrono.CastToChVisualization(body.GetAssets()[0]).material_list.append(texture)
+                chrono.CastToChVisualization(
+                    body.GetAssets()[0]).material_list.append(texture)
 
             self._system._system.AddBody(body)
 

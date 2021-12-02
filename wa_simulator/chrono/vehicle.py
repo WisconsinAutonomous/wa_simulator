@@ -69,7 +69,8 @@ def create_tire_from_json(tire_filename: str) -> veh.ChTire:
 
     # Valide json file
     _check_field(j, "Type", value="Tire")
-    _check_field(j, "Template", allowed_values=["TMeasyTire", "RigidTire", "Pac02Tire"])
+    _check_field(j, "Template", allowed_values=[
+                 "TMeasyTire", "RigidTire", "Pac02Tire"])
 
     tire_type = j["Template"]
     if tire_type == "TMeasyTire":
@@ -92,18 +93,22 @@ class WAChronoVehicle(WAVehicle):
         filename (str): json file specification file
         init_loc (WAVector, optional): the inital location of the vehicle. Defaults to WAVector([0, 0, 0.5]).
         init_rot (WAQuaternion, optional): the initial orientation of the vehicle. Defaults to WAQuaternion([1, 0, 0, 0]).
+        init_speed (WAVector, optional): the initial forward speed of the vehicle. Defaults to 0.0.
     """
 
     # Global filenames for vehicle models
     _GO_KART_MODEL_FILE = "GoKart/GoKart.json"
 
-    GO_KART_MODEL_FILE = _WAStaticAttribute('_GO_KART_MODEL_FILE', get_chrono_vehicle_data_file)
+    GO_KART_MODEL_FILE = _WAStaticAttribute(
+        '_GO_KART_MODEL_FILE', get_chrono_vehicle_data_file)
 
-    def __init__(self, system: 'WAChronoSystem', vehicle_inputs: 'WAVehicleInputs', env: 'WAEnvironment', filename: str, init_loc: WAVector = WAVector([0, 0, 0.5]), init_rot: WAQuaternion = WAQuaternion([1, 0, 0, 0])):
-        super().__init__(system, vehicle_inputs, get_wa_data_file("vehicles/GoKart/GoKart_KinematicBicycle.json"))
+    def __init__(self, system: 'WAChronoSystem', vehicle_inputs: 'WAVehicleInputs', env: 'WAEnvironment', filename: str, init_loc: WAVector = WAVector([0, 0, 0.5]), init_rot: WAQuaternion = WAQuaternion([1, 0, 0, 0]), init_speed: float = 0.0):
+        super().__init__(system, vehicle_inputs, get_wa_data_file(
+            "vehicles/GoKart/GoKart_KinematicBicycle.json"))
 
         # Get the filenames
-        vehicle_file, powertrain_file, tire_file = read_vehicle_model_file(filename)
+        vehicle_file, powertrain_file, tire_file = read_vehicle_model_file(
+            filename)
 
         # Create the vehicle
         vehicle = veh.WheeledVehicle(system._system, vehicle_file)
@@ -111,7 +116,7 @@ class WAChronoVehicle(WAVehicle):
         # Initialize the vehicle
         init_loc = WAVector_to_ChVector(init_loc)
         init_rot = WAQuaternion_to_ChQuaternion(init_rot)
-        vehicle.Initialize(chrono.ChCoordsysD(init_loc, init_rot))
+        vehicle.Initialize(chrono.ChCoordsysD(init_loc, init_rot), init_speed)
 
         # Set the visualization components for the vehicle
         vehicle.SetChassisVisualizationType(veh.VisualizationType_MESH)
