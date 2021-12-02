@@ -262,7 +262,8 @@
 
     <span class="c1"># Valide json file</span>
     <span class="n">_check_field</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="s2">"Type"</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s2">"Tire"</span><span class="p">)</span>
-    <span class="n">_check_field</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="s2">"Template"</span><span class="p">,</span> <span class="n">allowed_values</span><span class="o">=</span><span class="p">[</span><span class="s2">"TMeasyTire"</span><span class="p">,</span> <span class="s2">"RigidTire"</span><span class="p">,</span> <span class="s2">"Pac02Tire"</span><span class="p">])</span>
+    <span class="n">_check_field</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="s2">"Template"</span><span class="p">,</span> <span class="n">allowed_values</span><span class="o">=</span><span class="p">[</span>
+                 <span class="s2">"TMeasyTire"</span><span class="p">,</span> <span class="s2">"RigidTire"</span><span class="p">,</span> <span class="s2">"Pac02Tire"</span><span class="p">])</span>
 
     <span class="n">tire_type</span> <span class="o">=</span> <span class="n">j</span><span class="p">[</span><span class="s2">"Template"</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">tire_type</span> <span class="o">==</span> <span class="s2">"TMeasyTire"</span><span class="p">:</span>
@@ -285,18 +286,22 @@
 <span class="sd">        filename (str): json file specification file</span>
 <span class="sd">        init_loc (WAVector, optional): the inital location of the vehicle. Defaults to WAVector([0, 0, 0.5]).</span>
 <span class="sd">        init_rot (WAQuaternion, optional): the initial orientation of the vehicle. Defaults to WAQuaternion([1, 0, 0, 0]).</span>
+<span class="sd">        init_speed (WAVector, optional): the initial forward speed of the vehicle. Defaults to 0.0.</span>
 <span class="sd">    """</span>
 
     <span class="c1"># Global filenames for vehicle models</span>
     <span class="n">_GO_KART_MODEL_FILE</span> <span class="o">=</span> <span class="s2">"GoKart/GoKart.json"</span>
 
-    <span class="n">GO_KART_MODEL_FILE</span> <span class="o">=</span> <span class="n">_WAStaticAttribute</span><span class="p">(</span><span class="s1">'_GO_KART_MODEL_FILE'</span><span class="p">,</span> <span class="n">get_chrono_vehicle_data_file</span><span class="p">)</span>
+    <span class="n">GO_KART_MODEL_FILE</span> <span class="o">=</span> <span class="n">_WAStaticAttribute</span><span class="p">(</span>
+        <span class="s1">'_GO_KART_MODEL_FILE'</span><span class="p">,</span> <span class="n">get_chrono_vehicle_data_file</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">system</span><span class="p">:</span> <span class="s1">'WAChronoSystem'</span><span class="p">,</span> <span class="n">vehicle_inputs</span><span class="p">:</span> <span class="s1">'WAVehicleInputs'</span><span class="p">,</span> <span class="n">env</span><span class="p">:</span> <span class="s1">'WAEnvironment'</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">init_loc</span><span class="p">:</span> <span class="n">WAVector</span> <span class="o">=</span> <span class="n">WAVector</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]),</span> <span class="n">init_rot</span><span class="p">:</span> <span class="n">WAQuaternion</span> <span class="o">=</span> <span class="n">WAQuaternion</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">system</span><span class="p">,</span> <span class="n">vehicle_inputs</span><span class="p">,</span> <span class="n">get_wa_data_file</span><span class="p">(</span><span class="s2">"vehicles/GoKart/GoKart_KinematicBicycle.json"</span><span class="p">))</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">system</span><span class="p">:</span> <span class="s1">'WAChronoSystem'</span><span class="p">,</span> <span class="n">vehicle_inputs</span><span class="p">:</span> <span class="s1">'WAVehicleInputs'</span><span class="p">,</span> <span class="n">env</span><span class="p">:</span> <span class="s1">'WAEnvironment'</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">init_loc</span><span class="p">:</span> <span class="n">WAVector</span> <span class="o">=</span> <span class="n">WAVector</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]),</span> <span class="n">init_rot</span><span class="p">:</span> <span class="n">WAQuaternion</span> <span class="o">=</span> <span class="n">WAQuaternion</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span> <span class="n">init_speed</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">system</span><span class="p">,</span> <span class="n">vehicle_inputs</span><span class="p">,</span> <span class="n">get_wa_data_file</span><span class="p">(</span>
+            <span class="s2">"vehicles/GoKart/GoKart_KinematicBicycle.json"</span><span class="p">))</span>
 
         <span class="c1"># Get the filenames</span>
-        <span class="n">vehicle_file</span><span class="p">,</span> <span class="n">powertrain_file</span><span class="p">,</span> <span class="n">tire_file</span> <span class="o">=</span> <span class="n">read_vehicle_model_file</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="n">vehicle_file</span><span class="p">,</span> <span class="n">powertrain_file</span><span class="p">,</span> <span class="n">tire_file</span> <span class="o">=</span> <span class="n">read_vehicle_model_file</span><span class="p">(</span>
+            <span class="n">filename</span><span class="p">)</span>
 
         <span class="c1"># Create the vehicle</span>
         <span class="n">vehicle</span> <span class="o">=</span> <span class="n">veh</span><span class="o">.</span><span class="n">WheeledVehicle</span><span class="p">(</span><span class="n">system</span><span class="o">.</span><span class="n">_system</span><span class="p">,</span> <span class="n">vehicle_file</span><span class="p">)</span>
@@ -304,7 +309,7 @@
         <span class="c1"># Initialize the vehicle</span>
         <span class="n">init_loc</span> <span class="o">=</span> <span class="n">WAVector_to_ChVector</span><span class="p">(</span><span class="n">init_loc</span><span class="p">)</span>
         <span class="n">init_rot</span> <span class="o">=</span> <span class="n">WAQuaternion_to_ChQuaternion</span><span class="p">(</span><span class="n">init_rot</span><span class="p">)</span>
-        <span class="n">vehicle</span><span class="o">.</span><span class="n">Initialize</span><span class="p">(</span><span class="n">chrono</span><span class="o">.</span><span class="n">ChCoordsysD</span><span class="p">(</span><span class="n">init_loc</span><span class="p">,</span> <span class="n">init_rot</span><span class="p">))</span>
+        <span class="n">vehicle</span><span class="o">.</span><span class="n">Initialize</span><span class="p">(</span><span class="n">chrono</span><span class="o">.</span><span class="n">ChCoordsysD</span><span class="p">(</span><span class="n">init_loc</span><span class="p">,</span> <span class="n">init_rot</span><span class="p">),</span> <span class="n">init_speed</span><span class="p">)</span>
 
         <span class="c1"># Set the visualization components for the vehicle</span>
         <span class="n">vehicle</span><span class="o">.</span><span class="n">SetChassisVisualizationType</span><span class="p">(</span><span class="n">veh</span><span class="o">.</span><span class="n">VisualizationType_MESH</span><span class="p">)</span>

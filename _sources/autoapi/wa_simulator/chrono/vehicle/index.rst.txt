@@ -16,7 +16,7 @@
 
   wa_simulator.chrono.vehicle.WAChronoVehicle
 
-.. py:class:: WAChronoVehicle(system: WAChronoSystem, vehicle_inputs: WAVehicleInputs, env: WAEnvironment, filename: str, init_loc: WAVector = WAVector([0, 0, 0.5]), init_rot: WAQuaternion = WAQuaternion([1, 0, 0, 0]))
+.. py:class:: WAChronoVehicle(system: WAChronoSystem, vehicle_inputs: WAVehicleInputs, env: WAEnvironment, filename: str, init_loc: WAVector = WAVector([0, 0, 0.5]), init_rot: WAQuaternion = WAQuaternion([1, 0, 0, 0]), init_speed: float = 0.0)
 
    Bases: :class:`wa_simulator.vehicle.WAVehicle`
 
@@ -28,6 +28,7 @@
                 * **filename** (*str*) -- json file specification file
                 * **init_loc** (*WAVector, optional*) -- the inital location of the vehicle. Defaults to WAVector([0, 0, 0.5]).
                 * **init_rot** (*WAQuaternion, optional*) -- the initial orientation of the vehicle. Defaults to WAQuaternion([1, 0, 0, 0]).
+                * **init_speed** (*WAVector, optional*) -- the initial forward speed of the vehicle. Defaults to 0.0.
 
    .. method:: synchronize(self, time: float)
 

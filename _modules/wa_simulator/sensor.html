@@ -658,7 +658,7 @@
 <span class="sd">        Args:</span>
 <span class="sd">            time (float): the time at which the sensors are synchronized to</span>
 <span class="sd">        """</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_noise_model</span><span class="o">.</span><span class="n">add_noise</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pos</span><span class="p">)</span></div>
+        <span class="k">pass</span></div>
 
 <div class="viewcode-block" id="WAGPSSensor.advance"><a class="viewcode-back" href="../../autoapi/wa_simulator/sensor/index.html#wa_simulator.sensor.WAGPSSensor.advance">[docs]</a>    <span class="k">def</span> <span class="nf">advance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">step</span><span class="p">):</span>
         <span class="sd">"""Advance the state of the sensor by the specified time step</span>
@@ -667,6 +667,7 @@
 <span class="sd">            step (float): the step to update the sensor by</span>
 <span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_pos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vehicle</span><span class="o">.</span><span class="n">get_pos</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_noise_model</span><span class="o">.</span><span class="n">add_noise</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pos</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_coord</span> <span class="o">=</span> <span class="n">WAGPSSensor</span><span class="o">.</span><span class="n">cartesian_to_gps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pos</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reference</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="WAGPSSensor.get_data"><a class="viewcode-back" href="../../autoapi/wa_simulator/sensor/index.html#wa_simulator.sensor.WAGPSSensor.get_data">[docs]</a>    <span class="k">def</span> <span class="nf">get_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
