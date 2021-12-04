@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
     <link rel="shortcut icon" href="../../_static/wa-dark-favicon.png"/><meta name="generator" content="sphinx-3.4.2, furo 2020.12.30.beta24"/>
-        <title>wa_simulator.bridge - Wisconsin Autonomous Simulator 2.1.4 documentation</title>
+        <title>wa_simulator.bridge - Wisconsin Autonomous Simulator 2.1.5 documentation</title>
       <link rel="stylesheet" href="../../_static/styles/furo.css?digest=33d2fc4f3f180ec1ffc6524e273e21d7d58cbe49">
     <link rel="stylesheet" href="../../_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../../_static/pygments_dark.css">
@@ -105,7 +105,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">Wisconsin Autonomous Simulator 2.1.4 documentation</div></a>
+      <a href="../../index.html"><div class="brand">Wisconsin Autonomous Simulator 2.1.5 documentation</div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
@@ -300,8 +300,6 @@
                 <span class="n">f</span><span class="s2">"Sender must have a unique name. </span><span class="si">{name}</span><span class="s2"> already exists."</span><span class="p">)</span>
 
         <span class="n">_class_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_base_name</span><span class="p">(</span><span class="n">component</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">_class_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">_class_name</span> <span class="o">=</span> <span class="n">component</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
         <span class="k">if</span> <span class="n">_class_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_message_generators</span> <span class="ow">and</span> <span class="n">message_generator</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
                 <span class="n">f</span><span class="s2">"The outgoing message structure cannot be inferred for '</span><span class="si">{_class_name}</span><span class="s2">' and a message generator method was not provided."</span><span class="p">)</span>
@@ -395,7 +393,9 @@
         <span class="c1"># Send messages</span>
         <span class="n">message</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="p">(</span><span class="n">component</span><span class="p">,</span> <span class="n">message_generator</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_senders</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">message</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">name</span><span class="p">:</span> <span class="n">message_generator</span><span class="p">(</span><span class="n">component</span><span class="p">)})</span>
+            <span class="n">generated_message</span> <span class="o">=</span> <span class="n">message_generator</span><span class="p">(</span><span class="n">component</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">generated_message</span><span class="p">:</span>
+                <span class="n">message</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">name</span><span class="p">:</span> <span class="n">generated_message</span><span class="p">})</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_use_ack</span><span class="p">:</span>
@@ -453,11 +453,11 @@
 <span class="sd">        NOTE: did not test throughly</span>
 <span class="sd">        """</span>
         <span class="n">mro</span> <span class="o">=</span> <span class="n">component</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__mro__</span>  <span class="c1"># method resolution</span>
-        <span class="n">l</span> <span class="o">=</span> <span class="n">mro</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
         <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">mro</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
-            <span class="k">if</span> <span class="n">l</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'WABase'</span> <span class="ow">and</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">WABase</span><span class="p">):</span>
-                <span class="k">return</span> <span class="n">c</span><span class="o">.</span><span class="vm">__name__</span>
-            <span class="n">l</span> <span class="o">=</span> <span class="n">c</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="vm">__name__</span>
+            <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_message_generators</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">name</span>
+        <span class="k">return</span> <span class="n">component</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
 
     <span class="c1"># -----------------------------</span>
     <span class="c1"># Inferrable message generators</span>
@@ -490,7 +490,7 @@
 
     <span class="k">def</span> <span class="nf">_message_generator_WAIMUSensor</span><span class="p">(</span><span class="n">component</span><span class="p">:</span> <span class="s1">'WAIMUSensor'</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">component</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">data</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># The sensor may not have any data available, so it may return None</span>
             <span class="c1"># If that's the case, return an empty dict</span>
             <span class="k">return</span> <span class="p">{}</span>
@@ -507,7 +507,7 @@
 
     <span class="k">def</span> <span class="nf">_message_generator_WAGPSSensor</span><span class="p">(</span><span class="n">component</span><span class="p">:</span> <span class="s1">'WAGPSSensor'</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">component</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">data</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># The sensor may not have any data available, so it may return None</span>
             <span class="c1"># If that's the case, return an empty dict</span>
             <span class="k">return</span> <span class="p">{}</span>
