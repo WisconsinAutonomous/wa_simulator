@@ -110,7 +110,7 @@ html_favicon = "_static/wa-dark-favicon.png"
 html_theme_options = {
     "announcement": """
         <a style=\"text-decoration: none; color: white;\" 
-           href=\"https://wisconsinautonomous.org\">
+           href=\"https://wa.wisc.edu\">
            <img src=\"https://github.com/WisconsinAutonomous/wa-resources/blob/master/Images/wa-dark.png?raw=true\" 
                 style=\"vertical-align: middle; display: inline; padding-right: 7.5px; height: 20px;\"/>
            Checkout our website!
