@@ -1,7 +1,7 @@
 """
-Wisconsin Autonomous - https://www.wisconsinautonomous.org
+Wisconsin Autonomous - https://wa.wisc.edu
 
-Copyright (c) 2021 wisconsinautonomous.org
+Copyright (c) 2021 wa.wisc.edu
 All rights reserved.
 
 Use of this source code is governed by a BSD-style license that can be found

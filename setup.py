@@ -74,6 +74,6 @@ setup(
         "Documentation": "https://WisconsinAutononomous.github.io/wa_simulator",
         "Bug Reports": "https://github.com/WisconsinAutonomous/wa_simulator/issues",
         "Source Code": "https://github.com/WisconsinAutonomous/wa_simulator/",
-        "Our Team!": "https://wisconsinautonomous.org",
+        "Our Team!": "https://wa.wisc.edu",
     },
 )
