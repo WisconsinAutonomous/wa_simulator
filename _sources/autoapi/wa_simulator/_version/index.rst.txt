@@ -1,9 +1,0 @@
-:orphan:
-
-:mod:`wa_simulator._version`
-============================
-
-.. py:module:: wa_simulator._version
-
-
-.. 

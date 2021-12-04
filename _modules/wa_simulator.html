@@ -194,13 +194,12 @@
 <span></span><span class="kn">from</span> <span class="nn">time</span> <span class="k">import</span> <span class="n">time</span> <span class="k">as</span> <span class="n">get_wall_time</span>
 <span class="kn">import</span> <span class="nn">signal</span>
 <span class="kn">from</span> <span class="nn">._import</span> <span class="k">import</span> <span class="n">_import</span><span class="p">,</span> <span class="n">_get_dirs</span><span class="p">,</span> <span class="n">_get_files</span>
-<span class="kn">from</span> <span class="nn">._version</span> <span class="k">import</span> <span class="n">__version__</span>
+<span class="kn">from</span> <span class="nn">._version</span> <span class="k">import</span> <span class="n">version</span> <span class="k">as</span> <span class="n">__version__</span>
 
 <div class="viewcode-block" id="__author__"><a class="viewcode-back" href="../autoapi/wa_simulator/index.html#wa_simulator.chrono.__author__">[docs]</a><span class="n">__author__</span> <span class="o">=</span> <span class="s2">"Wisconsin Autonomous (wisconsinautonomous@studentorg.wisc.edu)"</span></div>
 <span class="sd">"""Wisconsin Autonomous (wisconsinautonomous@studentorg.wisc.edu)"""</span>
 <div class="viewcode-block" id="__license__"><a class="viewcode-back" href="../autoapi/wa_simulator/index.html#wa_simulator.chrono.__license__">[docs]</a><span class="n">__license__</span> <span class="o">=</span> <span class="s2">"BSD3"</span></div>
 <span class="sd">"""BSD3"""</span>
-<span class="n">__version__</span> <span class="o">=</span> <span class="n">__version__</span>
 
 <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">_get_dirs</span><span class="p">(</span><span class="vm">__file__</span><span class="p">,</span> <span class="n">ignore</span><span class="o">=</span><span class="p">[</span><span class="s2">"chrono"</span><span class="p">,</span> <span class="s2">"data"</span><span class="p">]):</span>
     <span class="n">_import</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="nb">globals</span><span class="p">())</span>
