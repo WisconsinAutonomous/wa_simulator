@@ -14,7 +14,7 @@ from wa_simulator.utils import _check_type
 
 # External Imports
 import multiprocessing.connection as mp
-from typing import Callable, Dict, Tuple, Any
+from typing import Callable, Dict, Tuple, Any, List, Union
 
 import sys
 
@@ -63,6 +63,7 @@ class WABridge(WABase):
             self._system, self._message_generators['WASystem'])
 
         self._receivers: Dict[str, Tuple[Any, Callable[[Any], dict]]] = {}
+        self._global_receivers: List[Tuple[Any, Callable[[Any], dict]]] = []
 
         self._connection = None
 
@@ -117,8 +118,14 @@ class WABridge(WABase):
 
         self._senders[name] = (component, message_generator)
 
-    def add_receiver(self, name: str, element: Any, message_parser: Callable[[Any, dict], Any] = None):
+    def add_receiver(self, name: str = "", element: Any = None, message_parser: Callable[[Any], dict] = None):
         """Adds a receiver element that has incoming messages
+
+        A receiver either has a name and element, a name, element and message_perser, or just a message_parser. If a name
+        and element are provided, the message_parser is attempted to be inferred. If it can't be inferred, a error will be raised.
+        If it can't be inferred, you should provied a message_parser. The name will be used to determine what message_parser to call when 
+        a message is received. If neither a name or element are provided, a message_parser must be provided. In this case, a
+        all received messages that do not have a callback will call this message_parser. Think of this as a 'global message listener'.
 
         The ``name`` need not be unique from any senders in the class, only from other receivers.
 
@@ -126,8 +133,8 @@ class WABridge(WABase):
 
         On each synchronization step, the receiver message parse method will be called. To have the listener be polled for messages,
         a single receiver must be added. Further, for the receiver parser to be called, the name attached to the message and the receiver
-        added here must match. If there is no match, the message will be ignored (unless ``ignore_unknown_messages`` is set to fault in
-        the constructor).
+        added here must match. If there is no match, either the message will be ignored (unless ``ignore_unknown_messages`` is set to fault in
+        the constructor) or if there is a global message listener, it's callback will be called.
 
         The format of the incoming message is inferred, unless ``message_parser`` is not ``None``. If the message structure cannot
         be inferred and ``message_parser`` is ``None``, a ``RuntimeError`` will be raised.
@@ -141,19 +148,25 @@ class WABridge(WABase):
             ValueError: if ``name`` is not unique (there is already a message identifier with that name)
             RuntimeError: If the message structure cannot be inferred and a message parser method is not provided
         """
-        if name in self._receivers:
-            raise ValueError(
-                f"Receiver must have a unique name. {name} already exists.")
 
-        _class_name = element.__class__.__name__
-        if _class_name not in self._message_parsers and message_parser is None:
-            raise RuntimeError(
-                f"The incoming message structure cannot be inferred for '{_class_name}' and a message parser method was not provided.")
+        if name != "" and element is not None:
+            if name in self._receivers:
+                raise ValueError(
+                    f"Receiver must have a unique name. {name} already exists.")
 
-        if message_parser is None:
-            message_parser = self._message_parsers[_class_name]
+            _class_name = element.__class__.__name__
+            if _class_name not in self._message_parsers and message_parser is None:
+                raise RuntimeError(
+                    f"The incoming message structure cannot be inferred for '{_class_name}' and a message parser method was not provided.")
 
-        self._receivers[name] = (element, message_parser)
+            if message_parser is None:
+                message_parser = self._message_parsers[_class_name]
+
+            self._receivers[name] = (element, message_parser)
+        elif message_parser is not None:
+            self._global_receivers.append(message_parser)
+        else:
+            raise ValueError(f"'name' and/or 'element' are unset and a message_parser was not provided.")
 
     def synchronize(self, time: float):
         """Synchronizes with the external entity
@@ -204,7 +217,7 @@ class WABridge(WABase):
 
     def _receive(self):
         # Receive messages
-        if len(self._receivers):
+        if len(self._receivers) or len(self._global_receivers):
             # If in synchronous mode, throw an error if we don't receive a message
             if self._is_synchronous and not self._connection.poll(self._timeout):
                 raise RuntimeError("Failed to receive acknowledgement from client.")
@@ -216,6 +229,9 @@ class WABridge(WABase):
                     if name in self._receivers:
                         element, message_parser = self._receivers[name]
                         message_parser(element, message)
+                    elif len(self._global_receivers):
+                        for message_parser in self._global_receivers:
+                            message_parser(message)
                     elif not self._ignore_unknown_messages:
                         raise RuntimeError(
                             "Received unknown message. Choosing not to ignore.")

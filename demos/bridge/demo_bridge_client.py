@@ -5,10 +5,6 @@
 # Import the simulator
 import wa_simulator as wa
 
-# External imports
-import multiprocessing.connection as mp
-import numpy as np
-
 # Command line arguments
 parser = wa.WAArgumentParser(use_sim_defaults=True)
 args = parser.parse_args()
