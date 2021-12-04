@@ -107,8 +107,6 @@ class WABridge(WABase):
                 f"Sender must have a unique name. {name} already exists.")
 
         _class_name = self._get_base_name(component)
-        if _class_name is None:
-            _class_name = component.__class__.__name__
         if _class_name not in self._message_generators and message_generator is None:
             raise RuntimeError(
                 f"The outgoing message structure cannot be inferred for '{_class_name}' and a message generator method was not provided.")
@@ -202,7 +200,9 @@ class WABridge(WABase):
         # Send messages
         message = {}
         for name, (component, message_generator) in self._senders.items():
-            message.update({name: message_generator(component)})
+            generated_message = message_generator(component)
+            if generated_message:
+                message.update({name: generated_message})
         self._connection.send(message)
 
         if self._use_ack:
@@ -260,11 +260,11 @@ class WABridge(WABase):
         NOTE: did not test throughly
         """
         mro = component.__class__.__mro__  # method resolution
-        l = mro[-1]
         for c in mro[-1::-1]:
-            if l.__name__ == 'WABase' and issubclass(c, WABase):
-                return c.__name__
-            l = c
+            name = c.__name__
+            if name in self._message_generators:
+                return name
+        return component.__class__.__name__
 
     # -----------------------------
     # Inferrable message generators
@@ -297,7 +297,7 @@ class WABridge(WABase):
 
     def _message_generator_WAIMUSensor(component: 'WAIMUSensor') -> dict:
         data = component.get_data()
-        if not data:
+        if data is None:
             # The sensor may not have any data available, so it may return None
             # If that's the case, return an empty dict
             return {}
@@ -314,7 +314,7 @@ class WABridge(WABase):
 
     def _message_generator_WAGPSSensor(component: 'WAGPSSensor') -> dict:
         data = component.get_data()
-        if not data:
+        if data is None:
             # The sensor may not have any data available, so it may return None
             # If that's the case, return an empty dict
             return {}

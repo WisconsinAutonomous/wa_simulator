@@ -8,6 +8,8 @@ services:
       dockerfile: ./docker/dev.dockerfile
       network: host
     working_dir: /root/
+    environment:
+      - PYTHONUNBUFFERED=1
   wasim-prod:
     hostname: 'wasim-prod'
     image: wiscauto/wa_simulator:latest

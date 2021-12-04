@@ -9,7 +9,7 @@ import wa_simulator as wa
 parser = wa.WAArgumentParser(use_sim_defaults=True)
 args = parser.parse_args()
 
-# wa.set_wa_data_directory('/root/data/')
+wa.set_wa_data_directory('/root/data/')
 
 def main():
     # ---------------
@@ -42,18 +42,33 @@ def main():
     if visualization is not None:
         controller = wa.WAMatplotlibController(system, vehicle_inputs, visualization)
 
+    # -------------------
+    # Create some sensors
+    # A sensor manager is responsible for different sensors
+    sens_manager = wa.WASensorManager(system)
+
+    gps_filename = wa.WAGPSSensor.SBG_GPS_SENSOR_FILE
+    gps = wa.load_sensor_from_json(system, gps_filename, vehicle=vehicle)
+    sens_manager.add_sensor(gps)
+
+    imu_filename = wa.WAIMUSensor.SBG_IMU_SENSOR_FILE
+    imu = wa.load_sensor_from_json(system, imu_filename, vehicle=vehicle)
+    sens_manager.add_sensor(imu)
+
     # -----------------
     # Create the bridge
     # The bridge is responsible for sending the data out of the simulation to an external stack
     # Will send out vehicle state information, and receive vehicle_inputs to control the car
     bridge = wa.WABridge(system, hostname="0.0.0.0")
     bridge.add_sender("vehicle", vehicle)
+    bridge.add_sender("gps", gps)
+    bridge.add_sender("imu", imu)
     bridge.add_receiver("vehicle_inputs", vehicle_inputs)
 
     # --------------------------
     # Create a simulation wrapper
     # Will be responsible for actually running the simulation
-    sim_manager = wa.WASimulationManager(system, vehicle, visualization, controller, bridge)
+    sim_manager = wa.WASimulationManager(system, vehicle, visualization, controller, bridge, sens_manager)
 
     # ---------------
     # Simulation loop

@@ -319,6 +319,9 @@ class WAIMUSensor(WASensor):
             raise NotImplementedError("Setting 'body' is currently not supported. Please pass a vehicle instead")
 
         self._vehicle = vehicle
+        self._pos_dtdt = None
+        self._rot = None 
+        self._rot_dt = None 
 
         j = _load_json(filename)
 
@@ -388,6 +391,8 @@ class WAIMUSensor(WASensor):
         Returns:
             (WAVector, WAQuaternion, WAQuaternion): Tuple in the form of (acceleration, angular_velocity, orientation)
         """
+        if self._pos_dtdt is None and self._rot_dt is None and self._rot is None:
+            return None
         return self._pos_dtdt, self._rot_dt, self._rot
 
 
@@ -417,6 +422,7 @@ class WAGPSSensor(WASensor):
             raise NotImplementedError("Setting 'body' is currently not supported. Please pass a vehicle instead")
 
         self._vehicle = vehicle
+        self._coord = None
 
         j = _load_json(filename)
 
