@@ -96,7 +96,7 @@
 
       :Parameters: * **name** (*str*) -- The unique message name/identifier (think ROS topic)
                    * **element** (*Any*) -- The element the message data will be used to populate or change. Should be an object so it's passed by reference.
-                   * **message_parser** (*Callable[[Any, dict], Any]*) -- A custom method that parses the received messag
+                   * **message_parser** (*Callable[[Any], Any]*) -- A custom method that parses the received messag
 
       :raises ValueError: if ``name`` is not unique (there is already a message identifier with that name)
       :raises RuntimeError: If the message structure cannot be inferred and a message parser method is not provided
