@@ -223,6 +223,15 @@
 <section id="deploy-your-changes">
 <h3>Deploy your Changes<a class="headerlink" href="#deploy-your-changes" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference external" href="https://github.com/features/actions">GitHub actions</a> are used to automatically build the site and <a class="reference external" href="https://pages.github.com/">GitHub pages</a> are used to host the static site. To update deployed content, you have to push to the <code class="docutils literal notranslate"><span class="pre">develop</span></code> branch and create a pull request on the <code class="docutils literal notranslate"><span class="pre">master</span></code> branch. Once the pull request is merged the site will rebuild with your changes. Please ensure there are no errors in your code/documentation before doing so, as you may get an email from github if something bad happens.</p>
+<p>Further, to update the package available on <a class="reference external" href="https://pypi.org/project/wa-simulator/">PyPI</a>, you must create a <a class="reference external" href="https://git-scm.com/book/en/v2/Git-Basics-Tagging">git tag</a>. When a tag is created and pushed to GitHub, it will start an Action which will automatically pushed the new release to PyPI. See <a class="reference external" href="#versioning">versioning</a> for information on how versioning works with <code class="docutils literal notranslate"><span class="pre">wa_simulator</span></code>. The Github Action only runs when the tag is pushed to master through a merge request. To create a tag, you may do the following:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git tag v3.0.1
+git push origin &lt;branch&gt; --tags
+</pre></div>
+</div>
+<section id="versioning">
+<h4>Versioning<a class="headerlink" href="#versioning" title="Permalink to this headline">¶</a></h4>
+<p>Versioning is done automatically through <code class="docutils literal notranslate"><span class="pre">tags</span></code> by <a class="reference external" href="https://github.com/pypa/setuptools_scm">setuptools_scm</a>. When a tag is pushed to the <code class="docutils literal notranslate"><span class="pre">master</span></code> branch, a new package is pushed to PyPI with the attached tag. Therefore, you must ensure the tag you push is <em>after</em> the previous tags seen on GitHub.</p>
+</section>
 </section>
 </section>
 <section id="guidelines">
@@ -284,7 +293,13 @@
 </section>
 <section id="building-the-documentation">
 <h2>Building the Documentation<a class="headerlink" href="#building-the-documentation" title="Permalink to this headline">¶</a></h2>
-<p>There are multiple ways to build sphinx documentation. The easiest is using the <code class="docutils literal notranslate"><span class="pre">Makefile</span></code> or <code class="docutils literal notranslate"><span class="pre">make.bat</span></code> file provided directly in this repository. First you need to install all the necessary dependencies by navigating to <code class="docutils literal notranslate"><span class="pre">wa_simulator/docs</span></code> and running <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-r</span> <span class="pre">requirements.txt</span></code>. Then you can run <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">html</span></code> to build the html pages. To view the build, go to your browser, and open the <code class="docutils literal notranslate"><span class="pre">index.html</span></code> file located inside <code class="docutils literal notranslate"><span class="pre">docs/build/html/</span></code>.</p>
+<p>There are multiple ways to build sphinx documentation. The easiest is using the <code class="docutils literal notranslate"><span class="pre">Makefile</span></code> or <code class="docutils literal notranslate"><span class="pre">make.bat</span></code> file provided directly in this repository. You will need to install all the necessary dependencies and build the html pages. To do that, run the following commands:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> wa_simulator/docs
+pip install -r requirements.txt
+make html
+</pre></div>
+</div>
+<p>To view the build, go to your browser, and open the <code class="docutils literal notranslate"><span class="pre">index.html</span></code> file located inside <code class="docutils literal notranslate"><span class="pre">docs/build/html/</span></code>.</p>
 <p><code class="docutils literal notranslate"><span class="pre">sphinx-autobuild</span></code> is also extremely easy to use and will automatically build the html pages when a change is made. See their <a class="reference external" href="https://pypi.org/project/sphinx-autobuild/">PyPI page</a>.</p>
 </section>
 </section>
@@ -339,7 +354,10 @@
 <li><a class="reference internal" href="#setup">Setup</a><ul>
 <li><a class="reference internal" href="#cloning-the-repo">Cloning the Repo</a></li>
 <li><a class="reference internal" href="#installing-a-symbolic-linked-version-for-testing">Installing a Symbolic Linked Version for Testing</a></li>
-<li><a class="reference internal" href="#deploy-your-changes">Deploy your Changes</a></li>
+<li><a class="reference internal" href="#deploy-your-changes">Deploy your Changes</a><ul>
+<li><a class="reference internal" href="#versioning">Versioning</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a class="reference internal" href="#guidelines">Guidelines</a><ul>

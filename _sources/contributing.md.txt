@@ -13,6 +13,7 @@ There are two forms of contributions: source code or documentation. Editing the 
 ### Cloning the Repo
 
 Clone the repo as normal:
+
 ```bash
 git clone https://github.com/WisconsinAutonomous/wa_simulator.git
 cd wa_simulator
@@ -23,6 +24,7 @@ cd wa_simulator
 A symbolic link or symlink is a file that references another. The advantages of symlinks is that a folder or file can _essentially_ be placed in two separate locations. In reference to this repository, we want to create a symlinked install because when we edit the code within the cloned repo, we want that change also to be reflected in the installed files.
 
 From within your `wa_simulator` directory, we can have `pip` this for us with the following command:
+
 ```bash
 pip install -e .
 ```
@@ -32,6 +34,17 @@ You should now be able to edit the source and have those changes be reflected in
 ### Deploy your Changes
 
 [GitHub actions](https://github.com/features/actions) are used to automatically build the site and [GitHub pages](https://pages.github.com/) are used to host the static site. To update deployed content, you have to push to the `develop` branch and create a pull request on the `master` branch. Once the pull request is merged the site will rebuild with your changes. Please ensure there are no errors in your code/documentation before doing so, as you may get an email from github if something bad happens.
+
+Further, to update the package available on [PyPI](https://pypi.org/project/wa-simulator/), you must create a [git tag](https://git-scm.com/book/en/v2/Git-Basics-Tagging). When a tag is created and pushed to GitHub, it will start an Action which will automatically pushed the new release to PyPI. See [versioning](#versioning) for information on how versioning works with `wa_simulator`. The Github Action only runs when the tag is pushed to master through a merge request. To create a tag, you may do the following:
+
+```bash
+git tag v3.0.1
+git push origin <branch> --tags
+```
+
+#### Versioning
+
+Versioning is done automatically through `tags` by [setuptools\_scm](https://github.com/pypa/setuptools_scm). When a tag is pushed to the `master` branch, a new package is pushed to PyPI with the attached tag. Therefore, you must ensure the tag you push is *after* the previous tags seen on GitHub.
 
 ## Guidelines
 
@@ -96,6 +109,13 @@ Markdown files are converted to reStructuredText by `myst_parser` which is used 
 
 ## Building the Documentation
 
-There are multiple ways to build sphinx documentation. The easiest is using the `Makefile` or `make.bat` file provided directly in this repository. First you need to install all the necessary dependencies by navigating to `wa_simulator/docs` and running `pip install -r requirements.txt`. Then you can run `make html` to build the html pages. To view the build, go to your browser, and open the `index.html` file located inside `docs/build/html/`.
+There are multiple ways to build sphinx documentation. The easiest is using the `Makefile` or `make.bat` file provided directly in this repository. You will need to install all the necessary dependencies and build the html pages. To do that, run the following commands:
+```bash
+cd wa_simulator/docs
+pip install -r requirements.txt
+make html
+```
+
+To view the build, go to your browser, and open the `index.html` file located inside `docs/build/html/`.
 
 `sphinx-autobuild` is also extremely easy to use and will automatically build the html pages when a change is made. See their [PyPI page](https://pypi.org/project/sphinx-autobuild/).
