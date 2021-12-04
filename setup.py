@@ -44,7 +44,6 @@ def create_version():
 setup(
     name="wa_simulator",
     use_scm_version=create_version,
-    # version=get_version(),
     author="Wisconsin Autonomous",
     author_email="wisconsinautonomous@studentorg.wisc.edu",
     license="BSD3",
@@ -74,6 +73,6 @@ setup(
         "Documentation": "https://WisconsinAutononomous.github.io/wa_simulator",
         "Bug Reports": "https://github.com/WisconsinAutonomous/wa_simulator/issues",
         "Source Code": "https://github.com/WisconsinAutonomous/wa_simulator/",
-        "Our Team!": "https://wa.wisc.edu",
+        "Our Team!": "https://wisconsinautonomous.org",
     },
 )
