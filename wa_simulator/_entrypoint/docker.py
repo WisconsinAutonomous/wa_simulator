@@ -62,7 +62,6 @@ def run_start(args):
                 
                 volume = f"{host}:{container}"
             volumes.append(volume)
-            print(volumes)
 
         ports = config.get('ports', {})
 
