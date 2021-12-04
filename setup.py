@@ -29,15 +29,6 @@ def get_package_data(directory, rm='wa_simulator/'):
     return paths
 
 
-# Get the version (borrowed from SQLAlchemy)
-# def get_version():
-#     with open(os.path.join(os.path.dirname(__file__), "wa_simulator", "_version.py")) as fp:
-#         return (
-#             re.compile(
-#                 r""".*__version__ = ["'](.*?)['"]""", re.S).match(fp.read()).group(1)
-#         )
-
-
 def read_requirements(file: str = "requirements.txt"):
     with open(file) as f:
         required = f.read().splitlines()
@@ -52,7 +43,7 @@ def create_version():
 
 setup(
     name="wa_simulator",
-    use_scm_version=create_version,
+    use_scm_version=create_version(),
     # version=get_version(),
     author="Wisconsin Autonomous",
     author_email="wisconsinautonomous@studentorg.wisc.edu",
