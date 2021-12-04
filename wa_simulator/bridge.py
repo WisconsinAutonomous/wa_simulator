@@ -62,8 +62,8 @@ class WABridge(WABase):
         self._senders["system"] = (
             self._system, self._message_generators['WASystem'])
 
-        self._receivers: Dict[str, Tuple[Any, Callable[[Any], dict]]] = {}
-        self._global_receivers: List[Tuple[Any, Callable[[Any], dict]]] = []
+        self._receivers: Dict[str, Tuple[Any, Callable[[Any, dict], dict]]] = {}
+        self._global_receivers: List[Tuple[Any, Callable[[str, Any], None]]] = []
 
         self._connection = None
 
@@ -142,7 +142,7 @@ class WABridge(WABase):
         Args:
             name (str): The unique message name/identifier (think ROS topic)
             element (Any): The element the message data will be used to populate or change. Should be an object so it's passed by reference.
-            message_parser (Callable[[Any, dict], Any]): A custom method that parses the received messag
+            message_parser (Callable[[Any], Any]): A custom method that parses the received messag
 
         Raises:
             ValueError: if ``name`` is not unique (there is already a message identifier with that name)
@@ -231,7 +231,7 @@ class WABridge(WABase):
                         message_parser(element, message)
                     elif len(self._global_receivers):
                         for message_parser in self._global_receivers:
-                            message_parser(message)
+                            message_parser(name, message)
                     elif not self._ignore_unknown_messages:
                         raise RuntimeError(
                             "Received unknown message. Choosing not to ignore.")
