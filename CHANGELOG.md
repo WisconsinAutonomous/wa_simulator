@@ -1,5 +1,14 @@
 # Change Log
 
+## [2.0.0] - 2021-12-03
+
+Added `WABridge` to communicate with external entities
+
+### Added
+
+- `WABridge` which communicates with external entities
+- Added `wasim` entry point to run `wa_simulator` in a Docker container automatically
+
 ## [Unreleased] - 2021-03-14
 
 Made another push for additional API changes and additions

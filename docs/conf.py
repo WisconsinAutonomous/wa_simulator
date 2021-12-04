@@ -25,8 +25,8 @@ copyright = f"{date.today().year}, Wisconsin Autonomous"
 author = "Wisconsin Autonomous"
 
 # The full version, including alpha/beta/rc tags
-release = wa_simulator.__version__
-
+from importlib.metadata import version
+release = version('wa_simulator')
 
 # -- General configuration ---------------------------------------------------
 

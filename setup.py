@@ -38,6 +38,12 @@ def get_version():
         )
 
 
+def read_requirements(file: str = "requirements.txt"):
+    with open(file) as f:
+        required = f.read().splitlines()
+        return required
+
+
 setup(
     name="wa_simulator",
     version=get_version(),
@@ -64,16 +70,7 @@ setup(
     ],
     keywords="simulation, autonomous vehicles, robotics",
     python_requires=">=3.0",
-    install_requires=[
-        "matplotlib>=3.3.2",
-        "numpy>=1.19.3",
-        "scipy",
-        "IPython",
-        "pyrr",
-        "dill",
-        "docker",
-        "pyyaml",
-    ],
+    install_requires=read_requirements(),  # noqa
     project_urls={  # Optional
         "Homepage": "https://github.com/WisconsinAutonomous/wa_simulator/",
         "Documentation": "https://WisconsinAutononomous.github.io/wa_simulator",
