@@ -3,6 +3,9 @@
 .DS_Store
 .*.swp
 
+# Ignore version because it will change often
+_version.py
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
