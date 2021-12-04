@@ -43,7 +43,7 @@ def create_version():
 
 setup(
     name="wa_simulator",
-    use_scm_version=create_version(),
+    use_scm_version=create_version,
     # version=get_version(),
     author="Wisconsin Autonomous",
     author_email="wisconsinautonomous@studentorg.wisc.edu",
