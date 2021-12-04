@@ -207,7 +207,7 @@
 
 <span class="c1"># External Imports</span>
 <span class="kn">import</span> <span class="nn">multiprocessing.connection</span> <span class="k">as</span> <span class="nn">mp</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Any</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span> <span class="nn">sys</span>
 
@@ -256,6 +256,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_system</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_message_generators</span><span class="p">[</span><span class="s1">'WASystem'</span><span class="p">])</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_receivers</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Any</span><span class="p">],</span> <span class="nb">dict</span><span class="p">]]]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_global_receivers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Any</span><span class="p">],</span> <span class="nb">dict</span><span class="p">]]]</span> <span class="o">=</span> <span class="p">[]</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span> <span class="o">=</span> <span class="kc">None</span>
 
@@ -310,8 +311,14 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_senders</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">component</span><span class="p">,</span> <span class="n">message_generator</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="WABridge.add_receiver"><a class="viewcode-back" href="../../autoapi/wa_simulator/bridge/index.html#wa_simulator.bridge.WABridge.add_receiver">[docs]</a>    <span class="k">def</span> <span class="nf">add_receiver</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">element</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">message_parser</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Any</span><span class="p">,</span> <span class="nb">dict</span><span class="p">],</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="WABridge.add_receiver"><a class="viewcode-back" href="../../autoapi/wa_simulator/bridge/index.html#wa_simulator.bridge.WABridge.add_receiver">[docs]</a>    <span class="k">def</span> <span class="nf">add_receiver</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span> <span class="n">element</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">message_parser</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Any</span><span class="p">],</span> <span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">"""Adds a receiver element that has incoming messages</span>
+
+<span class="sd">        A receiver either has a name and element, a name, element and message_perser, or just a message_parser. If a name</span>
+<span class="sd">        and element are provided, the message_parser is attempted to be inferred. If it can't be inferred, a error will be raised.</span>
+<span class="sd">        If it can't be inferred, you should provied a message_parser. The name will be used to determine what message_parser to call when </span>
+<span class="sd">        a message is received. If neither a name or element are provided, a message_parser must be provided. In this case, a</span>
+<span class="sd">        all received messages that do not have a callback will call this message_parser. Think of this as a 'global message listener'.</span>
 
 <span class="sd">        The ``name`` need not be unique from any senders in the class, only from other receivers.</span>
 
@@ -319,8 +326,8 @@
 
 <span class="sd">        On each synchronization step, the receiver message parse method will be called. To have the listener be polled for messages,</span>
 <span class="sd">        a single receiver must be added. Further, for the receiver parser to be called, the name attached to the message and the receiver</span>
-<span class="sd">        added here must match. If there is no match, the message will be ignored (unless ``ignore_unknown_messages`` is set to fault in</span>
-<span class="sd">        the constructor).</span>
+<span class="sd">        added here must match. If there is no match, either the message will be ignored (unless ``ignore_unknown_messages`` is set to fault in</span>
+<span class="sd">        the constructor) or if there is a global message listener, it's callback will be called.</span>
 
 <span class="sd">        The format of the incoming message is inferred, unless ``message_parser`` is not ``None``. If the message structure cannot</span>
 <span class="sd">        be inferred and ``message_parser`` is ``None``, a ``RuntimeError`` will be raised.</span>
@@ -334,19 +341,25 @@
 <span class="sd">            ValueError: if ``name`` is not unique (there is already a message identifier with that name)</span>
 <span class="sd">            RuntimeError: If the message structure cannot be inferred and a message parser method is not provided</span>
 <span class="sd">        """</span>
-        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_receivers</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="n">f</span><span class="s2">"Receiver must have a unique name. </span><span class="si">{name}</span><span class="s2"> already exists."</span><span class="p">)</span>
 
-        <span class="n">_class_name</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
-        <span class="k">if</span> <span class="n">_class_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_message_parsers</span> <span class="ow">and</span> <span class="n">message_parser</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
-                <span class="n">f</span><span class="s2">"The incoming message structure cannot be inferred for '</span><span class="si">{_class_name}</span><span class="s2">' and a message parser method was not provided."</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="o">!=</span> <span class="s2">""</span> <span class="ow">and</span> <span class="n">element</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_receivers</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="n">f</span><span class="s2">"Receiver must have a unique name. </span><span class="si">{name}</span><span class="s2"> already exists."</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">message_parser</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">message_parser</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_message_parsers</span><span class="p">[</span><span class="n">_class_name</span><span class="p">]</span>
+            <span class="n">_class_name</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
+            <span class="k">if</span> <span class="n">_class_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_message_parsers</span> <span class="ow">and</span> <span class="n">message_parser</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                    <span class="n">f</span><span class="s2">"The incoming message structure cannot be inferred for '</span><span class="si">{_class_name}</span><span class="s2">' and a message parser method was not provided."</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_receivers</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">message_parser</span><span class="p">)</span></div>
+            <span class="k">if</span> <span class="n">message_parser</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">message_parser</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_message_parsers</span><span class="p">[</span><span class="n">_class_name</span><span class="p">]</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_receivers</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">message_parser</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">message_parser</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_global_receivers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">message_parser</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s2">"'name' and/or 'element' are unset and a message_parser was not provided."</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="WABridge.synchronize"><a class="viewcode-back" href="../../autoapi/wa_simulator/bridge/index.html#wa_simulator.bridge.WABridge.synchronize">[docs]</a>    <span class="k">def</span> <span class="nf">synchronize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
         <span class="sd">"""Synchronizes with the external entity</span>
@@ -397,7 +410,7 @@
 
     <span class="k">def</span> <span class="nf">_receive</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># Receive messages</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_receivers</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_receivers</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_global_receivers</span><span class="p">):</span>
             <span class="c1"># If in synchronous mode, throw an error if we don't receive a message</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_synchronous</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span><span class="o">.</span><span class="n">poll</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_timeout</span><span class="p">):</span>
                 <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">"Failed to receive acknowledgement from client."</span><span class="p">)</span>
@@ -409,6 +422,9 @@
                     <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_receivers</span><span class="p">:</span>
                         <span class="n">element</span><span class="p">,</span> <span class="n">message_parser</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_receivers</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
                         <span class="n">message_parser</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
+                    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_global_receivers</span><span class="p">):</span>
+                        <span class="k">for</span> <span class="n">message_parser</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_global_receivers</span><span class="p">:</span>
+                            <span class="n">message_parser</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
                     <span class="k">elif</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ignore_unknown_messages</span><span class="p">:</span>
                         <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
                             <span class="s2">"Received unknown message. Choosing not to ignore."</span><span class="p">)</span>

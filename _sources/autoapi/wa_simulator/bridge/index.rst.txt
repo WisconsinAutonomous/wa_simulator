@@ -72,9 +72,15 @@
       :raises RuntimeError: If the message structure cannot be inferred and a message generator method is not provided
 
 
-   .. method:: add_receiver(self, name: str, element: Any, message_parser: Callable[[Any, dict], Any] = None)
+   .. method:: add_receiver(self, name: str = '', element: Any = None, message_parser: Callable[[Any], dict] = None)
 
       Adds a receiver element that has incoming messages
+
+      A receiver either has a name and element, a name, element and message_perser, or just a message_parser. If a name
+      and element are provided, the message_parser is attempted to be inferred. If it can't be inferred, a error will be raised.
+      If it can't be inferred, you should provied a message_parser. The name will be used to determine what message_parser to call when
+      a message is received. If neither a name or element are provided, a message_parser must be provided. In this case, a
+      all received messages that do not have a callback will call this message_parser. Think of this as a 'global message listener'.
 
       The ``name`` need not be unique from any senders in the class, only from other receivers.
 
@@ -82,8 +88,8 @@
 
       On each synchronization step, the receiver message parse method will be called. To have the listener be polled for messages,
       a single receiver must be added. Further, for the receiver parser to be called, the name attached to the message and the receiver
-      added here must match. If there is no match, the message will be ignored (unless ``ignore_unknown_messages`` is set to fault in
-      the constructor).
+      added here must match. If there is no match, either the message will be ignored (unless ``ignore_unknown_messages`` is set to fault in
+      the constructor) or if there is a global message listener, it's callback will be called.
 
       The format of the incoming message is inferred, unless ``message_parser`` is not ``None``. If the message structure cannot
       be inferred and ``message_parser`` is ``None``, a ``RuntimeError`` will be raised.
