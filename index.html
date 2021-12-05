@@ -205,27 +205,33 @@ This project is under active development by <a class="reference external" href="
 
 <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
     <span class="c1"># Create the system</span>
-    <span class="n">sys</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">WASystem</span><span class="p">(</span><span class="n">step_size</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">)</span>
+    <span class="n">system</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">WASystem</span><span class="p">(</span><span class="n">step_size</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">)</span>
 
     <span class="c1"># Create an environment using a premade environment description</span>
     <span class="n">env_filename</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">WASimpleEnvironment</span><span class="o">.</span><span class="n">EGP_ENV_MODEL_FILE</span>
-    <span class="n">env</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">WASimpleEnvironment</span><span class="p">(</span><span class="n">env_filename</span><span class="p">,</span> <span class="n">sys</span><span class="p">)</span>
+    <span class="n">environment</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">WASimpleEnvironment</span><span class="p">(</span><span class="n">system</span><span class="p">,</span> <span class="n">env_filename</span><span class="p">)</span>
 
     <span class="c1"># Create an vehicle using a premade vehicle description</span>
+    <span class="n">vehicle_inputs</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">WAVehicleInputs</span><span class="p">()</span>
     <span class="n">veh_filename</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">WALinearKinematicBicycle</span><span class="o">.</span><span class="n">GO_KART_MODEL_FILE</span>
-    <span class="n">veh</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">WALinearKinematicBicycle</span><span class="p">(</span><span class="n">veh_filename</span><span class="p">)</span>
+    <span class="n">vehicle</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">WALinearKinematicBicycle</span><span class="p">(</span><span class="n">system</span><span class="p">,</span> <span class="n">vehicle_inputs</span><span class="p">,</span> <span class="n">veh_filename</span><span class="p">)</span>
 
     <span class="c1"># Visualize the simulation using matplotlib</span>
-    <span class="n">vis</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">WAMatplotlibVisualization</span><span class="p">(</span><span class="n">veh</span><span class="p">,</span> <span class="n">sys</span><span class="p">)</span>
+    <span class="n">visualization</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">WAMatplotlibVisualization</span><span class="p">(</span><span class="n">system</span><span class="p">,</span> <span class="n">vehicle</span><span class="p">,</span> <span class="n">vehicle_inputs</span><span class="p">,</span> <span class="n">environment</span><span class="o">=</span><span class="n">environment</span><span class="p">)</span>
 
     <span class="c1"># Control the vehicle using the arrow keys</span>
-    <span class="n">ctr</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">WAMatplotlibController</span><span class="p">(</span><span class="n">sys</span><span class="p">,</span> <span class="n">vis</span><span class="p">)</span>
+    <span class="n">controller</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">WAMatplotlibController</span><span class="p">(</span><span class="n">system</span><span class="p">,</span> <span class="n">vehicle_inputs</span><span class="p">,</span> <span class="n">visualization</span><span class="p">)</span>
 
     <span class="c1"># Instantiate the simulation manager</span>
-    <span class="n">sim</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">WASimulation</span><span class="p">(</span><span class="n">sys</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">veh</span><span class="p">,</span> <span class="n">vis</span><span class="p">,</span> <span class="n">ctr</span><span class="p">)</span>
+    <span class="n">sim_manager</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">WASimulationManager</span><span class="p">(</span><span class="n">system</span><span class="p">,</span> <span class="n">environment</span><span class="p">,</span> <span class="n">vehicle</span><span class="p">,</span> <span class="n">visualizatioon</span><span class="p">,</span> <span class="n">controller</span><span class="p">)</span>
 
-    <span class="c1"># Run the simulation</span>
-    <span class="n">sim</span><span class="o">.</span><span class="n">Run</span><span class="p">()</span>
+    <span class="c1"># Simulation loop</span>
+    <span class="n">step_size</span> <span class="o">=</span> <span class="n">system</span><span class="o">.</span><span class="n">step_size</span>
+    <span class="k">while</span> <span class="n">sim_manager</span><span class="o">.</span><span class="n">is_ok</span><span class="p">():</span>
+        <span class="n">time</span> <span class="o">=</span> <span class="n">system</span><span class="o">.</span><span class="n">time</span>
+
+        <span class="n">sim_manager</span><span class="o">.</span><span class="n">synchronize</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
+        <span class="n">sim_manager</span><span class="o">.</span><span class="n">advance</span><span class="p">(</span><span class="n">step_size</span><span class="p">)</span>
 
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
@@ -241,27 +247,33 @@ This project is under active development by <a class="reference external" href="
 
 <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
     <span class="c1"># Create the system</span>
-    <span class="n">sys</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">WAChronoSystem</span><span class="p">(</span><span class="n">step_size</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">)</span>
+    <span class="n">system</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">WAChronoSystem</span><span class="p">(</span><span class="n">step_size</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">)</span>
 
     <span class="c1"># Create an environment using a premade environment description</span>
     <span class="n">env_filename</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">WAChronoEnvironment</span><span class="o">.</span><span class="n">EGP_ENV_MODEL_FILE</span>
-    <span class="n">env</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">WAChronoEnvironment</span><span class="p">(</span><span class="n">env_filename</span><span class="p">,</span> <span class="n">sys</span><span class="p">)</span>
+    <span class="n">environment</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">WAChronoEnvironment</span><span class="p">(</span><span class="n">system</span><span class="p">,</span> <span class="n">env_filename</span><span class="p">)</span>
 
     <span class="c1"># Create an vehicle using a premade vehicle description</span>
+    <span class="n">vehicle_inputs</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">WAVehicleInputs</span><span class="p">()</span>
     <span class="n">veh_filename</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">WAChronoVehicle</span><span class="o">.</span><span class="n">GO_KART_MODEL_FILE</span>
-    <span class="n">veh</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">WAChronoVehicle</span><span class="p">(</span><span class="n">veh_filename</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">env</span><span class="p">)</span>
+    <span class="n">vehicle</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">WAChronoVehicle</span><span class="p">(</span><span class="n">system</span><span class="p">,</span> <span class="n">vehicle_inputs</span><span class="p">,</span> <span class="n">environment</span><span class="p">,</span> <span class="n">veh_filename</span><span class="p">)</span>
 
     <span class="c1"># Visualize the simulation using matplotlib</span>
-    <span class="n">vis</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">WAMatplotlibVisualization</span><span class="p">(</span><span class="n">veh</span><span class="p">,</span> <span class="n">sys</span><span class="p">)</span>
+    <span class="n">visualization</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">WAMatplotlibVisualization</span><span class="p">(</span><span class="n">system</span><span class="p">,</span> <span class="n">vehicle</span><span class="p">,</span> <span class="n">vehicle_inputs</span><span class="p">,</span> <span class="n">environment</span><span class="o">=</span><span class="n">environment</span><span class="p">)</span>
 
     <span class="c1"># Control the vehicle using the arrow keys</span>
-    <span class="n">ctr</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">WAMatplotlibController</span><span class="p">(</span><span class="n">sys</span><span class="p">,</span> <span class="n">vis</span><span class="p">)</span>
+    <span class="n">controller</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">WAMatplotlibController</span><span class="p">(</span><span class="n">system</span><span class="p">,</span> <span class="n">vehicle_inputs</span><span class="p">,</span> <span class="n">visualization</span><span class="p">)</span>
 
     <span class="c1"># Instantiate the simulation manager</span>
-    <span class="n">sim</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">WASimulation</span><span class="p">(</span><span class="n">sys</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">veh</span><span class="p">,</span> <span class="n">vis</span><span class="p">,</span> <span class="n">ctr</span><span class="p">)</span>
+    <span class="n">sim_manager</span> <span class="o">=</span> <span class="n">wa</span><span class="o">.</span><span class="n">WASimulationManager</span><span class="p">(</span><span class="n">system</span><span class="p">,</span> <span class="n">environment</span><span class="p">,</span> <span class="n">vehicle</span><span class="p">,</span> <span class="n">visualizatioon</span><span class="p">,</span> <span class="n">controller</span><span class="p">)</span>
 
-    <span class="c1"># Run the simulation</span>
-    <span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+    <span class="c1"># Simulation loop</span>
+    <span class="n">step_size</span> <span class="o">=</span> <span class="n">system</span><span class="o">.</span><span class="n">step_size</span>
+    <span class="k">while</span> <span class="n">sim_manager</span><span class="o">.</span><span class="n">is_ok</span><span class="p">():</span>
+        <span class="n">time</span> <span class="o">=</span> <span class="n">system</span><span class="o">.</span><span class="n">time</span>
+
+        <span class="n">sim_manager</span><span class="o">.</span><span class="n">synchronize</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
+        <span class="n">sim_manager</span><span class="o">.</span><span class="n">advance</span><span class="p">(</span><span class="n">step_size</span><span class="p">)</span>
 
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
