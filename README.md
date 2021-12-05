@@ -15,30 +15,30 @@ import wa_simulator as wa
 
 def main():
     # Create the system
-    system = wa.WASystem(step_size=1e-3)
+    sys = wa.WASystem(step_size=1e-3)
 
     # Create an environment using a premade environment description
     env_filename = wa.WASimpleEnvironment.EGP_ENV_MODEL_FILE
-    environment = wa.WASimpleEnvironment(system, env_filename)
+    env = wa.WASimpleEnvironment(sys, env_filename)
 
     # Create an vehicle using a premade vehicle description
-    vehicle_inputs = wa.WAVehicleInputs()
+    veh_inputs = wa.WAVehicleInputs()
     veh_filename = wa.WALinearKinematicBicycle.GO_KART_MODEL_FILE
-    vehicle = wa.WALinearKinematicBicycle(system, vehicle_inputs, veh_filename)
+    veh = wa.WALinearKinematicBicycle(sys, veh_inputs, veh_filename)
 
     # Visualize the simulation using matplotlib
-    visualization = wa.WAMatplotlibVisualization(system, vehicle, vehicle_inputs, environment=environment)
+    vis = wa.WAMatplotlibVisualization(sys, veh, veh_inputs, environment=env)
 
     # Control the vehicle using the arrow keys
-    controller = wa.WAMatplotlibController(system, vehicle_inputs, visualization)
+    ctr = wa.WAMatplotlibController(sys, veh_inputs, vis)
 
     # Instantiate the simulation manager
-    sim_manager = wa.WASimulationManager(system, environment, vehicle, visualizatioon, controller)
+    sim_manager = wa.WASimulationManager(sys, env, veh, vis, ctr)
 
     # Simulation loop
-    step_size = system.step_size
+    step_size = sys.step_size
     while sim_manager.is_ok():
-        time = system.time
+        time = sys.time
 
         sim_manager.synchronize(time)
         sim_manager.advance(step_size)
@@ -58,30 +58,30 @@ import wa_simulator.chrono as wa
 
 def main():
     # Create the system
-    system = wa.WAChronoSystem(step_size=1e-3)
+    sys = wa.WAChronoSystem(step_size=1e-3)
 
     # Create an environment using a premade environment description
     env_filename = wa.WAChronoEnvironment.EGP_ENV_MODEL_FILE
-    environment = wa.WAChronoEnvironment(system, env_filename)
+    env = wa.WAChronoEnvironment(sys, env_filename)
 
     # Create an vehicle using a premade vehicle description
-    vehicle_inputs = wa.WAVehicleInputs()
+    veh_inputs = wa.WAVehicleInputs()
     veh_filename = wa.WAChronoVehicle.GO_KART_MODEL_FILE
-    vehicle = wa.WAChronoVehicle(system, vehicle_inputs, environment, veh_filename)
+    veh = wa.WAChronoVehicle(sys, veh_inputs, veh_filename)
 
     # Visualize the simulation using matplotlib
-    visualization = wa.WAMatplotlibVisualization(system, vehicle, vehicle_inputs, environment=environment)
+    vis = wa.WAMatplotlibVisualization(sys, veh, veh_inputs, environment=env)
 
     # Control the vehicle using the arrow keys
-    controller = wa.WAMatplotlibController(system, vehicle_inputs, visualization)
+    ctr = wa.WAMatplotlibController(sys, veh_inputs, vis)
 
     # Instantiate the simulation manager
-    sim_manager = wa.WASimulationManager(system, environment, vehicle, visualizatioon, controller)
+    sim_manager = wa.WASimulationManager(sys, env, veh, vis, ctr)
 
     # Simulation loop
-    step_size = system.step_size
+    step_size = sys.step_size
     while sim_manager.is_ok():
-        time = system.time
+        time = sys.time
 
         sim_manager.synchronize(time)
         sim_manager.advance(step_size)
