@@ -68,9 +68,21 @@ def run_start(args):
         # Run the script
         LOGGER.info(f"Running '{cmd}'")
         if not args.dry_run:
+
+            # setup the signal listener to listen for the interrupt signal (ctrl+c)
+            import signal, sys
+            def signal_handler(sig, frame):
+                LOGGER.info(f"Stopping container.")
+                container.kill()
+                sys.exit(0)
+            signal.signal(signal.SIGINT, signal_handler)
+
+            # Run the command
             client = docker.from_env()
-            container = client.containers.run(image, cmd, volumes=volumes, ports=ports, stdout=True, stderr=True)
-            print(container)
+            container = client.containers.run(image, "/bin/bash", volumes=volumes, ports=ports, detach=True, tty=True, name="wasim-docker", auto_remove=True)
+            result = container.exec_run(cmd)
+            print(result.output.decode())
+
 
 def init(subparser):
     LOGGER.debug("Running 'docker' entrypoint...")

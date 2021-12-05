@@ -67,7 +67,7 @@ def main():
     # Create an vehicle using a premade vehicle description
     veh_inputs = wa.WAVehicleInputs()
     veh_filename = wa.WAChronoVehicle.GO_KART_MODEL_FILE
-    veh = wa.WAChronoVehicle(sys, veh_inputs, veh_filename)
+    veh = wa.WAChronoVehicle(sys, veh_inputs, env, veh_filename)
 
     # Visualize the simulation using matplotlib
     vis = wa.WAMatplotlibVisualization(sys, veh, veh_inputs, environment=env)
