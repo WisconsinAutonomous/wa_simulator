@@ -26,7 +26,8 @@ def run_start(args):
     The start command will take two arguments that point to two files: 
     a YAML configuration file and the python script. The YAML file defines various settings we'll
     use when spinning up the container. The python script is the actual file we'll run from within the
-    container.
+    container. After the python script, you may add arguments that will get passed to the script
+    when it's run in the container. See some examples below.
 
     YAML Settings:
         *   :code:`containers` (required): A list of containers we'd like to spin up. Each container is run sequentially (one after another; i.e. the previous container will complete before the next is run). Each container is idenified by a name, which is used as the container name.
@@ -60,7 +61,7 @@ def run_start(args):
                     
     Example cli commands:
 
-    .. highlights:: bash
+    .. highlight:: bash
     .. code-block:: bash
         
         # Run from within wa_simulator/demos/bridge
@@ -69,6 +70,8 @@ def run_start(args):
         # With more verbosity
         wasim -vv docker start demo_bridge.yaml demo_bridge_server.py
 
+        # With some script arguments
+        wasim -vv docker start demo_bridge.yaml demo_bridge_server.py --step_size 2e-3
     """
     import docker
 

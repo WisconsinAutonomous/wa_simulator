@@ -345,8 +345,7 @@ class YAMLParser:
         # Do some checks first
         self._filename = filename
         if not _file_exists(filename):
-            self._data = {}
-            return
+            raise FileNotFoundError(f"Could not read {filename}. File does not exist.")
 
         # Load in the file
         LOGGER.info(f"Reading {filename} as yaml...")
