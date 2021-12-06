@@ -150,12 +150,78 @@ def run_start(args):
             except docker.errors.APIError as e:
                 LOGGER.warn(f"{image} was not found locally. Pulling from DockerHub. This may take a few minutes...")
                 client.images.pull(image)
-                LOGGER.warn(f"Finished pulling {image} from DockerHub.")
+                LOGGER.warn(f"Finished pulling {image} from DockerHub. Running command...")
 
             # Run the command
             running_container = None
             running_container = client.containers.run(image, "/bin/bash", volumes=volumes, ports=ports, detach=True, tty=True, name=name, auto_remove=True)
             result = running_container.exec_run(cmd)
+            print(result.output.decode())
+
+def run_exec(args):
+    """Command that allows you to run a script within a running container.
+
+    This command takes two arguments: a container name and a script. The container name is used
+    to find a running container to run the script in. If a container is not found, a :class:`RuntimeError` 
+    will be thrown.
+
+    Example cli commands:
+
+    .. highlight:: bash
+    .. code-block:: bash
+        
+        # The following examples can be run in wa_simulator/demos/bridge
+        # To launch a container, you need to first run docker-compose up -d wasim-prod
+         
+        # Run the server
+        wasim docker exec wasim-prod demo_bridge_server.py
+
+        # With more verbosity
+        wasim -vv docker exec wasim-prod demo_bridge_server.py
+
+        # With some script arguments
+        wasim -vv docker exec wasim-prod demo_bridge_server.py --step_size 2e-3
+    """
+    import docker
+
+    LOGGER.debug("Running 'docker start' entrypoint...")
+    
+    # Grab the args to run
+    script = args.script
+    script_args = args.script_args
+
+    # Grab the file path
+    absfile = pathlib.Path(script).resolve()
+    filename = absfile.name
+
+    # Grab the container name
+    container = args.container
+
+    # Create the command
+    cmd = f"python {filename} {' '.join(script_args)}"
+
+    LOGGER.info(f"Attempting to run '{cmd}' inside container '{container}'")
+    if not args.dry_run:
+        # Get the client
+        client = docker.from_env()
+
+        # setup the signal listener to listen for the interrupt signal (ctrl+c)
+        import signal, sys
+        def signal_handler(sig, frame):
+            if running_container is not None:
+                LOGGER.info(f"Stopping container.")
+                running_container.kill()
+            sys.exit(0)
+        signal.signal(signal.SIGINT, signal_handler)
+
+        try:
+            running_container = client.containers.get(container)
+        except docker.errors.NotFound as e:
+            raise RuntimeError(f"A container with the name {container} was not found. Make sure you have started the container.")
+
+        # Run the command
+        result = running_container.exec_run(cmd)
+        print(result.output.decode())
 
 def init(subparser):
     """Initializer method for the :code:`docker` entrypoint.
@@ -174,6 +240,8 @@ def init(subparser):
 
     Current subcommands:
         * :code:`start`: Spins up a container and runs a python script in the created container.
+
+        * :code:`exec`: Runs a script in a running container.
     """
     LOGGER.debug("Running 'docker' entrypoint...")
 
@@ -186,3 +254,10 @@ def init(subparser):
     start.add_argument("script", help="The script to start up in the Docker container")
     start.add_argument("script_args", nargs=argparse.REMAINDER, help="The arguments for the [script]")
     start.set_defaults(cmd=run_start)
+
+    # Exec subcommand
+    exec_parser = subparsers.add_parser("exec", description="Run a script in an existing running container")
+    exec_parser.add_argument("container", help="The container to run the script in")
+    exec_parser.add_argument("script", help="The script to start up in the Docker container")
+    exec_parser.add_argument("script_args", nargs=argparse.REMAINDER, help="The arguments for the [script]")
+    exec_parser.set_defaults(cmd=run_exec)

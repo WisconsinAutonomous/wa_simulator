@@ -22,13 +22,13 @@ import sys
 class WABridge(WABase):
     """Base class for a bridge interface between the simulator and an external entity
 
-    There are many applications where it's desired that `wa_simulator` communicates with external entities.
-    For example, `Robot Operating System or ROS <https://www.ros.org/>_` is a popular tool for writing
+    There are many applications where it's desired that :code:`wa_simulator` communicates with external entities.
+    For example, `Robot Operating System or ROS <https://www.ros.org/>`_ is a popular tool for writing
     robotic control code. Simulation is a very valuable tool for testing, so being able to communicate
     with these external control stacks is an important feature.
 
-    For each external entity that wants to be connected to, a new bridge object must be created. The `multiprocessing.connection` library
-    will be used and it's `Listener <https://docs.python.org/3/library/multiprocessing.html#multiprocessing.connection.Listener>_` class.
+    For each external entity that wants to be connected to, a new bridge object must be created. The :code:`multiprocessing.connection` library
+    will be used and it's `Listener <https://docs.python.org/3/library/multiprocessing.html#multiprocessing.connection.Listener>`_ class.
     The messages will be sent as dictionaries of data and messages to be sent at each timestep will be accumulated to be sent as one large message.
 
     Message types are dynamic in types, form and structure; however, there are a few rules that must be abided by. First, sender names must be unique. The
@@ -74,8 +74,8 @@ class WABridge(WABase):
         the hostname and port provided to the constructor.
 
         If this bridge is a server, a ``multiprocessing.Connection.Listener`` object is used. Otherwise, a ``multiprocessing.Connection.Client`` object is used.
-        See the `Listener <https://docs.python.org/3/library/multiprocessing.html#multiprocessing.connection.Listener>_` 
-        or `Client <https://docs.python.org/3/library/multiprocessing.html#multiprocessing.connection.Client>_` docs to see possible errors that may be raised.
+        See the `Listener <https://docs.python.org/3/library/multiprocessing.html#multiprocessing.connection.Listener>`_ 
+        or `Client <https://docs.python.org/3/library/multiprocessing.html#multiprocessing.connection.Client>`_ docs to see possible errors that may be raised.
         """
         if self._server:
             self._listener = mp.Listener(self._address)

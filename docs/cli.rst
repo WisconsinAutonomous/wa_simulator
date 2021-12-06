@@ -31,3 +31,8 @@ Subcommands immediately succeed the :code:`wasim` command. They implement additi
 """""""""""""""""""
 
 .. autosimple:: wa_simulator.cli.docker.run_start
+
+:code:`docker exec`
+"""""""""""""""""""
+
+.. autosimple:: wa_simulator.cli.docker.run_exec

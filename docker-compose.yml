@@ -2,6 +2,7 @@ version: "3.9"
 services:
   wasim-dev:
     hostname: 'wasim-dev'
+    container_name: 'wasim-dev'
     image: wiscauto/wa_simulator:develop
     build:
       context: ./
@@ -12,9 +13,12 @@ services:
       - PYTHONUNBUFFERED=1
   wasim-prod:
     hostname: 'wasim-prod'
+    container_name: 'wasim-prod'
     image: wiscauto/wa_simulator:latest
     build:
       context: ./
       dockerfile: ./docker/prod.dockerfile
       network: host
     working_dir: /root/
+    tty: true
+    command: "/bin/bash"
