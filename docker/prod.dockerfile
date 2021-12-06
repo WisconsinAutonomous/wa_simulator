@@ -19,5 +19,5 @@ RUN cd /tmp/wa_simulator && python setup.py develop
 
 WORKDIR /root/
 
-COPY entrypoint.sh /
+COPY docker/entrypoint.sh /
 ENTRYPOINT ["/entrypoint.sh"]
