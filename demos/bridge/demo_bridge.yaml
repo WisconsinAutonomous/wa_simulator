@@ -3,7 +3,7 @@
 # Client: python demo_bridge_client.py
 containers:
   wasim-docker:
-    image: wiscauto/wa_simulator:develop
+    image: wiscauto/wa_simulator:latest
     volumes:
       - host: "../data"
         container: "/root/data"

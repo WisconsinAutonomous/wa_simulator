@@ -132,21 +132,30 @@ def run_start(args):
         LOGGER.info(f"\tVolumes: {volumes}")
         LOGGER.info(f"\tPorts: {ports}")
         if not args.dry_run:
+            # Get the client
+            client = docker.from_env()
 
             # setup the signal listener to listen for the interrupt signal (ctrl+c)
             import signal, sys
             def signal_handler(sig, frame):
-                LOGGER.info(f"Stopping container.")
-                container.kill()
+                if running_container is not None:
+                    LOGGER.info(f"Stopping container.")
+                    running_container.kill()
                 sys.exit(0)
             signal.signal(signal.SIGINT, signal_handler)
 
-            # Run the command
-            client = docker.from_env()
-            container = client.containers.run(image, "/bin/bash", volumes=volumes, ports=ports, detach=True, tty=True, name=name, auto_remove=True)
-            result = container.exec_run(cmd)
-            print(result.output.decode())
+            # Check if image is found locally
+            try:
+                client.images.get(image)
+            except docker.errors.APIError as e:
+                LOGGER.warn(f"{image} was not found locally. Pulling from DockerHub. This may take a few minutes...")
+                client.images.pull(image)
+                LOGGER.warn(f"Finished pulling {image} from DockerHub.")
 
+            # Run the command
+            running_container = None
+            running_container = client.containers.run(image, "/bin/bash", volumes=volumes, ports=ports, detach=True, tty=True, name=name, auto_remove=True)
+            result = running_container.exec_run(cmd)
 
 def init(subparser):
     """Initializer method for the :code:`docker` entrypoint.
