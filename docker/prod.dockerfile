@@ -13,10 +13,8 @@ RUN apt update && apt upgrade -y
 # Install some packages
 RUN apt install -y wget bash
 
-# Add the WA simulator env file
-RUN wget https://raw.githubusercontent.com/WisconsinAutonomous/wa_simulator/master/environment.yml -O /root/environment.yml
-RUN conda env update --name base -f /root/environment.yml
-RUN rm -f /root/environment.yml
+# Install the wa_simulator
+RUN pip install wa_simulator
 
 WORKDIR /root/
 
