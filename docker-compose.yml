@@ -15,6 +15,6 @@ services:
     image: wiscauto/wa_simulator:latest
     build:
       context: ./
-      dockerfile: ./docker/dev.dockerfile
+      dockerfile: ./docker/prod.dockerfile
       network: host
     working_dir: /root/
