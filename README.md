@@ -91,6 +91,10 @@ if __name__ == "__main__":
     main()
 ```
 
+### Command Line Interface
+
+`wa_simulator` can also be run via a command line interface with the entrypoint `wasim`. When `wa_simulator` is installed, this CLI is automatically made available and has subcommands available.
+
 ## Documentation
 
 - [Home](https://wisconsinautonomous.github.io/wa_simulator/index.html)

@@ -9,7 +9,7 @@ in the LICENSE file at the top level of the repo
 """
 
 # Command imports
-import wa_simulator._entrypoint.docker as docker
+import wa_simulator.cli.docker as docker
 
 # Utility imports
 from wa_simulator.utils import set_verbosity

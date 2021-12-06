@@ -14,6 +14,7 @@ import wa_simulator
 from datetime import date
 import os
 import sys
+
 root_path = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.insert(0, root_path)
 sys.setrecursionlimit(1500)
@@ -36,7 +37,7 @@ release = get_version('wa_simulator')
 extensions = [
     # "rinoh.frontend.sphinx",
     "sphinx.ext.napoleon",
-    # "sphinx.ext.autodoc",
+    "sphinx.ext.autodoc",
     "sphinx.ext.todo",
     "sphinx.ext.viewcode",
     "autoapi.extension",
@@ -58,6 +59,7 @@ autoapi_ignore = ["*_import*"]
 autoapi_keep_files = False
 autoapi_generate_api_docs = True
 autoapi_add_toctree_entry = True
+# autoapi_keep_files = True
 autoapi_template_dir = "_templates"
 # autoapi_member_order = "groupwise"
 
@@ -78,9 +80,22 @@ def autoapi_skip_member(app, what, name, obj, skip, options):
         return True
     return None
 
+from sphinx.ext import autodoc
+
+class SimpleDocumenter(autodoc.MethodDocumenter):
+    objtype = "simple"
+
+    #do not indent the content
+    content_indent = ""
+
+    #do not add a header to the docstring
+    def add_directive_header(self, sig):
+        pass
+
 
 def setup(app):
     app.connect('autoapi-skip-member', autoapi_skip_member)
+    app.add_autodocumenter(SimpleDocumenter)
 
 
 viewcode_enable_epub = True

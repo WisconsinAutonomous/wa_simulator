@@ -34,12 +34,15 @@ def read_requirements(file: str = "requirements.txt"):
         required = f.read().splitlines()
         return required
 
+
 def create_version():
     from setuptools_scm.version import get_local_dirty_tag
+
     def clean_scheme(version):
         return get_local_dirty_tag(version) if version.dirty else '+clean'
 
     return {'local_scheme': clean_scheme}
+
 
 setup(
     name="wa_simulator",
@@ -56,7 +59,7 @@ setup(
     package_data={"wa_simulator": get_package_data("wa_simulator/data")},
     entry_points={
         "console_scripts": [
-            "wasim = wa_simulator._entrypoint.wasim:main",
+            "wasim = wa_simulator.cli.wasim:main",
         ],
     },
     classifiers=[
