@@ -5,5 +5,33 @@
 
 .. py:module:: conf
 
+.. Module Contents
+.. ---------------
+
+
+.. raw:: html
+
+   <h2>Classes</h2>
+
+.. autoapisummary::
+  :nosignatures:
+
+  conf.SimpleDocumenter
+
+.. py:class:: SimpleDocumenter(directive: DocumenterBridge, name: str, indent: str = '')
+
+   Bases: :class:`sphinx.ext.autodoc.MethodDocumenter`
+
+   Specialized Documenter subclass for methods (normal, static and class).
+
+   .. method:: add_directive_header(self, sig)
+
+      Add the directive header and options to the generated content.
+
+
+
+
+
+
 
 .. 

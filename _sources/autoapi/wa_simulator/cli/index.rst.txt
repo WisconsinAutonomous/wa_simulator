@@ -1,9 +1,9 @@
 :orphan:
 
-:mod:`wa_simulator._entrypoint`
-===============================
+:mod:`wa_simulator.cli`
+=======================
 
-.. py:module:: wa_simulator._entrypoint
+.. py:module:: wa_simulator.cli
 
 
 .. toctree::

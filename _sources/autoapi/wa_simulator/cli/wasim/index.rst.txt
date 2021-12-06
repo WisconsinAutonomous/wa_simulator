@@ -1,7 +1,7 @@
-:mod:`wa_simulator._entrypoint.docker`
-======================================
+:mod:`wa_simulator.cli.wasim`
+=============================
 
-.. py:module:: wa_simulator._entrypoint.docker
+.. py:module:: wa_simulator.cli.wasim
 
 
 .. .. .. autoapi-nested-parse::

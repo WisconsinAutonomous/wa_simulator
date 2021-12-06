@@ -1,0 +1,402 @@
+<!doctype html>
+<html class="no-js">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
+
+    <link rel="shortcut icon" href="../../../_static/wa-dark-favicon.png"/><meta name="generator" content="sphinx-3.4.2, furo 2020.12.30.beta24"/>
+        <title>wa_simulator.cli.docker - Wisconsin Autonomous Simulator 2.1.7 documentation</title>
+      <link rel="stylesheet" href="../../../_static/styles/furo.css?digest=33d2fc4f3f180ec1ffc6524e273e21d7d58cbe49">
+    <link rel="stylesheet" href="../../../_static/pygments.css">
+    <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../../../_static/pygments_dark.css">
+    
+
+
+<style>
+  :root {
+    --color-code-background: #f0f0f0;
+  --color-code-foreground: black;
+  
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+  }
+
+  /* For allowing end-user-specific overrides */
+  .override-light {
+    --color-code-background: #f0f0f0;
+  --color-code-foreground: black;
+  
+  }
+  .override-dark {
+    --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+  }
+</style><link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css" />
+    <link rel="stylesheet" href="../../../_static/styles/furo-extensions.css?digest=26485485040e7aaf717c13fd0188a5ad2c2deb60">
+    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script defer="defer" src="../../../_static/jquery.js"></script>
+    <script defer="defer" src="../../../_static/underscore.js"></script>
+    <script defer="defer" src="../../../_static/doctools.js"></script>
+    <script async="async" defer="defer" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script defer="defer" type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <script defer src="../../../_static/scripts/main.js?digest=e931d09b2a40c1bb82b542effe772014573baf67"></script></head>
+  <body dir="">
+    
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+      stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z"/>
+      <line x1="4" y1="6" x2="20" y2="6" />
+      <line x1="10" y1="12" x2="20" y2="12" />
+      <line x1="6" y1="18" x2="20" y2="18" />
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+      class="feather feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+      class="feather feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
+
+<div class="announcement">
+  <aside class="announcement-content">
+     
+        <a style="text-decoration: none; color: white;" 
+           href="https://wa.wisc.edu">
+           <img src="https://github.com/WisconsinAutonomous/wa-resources/blob/master/Images/wa-dark.png?raw=true" 
+                style="vertical-align: middle; display: inline; padding-right: 7.5px; height: 20px;"/>
+           Checkout our website!
+        </a>
+     
+  </aside>
+</div>
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../../index.html"><div class="brand">Wisconsin Autonomous Simulator 2.1.7 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="../../../_static/wa-light.png" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../../../_static/wa-dark.png" alt="Dark Logo"/>
+  </div>
+  
+  
+</a><form class="sidebar-search-container" method="get" action="../../../search.html">
+  <input class="sidebar-search" placeholder=Search name="q">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../background.html">Background</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../installation/index.html">Installation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label for="toctree-checkbox-1"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation/unix.html">Unix Installation Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation/windows.html">Windows Installation Guide</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label for="toctree-checkbox-2"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/centerline_path.html">Creating a Centerline Path Planner</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/custom-controller.html">Creating a Custom Controller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/writing-a-json.html">Writing a JSON Specification File</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../autoapi/wa_simulator/index.html">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label for="toctree-checkbox-3"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../autoapi/wa_simulator/chrono/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label for="toctree-checkbox-4"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../autoapi/wa_simulator/chrono/controller/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.controller</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../autoapi/wa_simulator/chrono/environment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.environment</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../autoapi/wa_simulator/chrono/sensor/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.sensor</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../autoapi/wa_simulator/chrono/system/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.system</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../autoapi/wa_simulator/chrono/utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.utils</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../autoapi/wa_simulator/chrono/vehicle/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.vehicle</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../autoapi/wa_simulator/chrono/visualization/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.visualization</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../autoapi/wa_simulator/base/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.base</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../autoapi/wa_simulator/bridge/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.bridge</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../autoapi/wa_simulator/controller/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.controller</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../autoapi/wa_simulator/core/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.core</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../autoapi/wa_simulator/environment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.environment</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../autoapi/wa_simulator/path/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.path</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../autoapi/wa_simulator/sensor/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.sensor</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../autoapi/wa_simulator/simulation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.simulation</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../autoapi/wa_simulator/system/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.system</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../autoapi/wa_simulator/track/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.track</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../autoapi/wa_simulator/utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.utils</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../autoapi/wa_simulator/vehicle/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.vehicle</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../autoapi/wa_simulator/vehicle_inputs/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.vehicle_inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../autoapi/wa_simulator/visualization/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.visualization</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
+</ul>
+<p><span class="caption-text">External Links</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://pypi.org/project/wa-simulator/">PyPI</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/WisconsinAutonomous/wa_simulator">Github</a></li>
+</ul>
+
+</div>
+</div>
+      </div>
+      
+    </div>
+  </aside>
+  <main class="main">
+    <div class="content">
+      <article role="main">
+        <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+        </label>
+        <h1>Source code for wa_simulator.cli.docker</h1><div class="highlight"><pre>
+<span></span><span class="sd">"""</span>
+<span class="sd">Wisconsin Autonomous - https://wa.wisc.edu</span>
+
+<span class="sd">Copyright (c) 2021 wa.wisc.edu</span>
+<span class="sd">All rights reserved.</span>
+
+<span class="sd">Use of this source code is governed by a BSD-style license that can be found</span>
+<span class="sd">in the LICENSE file at the top level of the repo</span>
+<span class="sd">"""</span>
+
+<span class="c1"># Imports from wa_simulator</span>
+<span class="kn">from</span> <span class="nn">wa_simulator.utils</span> <span class="k">import</span> <span class="n">YAMLParser</span><span class="p">,</span> <span class="n">LOGGER</span>
+
+<span class="c1"># General imports</span>
+<span class="kn">import</span> <span class="nn">argparse</span>
+<span class="kn">import</span> <span class="nn">pathlib</span>
+
+<div class="viewcode-block" id="run_start"><a class="viewcode-back" href="../../../autoapi/wa_simulator/cli/docker/index.html#wa_simulator.cli.docker.run_start">[docs]</a><span class="k">def</span> <span class="nf">run_start</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
+    <span class="sd">"""The start command will spin up a Docker container that runs a python script with the desired image.</span>
+
+<span class="sd">    The use case for the start command is when we'd like to run a :code:`wa_simulator` script with a certain</span>
+<span class="sd">    operating system configuration or in a way that's distributable across computers. Everyone's setup is different,</span>
+<span class="sd">    i.e. OS, development environment, packages installed. Using Docker, you can simply run :code:`wasim docker start ...`</span>
+<span class="sd">    and run :code:`wa_simulator` agnostic from your local system.</span>
+
+<span class="sd">    The start command will take two arguments that point to two files: </span>
+<span class="sd">    a YAML configuration file and the python script. The YAML file defines various settings we'll</span>
+<span class="sd">    use when spinning up the container. The python script is the actual file we'll run from within the</span>
+<span class="sd">    container. After the python script, you may add arguments that will get passed to the script</span>
+<span class="sd">    when it's run in the container. See some examples below.</span>
+
+<span class="sd">    YAML Settings:</span>
+<span class="sd">        *   :code:`containers` (required): A list of containers we'd like to spin up. Each container is run sequentially (one after another; i.e. the previous container will complete before the next is run). Each container is idenified by a name, which is used as the container name.</span>
+
+<span class="sd">        * :code:`image` (required): The image the container will use. If the image has not been downloaded, it will be fetched at runtime.</span>
+
+<span class="sd">        * :code:`volumes` (optional): The `volumes &lt;https://docs.docker.com/storage/volumes/&gt;_` mapped from the host to the container. They can be specified either through a dictionary with :code:`host`, :code:`container`, and optionally :code:`is_relative_to_yaml` attributes. :code:`host` and :code:`container` are the paths from the host and container that make up the volume, respectively. :code:`is_relative_to_yaml` specified whether the :code:`host` path is relative to the yaml configuration file; if it is, the :code:`host` path will be resolved relative to the yaml file location (as Docker requires the host directory to be absolute). They can also be specified via a string that follows the traditional volume representation in the Docker CLI (i.e. :code:`"/usr/local:/usr/local"). The passed python script is automatically configured to be a volume at :code:`/root/`.</span>
+
+<span class="sd">        * :code:`ports` (optional): The `ports &lt;https://docs.docker.com/config/containers/container-networking/#published-ports&gt;_` to bind the container to. These are specified as a dictionary, where the keys are the ports to bind inside the container. The keys then map to a list of either integers or strings that define ports to bind to on the host side.</span>
+
+<span class="sd">    Examples YAML files:</span>
+
+<span class="sd">    .. highlight:: yaml</span>
+<span class="sd">    .. code-block:: yaml</span>
+<span class="sd">        </span>
+<span class="sd">        # -------------</span>
+<span class="sd">        # Example1.yaml</span>
+<span class="sd">        # -------------</span>
+
+<span class="sd">        containers:</span>
+<span class="sd">            wasim:</span>
+<span class="sd">                image: wiscauto/wa_simulator</span>
+<span class="sd">                volumes:</span>
+<span class="sd">                    - host: "../data"</span>
+<span class="sd">                      container: "/root/data"</span>
+<span class="sd">                      is_relative_to_yaml: True</span>
+<span class="sd">                    - "/usr/local:/usr/local"</span>
+<span class="sd">                ports: # Dictionary of {&lt;container&gt;: [&lt;host&gt;, ...]}</span>
+<span class="sd">                    5555:</span>
+<span class="sd">                      - 5555</span>
+<span class="sd">                    </span>
+<span class="sd">    Example cli commands:</span>
+
+<span class="sd">    .. highlight:: bash</span>
+<span class="sd">    .. code-block:: bash</span>
+<span class="sd">        </span>
+<span class="sd">        # Run from within wa_simulator/demos/bridge</span>
+<span class="sd">        wasim docker start demo_bridge.yaml demo_bridge_server.py</span>
+
+<span class="sd">        # With more verbosity</span>
+<span class="sd">        wasim -vv docker start demo_bridge.yaml demo_bridge_server.py</span>
+
+<span class="sd">        # With some script arguments</span>
+<span class="sd">        wasim -vv docker start demo_bridge.yaml demo_bridge_server.py --step_size 2e-3</span>
+<span class="sd">    """</span>
+    <span class="kn">import</span> <span class="nn">docker</span>
+
+    <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Running 'docker start' entrypoint..."</span><span class="p">)</span>
+    
+    <span class="c1"># Grab the args to run</span>
+    <span class="n">script</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">script</span>
+    <span class="n">script_args</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">script_args</span>
+
+    <span class="c1"># Grab the file path</span>
+    <span class="n">absfile</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">script</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">absfile</span><span class="o">.</span><span class="n">name</span>
+
+    <span class="c1"># Create the command</span>
+    <span class="n">cmd</span> <span class="o">=</span> <span class="n">f</span><span class="s2">"python </span><span class="si">{filename}</span><span class="s2"> {' '.join(script_args)}"</span>
+
+    <span class="c1"># Load the yaml file</span>
+    <span class="n">yaml_file</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">yaml</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">())</span>
+    <span class="n">yaml_parser</span> <span class="o">=</span> <span class="n">YAMLParser</span><span class="p">(</span><span class="n">yaml_file</span><span class="p">)</span>
+
+    <span class="c1"># Grab the containers (will throw error if not present)</span>
+    <span class="n">containers</span> <span class="o">=</span> <span class="n">yaml_parser</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'containers'</span><span class="p">)</span>
+    
+    <span class="c1"># Loop through each container and parse the config</span>
+    <span class="c1"># Will then run the container</span>
+    <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s2">"Parsing containers in the YAML file..."</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">config</span> <span class="ow">in</span> <span class="n">containers</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s2">"Parsing container named '</span><span class="si">{name}</span><span class="s2">'..."</span><span class="p">)</span>
+
+        <span class="c1"># Get the image (will throw error if not present)</span>
+        <span class="n">image</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'image'</span><span class="p">)</span>
+        
+        <span class="c1"># Create the volumes</span>
+        <span class="n">volumes</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">volumes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="s2">"</span><span class="si">{absfile}</span><span class="s2">:/root/</span><span class="si">{filename}</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># The actual file</span>
+        <span class="k">for</span> <span class="n">vol</span> <span class="ow">in</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'volumes'</span><span class="p">,</span> <span class="p">[]):</span>
+            <span class="n">volume</span> <span class="o">=</span> <span class="s2">""</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">vol</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="n">volume</span> <span class="o">=</span> <span class="n">vol</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">vol</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="n">is_relative_to_yaml</span> <span class="o">=</span> <span class="n">vol</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'is_relative_to_yaml'</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">is_relative_to_yaml</span><span class="p">:</span>
+                    <span class="n">host</span> <span class="o">=</span> <span class="nb">str</span><span class="p">((</span><span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">yaml_file</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">vol</span><span class="p">[</span><span class="s1">'host'</span><span class="p">]))</span><span class="o">.</span><span class="n">resolve</span><span class="p">())</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">host</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">vol</span><span class="p">[</span><span class="s1">'host'</span><span class="p">])</span><span class="o">.</span><span class="n">resolve</span><span class="p">())</span>
+                <span class="n">container</span> <span class="o">=</span> <span class="n">vol</span><span class="p">[</span><span class="s1">'container'</span><span class="p">]</span> 
+                <span class="n">make_absolute</span> <span class="o">=</span> <span class="n">vol</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'make_absolute'</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+                
+                <span class="n">volume</span> <span class="o">=</span> <span class="n">f</span><span class="s2">"</span><span class="si">{host}</span><span class="s2">:</span><span class="si">{container}</span><span class="s2">"</span>
+            <span class="n">volumes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">volume</span><span class="p">)</span>
+
+        <span class="c1"># Create the port mappings</span>
+        <span class="n">ports</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'ports'</span><span class="p">,</span> <span class="p">{})</span>
+
+        <span class="c1"># Run the script</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s2">"Running '</span><span class="si">{cmd}</span><span class="s2">' with the following settings:"</span><span class="p">)</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s2">"</span><span class="se">\t</span><span class="s2">Image: </span><span class="si">{image}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s2">"</span><span class="se">\t</span><span class="s2">Volumes: </span><span class="si">{volumes}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s2">"</span><span class="se">\t</span><span class="s2">Ports: </span><span class="si">{ports}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">args</span><span class="o">.</span><span class="n">dry_run</span><span class="p">:</span>
+
+            <span class="c1"># setup the signal listener to listen for the interrupt signal (ctrl+c)</span>
+            <span class="kn">import</span> <span class="nn">signal</span><span class="o">,</span> <span class="nn">sys</span>
+            <span class="k">def</span> <span class="nf">signal_handler</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">frame</span><span class="p">):</span>
+                <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s2">"Stopping container."</span><span class="p">)</span>
+                <span class="n">container</span><span class="o">.</span><span class="n">kill</span><span class="p">()</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">signal</span><span class="o">.</span><span class="n">signal</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">SIGINT</span><span class="p">,</span> <span class="n">signal_handler</span><span class="p">)</span>
+
+            <span class="c1"># Run the command</span>
+            <span class="n">client</span> <span class="o">=</span> <span class="n">docker</span><span class="o">.</span><span class="n">from_env</span><span class="p">()</span>
+            <span class="n">container</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">containers</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="s2">"/bin/bash"</span><span class="p">,</span> <span class="n">volumes</span><span class="o">=</span><span class="n">volumes</span><span class="p">,</span> <span class="n">ports</span><span class="o">=</span><span class="n">ports</span><span class="p">,</span> <span class="n">detach</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">tty</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">auto_remove</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">container</span><span class="o">.</span><span class="n">exec_run</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="init"><a class="viewcode-back" href="../../../autoapi/wa_simulator/cli/docker/index.html#wa_simulator.cli.docker.init">[docs]</a><span class="k">def</span> <span class="nf">init</span><span class="p">(</span><span class="n">subparser</span><span class="p">):</span>
+    <span class="sd">"""Initializer method for the :code:`docker` entrypoint.</span>
+
+<span class="sd">    The entrypoint serves as a mechanism for running containers with :code:`wa_simulator`. It may be</span>
+<span class="sd">    desireable to have a containerized system for running :code:`wa_simulator`; for instance, if a script</span>
+<span class="sd">    requiries a certain package, the Docker image could be shipped without needing to install the package</span>
+<span class="sd">    on a system locally. The scalability of using Docker over installing packages on a system is much greater.</span>
+
+<span class="sd">    To see specific commands that are available, run the following command:</span>
+
+<span class="sd">    .. highlight:: bash</span>
+<span class="sd">    .. code-block:: bash</span>
+
+<span class="sd">        wasim docker -h</span>
+
+<span class="sd">    Current subcommands:</span>
+<span class="sd">        * :code:`start`: Spins up a container and runs a python script in the created container.</span>
+<span class="sd">    """</span>
+    <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Running 'docker' entrypoint..."</span><span class="p">)</span>
+
+    <span class="c1"># Create some entrypoints for additional commands</span>
+    <span class="n">subparsers</span> <span class="o">=</span> <span class="n">subparser</span><span class="o">.</span><span class="n">add_subparsers</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="c1"># Start subcommand</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="s2">"start"</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Start up the WA Simulator in a Docker container"</span><span class="p">)</span>
+    <span class="n">start</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">"yaml"</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">"YAML file with docker configuration"</span><span class="p">)</span>
+    <span class="n">start</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">"script"</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">"The script to start up in the Docker container"</span><span class="p">)</span>
+    <span class="n">start</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">"script_args"</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">REMAINDER</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">"The arguments for the [script]"</span><span class="p">)</span>
+    <span class="n">start</span><span class="o">.</span><span class="n">set_defaults</span><span class="p">(</span><span class="n">cmd</span><span class="o">=</span><span class="n">run_start</span><span class="p">)</span></div>
+</pre></div>
+      </article>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+
+        <div class="related-information">
+              Copyright &#169; 2021, Wisconsin Autonomous
+            |
+            Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
+              and
+              <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+              <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </main>
+</div>
+  </body>
+</html>

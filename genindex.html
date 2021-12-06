@@ -142,6 +142,7 @@
 <li class="toctree-l2"><a class="reference internal" href="tutorials/writing-a-json.html">Writing a JSON Specification File</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">Command Line Interface</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="autoapi/wa_simulator/index.html">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label for="toctree-checkbox-3"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="autoapi/wa_simulator/chrono/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label for="toctree-checkbox-4"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="autoapi/wa_simulator/chrono/controller/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.controller</span></code></a></li>
@@ -231,6 +232,8 @@
 </li>
         </ul></li>
         <li><a href="autoapi/wa_simulator/core/index.html#wa_simulator.core.WAArgumentParser.add_default_sim_arguments">add_default_sim_arguments() (WAArgumentParser method)</a>
+</li>
+        <li><a href="autoapi/conf/index.html#conf.SimpleDocumenter.add_directive_header">add_directive_header() (SimpleDocumenter method)</a>
 </li>
         <li><a href="autoapi/wa_simulator/sensor/index.html#wa_simulator.sensor.WANoiseModel.add_noise">add_noise() (WANoiseModel method)</a>
 
@@ -594,6 +597,8 @@
   <h2>I</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/wa_simulator/cli/docker/index.html#wa_simulator.cli.docker.init">init() (in module wa_simulator.cli.docker)</a>
+</li>
         <li><a href="autoapi/wa_simulator/track/index.html#wa_simulator.track.WATrack.inside_boundaries">inside_boundaries() (WATrack method)</a>
 </li>
         <li><a href="autoapi/wa_simulator/path/index.html#wa_simulator.path.WAPath.is_closed">is_closed() (WAPath method)</a>
@@ -708,12 +713,6 @@
 </li>
           <li><a href="autoapi/wa_simulator/index.html#module-wa_simulator">wa_simulator</a>
 </li>
-          <li><a href="autoapi/wa_simulator/_entrypoint/index.html#module-wa_simulator._entrypoint">wa_simulator._entrypoint</a>
-</li>
-          <li><a href="autoapi/wa_simulator/_entrypoint/docker/index.html#module-wa_simulator._entrypoint.docker">wa_simulator._entrypoint.docker</a>
-</li>
-          <li><a href="autoapi/wa_simulator/_entrypoint/wasim/index.html#module-wa_simulator._entrypoint.wasim">wa_simulator._entrypoint.wasim</a>
-</li>
           <li><a href="autoapi/wa_simulator/base/index.html#module-wa_simulator.base">wa_simulator.base</a>
 </li>
           <li><a href="autoapi/wa_simulator/bridge/index.html#module-wa_simulator.bridge">wa_simulator.bridge</a>
@@ -733,6 +732,12 @@
           <li><a href="autoapi/wa_simulator/chrono/vehicle/index.html#module-wa_simulator.chrono.vehicle">wa_simulator.chrono.vehicle</a>
 </li>
           <li><a href="autoapi/wa_simulator/chrono/visualization/index.html#module-wa_simulator.chrono.visualization">wa_simulator.chrono.visualization</a>
+</li>
+          <li><a href="autoapi/wa_simulator/cli/index.html#module-wa_simulator.cli">wa_simulator.cli</a>
+</li>
+          <li><a href="autoapi/wa_simulator/cli/docker/index.html#module-wa_simulator.cli.docker">wa_simulator.cli.docker</a>
+</li>
+          <li><a href="autoapi/wa_simulator/cli/wasim/index.html#module-wa_simulator.cli.wasim">wa_simulator.cli.wasim</a>
 </li>
           <li><a href="autoapi/wa_simulator/controller/index.html#module-wa_simulator.controller">wa_simulator.controller</a>
 </li>
@@ -817,6 +822,8 @@
 </li>
         <li><a href="autoapi/wa_simulator/simulation/index.html#wa_simulator.simulation.WASimulationManager.run">run() (WASimulationManager method)</a>
 </li>
+        <li><a href="autoapi/wa_simulator/cli/docker/index.html#wa_simulator.cli.docker.run_start">run_start() (in module wa_simulator.cli.docker)</a>
+</li>
     </ul></td>
   </tr></table>
 </section>
@@ -864,6 +871,8 @@
           <li><a href="autoapi/setup/index.html#module-setup">module</a>
 </li>
         </ul></li>
+        <li><a href="autoapi/conf/index.html#conf.SimpleDocumenter">SimpleDocumenter (class in conf)</a>
+</li>
         <li><a href="autoapi/pid_controller/index.html#pid_controller.PIDController.synchronize">synchronize() (PIDController method)</a>
 
         <ul>
@@ -1081,27 +1090,6 @@
 </li>
         </ul></li>
         <li>
-    wa_simulator._entrypoint
-
-        <ul>
-          <li><a href="autoapi/wa_simulator/_entrypoint/index.html#module-wa_simulator._entrypoint">module</a>
-</li>
-        </ul></li>
-        <li>
-    wa_simulator._entrypoint.docker
-
-        <ul>
-          <li><a href="autoapi/wa_simulator/_entrypoint/docker/index.html#module-wa_simulator._entrypoint.docker">module</a>
-</li>
-        </ul></li>
-        <li>
-    wa_simulator._entrypoint.wasim
-
-        <ul>
-          <li><a href="autoapi/wa_simulator/_entrypoint/wasim/index.html#module-wa_simulator._entrypoint.wasim">module</a>
-</li>
-        </ul></li>
-        <li>
     wa_simulator.base
 
         <ul>
@@ -1169,6 +1157,27 @@
 
         <ul>
           <li><a href="autoapi/wa_simulator/chrono/visualization/index.html#module-wa_simulator.chrono.visualization">module</a>
+</li>
+        </ul></li>
+        <li>
+    wa_simulator.cli
+
+        <ul>
+          <li><a href="autoapi/wa_simulator/cli/index.html#module-wa_simulator.cli">module</a>
+</li>
+        </ul></li>
+        <li>
+    wa_simulator.cli.docker
+
+        <ul>
+          <li><a href="autoapi/wa_simulator/cli/docker/index.html#module-wa_simulator.cli.docker">module</a>
+</li>
+        </ul></li>
+        <li>
+    wa_simulator.cli.wasim
+
+        <ul>
+          <li><a href="autoapi/wa_simulator/cli/wasim/index.html#module-wa_simulator.cli.wasim">module</a>
 </li>
         </ul></li>
         <li>

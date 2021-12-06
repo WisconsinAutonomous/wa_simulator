@@ -109,7 +109,7 @@
       <a href="../../index.html"><div class="brand">Wisconsin Autonomous Simulator 2.1.7 documentation</div></a>
     </div>
     <div class="header-right">
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
     </div>
@@ -144,6 +144,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../tutorials/writing-a-json.html">Writing a JSON Specification File</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../wa_simulator/index.html">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label for="toctree-checkbox-3"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../wa_simulator/chrono/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label for="toctree-checkbox-4"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../wa_simulator/chrono/controller/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.controller</span></code></a></li>
@@ -188,11 +189,33 @@
   <main class="main">
     <div class="content">
       <article role="main">
-        <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+        <label class="toc-overlay-icon toc-content-icon" for="__toc">
           <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
         </label>
         <section id="module-conf">
 <span id="conf"></span><h1><a class="reference internal" href="#module-conf" title="conf"><code class="xref py py-mod docutils literal notranslate"><span class="pre">conf</span></code></a><a class="headerlink" href="#module-conf" title="Permalink to this headline">¶</a></h1>
+<h2>Classes</h2><div class="table-wrapper"><table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%"/>
+<col style="width: 90%"/>
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#conf.SimpleDocumenter" title="conf.SimpleDocumenter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SimpleDocumenter</span></code></a></p></td>
+<td><p>Specialized Documenter subclass for methods (normal, static and class).</p></td>
+</tr>
+</tbody>
+</table></div>
+<dl class="py class">
+<dt id="conf.SimpleDocumenter">
+<em class="property">class </em><code class="sig-name descname">SimpleDocumenter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">directive</span><span class="p">:</span> <span class="n">DocumenterBridge</span></em>, <em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">indent</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/conf.html#SimpleDocumenter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#conf.SimpleDocumenter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sphinx.ext.autodoc.MethodDocumenter</span></code></p>
+<p>Specialized Documenter subclass for methods (normal, static and class).</p>
+<dl class="py method">
+<dt id="conf.SimpleDocumenter.add_directive_header">
+<code class="sig-name descname">add_directive_header</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">sig</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/conf.html#SimpleDocumenter.add_directive_header"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#conf.SimpleDocumenter.add_directive_header" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add the directive header and options to the generated content.</p>
+</dd></dl>
+</dd></dl>
 </section>
 
       </article>
@@ -219,8 +242,30 @@
         
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            Contents
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">conf</span></code></a><ul>
+<li><a class="reference internal" href="#conf.SimpleDocumenter">SimpleDocumenter</a><ul>
+<li><a class="reference internal" href="#conf.SimpleDocumenter.add_directive_header">add_directive_header</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>
