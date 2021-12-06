@@ -5,7 +5,7 @@
 <link rel="index" title="Index" href="../../../../genindex.html" /><link rel="search" title="Search" href="../../../../search.html" />
 
     <link rel="shortcut icon" href="../../../../_static/wa-dark-favicon.png"/><meta name="generator" content="sphinx-3.4.2, furo 2020.12.30.beta24"/>
-        <title>wa_simulator.cli.docker - Wisconsin Autonomous Simulator 2.2.5 documentation</title>
+        <title>wa_simulator.cli.docker - Wisconsin Autonomous Simulator 2.2.7 documentation</title>
       <link rel="stylesheet" href="../../../../_static/styles/furo.css?digest=33d2fc4f3f180ec1ffc6524e273e21d7d58cbe49">
     <link rel="stylesheet" href="../../../../_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../../../../_static/pygments_dark.css">
@@ -106,7 +106,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../../index.html"><div class="brand">Wisconsin Autonomous Simulator 2.2.5 documentation</div></a>
+      <a href="../../../../index.html"><div class="brand">Wisconsin Autonomous Simulator 2.2.7 documentation</div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon" for="__toc">
@@ -203,7 +203,10 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#wa_simulator.cli.docker.run_start" title="wa_simulator.cli.docker.run_start"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_start</span></code></a></p></td>
 <td><p>The start command will spin up a Docker container that runs a python script with the desired image.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#wa_simulator.cli.docker.init" title="wa_simulator.cli.docker.init"><code class="xref py py-obj docutils literal notranslate"><span class="pre">init</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#wa_simulator.cli.docker.run_exec" title="wa_simulator.cli.docker.run_exec"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_exec</span></code></a></p></td>
+<td><p>Command that allows you to run a script within a running container.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#wa_simulator.cli.docker.init" title="wa_simulator.cli.docker.init"><code class="xref py py-obj docutils literal notranslate"><span class="pre">init</span></code></a></p></td>
 <td><p>Initializer method for the <code class="code docutils literal notranslate"><span class="pre">docker</span></code> entrypoint.</p></td>
 </tr>
 </tbody>
@@ -261,6 +264,28 @@ wasim -vv docker start demo_bridge.yaml demo_bridge_server.py --step_size 2e-3
 </div>
 </dd></dl>
 <dl class="py function">
+<dt id="wa_simulator.cli.docker.run_exec">
+<code class="sig-name descname">run_exec</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">args</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/wa_simulator/cli/docker.html#run_exec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.cli.docker.run_exec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Command that allows you to run a script within a running container.</p>
+<p>This command takes two arguments: a container name and a script. The container name is used
+to find a running container to run the script in. If a container is not found, a <code class="xref py py-class docutils literal notranslate"><span class="pre">RuntimeError</span></code>
+will be thrown.</p>
+<p>Example cli commands:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># The following examples can be run in wa_simulator/demos/bridge</span>
+<span class="c1"># To launch a container, you need to first run docker-compose up -d wasim-prod</span>
+
+<span class="c1"># Run the server</span>
+wasim docker <span class="nb">exec</span> wasim-prod demo_bridge_server.py
+
+<span class="c1"># With more verbosity</span>
+wasim -vv docker <span class="nb">exec</span> wasim-prod demo_bridge_server.py
+
+<span class="c1"># With some script arguments</span>
+wasim -vv docker <span class="nb">exec</span> wasim-prod demo_bridge_server.py --step_size 2e-3
+</pre></div>
+</div>
+</dd></dl>
+<dl class="py function">
 <dt id="wa_simulator.cli.docker.init">
 <code class="sig-name descname">init</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">subparser</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/wa_simulator/cli/docker.html#init"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.cli.docker.init" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initializer method for the <code class="code docutils literal notranslate"><span class="pre">docker</span></code> entrypoint.</p>
@@ -275,6 +300,7 @@ on a system locally. The scalability of using Docker over installing packages on
 <dl class="simple">
 <dt>Current subcommands:</dt><dd><ul class="simple">
 <li><p><code class="code docutils literal notranslate"><span class="pre">start</span></code>: Spins up a container and runs a python script in the created container.</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">exec</span></code>: Runs a script in a running container.</p></li>
 </ul>
 </dd>
 </dl>
@@ -319,6 +345,7 @@ on a system locally. The scalability of using Docker over installing packages on
             <ul>
 <li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.cli.docker</span></code></a><ul>
 <li><a class="reference internal" href="#wa_simulator.cli.docker.run_start">run_start</a></li>
+<li><a class="reference internal" href="#wa_simulator.cli.docker.run_exec">run_exec</a></li>
 <li><a class="reference internal" href="#wa_simulator.cli.docker.init">init</a></li>
 </ul>
 </li>

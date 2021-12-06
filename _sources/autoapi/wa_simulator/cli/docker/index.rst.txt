@@ -16,6 +16,7 @@
   :nosignatures:
 
    wa_simulator.cli.docker.run_start
+   wa_simulator.cli.docker.run_exec
    wa_simulator.cli.docker.init
 
 .. function:: run_start(args)
@@ -78,6 +79,32 @@
        wasim -vv docker start demo_bridge.yaml demo_bridge_server.py --step_size 2e-3
 
 
+.. function:: run_exec(args)
+
+   Command that allows you to run a script within a running container.
+
+   This command takes two arguments: a container name and a script. The container name is used
+   to find a running container to run the script in. If a container is not found, a :class:`RuntimeError`
+   will be thrown.
+
+   Example cli commands:
+
+   .. highlight:: bash
+   .. code-block:: bash
+
+       # The following examples can be run in wa_simulator/demos/bridge
+       # To launch a container, you need to first run docker-compose up -d wasim-prod
+
+       # Run the server
+       wasim docker exec wasim-prod demo_bridge_server.py
+
+       # With more verbosity
+       wasim -vv docker exec wasim-prod demo_bridge_server.py
+
+       # With some script arguments
+       wasim -vv docker exec wasim-prod demo_bridge_server.py --step_size 2e-3
+
+
 .. function:: init(subparser)
 
    Initializer method for the :code:`docker` entrypoint.
@@ -96,6 +123,8 @@
 
    Current subcommands:
        * :code:`start`: Spins up a container and runs a python script in the created container.
+
+       * :code:`exec`: Runs a script in a running container.
 
 
 

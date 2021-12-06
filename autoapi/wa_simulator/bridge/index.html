@@ -5,7 +5,7 @@
 <link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="wa_simulator.controller" href="../controller/index.html" /><link rel="prev" title="wa_simulator.base" href="../base/index.html" />
 
     <link rel="shortcut icon" href="../../../_static/wa-dark-favicon.png"/><meta name="generator" content="sphinx-3.4.2, furo 2020.12.30.beta24"/>
-        <title>wa_simulator.bridge - Wisconsin Autonomous Simulator 2.2.5 documentation</title>
+        <title>wa_simulator.bridge - Wisconsin Autonomous Simulator 2.2.7 documentation</title>
       <link rel="stylesheet" href="../../../_static/styles/furo.css?digest=33d2fc4f3f180ec1ffc6524e273e21d7d58cbe49">
     <link rel="stylesheet" href="../../../_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../../../_static/pygments_dark.css">
@@ -106,7 +106,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../index.html"><div class="brand">Wisconsin Autonomous Simulator 2.2.5 documentation</div></a>
+      <a href="../../../index.html"><div class="brand">Wisconsin Autonomous Simulator 2.2.7 documentation</div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon" for="__toc">
@@ -210,12 +210,12 @@
 <em class="property">class </em><code class="sig-name descname">WABridge</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">system</span><span class="p">:</span> <span class="n">WASystem</span></em>, <em class="sig-param"><span class="n">hostname</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'localhost'</span></em>, <em class="sig-param"><span class="n">port</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">5555</span></em>, <em class="sig-param"><span class="n">server</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">use_ack</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">is_synchronous</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">ignore_unknown_messages</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/wa_simulator/bridge.html#WABridge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.bridge.WABridge" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="../base/index.html#wa_simulator.base.WABase" title="wa_simulator.base.WABase"><code class="xref py py-class docutils literal notranslate"><span class="pre">wa_simulator.base.WABase</span></code></a></p>
 <p>Base class for a bridge interface between the simulator and an external entity</p>
-<p>There are many applications where it’s desired that <cite>wa_simulator</cite> communicates with external entities.
-For example, <cite>Robot Operating System or ROS &lt;https://www.ros.org/&gt;_</cite> is a popular tool for writing
+<p>There are many applications where it’s desired that <code class="code docutils literal notranslate"><span class="pre">wa_simulator</span></code> communicates with external entities.
+For example, <a class="reference external" href="https://www.ros.org/">Robot Operating System or ROS</a> is a popular tool for writing
 robotic control code. Simulation is a very valuable tool for testing, so being able to communicate
 with these external control stacks is an important feature.</p>
-<p>For each external entity that wants to be connected to, a new bridge object must be created. The <cite>multiprocessing.connection</cite> library
-will be used and it’s <cite>Listener &lt;https://docs.python.org/3/library/multiprocessing.html#multiprocessing.connection.Listener&gt;_</cite> class.
+<p>For each external entity that wants to be connected to, a new bridge object must be created. The <code class="code docutils literal notranslate"><span class="pre">multiprocessing.connection</span></code> library
+will be used and it’s <a class="reference external" href="https://docs.python.org/3/library/multiprocessing.html#multiprocessing.connection.Listener">Listener</a> class.
 The messages will be sent as dictionaries of data and messages to be sent at each timestep will be accumulated to be sent as one large message.</p>
 <p>Message types are dynamic in types, form and structure; however, there are a few rules that must be abided by. First, sender names must be unique. The
 name will be used as the message identifier in the dictionary. Second, the structure of the message types will be infered, if possible. Otherwise, they must be
@@ -239,8 +239,8 @@ explicitely provided in the calling method when adding the sender.</p>
 <p>Typically called by <code class="xref py py-class docutils literal notranslate"><span class="pre">WASimulationManager</span></code>, but okay to call outside. Will only connect to one client at
 the hostname and port provided to the constructor.</p>
 <p>If this bridge is a server, a <code class="docutils literal notranslate"><span class="pre">multiprocessing.Connection.Listener</span></code> object is used. Otherwise, a <code class="docutils literal notranslate"><span class="pre">multiprocessing.Connection.Client</span></code> object is used.
-See the <cite>Listener &lt;https://docs.python.org/3/library/multiprocessing.html#multiprocessing.connection.Listener&gt;_</cite>
-or <cite>Client &lt;https://docs.python.org/3/library/multiprocessing.html#multiprocessing.connection.Client&gt;_</cite> docs to see possible errors that may be raised.</p>
+See the <a class="reference external" href="https://docs.python.org/3/library/multiprocessing.html#multiprocessing.connection.Listener">Listener</a>
+or <a class="reference external" href="https://docs.python.org/3/library/multiprocessing.html#multiprocessing.connection.Client">Client</a> docs to see possible errors that may be raised.</p>
 </dd></dl>
 <dl class="py method">
 <dt id="wa_simulator.bridge.WABridge.add_sender">

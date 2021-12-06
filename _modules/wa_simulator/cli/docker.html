@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
     <link rel="shortcut icon" href="../../../_static/wa-dark-favicon.png"/><meta name="generator" content="sphinx-3.4.2, furo 2020.12.30.beta24"/>
-        <title>wa_simulator.cli.docker - Wisconsin Autonomous Simulator 2.2.5 documentation</title>
+        <title>wa_simulator.cli.docker - Wisconsin Autonomous Simulator 2.2.7 documentation</title>
       <link rel="stylesheet" href="../../../_static/styles/furo.css?digest=33d2fc4f3f180ec1ffc6524e273e21d7d58cbe49">
     <link rel="stylesheet" href="../../../_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../../../_static/pygments_dark.css">
@@ -105,7 +105,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../index.html"><div class="brand">Wisconsin Autonomous Simulator 2.2.5 documentation</div></a>
+      <a href="../../../index.html"><div class="brand">Wisconsin Autonomous Simulator 2.2.7 documentation</div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
@@ -344,12 +344,78 @@
             <span class="k">except</span> <span class="n">docker</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">APIError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                 <span class="n">LOGGER</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">f</span><span class="s2">"</span><span class="si">{image}</span><span class="s2"> was not found locally. Pulling from DockerHub. This may take a few minutes..."</span><span class="p">)</span>
                 <span class="n">client</span><span class="o">.</span><span class="n">images</span><span class="o">.</span><span class="n">pull</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
-                <span class="n">LOGGER</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">f</span><span class="s2">"Finished pulling </span><span class="si">{image}</span><span class="s2"> from DockerHub."</span><span class="p">)</span>
+                <span class="n">LOGGER</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">f</span><span class="s2">"Finished pulling </span><span class="si">{image}</span><span class="s2"> from DockerHub. Running command..."</span><span class="p">)</span>
 
             <span class="c1"># Run the command</span>
             <span class="n">running_container</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="n">running_container</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">containers</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="s2">"/bin/bash"</span><span class="p">,</span> <span class="n">volumes</span><span class="o">=</span><span class="n">volumes</span><span class="p">,</span> <span class="n">ports</span><span class="o">=</span><span class="n">ports</span><span class="p">,</span> <span class="n">detach</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">tty</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">auto_remove</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-            <span class="n">result</span> <span class="o">=</span> <span class="n">running_container</span><span class="o">.</span><span class="n">exec_run</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span></div>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">running_container</span><span class="o">.</span><span class="n">exec_run</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span></div>
+
+<div class="viewcode-block" id="run_exec"><a class="viewcode-back" href="../../../autoapi/wa_simulator/cli/docker/index.html#wa_simulator.cli.docker.run_exec">[docs]</a><span class="k">def</span> <span class="nf">run_exec</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
+    <span class="sd">"""Command that allows you to run a script within a running container.</span>
+
+<span class="sd">    This command takes two arguments: a container name and a script. The container name is used</span>
+<span class="sd">    to find a running container to run the script in. If a container is not found, a :class:`RuntimeError` </span>
+<span class="sd">    will be thrown.</span>
+
+<span class="sd">    Example cli commands:</span>
+
+<span class="sd">    .. highlight:: bash</span>
+<span class="sd">    .. code-block:: bash</span>
+<span class="sd">        </span>
+<span class="sd">        # The following examples can be run in wa_simulator/demos/bridge</span>
+<span class="sd">        # To launch a container, you need to first run docker-compose up -d wasim-prod</span>
+<span class="sd">         </span>
+<span class="sd">        # Run the server</span>
+<span class="sd">        wasim docker exec wasim-prod demo_bridge_server.py</span>
+
+<span class="sd">        # With more verbosity</span>
+<span class="sd">        wasim -vv docker exec wasim-prod demo_bridge_server.py</span>
+
+<span class="sd">        # With some script arguments</span>
+<span class="sd">        wasim -vv docker exec wasim-prod demo_bridge_server.py --step_size 2e-3</span>
+<span class="sd">    """</span>
+    <span class="kn">import</span> <span class="nn">docker</span>
+
+    <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Running 'docker start' entrypoint..."</span><span class="p">)</span>
+    
+    <span class="c1"># Grab the args to run</span>
+    <span class="n">script</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">script</span>
+    <span class="n">script_args</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">script_args</span>
+
+    <span class="c1"># Grab the file path</span>
+    <span class="n">absfile</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">script</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">absfile</span><span class="o">.</span><span class="n">name</span>
+
+    <span class="c1"># Grab the container name</span>
+    <span class="n">container</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">container</span>
+
+    <span class="c1"># Create the command</span>
+    <span class="n">cmd</span> <span class="o">=</span> <span class="n">f</span><span class="s2">"python </span><span class="si">{filename}</span><span class="s2"> {' '.join(script_args)}"</span>
+
+    <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s2">"Attempting to run '</span><span class="si">{cmd}</span><span class="s2">' inside container '</span><span class="si">{container}</span><span class="s2">'"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">args</span><span class="o">.</span><span class="n">dry_run</span><span class="p">:</span>
+        <span class="c1"># Get the client</span>
+        <span class="n">client</span> <span class="o">=</span> <span class="n">docker</span><span class="o">.</span><span class="n">from_env</span><span class="p">()</span>
+
+        <span class="c1"># setup the signal listener to listen for the interrupt signal (ctrl+c)</span>
+        <span class="kn">import</span> <span class="nn">signal</span><span class="o">,</span> <span class="nn">sys</span>
+        <span class="k">def</span> <span class="nf">signal_handler</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">frame</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">running_container</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s2">"Stopping container."</span><span class="p">)</span>
+                <span class="n">running_container</span><span class="o">.</span><span class="n">kill</span><span class="p">()</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">signal</span><span class="o">.</span><span class="n">signal</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">SIGINT</span><span class="p">,</span> <span class="n">signal_handler</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">running_container</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">containers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">container</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">docker</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">NotFound</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">f</span><span class="s2">"A container with the name </span><span class="si">{container}</span><span class="s2"> was not found. Make sure you have started the container."</span><span class="p">)</span>
+
+        <span class="c1"># Run the command</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">running_container</span><span class="o">.</span><span class="n">exec_run</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span></div>
 
 <div class="viewcode-block" id="init"><a class="viewcode-back" href="../../../autoapi/wa_simulator/cli/docker/index.html#wa_simulator.cli.docker.init">[docs]</a><span class="k">def</span> <span class="nf">init</span><span class="p">(</span><span class="n">subparser</span><span class="p">):</span>
     <span class="sd">"""Initializer method for the :code:`docker` entrypoint.</span>
@@ -368,6 +434,8 @@
 
 <span class="sd">    Current subcommands:</span>
 <span class="sd">        * :code:`start`: Spins up a container and runs a python script in the created container.</span>
+
+<span class="sd">        * :code:`exec`: Runs a script in a running container.</span>
 <span class="sd">    """</span>
     <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Running 'docker' entrypoint..."</span><span class="p">)</span>
 
@@ -379,7 +447,14 @@
     <span class="n">start</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">"yaml"</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">"YAML file with docker configuration"</span><span class="p">)</span>
     <span class="n">start</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">"script"</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">"The script to start up in the Docker container"</span><span class="p">)</span>
     <span class="n">start</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">"script_args"</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">REMAINDER</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">"The arguments for the [script]"</span><span class="p">)</span>
-    <span class="n">start</span><span class="o">.</span><span class="n">set_defaults</span><span class="p">(</span><span class="n">cmd</span><span class="o">=</span><span class="n">run_start</span><span class="p">)</span></div>
+    <span class="n">start</span><span class="o">.</span><span class="n">set_defaults</span><span class="p">(</span><span class="n">cmd</span><span class="o">=</span><span class="n">run_start</span><span class="p">)</span>
+
+    <span class="c1"># Exec subcommand</span>
+    <span class="n">exec_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="s2">"exec"</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Run a script in an existing running container"</span><span class="p">)</span>
+    <span class="n">exec_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">"container"</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">"The container to run the script in"</span><span class="p">)</span>
+    <span class="n">exec_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">"script"</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">"The script to start up in the Docker container"</span><span class="p">)</span>
+    <span class="n">exec_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">"script_args"</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">REMAINDER</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">"The arguments for the [script]"</span><span class="p">)</span>
+    <span class="n">exec_parser</span><span class="o">.</span><span class="n">set_defaults</span><span class="p">(</span><span class="n">cmd</span><span class="o">=</span><span class="n">run_exec</span><span class="p">)</span></div>
 </pre></div>
       </article>
       <footer>

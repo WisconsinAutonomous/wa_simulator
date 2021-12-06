@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
     <link rel="shortcut icon" href="../../_static/wa-dark-favicon.png"/><meta name="generator" content="sphinx-3.4.2, furo 2020.12.30.beta24"/>
-        <title>wa_simulator.bridge - Wisconsin Autonomous Simulator 2.2.5 documentation</title>
+        <title>wa_simulator.bridge - Wisconsin Autonomous Simulator 2.2.7 documentation</title>
       <link rel="stylesheet" href="../../_static/styles/furo.css?digest=33d2fc4f3f180ec1ffc6524e273e21d7d58cbe49">
     <link rel="stylesheet" href="../../_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../../_static/pygments_dark.css">
@@ -105,7 +105,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">Wisconsin Autonomous Simulator 2.2.5 documentation</div></a>
+      <a href="../../index.html"><div class="brand">Wisconsin Autonomous Simulator 2.2.7 documentation</div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
@@ -216,13 +216,13 @@
 <div class="viewcode-block" id="WABridge"><a class="viewcode-back" href="../../autoapi/wa_simulator/bridge/index.html#wa_simulator.bridge.WABridge">[docs]</a><span class="k">class</span> <span class="nc">WABridge</span><span class="p">(</span><span class="n">WABase</span><span class="p">):</span>
     <span class="sd">"""Base class for a bridge interface between the simulator and an external entity</span>
 
-<span class="sd">    There are many applications where it's desired that `wa_simulator` communicates with external entities.</span>
-<span class="sd">    For example, `Robot Operating System or ROS &lt;https://www.ros.org/&gt;_` is a popular tool for writing</span>
+<span class="sd">    There are many applications where it's desired that :code:`wa_simulator` communicates with external entities.</span>
+<span class="sd">    For example, `Robot Operating System or ROS &lt;https://www.ros.org/&gt;`_ is a popular tool for writing</span>
 <span class="sd">    robotic control code. Simulation is a very valuable tool for testing, so being able to communicate</span>
 <span class="sd">    with these external control stacks is an important feature.</span>
 
-<span class="sd">    For each external entity that wants to be connected to, a new bridge object must be created. The `multiprocessing.connection` library</span>
-<span class="sd">    will be used and it's `Listener &lt;https://docs.python.org/3/library/multiprocessing.html#multiprocessing.connection.Listener&gt;_` class.</span>
+<span class="sd">    For each external entity that wants to be connected to, a new bridge object must be created. The :code:`multiprocessing.connection` library</span>
+<span class="sd">    will be used and it's `Listener &lt;https://docs.python.org/3/library/multiprocessing.html#multiprocessing.connection.Listener&gt;`_ class.</span>
 <span class="sd">    The messages will be sent as dictionaries of data and messages to be sent at each timestep will be accumulated to be sent as one large message.</span>
 
 <span class="sd">    Message types are dynamic in types, form and structure; however, there are a few rules that must be abided by. First, sender names must be unique. The</span>
@@ -268,8 +268,8 @@
 <span class="sd">        the hostname and port provided to the constructor.</span>
 
 <span class="sd">        If this bridge is a server, a ``multiprocessing.Connection.Listener`` object is used. Otherwise, a ``multiprocessing.Connection.Client`` object is used.</span>
-<span class="sd">        See the `Listener &lt;https://docs.python.org/3/library/multiprocessing.html#multiprocessing.connection.Listener&gt;_` </span>
-<span class="sd">        or `Client &lt;https://docs.python.org/3/library/multiprocessing.html#multiprocessing.connection.Client&gt;_` docs to see possible errors that may be raised.</span>
+<span class="sd">        See the `Listener &lt;https://docs.python.org/3/library/multiprocessing.html#multiprocessing.connection.Listener&gt;`_ </span>
+<span class="sd">        or `Client &lt;https://docs.python.org/3/library/multiprocessing.html#multiprocessing.connection.Client&gt;`_ docs to see possible errors that may be raised.</span>
 <span class="sd">        """</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_server</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_listener</span> <span class="o">=</span> <span class="n">mp</span><span class="o">.</span><span class="n">Listener</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_address</span><span class="p">)</span>
