@@ -3,7 +3,7 @@
 	"Type": "Bridge",
 
 	"Container Name": "wasim-docker",
-	"Image": "wiscauto/wa_simulator:latest",
+	"Image": "wiscauto/wa_simulator:develop",
 	"Data": [
 		{
 			"Host Path": "../data",

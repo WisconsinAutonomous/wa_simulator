@@ -28,7 +28,7 @@ def run_start(args):
     The start command requires one argument: a python script to run in the container.
     The python script is the actual file we'll run from within the
     container. After the python script, you may add arguments that will get passed to the script
-    when it's run in the container. 
+    when it's run in the container.
 
     Optionally, you may provide a JSON configuration file. The JSON file defines various settings we'll
     use when spinning up the container. If a JSON configuration file is not provided, you must pass these options
@@ -44,20 +44,18 @@ def run_start(args):
 
             * ``Host Path`` (str, required): The path to the local folder that will be copied to the container. If ``Host Path Is Relative To JSON`` is not set to True (see below), it will be assumed as a global path
 
-            * ``Host Path Is Relative To JSON`` (bool, optional): If set to True, the ``Host Path`` entry will be evaluated as if it were relative to the location of the JSON file provided. Defaults to False. 
+            * ``Host Path Is Relative To JSON`` (bool, optional): If set to True, the ``Host Path`` entry will be evaluated as if it were relative to the location of the JSON file provided. Defaults to False.
 
             * ``Container Path`` (str, optional): The path in the container to link the host path to. Defaults to ``/root/<file/folder name>``.
 
         * :code:`Port` (str, optional): The port to expose between the docker container and the host machine. This is the port that the server and client may communicate over. Ensure this is consistent with both your server and client code, as this will be the only port exposed. Default is 5555.
 
-    Examples JSON files:
+        * :code:`Network` (dict, optional): The network that the container should use for communication. See Docker `networks <https://docs.docker.com/network>_`. The ``Network`` dict must include a ``Name``, representing the name of the network, and optionally an ``IPv4`` field, representing the static ip to assign to the container. If no ``IPv4`` field is provided, a default value of 172.20.0.3 will be used. Further, if a network must be created because ``Name`` hasn't been created, the submask will be generated from ``IPv4``.
 
-    .. highlight:: json
-    .. code-block:: json
+    Example JSON file:
 
-        # -------------
-        # Example1.json
-        # -------------
+    .. highlight:: javascript
+    .. code-block:: javascript
 
         {
             "Name": "Demo bridge",
@@ -71,7 +69,10 @@ def run_start(args):
                     "Path Is Relative To JSON": true
                 }
             ],
-            "Port": 5555
+            "Network": {
+                "Name": "wa",
+                "IPv4": "172.30.0.3"
+            }
         }
 
     Example cli commands:
@@ -98,12 +99,23 @@ def run_start(args):
 
         # Run from within wa_simulator/demos/bridge
         # Running wa_simulator/demos/bridge/demo_bridge_server.py using command line arguments rather than json
-        wasim docker start \
-                --name wasim-docker \
-                --image wiscauto/wa_simulator \
-                --data "../data:/root/data" \
-                --data "/usr/local:/usr/local \ # Each entry serves as a new volume 
-                --port "5555:5555" \
+        # This should be used to communicate with a client running on the host
+        wasim docker start \\
+                --name wasim-docker \\
+                --image wiscauto/wa_simulator \\
+                --data "../data:/root/data" \\
+                --data "/usr/local:/usr/local" \\ # Each entry serves as a new volume
+                --port "5555:5555" \\
+                demo_bridge_server.py --step_size 2e-3
+
+        # Running wa_simulator/demos/bridge/demo_bridge_server.py using command line arguments rather than json
+        # This should be used to communicate with another client in a container
+        wasim docker start \\
+                --name wasim-docker \\
+                --image wiscauto/wa_simulator \\
+                --data "../data:/root/data" \\
+                --data "/usr/local:/usr/local" \\ # Each entry serves as a new volume
+                --network "wa" \\
                 demo_bridge_server.py --step_size 2e-3
 
         # Same thing as above, but leverages defaults
@@ -144,7 +156,14 @@ def run_start(args):
     config["volumes"].extend(convert_volume_binds(args.data))
 
     # Ports
-    config["ports"] = build_port_bindings([args.port])
+    config["ports"] = {}
+    if args.port != "":
+        port = args.port if ":" in args.port else f"{args.port}:{args.port}"
+        config["ports"] = build_port_bindings([port])
+
+    # Networks
+    config["network"] = args.network
+    config["ip"] = args.ip
 
     # Now, parse the json if one is provided
     if args.json is not None:
@@ -156,6 +175,7 @@ def run_start(args):
         _check_field(j, "Image", field_type=str, optional=True)
         _check_field(j, "Data", field_type=list, optional=True)
         _check_field(j, "Port", field_type=str, optional=True)
+        _check_field(j, "Network", field_type=dict, optional=True)
 
         # Parse the json file
         config["name"] = j.get("Container Name", args.name)
@@ -174,7 +194,7 @@ def run_start(args):
                 host = data["Host Path"]
                 relative_to_json = data.get("Host Path", False)
                 container = data.get("Container Path",
-                                 f"/root/{pathlib.PurePath(host).name}")
+                                     f"/root/{pathlib.PurePath(host).name}")
 
                 if relative_to_json:
                     host = str((pathlib.Path(args.json).parent /
@@ -188,112 +208,84 @@ def run_start(args):
             port = j["Port"]
             config["ports"] = build_port_bindings([f"{port}:{port}"])
 
+        if "Network" in j:
+            n = j["Network"]
+
+            # Validate the network
+            _check_field(n, "Name", field_type=str)
+            _check_field(n, "IP", field_type=str, optional=True)
+
+            config["network"] = n["Name"]
+            config["ip"] = n.get("IP", args.ip)
+
     # Run the script
     LOGGER.info(f"Running '{cmd}' with the following settings:")
     LOGGER.info(f"\tImage: {config['image']}")
     LOGGER.info(f"\tVolumes: {config['volumes']}")
     LOGGER.info(f"\tPorts: {config['ports']}")
+    LOGGER.info(f"\tNetwork: {config['network']}")
+    LOGGER.info(f"\tIP: {config['ip']}")
     if not args.dry_run:
-        # Get the client
-        client = docker.from_env()
-
-        # setup the signal listener to listen for the interrupt signal (ctrl+c)
-        import signal
-        import sys
-
-        def signal_handler(sig, frame):
-            if running_container is not None:
-                LOGGER.info(f"Stopping container.")
-                running_container.kill()
-            sys.exit(0)
-        signal.signal(signal.SIGINT, signal_handler)
-
-        # Check if image is found locally
         try:
-            client.images.get(config["image"])
-        except docker.errors.APIError as e:
-            LOGGER.warn(
-                f"{config['image']} was not found locally. Pulling from DockerHub. This may take a few minutes...")
-            client.images.pull(image)
-            LOGGER.warn(
-                f"Finished pulling {config['image']} from DockerHub. Running command...")
+            # Get the client
+            client = docker.from_env()
 
-        # Run the command
-        running_container = None
-        running_container = client.containers.run(
-            config["image"], "/bin/bash", volumes=config["volumes"], ports=config["ports"], remove=True, detach=True, tty=True, name=config["name"], auto_remove=True)
-        result = running_container.exec_run(cmd)
-        print(result.output.decode())
-        running_container.kill()
+            # setup the signal listener to listen for the interrupt signal (ctrl+c)
+            import signal
+            import sys
 
+            def signal_handler(sig, frame):
+                if running_container is not None:
+                    LOGGER.info(f"Stopping container.")
+                    running_container.kill()
+                sys.exit(0)
+            signal.signal(signal.SIGINT, signal_handler)
 
-def run_exec(args):
-    """Command that allows you to run a script within a running container.
+            # Check if image is found locally
+            running_container = None
+            try:
+                client.images.get(config["image"])
+            except docker.errors.APIError as e:
+                LOGGER.warn(
+                    f"{config['image']} was not found locally. Pulling from DockerHub. This may take a few minutes...")
+                client.images.pull(config["image"])
+                LOGGER.warn(
+                    f"Finished pulling {config['image']} from DockerHub. Running command...")
 
-    This command takes two arguments: a container name and a script. The container name is used
-    to find a running container to run the script in. If a container is not found, a :class:`RuntimeError` 
-    will be thrown.
+            # Check if network has been created
+            if config["network"] != "":
+                try:
+                    client.networks.get(config["network"])
+                except docker.errors.NotFound as e:
+                    LOGGER.warn(
+                        f"{config['network']} has not been created yet. Creating it...")
 
-    Example cli commands:
+                    import ipaddress
+                    network = ipaddress.ip_network(
+                        f"{config['ip']}/255.255.255.0", strict=False)
+                    subnet = str(list(network.subnets())[0])
 
-    .. highlight:: bash
-    .. code-block:: bash
+                    ipam_pool = docker.types.IPAMPool(subnet=subnet)
+                    ipam_config = docker.types.IPAMConfig(pool_configs=[ipam_pool])
 
-        # The following examples can be run in wa_simulator/demos/bridge
-        # To launch a container, you need to first run docker-compose up -d wasim-prod
+                    LOGGER.info(
+                        f"Creating network with name '{config['network']}' with subnet '{subnet}'.")
+                    client.networks.create(
+                        name=config["network"], driver="bridge", ipam=ipam_config)
 
-        # Run the server
-        wasim docker exec wasim-prod demo_bridge_server.py
-
-        # With more verbosity
-        wasim -vv docker exec wasim-prod demo_bridge_server.py
-
-        # With some script arguments
-        wasim -vv docker exec wasim-prod demo_bridge_server.py --step_size 2e-3
-    """
-    import docker
-
-    LOGGER.debug("Running 'docker start' entrypoint...")
-
-    # Grab the args to run
-    script = args.script
-    script_args = args.script_args
-
-    # Grab the file path
-    absfile = pathlib.Path(script).resolve()
-    filename = absfile.name
-
-    # Grab the container name
-    container = args.container
-
-    # Create the command
-    cmd = f"python {filename} {' '.join(script_args)}"
-
-    LOGGER.info(f"Attempting to run '{cmd}' inside container '{container}'")
-    if not args.dry_run:
-        # Get the client
-        client = docker.from_env()
-
-        # setup the signal listener to listen for the interrupt signal (ctrl+c)
-        import signal
-        import sys
-
-        def signal_handler(sig, frame):
+            # Run the command
+            running_container = client.containers.run(
+                config["image"], "/bin/bash", volumes=config["volumes"], ports=config["ports"], remove=True, detach=True, tty=True, name=config["name"], auto_remove=True)
+            if config["network"] != "":
+                client.networks.get(config["network"]).connect(running_container, ipv4_address=config["ip"]) # noqa
+            result = running_container.exec_run(cmd)
+            print(result.output.decode())
+            running_container.kill()
+        except Exception as e:
             if running_container is not None:
-                LOGGER.info(f"Stopping container.")
                 running_container.kill()
-            sys.exit(0)
-        signal.signal(signal.SIGINT, signal_handler)
 
-        try:
-            running_container = client.containers.get(container)
-        except docker.errors.NotFound as e:
-            raise RuntimeError(
-                f"A container with the name {container} was not found. Make sure you have started the container.")
-
-        # Run the command
-        result = running_container.exec_run(cmd)
-        print(result.output.decode())
+            raise e
 
 
 def init(subparser):
@@ -313,8 +305,6 @@ def init(subparser):
 
     Current subcommands:
         * :code:`start`: Spins up a container and runs a python script in the created container.
-
-        * :code:`exec`: Runs a script in a running container.
     """
     LOGGER.debug("Running 'docker' entrypoint...")
 
@@ -333,20 +323,13 @@ def init(subparser):
     start.add_argument("--data", type=str, action="append",
                        help="Data to pass to the container as a Docker volume. Multiple data entries can be provided.", default=[])
     start.add_argument("--port", type=str,
-                       help="Ports to expose from the container.", default="5555:5555")
+                       help="Ports to expose from the container.", default="")
+    start.add_argument("--network", type=str,
+                       help="The network to communicate with.", default="")
+    start.add_argument("--ip", type=str,
+                       help="The static ip address to use when connecting to 'network'. Used as the server ip.", default="172.20.0.3")
     start.add_argument(
         "script", help="The script to start up in the Docker container")
     start.add_argument("script_args", nargs=argparse.REMAINDER,
                        help="The arguments for the [script]")
     start.set_defaults(cmd=run_start)
-
-    # Exec subcommand
-    exec_parser = subparsers.add_parser(
-        "exec", description="Run a script in an existing running container")
-    exec_parser.add_argument(
-        "container", help="The container to run the script in")
-    exec_parser.add_argument(
-        "script", help="The script to start up in the Docker container")
-    exec_parser.add_argument(
-        "script_args", nargs=argparse.REMAINDER, help="The arguments for the [script]")
-    exec_parser.set_defaults(cmd=run_exec)
