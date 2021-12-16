@@ -16,7 +16,6 @@
   :nosignatures:
 
    wa_simulator.cli.docker.run_start
-   wa_simulator.cli.docker.run_exec
    wa_simulator.cli.docker.init
 
 .. function:: run_start(args)
@@ -53,14 +52,12 @@
 
        * :code:`Port` (str, optional): The port to expose between the docker container and the host machine. This is the port that the server and client may communicate over. Ensure this is consistent with both your server and client code, as this will be the only port exposed. Default is 5555.
 
-   Examples JSON files:
+       * :code:`Network` (dict, optional): The network that the container should use for communication. See Docker `networks <https://docs.docker.com/network>_`. The ``Network`` dict must include a ``Name``, representing the name of the network, and optionally an ``IPv4`` field, representing the static ip to assign to the container. If no ``IPv4`` field is provided, a default value of 172.20.0.3 will be used. Further, if a network must be created because ``Name`` hasn't been created, the submask will be generated from ``IPv4``.
 
-   .. highlight:: json
-   .. code-block:: json
+   Example JSON file:
 
-       # -------------
-       # Example1.json
-       # -------------
+   .. highlight:: javascript
+   .. code-block:: javascript
 
        {
            "Name": "Demo bridge",
@@ -74,7 +71,10 @@
                    "Path Is Relative To JSON": true
                }
            ],
-           "Port": 5555
+           "Network": {
+               "Name": "wa",
+               "IPv4": "172.30.0.3"
+           }
        }
 
    Example cli commands:
@@ -101,37 +101,27 @@
 
        # Run from within wa_simulator/demos/bridge
        # Running wa_simulator/demos/bridge/demo_bridge_server.py using command line arguments rather than json
-       wasim docker start                 --name wasim-docker                 --image wiscauto/wa_simulator                 --data "../data:/root/data"                 --data "/usr/local:/usr/local \ # Each entry serves as a new volume
-               --port "5555:5555"                 demo_bridge_server.py --step_size 2e-3
+       # This should be used to communicate with a client running on the host
+       wasim docker start \
+               --name wasim-docker \
+               --image wiscauto/wa_simulator \
+               --data "../data:/root/data" \
+               --data "/usr/local:/usr/local" \ # Each entry serves as a new volume
+               --port "5555:5555" \
+               demo_bridge_server.py --step_size 2e-3
+
+       # Running wa_simulator/demos/bridge/demo_bridge_server.py using command line arguments rather than json
+       # This should be used to communicate with another client in a container
+       wasim docker start \
+               --name wasim-docker \
+               --image wiscauto/wa_simulator \
+               --data "../data:/root/data" \
+               --data "/usr/local:/usr/local" \ # Each entry serves as a new volume
+               --network "wa" \
+               demo_bridge_server.py --step_size 2e-3
 
        # Same thing as above, but leverages defaults
        wasim -vv docker start demo_bridge_server.py --step_size 2e-3
-
-
-.. function:: run_exec(args)
-
-   Command that allows you to run a script within a running container.
-
-   This command takes two arguments: a container name and a script. The container name is used
-   to find a running container to run the script in. If a container is not found, a :class:`RuntimeError`
-   will be thrown.
-
-   Example cli commands:
-
-   .. highlight:: bash
-   .. code-block:: bash
-
-       # The following examples can be run in wa_simulator/demos/bridge
-       # To launch a container, you need to first run docker-compose up -d wasim-prod
-
-       # Run the server
-       wasim docker exec wasim-prod demo_bridge_server.py
-
-       # With more verbosity
-       wasim -vv docker exec wasim-prod demo_bridge_server.py
-
-       # With some script arguments
-       wasim -vv docker exec wasim-prod demo_bridge_server.py --step_size 2e-3
 
 
 .. function:: init(subparser)
@@ -152,8 +142,6 @@
 
    Current subcommands:
        * :code:`start`: Spins up a container and runs a python script in the created container.
-
-       * :code:`exec`: Runs a script in a running container.
 
 
 
