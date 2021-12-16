@@ -1,0 +1,14 @@
+{
+	"Name": "Demo bridge",
+	"Type": "Bridge",
+
+	"Container Name": "wasim-docker",
+	"Image": "wiscauto/wa_simulator:latest",
+	"Data": [
+		{
+			"Host Path": "../data",
+			"Host Path Is Relative To JSON": true
+		}
+	],
+	"Port": "5555"
+}

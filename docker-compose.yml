@@ -9,6 +9,8 @@ services:
       dockerfile: ./docker/dev.dockerfile
       network: host
     working_dir: /root/
+    tty: true
+    command: "/bin/bash"
     environment:
       - PYTHONUNBUFFERED=1
   wasim-prod:

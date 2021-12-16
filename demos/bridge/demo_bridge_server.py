@@ -9,7 +9,8 @@ import wa_simulator as wa
 parser = wa.WAArgumentParser(use_sim_defaults=True)
 args = parser.parse_args()
 
-wa.set_wa_data_directory('/root/data/')
+if wa.using_cli:
+    wa.set_wa_data_directory('/root/data/')
 
 def main():
     # ---------------
