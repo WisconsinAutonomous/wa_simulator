@@ -8,8 +8,6 @@ __author__ = "Wisconsin Autonomous (wisconsinautonomous@studentorg.wisc.edu)"
 __license__ = "BSD3"
 """BSD3"""
 
-using_cli = False
-
 for d in _get_dirs(__file__, ignore=["chrono", "data"]):
     _import(d, globals())
 

@@ -17,6 +17,9 @@ RUN apt install -y wget bash iputils-ping
 COPY . /tmp/wa_simulator
 RUN cd /tmp/wa_simulator && python setup.py develop 
 
+# Add env variable
+ENV DOCKER_ENV 1
+
 WORKDIR /root/
 
 COPY docker/entrypoint.sh /

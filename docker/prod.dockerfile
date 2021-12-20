@@ -16,6 +16,9 @@ RUN apt install -y wget bash
 # Install the wa_simulator
 RUN pip install wa_simulator
 
+# Add env variable
+ENV DOCKER_ENV 1
+
 WORKDIR /root/
 
 COPY docker/entrypoint.sh /

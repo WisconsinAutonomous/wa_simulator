@@ -51,17 +51,13 @@ setup(
     author_email="wisconsinautonomous@studentorg.wisc.edu",
     license="BSD3",
     description=(
-        "Simulation tool for prototyping autonomous vehicle related algorithms. Wrapper of the PyChrono simulator."
+        "Simulation tool for prototyping autonomous vehicle related algorithms."
     ),
     long_description=read("README.md"),
     long_description_content_type="text/markdown",  # Optional (see note above)
     packages=find_packages(),
-    package_data={"wa_simulator": get_package_data("wa_simulator/data")},
-    entry_points={
-        "console_scripts": [
-            "wasim = wa_simulator.cli.wasim:main",
-        ],
-    },
+    package_data={},
+    entry_points={},
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Topic :: Software Development",
@@ -76,6 +72,6 @@ setup(
         "Documentation": "https://WisconsinAutononomous.github.io/wa_simulator",
         "Bug Reports": "https://github.com/WisconsinAutonomous/wa_simulator/issues",
         "Source Code": "https://github.com/WisconsinAutonomous/wa_simulator/",
-        "Our Team!": "https://wisconsinautonomous.org",
+        "Our Team!": "https://wa.wisc.edu",
     },
 )

@@ -5,11 +5,14 @@
 # Import the simulator
 import wa_simulator as wa
 
+# Other imports
+import os
+
 # Command line arguments
 parser = wa.WAArgumentParser(use_sim_defaults=True)
 args = parser.parse_args()
 
-if wa.using_cli:
+if os.environ.get("DOCKER_ENV"):
     wa.set_wa_data_directory('/root/data/')
 
 def main():
