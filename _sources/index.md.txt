@@ -10,7 +10,6 @@ Home <self>
 background
 installation/index
 tutorials/index
-cli
 autoapi/wa_simulator/index
 contributing
 ```
