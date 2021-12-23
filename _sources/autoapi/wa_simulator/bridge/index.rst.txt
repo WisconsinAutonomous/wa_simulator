@@ -54,22 +54,26 @@
       or `Client <https://docs.python.org/3/library/multiprocessing.html#multiprocessing.connection.Client>`_ docs to see possible errors that may be raised.
 
 
-   .. method:: add_sender(self, name: str, component: WABase, message_generator: Callable[[WABase], dict] = None)
+   .. method:: add_sender(self, name: str, component: WABase, message_generator: Callable[[WABase], dict] = None, **kwargs)
 
       Adds a sender component that has outgoing messages
 
-      To actually send data from the simulation to the external client, this method (or it's derivatives) must be called
+      To actually send data from the simulation to the external client,
+      this method (or it's derivatives) must be called
       to explicitly tell the bridge what information to send.
 
-      The format of the outgoing message is inferred, unless ``message_generator`` is not ``None``. If the message structure cannot
-      be inferred and ``message_generator`` is ``None``, a ``RuntimeError`` will be raised.
+      The format of the outgoing message is inferred, unless ``message_generator`` is not ``None``.
+      If the message structure cannot be inferred and ``message_generator`` is ``None``,
+      a ``RuntimeError`` will be raised.
 
       :Parameters: * **name** (*str*) -- The unique message name/identifier (think ROS topic)
                    * **component** (*WABase*) -- The :class:`~WABase` component the message data will be generated from
                    * **message_generator** (*Callable[[WABase], dict]*) -- A custom method that generates a dict message to be sent from the specified component
+                   * **\*\*kwargs** (*Dict[str, Any]*) -- Other components that are passed to the message generator.
 
       :raises ValueError: if ``name`` is not unique (there is already a message identifier with that name)
       :raises RuntimeError: If the message structure cannot be inferred and a message generator method is not provided
+      :raises RuntimeError: If the message generator function requries a named variable and it is not passed as a kwarg to :meth:`~add_sender`
 
 
    .. method:: add_receiver(self, name: str = '', element: Any = None, message_parser: Callable[[Any], dict] = None)

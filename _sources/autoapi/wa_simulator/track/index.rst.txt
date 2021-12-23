@@ -46,6 +46,25 @@
       :returns: *bool* -- is the point inside the boundaries?
 
 
+   .. method:: get_detected_track(self, position: WAVector, orientation: WAQuaternion, fov: float, detection_range: float) -> Tuple[List[WAVector], List[WAVector]]
+
+      Get a list of points defining the detectable track
+
+      This method is useful to "fake" perception algorithms. This will allow localization or controls
+      algorithms to be tested without needing to actually run any perception detection runs. Further, it
+      means you don't need a camera or lidar sensors to detect the track.
+
+      The detected track will be calculated based on the position and orientation of the vehicle, the
+      detection FOV, and the detection range.
+
+      :Parameters: * **position** (*WAVector*) -- The position of the vehicle
+                   * **orientation** (*WAQuaternion*) -- The orientation of the vehicle
+                   * **fov** (*float*) -- The horizontal field of view that defines the detection width (in degrees)
+                   * **detection_range** (*float*) -- The distance from the vehicle that the furthest detection point is. Anything within the fov but beyond the range is ignored.
+
+      :returns: *List[WAVector], List[WAVector]* -- List of points defining the detected track. First list is the left boundary and the second list is the right list.
+
+
    .. method:: plot(self, show=True, center_args: dict = {}, left_args: dict = {}, right_args: dict = {})
 
       Plot the path. Most likely plotter is matplotlib, but technically anything can be used.

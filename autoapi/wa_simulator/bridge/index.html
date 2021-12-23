@@ -5,7 +5,7 @@
 <link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="wa_simulator.controller" href="../controller/index.html" /><link rel="prev" title="wa_simulator.base" href="../base/index.html" />
 
     <link rel="shortcut icon" href="../../../_static/wa-dark-favicon.png"/><meta name="generator" content="sphinx-3.4.2, furo 2020.12.30.beta24"/>
-        <title>wa_simulator.bridge - Wisconsin Autonomous Simulator 2.2.10 documentation</title>
+        <title>wa_simulator.bridge - Wisconsin Autonomous Simulator 2.3.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/styles/furo.css?digest=33d2fc4f3f180ec1ffc6524e273e21d7d58cbe49">
     <link rel="stylesheet" href="../../../_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../../../_static/pygments_dark.css">
@@ -106,7 +106,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../index.html"><div class="brand">Wisconsin Autonomous Simulator 2.2.10 documentation</div></a>
+      <a href="../../../index.html"><div class="brand">Wisconsin Autonomous Simulator 2.3.0 documentation</div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon" for="__toc">
@@ -243,24 +243,28 @@ or <a class="reference external" href="https://docs.python.org/3/library/multipr
 </dd></dl>
 <dl class="py method">
 <dt id="wa_simulator.bridge.WABridge.add_sender">
-<code class="sig-name descname">add_sender</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">component</span><span class="p">:</span> <span class="n">WABase</span></em>, <em class="sig-param"><span class="n">message_generator</span><span class="p">:</span> <span class="n">Callable<span class="p">[</span><span class="p">[</span>WABase<span class="p">]</span><span class="p">, </span>dict<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/wa_simulator/bridge.html#WABridge.add_sender"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.bridge.WABridge.add_sender" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">add_sender</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">component</span><span class="p">:</span> <span class="n">WABase</span></em>, <em class="sig-param"><span class="n">message_generator</span><span class="p">:</span> <span class="n">Callable<span class="p">[</span><span class="p">[</span>WABase<span class="p">]</span><span class="p">, </span>dict<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/wa_simulator/bridge.html#WABridge.add_sender"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.bridge.WABridge.add_sender" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adds a sender component that has outgoing messages</p>
-<p>To actually send data from the simulation to the external client, this method (or it’s derivatives) must be called
+<p>To actually send data from the simulation to the external client,
+this method (or it’s derivatives) must be called
 to explicitly tell the bridge what information to send.</p>
-<p>The format of the outgoing message is inferred, unless <code class="docutils literal notranslate"><span class="pre">message_generator</span></code> is not <code class="docutils literal notranslate"><span class="pre">None</span></code>. If the message structure cannot
-be inferred and <code class="docutils literal notranslate"><span class="pre">message_generator</span></code> is <code class="docutils literal notranslate"><span class="pre">None</span></code>, a <code class="docutils literal notranslate"><span class="pre">RuntimeError</span></code> will be raised.</p>
+<p>The format of the outgoing message is inferred, unless <code class="docutils literal notranslate"><span class="pre">message_generator</span></code> is not <code class="docutils literal notranslate"><span class="pre">None</span></code>.
+If the message structure cannot be inferred and <code class="docutils literal notranslate"><span class="pre">message_generator</span></code> is <code class="docutils literal notranslate"><span class="pre">None</span></code>,
+a <code class="docutils literal notranslate"><span class="pre">RuntimeError</span></code> will be raised.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>name</strong> (<em>str</em>) – The unique message name/identifier (think ROS topic)</p></li>
 <li><p><strong>component</strong> (<em>WABase</em>) – The <code class="xref py py-class docutils literal notranslate"><span class="pre">WABase</span></code> component the message data will be generated from</p></li>
 <li><p><strong>message_generator</strong> (<em>Callable[[WABase], dict]</em>) – A custom method that generates a dict message to be sent from the specified component</p></li>
+<li><p><strong>**kwargs</strong> (<em>Dict[str, Any]</em>) – Other components that are passed to the message generator.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises</dt>
 <dd class="field-even"><ul class="simple">
 <li><p><strong>ValueError</strong> – if <code class="docutils literal notranslate"><span class="pre">name</span></code> is not unique (there is already a message identifier with that name)</p></li>
 <li><p><strong>RuntimeError</strong> – If the message structure cannot be inferred and a message generator method is not provided</p></li>
+<li><p><strong>RuntimeError</strong> – If the message generator function requries a named variable and it is not passed as a kwarg to <a class="reference internal" href="#wa_simulator.bridge.WABridge.add_sender" title="wa_simulator.bridge.WABridge.add_sender"><code class="xref py py-meth docutils literal notranslate"><span class="pre">add_sender()</span></code></a></p></li>
 </ul>
 </dd>
 </dl>

@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
     <link rel="shortcut icon" href="../../_static/wa-dark-favicon.png"/><meta name="generator" content="sphinx-3.4.2, furo 2020.12.30.beta24"/>
-        <title>wa_simulator.bridge - Wisconsin Autonomous Simulator 2.2.10 documentation</title>
+        <title>wa_simulator.bridge - Wisconsin Autonomous Simulator 2.3.0 documentation</title>
       <link rel="stylesheet" href="../../_static/styles/furo.css?digest=33d2fc4f3f180ec1ffc6524e273e21d7d58cbe49">
     <link rel="stylesheet" href="../../_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../../_static/pygments_dark.css">
@@ -105,7 +105,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">Wisconsin Autonomous Simulator 2.2.10 documentation</div></a>
+      <a href="../../index.html"><div class="brand">Wisconsin Autonomous Simulator 2.3.0 documentation</div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
@@ -211,6 +211,36 @@
 
 <span class="kn">import</span> <span class="nn">sys</span>
 
+<span class="c1"># The FlatBuffer schema</span>
+<span class="n">flatbuffer_schema</span> <span class="o">=</span> <span class="s2">"""</span>
+<span class="s2">namespace WASimulator;</span>
+
+<span class="s2">struct Vec3 {</span>
+<span class="s2">    x: double;</span>
+<span class="s2">    y: double;</span>
+<span class="s2">    z: double;</span>
+<span class="s2">}</span>
+
+<span class="s2">table Quaternion {</span>
+<span class="s2">    e0: double;</span>
+<span class="s2">    e1: double;</span>
+<span class="s2">    e2: double;</span>
+<span class="s2">    e3: double;</span>
+<span class="s2">}</span>
+
+<span class="s2">struct IMU {</span>
+<span class="s2">    linear_acceleration: Vec3;</span>
+<span class="s2">    angular_velocity: Quaternion;</span>
+<span class="s2">    orientation: Quaternion;</span>
+<span class="s2">}</span>
+
+<span class="s2">struct GPS {</span>
+<span class="s2">    latitude: double;</span>
+<span class="s2">    longitude: double;</span>
+<span class="s2">    altitude: double;</span>
+<span class="s2">}</span>
+<span class="s2">"""</span>
+
 
 <div class="viewcode-block" id="WABridge"><a class="viewcode-back" href="../../autoapi/wa_simulator/bridge/index.html#wa_simulator.bridge.WABridge">[docs]</a><span class="k">class</span> <span class="nc">WABridge</span><span class="p">(</span><span class="n">WABase</span><span class="p">):</span>
     <span class="sd">"""Base class for a bridge interface between the simulator and an external entity</span>
@@ -237,7 +267,7 @@
 <span class="sd">        ignore_unknown_messages (bool): If a message is received with an unknown name (not registered with :meth:`~add_receiver`), ignore it. Defaults to True. If False, will raise an error.</span>
 <span class="sd">    """</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">system</span><span class="p">:</span> <span class="s1">'WASystem'</span><span class="p">,</span> <span class="n">hostname</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">'localhost'</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5555</span><span class="p">,</span> <span class="n">server</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">use_ack</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">is_synchronous</span> <span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">ignore_unknown_messages</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">system</span><span class="p">:</span> <span class="s1">'WASystem'</span><span class="p">,</span> <span class="n">hostname</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">'localhost'</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5555</span><span class="p">,</span> <span class="n">server</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">use_ack</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">is_synchronous</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">ignore_unknown_messages</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_system</span> <span class="o">=</span> <span class="n">system</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_hostname</span> <span class="o">=</span> <span class="n">hostname</span>
@@ -247,16 +277,18 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_use_ack</span> <span class="o">=</span> <span class="n">use_ack</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_is_synchronous</span> <span class="o">=</span> <span class="n">is_synchronous</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_timeout</span> <span class="o">=</span> <span class="mi">2</span> <span class="c1"># Default timeout is 2 seconds</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_timeout</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c1"># Default timeout is 2 seconds</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_ignore_unknown_messages</span> <span class="o">=</span> <span class="n">ignore_unknown_messages</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_senders</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">WABase</span><span class="p">,</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">WABase</span><span class="p">],</span> <span class="nb">dict</span><span class="p">]]]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_senders</span><span class="p">[</span><span class="s2">"system"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_system</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_message_generators</span><span class="p">[</span><span class="s1">'WASystem'</span><span class="p">])</span>
+            <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_system</span><span class="p">,</span> <span class="p">{}),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_message_generators</span><span class="p">[</span><span class="s1">'WASystem'</span><span class="p">])</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_receivers</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Any</span><span class="p">,</span> <span class="nb">dict</span><span class="p">],</span> <span class="nb">dict</span><span class="p">]]]</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_global_receivers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="kc">None</span><span class="p">]]]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_receivers</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span>
+                                         <span class="n">Callable</span><span class="p">[[</span><span class="n">Any</span><span class="p">,</span> <span class="nb">dict</span><span class="p">],</span> <span class="nb">dict</span><span class="p">]]]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_global_receivers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span>
+                                           <span class="n">Callable</span><span class="p">[[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="kc">None</span><span class="p">]]]</span> <span class="o">=</span> <span class="p">[]</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span> <span class="o">=</span> <span class="kc">None</span>
 
@@ -276,23 +308,27 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span> <span class="o">=</span> <span class="n">mp</span><span class="o">.</span><span class="n">Client</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_address</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="WABridge.add_sender"><a class="viewcode-back" href="../../autoapi/wa_simulator/bridge/index.html#wa_simulator.bridge.WABridge.add_sender">[docs]</a>    <span class="k">def</span> <span class="nf">add_sender</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">component</span><span class="p">:</span> <span class="n">WABase</span><span class="p">,</span> <span class="n">message_generator</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">WABase</span><span class="p">],</span> <span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="WABridge.add_sender"><a class="viewcode-back" href="../../autoapi/wa_simulator/bridge/index.html#wa_simulator.bridge.WABridge.add_sender">[docs]</a>    <span class="k">def</span> <span class="nf">add_sender</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">component</span><span class="p">:</span> <span class="n">WABase</span><span class="p">,</span> <span class="n">message_generator</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">WABase</span><span class="p">],</span> <span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">"""Adds a sender component that has outgoing messages</span>
 
-<span class="sd">        To actually send data from the simulation to the external client, this method (or it's derivatives) must be called</span>
+<span class="sd">        To actually send data from the simulation to the external client, </span>
+<span class="sd">        this method (or it's derivatives) must be called</span>
 <span class="sd">        to explicitly tell the bridge what information to send. </span>
 
-<span class="sd">        The format of the outgoing message is inferred, unless ``message_generator`` is not ``None``. If the message structure cannot</span>
-<span class="sd">        be inferred and ``message_generator`` is ``None``, a ``RuntimeError`` will be raised.</span>
+<span class="sd">        The format of the outgoing message is inferred, unless ``message_generator`` is not ``None``. </span>
+<span class="sd">        If the message structure cannot be inferred and ``message_generator`` is ``None``, </span>
+<span class="sd">        a ``RuntimeError`` will be raised.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            name (str): The unique message name/identifier (think ROS topic)</span>
 <span class="sd">            component (WABase): The :class:`~WABase` component the message data will be generated from</span>
 <span class="sd">            message_generator (Callable[[WABase], dict]): A custom method that generates a dict message to be sent from the specified component</span>
+<span class="sd">            **kwargs (Dict[str, Any]): Other components that are passed to the message generator.</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            ValueError: if ``name`` is not unique (there is already a message identifier with that name)</span>
 <span class="sd">            RuntimeError: If the message structure cannot be inferred and a message generator method is not provided</span>
+<span class="sd">            RuntimeError: If the message generator function requries a named variable and it is not passed as a kwarg to :meth:`~add_sender`</span>
 <span class="sd">        """</span>
 
         <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_senders</span><span class="p">:</span>
@@ -307,7 +343,14 @@
         <span class="k">if</span> <span class="n">message_generator</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">message_generator</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_message_generators</span><span class="p">[</span><span class="n">_class_name</span><span class="p">]</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_senders</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">component</span><span class="p">,</span> <span class="n">message_generator</span><span class="p">)</span></div>
+        <span class="c1"># Make sure that the kwargs match the message generator signature</span>
+        <span class="n">message_generator_kwargs</span> <span class="o">=</span> <span class="n">message_generator</span><span class="o">.</span><span class="vm">__code__</span><span class="o">.</span><span class="n">co_varnames</span><span class="p">[</span>
+            <span class="mi">1</span><span class="p">:</span><span class="n">message_generator</span><span class="o">.</span><span class="vm">__code__</span><span class="o">.</span><span class="n">co_argcount</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">kwarg</span> <span class="ow">in</span> <span class="n">message_generator_kwargs</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">kwarg</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">f</span><span class="s2">"The message generator function requires a named argument of '</span><span class="si">{kwarg}</span><span class="s2">'. Please call 'add_sender' with this variable set."</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_senders</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="n">component</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">),</span> <span class="n">message_generator</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="WABridge.add_receiver"><a class="viewcode-back" href="../../autoapi/wa_simulator/bridge/index.html#wa_simulator.bridge.WABridge.add_receiver">[docs]</a>    <span class="k">def</span> <span class="nf">add_receiver</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span> <span class="n">element</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">message_parser</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Any</span><span class="p">],</span> <span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">"""Adds a receiver element that has incoming messages</span>
@@ -357,7 +400,8 @@
         <span class="k">elif</span> <span class="n">message_parser</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_global_receivers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">message_parser</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s2">"'name' and/or 'element' are unset and a message_parser was not provided."</span><span class="p">)</span></div>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="n">f</span><span class="s2">"'name' and/or 'element' are unset and a message_parser was not provided."</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="WABridge.synchronize"><a class="viewcode-back" href="../../autoapi/wa_simulator/bridge/index.html#wa_simulator.bridge.WABridge.synchronize">[docs]</a>    <span class="k">def</span> <span class="nf">synchronize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
         <span class="sd">"""Synchronizes with the external entity</span>
@@ -388,12 +432,13 @@
 
     <span class="k">def</span> <span class="nf">_send</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">"Bridge was not been connected to client. Please call connect!"</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="s2">"Bridge was not been connected to client. Please call connect!"</span><span class="p">)</span>
 
         <span class="c1"># Send messages</span>
         <span class="n">message</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="p">(</span><span class="n">component</span><span class="p">,</span> <span class="n">message_generator</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_senders</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">generated_message</span> <span class="o">=</span> <span class="n">message_generator</span><span class="p">(</span><span class="n">component</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="p">((</span><span class="n">component</span><span class="p">,</span> <span class="n">helpers</span><span class="p">),</span> <span class="n">message_generator</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_senders</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">generated_message</span> <span class="o">=</span> <span class="n">message_generator</span><span class="p">(</span><span class="n">component</span><span class="p">,</span> <span class="o">**</span><span class="n">helpers</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">generated_message</span><span class="p">:</span>
                 <span class="n">message</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">name</span><span class="p">:</span> <span class="n">generated_message</span><span class="p">})</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
@@ -407,13 +452,13 @@
             <span class="k">if</span> <span class="n">ack</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">"Acknowledgement is corrupted."</span><span class="p">)</span>
 
-
     <span class="k">def</span> <span class="nf">_receive</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># Receive messages</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_receivers</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_global_receivers</span><span class="p">):</span>
             <span class="c1"># If in synchronous mode, throw an error if we don't receive a message</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_synchronous</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span><span class="o">.</span><span class="n">poll</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_timeout</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">"Failed to receive acknowledgement from client."</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                    <span class="s2">"Failed to receive acknowledgement from client."</span><span class="p">)</span>
 
             <span class="c1"># If not in synchronous mode, make sure we have received a message</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_synchronous</span> <span class="ow">or</span> <span class="p">(</span><span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_synchronous</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span><span class="o">.</span><span class="n">poll</span><span class="p">()):</span>
@@ -532,6 +577,18 @@
             <span class="p">}</span>
         <span class="p">}</span>
     <span class="n">_message_generators</span><span class="p">[</span><span class="s1">'WAVehicleInputs'</span><span class="p">]</span> <span class="o">=</span> <span class="n">_message_generator_WAVehicleInputs</span>
+
+    <span class="c1"># def get_detected_track(self, position: WAVector, orientation: WAQuaternion, fov: float, detection_range: float) -&gt; Tuple[List[WAVector],List[WAVector]]:</span>
+    <span class="k">def</span> <span class="nf">_message_generator_WATrack</span><span class="p">(</span><span class="n">component</span><span class="p">:</span> <span class="s1">'WATrack'</span><span class="p">,</span> <span class="n">vehicle</span><span class="p">:</span> <span class="s1">'WAVehicle'</span><span class="p">,</span> <span class="n">fov</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">detection_range</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="n">left</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span> <span class="n">component</span><span class="o">.</span><span class="n">get_detected_track</span><span class="p">(</span><span class="n">vehicle</span><span class="o">.</span><span class="n">get_pos</span><span class="p">(),</span> <span class="n">vehicle</span><span class="o">.</span><span class="n">get_rot</span><span class="p">(),</span> <span class="n">fov</span><span class="p">,</span> <span class="n">detection_range</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"WATrack"</span><span class="p">,</span>
+            <span class="s2">"data"</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">"left_points"</span><span class="p">:</span> <span class="n">left</span><span class="p">,</span>
+                <span class="s2">"right_points"</span><span class="p">:</span> <span class="n">right</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="n">_message_generators</span><span class="p">[</span><span class="s1">'WATrack'</span><span class="p">]</span> <span class="o">=</span> <span class="n">_message_generator_WATrack</span>
 
     <span class="c1"># --------------------------</span>
     <span class="c1"># Inferrable message parsers</span>

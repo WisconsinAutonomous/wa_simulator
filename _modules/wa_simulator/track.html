@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
     <link rel="shortcut icon" href="../../_static/wa-dark-favicon.png"/><meta name="generator" content="sphinx-3.4.2, furo 2020.12.30.beta24"/>
-        <title>wa_simulator.track - Wisconsin Autonomous Simulator 2.2.10 documentation</title>
+        <title>wa_simulator.track - Wisconsin Autonomous Simulator 2.3.0 documentation</title>
       <link rel="stylesheet" href="../../_static/styles/furo.css?digest=33d2fc4f3f180ec1ffc6524e273e21d7d58cbe49">
     <link rel="stylesheet" href="../../_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../../_static/pygments_dark.css">
@@ -105,7 +105,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">Wisconsin Autonomous Simulator 2.2.10 documentation</div></a>
+      <a href="../../index.html"><div class="brand">Wisconsin Autonomous Simulator 2.3.0 documentation</div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
@@ -204,12 +204,13 @@
 
 <span class="c1"># WA Simulator</span>
 <span class="kn">from</span> <span class="nn">wa_simulator.path</span> <span class="k">import</span> <span class="n">WAPath</span><span class="p">,</span> <span class="n">create_path_from_json</span>
-<span class="kn">from</span> <span class="nn">wa_simulator.core</span> <span class="k">import</span> <span class="n">WAVector</span>
+<span class="kn">from</span> <span class="nn">wa_simulator.core</span> <span class="k">import</span> <span class="n">WAVector</span><span class="p">,</span> <span class="n">WAQuaternion</span>
 <span class="kn">from</span> <span class="nn">wa_simulator.utils</span> <span class="k">import</span> <span class="n">_load_json</span><span class="p">,</span> <span class="n">_check_field</span><span class="p">,</span> <span class="n">get_wa_data_file</span>
 
 <span class="c1"># Other imports</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span>
 
 
 <div class="viewcode-block" id="create_track_from_json"><a class="viewcode-back" href="../../autoapi/wa_simulator/track/index.html#wa_simulator.track.create_track_from_json">[docs]</a><span class="k">def</span> <span class="nf">create_track_from_json</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">environment</span><span class="p">:</span> <span class="s1">'WAEnvironment'</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">'WATrack'</span><span class="p">:</span>
@@ -429,7 +430,7 @@
 <span class="sd">        Implementation is explained `here &lt;https://stackoverflow.com/a/33155594&gt;`_.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            point(WAVector): point to check whether it's inside the track boundaries</span>
+<span class="sd">            point (WAVector): point to check whether it's inside the track boundaries</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            bool: is the point inside the boundaries?</span>
@@ -442,6 +443,40 @@
         <span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span> <span class="o">=</span> <span class="n">point</span><span class="p">,</span> <span class="n">WAVector</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">left</span><span class="o">.</span><span class="n">get_points</span><span class="p">()[</span><span class="n">idx</span><span class="p">]),</span> <span class="n">WAVector</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">right</span><span class="o">.</span><span class="n">get_points</span><span class="p">()[</span><span class="n">idx</span><span class="p">])</span>  <span class="c1"># noqa</span>
         <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="p">(</span><span class="n">B</span><span class="o">-</span><span class="n">C</span><span class="p">)</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="p">(</span><span class="n">C</span><span class="o">-</span><span class="n">A</span><span class="p">)</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="p">(</span><span class="n">A</span><span class="o">-</span><span class="n">B</span><span class="p">)</span><span class="o">.</span><span class="n">length</span>
         <span class="k">return</span> <span class="n">a</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">b</span><span class="o">**</span><span class="mi">2</span> <span class="o">&gt;=</span> <span class="n">c</span><span class="o">**</span><span class="mi">2</span> <span class="ow">and</span> <span class="n">a</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">c</span><span class="o">**</span><span class="mi">2</span> <span class="o">&gt;=</span> <span class="n">b</span><span class="o">**</span><span class="mi">2</span></div>
+
+<div class="viewcode-block" id="WATrack.get_detected_track"><a class="viewcode-back" href="../../autoapi/wa_simulator/track/index.html#wa_simulator.track.WATrack.get_detected_track">[docs]</a>    <span class="k">def</span> <span class="nf">get_detected_track</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">position</span><span class="p">:</span> <span class="n">WAVector</span><span class="p">,</span> <span class="n">orientation</span><span class="p">:</span> <span class="n">WAQuaternion</span><span class="p">,</span> <span class="n">fov</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">detection_range</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">WAVector</span><span class="p">],</span><span class="n">List</span><span class="p">[</span><span class="n">WAVector</span><span class="p">]]:</span>
+        <span class="sd">"""Get a list of points defining the detectable track</span>
+
+<span class="sd">        This method is useful to "fake" perception algorithms. This will allow localization or controls</span>
+<span class="sd">        algorithms to be tested without needing to actually run any perception detection runs. Further, it</span>
+<span class="sd">        means you don't need a camera or lidar sensors to detect the track.</span>
+
+<span class="sd">        The detected track will be calculated based on the position and orientation of the vehicle, the </span>
+<span class="sd">        detection FOV, and the detection range.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            position (WAVector): The position of the vehicle </span>
+<span class="sd">            orientation (WAQuaternion): The orientation of the vehicle</span>
+<span class="sd">            fov (float): The horizontal field of view that defines the detection width (in degrees)</span>
+<span class="sd">            detection_range (float): The distance from the vehicle that the furthest detection point is. Anything within the fov but beyond the range is ignored.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List[WAVector], List[WAVector]: List of points defining the detected track. First list is the left boundary and the second list is the right list.</span>
+<span class="sd">        """</span>
+        <span class="n">yaw</span> <span class="o">=</span> <span class="n">orientation</span><span class="o">.</span><span class="n">to_euler_yaw</span><span class="p">()</span>
+        <span class="n">fov</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">fov</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">min_angle</span> <span class="o">=</span> <span class="n">yaw</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">fov</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">max_angle</span> <span class="o">=</span> <span class="n">yaw</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">fov</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">_get_detected_points</span><span class="p">(</span><span class="n">points</span><span class="p">):</span>
+            <span class="n">points</span> <span class="o">-=</span> <span class="n">position</span>
+
+            <span class="n">angles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">points</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">points</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span>
+            <span class="n">points</span> <span class="o">=</span> <span class="n">points</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">((</span><span class="n">angles</span> <span class="o">&lt;</span> <span class="n">max_angle</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">angles</span> <span class="o">&gt;</span> <span class="n">min_angle</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">detection_range</span><span class="p">))]</span>
+            <span class="k">return</span> <span class="n">points</span>
+            
+        <span class="n">left_points</span> <span class="o">=</span> <span class="n">_get_detected_points</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">left</span><span class="o">.</span><span class="n">get_points</span><span class="p">()))</span>
+        <span class="n">right_points</span> <span class="o">=</span> <span class="n">_get_detected_points</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">right</span><span class="o">.</span><span class="n">get_points</span><span class="p">()))</span>
+        <span class="k">return</span> <span class="n">left_points</span><span class="p">,</span> <span class="n">right_points</span></div>
 
 <div class="viewcode-block" id="WATrack.plot"><a class="viewcode-back" href="../../autoapi/wa_simulator/track/index.html#wa_simulator.track.WATrack.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">center_args</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{},</span> <span class="n">left_args</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{},</span> <span class="n">right_args</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{}):</span>
         <span class="sd">"""Plot the path. Most likely plotter is matplotlib, but technically anything can be used.</span>

@@ -5,7 +5,7 @@
 <link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="wa_simulator.utils" href="../utils/index.html" /><link rel="prev" title="wa_simulator.system" href="../system/index.html" />
 
     <link rel="shortcut icon" href="../../../_static/wa-dark-favicon.png"/><meta name="generator" content="sphinx-3.4.2, furo 2020.12.30.beta24"/>
-        <title>wa_simulator.track - Wisconsin Autonomous Simulator 2.2.10 documentation</title>
+        <title>wa_simulator.track - Wisconsin Autonomous Simulator 2.3.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/styles/furo.css?digest=33d2fc4f3f180ec1ffc6524e273e21d7d58cbe49">
     <link rel="stylesheet" href="../../../_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../../../_static/pygments_dark.css">
@@ -106,7 +106,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../index.html"><div class="brand">Wisconsin Autonomous Simulator 2.2.10 documentation</div></a>
+      <a href="../../../index.html"><div class="brand">Wisconsin Autonomous Simulator 2.3.0 documentation</div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon" for="__toc">
@@ -237,6 +237,29 @@
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><em>bool</em> – is the point inside the boundaries?</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.track.WATrack.get_detected_track">
+<code class="sig-name descname">get_detected_track</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">position</span><span class="p">:</span> <span class="n">WAVector</span></em>, <em class="sig-param"><span class="n">orientation</span><span class="p">:</span> <span class="n">WAQuaternion</span></em>, <em class="sig-param"><span class="n">fov</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">detection_range</span><span class="p">:</span> <span class="n">float</span></em><span class="sig-paren">)</span> → Tuple<span class="p">[</span>List<span class="p">[</span>WAVector<span class="p">]</span><span class="p">, </span>List<span class="p">[</span>WAVector<span class="p">]</span><span class="p">]</span><a class="reference internal" href="../../../_modules/wa_simulator/track.html#WATrack.get_detected_track"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.track.WATrack.get_detected_track" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a list of points defining the detectable track</p>
+<p>This method is useful to “fake” perception algorithms. This will allow localization or controls
+algorithms to be tested without needing to actually run any perception detection runs. Further, it
+means you don’t need a camera or lidar sensors to detect the track.</p>
+<p>The detected track will be calculated based on the position and orientation of the vehicle, the
+detection FOV, and the detection range.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>position</strong> (<em>WAVector</em>) – The position of the vehicle</p></li>
+<li><p><strong>orientation</strong> (<em>WAQuaternion</em>) – The orientation of the vehicle</p></li>
+<li><p><strong>fov</strong> (<em>float</em>) – The horizontal field of view that defines the detection width (in degrees)</p></li>
+<li><p><strong>detection_range</strong> (<em>float</em>) – The distance from the vehicle that the furthest detection point is. Anything within the fov but beyond the range is ignored.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><em>List[WAVector], List[WAVector]</em> – List of points defining the detected track. First list is the left boundary and the second list is the right list.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -388,6 +411,7 @@
 <li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.track</span></code></a><ul>
 <li><a class="reference internal" href="#wa_simulator.track.WATrack">WATrack</a><ul>
 <li><a class="reference internal" href="#wa_simulator.track.WATrack.inside_boundaries">inside_boundaries</a></li>
+<li><a class="reference internal" href="#wa_simulator.track.WATrack.get_detected_track">get_detected_track</a></li>
 <li><a class="reference internal" href="#wa_simulator.track.WATrack.plot">plot</a></li>
 </ul>
 </li>
