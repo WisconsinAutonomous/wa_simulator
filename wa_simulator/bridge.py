@@ -18,6 +18,36 @@ from typing import Callable, Dict, Tuple, Any, List, Union
 
 import sys
 
+# The FlatBuffer schema
+flatbuffer_schema = """
+namespace WASimulator;
+
+struct Vec3 {
+    x: double;
+    y: double;
+    z: double;
+}
+
+table Quaternion {
+    e0: double;
+    e1: double;
+    e2: double;
+    e3: double;
+}
+
+struct IMU {
+    linear_acceleration: Vec3;
+    angular_velocity: Quaternion;
+    orientation: Quaternion;
+}
+
+struct GPS {
+    latitude: double;
+    longitude: double;
+    altitude: double;
+}
+"""
+
 
 class WABridge(WABase):
     """Base class for a bridge interface between the simulator and an external entity
@@ -44,7 +74,7 @@ class WABridge(WABase):
         ignore_unknown_messages (bool): If a message is received with an unknown name (not registered with :meth:`~add_receiver`), ignore it. Defaults to True. If False, will raise an error.
     """
 
-    def __init__(self, system: 'WASystem', hostname: str = 'localhost', port: int = 5555, server: bool = True, use_ack: bool = True, is_synchronous : bool = True, ignore_unknown_messages: bool = True):
+    def __init__(self, system: 'WASystem', hostname: str = 'localhost', port: int = 5555, server: bool = True, use_ack: bool = True, is_synchronous: bool = True, ignore_unknown_messages: bool = True):
         self._system = system
 
         self._hostname = hostname
@@ -54,16 +84,18 @@ class WABridge(WABase):
 
         self._use_ack = use_ack
         self._is_synchronous = is_synchronous
-        self._timeout = 2 # Default timeout is 2 seconds
+        self._timeout = 2  # Default timeout is 2 seconds
 
         self._ignore_unknown_messages = ignore_unknown_messages
 
         self._senders: Dict[str, Tuple[WABase, Callable[[WABase], dict]]] = {}
         self._senders["system"] = (
-            self._system, self._message_generators['WASystem'])
+            (self._system, {}), self._message_generators['WASystem'])
 
-        self._receivers: Dict[str, Tuple[Any, Callable[[Any, dict], dict]]] = {}
-        self._global_receivers: List[Tuple[Any, Callable[[str, Any], None]]] = []
+        self._receivers: Dict[str, Tuple[Any,
+                                         Callable[[Any, dict], dict]]] = {}
+        self._global_receivers: List[Tuple[Any,
+                                           Callable[[str, Any], None]]] = []
 
         self._connection = None
 
@@ -83,23 +115,27 @@ class WABridge(WABase):
         else:
             self._connection = mp.Client(self._address)
 
-    def add_sender(self, name: str, component: WABase, message_generator: Callable[[WABase], dict] = None):
+    def add_sender(self, name: str, component: WABase, message_generator: Callable[[WABase], dict] = None, **kwargs):
         """Adds a sender component that has outgoing messages
 
-        To actually send data from the simulation to the external client, this method (or it's derivatives) must be called
+        To actually send data from the simulation to the external client, 
+        this method (or it's derivatives) must be called
         to explicitly tell the bridge what information to send. 
 
-        The format of the outgoing message is inferred, unless ``message_generator`` is not ``None``. If the message structure cannot
-        be inferred and ``message_generator`` is ``None``, a ``RuntimeError`` will be raised.
+        The format of the outgoing message is inferred, unless ``message_generator`` is not ``None``. 
+        If the message structure cannot be inferred and ``message_generator`` is ``None``, 
+        a ``RuntimeError`` will be raised.
 
         Args:
             name (str): The unique message name/identifier (think ROS topic)
             component (WABase): The :class:`~WABase` component the message data will be generated from
             message_generator (Callable[[WABase], dict]): A custom method that generates a dict message to be sent from the specified component
+            **kwargs (Dict[str, Any]): Other components that are passed to the message generator.
 
         Raises:
             ValueError: if ``name`` is not unique (there is already a message identifier with that name)
             RuntimeError: If the message structure cannot be inferred and a message generator method is not provided
+            RuntimeError: If the message generator function requries a named variable and it is not passed as a kwarg to :meth:`~add_sender`
         """
 
         if name in self._senders:
@@ -114,7 +150,14 @@ class WABridge(WABase):
         if message_generator is None:
             message_generator = self._message_generators[_class_name]
 
-        self._senders[name] = (component, message_generator)
+        # Make sure that the kwargs match the message generator signature
+        message_generator_kwargs = message_generator.__code__.co_varnames[
+            1:message_generator.__code__.co_argcount]
+        for kwarg in message_generator_kwargs:
+            if kwarg not in kwargs:
+                raise RuntimeError(f"The message generator function requires a named argument of '{kwarg}'. Please call 'add_sender' with this variable set.")
+
+        self._senders[name] = ((component, kwargs), message_generator)
 
     def add_receiver(self, name: str = "", element: Any = None, message_parser: Callable[[Any], dict] = None):
         """Adds a receiver element that has incoming messages
@@ -164,7 +207,8 @@ class WABridge(WABase):
         elif message_parser is not None:
             self._global_receivers.append(message_parser)
         else:
-            raise ValueError(f"'name' and/or 'element' are unset and a message_parser was not provided.")
+            raise ValueError(
+                f"'name' and/or 'element' are unset and a message_parser was not provided.")
 
     def synchronize(self, time: float):
         """Synchronizes with the external entity
@@ -195,12 +239,13 @@ class WABridge(WABase):
 
     def _send(self):
         if self._connection is None:
-            raise RuntimeError("Bridge was not been connected to client. Please call connect!")
+            raise RuntimeError(
+                "Bridge was not been connected to client. Please call connect!")
 
         # Send messages
         message = {}
-        for name, (component, message_generator) in self._senders.items():
-            generated_message = message_generator(component)
+        for name, ((component, helpers), message_generator) in self._senders.items():
+            generated_message = message_generator(component, **helpers)
             if generated_message:
                 message.update({name: generated_message})
         self._connection.send(message)
@@ -214,13 +259,13 @@ class WABridge(WABase):
             if ack != 1:
                 raise RuntimeError("Acknowledgement is corrupted.")
 
-
     def _receive(self):
         # Receive messages
         if len(self._receivers) or len(self._global_receivers):
             # If in synchronous mode, throw an error if we don't receive a message
             if self._is_synchronous and not self._connection.poll(self._timeout):
-                raise RuntimeError("Failed to receive acknowledgement from client.")
+                raise RuntimeError(
+                    "Failed to receive acknowledgement from client.")
 
             # If not in synchronous mode, make sure we have received a message
             if self._is_synchronous or (not self._is_synchronous and self._connection.poll()):
@@ -339,6 +384,18 @@ class WABridge(WABase):
             }
         }
     _message_generators['WAVehicleInputs'] = _message_generator_WAVehicleInputs
+
+    # def get_detected_track(self, position: WAVector, orientation: WAQuaternion, fov: float, detection_range: float) -> Tuple[List[WAVector],List[WAVector]]:
+    def _message_generator_WATrack(component: 'WATrack', vehicle: 'WAVehicle', fov: float, detection_range: float) -> dict:
+        left, right = component.get_detected_track(vehicle.get_pos(), vehicle.get_rot(), fov, detection_range)
+        return {
+            "type": "WATrack",
+            "data": {
+                "left_points": left,
+                "right_points": right
+            }
+        }
+    _message_generators['WATrack'] = _message_generator_WATrack
 
     # --------------------------
     # Inferrable message parsers

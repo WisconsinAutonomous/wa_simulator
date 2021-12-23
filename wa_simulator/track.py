@@ -11,12 +11,13 @@ in the LICENSE file at the top level of the repo
 
 # WA Simulator
 from wa_simulator.path import WAPath, create_path_from_json
-from wa_simulator.core import WAVector
+from wa_simulator.core import WAVector, WAQuaternion
 from wa_simulator.utils import _load_json, _check_field, get_wa_data_file
 
 # Other imports
 import numpy as np
 import matplotlib.pyplot as plt
+from typing import List, Tuple
 
 
 def create_track_from_json(filename: str, environment: 'WAEnvironment' = None) -> 'WATrack':
@@ -236,7 +237,7 @@ class WATrack:
         Implementation is explained `here <https://stackoverflow.com/a/33155594>`_.
 
         Args:
-            point(WAVector): point to check whether it's inside the track boundaries
+            point (WAVector): point to check whether it's inside the track boundaries
 
         Returns:
             bool: is the point inside the boundaries?
@@ -249,6 +250,40 @@ class WATrack:
         A, B, C = point, WAVector(self.left.get_points()[idx]), WAVector(self.right.get_points()[idx])  # noqa
         a, b, c = (B-C).length, (C-A).length, (A-B).length
         return a**2 + b**2 >= c**2 and a**2 + c**2 >= b**2
+
+    def get_detected_track(self, position: WAVector, orientation: WAQuaternion, fov: float, detection_range: float) -> Tuple[List[WAVector],List[WAVector]]:
+        """Get a list of points defining the detectable track
+
+        This method is useful to "fake" perception algorithms. This will allow localization or controls
+        algorithms to be tested without needing to actually run any perception detection runs. Further, it
+        means you don't need a camera or lidar sensors to detect the track.
+
+        The detected track will be calculated based on the position and orientation of the vehicle, the 
+        detection FOV, and the detection range.
+
+        Args:
+            position (WAVector): The position of the vehicle 
+            orientation (WAQuaternion): The orientation of the vehicle
+            fov (float): The horizontal field of view that defines the detection width (in degrees)
+            detection_range (float): The distance from the vehicle that the furthest detection point is. Anything within the fov but beyond the range is ignored.
+
+        Returns:
+            List[WAVector], List[WAVector]: List of points defining the detected track. First list is the left boundary and the second list is the right list.
+        """
+        yaw = orientation.to_euler_yaw()
+        fov = np.radians(fov / 2)
+        min_angle = yaw - np.radians(fov / 2)
+        max_angle = yaw + np.radians(fov / 2)
+        def _get_detected_points(points):
+            points -= position
+
+            angles = np.arctan2(points[:, 1], points[:, 0])
+            points = points[np.where((angles < max_angle) & (angles > min_angle) & (np.linalg.norm(points, axis=1) < detection_range))]
+            return points
+            
+        left_points = _get_detected_points(np.copy(self.left.get_points()))
+        right_points = _get_detected_points(np.copy(self.right.get_points()))
+        return left_points, right_points
 
     def plot(self, show=True, center_args: dict = {}, left_args: dict = {}, right_args: dict = {}):
         """Plot the path. Most likely plotter is matplotlib, but technically anything can be used.

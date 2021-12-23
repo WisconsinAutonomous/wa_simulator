@@ -135,8 +135,6 @@ class TestWAArgumentParser(unittest.TestCase):
 
         self.assertEqual(args.step_size, 3e-3)
         self.assertEqual(args.render_step_size, 1 / 10.0)
-        self.assertEqual(args.irrlicht, False)
-        self.assertEqual(args.matplotlib, False)
 
 
 if __name__ == '__main__':

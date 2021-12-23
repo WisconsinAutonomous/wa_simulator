@@ -5,6 +5,9 @@
 # Import the simulator
 import wa_simulator as wa
 
+# Import the controller
+from pid_controller import PIDController
+
 # Other imports
 import os
 
@@ -22,6 +25,18 @@ def main():
     # update dynamics
     system = wa.WASystem(args=args)
 
+    # ---------------------------
+    # Create a simple environment
+    # Environment will create a track like path for the vehicle
+    env_filename = wa.WASimpleEnvironment.EGP_ENV_MODEL_FILE
+    environment = wa.WASimpleEnvironment(system, env_filename)
+
+    # ----------------
+    # Create the track
+    # Create it from a json specification file
+    filename = wa.get_wa_data_file("tracks/sample_medium_loop.json")
+    track = wa.create_track_from_json(filename)
+
     # --------------------------------
     # Create the vehicle inputs object
     # This is a shared object between controllers, visualizations and vehicles
@@ -30,22 +45,23 @@ def main():
     # ----------------
     # Create a vehicle
     # Pre-made go kart veh file located in the data directory
+    init_pos = wa.WAVector([49.8, 132.9, 0.5])
     veh_filename = wa.WALinearKinematicBicycle.GO_KART_MODEL_FILE
-    vehicle = wa.WALinearKinematicBicycle(system, vehicle_inputs, veh_filename)
+    vehicle = wa.WALinearKinematicBicycle(system, vehicle_inputs, veh_filename, init_pos=init_pos)
 
     # ----------------------
     # Create a visualization
     visualization = None
-    # visualization = wa.WAMatplotlibVisualization(system, vehicle, vehicle_inputs, plotter_type="single")
+    # visualization = wa.WAMatplotlibVisualization(system, vehicle, vehicle_inputs, environment=environment, plotter_type="single")
 
     # -------------------
     # Create a controller
     # Will be an interactive controller where the arrow can be used to control the car
     # Must run it from the terminal
-    controller = None
+    controller = PIDController(system, vehicle, vehicle_inputs, track.center)
     if visualization is not None:
         controller = wa.WAMatplotlibController(system, vehicle_inputs, visualization)
-
+    
     # -------------------
     # Create some sensors
     # A sensor manager is responsible for different sensors
@@ -63,16 +79,17 @@ def main():
     # Create the bridge
     # The bridge is responsible for sending the data out of the simulation to an external stack
     # Will send out vehicle state information, and receive vehicle_inputs to control the car
-    bridge = wa.WABridge(system, hostname="0.0.0.0")
+    bridge = wa.WABridge(system, hostname="0.0.0.0", port=5555)
     bridge.add_sender("vehicle", vehicle)
     bridge.add_sender("gps", gps)
     bridge.add_sender("imu", imu)
+    bridge.add_sender("track", track, vehicle=vehicle, fov=30, detection_range=100)
     bridge.add_receiver("vehicle_inputs", vehicle_inputs)
 
     # --------------------------
     # Create a simulation wrapper
     # Will be responsible for actually running the simulation
-    sim_manager = wa.WASimulationManager(system, vehicle, visualization, controller, bridge, sens_manager)
+    sim_manager = wa.WASimulationManager(system, vehicle, visualization, controller, bridge, environment, sens_manager)
 
     # ---------------
     # Simulation loop
