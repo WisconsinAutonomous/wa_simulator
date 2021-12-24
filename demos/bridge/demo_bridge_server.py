@@ -58,8 +58,8 @@ def main():
     # Create a visualization
     visualizations = []
     if args.mv:
-        single_visualization = wa.WAMatplotlibVisualization(system, vehicle, vehicle_inputs, environment=environment, plotter_type="single")
-        visualizations.append(single_visualization)
+        matplotlib_visualization = wa.WAMatplotlibVisualization(system, vehicle, vehicle_inputs, environment=environment, plotter_type="multi")
+        visualizations.append(matplotlib_visualization)
     if args.mb:
         bridge_visualization = wa.WAMatplotlibVisualization(system, vehicle, vehicle_inputs, environment=environment, plotter_type="bridge")
         visualizations.append(bridge_visualization)
