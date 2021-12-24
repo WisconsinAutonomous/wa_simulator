@@ -20,7 +20,6 @@ from wa_simulator.environment import WABody
 # Other imports
 from multiprocessing import Process, Pipe, Barrier, Queue, set_start_method
 import numpy as np
-import matplotlib.pyplot as plt
 from matplotlib.patches import Polygon, Patch
 import matplotlib.collections as collections
 from matplotlib.animation import FuncAnimation
@@ -520,12 +519,16 @@ class _MatplotlibSinglePlotter(_MatplotlibPlotter):
         **kwargs: keyworded arguments used for the base _MatplotlibPlotter class
     """
 
-    def __init__(self, mat_vehicle, dashboard, opponent_mat_vehicles, is_jupyter: bool = False, record: bool = False, record_folder: str = "OUTPUT/", **kwargs):
+    def __init__(self, mat_vehicle, dashboard, opponent_mat_vehicles, is_jupyter: bool = False, is_bridge: bool = False, record: bool = False, record_folder: str = "OUTPUT/", **kwargs):
         super().__init__(mat_vehicle, dashboard, opponent_mat_vehicles, record, record_folder, **kwargs)
 
         self._initialize_plot()
 
         self._is_jupyter = is_jupyter
+        self._is_bridge = is_bridge
+
+        if self._is_bridge:
+            self._data = []
 
     def advance(self, step):
         super().advance(step)
@@ -549,6 +552,12 @@ class _MatplotlibSinglePlotter(_MatplotlibPlotter):
         if self._is_jupyter:
             display(self._fig)
             clear_output(wait=True)
+        elif self._is_bridge:
+            self._fig.canvas.draw()
+
+            # Now we can save it to a numpy array.
+            self._data = np.frombuffer(self._fig.canvas.tostring_rgb(), dtype=np.uint8)
+            self._data = self._data.reshape(self._fig.canvas.get_width_height()[::-1] + (3,))
         else:
             plt.pause(1e-9)
 
@@ -557,6 +566,15 @@ class _MatplotlibSinglePlotter(_MatplotlibPlotter):
 
     def is_ok(self):
         return plt.fignum_exists(self._fig.number)
+
+    def get_data(self):
+        if not self._is_bridge:
+            raise RuntimeError("get_data should only be used if the plotter type is set to bridge")
+
+        data = np.copy(self._data)
+        self._data = []
+
+        return data
 
     def register_key_press_event(self, callback):
         self._fig.canvas.mpl_connect('key_press_event', self._key_press)
@@ -843,6 +861,13 @@ class WAMatplotlibVisualization(WAVisualization):
 
         self._render_steps = int(np.ceil(system.render_step_size / system.step_size))  # noqa
 
+        if plotter_type == 'bridge':
+            import matplotlib
+            matplotlib.use('Agg')
+            self._data = []
+        global plt
+        import matplotlib.pyplot as plt
+
         # Create the vehicle and dashboard
         mat_vehicle = _MatplotlibVehicle(self._vehicle.get_visual_properties())
         dashboard = _MatplotlibSimpleDashboard()
@@ -851,16 +876,18 @@ class WAMatplotlibVisualization(WAVisualization):
         for opponent in opponents:
             opponent_mat_vehicles.append(_MatplotlibVehicle(opponent.get_visual_properties()))
 
-        supported_plotters = ['multi', 'single', 'jupyter']
+        supported_plotters = ['multi', 'single', 'jupyter', 'bridge']
+        self._plotter_type = plotter_type
 
         # Create the underlying plotter
         if plotter_type == "multi":
             self._plotter = _MatplotlibMultiPlotter(
                 mat_vehicle, dashboard, opponent_mat_vehicles, record=record, record_folder=record_folder, **kwargs)
-        elif plotter_type == "single" or plotter_type == "jupyter":
+        elif plotter_type == "single" or plotter_type == "jupyter" or plotter_type == "bridge":
             is_jupyter = plotter_type == 'jupyter'
+            is_bridge = plotter_type == 'bridge'
             self._plotter = _MatplotlibSinglePlotter(
-                mat_vehicle, dashboard, opponent_mat_vehicles, is_jupyter=is_jupyter, record=record, record_folder=record_folder, **kwargs)
+                mat_vehicle, dashboard, opponent_mat_vehicles, is_jupyter=is_jupyter, is_bridge=is_bridge, record=record, record_folder=record_folder, **kwargs)
         else:
             raise ValueError(
                 f"Unknown plotter type: {plotter_type}. Must be one of the following: {', '.join(supported_plotters)}")
@@ -880,8 +907,19 @@ class WAMatplotlibVisualization(WAVisualization):
             # Will only call advance at the rate specified by render_step_size in the passed system
             self._plotter.advance(step)
 
+            if self._plotter_type == "bridge":
+                self._data = self._plotter.get_data()
+
     def is_ok(self) -> bool:
         return self._plotter.is_ok()
+
+    def get_bridge_data(self):
+        if not self._plotter_type == "bridge":
+            raise RuntimeError("get_bridge_data should only be used if the plotter type is set to bridge")
+
+        data = np.copy(self._data)
+        self._data = []
+        return data
 
     def register_key_press_event(self, callback):
         """Register a key press callback with the matplotlib visualization

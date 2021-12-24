@@ -69,12 +69,12 @@ class WABridge(WABase):
         system (WASystem): The system used to manage the simulation
         hostname (str): The hostname of the client entity
         port (int): The port to attach to
-        use_ack (bool): Specify whether to use an acknowledgement when sending a message to ensure the client got the message. Defaults to True.
+        use_ack (bool): Specify whether to use an acknowledgement when sending a message to ensure the client got the message. Defaults to False.
         is_synchronous(bool): Specify whether the sender and receivers are in synchronous mode. If yes, on each step, a message will be sent and received. If not, will not wait for a message to be received.
         ignore_unknown_messages (bool): If a message is received with an unknown name (not registered with :meth:`~add_receiver`), ignore it. Defaults to True. If False, will raise an error.
     """
 
-    def __init__(self, system: 'WASystem', hostname: str = 'localhost', port: int = 5555, server: bool = True, use_ack: bool = True, is_synchronous: bool = True, ignore_unknown_messages: bool = True):
+    def __init__(self, system: 'WASystem', hostname: str = 'localhost', port: int = 5555, server: bool = True, use_ack: bool = False, is_synchronous: bool = True, ignore_unknown_messages: bool = True):
         self._system = system
 
         self._hostname = hostname
@@ -385,7 +385,6 @@ class WABridge(WABase):
         }
     _message_generators['WAVehicleInputs'] = _message_generator_WAVehicleInputs
 
-    # def get_detected_track(self, position: WAVector, orientation: WAQuaternion, fov: float, detection_range: float) -> Tuple[List[WAVector],List[WAVector]]:
     def _message_generator_WATrack(component: 'WATrack', vehicle: 'WAVehicle', fov: float, detection_range: float) -> dict:
         left, right = component.get_detected_track(vehicle.get_pos(), vehicle.get_rot(), fov, detection_range)
         return {
@@ -396,6 +395,19 @@ class WABridge(WABase):
             }
         }
     _message_generators['WATrack'] = _message_generator_WATrack
+
+    def _message_generator_WAMatplotlibVisualization(component: 'WAMatplotlibVisualization'):
+        bridge_data = component.get_bridge_data()
+        if len(bridge_data) == 0:
+            return {}
+
+        return {
+            "type": "WAMatplotlibVisualization",
+            "data": {
+                "image": bridge_data
+            }
+        }
+    _message_generators['WAMatplotlibVisualization'] = _message_generator_WAMatplotlibVisualization
 
     # --------------------------
     # Inferrable message parsers

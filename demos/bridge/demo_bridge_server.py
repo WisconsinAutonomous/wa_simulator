@@ -13,6 +13,11 @@ import os
 
 # Command line arguments
 parser = wa.WAArgumentParser(use_sim_defaults=True)
+
+group = parser.add_mutually_exclusive_group()
+group.add_argument("-mv", action="store_true", help="Visualize the simulation using Matplotlib")
+group.add_argument("-mb", action="store_true", help="Communicate Matplotlib visualizer over bridge")
+
 args = parser.parse_args()
 
 if os.environ.get("DOCKER_ENV"):
@@ -51,16 +56,19 @@ def main():
 
     # ----------------------
     # Create a visualization
-    visualization = None
-    # visualization = wa.WAMatplotlibVisualization(system, vehicle, vehicle_inputs, environment=environment, plotter_type="single")
+    visualizations = []
+    if args.mv:
+        single_visualization = wa.WAMatplotlibVisualization(system, vehicle, vehicle_inputs, environment=environment, plotter_type="single")
+        visualizations.append(single_visualization)
+    if args.mb:
+        bridge_visualization = wa.WAMatplotlibVisualization(system, vehicle, vehicle_inputs, environment=environment, plotter_type="bridge")
+        visualizations.append(bridge_visualization)
 
     # -------------------
     # Create a controller
     # Will be an interactive controller where the arrow can be used to control the car
     # Must run it from the terminal
     controller = PIDController(system, vehicle, vehicle_inputs, track.center)
-    if visualization is not None:
-        controller = wa.WAMatplotlibController(system, vehicle_inputs, visualization)
     
     # -------------------
     # Create some sensors
@@ -83,13 +91,15 @@ def main():
     bridge.add_sender("vehicle", vehicle)
     bridge.add_sender("gps", gps)
     bridge.add_sender("imu", imu)
+    if args.mb:
+        bridge.add_sender("visualization", bridge_visualization)
     bridge.add_sender("track", track, vehicle=vehicle, fov=30, detection_range=100)
     bridge.add_receiver("vehicle_inputs", vehicle_inputs)
 
     # --------------------------
     # Create a simulation wrapper
     # Will be responsible for actually running the simulation
-    sim_manager = wa.WASimulationManager(system, vehicle, visualization, controller, bridge, environment, sens_manager)
+    sim_manager = wa.WASimulationManager(system, vehicle, *visualizations, controller, bridge, environment, sens_manager)
 
     # ---------------
     # Simulation loop

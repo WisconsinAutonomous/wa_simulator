@@ -11,7 +11,7 @@ RUN sed -i 's|deb http://.*ubuntu.com.* \(focal.*\)|deb mirror://mirrors.ubuntu.
 RUN apt update && apt upgrade -y
 
 # Install some packages
-RUN apt install -y wget bash iputils-ping
+RUN apt install -y wget bash iputils-ping gxmessage vim
 
 # Add the WA simulator env file
 COPY . /tmp/wa_simulator
