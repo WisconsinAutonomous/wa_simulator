@@ -15,10 +15,17 @@ in the LICENSE file at the top level of the repo
 import logging
 import pathlib
 import contextlib
+import os
 
-# Grab the data folder in the root of this repo
-_DATA_DIRECTORY = str((pathlib.Path("..") / "data").resolve())
+# If the data directory environment variable is set, us that instead
+if os.environ.get("WA_DATA_DIRECTORY"):
+    _DATA_DIRECTORY = str(pathlib.Path(os.environ.get("WA_DATA_DIRECTORY")).resolve())
+else:
+    # Otherwise, grab the data folder in the root of this repo
+    _DATA_DIRECTORY = str((pathlib.Path("..") / "data").resolve())
 
+
+_DATA_DIRECTORY
 
 def get_wa_data_file(filename: str) -> str:
     """Get the absolute path for the filename passed relative to the :data:`~DATA_DIRECTORY`.

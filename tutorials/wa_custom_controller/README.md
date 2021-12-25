@@ -8,9 +8,14 @@ In this tutorial, we will create a custom controller that reads in commands via 
 - Basic understanding of Python
 - You have `wa_simulator` installed ([resources for that](https://wisconsinautonomous.github.io/wa_simulator/installation/index.html))
 
-> Note #1: This tutorial assumes you have installed the wa_simulator via Anaconda
+```{note} Note #1
+This tutorial assumes you have installed the wa_simulator via Anaconda
+```
 
-> Note #2: This tutorial is meant for people using a Linux distribution or MacOS. It should work for Windows users within the Anaconda shell, but it hasn't been tested.
+```{note} Note #2
+This tutorial is meant for people using a Linux distribution or MacOS. It should work for Windows users within the Anaconda shell, but it hasn't been tested.
+```
+
 ## Setup
 
 Since `wa_simulator` is installed via `conda`, creating a custom demo and controller is as easy as creating a single file. That is what we'll do in this tutorial.

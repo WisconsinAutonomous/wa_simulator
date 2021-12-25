@@ -63,5 +63,7 @@ def main():
         sim_manager.advance(step_size)
 
 
+    print('Done.')
+
 if __name__ == "__main__":
     main()

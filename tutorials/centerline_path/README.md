@@ -9,7 +9,9 @@ In this tutorial, we will use WA Simulator components to generate a centerline p
 - You have `wa_simulator` installed ([resources for that](https://wisconsinautonomous.github.io/wa_simulator/installation/index.html))
 - You have cloned the `wa_internal` repository
 
-> Note: This tutorial assumes you have installed the wa_simulator via Anaconda
+```{note}
+This tutorial assumes you have installed the wa_simulator via Anaconda
+```
 
 ## Setup
 
@@ -268,8 +270,15 @@ Some more complex path planning algorithms incorporate an alpha value like this 
 
 ## Support
 
-Contact [Aaron Young](mailto:aryoung5@wisc.edu) for any questions or concerns regarding the contents of this repository.
+Contact [Wisconsin Autonomous](mailto:wisconsinautonomous@studentorg.wisc.edu) for any questions or concerns regarding the contents of this repository.
 
 ## See Also
 
 Follow us on [Facebook](https://www.facebook.com/wisconsinautonomous/), [Instagram](https://www.instagram.com/wisconsinautonomous/), and [LinkedIn](https://www.linkedin.com/company/wisconsin-autonomous/about/)!
+
+<br>
+
+<div>
+	<img src="https://github.com/WisconsinAutonomous/wa-resources/blob/master/Images/WA.png?raw=true" alt="Wisconsin Autonomous Logo" class="readme-img" height="100px">  
+	<img src="https://github.com/WisconsinAutonomous/wa-resources/blob/master/Images/UWCrest.png?raw=true" alt="University of Wisconsin - Madison Crest" class="readme-img" height="100px" align="right">
+</div>
