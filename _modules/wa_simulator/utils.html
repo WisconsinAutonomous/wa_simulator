@@ -140,7 +140,7 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label for="toctree-checkbox-2"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorials/centerline_path.html">Creating a Centerline Path Planner</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorials/custom-controller.html">Creating a Custom Controller</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorials/writing-a-json.html">Writing a JSON Specification File</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/docker-usage.html">Running Simulations using Docker</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../autoapi/wa_simulator/index.html">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label for="toctree-checkbox-3"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
@@ -208,10 +208,17 @@
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">pathlib</span>
 <span class="kn">import</span> <span class="nn">contextlib</span>
+<span class="kn">import</span> <span class="nn">os</span>
 
-<span class="c1"># Grab the data folder in the root of this repo</span>
-<span class="n">_DATA_DIRECTORY</span> <span class="o">=</span> <span class="nb">str</span><span class="p">((</span><span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">".."</span><span class="p">)</span> <span class="o">/</span> <span class="s2">"data"</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">())</span>
+<span class="c1"># If the data directory environment variable is set, us that instead</span>
+<span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"WA_DATA_DIRECTORY"</span><span class="p">):</span>
+    <span class="n">_DATA_DIRECTORY</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"WA_DATA_DIRECTORY"</span><span class="p">))</span><span class="o">.</span><span class="n">resolve</span><span class="p">())</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="c1"># Otherwise, grab the data folder in the root of this repo</span>
+    <span class="n">_DATA_DIRECTORY</span> <span class="o">=</span> <span class="nb">str</span><span class="p">((</span><span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">".."</span><span class="p">)</span> <span class="o">/</span> <span class="s2">"data"</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">())</span>
 
+
+<span class="n">_DATA_DIRECTORY</span>
 
 <div class="viewcode-block" id="get_wa_data_file"><a class="viewcode-back" href="../../autoapi/wa_simulator/utils/index.html#wa_simulator.utils.get_wa_data_file">[docs]</a><span class="k">def</span> <span class="nf">get_wa_data_file</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="sd">"""Get the absolute path for the filename passed relative to the :data:`~DATA_DIRECTORY`.</span>

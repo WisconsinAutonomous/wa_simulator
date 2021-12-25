@@ -1,0 +1,398 @@
+<!doctype html>
+<html class="no-js">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="API Reference" href="../autoapi/wa_simulator/index.html" /><link rel="prev" title="Creating a Custom Controller" href="custom-controller.html" />
+
+    <link rel="shortcut icon" href="../_static/wa-dark-favicon.png"/><meta name="generator" content="sphinx-3.4.2, furo 2020.12.30.beta24"/>
+        <title>Running Simulations using Docker - Wisconsin Autonomous Simulator 2.3.2 documentation</title>
+      <link rel="stylesheet" href="../_static/styles/furo.css?digest=33d2fc4f3f180ec1ffc6524e273e21d7d58cbe49">
+    <link rel="stylesheet" href="../_static/pygments.css">
+    <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../_static/pygments_dark.css">
+    
+
+
+<style>
+  :root {
+    --color-code-background: #f0f0f0;
+  --color-code-foreground: black;
+  
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+  }
+
+  /* For allowing end-user-specific overrides */
+  .override-light {
+    --color-code-background: #f0f0f0;
+  --color-code-foreground: black;
+  
+  }
+  .override-dark {
+    --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+  }
+</style><link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" />
+    <link rel="stylesheet" href="../_static/styles/furo-extensions.css?digest=26485485040e7aaf717c13fd0188a5ad2c2deb60">
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script defer="defer" src="../_static/jquery.js"></script>
+    <script defer="defer" src="../_static/underscore.js"></script>
+    <script defer="defer" src="../_static/doctools.js"></script>
+    <script async="async" defer="defer" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script defer="defer" type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <script defer src="../_static/scripts/main.js?digest=e931d09b2a40c1bb82b542effe772014573baf67"></script></head>
+  <body dir="">
+    
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+      stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z"/>
+      <line x1="4" y1="6" x2="20" y2="6" />
+      <line x1="10" y1="12" x2="20" y2="12" />
+      <line x1="6" y1="18" x2="20" y2="18" />
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+      class="feather feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+      class="feather feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
+
+<div class="announcement">
+  <aside class="announcement-content">
+     
+        <a style="text-decoration: none; color: white;" 
+           href="https://wa.wisc.edu">
+           <img src="https://github.com/WisconsinAutonomous/wa-resources/blob/master/Images/wa-dark.png?raw=true" 
+                style="vertical-align: middle; display: inline; padding-right: 7.5px; height: 20px;"/>
+           Checkout our website!
+        </a>
+     
+  </aside>
+</div>
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">Wisconsin Autonomous Simulator 2.3.2 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="../_static/wa-light.png" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../_static/wa-dark.png" alt="Dark Logo"/>
+  </div>
+  
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html">
+  <input class="sidebar-search" placeholder=Search name="q">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../background.html">Background</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../installation/index.html">Installation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label for="toctree-checkbox-1"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../installation/unix.html">Unix Installation Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/windows.html">Windows Installation Guide</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">Tutorials</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label for="toctree-checkbox-2"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="centerline_path.html">Creating a Centerline Path Planner</a></li>
+<li class="toctree-l2"><a class="reference internal" href="custom-controller.html">Creating a Custom Controller</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Running Simulations using Docker</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../autoapi/wa_simulator/index.html">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label for="toctree-checkbox-3"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../autoapi/wa_simulator/chrono/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label for="toctree-checkbox-4"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../autoapi/wa_simulator/chrono/controller/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.controller</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../autoapi/wa_simulator/chrono/environment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.environment</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../autoapi/wa_simulator/chrono/sensor/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.sensor</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../autoapi/wa_simulator/chrono/system/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.system</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../autoapi/wa_simulator/chrono/utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.utils</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../autoapi/wa_simulator/chrono/vehicle/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.vehicle</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../autoapi/wa_simulator/chrono/visualization/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.chrono.visualization</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../autoapi/wa_simulator/base/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.base</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../autoapi/wa_simulator/bridge/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.bridge</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../autoapi/wa_simulator/controller/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.controller</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../autoapi/wa_simulator/core/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.core</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../autoapi/wa_simulator/environment/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.environment</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../autoapi/wa_simulator/path/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.path</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../autoapi/wa_simulator/sensor/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.sensor</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../autoapi/wa_simulator/simulation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.simulation</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../autoapi/wa_simulator/system/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.system</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../autoapi/wa_simulator/track/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.track</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../autoapi/wa_simulator/utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.utils</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../autoapi/wa_simulator/vehicle/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.vehicle</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../autoapi/wa_simulator/vehicle_inputs/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.vehicle_inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../autoapi/wa_simulator/visualization/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wa_simulator.visualization</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+</ul>
+<p><span class="caption-text">External Links</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://pypi.org/project/wa-simulator/">PyPI</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/WisconsinAutonomous/wa_simulator">Github</a></li>
+</ul>
+
+</div>
+</div>
+      </div>
+      
+    </div>
+  </aside>
+  <main class="main">
+    <div class="content">
+      <article role="main">
+        <label class="toc-overlay-icon toc-content-icon" for="__toc">
+          <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+        </label>
+        <section id="running-simulations-using-docker">
+<h1>Running Simulations using Docker<a class="headerlink" href="#running-simulations-using-docker" title="Permalink to this headline">¶</a></h1>
+<p>In this tutorial, we will learn how to run <code class="docutils literal notranslate"><span class="pre">wa_simulator</span></code> simulations using Docker.</p>
+<section id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>You have installed <code class="docutils literal notranslate"><span class="pre">wa_simulator</span></code> (<a class="reference external" href="https://wisconsinautonomous.github.io/wa_simulator/installation/index.html">resources for that</a>)</p></li>
+<li><p>You have installed <code class="docutils literal notranslate"><span class="pre">wa_cli</span></code> (<a class="reference external" href="https://wisconsinautonomous.github.io/wa_cli/installation/index.html">resources for that</a>)</p></li>
+<li><p>You have installed Docker (<a class="reference external" href="https://docs.docker.com/get-docker/">resource for that</a>)</p></li>
+</ul>
+</section>
+<section id="background">
+<h2>Background<a class="headerlink" href="#background" title="Permalink to this headline">¶</a></h2>
+<p>We’ll first give some background and motivation to using Docker with simulations.</p>
+<p>To begin, Docker is a tool for virtualizing applications from a main operating system. What this means is that you can run full OS containers within a host OS. The primary purpose behind Docker, and similar tools, is to isolate development environments and to consistently deploy applications across computers. Docker is typically used on servers (think AWS or Azure) to isolate users and to deploy websites and web apps. Docker simply provides the ability to run these isolated containers, it is the users job to create the content that goes inside the containers. For more information on Docker, plesae see their <a class="reference external" href="https://www.docker.com/">official website</a>.</p>
+<p>For simulations, containers can be a valuable tool for creating consistent development environments for users with different operating systems or different use cases. For example, a Docker container can be generated that has the entire simulation platform already installed; then, the user can simply run their simulation script in the container without the need to install any dependencies.</p>
+</section>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">¶</a></h2>
+<p>Beyond installing the packages in <a class="reference external" href="#prerequisites">Prerequisites</a>, there is not much setup that is necessary. The <code class="docutils literal notranslate"><span class="pre">wa_cli</span></code> package provides tools for easily spinning up containers and running simulations within Docker.</p>
+</section>
+<section id="initializing-the-network">
+<h2>Initializing the Network<a class="headerlink" href="#initializing-the-network" title="Permalink to this headline">¶</a></h2>
+<p>To help facilitate complicated scenarios, it is common practice to utilize multiple containers. Think, for instance, with multiple containers, you can have multiple, independent systems that can be interchanged easily. Then, each isolated container communicates with the others in some capacity. This is what we will do here, where we have one container for the simulation, then other containers with other features: for example, <code class="docutils literal notranslate"><span class="pre">novnc</span></code> for visualizing gui apps, <code class="docutils literal notranslate"><span class="pre">ros</span></code> for running control logic, etc.</p>
+<p>The way Docker allows containers to work together is through a mechanism called networks. Please refer to the <a class="reference external" href="https://docs.docker.com/network/">official documentation</a> for a full overview of networks; in summary, they are basically a way to communicate between containers. Each container in your application would connect to the network, and then communicate to each other to facilitate complicated systems.</p>
+<p>The first step is then to create a network for all of our containers to communicate on. The <code class="docutils literal notranslate"><span class="pre">wa_cli</span></code> package provides a command to do this. To create a network with all of the default values and with the name <code class="docutils literal notranslate"><span class="pre">wa</span></code>, run the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wa docker network
+</pre></div>
+</div>
+<p>To learn more about this command, <a class="reference external" href="https://wisconsinautonomous.github.io/wa_cli/usage.html#docker-network">see the <code class="docutils literal notranslate"><span class="pre">wa_cli</span></code> documentation</a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>All subsequent commands will actually create a network if one has not been created; therefore, running this command explicitly is somewhat redundant.</p>
+</div>
+</section>
+<section id="running-the-simulator">
+<h2>Running the Simulator<a class="headerlink" href="#running-the-simulator" title="Permalink to this headline">¶</a></h2>
+<p>To run the simulator in a docker container, the <code class="docutils literal notranslate"><span class="pre">wa_cli</span></code> package provides a command so you don’t need to understand the inner workings of Docker. The command has an entrypoint at <code class="docutils literal notranslate"><span class="pre">wa</span> <span class="pre">docker</span> <span class="pre">run</span></code>. In essence, it is analogous to <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">run</span></code> (<a class="reference external" href="https://docs.docker.com/engine/reference/run/">documentation</a>), except it has useful helper methods for WA members.</p>
+<p>To run the <a class="reference external" href="https://github.com/WisconsinAutonomous/wa_simulator/blob/develop/demos/simple/demo_bicycle_simple.py">demo_bicycle_simple.py</a> in a docker container, you can run the following command, in the <code class="docutils literal notranslate"><span class="pre">wa_simulator</span></code> <a class="reference external" href="https://github.com/wisconsinautonomous/wa_simulator">repository</a>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ <span class="nb">cd</span> demos/simple/
+$ wa docker run --data ../data/ --wasim-without-novnc demo_bicycle_simple.py -mv --end_time <span class="m">1</span> <span class="c1"># set 'end_time' so it will time out</span>
+Verbosity has been <span class="nb">set</span> to WARNING
+Done.
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">--data</span></code> part tells docker to copy the data folder to the container so that it can successfully create the vehicle. Further, <code class="docutils literal notranslate"><span class="pre">--wasim</span></code> tells <code class="docutils literal notranslate"><span class="pre">wa</span> <span class="pre">docker</span> <span class="pre">run</span></code> to use the default values for <code class="docutils literal notranslate"><span class="pre">wa_simulator</span></code> scripts.</p>
+<section id="displaying-visualizers">
+<h3>Displaying Visualizers<a class="headerlink" href="#displaying-visualizers" title="Permalink to this headline">¶</a></h3>
+<p>The aforementioned command, however, isn’t that useful since you can’t actually see anything. Using <a class="reference external" href="#initializing-the-network">networks</a> and a tool called <code class="docutils literal notranslate"><span class="pre">novnc</span></code> (see <a class="reference external" href="https://novnc.com/info.html">this</a> for more information), you can actually display <code class="docutils literal notranslate"><span class="pre">wa_simulator</span></code> visualizations in your browser.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">wa_cli</span></code> package also provides a useful command to initialize this. A container running <code class="docutils literal notranslate"><span class="pre">novnc</span></code> will be created that communicates with the <code class="docutils literal notranslate"><span class="pre">wa_simulator</span></code> container via a network. To create this container, run the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wa docker novnc
+</pre></div>
+</div>
+<p>Then rerun the <code class="docutils literal notranslate"><span class="pre">demo_bicycle_simple.py</span></code> script with novnc enabled:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ wa docker run --data ../data/ --wasim demo_bicycle_simple.py -mv
+</pre></div>
+</div>
+<p>You should not navigate to <a class="reference external" href="http://localhost:8080/vnc_auto.html">http://localhost:8080/vnc_auto.html</a> and you should see a matplotlib window. You should also be able to use the arrow keys to control the vehicle. Note: the framerate may be relatively low.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="docutils literal notranslate"><span class="pre">novnc</span></code> should also work with other applications and is not specific to <code class="docutils literal notranslate"><span class="pre">wa_simulator</span></code> visualizations.</p>
+</div>
+</section>
+<section id="running-containers-with-additional-imports">
+<h3>Running Containers with Additional Imports<a class="headerlink" href="#running-containers-with-additional-imports" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">wa_cli</span></code> package has a very useful command in <code class="docutils literal notranslate"><span class="pre">wa</span> <span class="pre">docker</span> <span class="pre">run</span></code>, as described <a class="reference external" href="#running-the-simulator">earlier</a>. For some applications, such as the demo <code class="docutils literal notranslate"><span class="pre">demo_bicycle_pid.py</span></code> <a class="reference external" href="https://github.com/WisconsinAutonomous/wa_simulator/blob/develop/demos/path_follower/demo_bicycle_pid.py">here</a>, which utilizes an external file <code class="docutils literal notranslate"><span class="pre">pid_controller.py</span></code>. If you were to just run the container as we did earlier, you would get an import error. You need to add an additionial data file pointing to the <code class="docutils literal notranslate"><span class="pre">pid_controller.py</span></code> file so that docker knows to copy it to the container. As example, to do this, run the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ <span class="nb">cd</span> demos/path_follower/
+$ wa docker run --data ../data/ --data pid_controller.py --wasim demo_bicycle_simple.py
+</pre></div>
+</div>
+<p>If you then have <code class="docutils literal notranslate"><span class="pre">novnc</span></code> running and you go to <a class="reference external" href="http://localhost:8080/vnc_auto.html">http://localhost:8080/vnc_auto.html</a>, you should see the matplotlib visualization running.</p>
+</section>
+<section id="running-with-ros">
+<h3>Running with ROS<a class="headerlink" href="#running-with-ros" title="Permalink to this headline">¶</a></h3>
+<p>Another common use case for the Wisconsin Autonomous team is to use <code class="docutils literal notranslate"><span class="pre">wa_simulator</span></code> with our ROS-based control stacks. For more information on ROS and our use of it, please see <a class="reference external" href="https://wisconsinautonomous.github.io/posts/ros-overview/">this guide</a>.</p>
+<p>A demo has been provided which outlines the use of the <code class="docutils literal notranslate"><span class="pre">WABridge</span></code> component in the <code class="docutils literal notranslate"><span class="pre">wa_simulator</span></code> API, which allows communication with external entities of simulation data. The demo can be found <a class="reference external" href="https://github.com/WisconsinAutonomous/wa_simulator/tree/develop/demos/bridge">here</a>. This example can be run completely outside of docker, where the server connects directly to the client. In this tutorial, however, we would like to communicate with a ROS stack located in a docker container. To do this, spin up the server in a docker container with the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ <span class="nb">cd</span> demos/demo_bridge_server.py
+$ wa docker run --wasim --data <span class="s2">"../data"</span> --data <span class="s2">"pid_controller.py"</span> demo_bridge_server.py
+</pre></div>
+</div>
+<p>The server will then block until a client is found. The client in this case should be the <code class="docutils literal notranslate"><span class="pre">wa_simulator_ros_bridge</span></code> <a class="reference external" href="https://github.com/WisconsinAutonomous/wa_simulator_ros_bridge">found here</a>. Please refer to the <a class="reference external" href="https://wisconsinautonomous.github.io/posts/ros-overview/#using-simulations">ROS Overview Wiki page</a> for information on how to start the client.</p>
+</section>
+</section>
+<section id="using-a-development-image">
+<h2>Using a Development Image<a class="headerlink" href="#using-a-development-image" title="Permalink to this headline">¶</a></h2>
+<p>In the previous examples, you were using the <code class="docutils literal notranslate"><span class="pre">wiscauto/wa_simulator:latest</span></code> image, by default. This is a public release; however, you may need to develop <code class="docutils literal notranslate"><span class="pre">wa_simulator</span></code> and use a local build of the image. Further, you could techincally use a completely different image and run any generic python file, though I’d just recommend sticking to <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">run</span></code> for that.</p>
+<section id="build-a-development-image">
+<h3>Build a Development Image<a class="headerlink" href="#build-a-development-image" title="Permalink to this headline">¶</a></h3>
+<p>To use a development image, you first need to build one. To faciliate easily building the image, <code class="docutils literal notranslate"><span class="pre">docker-compose</span></code> is used. This is a separate, but related, application from <code class="docutils literal notranslate"><span class="pre">docker</span></code>, so you will need to install that separately. Please refer to the <a class="reference external" href="https://docs.docker.com/compose/install/">official documentation</a> for instructions on how to install that.</p>
+<p>To build a development image based on any changes you’ve made to your local copy of the <code class="docutils literal notranslate"><span class="pre">wa_simulator</span></code> repo, run the following command <strong>from anywhere <em>within</em> the repository</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ docker-compose build wasim-dev
+</pre></div>
+</div>
+<p>The first time you run this command, it may take a while.</p>
+</section>
+<section id="running-a-development-image">
+<h3>Running a Development Image<a class="headerlink" href="#running-a-development-image" title="Permalink to this headline">¶</a></h3>
+<p>To now run a <code class="docutils literal notranslate"><span class="pre">wa_simulator</span></code> script with the develop image, you can run something similar to the following:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ <span class="nb">cd</span> demos/simple/
+$ wa docker run --image wiscauto/wa_simulator:develop --data ../data/ --wasim demo_bicycle_simple.py -mv
+</pre></div>
+</div>
+</section>
+</section>
+<section id="next-steps">
+<h2>Next Steps<a class="headerlink" href="#next-steps" title="Permalink to this headline">¶</a></h2>
+<p>You should now have a good understanding of how to use Docker with <code class="docutils literal notranslate"><span class="pre">wa_simulator</span></code>. Happy coding!</p>
+</section>
+<section id="support">
+<h2>Support<a class="headerlink" href="#support" title="Permalink to this headline">¶</a></h2>
+<p>Contact <a class="reference external" href="mailto:wisconsinautonomous%40studentorg.wisc.edu">Wisconsin Autonomous</a> for any questions or concerns regarding the contents of this repository.</p>
+</section>
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Permalink to this headline">¶</a></h2>
+<p>Follow us on <a class="reference external" href="https://www.facebook.com/wisconsinautonomous/">Facebook</a>, <a class="reference external" href="https://www.instagram.com/wisconsinautonomous/">Instagram</a>, and <a class="reference external" href="https://www.linkedin.com/company/wisconsin-autonomous/about/">LinkedIn</a>!</p>
+</section>
+</section>
+
+      </article>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="../autoapi/wa_simulator/index.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">API Reference</div>
+              </div>
+              <svg><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="custom-controller.html">
+              <svg><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Creating a Custom Controller</div>
+                
+              </div>
+            </a>
+        </div>
+
+        <div class="related-information">
+              Copyright &#169; 2021, Wisconsin Autonomous
+            |
+            Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
+              and
+              <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+              <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
+            |
+            <a class="muted-link" href="../_sources/tutorials/docker-usage.md.txt"
+               rel="nofollow">
+              Show Source
+            </a>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            Contents
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Running Simulations using Docker</a><ul>
+<li><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
+<li><a class="reference internal" href="#background">Background</a></li>
+<li><a class="reference internal" href="#setup">Setup</a></li>
+<li><a class="reference internal" href="#initializing-the-network">Initializing the Network</a></li>
+<li><a class="reference internal" href="#running-the-simulator">Running the Simulator</a><ul>
+<li><a class="reference internal" href="#displaying-visualizers">Displaying Visualizers</a></li>
+<li><a class="reference internal" href="#running-containers-with-additional-imports">Running Containers with Additional Imports</a></li>
+<li><a class="reference internal" href="#running-with-ros">Running with ROS</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#using-a-development-image">Using a Development Image</a><ul>
+<li><a class="reference internal" href="#build-a-development-image">Build a Development Image</a></li>
+<li><a class="reference internal" href="#running-a-development-image">Running a Development Image</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#next-steps">Next Steps</a></li>
+<li><a class="reference internal" href="#support">Support</a></li>
+<li><a class="reference internal" href="#see-also">See Also</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </main>
+</div>
+  </body>
+</html>
