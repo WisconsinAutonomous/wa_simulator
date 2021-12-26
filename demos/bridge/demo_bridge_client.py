@@ -60,7 +60,7 @@ def main():
         sim_manager.synchronize(time)
         sim_manager.advance(step_size)
 
-        print(vehicle_position)
+        # print(vehicle_position)
 
 if __name__ == "__main__":
     main()

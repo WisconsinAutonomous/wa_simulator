@@ -1,0 +1,15 @@
+{
+	"Name": "TEST Wheel Encoder Sensor Model",
+	"Type": "Sensor",
+	"Template": "Wheel Encoder",
+
+	"Properties": {
+		"Update Rate": 100,
+		"Axle": "Front",
+		"Noise Model": {
+			"Noise Type": "Normal",
+			"Mean": [0.0, 0.0, 0.0],
+			"Standard Deviation": [0.02, 0.03, 0.01]
+		}
+	}
+}

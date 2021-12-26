@@ -18,36 +18,6 @@ from typing import Callable, Dict, Tuple, Any, List, Union
 
 import sys
 
-# The FlatBuffer schema
-flatbuffer_schema = """
-namespace WASimulator;
-
-struct Vec3 {
-    x: double;
-    y: double;
-    z: double;
-}
-
-table Quaternion {
-    e0: double;
-    e1: double;
-    e2: double;
-    e3: double;
-}
-
-struct IMU {
-    linear_acceleration: Vec3;
-    angular_velocity: Quaternion;
-    orientation: Quaternion;
-}
-
-struct GPS {
-    latitude: double;
-    longitude: double;
-    altitude: double;
-}
-"""
-
 
 class WABridge(WABase):
     """Base class for a bridge interface between the simulator and an external entity
@@ -342,7 +312,7 @@ class WABridge(WABase):
 
     def _message_generator_WAIMUSensor(component: 'WAIMUSensor') -> dict:
         data = component.get_data()
-        if data is None:
+        if any(d is None for d in data):
             # The sensor may not have any data available, so it may return None
             # If that's the case, return an empty dict
             return {}
@@ -374,6 +344,21 @@ class WABridge(WABase):
         }
     _message_generators['WAGPSSensor'] = _message_generator_WAGPSSensor
 
+    def _message_generator_WAWheelEncoderSensor(component: 'WAWheelEncoderSensor') -> dict:
+        data = component.get_data()
+        if data is None:
+            # The sensor may not have any data available, so it may return None
+            # If that's the case, return an empty dict
+            return {}
+
+        return {
+            "type": "WAWheelEncoderSensor",
+            "data": {
+                "angular_speed": data
+            }
+        }
+    _message_generators['WAWheelEncoderSensor'] = _message_generator_WAWheelEncoderSensor
+
     def _message_generator_WAVehicleInputs(component: 'WAVehicleInputs') -> dict:
         return {
             "type": "WAVehicleInputs",
@@ -386,12 +371,20 @@ class WABridge(WABase):
     _message_generators['WAVehicleInputs'] = _message_generator_WAVehicleInputs
 
     def _message_generator_WATrack(component: 'WATrack', vehicle: 'WAVehicle', fov: float, detection_range: float) -> dict:
-        left, right = component.get_detected_track(vehicle.get_pos(), vehicle.get_rot(), fov, detection_range)
+        left_detected, right_detected = component.get_detected_track(vehicle.get_pos(), vehicle.get_rot(), fov, detection_range)
+        coords_mapped, points_mapped, widths_mapped = component.get_mapped_track(vehicle.get_pos(), vehicle.get_rot(), fov, detection_range)
         return {
             "type": "WATrack",
             "data": {
-                "left_points": left,
-                "right_points": right
+                "visible": {
+                    "left": left_detected,
+                    "right": right_detected,
+                },
+                "mapped": {
+                    "coords": coords_mapped,
+                    "points": points_mapped,
+                    "widths": widths_mapped,
+                }
             }
         }
     _message_generators['WATrack'] = _message_generator_WATrack

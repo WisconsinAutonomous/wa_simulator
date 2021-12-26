@@ -57,13 +57,15 @@ def load_sensor_from_json(system: 'WASystem', filename: str, **kwargs) -> 'WASen
 
     # Validate the json file
     _check_field(j, 'Type', value='Sensor')
-    _check_field(j, 'Template', allowed_values=['IMU', 'GPS'])
+    _check_field(j, 'Template', allowed_values=['IMU', 'GPS', 'Wheel Encoder'])
 
     # Check the template and create a sensor based off what it is
     if j['Template'] == 'IMU':
         sensor = WAIMUSensor(system, filename, **kwargs)
     elif j['Template'] == 'GPS':
         sensor = WAGPSSensor(system, filename, **kwargs)
+    elif j['Template'] == 'Wheel Encoder':
+        sensor = WAWheelEncoderSensor(system, filename, **kwargs)
     else:
         raise TypeError(f"{j['Template']} is not an implemented sensor type")
 
@@ -128,7 +130,7 @@ class WANoiseModel(ABC):
     """
 
     @abstractmethod
-    def add_noise(data: list):
+    def add_noise(self, data: list):
         """Add noise to the data
 
         Args:
@@ -140,7 +142,7 @@ class WANoiseModel(ABC):
 class WANoNoiseModel(WANoiseModel):
     """Derived noise model. Does nothing"""
 
-    def add_noise(data: list):
+    def add_noise(self, data: list):
         """Do nothing"""
         pass
 
@@ -238,7 +240,8 @@ class WANormalNoiseModel(WANoiseModel):
         def rand(element):
             return np.random.normal(getattr(self._mean, element, 0), getattr(self._sigma, element, 0))
 
-        data += WAVector([rand('x'), rand('y'), rand('z')])
+        noise = WAVector([rand('x'), rand('y'), rand('z')])
+        data += noise
 
 
 class WASensor(WABase):
@@ -391,13 +394,11 @@ class WAIMUSensor(WASensor):
         Returns:
             (WAVector, WAQuaternion, WAQuaternion): Tuple in the form of (acceleration, angular_velocity, orientation)
         """
-        if self._pos_dtdt is None and self._rot_dt is None and self._rot is None:
-            return None
         return self._pos_dtdt, self._rot_dt, self._rot
 
 
 class WAGPSSensor(WASensor):
-    """Derived sensor class that implements an GPS model
+    """Derived sensor class that implements a GPS model
 
     GPS stands for Global Positioning System. GPS's are everyday sensors you can find in your computer, watch, phone, etc.
     They essentially ping satilites orbiting earth for positional information. This information, in real life, is not very
@@ -405,7 +406,7 @@ class WAGPSSensor(WASensor):
 
     Args:
         system (WASystem): The system for the simulation
-        filename (str): a json specification file that describes an GPS sensor model
+        filename (str): a json specification file that describes a GPS sensor model
         vehicle (WAVehicle, optional): The vehicle to attach to. If not passed, body must be passed.
         body (WABody, optional): The body to attach to. If not passed, vehicle must be passed.
     """
@@ -483,7 +484,7 @@ class WAGPSSensor(WASensor):
         self._noise_model.add_noise(self._pos)
         self._coord = WAGPSSensor.cartesian_to_gps(self._pos, self._reference)
 
-    def get_data(self):
+    def get_data(self) -> WAVector:
         """Get the sensor data
 
         Returns:
@@ -530,3 +531,100 @@ class WAGPSSensor(WASensor):
         z = alt - ref.z
 
         return WAVector([x, y, z])
+
+class WAWheelEncoderSensor(WASensor):
+    """Derived sensor class that implements an wheel encoder model
+
+    Wheel encoders are common sensors used by robots to measure the rotational speed of rotational objects. For the application
+    of autonomous vehicles, wheel encoders can be placed on the front or rear axles to measure the angular rotation speed of the wheels.
+    Further, a wheel encoder can be placed on the steering column, to again, measure the angular speed. With the angular speed, one can
+    simply integrate to find the angular position (i.e. steering angle).
+
+    Args:
+        system (WASystem): The system for the simulation
+        filename (str): a json specification file that describes a wheel encoder sensor model
+        vehicle (WAVehicle, optional): The vehicle to attach to. If not passed, body must be passed.
+        body (WABody, optional): The body to attach to. If not passed, vehicle must be passed.
+    """
+
+    # Global filenames for gps sensors
+    _WHEEL_ENCODER_SENSOR_FILE = "sensors/models/wheel_encoder.json"
+
+    WHEEL_ENCODER_SENSOR_FILE = _WAStaticAttribute('_WHEEL_ENCODER_SENSOR_FILE', get_wa_data_file)
+
+    def __init__(self, system: 'WASystem', filename: str, vehicle: 'WAVehicle' = None, body: 'WABody' = None):
+        super().__init__(vehicle, body)
+
+        if body is not None:
+            raise NotImplementedError("Setting 'body' is currently not supported. Please pass a vehicle instead")
+
+        self._vehicle = vehicle
+
+        j = _load_json(filename)
+
+        # Validate the json file
+        _check_field(j, 'Type', value='Sensor')
+        _check_field(j, 'Template', value='Wheel Encoder')
+        _check_field(j, 'Properties', field_type=dict)
+
+        p = j['Properties']
+        _check_field(p, 'Update Rate', field_type=int)
+        _check_field(p, 'Axle', field_type=str, allowed_values=['Front', 'Rear', 'Steering'])
+        _check_field(p, 'Noise Model', field_type=dict, optional=True)
+
+        if 'Noise Model' in p:
+            _check_field(p['Noise Model'], 'Noise Type',
+                         allowed_values=["Normal", "Normal Drift"])
+
+        self._load_properties(p)
+
+    def _load_properties(self, p: dict):
+        """Private function that loads properties and sets them to class variables
+
+        Args:
+            p (dict): Properties dictionary
+        """
+        self._update_rate = p['Update Rate']
+        self._axle = p['Axle']
+
+        self._noise_model = WANoNoiseModel()
+        if 'Noise Model' in p:
+            n = p['Noise Model']
+
+            if n['Noise Type'] == 'Normal Drift':
+                self._noise_model = WANormalDriftNoiseModel(n)
+            elif n['Noise Type'] == 'Normal':
+                self._noise_model = WANormalNoiseModel(n)
+            else:
+                raise TypeError(
+                    f"{p['Noise Type']} is not an implemented model type")
+
+        self._vel = WAVector()
+        self._angular_speed = 0
+        self._tire_radius = self._vehicle.get_tire_radius(self._axle)
+
+    def synchronize(self, time):
+        """Synchronize the sensor at the specified time
+
+        Args:
+            time (float): the time at which the sensors are synchronized to
+        """
+        pass
+
+    def advance(self, step):
+        """Advance the state of the sensor by the specified time step
+
+        Args:
+            step (float): the step to update the sensor by
+        """
+        self._vel = self._vehicle.get_pos_dt()
+        self._noise_model.add_noise(self._vel)
+        self._angular_speed = self._vel.length / self._tire_radius
+
+    def get_data(self):
+        """Get the sensor data
+
+        Returns:
+            WAVector: The coordinate location of the vehicle in the form of [longitude, latitude, altitude]
+        """
+        return self._angular_speed

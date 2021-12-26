@@ -29,6 +29,8 @@ def create_track_from_json(filename: str, environment: 'WAEnvironment' = None) -
 
     * Width (``float``, required): The constant width between the left and right boundaries of the track.
 
+    * Origin(``list``, required): The GPS origin of the first centerline point
+
     * Visualization (``dict``, optional): Additional visualization properties.
 
       * Center/Right/Left (``dict``, optional): The each paths visualization properties
@@ -66,6 +68,7 @@ def create_track_from_json(filename: str, environment: 'WAEnvironment' = None) -
     _check_field(j, 'Template', allowed_values='Constant Width Track')
     _check_field(j, 'Center Input File', field_type=str)
     _check_field(j, 'Width', field_type=float)
+    _check_field(j, 'Origin', field_type=list)
     _check_field(j, 'Visualization', field_type=dict, optional=True)
 
     # Create the centerline path
@@ -73,9 +76,11 @@ def create_track_from_json(filename: str, environment: 'WAEnvironment' = None) -
     center = create_path_from_json(center_file)
 
     width = j['Width']
+    origin = WAVector(j['Origin'])
 
     # Create the track
     track = create_constant_width_track(center, width)
+    track.origin = origin
 
     # Load the visualization, if present
     if 'Visualization' in j:
@@ -272,18 +277,153 @@ class WATrack:
         """
         yaw = orientation.to_euler_yaw()
         fov = np.radians(fov / 2)
-        min_angle = yaw - np.radians(fov / 2)
-        max_angle = yaw + np.radians(fov / 2)
+        min_angle = yaw - fov
+        max_angle = yaw + fov
         def _get_detected_points(points):
             points -= position
 
             angles = np.arctan2(points[:, 1], points[:, 0])
             points = points[np.where((angles < max_angle) & (angles > min_angle) & (np.linalg.norm(points, axis=1) < detection_range))]
+
             return points
             
         left_points = _get_detected_points(np.copy(self.left.get_points()))
         right_points = _get_detected_points(np.copy(self.right.get_points()))
         return left_points, right_points
+
+    def get_mapped_track(self, position: WAVector, orientation: WAQuaternion, fov: float, detection_range: float) -> Tuple[List[WAVector],List[WAVector],List[WAVector]]:
+        """Get a list of points defining the mapped track the vehicle has progressed through
+
+        This method is useful to "fake" perception/state estimation algorithms. This will allow localization or controls
+        algorithms to be tested without needing to actually run any perception detection or state estimation algorithms. Further, it
+        means you don't need any sensors to detect the track.
+
+        The mapped track will be calculated based on the position and orientation of the vehicle, the 
+        detection FOV, the detection range, and the past positions of the vehicle
+
+        Note: There may be an issue with unordered points
+
+        Args:
+            position (WAVector): The position of the vehicle 
+            orientation (WAQuaternion): The orientation of the vehicle
+            fov (float): The horizontal field of view that defines the detection width (in degrees)
+            detection_range (float): The distance from the vehicle that the furthest detection point is. Anything within the fov but beyond the range is ignored.
+
+        Returns:
+            List[WAVector], List[WAVector]: left and right boundaries mapped over time in reference to the initial position
+            List[WAVector], List[WAVector], List[WAVector]: gps coordinates of the centerline, centerline points in reference to the initial position, the distance between the centerline and the left and right boundaries encoded in the x and y values of a WAVector, respectively.
+        """
+
+        # Very similar to :meth:`~get_detected_track`, but will only use search in not seen points
+        yaw = orientation.to_euler_yaw()
+        fov = np.radians(fov / 2)
+        min_angle = yaw - fov
+        max_angle = yaw + fov
+        def _get_detected_points(points):
+            _points = points - position
+
+            angles = np.arctan2(_points[:, 1], _points[:, 0])
+            idx = np.where((angles < max_angle) & (angles > min_angle) & (np.linalg.norm(_points, axis=1) < detection_range))
+            return points[idx], idx
+
+        # Split the track points into two lists:
+        # One for visited points and will be used to represent the mapped track
+        # And one for unvisited points and will be used to search for new visible points
+        if not hasattr(self, '_unvisited_points'):
+            global WAGPSSensor
+            from wa_simulator.sensor import WAGPSSensor
+
+            self._unvisited_points = np.copy(self.center.get_points())
+            self._unvisited_left_points = np.copy(self.left.get_points())
+            self._unvisited_right_points = np.copy(self.right.get_points())
+
+            self._visited_points = np.array([])
+            
+        detected_points, idx = _get_detected_points(self._unvisited_points)
+
+        left_widths = np.linalg.norm(self._unvisited_left_points[idx] - detected_points, axis=1)
+        right_widths = np.linalg.norm(self._unvisited_right_points[idx] - detected_points, axis=1)
+        widths = np.array([WAVector([l,r,0]) for l,r in zip(left_widths, right_widths)])
+
+        # Update the visited list with the detected points
+        if len(self._visited_points) == 0:
+            self._visited_points = detected_points
+            self._visited_coords = np.array([WAGPSSensor.cartesian_to_gps(WAVector(p), self.origin) for p in detected_points])
+
+            self._mapped_widths = widths
+        elif len(detected_points) > 0:
+            self._visited_points = np.vstack((self._visited_points, detected_points))
+
+            detected_coords = np.array([WAGPSSensor.cartesian_to_gps(WAVector(p), self.origin) for p in detected_points])
+            self._visited_coords = np.vstack((self._visited_coords, detected_coords))
+
+            self._mapped_widths = np.vstack((self._mapped_widths, widths))
+
+        self._unvisited_points = np.delete(self._unvisited_points, idx, axis=0)
+        self._unvisited_left_points = np.delete(self._unvisited_left_points, idx, axis=0)
+        self._unvisited_right_points = np.delete(self._unvisited_right_points, idx, axis=0)
+
+        return self._visited_coords, self._visited_points, self._mapped_widths
+
+    def _get_mapped_track(self, position: WAVector, orientation: WAQuaternion, fov: float, detection_range: float) -> Tuple[List[WAVector],List[WAVector]]:
+        """Get a list of points defining the mapped track the vehicle has progressed through
+
+        This method is useful to "fake" perception/state estimation algorithms. This will allow localization or controls
+        algorithms to be tested without needing to actually run any perception detection or state estimation algorithms. Further, it
+        means you don't need any sensors to detect the track.
+
+        The mapped track will be calculated based on the position and orientation of the vehicle, the 
+        detection FOV, the detection range, and the past positions of the vehicle
+
+        Note: There may be an issue with unordered points
+
+        Args:
+            position (WAVector): The position of the vehicle 
+            orientation (WAQuaternion): The orientation of the vehicle
+            fov (float): The horizontal field of view that defines the detection width (in degrees)
+            detection_range (float): The distance from the vehicle that the furthest detection point is. Anything within the fov but beyond the range is ignored.
+
+        Returns:
+            List[WAVector], List[WAVector]: left and right boundaries mapped over time in reference to the initial position
+        """
+
+        # Very similar to :meth:`~get_detected_track`, but will only use search in not seen points
+        yaw = orientation.to_euler_yaw()
+        fov = np.radians(fov / 2)
+        min_angle = yaw - fov
+        max_angle = yaw + fov
+        def _get_detected_points(points):
+            _points = points - position
+
+            angles = np.arctan2(_points[:, 1], _points[:, 0])
+            idx = np.where((angles < max_angle) & (angles > min_angle) & (np.linalg.norm(_points, axis=1) < detection_range))
+            return _points[idx], idx
+
+        # Split the track points into two lists:
+        # One for visited points and will be used to represent the mapped track
+        # And one for unvisited points and will be used to search for new visible points
+        if not hasattr(self, 'left_unvisited_points'):
+            self.left_unvisited_points = np.copy(self.left.get_points())
+            self.right_unvisited_points = np.copy(self.right.get_points())
+
+            self.left_visited_points = np.array([])
+            self.right_visited_points = np.array([])
+            
+        left_detected_points, left_idx = _get_detected_points(self.left_unvisited_points)
+        right_detected_points, right_idx = _get_detected_points(self.right_unvisited_points)
+
+        # Update the visited list with the detected points
+        if len(self.left_visited_points) == 0:
+            self.left_visited_points = left_detected_points
+            self.right_visited_points = right_detected_points
+        else:
+            self.left_visited_points = np.vstack((self.left_visited_points, left_detected_points))
+            self.right_visited_points = np.vstack((self.right_visited_points, right_detected_points))
+
+        self.left_unvisited_points = np.delete(self.left_unvisited_points, left_idx, axis=0)
+        self.right_unvisited_points = np.delete(self.right_unvisited_points, right_idx, axis=0)
+
+        return self.left_visited_points, self.right_visited_points
 
     def plot(self, show=True, center_args: dict = {}, left_args: dict = {}, right_args: dict = {}):
         """Plot the path. Most likely plotter is matplotlib, but technically anything can be used.

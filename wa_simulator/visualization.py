@@ -20,6 +20,7 @@ from wa_simulator.environment import WABody
 # Other imports
 from multiprocessing import Process, Pipe, Barrier, Queue, set_start_method
 import numpy as np
+import matplotlib.pyplot as plt
 from matplotlib.patches import Polygon, Patch
 import matplotlib.collections as collections
 from matplotlib.animation import FuncAnimation
@@ -862,11 +863,8 @@ class WAMatplotlibVisualization(WAVisualization):
         self._render_steps = int(np.ceil(system.render_step_size / system.step_size))  # noqa
 
         if plotter_type == 'bridge':
-            import matplotlib
-            matplotlib.use('Agg')
+            plt.switch_backend('Agg')
             self._data = []
-        global plt
-        import matplotlib.pyplot as plt
 
         # Create the vehicle and dashboard
         mat_vehicle = _MatplotlibVehicle(self._vehicle.get_visual_properties())

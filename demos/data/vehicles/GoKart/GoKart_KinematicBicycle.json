@@ -9,6 +9,8 @@
 		"Effective Radius": 0.3,
 		"Inertia": 10,
 
+		"Tire Radius": 0.14,
+
 		"Aerodynamic Coefficient": 1.36,
 		"Friction Coefficient": 0.01,
 

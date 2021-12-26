@@ -5,6 +5,7 @@
 
 	"Center Input File": "paths/sample_medium_loop.json",
 	"Width": 10.0,
+	"Origin": [-89.400, 43.070, 260.0],
 
 	"Visualization": {
 		"Center": {

@@ -63,6 +63,10 @@ def main():
     gps = wa.load_sensor_from_json(system, gps_filename, vehicle=vehicle)
     sens_manager.add_sensor(gps)
 
+    wheel_encoder_filename = wa.WAWheelEncoderSensor.WHEEL_ENCODER_SENSOR_FILE
+    wheel_encoder = wa.load_sensor_from_json(system, wheel_encoder_filename, vehicle=vehicle)
+    sens_manager.add_sensor(wheel_encoder)
+
     # --------------------------
     # Create a simuation wrapper
     # Will be responsible for actually running the simulation
@@ -82,6 +86,7 @@ def main():
             # Get the data
             acceleration, angular_velocity, orientation = imu.get_data()
             coord = gps.get_data()
+            encoder = wheel_encoder.get_data()
 
             v = 20  # Formatting
 
@@ -90,6 +95,7 @@ def main():
             print('\tAngular Velocity:'.ljust(v), angular_velocity)
             print('\tOrientation:'.ljust(v), orientation)
             print(f'\tGPS:'.ljust(v), coord)
+            print(f'\tEncoder:'.ljust(v), f"{round(encoder,5)}")
             print()
 
             print_steps += 1

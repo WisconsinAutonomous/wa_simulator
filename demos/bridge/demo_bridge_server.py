@@ -83,6 +83,10 @@ def main():
     imu = wa.load_sensor_from_json(system, imu_filename, vehicle=vehicle)
     sens_manager.add_sensor(imu)
 
+    wheel_encoder_filename = wa.WAWheelEncoderSensor.WHEEL_ENCODER_SENSOR_FILE
+    wheel_encoder = wa.load_sensor_from_json(system, wheel_encoder_filename, vehicle=vehicle)
+    sens_manager.add_sensor(wheel_encoder)
+
     # -----------------
     # Create the bridge
     # The bridge is responsible for sending the data out of the simulation to an external stack
@@ -91,6 +95,7 @@ def main():
     bridge.add_sender("vehicle", vehicle)
     bridge.add_sender("gps", gps)
     bridge.add_sender("imu", imu)
+    bridge.add_sender("wheel_encoder", wheel_encoder)
     if args.mb:
         bridge.add_sender("visualization", bridge_visualization)
     bridge.add_sender("track", track, vehicle=vehicle, fov=30, detection_range=100)

@@ -152,6 +152,12 @@ class WAChronoVehicle(WAVehicle):
     def advance(self, step: float):
         self._vehicle.Advance(step)
 
+    def get_tire_radius(self, axle : str) -> float:
+        axle = axle.lower()
+        assert axle == 'front' or axle == 'rear'
+        axle = 0 if axle == 'front' else 1
+        return self._vehicle.GetTire(axle, 0).GetRadius()
+
     def get_pos(self) -> WAVector:
         return ChVector_to_WAVector(self._vehicle.GetVehiclePos())
 

@@ -7,24 +7,25 @@
 # Import the simulator
 import wa_simulator.chrono as wa
 
-# Check if chrono sensor is found
-if wa.missing_chrono_sensor:
-    print('WARNING: This demo requires Chrono::Sensor, which requires building chrono from source. Please consult Aaron Young (aryoung5@wisc.edu) with questions.')
-    print('If you are a member of Wisconsin Autonomous, consider using the work station. See TODO ADD LINK TO POST')
-    print('Exiting...')
-    exit()
-
 # Command line arguments
 parser = wa.WAArgumentParser(use_sim_defaults=True)
 
 parser.add_argument("-mv", "--matplotlib", action="store_true", help="Use matplotlib to visualize", default=False)
 parser.add_argument("-iv", "--irrlicht", action="store_true", help="Use irrlicht to visualize", default=False)
 
-parser.add_argument("-nc", "--no_camera", action="store_true", help="Don't add a camera sensor to the manager", default=False)  # noqa
-parser.add_argument("-nl", "--no_lidar", action="store_true", help="Don't add a lidar sensor to the manager", default=False)  # noqa
+parser.add_argument("-nc", "--no-camera", action="store_true", help="Don't add a camera sensor to the manager", default=False)  # noqa
+parser.add_argument("-nl", "--no-lidar", action="store_true", help="Don't add a lidar sensor to the manager", default=False)  # noqa
 parser.add_argument("-q", "--quiet", action="store_true", help="Silence any terminal output", default=False)  # noqa
 
 args = parser.parse_args()
+
+# Check if chrono sensor is found
+if wa.missing_chrono_sensor:
+    print('WARNING: This demo requires Chrono::Sensor, which requires building chrono from source. Please consult the leaders of Wisconsin Autonomous (wisconsinautonomous@studentorg.wisc.edu) with questions.')
+    print('If you are a member of Wisconsin Autonomous, consider using the work station.')
+    print('Disabling use of cameras and lidars') 
+    args.no_camera = True
+    args.no_lidar = True
 
 
 def main():
@@ -70,8 +71,11 @@ def main():
     # Use a pre-made "sensor suite" file that describes the different sensors we want to load
     # NOTE: Must come after initialization of the visualizers
 
-    scene_filename = wa.WAChronoSensorManager.EGP_SENSOR_SCENE_FILE
-    sens_manager = wa.WAChronoSensorManager(system, scene_filename)
+    if wa.missing_chrono_sensor:
+        sens_manager = wa.WASensorManager(system)
+    else:
+        scene_filename = wa.WAChronoSensorManager.EGP_SENSOR_SCENE_FILE
+        sens_manager = wa.WAChronoSensorManager(system, scene_filename)
 
     imu_filename = wa.WAIMUSensor.SBG_IMU_SENSOR_FILE
     imu = wa.load_sensor_from_json(system, imu_filename, vehicle=vehicle)
@@ -80,6 +84,10 @@ def main():
     gps_filename = wa.WAGPSSensor.SBG_GPS_SENSOR_FILE
     gps = wa.load_sensor_from_json(system, gps_filename, vehicle=vehicle)
     sens_manager.add_sensor(gps)
+
+    wheel_encoder_filename = wa.WAWheelEncoderSensor.WHEEL_ENCODER_SENSOR_FILE
+    wheel_encoder = wa.load_sensor_from_json(system, wheel_encoder_filename, vehicle=vehicle)
+    sens_manager.add_sensor(wheel_encoder)
 
     camera = None
     if not args.no_camera:
@@ -124,6 +132,7 @@ def main():
             # Get the data
             acceleration, angular_velocity, orientation = imu.get_data()
             coord = gps.get_data()
+            encoder = wheel_encoder.get_data()
             if camera is not None:
                 image = camera.get_data()  # get the image data
             if lidar is not None:
@@ -137,6 +146,7 @@ def main():
                 print('\tAngular Velocity:'.ljust(v), angular_velocity)
                 print('\tOrientation:'.ljust(v), orientation)
                 print(f'\tGPS:'.ljust(v), coord)
+                print(f'\tEncoder:'.ljust(v), f"{round(encoder,5)}")
                 print()
 
             render_steps += render_rate

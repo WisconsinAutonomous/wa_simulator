@@ -88,6 +88,18 @@ class WAVehicle(WABase):
         return True
 
     @abstractmethod
+    def get_tire_radius(self, axle : str) -> float:
+        """The radius of the front or rear tires
+
+        Args:
+            axle (str): Either 'Front' or 'Rear' (case insensitive).
+
+        Returns:
+            float: The radius of the tires on the specified axle
+        """
+        pass
+
+    @abstractmethod
     def get_pos(self) -> WAVector:
         """Get the center of mass (COM) position of the vehicle.
 
@@ -193,6 +205,7 @@ class WALinearKinematicBicycle(WAVehicle):
             "Gear Ratio" (float): gear ratio of the simulated powertrain
             "Effective Radius" (float): 
             "Inertia" (float): Effective inertia for the vehicle
+            "Tire Radius" (float): The radius of the tires
             "Aerodynamic Coefficient" (float):
             "Friction Coefficient" (float):
             "C" (float)
@@ -216,6 +229,8 @@ class WALinearKinematicBicycle(WAVehicle):
         self._GR = vp["Gear Ratio"]
         self._r_eff = vp["Effective Radius"]
         self._J_e = vp["Inertia"]
+
+        self._R_tire = vp["Tire Radius"]
 
         # Aerodynamic and friction coefficients
         self._c_a = vp["Aerodynamic Coefficient"]
@@ -243,7 +258,6 @@ class WALinearKinematicBicycle(WAVehicle):
             self._throttle = -self._braking
 
     def advance(self, step):
-        # TODO: COMMENT!
         if self._v == 0 and self._throttle == 0:
             F_x = 0
             F_load = 0
@@ -291,6 +305,11 @@ class WALinearKinematicBicycle(WAVehicle):
         self._yaw_dt = (self._last_yaw - self._yaw) / step if v_epsilon else 0
         self._yaw_dtdt = (self._last_yaw - self._yaw) / step if v_epsilon else 0  # noqa
         self._last_yaw = self._yaw
+
+    def get_tire_radius(self, axle : str) -> float:
+        axle = axle.lower()
+        assert axle == 'front' or axle == 'rear'
+        return self._R_tire
 
     def get_pos(self) -> WAVector:
         return WAVector([self._x, self._y, 0.0])
