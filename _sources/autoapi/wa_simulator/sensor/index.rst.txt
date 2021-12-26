@@ -22,6 +22,7 @@
   wa_simulator.sensor.WASensor
   wa_simulator.sensor.WAIMUSensor
   wa_simulator.sensor.WAGPSSensor
+  wa_simulator.sensor.WAWheelEncoderSensor
 
 .. py:class:: WASensorManager(system: WASystem, filename: str = None)
 
@@ -73,7 +74,7 @@
    Very similar to ChNoiseModel (https://github.com/projectchrono/chrono/blob/feature/sensor/src/chrono_sensor/ChNoiseModel.h)
    Made because ChSensor currently _requires_ OptiX (NVIDIA proprietary software)
 
-   .. method:: add_noise(data: list)
+   .. method:: add_noise(self, data: list)
       :abstractmethod:
 
       Add noise to the data
@@ -88,7 +89,7 @@
 
    Derived noise model. Does nothing
 
-   .. method:: add_noise(data: list)
+   .. method:: add_noise(self, data: list)
 
       Do nothing
 
@@ -248,14 +249,14 @@
 
    Bases: :class:`wa_simulator.sensor.WASensor`
 
-   Derived sensor class that implements an GPS model
+   Derived sensor class that implements a GPS model
 
    GPS stands for Global Positioning System. GPS's are everyday sensors you can find in your computer, watch, phone, etc.
    They essentially ping satilites orbiting earth for positional information. This information, in real life, is not very
    precise. IMU's and GPS's are commonly "fused" together to achieve highly accurate and reliable position information.
 
    :Parameters: * **system** (*WASystem*) -- The system for the simulation
-                * **filename** (*str*) -- a json specification file that describes an GPS sensor model
+                * **filename** (*str*) -- a json specification file that describes a GPS sensor model
                 * **vehicle** (*WAVehicle, optional*) -- The vehicle to attach to. If not passed, body must be passed.
                 * **body** (*WABody, optional*) -- The body to attach to. If not passed, vehicle must be passed.
 
@@ -273,7 +274,7 @@
       :Parameters: **step** (*float*) -- the step to update the sensor by
 
 
-   .. method:: get_data(self)
+   .. method:: get_data(self) -> WAVector
 
       Get the sensor data
 
@@ -300,6 +301,44 @@
                    * **ref** (*WAVector*) -- The "origin" or reference point
 
       :returns: *WAVector* -- The x, y, z point in cartesian
+
+
+
+.. py:class:: WAWheelEncoderSensor(system: WASystem, filename: str, vehicle: WAVehicle = None, body: WABody = None)
+
+   Bases: :class:`wa_simulator.sensor.WASensor`
+
+   Derived sensor class that implements an wheel encoder model
+
+   Wheel encoders are common sensors used by robots to measure the rotational speed of rotational objects. For the application
+   of autonomous vehicles, wheel encoders can be placed on the front or rear axles to measure the angular rotation speed of the wheels.
+   Further, a wheel encoder can be placed on the steering column, to again, measure the angular speed. With the angular speed, one can
+   simply integrate to find the angular position (i.e. steering angle).
+
+   :Parameters: * **system** (*WASystem*) -- The system for the simulation
+                * **filename** (*str*) -- a json specification file that describes a wheel encoder sensor model
+                * **vehicle** (*WAVehicle, optional*) -- The vehicle to attach to. If not passed, body must be passed.
+                * **body** (*WABody, optional*) -- The body to attach to. If not passed, vehicle must be passed.
+
+   .. method:: synchronize(self, time)
+
+      Synchronize the sensor at the specified time
+
+      :Parameters: **time** (*float*) -- the time at which the sensors are synchronized to
+
+
+   .. method:: advance(self, step)
+
+      Advance the state of the sensor by the specified time step
+
+      :Parameters: **step** (*float*) -- the step to update the sensor by
+
+
+   .. method:: get_data(self)
+
+      Get the sensor data
+
+      :returns: *WAVector* -- The coordinate location of the vehicle in the form of [longitude, latitude, altitude]
 
 
 

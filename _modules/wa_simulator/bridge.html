@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
     <link rel="shortcut icon" href="../../_static/wa-dark-favicon.png"/><meta name="generator" content="sphinx-3.4.2, furo 2020.12.30.beta24"/>
-        <title>wa_simulator.bridge - Wisconsin Autonomous Simulator 2.3.2 documentation</title>
+        <title>wa_simulator.bridge - Wisconsin Autonomous Simulator 2.3.4 documentation</title>
       <link rel="stylesheet" href="../../_static/styles/furo.css?digest=33d2fc4f3f180ec1ffc6524e273e21d7d58cbe49">
     <link rel="stylesheet" href="../../_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../../_static/pygments_dark.css">
@@ -105,7 +105,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">Wisconsin Autonomous Simulator 2.3.2 documentation</div></a>
+      <a href="../../index.html"><div class="brand">Wisconsin Autonomous Simulator 2.3.4 documentation</div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
@@ -210,36 +210,6 @@
 <span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span> <span class="nn">sys</span>
-
-<span class="c1"># The FlatBuffer schema</span>
-<span class="n">flatbuffer_schema</span> <span class="o">=</span> <span class="s2">"""</span>
-<span class="s2">namespace WASimulator;</span>
-
-<span class="s2">struct Vec3 {</span>
-<span class="s2">    x: double;</span>
-<span class="s2">    y: double;</span>
-<span class="s2">    z: double;</span>
-<span class="s2">}</span>
-
-<span class="s2">table Quaternion {</span>
-<span class="s2">    e0: double;</span>
-<span class="s2">    e1: double;</span>
-<span class="s2">    e2: double;</span>
-<span class="s2">    e3: double;</span>
-<span class="s2">}</span>
-
-<span class="s2">struct IMU {</span>
-<span class="s2">    linear_acceleration: Vec3;</span>
-<span class="s2">    angular_velocity: Quaternion;</span>
-<span class="s2">    orientation: Quaternion;</span>
-<span class="s2">}</span>
-
-<span class="s2">struct GPS {</span>
-<span class="s2">    latitude: double;</span>
-<span class="s2">    longitude: double;</span>
-<span class="s2">    altitude: double;</span>
-<span class="s2">}</span>
-<span class="s2">"""</span>
 
 
 <div class="viewcode-block" id="WABridge"><a class="viewcode-back" href="../../autoapi/wa_simulator/bridge/index.html#wa_simulator.bridge.WABridge">[docs]</a><span class="k">class</span> <span class="nc">WABridge</span><span class="p">(</span><span class="n">WABase</span><span class="p">):</span>
@@ -535,7 +505,7 @@
 
     <span class="k">def</span> <span class="nf">_message_generator_WAIMUSensor</span><span class="p">(</span><span class="n">component</span><span class="p">:</span> <span class="s1">'WAIMUSensor'</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">component</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">d</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">data</span><span class="p">):</span>
             <span class="c1"># The sensor may not have any data available, so it may return None</span>
             <span class="c1"># If that's the case, return an empty dict</span>
             <span class="k">return</span> <span class="p">{}</span>
@@ -567,6 +537,21 @@
         <span class="p">}</span>
     <span class="n">_message_generators</span><span class="p">[</span><span class="s1">'WAGPSSensor'</span><span class="p">]</span> <span class="o">=</span> <span class="n">_message_generator_WAGPSSensor</span>
 
+    <span class="k">def</span> <span class="nf">_message_generator_WAWheelEncoderSensor</span><span class="p">(</span><span class="n">component</span><span class="p">:</span> <span class="s1">'WAWheelEncoderSensor'</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">component</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># The sensor may not have any data available, so it may return None</span>
+            <span class="c1"># If that's the case, return an empty dict</span>
+            <span class="k">return</span> <span class="p">{}</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"WAWheelEncoderSensor"</span><span class="p">,</span>
+            <span class="s2">"data"</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">"angular_speed"</span><span class="p">:</span> <span class="n">data</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="n">_message_generators</span><span class="p">[</span><span class="s1">'WAWheelEncoderSensor'</span><span class="p">]</span> <span class="o">=</span> <span class="n">_message_generator_WAWheelEncoderSensor</span>
+
     <span class="k">def</span> <span class="nf">_message_generator_WAVehicleInputs</span><span class="p">(</span><span class="n">component</span><span class="p">:</span> <span class="s1">'WAVehicleInputs'</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">{</span>
             <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"WAVehicleInputs"</span><span class="p">,</span>
@@ -579,12 +564,20 @@
     <span class="n">_message_generators</span><span class="p">[</span><span class="s1">'WAVehicleInputs'</span><span class="p">]</span> <span class="o">=</span> <span class="n">_message_generator_WAVehicleInputs</span>
 
     <span class="k">def</span> <span class="nf">_message_generator_WATrack</span><span class="p">(</span><span class="n">component</span><span class="p">:</span> <span class="s1">'WATrack'</span><span class="p">,</span> <span class="n">vehicle</span><span class="p">:</span> <span class="s1">'WAVehicle'</span><span class="p">,</span> <span class="n">fov</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">detection_range</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-        <span class="n">left</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span> <span class="n">component</span><span class="o">.</span><span class="n">get_detected_track</span><span class="p">(</span><span class="n">vehicle</span><span class="o">.</span><span class="n">get_pos</span><span class="p">(),</span> <span class="n">vehicle</span><span class="o">.</span><span class="n">get_rot</span><span class="p">(),</span> <span class="n">fov</span><span class="p">,</span> <span class="n">detection_range</span><span class="p">)</span>
+        <span class="n">left_detected</span><span class="p">,</span> <span class="n">right_detected</span> <span class="o">=</span> <span class="n">component</span><span class="o">.</span><span class="n">get_detected_track</span><span class="p">(</span><span class="n">vehicle</span><span class="o">.</span><span class="n">get_pos</span><span class="p">(),</span> <span class="n">vehicle</span><span class="o">.</span><span class="n">get_rot</span><span class="p">(),</span> <span class="n">fov</span><span class="p">,</span> <span class="n">detection_range</span><span class="p">)</span>
+        <span class="n">coords_mapped</span><span class="p">,</span> <span class="n">points_mapped</span><span class="p">,</span> <span class="n">widths_mapped</span> <span class="o">=</span> <span class="n">component</span><span class="o">.</span><span class="n">get_mapped_track</span><span class="p">(</span><span class="n">vehicle</span><span class="o">.</span><span class="n">get_pos</span><span class="p">(),</span> <span class="n">vehicle</span><span class="o">.</span><span class="n">get_rot</span><span class="p">(),</span> <span class="n">fov</span><span class="p">,</span> <span class="n">detection_range</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">{</span>
             <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"WATrack"</span><span class="p">,</span>
             <span class="s2">"data"</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s2">"left_points"</span><span class="p">:</span> <span class="n">left</span><span class="p">,</span>
-                <span class="s2">"right_points"</span><span class="p">:</span> <span class="n">right</span>
+                <span class="s2">"visible"</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">"left"</span><span class="p">:</span> <span class="n">left_detected</span><span class="p">,</span>
+                    <span class="s2">"right"</span><span class="p">:</span> <span class="n">right_detected</span><span class="p">,</span>
+                <span class="p">},</span>
+                <span class="s2">"mapped"</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">"coords"</span><span class="p">:</span> <span class="n">coords_mapped</span><span class="p">,</span>
+                    <span class="s2">"points"</span><span class="p">:</span> <span class="n">points_mapped</span><span class="p">,</span>
+                    <span class="s2">"widths"</span><span class="p">:</span> <span class="n">widths_mapped</span><span class="p">,</span>
+                <span class="p">}</span>
             <span class="p">}</span>
         <span class="p">}</span>
     <span class="n">_message_generators</span><span class="p">[</span><span class="s1">'WATrack'</span><span class="p">]</span> <span class="o">=</span> <span class="n">_message_generator_WATrack</span>

@@ -85,6 +85,16 @@
       :returns: *bool* -- True if still alive, false otherwise
 
 
+   .. method:: get_tire_radius(self, axle: str) -> float
+      :abstractmethod:
+
+      The radius of the front or rear tires
+
+      :Parameters: **axle** (*str*) -- Either 'Front' or 'Rear' (case insensitive).
+
+      :returns: *float* -- The radius of the tires on the specified axle
+
+
    .. method:: get_pos(self) -> WAVector
       :abstractmethod:
 
@@ -176,6 +186,15 @@
       the user to choose their desired implementation, rather than the writers of this package.
 
       :Parameters: **step** (*float*) -- The step size to advance this component by
+
+
+   .. method:: get_tire_radius(self, axle: str) -> float
+
+      The radius of the front or rear tires
+
+      :Parameters: **axle** (*str*) -- Either 'Front' or 'Rear' (case insensitive).
+
+      :returns: *float* -- The radius of the tires on the specified axle
 
 
    .. method:: get_pos(self) -> WAVector

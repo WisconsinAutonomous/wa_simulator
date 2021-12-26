@@ -5,7 +5,7 @@
 <link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="wa_simulator.utils" href="../utils/index.html" /><link rel="prev" title="wa_simulator.system" href="../system/index.html" />
 
     <link rel="shortcut icon" href="../../../_static/wa-dark-favicon.png"/><meta name="generator" content="sphinx-3.4.2, furo 2020.12.30.beta24"/>
-        <title>wa_simulator.track - Wisconsin Autonomous Simulator 2.3.2 documentation</title>
+        <title>wa_simulator.track - Wisconsin Autonomous Simulator 2.3.4 documentation</title>
       <link rel="stylesheet" href="../../../_static/styles/furo.css?digest=33d2fc4f3f180ec1ffc6524e273e21d7d58cbe49">
     <link rel="stylesheet" href="../../../_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../../../_static/pygments_dark.css">
@@ -106,7 +106,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../index.html"><div class="brand">Wisconsin Autonomous Simulator 2.3.2 documentation</div></a>
+      <a href="../../../index.html"><div class="brand">Wisconsin Autonomous Simulator 2.3.4 documentation</div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon" for="__toc">
@@ -264,6 +264,31 @@ detection FOV, and the detection range.</p>
 </dl>
 </dd></dl>
 <dl class="py method">
+<dt id="wa_simulator.track.WATrack.get_mapped_track">
+<code class="sig-name descname">get_mapped_track</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">position</span><span class="p">:</span> <span class="n">WAVector</span></em>, <em class="sig-param"><span class="n">orientation</span><span class="p">:</span> <span class="n">WAQuaternion</span></em>, <em class="sig-param"><span class="n">fov</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">detection_range</span><span class="p">:</span> <span class="n">float</span></em><span class="sig-paren">)</span> → Tuple<span class="p">[</span>List<span class="p">[</span>WAVector<span class="p">]</span><span class="p">, </span>List<span class="p">[</span>WAVector<span class="p">]</span><span class="p">, </span>List<span class="p">[</span>WAVector<span class="p">]</span><span class="p">]</span><a class="reference internal" href="../../../_modules/wa_simulator/track.html#WATrack.get_mapped_track"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.track.WATrack.get_mapped_track" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a list of points defining the mapped track the vehicle has progressed through</p>
+<p>This method is useful to “fake” perception/state estimation algorithms. This will allow localization or controls
+algorithms to be tested without needing to actually run any perception detection or state estimation algorithms. Further, it
+means you don’t need any sensors to detect the track.</p>
+<p>The mapped track will be calculated based on the position and orientation of the vehicle, the
+detection FOV, the detection range, and the past positions of the vehicle</p>
+<p>Note: There may be an issue with unordered points</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>position</strong> (<em>WAVector</em>) – The position of the vehicle</p></li>
+<li><p><strong>orientation</strong> (<em>WAQuaternion</em>) – The orientation of the vehicle</p></li>
+<li><p><strong>fov</strong> (<em>float</em>) – The horizontal field of view that defines the detection width (in degrees)</p></li>
+<li><p><strong>detection_range</strong> (<em>float</em>) – The distance from the vehicle that the furthest detection point is. Anything within the fov but beyond the range is ignored.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><em>List[WAVector], List[WAVector]</em> – left and right boundaries mapped over time in reference to the initial position
+List[WAVector], List[WAVector], List[WAVector]: gps coordinates of the centerline, centerline points in reference to the initial position, the distance between the centerline and the left and right boundaries encoded in the x and y values of a WAVector, respectively.</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
 <dt id="wa_simulator.track.WATrack.plot">
 <code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">show</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">center_args</span><span class="p">:</span> <span class="n">dict</span> <span class="o">=</span> <span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">left_args</span><span class="p">:</span> <span class="n">dict</span> <span class="o">=</span> <span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">right_args</span><span class="p">:</span> <span class="n">dict</span> <span class="o">=</span> <span class="default_value">{}</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/wa_simulator/track.html#WATrack.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.track.WATrack.plot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot the path. Most likely plotter is matplotlib, but technically anything can be used.</p>
@@ -301,6 +326,7 @@ detection FOV, and the detection range.</p>
 <ul class="simple">
 <li><p>Center Input File (<code class="docutils literal notranslate"><span class="pre">str</span></code>, required): A json file describing the centerline. Loaded using <code class="xref py py-meth docutils literal notranslate"><span class="pre">create_path_from_json()</span></code></p></li>
 <li><p>Width (<code class="docutils literal notranslate"><span class="pre">float</span></code>, required): The constant width between the left and right boundaries of the track.</p></li>
+<li><p>Origin(<code class="docutils literal notranslate"><span class="pre">list</span></code>, required): The GPS origin of the first centerline point</p></li>
 <li><p>Visualization (<code class="docutils literal notranslate"><span class="pre">dict</span></code>, optional): Additional visualization properties.</p>
 <ul>
 <li><p>Center/Right/Left (<code class="docutils literal notranslate"><span class="pre">dict</span></code>, optional): The each paths visualization properties</p>
@@ -412,6 +438,7 @@ detection FOV, and the detection range.</p>
 <li><a class="reference internal" href="#wa_simulator.track.WATrack">WATrack</a><ul>
 <li><a class="reference internal" href="#wa_simulator.track.WATrack.inside_boundaries">inside_boundaries</a></li>
 <li><a class="reference internal" href="#wa_simulator.track.WATrack.get_detected_track">get_detected_track</a></li>
+<li><a class="reference internal" href="#wa_simulator.track.WATrack.get_mapped_track">get_mapped_track</a></li>
 <li><a class="reference internal" href="#wa_simulator.track.WATrack.plot">plot</a></li>
 </ul>
 </li>

@@ -61,6 +61,15 @@
       :Parameters: **step** (*float*) -- The step size to advance this component by
 
 
+   .. method:: get_tire_radius(self, axle: str) -> float
+
+      The radius of the front or rear tires
+
+      :Parameters: **axle** (*str*) -- Either 'Front' or 'Rear' (case insensitive).
+
+      :returns: *float* -- The radius of the tires on the specified axle
+
+
    .. method:: get_pos(self) -> WAVector
 
       Get the center of mass (COM) position of the vehicle.

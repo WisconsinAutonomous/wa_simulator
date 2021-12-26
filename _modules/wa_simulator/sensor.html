@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
     <link rel="shortcut icon" href="../../_static/wa-dark-favicon.png"/><meta name="generator" content="sphinx-3.4.2, furo 2020.12.30.beta24"/>
-        <title>wa_simulator.sensor - Wisconsin Autonomous Simulator 2.3.2 documentation</title>
+        <title>wa_simulator.sensor - Wisconsin Autonomous Simulator 2.3.4 documentation</title>
       <link rel="stylesheet" href="../../_static/styles/furo.css?digest=33d2fc4f3f180ec1ffc6524e273e21d7d58cbe49">
     <link rel="stylesheet" href="../../_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../../_static/pygments_dark.css">
@@ -105,7 +105,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">Wisconsin Autonomous Simulator 2.3.2 documentation</div></a>
+      <a href="../../index.html"><div class="brand">Wisconsin Autonomous Simulator 2.3.4 documentation</div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
@@ -250,13 +250,15 @@
 
     <span class="c1"># Validate the json file</span>
     <span class="n">_check_field</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="s1">'Type'</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s1">'Sensor'</span><span class="p">)</span>
-    <span class="n">_check_field</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="s1">'Template'</span><span class="p">,</span> <span class="n">allowed_values</span><span class="o">=</span><span class="p">[</span><span class="s1">'IMU'</span><span class="p">,</span> <span class="s1">'GPS'</span><span class="p">])</span>
+    <span class="n">_check_field</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="s1">'Template'</span><span class="p">,</span> <span class="n">allowed_values</span><span class="o">=</span><span class="p">[</span><span class="s1">'IMU'</span><span class="p">,</span> <span class="s1">'GPS'</span><span class="p">,</span> <span class="s1">'Wheel Encoder'</span><span class="p">])</span>
 
     <span class="c1"># Check the template and create a sensor based off what it is</span>
     <span class="k">if</span> <span class="n">j</span><span class="p">[</span><span class="s1">'Template'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'IMU'</span><span class="p">:</span>
         <span class="n">sensor</span> <span class="o">=</span> <span class="n">WAIMUSensor</span><span class="p">(</span><span class="n">system</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">j</span><span class="p">[</span><span class="s1">'Template'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'GPS'</span><span class="p">:</span>
         <span class="n">sensor</span> <span class="o">=</span> <span class="n">WAGPSSensor</span><span class="p">(</span><span class="n">system</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">j</span><span class="p">[</span><span class="s1">'Template'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'Wheel Encoder'</span><span class="p">:</span>
+        <span class="n">sensor</span> <span class="o">=</span> <span class="n">WAWheelEncoderSensor</span><span class="p">(</span><span class="n">system</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">f</span><span class="s2">"</span><span class="si">{j['Template']}</span><span class="s2"> is not an implemented sensor type"</span><span class="p">)</span>
 
@@ -321,7 +323,7 @@
 <span class="sd">    """</span>
 
     <span class="nd">@abstractmethod</span>
-<div class="viewcode-block" id="WANoiseModel.add_noise"><a class="viewcode-back" href="../../autoapi/wa_simulator/sensor/index.html#wa_simulator.sensor.WANoiseModel.add_noise">[docs]</a>    <span class="k">def</span> <span class="nf">add_noise</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">list</span><span class="p">):</span>
+<div class="viewcode-block" id="WANoiseModel.add_noise"><a class="viewcode-back" href="../../autoapi/wa_simulator/sensor/index.html#wa_simulator.sensor.WANoiseModel.add_noise">[docs]</a>    <span class="k">def</span> <span class="nf">add_noise</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">list</span><span class="p">):</span>
         <span class="sd">"""Add noise to the data</span>
 
 <span class="sd">        Args:</span>
@@ -333,7 +335,7 @@
 <div class="viewcode-block" id="WANoNoiseModel"><a class="viewcode-back" href="../../autoapi/wa_simulator/sensor/index.html#wa_simulator.sensor.WANoNoiseModel">[docs]</a><span class="k">class</span> <span class="nc">WANoNoiseModel</span><span class="p">(</span><span class="n">WANoiseModel</span><span class="p">):</span>
     <span class="sd">"""Derived noise model. Does nothing"""</span>
 
-<div class="viewcode-block" id="WANoNoiseModel.add_noise"><a class="viewcode-back" href="../../autoapi/wa_simulator/sensor/index.html#wa_simulator.sensor.WANoNoiseModel.add_noise">[docs]</a>    <span class="k">def</span> <span class="nf">add_noise</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">list</span><span class="p">):</span>
+<div class="viewcode-block" id="WANoNoiseModel.add_noise"><a class="viewcode-back" href="../../autoapi/wa_simulator/sensor/index.html#wa_simulator.sensor.WANoNoiseModel.add_noise">[docs]</a>    <span class="k">def</span> <span class="nf">add_noise</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">list</span><span class="p">):</span>
         <span class="sd">"""Do nothing"""</span>
         <span class="k">pass</span></div></div>
 
@@ -431,7 +433,8 @@
         <span class="k">def</span> <span class="nf">rand</span><span class="p">(</span><span class="n">element</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_mean</span><span class="p">,</span> <span class="n">element</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_sigma</span><span class="p">,</span> <span class="n">element</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
 
-        <span class="n">data</span> <span class="o">+=</span> <span class="n">WAVector</span><span class="p">([</span><span class="n">rand</span><span class="p">(</span><span class="s1">'x'</span><span class="p">),</span> <span class="n">rand</span><span class="p">(</span><span class="s1">'y'</span><span class="p">),</span> <span class="n">rand</span><span class="p">(</span><span class="s1">'z'</span><span class="p">)])</span></div></div>
+        <span class="n">noise</span> <span class="o">=</span> <span class="n">WAVector</span><span class="p">([</span><span class="n">rand</span><span class="p">(</span><span class="s1">'x'</span><span class="p">),</span> <span class="n">rand</span><span class="p">(</span><span class="s1">'y'</span><span class="p">),</span> <span class="n">rand</span><span class="p">(</span><span class="s1">'z'</span><span class="p">)])</span>
+        <span class="n">data</span> <span class="o">+=</span> <span class="n">noise</span></div></div>
 
 
 <div class="viewcode-block" id="WASensor"><a class="viewcode-back" href="../../autoapi/wa_simulator/sensor/index.html#wa_simulator.sensor.WASensor">[docs]</a><span class="k">class</span> <span class="nc">WASensor</span><span class="p">(</span><span class="n">WABase</span><span class="p">):</span>
@@ -584,13 +587,11 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            (WAVector, WAQuaternion, WAQuaternion): Tuple in the form of (acceleration, angular_velocity, orientation)</span>
 <span class="sd">        """</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pos_dtdt</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rot_dt</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rot</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">None</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pos_dtdt</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rot_dt</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rot</span></div></div>
 
 
 <div class="viewcode-block" id="WAGPSSensor"><a class="viewcode-back" href="../../autoapi/wa_simulator/sensor/index.html#wa_simulator.sensor.WAGPSSensor">[docs]</a><span class="k">class</span> <span class="nc">WAGPSSensor</span><span class="p">(</span><span class="n">WASensor</span><span class="p">):</span>
-    <span class="sd">"""Derived sensor class that implements an GPS model</span>
+    <span class="sd">"""Derived sensor class that implements a GPS model</span>
 
 <span class="sd">    GPS stands for Global Positioning System. GPS's are everyday sensors you can find in your computer, watch, phone, etc.</span>
 <span class="sd">    They essentially ping satilites orbiting earth for positional information. This information, in real life, is not very</span>
@@ -598,7 +599,7 @@
 
 <span class="sd">    Args:</span>
 <span class="sd">        system (WASystem): The system for the simulation</span>
-<span class="sd">        filename (str): a json specification file that describes an GPS sensor model</span>
+<span class="sd">        filename (str): a json specification file that describes a GPS sensor model</span>
 <span class="sd">        vehicle (WAVehicle, optional): The vehicle to attach to. If not passed, body must be passed.</span>
 <span class="sd">        body (WABody, optional): The body to attach to. If not passed, vehicle must be passed.</span>
 <span class="sd">    """</span>
@@ -676,7 +677,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_noise_model</span><span class="o">.</span><span class="n">add_noise</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pos</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_coord</span> <span class="o">=</span> <span class="n">WAGPSSensor</span><span class="o">.</span><span class="n">cartesian_to_gps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pos</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reference</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="WAGPSSensor.get_data"><a class="viewcode-back" href="../../autoapi/wa_simulator/sensor/index.html#wa_simulator.sensor.WAGPSSensor.get_data">[docs]</a>    <span class="k">def</span> <span class="nf">get_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="WAGPSSensor.get_data"><a class="viewcode-back" href="../../autoapi/wa_simulator/sensor/index.html#wa_simulator.sensor.WAGPSSensor.get_data">[docs]</a>    <span class="k">def</span> <span class="nf">get_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WAVector</span><span class="p">:</span>
         <span class="sd">"""Get the sensor data</span>
 
 <span class="sd">        Returns:</span>
@@ -723,6 +724,103 @@
         <span class="n">z</span> <span class="o">=</span> <span class="n">alt</span> <span class="o">-</span> <span class="n">ref</span><span class="o">.</span><span class="n">z</span>
 
         <span class="k">return</span> <span class="n">WAVector</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">])</span></div></div>
+
+<div class="viewcode-block" id="WAWheelEncoderSensor"><a class="viewcode-back" href="../../autoapi/wa_simulator/sensor/index.html#wa_simulator.sensor.WAWheelEncoderSensor">[docs]</a><span class="k">class</span> <span class="nc">WAWheelEncoderSensor</span><span class="p">(</span><span class="n">WASensor</span><span class="p">):</span>
+    <span class="sd">"""Derived sensor class that implements an wheel encoder model</span>
+
+<span class="sd">    Wheel encoders are common sensors used by robots to measure the rotational speed of rotational objects. For the application</span>
+<span class="sd">    of autonomous vehicles, wheel encoders can be placed on the front or rear axles to measure the angular rotation speed of the wheels.</span>
+<span class="sd">    Further, a wheel encoder can be placed on the steering column, to again, measure the angular speed. With the angular speed, one can</span>
+<span class="sd">    simply integrate to find the angular position (i.e. steering angle).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        system (WASystem): The system for the simulation</span>
+<span class="sd">        filename (str): a json specification file that describes a wheel encoder sensor model</span>
+<span class="sd">        vehicle (WAVehicle, optional): The vehicle to attach to. If not passed, body must be passed.</span>
+<span class="sd">        body (WABody, optional): The body to attach to. If not passed, vehicle must be passed.</span>
+<span class="sd">    """</span>
+
+    <span class="c1"># Global filenames for gps sensors</span>
+    <span class="n">_WHEEL_ENCODER_SENSOR_FILE</span> <span class="o">=</span> <span class="s2">"sensors/models/wheel_encoder.json"</span>
+
+    <span class="n">WHEEL_ENCODER_SENSOR_FILE</span> <span class="o">=</span> <span class="n">_WAStaticAttribute</span><span class="p">(</span><span class="s1">'_WHEEL_ENCODER_SENSOR_FILE'</span><span class="p">,</span> <span class="n">get_wa_data_file</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">system</span><span class="p">:</span> <span class="s1">'WASystem'</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">vehicle</span><span class="p">:</span> <span class="s1">'WAVehicle'</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">body</span><span class="p">:</span> <span class="s1">'WABody'</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">vehicle</span><span class="p">,</span> <span class="n">body</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">body</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">"Setting 'body' is currently not supported. Please pass a vehicle instead"</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_vehicle</span> <span class="o">=</span> <span class="n">vehicle</span>
+
+        <span class="n">j</span> <span class="o">=</span> <span class="n">_load_json</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+
+        <span class="c1"># Validate the json file</span>
+        <span class="n">_check_field</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="s1">'Type'</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s1">'Sensor'</span><span class="p">)</span>
+        <span class="n">_check_field</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="s1">'Template'</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s1">'Wheel Encoder'</span><span class="p">)</span>
+        <span class="n">_check_field</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="s1">'Properties'</span><span class="p">,</span> <span class="n">field_type</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
+
+        <span class="n">p</span> <span class="o">=</span> <span class="n">j</span><span class="p">[</span><span class="s1">'Properties'</span><span class="p">]</span>
+        <span class="n">_check_field</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="s1">'Update Rate'</span><span class="p">,</span> <span class="n">field_type</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+        <span class="n">_check_field</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="s1">'Axle'</span><span class="p">,</span> <span class="n">field_type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">allowed_values</span><span class="o">=</span><span class="p">[</span><span class="s1">'Front'</span><span class="p">,</span> <span class="s1">'Rear'</span><span class="p">,</span> <span class="s1">'Steering'</span><span class="p">])</span>
+        <span class="n">_check_field</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="s1">'Noise Model'</span><span class="p">,</span> <span class="n">field_type</span><span class="o">=</span><span class="nb">dict</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="s1">'Noise Model'</span> <span class="ow">in</span> <span class="n">p</span><span class="p">:</span>
+            <span class="n">_check_field</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="s1">'Noise Model'</span><span class="p">],</span> <span class="s1">'Noise Type'</span><span class="p">,</span>
+                         <span class="n">allowed_values</span><span class="o">=</span><span class="p">[</span><span class="s2">"Normal"</span><span class="p">,</span> <span class="s2">"Normal Drift"</span><span class="p">])</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_load_properties</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_load_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="sd">"""Private function that loads properties and sets them to class variables</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            p (dict): Properties dictionary</span>
+<span class="sd">        """</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_update_rate</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="s1">'Update Rate'</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_axle</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="s1">'Axle'</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_noise_model</span> <span class="o">=</span> <span class="n">WANoNoiseModel</span><span class="p">()</span>
+        <span class="k">if</span> <span class="s1">'Noise Model'</span> <span class="ow">in</span> <span class="n">p</span><span class="p">:</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="s1">'Noise Model'</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="n">n</span><span class="p">[</span><span class="s1">'Noise Type'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'Normal Drift'</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_noise_model</span> <span class="o">=</span> <span class="n">WANormalDriftNoiseModel</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">n</span><span class="p">[</span><span class="s1">'Noise Type'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'Normal'</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_noise_model</span> <span class="o">=</span> <span class="n">WANormalNoiseModel</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                    <span class="n">f</span><span class="s2">"</span><span class="si">{p['Noise Type']}</span><span class="s2"> is not an implemented model type"</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_vel</span> <span class="o">=</span> <span class="n">WAVector</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_angular_speed</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tire_radius</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vehicle</span><span class="o">.</span><span class="n">get_tire_radius</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_axle</span><span class="p">)</span>
+
+<div class="viewcode-block" id="WAWheelEncoderSensor.synchronize"><a class="viewcode-back" href="../../autoapi/wa_simulator/sensor/index.html#wa_simulator.sensor.WAWheelEncoderSensor.synchronize">[docs]</a>    <span class="k">def</span> <span class="nf">synchronize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="p">):</span>
+        <span class="sd">"""Synchronize the sensor at the specified time</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            time (float): the time at which the sensors are synchronized to</span>
+<span class="sd">        """</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="WAWheelEncoderSensor.advance"><a class="viewcode-back" href="../../autoapi/wa_simulator/sensor/index.html#wa_simulator.sensor.WAWheelEncoderSensor.advance">[docs]</a>    <span class="k">def</span> <span class="nf">advance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">step</span><span class="p">):</span>
+        <span class="sd">"""Advance the state of the sensor by the specified time step</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            step (float): the step to update the sensor by</span>
+<span class="sd">        """</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_vel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vehicle</span><span class="o">.</span><span class="n">get_pos_dt</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_noise_model</span><span class="o">.</span><span class="n">add_noise</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_vel</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_angular_speed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vel</span><span class="o">.</span><span class="n">length</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tire_radius</span></div>
+
+<div class="viewcode-block" id="WAWheelEncoderSensor.get_data"><a class="viewcode-back" href="../../autoapi/wa_simulator/sensor/index.html#wa_simulator.sensor.WAWheelEncoderSensor.get_data">[docs]</a>    <span class="k">def</span> <span class="nf">get_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">"""Get the sensor data</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            WAVector: The coordinate location of the vehicle in the form of [longitude, latitude, altitude]</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_angular_speed</span></div></div>
 </pre></div>
       </article>
       <footer>

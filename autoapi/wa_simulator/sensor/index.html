@@ -5,7 +5,7 @@
 <link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="wa_simulator.simulation" href="../simulation/index.html" /><link rel="prev" title="wa_simulator.path" href="../path/index.html" />
 
     <link rel="shortcut icon" href="../../../_static/wa-dark-favicon.png"/><meta name="generator" content="sphinx-3.4.2, furo 2020.12.30.beta24"/>
-        <title>wa_simulator.sensor - Wisconsin Autonomous Simulator 2.3.2 documentation</title>
+        <title>wa_simulator.sensor - Wisconsin Autonomous Simulator 2.3.4 documentation</title>
       <link rel="stylesheet" href="../../../_static/styles/furo.css?digest=33d2fc4f3f180ec1ffc6524e273e21d7d58cbe49">
     <link rel="stylesheet" href="../../../_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../../../_static/pygments_dark.css">
@@ -106,7 +106,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../index.html"><div class="brand">Wisconsin Autonomous Simulator 2.3.2 documentation</div></a>
+      <a href="../../../index.html"><div class="brand">Wisconsin Autonomous Simulator 2.3.4 documentation</div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon" for="__toc">
@@ -221,7 +221,10 @@
 <td><p>Derived sensor class that implements an IMU model</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#wa_simulator.sensor.WAGPSSensor" title="wa_simulator.sensor.WAGPSSensor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WAGPSSensor</span></code></a></p></td>
-<td><p>Derived sensor class that implements an GPS model</p></td>
+<td><p>Derived sensor class that implements a GPS model</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#wa_simulator.sensor.WAWheelEncoderSensor" title="wa_simulator.sensor.WAWheelEncoderSensor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WAWheelEncoderSensor</span></code></a></p></td>
+<td><p>Derived sensor class that implements an wheel encoder model</p></td>
 </tr>
 </tbody>
 </table></div>
@@ -287,7 +290,7 @@ False.</p>
 Made because ChSensor currently _requires_ OptiX (NVIDIA proprietary software)</p>
 <dl class="py method">
 <dt id="wa_simulator.sensor.WANoiseModel.add_noise">
-<em class="property">abstract </em><code class="sig-name descname">add_noise</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">list</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/wa_simulator/sensor.html#WANoiseModel.add_noise"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.sensor.WANoiseModel.add_noise" title="Permalink to this definition">¶</a></dt>
+<em class="property">abstract </em><code class="sig-name descname">add_noise</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">list</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/wa_simulator/sensor.html#WANoiseModel.add_noise"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.sensor.WANoiseModel.add_noise" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add noise to the data</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -303,7 +306,7 @@ Made because ChSensor currently _requires_ OptiX (NVIDIA proprietary software)</
 <p>Derived noise model. Does nothing</p>
 <dl class="py method">
 <dt id="wa_simulator.sensor.WANoNoiseModel.add_noise">
-<code class="sig-name descname">add_noise</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">list</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/wa_simulator/sensor.html#WANoNoiseModel.add_noise"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.sensor.WANoNoiseModel.add_noise" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">add_noise</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">list</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/wa_simulator/sensor.html#WANoNoiseModel.add_noise"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.sensor.WANoNoiseModel.add_noise" title="Permalink to this definition">¶</a></dt>
 <dd><p>Do nothing</p>
 </dd></dl>
 </dd></dl>
@@ -483,7 +486,7 @@ description of the underyling implementation can be found in <a class="reference
 <dt id="wa_simulator.sensor.WAGPSSensor">
 <em class="property">class </em><code class="sig-name descname">WAGPSSensor</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">system</span><span class="p">:</span> <span class="n">WASystem</span></em>, <em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">vehicle</span><span class="p">:</span> <span class="n">WAVehicle</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">body</span><span class="p">:</span> <span class="n">WABody</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/wa_simulator/sensor.html#WAGPSSensor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.sensor.WAGPSSensor" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#wa_simulator.sensor.WASensor" title="wa_simulator.sensor.WASensor"><code class="xref py py-class docutils literal notranslate"><span class="pre">wa_simulator.sensor.WASensor</span></code></a></p>
-<p>Derived sensor class that implements an GPS model</p>
+<p>Derived sensor class that implements a GPS model</p>
 <p>GPS stands for Global Positioning System. GPS’s are everyday sensors you can find in your computer, watch, phone, etc.
 They essentially ping satilites orbiting earth for positional information. This information, in real life, is not very
 precise. IMU’s and GPS’s are commonly “fused” together to achieve highly accurate and reliable position information.</p>
@@ -491,7 +494,7 @@ precise. IMU’s and GPS’s are commonly “fused” together to achieve highly
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>system</strong> (<em>WASystem</em>) – The system for the simulation</p></li>
-<li><p><strong>filename</strong> (<em>str</em>) – a json specification file that describes an GPS sensor model</p></li>
+<li><p><strong>filename</strong> (<em>str</em>) – a json specification file that describes a GPS sensor model</p></li>
 <li><p><strong>vehicle</strong> (<em>WAVehicle, optional</em>) – The vehicle to attach to. If not passed, body must be passed.</p></li>
 <li><p><strong>body</strong> (<em>WABody, optional</em>) – The body to attach to. If not passed, vehicle must be passed.</p></li>
 </ul>
@@ -519,7 +522,7 @@ precise. IMU’s and GPS’s are commonly “fused” together to achieve highly
 </dd></dl>
 <dl class="py method">
 <dt id="wa_simulator.sensor.WAGPSSensor.get_data">
-<code class="sig-name descname">get_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/wa_simulator/sensor.html#WAGPSSensor.get_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.sensor.WAGPSSensor.get_data" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span> → WAVector<a class="reference internal" href="../../../_modules/wa_simulator/sensor.html#WAGPSSensor.get_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.sensor.WAGPSSensor.get_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the sensor data</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -556,6 +559,56 @@ precise. IMU’s and GPS’s are commonly “fused” together to achieve highly
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><em>WAVector</em> – The x, y, z point in cartesian</p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
+<dl class="py class">
+<dt id="wa_simulator.sensor.WAWheelEncoderSensor">
+<em class="property">class </em><code class="sig-name descname">WAWheelEncoderSensor</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">system</span><span class="p">:</span> <span class="n">WASystem</span></em>, <em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">vehicle</span><span class="p">:</span> <span class="n">WAVehicle</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">body</span><span class="p">:</span> <span class="n">WABody</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/wa_simulator/sensor.html#WAWheelEncoderSensor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.sensor.WAWheelEncoderSensor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#wa_simulator.sensor.WASensor" title="wa_simulator.sensor.WASensor"><code class="xref py py-class docutils literal notranslate"><span class="pre">wa_simulator.sensor.WASensor</span></code></a></p>
+<p>Derived sensor class that implements an wheel encoder model</p>
+<p>Wheel encoders are common sensors used by robots to measure the rotational speed of rotational objects. For the application
+of autonomous vehicles, wheel encoders can be placed on the front or rear axles to measure the angular rotation speed of the wheels.
+Further, a wheel encoder can be placed on the steering column, to again, measure the angular speed. With the angular speed, one can
+simply integrate to find the angular position (i.e. steering angle).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>system</strong> (<em>WASystem</em>) – The system for the simulation</p></li>
+<li><p><strong>filename</strong> (<em>str</em>) – a json specification file that describes a wheel encoder sensor model</p></li>
+<li><p><strong>vehicle</strong> (<em>WAVehicle, optional</em>) – The vehicle to attach to. If not passed, body must be passed.</p></li>
+<li><p><strong>body</strong> (<em>WABody, optional</em>) – The body to attach to. If not passed, vehicle must be passed.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="wa_simulator.sensor.WAWheelEncoderSensor.synchronize">
+<code class="sig-name descname">synchronize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">time</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/wa_simulator/sensor.html#WAWheelEncoderSensor.synchronize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.sensor.WAWheelEncoderSensor.synchronize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Synchronize the sensor at the specified time</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>time</strong> (<em>float</em>) – the time at which the sensors are synchronized to</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.sensor.WAWheelEncoderSensor.advance">
+<code class="sig-name descname">advance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/wa_simulator/sensor.html#WAWheelEncoderSensor.advance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.sensor.WAWheelEncoderSensor.advance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Advance the state of the sensor by the specified time step</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>step</strong> (<em>float</em>) – the step to update the sensor by</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.sensor.WAWheelEncoderSensor.get_data">
+<code class="sig-name descname">get_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/wa_simulator/sensor.html#WAWheelEncoderSensor.get_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.sensor.WAWheelEncoderSensor.get_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the sensor data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><em>WAVector</em> – The coordinate location of the vehicle in the form of [longitude, latitude, altitude]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -704,6 +757,12 @@ precise. IMU’s and GPS’s are commonly “fused” together to achieve highly
 <li><a class="reference internal" href="#wa_simulator.sensor.WAGPSSensor.get_data">get_data</a></li>
 <li><a class="reference internal" href="#wa_simulator.sensor.WAGPSSensor.cartesian_to_gps">cartesian_to_gps</a></li>
 <li><a class="reference internal" href="#wa_simulator.sensor.WAGPSSensor.gps_to_cartesian">gps_to_cartesian</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#wa_simulator.sensor.WAWheelEncoderSensor">WAWheelEncoderSensor</a><ul>
+<li><a class="reference internal" href="#wa_simulator.sensor.WAWheelEncoderSensor.synchronize">synchronize</a></li>
+<li><a class="reference internal" href="#wa_simulator.sensor.WAWheelEncoderSensor.advance">advance</a></li>
+<li><a class="reference internal" href="#wa_simulator.sensor.WAWheelEncoderSensor.get_data">get_data</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#wa_simulator.sensor.load_sensor_suite_from_json">load_sensor_suite_from_json</a></li>

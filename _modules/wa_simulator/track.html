@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
     <link rel="shortcut icon" href="../../_static/wa-dark-favicon.png"/><meta name="generator" content="sphinx-3.4.2, furo 2020.12.30.beta24"/>
-        <title>wa_simulator.track - Wisconsin Autonomous Simulator 2.3.2 documentation</title>
+        <title>wa_simulator.track - Wisconsin Autonomous Simulator 2.3.4 documentation</title>
       <link rel="stylesheet" href="../../_static/styles/furo.css?digest=33d2fc4f3f180ec1ffc6524e273e21d7d58cbe49">
     <link rel="stylesheet" href="../../_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../../_static/pygments_dark.css">
@@ -105,7 +105,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">Wisconsin Autonomous Simulator 2.3.2 documentation</div></a>
+      <a href="../../index.html"><div class="brand">Wisconsin Autonomous Simulator 2.3.4 documentation</div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
@@ -222,6 +222,8 @@
 
 <span class="sd">    * Width (``float``, required): The constant width between the left and right boundaries of the track.</span>
 
+<span class="sd">    * Origin(``list``, required): The GPS origin of the first centerline point</span>
+
 <span class="sd">    * Visualization (``dict``, optional): Additional visualization properties.</span>
 
 <span class="sd">      * Center/Right/Left (``dict``, optional): The each paths visualization properties</span>
@@ -259,6 +261,7 @@
     <span class="n">_check_field</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="s1">'Template'</span><span class="p">,</span> <span class="n">allowed_values</span><span class="o">=</span><span class="s1">'Constant Width Track'</span><span class="p">)</span>
     <span class="n">_check_field</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="s1">'Center Input File'</span><span class="p">,</span> <span class="n">field_type</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
     <span class="n">_check_field</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="s1">'Width'</span><span class="p">,</span> <span class="n">field_type</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">_check_field</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="s1">'Origin'</span><span class="p">,</span> <span class="n">field_type</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
     <span class="n">_check_field</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="s1">'Visualization'</span><span class="p">,</span> <span class="n">field_type</span><span class="o">=</span><span class="nb">dict</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="c1"># Create the centerline path</span>
@@ -266,9 +269,11 @@
     <span class="n">center</span> <span class="o">=</span> <span class="n">create_path_from_json</span><span class="p">(</span><span class="n">center_file</span><span class="p">)</span>
 
     <span class="n">width</span> <span class="o">=</span> <span class="n">j</span><span class="p">[</span><span class="s1">'Width'</span><span class="p">]</span>
+    <span class="n">origin</span> <span class="o">=</span> <span class="n">WAVector</span><span class="p">(</span><span class="n">j</span><span class="p">[</span><span class="s1">'Origin'</span><span class="p">])</span>
 
     <span class="c1"># Create the track</span>
     <span class="n">track</span> <span class="o">=</span> <span class="n">create_constant_width_track</span><span class="p">(</span><span class="n">center</span><span class="p">,</span> <span class="n">width</span><span class="p">)</span>
+    <span class="n">track</span><span class="o">.</span><span class="n">origin</span> <span class="o">=</span> <span class="n">origin</span>
 
     <span class="c1"># Load the visualization, if present</span>
     <span class="k">if</span> <span class="s1">'Visualization'</span> <span class="ow">in</span> <span class="n">j</span><span class="p">:</span>
@@ -465,18 +470,153 @@
 <span class="sd">        """</span>
         <span class="n">yaw</span> <span class="o">=</span> <span class="n">orientation</span><span class="o">.</span><span class="n">to_euler_yaw</span><span class="p">()</span>
         <span class="n">fov</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">fov</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
-        <span class="n">min_angle</span> <span class="o">=</span> <span class="n">yaw</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">fov</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
-        <span class="n">max_angle</span> <span class="o">=</span> <span class="n">yaw</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">fov</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">min_angle</span> <span class="o">=</span> <span class="n">yaw</span> <span class="o">-</span> <span class="n">fov</span>
+        <span class="n">max_angle</span> <span class="o">=</span> <span class="n">yaw</span> <span class="o">+</span> <span class="n">fov</span>
         <span class="k">def</span> <span class="nf">_get_detected_points</span><span class="p">(</span><span class="n">points</span><span class="p">):</span>
             <span class="n">points</span> <span class="o">-=</span> <span class="n">position</span>
 
             <span class="n">angles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">points</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">points</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span>
             <span class="n">points</span> <span class="o">=</span> <span class="n">points</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">((</span><span class="n">angles</span> <span class="o">&lt;</span> <span class="n">max_angle</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">angles</span> <span class="o">&gt;</span> <span class="n">min_angle</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">detection_range</span><span class="p">))]</span>
+
             <span class="k">return</span> <span class="n">points</span>
             
         <span class="n">left_points</span> <span class="o">=</span> <span class="n">_get_detected_points</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">left</span><span class="o">.</span><span class="n">get_points</span><span class="p">()))</span>
         <span class="n">right_points</span> <span class="o">=</span> <span class="n">_get_detected_points</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">right</span><span class="o">.</span><span class="n">get_points</span><span class="p">()))</span>
         <span class="k">return</span> <span class="n">left_points</span><span class="p">,</span> <span class="n">right_points</span></div>
+
+<div class="viewcode-block" id="WATrack.get_mapped_track"><a class="viewcode-back" href="../../autoapi/wa_simulator/track/index.html#wa_simulator.track.WATrack.get_mapped_track">[docs]</a>    <span class="k">def</span> <span class="nf">get_mapped_track</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">position</span><span class="p">:</span> <span class="n">WAVector</span><span class="p">,</span> <span class="n">orientation</span><span class="p">:</span> <span class="n">WAQuaternion</span><span class="p">,</span> <span class="n">fov</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">detection_range</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">WAVector</span><span class="p">],</span><span class="n">List</span><span class="p">[</span><span class="n">WAVector</span><span class="p">],</span><span class="n">List</span><span class="p">[</span><span class="n">WAVector</span><span class="p">]]:</span>
+        <span class="sd">"""Get a list of points defining the mapped track the vehicle has progressed through</span>
+
+<span class="sd">        This method is useful to "fake" perception/state estimation algorithms. This will allow localization or controls</span>
+<span class="sd">        algorithms to be tested without needing to actually run any perception detection or state estimation algorithms. Further, it</span>
+<span class="sd">        means you don't need any sensors to detect the track.</span>
+
+<span class="sd">        The mapped track will be calculated based on the position and orientation of the vehicle, the </span>
+<span class="sd">        detection FOV, the detection range, and the past positions of the vehicle</span>
+
+<span class="sd">        Note: There may be an issue with unordered points</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            position (WAVector): The position of the vehicle </span>
+<span class="sd">            orientation (WAQuaternion): The orientation of the vehicle</span>
+<span class="sd">            fov (float): The horizontal field of view that defines the detection width (in degrees)</span>
+<span class="sd">            detection_range (float): The distance from the vehicle that the furthest detection point is. Anything within the fov but beyond the range is ignored.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List[WAVector], List[WAVector]: left and right boundaries mapped over time in reference to the initial position</span>
+<span class="sd">            List[WAVector], List[WAVector], List[WAVector]: gps coordinates of the centerline, centerline points in reference to the initial position, the distance between the centerline and the left and right boundaries encoded in the x and y values of a WAVector, respectively.</span>
+<span class="sd">        """</span>
+
+        <span class="c1"># Very similar to :meth:`~get_detected_track`, but will only use search in not seen points</span>
+        <span class="n">yaw</span> <span class="o">=</span> <span class="n">orientation</span><span class="o">.</span><span class="n">to_euler_yaw</span><span class="p">()</span>
+        <span class="n">fov</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">fov</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">min_angle</span> <span class="o">=</span> <span class="n">yaw</span> <span class="o">-</span> <span class="n">fov</span>
+        <span class="n">max_angle</span> <span class="o">=</span> <span class="n">yaw</span> <span class="o">+</span> <span class="n">fov</span>
+        <span class="k">def</span> <span class="nf">_get_detected_points</span><span class="p">(</span><span class="n">points</span><span class="p">):</span>
+            <span class="n">_points</span> <span class="o">=</span> <span class="n">points</span> <span class="o">-</span> <span class="n">position</span>
+
+            <span class="n">angles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">_points</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">_points</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">((</span><span class="n">angles</span> <span class="o">&lt;</span> <span class="n">max_angle</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">angles</span> <span class="o">&gt;</span> <span class="n">min_angle</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">_points</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">detection_range</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">points</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">idx</span>
+
+        <span class="c1"># Split the track points into two lists:</span>
+        <span class="c1"># One for visited points and will be used to represent the mapped track</span>
+        <span class="c1"># And one for unvisited points and will be used to search for new visible points</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">'_unvisited_points'</span><span class="p">):</span>
+            <span class="k">global</span> <span class="n">WAGPSSensor</span>
+            <span class="kn">from</span> <span class="nn">wa_simulator.sensor</span> <span class="k">import</span> <span class="n">WAGPSSensor</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_unvisited_points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">center</span><span class="o">.</span><span class="n">get_points</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_unvisited_left_points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">left</span><span class="o">.</span><span class="n">get_points</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_unvisited_right_points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">right</span><span class="o">.</span><span class="n">get_points</span><span class="p">())</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_visited_points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+            
+        <span class="n">detected_points</span><span class="p">,</span> <span class="n">idx</span> <span class="o">=</span> <span class="n">_get_detected_points</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_unvisited_points</span><span class="p">)</span>
+
+        <span class="n">left_widths</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_unvisited_left_points</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">-</span> <span class="n">detected_points</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">right_widths</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_unvisited_right_points</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">-</span> <span class="n">detected_points</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">widths</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">WAVector</span><span class="p">([</span><span class="n">l</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">l</span><span class="p">,</span><span class="n">r</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">left_widths</span><span class="p">,</span> <span class="n">right_widths</span><span class="p">)])</span>
+
+        <span class="c1"># Update the visited list with the detected points</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_visited_points</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_visited_points</span> <span class="o">=</span> <span class="n">detected_points</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_visited_coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">WAGPSSensor</span><span class="o">.</span><span class="n">cartesian_to_gps</span><span class="p">(</span><span class="n">WAVector</span><span class="p">(</span><span class="n">p</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">origin</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">detected_points</span><span class="p">])</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_mapped_widths</span> <span class="o">=</span> <span class="n">widths</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">detected_points</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_visited_points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">_visited_points</span><span class="p">,</span> <span class="n">detected_points</span><span class="p">))</span>
+
+            <span class="n">detected_coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">WAGPSSensor</span><span class="o">.</span><span class="n">cartesian_to_gps</span><span class="p">(</span><span class="n">WAVector</span><span class="p">(</span><span class="n">p</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">origin</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">detected_points</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_visited_coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">_visited_coords</span><span class="p">,</span> <span class="n">detected_coords</span><span class="p">))</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_mapped_widths</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">_mapped_widths</span><span class="p">,</span> <span class="n">widths</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_unvisited_points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_unvisited_points</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_unvisited_left_points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_unvisited_left_points</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_unvisited_right_points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_unvisited_right_points</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_visited_coords</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_visited_points</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mapped_widths</span></div>
+
+    <span class="k">def</span> <span class="nf">_get_mapped_track</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">position</span><span class="p">:</span> <span class="n">WAVector</span><span class="p">,</span> <span class="n">orientation</span><span class="p">:</span> <span class="n">WAQuaternion</span><span class="p">,</span> <span class="n">fov</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">detection_range</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">WAVector</span><span class="p">],</span><span class="n">List</span><span class="p">[</span><span class="n">WAVector</span><span class="p">]]:</span>
+        <span class="sd">"""Get a list of points defining the mapped track the vehicle has progressed through</span>
+
+<span class="sd">        This method is useful to "fake" perception/state estimation algorithms. This will allow localization or controls</span>
+<span class="sd">        algorithms to be tested without needing to actually run any perception detection or state estimation algorithms. Further, it</span>
+<span class="sd">        means you don't need any sensors to detect the track.</span>
+
+<span class="sd">        The mapped track will be calculated based on the position and orientation of the vehicle, the </span>
+<span class="sd">        detection FOV, the detection range, and the past positions of the vehicle</span>
+
+<span class="sd">        Note: There may be an issue with unordered points</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            position (WAVector): The position of the vehicle </span>
+<span class="sd">            orientation (WAQuaternion): The orientation of the vehicle</span>
+<span class="sd">            fov (float): The horizontal field of view that defines the detection width (in degrees)</span>
+<span class="sd">            detection_range (float): The distance from the vehicle that the furthest detection point is. Anything within the fov but beyond the range is ignored.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List[WAVector], List[WAVector]: left and right boundaries mapped over time in reference to the initial position</span>
+<span class="sd">        """</span>
+
+        <span class="c1"># Very similar to :meth:`~get_detected_track`, but will only use search in not seen points</span>
+        <span class="n">yaw</span> <span class="o">=</span> <span class="n">orientation</span><span class="o">.</span><span class="n">to_euler_yaw</span><span class="p">()</span>
+        <span class="n">fov</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">fov</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">min_angle</span> <span class="o">=</span> <span class="n">yaw</span> <span class="o">-</span> <span class="n">fov</span>
+        <span class="n">max_angle</span> <span class="o">=</span> <span class="n">yaw</span> <span class="o">+</span> <span class="n">fov</span>
+        <span class="k">def</span> <span class="nf">_get_detected_points</span><span class="p">(</span><span class="n">points</span><span class="p">):</span>
+            <span class="n">_points</span> <span class="o">=</span> <span class="n">points</span> <span class="o">-</span> <span class="n">position</span>
+
+            <span class="n">angles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">_points</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">_points</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">((</span><span class="n">angles</span> <span class="o">&lt;</span> <span class="n">max_angle</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">angles</span> <span class="o">&gt;</span> <span class="n">min_angle</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">_points</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">detection_range</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">_points</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">idx</span>
+
+        <span class="c1"># Split the track points into two lists:</span>
+        <span class="c1"># One for visited points and will be used to represent the mapped track</span>
+        <span class="c1"># And one for unvisited points and will be used to search for new visible points</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">'left_unvisited_points'</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">left_unvisited_points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">left</span><span class="o">.</span><span class="n">get_points</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">right_unvisited_points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">right</span><span class="o">.</span><span class="n">get_points</span><span class="p">())</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">left_visited_points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">right_visited_points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+            
+        <span class="n">left_detected_points</span><span class="p">,</span> <span class="n">left_idx</span> <span class="o">=</span> <span class="n">_get_detected_points</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">left_unvisited_points</span><span class="p">)</span>
+        <span class="n">right_detected_points</span><span class="p">,</span> <span class="n">right_idx</span> <span class="o">=</span> <span class="n">_get_detected_points</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">right_unvisited_points</span><span class="p">)</span>
+
+        <span class="c1"># Update the visited list with the detected points</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">left_visited_points</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">left_visited_points</span> <span class="o">=</span> <span class="n">left_detected_points</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">right_visited_points</span> <span class="o">=</span> <span class="n">right_detected_points</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">left_visited_points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">left_visited_points</span><span class="p">,</span> <span class="n">left_detected_points</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">right_visited_points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">right_visited_points</span><span class="p">,</span> <span class="n">right_detected_points</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">left_unvisited_points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">left_unvisited_points</span><span class="p">,</span> <span class="n">left_idx</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">right_unvisited_points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">right_unvisited_points</span><span class="p">,</span> <span class="n">right_idx</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">left_visited_points</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">right_visited_points</span>
 
 <div class="viewcode-block" id="WATrack.plot"><a class="viewcode-back" href="../../autoapi/wa_simulator/track/index.html#wa_simulator.track.WATrack.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">center_args</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{},</span> <span class="n">left_args</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{},</span> <span class="n">right_args</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{}):</span>
         <span class="sd">"""Plot the path. Most likely plotter is matplotlib, but technically anything can be used.</span>

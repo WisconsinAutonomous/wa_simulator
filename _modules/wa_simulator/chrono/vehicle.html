@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
     <link rel="shortcut icon" href="../../../_static/wa-dark-favicon.png"/><meta name="generator" content="sphinx-3.4.2, furo 2020.12.30.beta24"/>
-        <title>wa_simulator.chrono.vehicle - Wisconsin Autonomous Simulator 2.3.2 documentation</title>
+        <title>wa_simulator.chrono.vehicle - Wisconsin Autonomous Simulator 2.3.4 documentation</title>
       <link rel="stylesheet" href="../../../_static/styles/furo.css?digest=33d2fc4f3f180ec1ffc6524e273e21d7d58cbe49">
     <link rel="stylesheet" href="../../../_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../../../_static/pygments_dark.css">
@@ -105,7 +105,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../index.html"><div class="brand">Wisconsin Autonomous Simulator 2.3.2 documentation</div></a>
+      <a href="../../../index.html"><div class="brand">Wisconsin Autonomous Simulator 2.3.4 documentation</div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
@@ -344,6 +344,12 @@
 
 <div class="viewcode-block" id="WAChronoVehicle.advance"><a class="viewcode-back" href="../../../autoapi/wa_simulator/chrono/vehicle/index.html#wa_simulator.chrono.vehicle.WAChronoVehicle.advance">[docs]</a>    <span class="k">def</span> <span class="nf">advance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">step</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_vehicle</span><span class="o">.</span><span class="n">Advance</span><span class="p">(</span><span class="n">step</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="WAChronoVehicle.get_tire_radius"><a class="viewcode-back" href="../../../autoapi/wa_simulator/chrono/vehicle/index.html#wa_simulator.chrono.vehicle.WAChronoVehicle.get_tire_radius">[docs]</a>    <span class="k">def</span> <span class="nf">get_tire_radius</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axle</span> <span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="n">axle</span> <span class="o">=</span> <span class="n">axle</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="k">assert</span> <span class="n">axle</span> <span class="o">==</span> <span class="s1">'front'</span> <span class="ow">or</span> <span class="n">axle</span> <span class="o">==</span> <span class="s1">'rear'</span>
+        <span class="n">axle</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">axle</span> <span class="o">==</span> <span class="s1">'front'</span> <span class="k">else</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vehicle</span><span class="o">.</span><span class="n">GetTire</span><span class="p">(</span><span class="n">axle</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">GetRadius</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="WAChronoVehicle.get_pos"><a class="viewcode-back" href="../../../autoapi/wa_simulator/chrono/vehicle/index.html#wa_simulator.chrono.vehicle.WAChronoVehicle.get_pos">[docs]</a>    <span class="k">def</span> <span class="nf">get_pos</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WAVector</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">ChVector_to_WAVector</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_vehicle</span><span class="o">.</span><span class="n">GetVehiclePos</span><span class="p">())</span></div>

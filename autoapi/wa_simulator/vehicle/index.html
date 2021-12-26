@@ -5,7 +5,7 @@
 <link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" /><link rel="next" title="wa_simulator.vehicle_inputs" href="../vehicle_inputs/index.html" /><link rel="prev" title="wa_simulator.utils" href="../utils/index.html" />
 
     <link rel="shortcut icon" href="../../../_static/wa-dark-favicon.png"/><meta name="generator" content="sphinx-3.4.2, furo 2020.12.30.beta24"/>
-        <title>wa_simulator.vehicle - Wisconsin Autonomous Simulator 2.3.2 documentation</title>
+        <title>wa_simulator.vehicle - Wisconsin Autonomous Simulator 2.3.4 documentation</title>
       <link rel="stylesheet" href="../../../_static/styles/furo.css?digest=33d2fc4f3f180ec1ffc6524e273e21d7d58cbe49">
     <link rel="stylesheet" href="../../../_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../../../_static/pygments_dark.css">
@@ -106,7 +106,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../index.html"><div class="brand">Wisconsin Autonomous Simulator 2.3.2 documentation</div></a>
+      <a href="../../../index.html"><div class="brand">Wisconsin Autonomous Simulator 2.3.4 documentation</div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon" for="__toc">
@@ -286,6 +286,19 @@ False.</p>
 </dl>
 </dd></dl>
 <dl class="py method">
+<dt id="wa_simulator.vehicle.WAVehicle.get_tire_radius">
+<em class="property">abstract </em><code class="sig-name descname">get_tire_radius</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">axle</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> → float<a class="reference internal" href="../../../_modules/wa_simulator/vehicle.html#WAVehicle.get_tire_radius"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.vehicle.WAVehicle.get_tire_radius" title="Permalink to this definition">¶</a></dt>
+<dd><p>The radius of the front or rear tires</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>axle</strong> (<em>str</em>) – Either ‘Front’ or ‘Rear’ (case insensitive).</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><em>float</em> – The radius of the tires on the specified axle</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
 <dt id="wa_simulator.vehicle.WAVehicle.get_pos">
 <em class="property">abstract </em><code class="sig-name descname">get_pos</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span> → WAVector<a class="reference internal" href="../../../_modules/wa_simulator/vehicle.html#WAVehicle.get_pos"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.vehicle.WAVehicle.get_pos" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the center of mass (COM) position of the vehicle.</p>
@@ -394,6 +407,19 @@ the user to choose their desired implementation, rather than the writers of this
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>step</strong> (<em>float</em>) – The step size to advance this component by</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="wa_simulator.vehicle.WALinearKinematicBicycle.get_tire_radius">
+<code class="sig-name descname">get_tire_radius</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">axle</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> → float<a class="reference internal" href="../../../_modules/wa_simulator/vehicle.html#WALinearKinematicBicycle.get_tire_radius"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.vehicle.WALinearKinematicBicycle.get_tire_radius" title="Permalink to this definition">¶</a></dt>
+<dd><p>The radius of the front or rear tires</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>axle</strong> (<em>str</em>) – Either ‘Front’ or ‘Rear’ (case insensitive).</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><em>float</em> – The radius of the tires on the specified axle</p>
 </dd>
 </dl>
 </dd></dl>
@@ -552,6 +578,7 @@ by the underyling vehicle object</p>
 <li><a class="reference internal" href="#wa_simulator.vehicle.WAVehicle.synchronize">synchronize</a></li>
 <li><a class="reference internal" href="#wa_simulator.vehicle.WAVehicle.advance">advance</a></li>
 <li><a class="reference internal" href="#wa_simulator.vehicle.WAVehicle.is_ok">is_ok</a></li>
+<li><a class="reference internal" href="#wa_simulator.vehicle.WAVehicle.get_tire_radius">get_tire_radius</a></li>
 <li><a class="reference internal" href="#wa_simulator.vehicle.WAVehicle.get_pos">get_pos</a></li>
 <li><a class="reference internal" href="#wa_simulator.vehicle.WAVehicle.get_rot">get_rot</a></li>
 <li><a class="reference internal" href="#wa_simulator.vehicle.WAVehicle.get_pos_dt">get_pos_dt</a></li>
@@ -563,6 +590,7 @@ by the underyling vehicle object</p>
 <li><a class="reference internal" href="#wa_simulator.vehicle.WALinearKinematicBicycle">WALinearKinematicBicycle</a><ul>
 <li><a class="reference internal" href="#wa_simulator.vehicle.WALinearKinematicBicycle.synchronize">synchronize</a></li>
 <li><a class="reference internal" href="#wa_simulator.vehicle.WALinearKinematicBicycle.advance">advance</a></li>
+<li><a class="reference internal" href="#wa_simulator.vehicle.WALinearKinematicBicycle.get_tire_radius">get_tire_radius</a></li>
 <li><a class="reference internal" href="#wa_simulator.vehicle.WALinearKinematicBicycle.get_pos">get_pos</a></li>
 <li><a class="reference internal" href="#wa_simulator.vehicle.WALinearKinematicBicycle.get_rot">get_rot</a></li>
 <li><a class="reference internal" href="#wa_simulator.vehicle.WALinearKinematicBicycle.get_pos_dt">get_pos_dt</a></li>
