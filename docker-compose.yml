@@ -9,10 +9,6 @@ services:
       dockerfile: ./docker/dev.dockerfile
       network: host
     working_dir: /root/
-    tty: true
-    command: "/bin/bash"
-    environment:
-      - PYTHONUNBUFFERED=1
   wasim-prod:
     hostname: 'wasim-prod'
     container_name: 'wasim-prod'
@@ -21,6 +17,11 @@ services:
       context: ./
       dockerfile: ./docker/prod.dockerfile
       network: host
-    working_dir: /root/
-    tty: true
-    command: "/bin/bash"
+  wasim-chrono:
+    hostname: 'wasim-chrono'
+    container_name: 'wasim-chrono'
+    image: wiscauto/wa_simulator:chrono
+    build:
+      context: ./
+      dockerfile: ./docker/chrono.dockerfile
+      network: host

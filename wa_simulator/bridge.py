@@ -82,8 +82,49 @@ class WABridge(WABase):
         if self._server:
             self._listener = mp.Listener(self._address)
             self._connection = self._listener.accept()
+
+            if self._connection is None:
+                raise RuntimeError("Bridge failed to connect.")
+
+            # As the server, it is responsible for _sending_ the system information to the client
+            # The client should then use these values
+            msg = {
+                "type": "init",
+                "data": {
+                    "step_size": self._system.step_size,
+                    "render_step_size": self._system.render_step_size,
+                    "end_time": self._system.end_time,
+                }
+            }
+            self._connection.send(msg)
+
+            # Receive an acknowledgement that we got the message
+            if not self._connection.poll(self._timeout):
+                raise RuntimeError(
+                    "Failed to receive acknowledgement from client.")
+            ack = self._connection.recv()
+            if ack != 1:
+                raise RuntimeError("Acknowledgement is corrupted.")
         else:
             self._connection = mp.Client(self._address)
+
+            # As the client, it is responsible for _receiving_ the system information from the server
+            msg = self._connection.recv()
+
+            # Ack
+            self._connection.send(1)
+
+            # Message validation
+            assert msg["type"] == "init"
+            assert "data" in msg
+            assert "step_size" in msg["data"]
+            assert "render_step_size" in msg["data"]
+            assert "end_time" in msg["data"]
+
+            # Update the system object
+            self._system.step_size = msg["data"]["step_size"]
+            self._system.render_step_size = msg["data"]["render_step_size"]
+            self._system.end_time = msg["data"]["end_time"]
 
     def add_sender(self, name: str, component: WABase, message_generator: Callable[[WABase], dict] = None, **kwargs):
         """Adds a sender component that has outgoing messages
