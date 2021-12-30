@@ -275,8 +275,49 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_server</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_listener</span> <span class="o">=</span> <span class="n">mp</span><span class="o">.</span><span class="n">Listener</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_address</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_listener</span><span class="o">.</span><span class="n">accept</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">"Bridge failed to connect."</span><span class="p">)</span>
+
+            <span class="c1"># As the server, it is responsible for _sending_ the system information to the client</span>
+            <span class="c1"># The client should then use these values</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"init"</span><span class="p">,</span>
+                <span class="s2">"data"</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">"step_size"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_system</span><span class="o">.</span><span class="n">step_size</span><span class="p">,</span>
+                    <span class="s2">"render_step_size"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_system</span><span class="o">.</span><span class="n">render_step_size</span><span class="p">,</span>
+                    <span class="s2">"end_time"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_system</span><span class="o">.</span><span class="n">end_time</span><span class="p">,</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+            <span class="c1"># Receive an acknowledgement that we got the message</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span><span class="o">.</span><span class="n">poll</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_timeout</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                    <span class="s2">"Failed to receive acknowledgement from client."</span><span class="p">)</span>
+            <span class="n">ack</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span><span class="o">.</span><span class="n">recv</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">ack</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">"Acknowledgement is corrupted."</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span> <span class="o">=</span> <span class="n">mp</span><span class="o">.</span><span class="n">Client</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_address</span><span class="p">)</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span> <span class="o">=</span> <span class="n">mp</span><span class="o">.</span><span class="n">Client</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_address</span><span class="p">)</span>
+
+            <span class="c1"># As the client, it is responsible for _receiving_ the system information from the server</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span><span class="o">.</span><span class="n">recv</span><span class="p">()</span>
+
+            <span class="c1"># Ack</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="c1"># Message validation</span>
+            <span class="k">assert</span> <span class="n">msg</span><span class="p">[</span><span class="s2">"type"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"init"</span>
+            <span class="k">assert</span> <span class="s2">"data"</span> <span class="ow">in</span> <span class="n">msg</span>
+            <span class="k">assert</span> <span class="s2">"step_size"</span> <span class="ow">in</span> <span class="n">msg</span><span class="p">[</span><span class="s2">"data"</span><span class="p">]</span>
+            <span class="k">assert</span> <span class="s2">"render_step_size"</span> <span class="ow">in</span> <span class="n">msg</span><span class="p">[</span><span class="s2">"data"</span><span class="p">]</span>
+            <span class="k">assert</span> <span class="s2">"end_time"</span> <span class="ow">in</span> <span class="n">msg</span><span class="p">[</span><span class="s2">"data"</span><span class="p">]</span>
+
+            <span class="c1"># Update the system object</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_system</span><span class="o">.</span><span class="n">step_size</span> <span class="o">=</span> <span class="n">msg</span><span class="p">[</span><span class="s2">"data"</span><span class="p">][</span><span class="s2">"step_size"</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_system</span><span class="o">.</span><span class="n">render_step_size</span> <span class="o">=</span> <span class="n">msg</span><span class="p">[</span><span class="s2">"data"</span><span class="p">][</span><span class="s2">"render_step_size"</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_system</span><span class="o">.</span><span class="n">end_time</span> <span class="o">=</span> <span class="n">msg</span><span class="p">[</span><span class="s2">"data"</span><span class="p">][</span><span class="s2">"end_time"</span><span class="p">]</span></div>
 
 <div class="viewcode-block" id="WABridge.add_sender"><a class="viewcode-back" href="../../autoapi/wa_simulator/bridge/index.html#wa_simulator.bridge.WABridge.add_sender">[docs]</a>    <span class="k">def</span> <span class="nf">add_sender</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">component</span><span class="p">:</span> <span class="n">WABase</span><span class="p">,</span> <span class="n">message_generator</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">WABase</span><span class="p">],</span> <span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">"""Adds a sender component that has outgoing messages</span>
