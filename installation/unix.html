@@ -5,7 +5,7 @@
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Windows Installation Guide" href="windows.html" /><link rel="prev" title="Installation" href="index.html" />
 
     <link rel="shortcut icon" href="../_static/wa-dark-favicon.png"/><meta name="generator" content="sphinx-3.4.2, furo 2020.12.30.beta24"/>
-        <title>Unix Installation Guide - Wisconsin Autonomous Simulator 2.3.4 documentation</title>
+        <title>Unix Installation Guide - Wisconsin Autonomous Simulator 2.3.5 documentation</title>
       <link rel="stylesheet" href="../_static/styles/furo.css?digest=33d2fc4f3f180ec1ffc6524e273e21d7d58cbe49">
     <link rel="stylesheet" href="../_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../_static/pygments_dark.css">
@@ -106,7 +106,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand">Wisconsin Autonomous Simulator 2.3.4 documentation</div></a>
+      <a href="../index.html"><div class="brand">Wisconsin Autonomous Simulator 2.3.5 documentation</div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon" for="__toc">
@@ -193,19 +193,28 @@
         </label>
         <section id="unix-installation-guide">
 <h1>Unix Installation Guide<a class="headerlink" href="#unix-installation-guide" title="Permalink to this headline">¶</a></h1>
-<section id="summary">
-<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># Recommended!!</span>
-<span class="c1"># To install wa_simulator in an anaconda environment (Linux systems must install anaconda externally)</span>
-bash -c <span class="s2">"</span><span class="k">$(</span>curl -fsSL https://raw.githubusercontent.com/WisconsinAutonomous/wa_simulator/master/scripts/config_conda_env.sh<span class="k">)</span><span class="s2">"</span>
-
-<span class="c1"># OR</span>
-
-<span class="c1"># Not Recommended!!</span>
-<span class="c1"># To install the wa_simuator separately from Chrono</span>
+<section id="tl-dr">
+<h2>TL;DR<a class="headerlink" href="#tl-dr" title="Permalink to this headline">¶</a></h2>
+<section id="without-chrono">
+<h3>Without Chrono<a class="headerlink" href="#without-chrono" title="Permalink to this headline">¶</a></h3>
+<p>If you’d like to install <code class="docutils literal notranslate"><span class="pre">wa_simulator</span></code> <em>without</em> Chrono, run the following command:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># To install the wa_simulator separately from Chrono</span>
 pip install wa_simulator
 </pre></div>
 </div>
+</section>
+<section id="with-chrono">
+<h3>With Chrono<a class="headerlink" href="#with-chrono" title="Permalink to this headline">¶</a></h3>
+<p>If you’d like to install <code class="docutils literal notranslate"><span class="pre">wa_simulator</span></code> <em>with</em> Chrono, run the following command:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># To install wa_simulator in an anaconda environment (Linux systems must install anaconda externally)</span>
+bash -c <span class="s2">"</span><span class="k">$(</span>curl -fsSL https://raw.githubusercontent.com/WisconsinAutonomous/wa_simulator/master/scripts/config_conda_env.sh<span class="k">)</span><span class="s2">"</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>There have been some issues related to Anaconda installations when running the previous command.</p>
+</div>
+</section>
 </section>
 <section id="description">
 <h2>Description<a class="headerlink" href="#description" title="Permalink to this headline">¶</a></h2>
@@ -219,8 +228,8 @@ pip install wa_simulator
 </pre></div>
 </div>
 <p>For <em>most</em> use cases for this simulator, a conda package installation. For those who want to aid in development of the repository, further instructions for how to do that will be created in the future.</p>
-<section id="without-chrono">
-<h3>Without Chrono<a class="headerlink" href="#without-chrono" title="Permalink to this headline">¶</a></h3>
+<section id="id1">
+<h3>Without Chrono<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">wa_simulator</span></code> is also available on <a class="reference external" href="https://pypi.org/project/wa-simulator/">PyPI</a>, so it also can be installed through <code class="docutils literal notranslate"><span class="pre">pip</span></code>. PyChrono requires non-python libraries to function, so it can not be installed via <code class="docutils literal notranslate"><span class="pre">pip</span></code>. Therefore, this installation of <code class="docutils literal notranslate"><span class="pre">wa_simulator</span></code> will not bring in PyChrono. You may build PyChrono from source or install it separately, if desired. <em>It is <strong>highly</strong> recommended to install this in a conda or virtualenv to isolate the installation</em>.</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pip install wa_simulator
 </pre></div>
@@ -256,7 +265,7 @@ pip install wa_simulator
         </div>
 
         <div class="related-information">
-              Copyright &#169; 2021, Wisconsin Autonomous
+              Copyright &#169; 2022, Wisconsin Autonomous
             |
             Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
               and
@@ -284,9 +293,13 @@ pip install wa_simulator
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">Unix Installation Guide</a><ul>
-<li><a class="reference internal" href="#summary">Summary</a></li>
-<li><a class="reference internal" href="#description">Description</a><ul>
+<li><a class="reference internal" href="#tl-dr">TL;DR</a><ul>
 <li><a class="reference internal" href="#without-chrono">Without Chrono</a></li>
+<li><a class="reference internal" href="#with-chrono">With Chrono</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#description">Description</a><ul>
+<li><a class="reference internal" href="#id1">Without Chrono</a></li>
 </ul>
 </li>
 </ul>

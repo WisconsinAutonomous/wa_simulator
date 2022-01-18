@@ -5,7 +5,7 @@
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Tutorials" href="../tutorials/index.html" /><link rel="prev" title="Unix Installation Guide" href="unix.html" />
 
     <link rel="shortcut icon" href="../_static/wa-dark-favicon.png"/><meta name="generator" content="sphinx-3.4.2, furo 2020.12.30.beta24"/>
-        <title>Windows Installation Guide - Wisconsin Autonomous Simulator 2.3.4 documentation</title>
+        <title>Windows Installation Guide - Wisconsin Autonomous Simulator 2.3.5 documentation</title>
       <link rel="stylesheet" href="../_static/styles/furo.css?digest=33d2fc4f3f180ec1ffc6524e273e21d7d58cbe49">
     <link rel="stylesheet" href="../_static/pygments.css">
     <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../_static/pygments_dark.css">
@@ -106,7 +106,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand">Wisconsin Autonomous Simulator 2.3.4 documentation</div></a>
+      <a href="../index.html"><div class="brand">Wisconsin Autonomous Simulator 2.3.5 documentation</div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon" for="__toc">
@@ -193,28 +193,37 @@
         </label>
         <section id="windows-installation-guide">
 <h1>Windows Installation Guide<a class="headerlink" href="#windows-installation-guide" title="Permalink to this headline">¶</a></h1>
-<section id="conda-environment">
-<h2>Conda environment<a class="headerlink" href="#conda-environment" title="Permalink to this headline">¶</a></h2>
-<p>Anaconda is a really powerful packaging environment available on both Unix and Windows systems. In this guide, you will download an <code class="docutils literal notranslate"><span class="pre">environment.yml</span></code> file which describes a <code class="docutils literal notranslate"><span class="pre">conda</span></code> environment and then create an env from those instructions given in the YaML file.</p>
-<section id="download-the-environment-file">
-<h3>Download the environment file<a class="headerlink" href="#download-the-environment-file" title="Permalink to this headline">¶</a></h3>
-<p>First, let’s download the environment file.</p>
-<p>In the Command Prompt, you can run the following:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">curl</span><span class="o">.</span><span class="n">exe</span> <span class="o">-</span><span class="n">o</span> <span class="n">environment</span><span class="o">.</span><span class="n">yml</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">raw</span><span class="o">.</span><span class="n">githubusercontent</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">WisconsinAutonomous</span><span class="o">/</span><span class="n">wa_simulator</span><span class="o">/</span><span class="n">master</span><span class="o">/</span><span class="n">environment</span><span class="o">.</span><span class="n">yml</span>
+<section id="pip-without-chrono">
+<h2>Pip - Without Chrono<a class="headerlink" href="#pip-without-chrono" title="Permalink to this headline">¶</a></h2>
+<p>If you’d like to install <code class="docutils literal notranslate"><span class="pre">wa_simulator</span></code> <em>without</em> Chrono, run the following command in PowerShell, Command Prompt, or Anaconda Prompt:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># To install the wa_simulator separately from Chrono</span>
+pip install wa_simulator
 </pre></div>
 </div>
-<p>In PowerShell, you can run the following:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">iwr</span> <span class="o">-</span><span class="n">outf</span> <span class="n">environment</span><span class="o">.</span><span class="n">yml</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">raw</span><span class="o">.</span><span class="n">githubusercontent</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">WisconsinAutonomous</span><span class="o">/</span><span class="n">wa_simulator</span><span class="o">/</span><span class="n">master</span><span class="o">/</span><span class="n">environment</span><span class="o">.</span><span class="n">yml</span>
+<p>You may want to use <a class="reference external" href="https://docs.python.org/3/tutorial/venv.html">Python virtual environment</a> or <a class="reference external" href="https://anaconda.org">Anaconda</a> in order to isolate your development environment.</p>
+</section>
+<section id="conda-environment-with-chrono">
+<h2>Conda Environment - With Chrono<a class="headerlink" href="#conda-environment-with-chrono" title="Permalink to this headline">¶</a></h2>
+<p>Anaconda is a really powerful packaging environment available on both Unix and Windows systems. In this guide, you will download an <code class="docutils literal notranslate"><span class="pre">environment.yml</span></code> file which describes a <code class="docutils literal notranslate"><span class="pre">conda</span></code> environment and then create an env from those instructions given in the YaML file.</p>
+<p>If you’d like to install <code class="docutils literal notranslate"><span class="pre">wa_simulator</span></code> <em>with</em> Chrono, run the following commands in PowerShell, Command Prompt, or Anaconda Prompt.</p>
+<p>This will create an environment with the name <code class="docutils literal notranslate"><span class="pre">wa</span></code>, but feel free to change it to anything you’d like.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference external" href="https://anaconda.org/">Anaconda</a> must be installed for you to do this.</p>
+</div>
+<section id="command-prompt">
+<h3>Command Prompt<a class="headerlink" href="#command-prompt" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>curl.exe -o environment.yml https://raw.githubusercontent.com/WisconsinAutonomous/wa_simulator/master/environment.yml
+conda env create --name<span class="o">=</span>wa -f<span class="o">=</span>environment.yml
 </pre></div>
 </div>
 </section>
-<section id="create-the-conda-environment">
-<h3>Create the conda environment<a class="headerlink" href="#create-the-conda-environment" title="Permalink to this headline">¶</a></h3>
-<p>Now, let’s actually create the environment. <em>This requires Anaconda to be installed</em>.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">env</span> <span class="n">create</span> <span class="o">--</span><span class="n">name</span><span class="o">=</span><span class="n">wa</span> <span class="o">-</span><span class="n">f</span><span class="o">=</span><span class="n">environment</span><span class="o">.</span><span class="n">yml</span>
+<section id="powershell">
+<h3>PowerShell<a class="headerlink" href="#powershell" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>iwr -outf environment.yml https://raw.githubusercontent.com/WisconsinAutonomous/wa_simulator/master/environment.yml
+conda env create --name<span class="o">=</span>wa -f<span class="o">=</span>environment.yml
 </pre></div>
 </div>
-<p>This will create an environment with the name <code class="docutils literal notranslate"><span class="pre">wa</span></code>, but feel free to change it to anything you’d like.</p>
 </section>
 </section>
 </section>
@@ -246,7 +255,7 @@
         </div>
 
         <div class="related-information">
-              Copyright &#169; 2021, Wisconsin Autonomous
+              Copyright &#169; 2022, Wisconsin Autonomous
             |
             Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
               and
@@ -274,9 +283,10 @@
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">Windows Installation Guide</a><ul>
-<li><a class="reference internal" href="#conda-environment">Conda environment</a><ul>
-<li><a class="reference internal" href="#download-the-environment-file">Download the environment file</a></li>
-<li><a class="reference internal" href="#create-the-conda-environment">Create the conda environment</a></li>
+<li><a class="reference internal" href="#pip-without-chrono">Pip - Without Chrono</a></li>
+<li><a class="reference internal" href="#conda-environment-with-chrono">Conda Environment - With Chrono</a><ul>
+<li><a class="reference internal" href="#command-prompt">Command Prompt</a></li>
+<li><a class="reference internal" href="#powershell">PowerShell</a></li>
 </ul>
 </li>
 </ul>
