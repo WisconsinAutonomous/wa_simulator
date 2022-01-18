@@ -16,27 +16,11 @@ To begin, Docker is a tool for virtualizing applications from a main operating s
 
 For simulations, containers can be a valuable tool for creating consistent development environments for users with different operating systems or different use cases. For example, a Docker container can be generated that has the entire simulation platform already installed; then, the user can simply run their simulation script in the container without the need to install any dependencies.
 
+To help facilitate complicated scenarios, it is common practice to utilize multiple containers. Think, for instance, with multiple containers, you can have multiple, independent systems that can be interchanged easily. Then, each isolated container communicates with the others in some capacity. This is what we will do here, where we have one container for the simulation, then other containers with other features: for example, `novnc` for visualizing gui apps, `ros` for running control logic, etc.
+
 ## Setup
 
 Beyond installing the packages in [Prerequisites](#prerequisites), there is not much setup that is necessary. The `wa_cli` package provides tools for easily spinning up containers and running simulations within Docker.
-
-## Initializing the Network
-
-To help facilitate complicated scenarios, it is common practice to utilize multiple containers. Think, for instance, with multiple containers, you can have multiple, independent systems that can be interchanged easily. Then, each isolated container communicates with the others in some capacity. This is what we will do here, where we have one container for the simulation, then other containers with other features: for example, `novnc` for visualizing gui apps, `ros` for running control logic, etc.
-
-The way Docker allows containers to work together is through a mechanism called networks. Please refer to the [official documentation](https://docs.docker.com/network/) for a full overview of networks; in summary, they are basically a way to communicate between containers. Each container in your application would connect to the network, and then communicate to each other to facilitate complicated systems.
-
-The first step is then to create a network for all of our containers to communicate on. The `wa_cli` package provides a command to do this. To create a network with all of the default values and with the name `wa`, run the following command:
-
-```bash
-wa docker network
-```
-
-To learn more about this command, [see the `wa_cli` documentation](https://wisconsinautonomous.github.io/wa_cli/usage.html#docker-network).
-
-```{note}
-All subsequent commands will actually create a network if one has not been created; therefore, running this command explicitly is somewhat redundant.
-```
 
 ## Running the Simulator
 
@@ -46,8 +30,11 @@ To run the [demo\_bicycle\_simple.py](https://github.com/WisconsinAutonomous/wa_
 
 ```bash
 $ cd demos/simple/
-$ wa docker run --data ../data/ --wasim-without-novnc demo_bicycle_simple.py -mv --end_time 1 # set 'end_time' so it will time out
-Verbosity has been set to WARNING
+$ wa docker run --data ../data/ --wasim demo_bicycle_simple.py -mv --end_time 1 # set 'end_time' so it will time out
+INFO     | logger.set_verbosity :: Verbosity has been set to INFO
+INFO     | docker_cli.run_run :: Running 'docker run' entrypoint...
+INFO     | docker_cli.run_run :: Updating args with 'wasim' defaults...
+INFO     | docker_cli.run_vnc :: Running 'docker vnc' entrypoint...
 Done.
 ```
 
@@ -55,25 +42,19 @@ The `--data` part tells docker to copy the data folder to the container so that 
 
 ### Displaying Visualizers
 
-The aforementioned command, however, isn't that useful since you can't actually see anything. Using [networks](#initializing-the-network) and a tool called `novnc` (see [this](https://novnc.com/info.html) for more information), you can actually display `wa_simulator` visualizations in your browser. 
+Running _just_ the aforementioned command, however, isn't that useful since you can't actually see anything. Using [networks](#initializing-the-network) and a tool called `vnc` (see [noVNC](https://novnc.com/info.html) and [VNC](https://en.wikipedia.org/wiki/Virtual_Network_Computing) for more information), you can actually display `wa_simulator` visualizations in your browser or in a VNC viewer. 
 
-The `wa_cli` package also provides a useful command to initialize this. A container running `novnc` will be created that communicates with the `wa_simulator` container via a network. To create this container, run the following command:
-
-```bash
-wa docker novnc
-```
-
-Then rerun the `demo_bicycle_simple.py` script with novnc enabled:
+To use vnc, rerun the `demo_bicycle_simple.py` script:
 
 ```bash
 $ wa docker run --data ../data/ --wasim demo_bicycle_simple.py -mv
 ```
 
-You should not navigate to [http://localhost:8080/vnc\_auto.html](http://localhost:8080/vnc_auto.html) and you should see a matplotlib window. You should also be able to use the arrow keys to control the vehicle. Note: the framerate may be relatively low.
+Then navigate to [http://localhost:8080](http://localhost:8080) and you should see a matplotlib window. You should also be able to use the arrow keys to control the vehicle. Note: the framerate may be relatively low depending on the speed of your graphics processor.
 
-```{note}
-`novnc` should also work with other applications and is not specific to `wa_simulator` visualizations.
-```
+Alternatively, you can use a VNC viewer with the port being `5900`. For Mac users, you can open Finder and press `CMD-K` and type in `vnc://localhost:5900`.
+
+**The password is `wa`.**
 
 ### Running Containers with Additional Imports
 
@@ -84,7 +65,7 @@ $ cd demos/path_follower/
 $ wa docker run --data ../data/ --data pid_controller.py --wasim demo_bicycle_simple.py
 ```
 
-If you then have `novnc` running and you go to [http://localhost:8080/vnc\_auto.html](http://localhost:8080/vnc_auto.html), you should see the matplotlib visualization running.
+If you then have `vnc` running and you go to [http://localhost:8080/](http://localhost:8080/), you should see the matplotlib visualization running.
 
 ### Running with ROS
 
@@ -94,7 +75,7 @@ A demo has been provided which outlines the use of the `WABridge` component in t
 
 ```bash
 $ cd demos/demo_bridge_server.py
-$ wa docker run --wasim --data "../data" --data "pid_controller.py" demo_bridge_server.py
+$ wa docker run --wasim --data ../data --data pid_controller.py demo_bridge_server.py
 ```
 
 The server will then block until a client is found. The client in this case should be the `wa_simulator_ros_bridge` [found here](https://github.com/WisconsinAutonomous/wa_simulator_ros_bridge). Please refer to the [ROS Overview Wiki page](https://wisconsinautonomous.github.io/posts/ros-overview/#using-simulations) for information on how to start the client.
@@ -122,6 +103,38 @@ To now run a `wa_simulator` script with the develop image, you can run something
 ```bash
 $ cd demos/simple/
 $ wa docker run --image wiscauto/wa_simulator:develop --data ../data/ --wasim demo_bicycle_simple.py -mv
+```
+
+## Additional Info
+
+### Explicitly Initializing the Network
+
+The way Docker allows containers to work together is through a mechanism called networks. Please refer to the [official documentation](https://docs.docker.com/network/) for a full overview of networks; in summary, they are basically a way to communicate between containers. Each container in your application would connect to the network, and then communicate to each other to facilitate complicated systems.
+
+The first step is then to create a network for all of our containers to communicate on. The `wa_cli` package provides a command to do this. To create a network with all of the default values and with the name `wa`, run the following command:
+
+```bash
+wa docker network
+```
+
+To learn more about this command, [see the `wa_cli` documentation](https://wisconsinautonomous.github.io/wa_cli/usage.html#docker-network).
+
+```{note}
+The `run` command will actually create a network if one has not been created; therefore, running this command explicitly is somewhat redundant.
+```
+
+### Explicitly Initializing VNC
+
+The `wa_cli` package provides a useful command to initialize VNC. A container running `vnc` will be created that communicates with the `wa_simulator` container via a network. When `--wasim` is passed to the `run` entrypoint, the `DISPLAY` variable for the simulators container is correctly set to use the VNC instance to visualize GUI apps. Then, when you run the simulator script, it will automatically show the window either in your browser or in a VNC viewer. To explicitly create this container, run the following command:
+
+```bash
+wa docker novnc
+```
+
+**The password is `wa`.**
+
+```{note}
+The `run` command will actually spin up the VNC server if one has not been created; therefore, running this command explicitly is somewhat redundant.
 ```
 
 ## Next Steps
