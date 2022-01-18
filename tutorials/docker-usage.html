@@ -207,52 +207,36 @@
 <p>We’ll first give some background and motivation to using Docker with simulations.</p>
 <p>To begin, Docker is a tool for virtualizing applications from a main operating system. What this means is that you can run full OS containers within a host OS. The primary purpose behind Docker, and similar tools, is to isolate development environments and to consistently deploy applications across computers. Docker is typically used on servers (think AWS or Azure) to isolate users and to deploy websites and web apps. Docker simply provides the ability to run these isolated containers, it is the users job to create the content that goes inside the containers. For more information on Docker, plesae see their <a class="reference external" href="https://www.docker.com/">official website</a>.</p>
 <p>For simulations, containers can be a valuable tool for creating consistent development environments for users with different operating systems or different use cases. For example, a Docker container can be generated that has the entire simulation platform already installed; then, the user can simply run their simulation script in the container without the need to install any dependencies.</p>
+<p>To help facilitate complicated scenarios, it is common practice to utilize multiple containers. Think, for instance, with multiple containers, you can have multiple, independent systems that can be interchanged easily. Then, each isolated container communicates with the others in some capacity. This is what we will do here, where we have one container for the simulation, then other containers with other features: for example, <code class="docutils literal notranslate"><span class="pre">novnc</span></code> for visualizing gui apps, <code class="docutils literal notranslate"><span class="pre">ros</span></code> for running control logic, etc.</p>
 </section>
 <section id="setup">
 <h2>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">¶</a></h2>
 <p>Beyond installing the packages in <a class="reference external" href="#prerequisites">Prerequisites</a>, there is not much setup that is necessary. The <code class="docutils literal notranslate"><span class="pre">wa_cli</span></code> package provides tools for easily spinning up containers and running simulations within Docker.</p>
-</section>
-<section id="initializing-the-network">
-<h2>Initializing the Network<a class="headerlink" href="#initializing-the-network" title="Permalink to this headline">¶</a></h2>
-<p>To help facilitate complicated scenarios, it is common practice to utilize multiple containers. Think, for instance, with multiple containers, you can have multiple, independent systems that can be interchanged easily. Then, each isolated container communicates with the others in some capacity. This is what we will do here, where we have one container for the simulation, then other containers with other features: for example, <code class="docutils literal notranslate"><span class="pre">novnc</span></code> for visualizing gui apps, <code class="docutils literal notranslate"><span class="pre">ros</span></code> for running control logic, etc.</p>
-<p>The way Docker allows containers to work together is through a mechanism called networks. Please refer to the <a class="reference external" href="https://docs.docker.com/network/">official documentation</a> for a full overview of networks; in summary, they are basically a way to communicate between containers. Each container in your application would connect to the network, and then communicate to each other to facilitate complicated systems.</p>
-<p>The first step is then to create a network for all of our containers to communicate on. The <code class="docutils literal notranslate"><span class="pre">wa_cli</span></code> package provides a command to do this. To create a network with all of the default values and with the name <code class="docutils literal notranslate"><span class="pre">wa</span></code>, run the following command:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wa docker network
-</pre></div>
-</div>
-<p>To learn more about this command, <a class="reference external" href="https://wisconsinautonomous.github.io/wa_cli/usage.html#docker-network">see the <code class="docutils literal notranslate"><span class="pre">wa_cli</span></code> documentation</a>.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>All subsequent commands will actually create a network if one has not been created; therefore, running this command explicitly is somewhat redundant.</p>
-</div>
 </section>
 <section id="running-the-simulator">
 <h2>Running the Simulator<a class="headerlink" href="#running-the-simulator" title="Permalink to this headline">¶</a></h2>
 <p>To run the simulator in a docker container, the <code class="docutils literal notranslate"><span class="pre">wa_cli</span></code> package provides a command so you don’t need to understand the inner workings of Docker. The command has an entrypoint at <code class="docutils literal notranslate"><span class="pre">wa</span> <span class="pre">docker</span> <span class="pre">run</span></code>. In essence, it is analogous to <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">run</span></code> (<a class="reference external" href="https://docs.docker.com/engine/reference/run/">documentation</a>), except it has useful helper methods for WA members.</p>
 <p>To run the <a class="reference external" href="https://github.com/WisconsinAutonomous/wa_simulator/blob/develop/demos/simple/demo_bicycle_simple.py">demo_bicycle_simple.py</a> in a docker container, you can run the following command, in the <code class="docutils literal notranslate"><span class="pre">wa_simulator</span></code> <a class="reference external" href="https://github.com/wisconsinautonomous/wa_simulator">repository</a>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ <span class="nb">cd</span> demos/simple/
-$ wa docker run --data ../data/ --wasim-without-novnc demo_bicycle_simple.py -mv --end_time <span class="m">1</span> <span class="c1"># set 'end_time' so it will time out</span>
-Verbosity has been <span class="nb">set</span> to WARNING
+$ wa docker run --data ../data/ --wasim demo_bicycle_simple.py -mv --end_time <span class="m">1</span> <span class="c1"># set 'end_time' so it will time out</span>
+INFO     <span class="p">|</span> logger.set_verbosity :: Verbosity has been <span class="nb">set</span> to INFO
+INFO     <span class="p">|</span> docker_cli.run_run :: Running <span class="s1">'docker run'</span> entrypoint...
+INFO     <span class="p">|</span> docker_cli.run_run :: Updating args with <span class="s1">'wasim'</span> defaults...
+INFO     <span class="p">|</span> docker_cli.run_vnc :: Running <span class="s1">'docker vnc'</span> entrypoint...
 Done.
 </pre></div>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">--data</span></code> part tells docker to copy the data folder to the container so that it can successfully create the vehicle. Further, <code class="docutils literal notranslate"><span class="pre">--wasim</span></code> tells <code class="docutils literal notranslate"><span class="pre">wa</span> <span class="pre">docker</span> <span class="pre">run</span></code> to use the default values for <code class="docutils literal notranslate"><span class="pre">wa_simulator</span></code> scripts.</p>
 <section id="displaying-visualizers">
 <h3>Displaying Visualizers<a class="headerlink" href="#displaying-visualizers" title="Permalink to this headline">¶</a></h3>
-<p>The aforementioned command, however, isn’t that useful since you can’t actually see anything. Using <a class="reference external" href="#initializing-the-network">networks</a> and a tool called <code class="docutils literal notranslate"><span class="pre">novnc</span></code> (see <a class="reference external" href="https://novnc.com/info.html">this</a> for more information), you can actually display <code class="docutils literal notranslate"><span class="pre">wa_simulator</span></code> visualizations in your browser.</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">wa_cli</span></code> package also provides a useful command to initialize this. A container running <code class="docutils literal notranslate"><span class="pre">novnc</span></code> will be created that communicates with the <code class="docutils literal notranslate"><span class="pre">wa_simulator</span></code> container via a network. To create this container, run the following command:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wa docker novnc
-</pre></div>
-</div>
-<p>Then rerun the <code class="docutils literal notranslate"><span class="pre">demo_bicycle_simple.py</span></code> script with novnc enabled:</p>
+<p>Running <em>just</em> the aforementioned command, however, isn’t that useful since you can’t actually see anything. Using <a class="reference external" href="#initializing-the-network">networks</a> and a tool called <code class="docutils literal notranslate"><span class="pre">vnc</span></code> (see <a class="reference external" href="https://novnc.com/info.html">noVNC</a> and <a class="reference external" href="https://en.wikipedia.org/wiki/Virtual_Network_Computing">VNC</a> for more information), you can actually display <code class="docutils literal notranslate"><span class="pre">wa_simulator</span></code> visualizations in your browser or in a VNC viewer.</p>
+<p>To use vnc, rerun the <code class="docutils literal notranslate"><span class="pre">demo_bicycle_simple.py</span></code> script:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ wa docker run --data ../data/ --wasim demo_bicycle_simple.py -mv
 </pre></div>
 </div>
-<p>You should not navigate to <a class="reference external" href="http://localhost:8080/vnc_auto.html">http://localhost:8080/vnc_auto.html</a> and you should see a matplotlib window. You should also be able to use the arrow keys to control the vehicle. Note: the framerate may be relatively low.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p><code class="docutils literal notranslate"><span class="pre">novnc</span></code> should also work with other applications and is not specific to <code class="docutils literal notranslate"><span class="pre">wa_simulator</span></code> visualizations.</p>
-</div>
+<p>Then navigate to <a class="reference external" href="http://localhost:8080">http://localhost:8080</a> and you should see a matplotlib window. You should also be able to use the arrow keys to control the vehicle. Note: the framerate may be relatively low depending on the speed of your graphics processor.</p>
+<p>Alternatively, you can use a VNC viewer with the port being <code class="docutils literal notranslate"><span class="pre">5900</span></code>. For Mac users, you can open Finder and press <code class="docutils literal notranslate"><span class="pre">CMD-K</span></code> and type in <code class="docutils literal notranslate"><span class="pre">vnc://localhost:5900</span></code>.</p>
+<p><strong>The password is <code class="docutils literal notranslate"><span class="pre">wa</span></code>.</strong></p>
 </section>
 <section id="running-containers-with-additional-imports">
 <h3>Running Containers with Additional Imports<a class="headerlink" href="#running-containers-with-additional-imports" title="Permalink to this headline">¶</a></h3>
@@ -261,14 +245,14 @@ Done.
 $ wa docker run --data ../data/ --data pid_controller.py --wasim demo_bicycle_simple.py
 </pre></div>
 </div>
-<p>If you then have <code class="docutils literal notranslate"><span class="pre">novnc</span></code> running and you go to <a class="reference external" href="http://localhost:8080/vnc_auto.html">http://localhost:8080/vnc_auto.html</a>, you should see the matplotlib visualization running.</p>
+<p>If you then have <code class="docutils literal notranslate"><span class="pre">vnc</span></code> running and you go to <a class="reference external" href="http://localhost:8080/">http://localhost:8080/</a>, you should see the matplotlib visualization running.</p>
 </section>
 <section id="running-with-ros">
 <h3>Running with ROS<a class="headerlink" href="#running-with-ros" title="Permalink to this headline">¶</a></h3>
 <p>Another common use case for the Wisconsin Autonomous team is to use <code class="docutils literal notranslate"><span class="pre">wa_simulator</span></code> with our ROS-based control stacks. For more information on ROS and our use of it, please see <a class="reference external" href="https://wisconsinautonomous.github.io/posts/ros-overview/">this guide</a>.</p>
 <p>A demo has been provided which outlines the use of the <code class="docutils literal notranslate"><span class="pre">WABridge</span></code> component in the <code class="docutils literal notranslate"><span class="pre">wa_simulator</span></code> API, which allows communication with external entities of simulation data. The demo can be found <a class="reference external" href="https://github.com/WisconsinAutonomous/wa_simulator/tree/develop/demos/bridge">here</a>. This example can be run completely outside of docker, where the server connects directly to the client. In this tutorial, however, we would like to communicate with a ROS stack located in a docker container. To do this, spin up the server in a docker container with the following command:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ <span class="nb">cd</span> demos/demo_bridge_server.py
-$ wa docker run --wasim --data <span class="s2">"../data"</span> --data <span class="s2">"pid_controller.py"</span> demo_bridge_server.py
+$ wa docker run --wasim --data ../data --data pid_controller.py demo_bridge_server.py
 </pre></div>
 </div>
 <p>The server will then block until a client is found. The client in this case should be the <code class="docutils literal notranslate"><span class="pre">wa_simulator_ros_bridge</span></code> <a class="reference external" href="https://github.com/WisconsinAutonomous/wa_simulator_ros_bridge">found here</a>. Please refer to the <a class="reference external" href="https://wisconsinautonomous.github.io/posts/ros-overview/#using-simulations">ROS Overview Wiki page</a> for information on how to start the client.</p>
@@ -292,6 +276,34 @@ $ wa docker run --wasim --data <span class="s2">"../data"</span> --data <span cl
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ <span class="nb">cd</span> demos/simple/
 $ wa docker run --image wiscauto/wa_simulator:develop --data ../data/ --wasim demo_bicycle_simple.py -mv
 </pre></div>
+</div>
+</section>
+</section>
+<section id="additional-info">
+<h2>Additional Info<a class="headerlink" href="#additional-info" title="Permalink to this headline">¶</a></h2>
+<section id="explicitly-initializing-the-network">
+<h3>Explicitly Initializing the Network<a class="headerlink" href="#explicitly-initializing-the-network" title="Permalink to this headline">¶</a></h3>
+<p>The way Docker allows containers to work together is through a mechanism called networks. Please refer to the <a class="reference external" href="https://docs.docker.com/network/">official documentation</a> for a full overview of networks; in summary, they are basically a way to communicate between containers. Each container in your application would connect to the network, and then communicate to each other to facilitate complicated systems.</p>
+<p>The first step is then to create a network for all of our containers to communicate on. The <code class="docutils literal notranslate"><span class="pre">wa_cli</span></code> package provides a command to do this. To create a network with all of the default values and with the name <code class="docutils literal notranslate"><span class="pre">wa</span></code>, run the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wa docker network
+</pre></div>
+</div>
+<p>To learn more about this command, <a class="reference external" href="https://wisconsinautonomous.github.io/wa_cli/usage.html#docker-network">see the <code class="docutils literal notranslate"><span class="pre">wa_cli</span></code> documentation</a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">run</span></code> command will actually create a network if one has not been created; therefore, running this command explicitly is somewhat redundant.</p>
+</div>
+</section>
+<section id="explicitly-initializing-vnc">
+<h3>Explicitly Initializing VNC<a class="headerlink" href="#explicitly-initializing-vnc" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">wa_cli</span></code> package provides a useful command to initialize VNC. A container running <code class="docutils literal notranslate"><span class="pre">vnc</span></code> will be created that communicates with the <code class="docutils literal notranslate"><span class="pre">wa_simulator</span></code> container via a network. When <code class="docutils literal notranslate"><span class="pre">--wasim</span></code> is passed to the <code class="docutils literal notranslate"><span class="pre">run</span></code> entrypoint, the <code class="docutils literal notranslate"><span class="pre">DISPLAY</span></code> variable for the simulators container is correctly set to use the VNC instance to visualize GUI apps. Then, when you run the simulator script, it will automatically show the window either in your browser or in a VNC viewer. To explicitly create this container, run the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wa docker novnc
+</pre></div>
+</div>
+<p><strong>The password is <code class="docutils literal notranslate"><span class="pre">wa</span></code>.</strong></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">run</span></code> command will actually spin up the VNC server if one has not been created; therefore, running this command explicitly is somewhat redundant.</p>
 </div>
 </section>
 </section>
@@ -367,7 +379,6 @@ $ wa docker run --image wiscauto/wa_simulator:develop --data ../data/ --wasim de
 <li><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
 <li><a class="reference internal" href="#background">Background</a></li>
 <li><a class="reference internal" href="#setup">Setup</a></li>
-<li><a class="reference internal" href="#initializing-the-network">Initializing the Network</a></li>
 <li><a class="reference internal" href="#running-the-simulator">Running the Simulator</a><ul>
 <li><a class="reference internal" href="#displaying-visualizers">Displaying Visualizers</a></li>
 <li><a class="reference internal" href="#running-containers-with-additional-imports">Running Containers with Additional Imports</a></li>
@@ -377,6 +388,11 @@ $ wa docker run --image wiscauto/wa_simulator:develop --data ../data/ --wasim de
 <li><a class="reference internal" href="#using-a-development-image">Using a Development Image</a><ul>
 <li><a class="reference internal" href="#build-a-development-image">Build a Development Image</a></li>
 <li><a class="reference internal" href="#running-a-development-image">Running a Development Image</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#additional-info">Additional Info</a><ul>
+<li><a class="reference internal" href="#explicitly-initializing-the-network">Explicitly Initializing the Network</a></li>
+<li><a class="reference internal" href="#explicitly-initializing-vnc">Explicitly Initializing VNC</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#next-steps">Next Steps</a></li>
