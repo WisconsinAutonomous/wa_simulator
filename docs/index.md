@@ -17,6 +17,7 @@ contributing
 
 ```{toctree}
 :caption: External Links
+:hidden:
 PyPI <https://pypi.org/project/wa-simulator/>
 Github <https://github.com/WisconsinAutonomous/wa_simulator>
 ```

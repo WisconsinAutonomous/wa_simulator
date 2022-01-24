@@ -7,6 +7,7 @@ In this tutorial, we will learn how to run `wa_simulator` simulations using Dock
 - You have installed `wa_simulator` ([resources for that](https://wisconsinautonomous.github.io/wa_simulator/installation/index.html))
 - You have installed `wa_cli` ([resources for that](https://wisconsinautonomous.github.io/wa_cli/installation/index.html))
 - You have installed Docker ([resource for that](https://docs.docker.com/get-docker/))
+- You have installed docker-compose ([resource for that](https://docs.docker.com/compose/install/))
 
 ## Background
 
