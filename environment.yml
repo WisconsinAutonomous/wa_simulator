@@ -1,5 +1,5 @@
 channels:
-  - projectchrono/label/develop
+  - projectchrono
   - conda-forge
   - defaults
 dependencies:
