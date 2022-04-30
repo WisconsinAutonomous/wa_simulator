@@ -286,7 +286,7 @@ class WASplinePath(WAPath):
 
         super().__init__(waypoints, **kwargs)
 
-        # Check if the path is actuall closed
+        # Check if the path is actually closed
         if self._is_closed and not np.array_equal(waypoints[0], waypoints[-1]):
             warnings.warn(
                 "is_closed has been set to True, but the first and last waypoints are not equal. Setting is_closed to False.", RuntimeWarning, stacklevel=100)
