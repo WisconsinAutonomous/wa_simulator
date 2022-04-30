@@ -21,13 +21,9 @@ from typing import List, Tuple
 
 
 def create_track_from_json(filename: str, environment: 'WAEnvironment' = None) -> 'WATrack':
-    """Creates a WATrack object from a json specification file
+    """Creates a WATrack object from a json specification file. Supports two templates, "Constant Width Track" and "Variable Width Track".
 
     json file options:
-
-    * Center Input File (``str``, required): A json file describing the centerline. Loaded using :meth:`~create_path_from_json`
-
-    * Width (``float``, required): The constant width between the left and right boundaries of the track.
 
     * Origin(``list``, required): The GPS origin of the first centerline point
 
@@ -48,6 +44,18 @@ def create_track_from_json(filename: str, environment: 'WAEnvironment' = None) -
     \t\t* Color #2 (``list``, optional): Color of an alternating set of objects. Must come with Color #1 and without Color.
 
     \t\t* Mode (``str``, optional): The mode for the object placement along the path. Options include 'Solid', 'Dashed' (3[m] separation) and 'Spread' (6[m] separation).
+
+    Constant Width Track json file options:
+
+    * Center Input File (``str``, required): A json file describing the centerline. Loaded using :meth:`~create_path_from_json`
+
+    * Width (``float``, required): The constant width between the left and right boundaries of the track.
+
+    Variable Width Track json file options:
+
+    * Left Input File (``str``, required): A json file describing the left boundary. Loaded using :meth:`~create_path_from_json`
+
+    * Right Input File (``str``, required): A json file describing the right boundary. Loaded using :meth:`~create_path_from_json`
 
     .. todo::
 
