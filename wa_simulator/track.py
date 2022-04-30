@@ -29,21 +29,21 @@ def create_track_from_json(filename: str, environment: 'WAEnvironment' = None) -
 
     * Visualization (``dict``, optional): Additional visualization properties.
 
-    \t* Center/Right/Left (``dict``, optional): The each paths visualization properties
+        * Center/Right/Left (``dict``, optional): The each paths visualization properties
 
-    \t* Color (``list``, optional): Visualization color.
+        * Color (``list``, optional): Visualization color.
 
-    \t* Object (``dict``, optional): An object that is placed along the path. Only parsed if ``environment`` is set.
+        * Object (``dict``, optional): An object that is placed along the path. Only parsed if ``environment`` is set.
 
-    \t\t* Size (``list``, optional): Size of the objects.
+            * Size (``list``, optional): Size of the objects.
 
-    \t\t* Color (``list``, optional): Color of the objects.
+            * Color (``list``, optional): Color of the objects.
 
-    \t\t* Color #1 (``list``, optional): Color of an alternating set of objects. Must come with Color #2 and without Color.
+            * Color #1 (``list``, optional): Color of an alternating set of objects. Must come with Color #2 and without Color.
 
-    \t\t* Color #2 (``list``, optional): Color of an alternating set of objects. Must come with Color #1 and without Color.
+            * Color #2 (``list``, optional): Color of an alternating set of objects. Must come with Color #1 and without Color.
 
-    \t\t* Mode (``str``, optional): The mode for the object placement along the path. Options include 'Solid', 'Dashed' (3[m] separation) and 'Spread' (6[m] separation).
+            * Mode (``str``, optional): The mode for the object placement along the path. Options include 'Solid', 'Dashed' (3[m] separation) and 'Spread' (6[m] separation).
 
     Constant Width Track json file options:
 
@@ -56,10 +56,6 @@ def create_track_from_json(filename: str, environment: 'WAEnvironment' = None) -
     * Left Input File (``str``, required): A json file describing the left boundary. Loaded using :meth:`~create_path_from_json`
 
     * Right Input File (``str``, required): A json file describing the right boundary. Loaded using :meth:`~create_path_from_json`
-
-    .. todo::
-
-        Add a variable width loader
 
     Args:
         filename (str): The json specification that describes the track 
