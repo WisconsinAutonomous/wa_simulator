@@ -68,7 +68,11 @@ class WAChronoEnvironment(WAEnvironment):
     """
 
     # Global filenames for environment models
+    _SAMPLE_ENV_MODEL_FILE = "environments/sample_env.json"
     _EGP_ENV_MODEL_FILE = "environments/ev_grand_prix.json"
+
+    SAMPLE_ENV_MODEL_FILE = _WAStaticAttribute(
+        '_SAMPLE_ENV_MODEL_FILE', get_chrono_data_file)
 
     EGP_ENV_MODEL_FILE = _WAStaticAttribute(
         '_EGP_ENV_MODEL_FILE', get_chrono_data_file)
