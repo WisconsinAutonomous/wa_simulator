@@ -29,21 +29,21 @@ def create_track_from_json(filename: str, environment: 'WAEnvironment' = None) -
 
     * Visualization (``dict``, optional): Additional visualization properties.
 
-        * Center/Right/Left (``dict``, optional): The each paths visualization properties
+      * Center/Right/Left (``dict``, optional): The each paths visualization properties
 
         * Color (``list``, optional): Visualization color.
 
         * Object (``dict``, optional): An object that is placed along the path. Only parsed if ``environment`` is set.
 
-            * Size (``list``, optional): Size of the objects.
+          * Size (``list``, optional): Size of the objects.
 
-            * Color (``list``, optional): Color of the objects.
+          * Color (``list``, optional): Color of the objects.
 
-            * Color #1 (``list``, optional): Color of an alternating set of objects. Must come with Color #2 and without Color.
+          * Color #1 (``list``, optional): Color of an alternating set of objects. Must come with Color #2 and without Color.
 
-            * Color #2 (``list``, optional): Color of an alternating set of objects. Must come with Color #1 and without Color.
+          * Color #2 (``list``, optional): Color of an alternating set of objects. Must come with Color #1 and without Color.
 
-            * Mode (``str``, optional): The mode for the object placement along the path. Options include 'Solid', 'Dashed' (3[m] separation) and 'Spread' (6[m] separation).
+          * Mode (``str``, optional): The mode for the object placement along the path. Options include 'Solid', 'Dashed' (3[m] separation) and 'Spread' (6[m] separation).
 
     Constant Width Track json file options:
 
