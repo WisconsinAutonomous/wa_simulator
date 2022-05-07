@@ -22,7 +22,7 @@ if os.environ.get("WA_DATA_DIRECTORY"):
     _DATA_DIRECTORY = str(pathlib.Path(os.environ.get("WA_DATA_DIRECTORY")).resolve())
 else:
     # Otherwise, grab the data folder in the root of this repo
-    _DATA_DIRECTORY = str((pathlib.Path("..") / "data").resolve())
+    _DATA_DIRECTORY = str((pathlib.Path("..") / "wa_simulator_data").resolve())
 
 
 _DATA_DIRECTORY
