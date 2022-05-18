@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 def main():
 
     # Load track data points from a csv file
-    wa.set_wa_data_directory('../../data/')
+    wa.set_wa_data_directory('../../wa_simulator_data/')
     filename = wa.get_wa_data_file("paths/sample_medium_loop.csv")
     waypoints = wa.load_waypoints_from_csv(filename, delimiter=",")
 

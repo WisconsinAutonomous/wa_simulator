@@ -1,0 +1,3 @@
+[submodule "demos/wa_simulator_data"]
+	path = demos/wa_simulator_data
+	url = git@github.com:WisconsinAutonomous/wa_simulator_data
