@@ -21,13 +21,9 @@ from typing import List, Tuple
 
 
 def create_track_from_json(filename: str, environment: 'WAEnvironment' = None) -> 'WATrack':
-    """Creates a WATrack object from a json specification file
+    """Creates a WATrack object from a json specification file. Supports two templates, "Constant Width Track" and "Variable Width Track".
 
     json file options:
-
-    * Center Input File (``str``, required): A json file describing the centerline. Loaded using :meth:`~create_path_from_json`
-
-    * Width (``float``, required): The constant width between the left and right boundaries of the track.
 
     * Origin(``list``, required): The GPS origin of the first centerline point
 
@@ -49,9 +45,17 @@ def create_track_from_json(filename: str, environment: 'WAEnvironment' = None) -
 
           * Mode (``str``, optional): The mode for the object placement along the path. Options include 'Solid', 'Dashed' (3[m] separation) and 'Spread' (6[m] separation).
 
-    .. todo::
+    Constant Width Track json file options:
 
-        Add a variable width loader
+    * Center Input File (``str``, required): A json file describing the centerline. Loaded using :meth:`~create_path_from_json`
+
+    * Width (``float``, required): The constant width between the left and right boundaries of the track.
+
+    Variable Width Track json file options:
+
+    * Left Input File (``str``, required): A json file describing the left boundary. Loaded using :meth:`~create_path_from_json`
+
+    * Right Input File (``str``, required): A json file describing the right boundary. Loaded using :meth:`~create_path_from_json`
 
     Args:
         filename (str): The json specification that describes the track 
@@ -65,22 +69,38 @@ def create_track_from_json(filename: str, environment: 'WAEnvironment' = None) -
 
     # Validate the json file
     _check_field(j, 'Type', value='Track')
-    _check_field(j, 'Template', allowed_values='Constant Width Track')
-    _check_field(j, 'Center Input File', field_type=str)
-    _check_field(j, 'Width', field_type=float)
+    _check_field(j, 'Template', allowed_values=['Constant Width Track', 'Variable Width Track'])
+    
     _check_field(j, 'Origin', field_type=list)
     _check_field(j, 'Visualization', field_type=dict, optional=True)
 
-    # Create the centerline path
-    center_file = get_wa_data_file(j['Center Input File'])
-    center = create_path_from_json(center_file)
+    # Check the template and create a track based off what it is
+    if j['Template'] == 'Constant Width Track':
+        _check_field(j, 'Center Input File', field_type=str)
+        _check_field(j, 'Width', field_type=float)
+        # Create the centerline path
+        center_file = get_wa_data_file(j['Center Input File'])
+        center = create_path_from_json(center_file)
 
-    width = j['Width']
-    origin = WAVector(j['Origin'])
+        width = j['Width']
+        origin = WAVector(j['Origin'])
 
-    # Create the track
-    track = create_constant_width_track(center, width)
-    track.origin = origin
+        # Create the track
+        track = create_constant_width_track(center, width)
+        track.origin = origin
+    elif j['Template'] == 'Variable Width Track':
+        left_file = get_wa_data_file(j['Left Input File'])
+        right_file = get_wa_data_file(j['Right Input File'])
+        left = create_path_from_json(left_file)
+        right = create_path_from_json(right_file)
+
+        origin = WAVector(j['Origin'])
+
+        track = create_variable_width_track(left, right)
+        track.origin = origin
+    else:
+        raise TypeError(f"{j['Template']} is not an implemented sensor type")
+    
 
     # Load the visualization, if present
     if 'Visualization' in j:
@@ -165,9 +185,57 @@ def create_track_from_json(filename: str, environment: 'WAEnvironment' = None) -
 
     return track
 
+def create_variable_width_track(left: WAPath, right: WAPath) -> 'WATrack':
+    """Generates a WATrack given paths of the left and right boundaries. Simply "walks" along the left and right boundaries and computes midpoints to form the centerline.
+    NOTE: Besides `num_points` and `is_closed`, this method assumes the parameters of the left and right paths are the same.
 
+    Args:
+        left (WAPath): The left path
+        right (WAPath): The right path
+
+    Returns:
+        WATrack: The created track
+    """
+    center = []
+
+    if type(left) != type(right):
+        raise TypeError("Left path (", type(left), ") and right path (", type(right), ") must be of the same type.")
+
+    if left.is_closed() != right.is_closed():
+        raise ValueError("is_closed() must be equivalent for both paths.")
+
+    # to handle case where the left and right paths have a different number of points
+    if len(left.get_points()) < len(right.get_points()):
+        longer_path = right
+        shorter_path = left
+    else:
+        longer_path = left
+        shorter_path = right
+        
+    for i in range(len(longer_path.get_points())):
+        point_1 = longer_path.get_points()[i]
+        point_2 = shorter_path.calc_closest_point(point_1)
+
+        center_point_x = (point_2[0] + point_1[0]) / 2
+        center_point_y = (point_2[1] + point_1[1]) / 2
+        center_point_z = (point_2[2] + point_1[2]) / 2
+        
+        center.append([center_point_x, center_point_y, center_point_z])
+
+
+    # close if necessary
+    if left.is_closed() and not np.array_equal(center[0], center[-1]):
+        # The centerline computation on two closed tracks may result in a slight difference between center[0] and center[-1]
+        # This is handled by removing the last point from the centerline to ensure we have valid waypoints for spline interpolation
+        center = center[:-1]
+        center = np.vstack((center, center[0]))
+        
+    center_path = type(left)(center, **left.get_parameters())
+
+    return WATrack(center_path, left, right)
+    
 def create_constant_width_track(center: WAPath, width: float) -> 'WATrack':
-    """Generates a WAConstantWidthTrack given a centerline and a constant width. Simply "walks" along path and takes the normal from the center at a distance equal to width/2
+    """Generates a WATrack given a centerline and a constant width. Simply "walks" along path and takes the normal from the center at a distance equal to width/2
 
     Args:
         center (WAPath): The centerline of the track

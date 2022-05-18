@@ -1,0 +1,34 @@
+{
+	"Name": "evGrand Prix Track",
+	"Type": "Track",
+	"Template": "Variable Width Track",
+
+	"Left Input File": "paths/ev_grand_prix_left.json",
+	"Right Input File": "paths/ev_grand_prix_right.json",
+	"Origin": [-1.9241850005000023,-2.3076899999999996,0], 
+
+	"Visualization": {
+		"Center": {
+			"Color": [0, 0, 0]
+		},
+		"Right": {
+			"Color": [1, 0, 0],
+			"Object": {
+				"Size": [0.2, 1.5, 0.01],
+				"Color": [1, 1, 1],
+				"Mode": "Solid"
+			}
+		},
+		"Left":{
+			"Color": [1, 0, 0],
+			"Object": {
+				"Size": [0.2, 1.5, 0.01],
+				"Color": [1, 1, 1],
+				"Mode": "Solid"
+			}
+		}
+	}
+}
+
+
+

@@ -1,0 +1,11 @@
+{
+	"Name": "evGrand Left Boundary",
+	"Type": "Path",
+	"Template": "WASplinePath",
+
+	"Waypoints Input File": "paths/ev_grand_prix_left.csv",
+
+	"is_closed": 1,
+	"num_points": 1000
+
+}

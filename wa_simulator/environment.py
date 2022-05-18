@@ -209,8 +209,10 @@ class WASimpleEnvironment(WAEnvironment):
     """
 
     _EGP_ENV_MODEL_FILE = "environments/ev_grand_prix.json"
+    _SAMPLE_ENV_MODEL_FILE = "environments/sample_env.json"
 
     EGP_ENV_MODEL_FILE = _WAStaticAttribute('_EGP_ENV_MODEL_FILE', get_wa_data_file)
+    SAMPLE_ENV_MODEL_FILE = _WAStaticAttribute('_SAMPLE_ENV_MODEL_FILE', get_wa_data_file)
 
     def __init__(self, system: 'WASystem', filename: str):
         super().__init__()
