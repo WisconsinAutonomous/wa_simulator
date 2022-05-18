@@ -215,7 +215,7 @@
     <span class="n">_DATA_DIRECTORY</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"WA_DATA_DIRECTORY"</span><span class="p">))</span><span class="o">.</span><span class="n">resolve</span><span class="p">())</span>
 <span class="k">else</span><span class="p">:</span>
     <span class="c1"># Otherwise, grab the data folder in the root of this repo</span>
-    <span class="n">_DATA_DIRECTORY</span> <span class="o">=</span> <span class="nb">str</span><span class="p">((</span><span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">".."</span><span class="p">)</span> <span class="o">/</span> <span class="s2">"data"</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">())</span>
+    <span class="n">_DATA_DIRECTORY</span> <span class="o">=</span> <span class="nb">str</span><span class="p">((</span><span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">".."</span><span class="p">)</span> <span class="o">/</span> <span class="s2">"wa_simulator_data"</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">())</span>
 
 
 <span class="n">_DATA_DIRECTORY</span>
