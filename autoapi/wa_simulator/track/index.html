@@ -311,21 +311,22 @@ List[WAVector], List[WAVector], List[WAVector]: gps coordinates of the centerlin
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#wa_simulator.track.create_track_from_json" title="wa_simulator.track.create_track_from_json"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_track_from_json</span></code></a></p></td>
-<td><p>Creates a WATrack object from a json specification file</p></td>
+<td><p>Creates a WATrack object from a json specification file. Supports two templates, “Constant Width Track” and “Variable Width Track”.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#wa_simulator.track.create_constant_width_track" title="wa_simulator.track.create_constant_width_track"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_constant_width_track</span></code></a></p></td>
-<td><p>Generates a WAConstantWidthTrack given a centerline and a constant width. Simply “walks” along path and takes the normal from the center at a distance equal to width/2</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#wa_simulator.track.create_variable_width_track" title="wa_simulator.track.create_variable_width_track"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_variable_width_track</span></code></a></p></td>
+<td><p>Generates a WATrack given paths of the left and right boundaries. Simply “walks” along the left and right boundaries and computes midpoints to form the centerline.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#wa_simulator.track.create_constant_width_track" title="wa_simulator.track.create_constant_width_track"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_constant_width_track</span></code></a></p></td>
+<td><p>Generates a WATrack given a centerline and a constant width. Simply “walks” along path and takes the normal from the center at a distance equal to width/2</p></td>
 </tr>
 </tbody>
 </table></div>
 <dl class="py function">
 <dt id="wa_simulator.track.create_track_from_json">
 <code class="sig-name descname">create_track_from_json</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">environment</span><span class="p">:</span> <span class="n">WAEnvironment</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> → <a class="reference internal" href="#wa_simulator.track.WATrack" title="wa_simulator.track.WATrack">WATrack</a><a class="reference internal" href="../../../_modules/wa_simulator/track.html#create_track_from_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.track.create_track_from_json" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates a WATrack object from a json specification file</p>
+<dd><p>Creates a WATrack object from a json specification file. Supports two templates, “Constant Width Track” and “Variable Width Track”.</p>
 <p>json file options:</p>
 <ul class="simple">
-<li><p>Center Input File (<code class="docutils literal notranslate"><span class="pre">str</span></code>, required): A json file describing the centerline. Loaded using <code class="xref py py-meth docutils literal notranslate"><span class="pre">create_path_from_json()</span></code></p></li>
-<li><p>Width (<code class="docutils literal notranslate"><span class="pre">float</span></code>, required): The constant width between the left and right boundaries of the track.</p></li>
 <li><p>Origin(<code class="docutils literal notranslate"><span class="pre">list</span></code>, required): The GPS origin of the first centerline point</p></li>
 <li><p>Visualization (<code class="docutils literal notranslate"><span class="pre">dict</span></code>, optional): Additional visualization properties.</p>
 <ul>
@@ -346,10 +347,16 @@ List[WAVector], List[WAVector], List[WAVector]: gps coordinates of the centerlin
 </ul>
 </li>
 </ul>
-<div class="admonition-todo admonition" id="id1">
-<p class="admonition-title">Todo</p>
-<p>Add a variable width loader</p>
-</div>
+<p>Constant Width Track json file options:</p>
+<ul class="simple">
+<li><p>Center Input File (<code class="docutils literal notranslate"><span class="pre">str</span></code>, required): A json file describing the centerline. Loaded using <code class="xref py py-meth docutils literal notranslate"><span class="pre">create_path_from_json()</span></code></p></li>
+<li><p>Width (<code class="docutils literal notranslate"><span class="pre">float</span></code>, required): The constant width between the left and right boundaries of the track.</p></li>
+</ul>
+<p>Variable Width Track json file options:</p>
+<ul class="simple">
+<li><p>Left Input File (<code class="docutils literal notranslate"><span class="pre">str</span></code>, required): A json file describing the left boundary. Loaded using <code class="xref py py-meth docutils literal notranslate"><span class="pre">create_path_from_json()</span></code></p></li>
+<li><p>Right Input File (<code class="docutils literal notranslate"><span class="pre">str</span></code>, required): A json file describing the right boundary. Loaded using <code class="xref py py-meth docutils literal notranslate"><span class="pre">create_path_from_json()</span></code></p></li>
+</ul>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -363,9 +370,26 @@ List[WAVector], List[WAVector], List[WAVector]: gps coordinates of the centerlin
 </dl>
 </dd></dl>
 <dl class="py function">
+<dt id="wa_simulator.track.create_variable_width_track">
+<code class="sig-name descname">create_variable_width_track</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">left</span><span class="p">:</span> <span class="n">WAPath</span></em>, <em class="sig-param"><span class="n">right</span><span class="p">:</span> <span class="n">WAPath</span></em><span class="sig-paren">)</span> → <a class="reference internal" href="#wa_simulator.track.WATrack" title="wa_simulator.track.WATrack">WATrack</a><a class="reference internal" href="../../../_modules/wa_simulator/track.html#create_variable_width_track"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.track.create_variable_width_track" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates a WATrack given paths of the left and right boundaries. Simply “walks” along the left and right boundaries and computes midpoints to form the centerline.
+NOTE: Besides <cite>num_points</cite> and <cite>is_closed</cite>, this method assumes the parameters of the left and right paths are the same.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>left</strong> (<em>WAPath</em>) – The left path</p></li>
+<li><p><strong>right</strong> (<em>WAPath</em>) – The right path</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><em>WATrack</em> – The created track</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py function">
 <dt id="wa_simulator.track.create_constant_width_track">
 <code class="sig-name descname">create_constant_width_track</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">center</span><span class="p">:</span> <span class="n">WAPath</span></em>, <em class="sig-param"><span class="n">width</span><span class="p">:</span> <span class="n">float</span></em><span class="sig-paren">)</span> → <a class="reference internal" href="#wa_simulator.track.WATrack" title="wa_simulator.track.WATrack">WATrack</a><a class="reference internal" href="../../../_modules/wa_simulator/track.html#create_constant_width_track"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wa_simulator.track.create_constant_width_track" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generates a WAConstantWidthTrack given a centerline and a constant width. Simply “walks” along path and takes the normal from the center at a distance equal to width/2</p>
+<dd><p>Generates a WATrack given a centerline and a constant width. Simply “walks” along path and takes the normal from the center at a distance equal to width/2</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -443,6 +467,7 @@ List[WAVector], List[WAVector], List[WAVector]: gps coordinates of the centerlin
 </ul>
 </li>
 <li><a class="reference internal" href="#wa_simulator.track.create_track_from_json">create_track_from_json</a></li>
+<li><a class="reference internal" href="#wa_simulator.track.create_variable_width_track">create_variable_width_track</a></li>
 <li><a class="reference internal" href="#wa_simulator.track.create_constant_width_track">create_constant_width_track</a></li>
 </ul>
 </li>

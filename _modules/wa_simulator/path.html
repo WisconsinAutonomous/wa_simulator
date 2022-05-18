@@ -479,7 +479,7 @@
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">waypoints</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-        <span class="c1"># Check if the path is actuall closed</span>
+        <span class="c1"># Check if the path is actually closed</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_closed</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="n">waypoints</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">waypoints</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]):</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
                 <span class="s2">"is_closed has been set to True, but the first and last waypoints are not equal. Setting is_closed to False."</span><span class="p">,</span> <span class="ne">RuntimeWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>

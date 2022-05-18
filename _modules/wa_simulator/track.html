@@ -214,13 +214,9 @@
 
 
 <div class="viewcode-block" id="create_track_from_json"><a class="viewcode-back" href="../../autoapi/wa_simulator/track/index.html#wa_simulator.track.create_track_from_json">[docs]</a><span class="k">def</span> <span class="nf">create_track_from_json</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">environment</span><span class="p">:</span> <span class="s1">'WAEnvironment'</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">'WATrack'</span><span class="p">:</span>
-    <span class="sd">"""Creates a WATrack object from a json specification file</span>
+    <span class="sd">"""Creates a WATrack object from a json specification file. Supports two templates, "Constant Width Track" and "Variable Width Track".</span>
 
 <span class="sd">    json file options:</span>
-
-<span class="sd">    * Center Input File (``str``, required): A json file describing the centerline. Loaded using :meth:`~create_path_from_json`</span>
-
-<span class="sd">    * Width (``float``, required): The constant width between the left and right boundaries of the track.</span>
 
 <span class="sd">    * Origin(``list``, required): The GPS origin of the first centerline point</span>
 
@@ -242,9 +238,17 @@
 
 <span class="sd">          * Mode (``str``, optional): The mode for the object placement along the path. Options include 'Solid', 'Dashed' (3[m] separation) and 'Spread' (6[m] separation).</span>
 
-<span class="sd">    .. todo::</span>
+<span class="sd">    Constant Width Track json file options:</span>
 
-<span class="sd">        Add a variable width loader</span>
+<span class="sd">    * Center Input File (``str``, required): A json file describing the centerline. Loaded using :meth:`~create_path_from_json`</span>
+
+<span class="sd">    * Width (``float``, required): The constant width between the left and right boundaries of the track.</span>
+
+<span class="sd">    Variable Width Track json file options:</span>
+
+<span class="sd">    * Left Input File (``str``, required): A json file describing the left boundary. Loaded using :meth:`~create_path_from_json`</span>
+
+<span class="sd">    * Right Input File (``str``, required): A json file describing the right boundary. Loaded using :meth:`~create_path_from_json`</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        filename (str): The json specification that describes the track </span>
@@ -258,22 +262,38 @@
 
     <span class="c1"># Validate the json file</span>
     <span class="n">_check_field</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="s1">'Type'</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s1">'Track'</span><span class="p">)</span>
-    <span class="n">_check_field</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="s1">'Template'</span><span class="p">,</span> <span class="n">allowed_values</span><span class="o">=</span><span class="s1">'Constant Width Track'</span><span class="p">)</span>
-    <span class="n">_check_field</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="s1">'Center Input File'</span><span class="p">,</span> <span class="n">field_type</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
-    <span class="n">_check_field</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="s1">'Width'</span><span class="p">,</span> <span class="n">field_type</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">_check_field</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="s1">'Template'</span><span class="p">,</span> <span class="n">allowed_values</span><span class="o">=</span><span class="p">[</span><span class="s1">'Constant Width Track'</span><span class="p">,</span> <span class="s1">'Variable Width Track'</span><span class="p">])</span>
+    
     <span class="n">_check_field</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="s1">'Origin'</span><span class="p">,</span> <span class="n">field_type</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
     <span class="n">_check_field</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="s1">'Visualization'</span><span class="p">,</span> <span class="n">field_type</span><span class="o">=</span><span class="nb">dict</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    <span class="c1"># Create the centerline path</span>
-    <span class="n">center_file</span> <span class="o">=</span> <span class="n">get_wa_data_file</span><span class="p">(</span><span class="n">j</span><span class="p">[</span><span class="s1">'Center Input File'</span><span class="p">])</span>
-    <span class="n">center</span> <span class="o">=</span> <span class="n">create_path_from_json</span><span class="p">(</span><span class="n">center_file</span><span class="p">)</span>
+    <span class="c1"># Check the template and create a track based off what it is</span>
+    <span class="k">if</span> <span class="n">j</span><span class="p">[</span><span class="s1">'Template'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'Constant Width Track'</span><span class="p">:</span>
+        <span class="n">_check_field</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="s1">'Center Input File'</span><span class="p">,</span> <span class="n">field_type</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+        <span class="n">_check_field</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="s1">'Width'</span><span class="p">,</span> <span class="n">field_type</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+        <span class="c1"># Create the centerline path</span>
+        <span class="n">center_file</span> <span class="o">=</span> <span class="n">get_wa_data_file</span><span class="p">(</span><span class="n">j</span><span class="p">[</span><span class="s1">'Center Input File'</span><span class="p">])</span>
+        <span class="n">center</span> <span class="o">=</span> <span class="n">create_path_from_json</span><span class="p">(</span><span class="n">center_file</span><span class="p">)</span>
 
-    <span class="n">width</span> <span class="o">=</span> <span class="n">j</span><span class="p">[</span><span class="s1">'Width'</span><span class="p">]</span>
-    <span class="n">origin</span> <span class="o">=</span> <span class="n">WAVector</span><span class="p">(</span><span class="n">j</span><span class="p">[</span><span class="s1">'Origin'</span><span class="p">])</span>
+        <span class="n">width</span> <span class="o">=</span> <span class="n">j</span><span class="p">[</span><span class="s1">'Width'</span><span class="p">]</span>
+        <span class="n">origin</span> <span class="o">=</span> <span class="n">WAVector</span><span class="p">(</span><span class="n">j</span><span class="p">[</span><span class="s1">'Origin'</span><span class="p">])</span>
 
-    <span class="c1"># Create the track</span>
-    <span class="n">track</span> <span class="o">=</span> <span class="n">create_constant_width_track</span><span class="p">(</span><span class="n">center</span><span class="p">,</span> <span class="n">width</span><span class="p">)</span>
-    <span class="n">track</span><span class="o">.</span><span class="n">origin</span> <span class="o">=</span> <span class="n">origin</span>
+        <span class="c1"># Create the track</span>
+        <span class="n">track</span> <span class="o">=</span> <span class="n">create_constant_width_track</span><span class="p">(</span><span class="n">center</span><span class="p">,</span> <span class="n">width</span><span class="p">)</span>
+        <span class="n">track</span><span class="o">.</span><span class="n">origin</span> <span class="o">=</span> <span class="n">origin</span>
+    <span class="k">elif</span> <span class="n">j</span><span class="p">[</span><span class="s1">'Template'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'Variable Width Track'</span><span class="p">:</span>
+        <span class="n">left_file</span> <span class="o">=</span> <span class="n">get_wa_data_file</span><span class="p">(</span><span class="n">j</span><span class="p">[</span><span class="s1">'Left Input File'</span><span class="p">])</span>
+        <span class="n">right_file</span> <span class="o">=</span> <span class="n">get_wa_data_file</span><span class="p">(</span><span class="n">j</span><span class="p">[</span><span class="s1">'Right Input File'</span><span class="p">])</span>
+        <span class="n">left</span> <span class="o">=</span> <span class="n">create_path_from_json</span><span class="p">(</span><span class="n">left_file</span><span class="p">)</span>
+        <span class="n">right</span> <span class="o">=</span> <span class="n">create_path_from_json</span><span class="p">(</span><span class="n">right_file</span><span class="p">)</span>
+
+        <span class="n">origin</span> <span class="o">=</span> <span class="n">WAVector</span><span class="p">(</span><span class="n">j</span><span class="p">[</span><span class="s1">'Origin'</span><span class="p">])</span>
+
+        <span class="n">track</span> <span class="o">=</span> <span class="n">create_variable_width_track</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span>
+        <span class="n">track</span><span class="o">.</span><span class="n">origin</span> <span class="o">=</span> <span class="n">origin</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">f</span><span class="s2">"</span><span class="si">{j['Template']}</span><span class="s2"> is not an implemented sensor type"</span><span class="p">)</span>
+    
 
     <span class="c1"># Load the visualization, if present</span>
     <span class="k">if</span> <span class="s1">'Visualization'</span> <span class="ow">in</span> <span class="n">j</span><span class="p">:</span>
@@ -358,9 +378,57 @@
 
     <span class="k">return</span> <span class="n">track</span></div>
 
+<div class="viewcode-block" id="create_variable_width_track"><a class="viewcode-back" href="../../autoapi/wa_simulator/track/index.html#wa_simulator.track.create_variable_width_track">[docs]</a><span class="k">def</span> <span class="nf">create_variable_width_track</span><span class="p">(</span><span class="n">left</span><span class="p">:</span> <span class="n">WAPath</span><span class="p">,</span> <span class="n">right</span><span class="p">:</span> <span class="n">WAPath</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">'WATrack'</span><span class="p">:</span>
+    <span class="sd">"""Generates a WATrack given paths of the left and right boundaries. Simply "walks" along the left and right boundaries and computes midpoints to form the centerline.</span>
+<span class="sd">    NOTE: Besides `num_points` and `is_closed`, this method assumes the parameters of the left and right paths are the same.</span>
 
+<span class="sd">    Args:</span>
+<span class="sd">        left (WAPath): The left path</span>
+<span class="sd">        right (WAPath): The right path</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        WATrack: The created track</span>
+<span class="sd">    """</span>
+    <span class="n">center</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">left</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">type</span><span class="p">(</span><span class="n">right</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"Left path ("</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">left</span><span class="p">),</span> <span class="s2">") and right path ("</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">right</span><span class="p">),</span> <span class="s2">") must be of the same type."</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">left</span><span class="o">.</span><span class="n">is_closed</span><span class="p">()</span> <span class="o">!=</span> <span class="n">right</span><span class="o">.</span><span class="n">is_closed</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"is_closed() must be equivalent for both paths."</span><span class="p">)</span>
+
+    <span class="c1"># to handle case where the left and right paths have a different number of points</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">left</span><span class="o">.</span><span class="n">get_points</span><span class="p">())</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">right</span><span class="o">.</span><span class="n">get_points</span><span class="p">()):</span>
+        <span class="n">longer_path</span> <span class="o">=</span> <span class="n">right</span>
+        <span class="n">shorter_path</span> <span class="o">=</span> <span class="n">left</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">longer_path</span> <span class="o">=</span> <span class="n">left</span>
+        <span class="n">shorter_path</span> <span class="o">=</span> <span class="n">right</span>
+        
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">longer_path</span><span class="o">.</span><span class="n">get_points</span><span class="p">())):</span>
+        <span class="n">point_1</span> <span class="o">=</span> <span class="n">longer_path</span><span class="o">.</span><span class="n">get_points</span><span class="p">()[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">point_2</span> <span class="o">=</span> <span class="n">shorter_path</span><span class="o">.</span><span class="n">calc_closest_point</span><span class="p">(</span><span class="n">point_1</span><span class="p">)</span>
+
+        <span class="n">center_point_x</span> <span class="o">=</span> <span class="p">(</span><span class="n">point_2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">point_1</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="n">center_point_y</span> <span class="o">=</span> <span class="p">(</span><span class="n">point_2</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">point_1</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="n">center_point_z</span> <span class="o">=</span> <span class="p">(</span><span class="n">point_2</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">point_1</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span>
+        
+        <span class="n">center</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">center_point_x</span><span class="p">,</span> <span class="n">center_point_y</span><span class="p">,</span> <span class="n">center_point_z</span><span class="p">])</span>
+
+
+    <span class="c1"># close if necessary</span>
+    <span class="k">if</span> <span class="n">left</span><span class="o">.</span><span class="n">is_closed</span><span class="p">()</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="n">center</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">center</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]):</span>
+        <span class="c1"># The centerline computation on two closed tracks may result in a slight difference between center[0] and center[-1]</span>
+        <span class="c1"># This is handled by removing the last point from the centerline to ensure we have valid waypoints for spline interpolation</span>
+        <span class="n">center</span> <span class="o">=</span> <span class="n">center</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">center</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">center</span><span class="p">,</span> <span class="n">center</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+        
+    <span class="n">center_path</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">left</span><span class="p">)(</span><span class="n">center</span><span class="p">,</span> <span class="o">**</span><span class="n">left</span><span class="o">.</span><span class="n">get_parameters</span><span class="p">())</span>
+
+    <span class="k">return</span> <span class="n">WATrack</span><span class="p">(</span><span class="n">center_path</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span></div>
+    
 <div class="viewcode-block" id="create_constant_width_track"><a class="viewcode-back" href="../../autoapi/wa_simulator/track/index.html#wa_simulator.track.create_constant_width_track">[docs]</a><span class="k">def</span> <span class="nf">create_constant_width_track</span><span class="p">(</span><span class="n">center</span><span class="p">:</span> <span class="n">WAPath</span><span class="p">,</span> <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">'WATrack'</span><span class="p">:</span>
-    <span class="sd">"""Generates a WAConstantWidthTrack given a centerline and a constant width. Simply "walks" along path and takes the normal from the center at a distance equal to width/2</span>
+    <span class="sd">"""Generates a WATrack given a centerline and a constant width. Simply "walks" along path and takes the normal from the center at a distance equal to width/2</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        center (WAPath): The centerline of the track</span>

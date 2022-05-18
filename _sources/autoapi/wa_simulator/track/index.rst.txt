@@ -109,17 +109,14 @@
   :nosignatures:
 
    wa_simulator.track.create_track_from_json
+   wa_simulator.track.create_variable_width_track
    wa_simulator.track.create_constant_width_track
 
 .. function:: create_track_from_json(filename: str, environment: WAEnvironment = None) -> 'WATrack'
 
-   Creates a WATrack object from a json specification file
+   Creates a WATrack object from a json specification file. Supports two templates, "Constant Width Track" and "Variable Width Track".
 
    json file options:
-
-   * Center Input File (``str``, required): A json file describing the centerline. Loaded using :meth:`~create_path_from_json`
-
-   * Width (``float``, required): The constant width between the left and right boundaries of the track.
 
    * Origin(``list``, required): The GPS origin of the first centerline point
 
@@ -141,9 +138,17 @@
 
          * Mode (``str``, optional): The mode for the object placement along the path. Options include 'Solid', 'Dashed' (3[m] separation) and 'Spread' (6[m] separation).
 
-   .. todo::
+   Constant Width Track json file options:
 
-       Add a variable width loader
+   * Center Input File (``str``, required): A json file describing the centerline. Loaded using :meth:`~create_path_from_json`
+
+   * Width (``float``, required): The constant width between the left and right boundaries of the track.
+
+   Variable Width Track json file options:
+
+   * Left Input File (``str``, required): A json file describing the left boundary. Loaded using :meth:`~create_path_from_json`
+
+   * Right Input File (``str``, required): A json file describing the right boundary. Loaded using :meth:`~create_path_from_json`
 
    :Parameters: * **filename** (*str*) -- The json specification that describes the track
                 * **environment** (*WAEnvironment, optional*) -- Adds objects to the environment, if present. Defaults to None (doesn't parse objects).
@@ -151,9 +156,20 @@
    :returns: *WATrack* -- The created track
 
 
+.. function:: create_variable_width_track(left: WAPath, right: WAPath) -> 'WATrack'
+
+   Generates a WATrack given paths of the left and right boundaries. Simply "walks" along the left and right boundaries and computes midpoints to form the centerline.
+   NOTE: Besides `num_points` and `is_closed`, this method assumes the parameters of the left and right paths are the same.
+
+   :Parameters: * **left** (*WAPath*) -- The left path
+                * **right** (*WAPath*) -- The right path
+
+   :returns: *WATrack* -- The created track
+
+
 .. function:: create_constant_width_track(center: WAPath, width: float) -> 'WATrack'
 
-   Generates a WAConstantWidthTrack given a centerline and a constant width. Simply "walks" along path and takes the normal from the center at a distance equal to width/2
+   Generates a WATrack given a centerline and a constant width. Simply "walks" along path and takes the normal from the center at a distance equal to width/2
 
    :Parameters: * **center** (*WAPath*) -- The centerline of the track
                 * **width** (*float*) -- The constant distance between the left and right boundaries(distance between centerline and a boundary is width/2)

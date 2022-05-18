@@ -261,7 +261,11 @@
 <span class="sd">    """</span>
 
     <span class="c1"># Global filenames for environment models</span>
+    <span class="n">_SAMPLE_ENV_MODEL_FILE</span> <span class="o">=</span> <span class="s2">"environments/sample_env.json"</span>
     <span class="n">_EGP_ENV_MODEL_FILE</span> <span class="o">=</span> <span class="s2">"environments/ev_grand_prix.json"</span>
+
+    <span class="n">SAMPLE_ENV_MODEL_FILE</span> <span class="o">=</span> <span class="n">_WAStaticAttribute</span><span class="p">(</span>
+        <span class="s1">'_SAMPLE_ENV_MODEL_FILE'</span><span class="p">,</span> <span class="n">get_chrono_data_file</span><span class="p">)</span>
 
     <span class="n">EGP_ENV_MODEL_FILE</span> <span class="o">=</span> <span class="n">_WAStaticAttribute</span><span class="p">(</span>
         <span class="s1">'_EGP_ENV_MODEL_FILE'</span><span class="p">,</span> <span class="n">get_chrono_data_file</span><span class="p">)</span>
